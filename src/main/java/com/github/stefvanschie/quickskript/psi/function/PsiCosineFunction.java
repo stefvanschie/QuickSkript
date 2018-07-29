@@ -11,24 +11,23 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Rounds the provided number up to the nearest integer
+ * Calculates the cosine of the given number
  *
  * @since 0.1.0
  */
-public class PsiCeilFunction implements PsiElement<Double> {
+public class PsiCosineFunction implements PsiElement<Double> {
 
     /**
-     * The parameter to round up
+     * The parameter for calculating the cosine
      */
     private PsiElement<Number> parameter;
 
     /**
-     * Creates a ceil function
+     * Creates a cosine function
      *
-     * @param parameter the parameter
-     * @since 0.1.0
+     * @param parameter the parameter 0.1.0
      */
-    private PsiCeilFunction(PsiElement<Number> parameter) {
+    private PsiCosineFunction(PsiElement<Number> parameter) {
         this.parameter = parameter;
     }
 
@@ -37,27 +36,27 @@ public class PsiCeilFunction implements PsiElement<Double> {
      */
     @Override
     public Double execute() {
-        return Math.ceil(parameter.execute().doubleValue());
+        return Math.cos(parameter.execute().doubleValue());
     }
 
     /**
-     * The factory for creating ceil functions
+     * A factory for creating cosine functions
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiFactory<PsiCeilFunction> {
+    public static class Factory implements PsiFactory<PsiCosineFunction> {
 
         /**
-         * The pattern for matching ceil expressions
+         * The pattern for matching cosine expressions
          */
-        private static final Pattern PATTERN = Pattern.compile("ceil(?:ing)?\\(([\\s\\S]+)\\)");
+        private static final Pattern PATTERN = Pattern.compile("cos\\(([\\s\\S]+)\\)");
 
         /**
          * {@inheritDoc}
          */
         @Nullable
         @Override
-        public PsiCeilFunction parse(@NotNull String text) {
+        public PsiCosineFunction parse(@NotNull String text) {
             Matcher matcher = PATTERN.matcher(text);
 
             if (!matcher.matches())
@@ -69,11 +68,11 @@ public class PsiCeilFunction implements PsiElement<Double> {
             if (element == null)
                 throw new ParseException("Function was unable to find an expression named " + expression);
 
-            return new PsiCeilFunction(element);
+            return new PsiCosineFunction(element);
         }
     }
 
     static {
-        PsiElementFactory.getClassTypes().put(PsiCeilFunction.class, Double.class);
+        PsiElementFactory.getClassTypes().put(PsiCosineFunction.class, Double.class);
     }
 }
