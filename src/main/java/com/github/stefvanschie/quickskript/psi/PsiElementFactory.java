@@ -21,6 +21,7 @@ public class PsiElementFactory {
     /**
      * A list of all possible factories available
      */
+    @NotNull
     private static final Set<PsiFactory> FACTORIES = new HashSet<>();
 
     /**
@@ -34,6 +35,7 @@ public class PsiElementFactory {
     Q: Can't we make the PsiElement impl. have a method for this?
     A: No, cause Java doesn't allow overridable static methods in interfaces.
      */
+    @NotNull
     private static final Map<Class<? extends PsiElement<?>>, Class<?>> CLASS_TYPES = new HashMap<>();
 
     /**
@@ -64,6 +66,8 @@ public class PsiElementFactory {
      * @return the class types
      * @since 0.1.0
      */
+    @NotNull
+    @Contract(pure = true)
     public static Map<Class<? extends PsiElement<?>>, Class<?>> getClassTypes() {
         return CLASS_TYPES;
     }
@@ -73,6 +77,7 @@ public class PsiElementFactory {
         FACTORIES.add(new PsiAbsoluteValueFunction.Factory());
         FACTORIES.add(new PsiAtan2Function.Factory());
         FACTORIES.add(new PsiCalculateExperienceFunction.Factory());
+        FACTORIES.add(new PsiCeilFunction.Factory());
         FACTORIES.add(new PsiInverseCosineFunction.Factory());
         FACTORIES.add(new PsiInverseSineFunction.Factory());
         FACTORIES.add(new PsiInverseTangentFunction.Factory());
