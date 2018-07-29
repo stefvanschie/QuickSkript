@@ -97,6 +97,7 @@ public class PsiElementFactory {
         FACTORIES.add(new PsiSquareRootFunction.Factory());
         FACTORIES.add(new PsiSumFunction.Factory());
         FACTORIES.add(new PsiTangentFunction.Factory());
+        FACTORIES.add(new PsiVectorFunction.Factory());
 
         //literals
         FACTORIES.add(new PsiNumber.Factory());
