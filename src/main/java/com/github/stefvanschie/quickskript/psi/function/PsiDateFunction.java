@@ -82,7 +82,7 @@ public class PsiDateFunction implements PsiElement<LocalDateTime> {
         /**
          * The pattern for matching date expressions
          */
-        private static final Pattern PATTERN = Pattern.compile("date\\(((?:[\\s\\S]+,[ ]*)[\\s\\S]+)\\)");
+        private static final Pattern PATTERN = Pattern.compile("date\\(((?:[\\s\\S]+,[ ]*)+[\\s\\S]+)\\)");
 
         /**
          * {@inheritDoc}
