@@ -16,11 +16,11 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 /**
- * Returns the highest value from a given collection of numbers
+ * Returns the lowest value from a given collection of numbers
  *
  * @since 0.1.0
  */
-public class PsiMaximumFunction implements PsiElement<Double> {
+public class PsiMinimumFunction implements PsiElement<Double> {
 
     /**
      * The collection of numbers. Only in use when element isn't in use.
@@ -33,22 +33,22 @@ public class PsiMaximumFunction implements PsiElement<Double> {
     private PsiElement<Iterable<Number>> element;
 
     /**
-     * Creates a new maximum function
+     * Creates a new minimum function
      *
      * @param numbers a collection of numbers
      * @since 0.1.0
      */
-    private PsiMaximumFunction(Collection<PsiElement<Number>> numbers) {
+    private PsiMinimumFunction(Collection<PsiElement<Number>> numbers) {
         this.numbers = numbers;
     }
 
     /**
-     * Creates a new maximum function
+     * Creates a new minimum function
      *
      * @param element an element containing an iterable of numbers
      * @since 0.1.0
      */
-    private PsiMaximumFunction(PsiElement<Iterable<Number>> element) {
+    private PsiMinimumFunction(PsiElement<Iterable<Number>> element) {
         this.element = element;
     }
 
@@ -67,27 +67,27 @@ public class PsiMaximumFunction implements PsiElement<Double> {
         if (stream == null)
             throw new IllegalStateException("Neither numbers or element is initialized; unable to compute value");
 
-        return stream.mapToDouble(Number::doubleValue).max().orElse(0);
+        return stream.mapToDouble(Number::doubleValue).min().orElse(0);
     }
 
     /**
-     * A factory for creating maximum functions
+     * A factory for creating minimum functions
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiFactory<PsiMaximumFunction> {
+    public static class Factory implements PsiFactory<PsiMinimumFunction> {
 
         /**
-         * The pattern for matching maximum expressions
+         * The pattern for matching minimum expressions
          */
-        private static final Pattern PATTERN = Pattern.compile("max\\(([\\s\\S]+)\\)");
+        private static final Pattern PATTERN = Pattern.compile("min\\(([\\s\\S]+)\\)");
 
         /**
          * {@inheritDoc}
          */
         @Nullable
         @Override
-        public PsiMaximumFunction parse(@NotNull String text) {
+        public PsiMinimumFunction parse(@NotNull String text) {
             Matcher matcher = PATTERN.matcher(text);
 
             if (!matcher.matches())
@@ -100,18 +100,18 @@ public class PsiMaximumFunction implements PsiElement<Double> {
                     (PsiElement<Iterable<Number>>) PsiElementFactory.parseText(values[0], Iterable.class);
 
                 if (iterable != null)
-                    return new PsiMaximumFunction(iterable);
+                    return new PsiMinimumFunction(iterable);
             }
 
             Collection<PsiElement<Number>> numbers = new HashSet<>(values.length);
 
             ConversionUtil.convert(values, numbers);
 
-            return new PsiMaximumFunction(numbers);
+            return new PsiMinimumFunction(numbers);
         }
     }
 
     static {
-        PsiElementFactory.getClassTypes().put(PsiMaximumFunction.class, Double.class);
+        PsiElementFactory.getClassTypes().put(PsiMinimumFunction.class, Double.class);
     }
 }
