@@ -91,6 +91,7 @@ public class PsiElementFactory {
         FACTORIES.add(new PsiMinimumFunction.Factory());
         FACTORIES.add(new PsiModuloFunction.Factory());
         FACTORIES.add(new PsiNaturalLogarithmFunction.Factory());
+        FACTORIES.add(new PsiProductFunction.Factory());
 
         //literals
         FACTORIES.add(new PsiNumber.Factory());
