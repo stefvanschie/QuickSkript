@@ -48,7 +48,7 @@ public class PsiFloorFunction implements PsiElement<Double> {
     public static class Factory implements PsiFactory<PsiFloorFunction> {
 
         /**
-         * The pattern for matching cosine expressions
+         * The pattern for matching floor expressions
          */
         private static final Pattern PATTERN = Pattern.compile("floor\\(([\\s\\S]+)\\)");
 
