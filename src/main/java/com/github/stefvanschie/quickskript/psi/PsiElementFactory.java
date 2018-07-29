@@ -92,6 +92,7 @@ public class PsiElementFactory {
         FACTORIES.add(new PsiModuloFunction.Factory());
         FACTORIES.add(new PsiNaturalLogarithmFunction.Factory());
         FACTORIES.add(new PsiProductFunction.Factory());
+        FACTORIES.add(new PsiRoundFunction.Factory());
 
         //literals
         FACTORIES.add(new PsiNumber.Factory());

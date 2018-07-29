@@ -88,7 +88,7 @@ public class PsiProductFunction implements PsiElement<Double> {
         /**
          * The pattern for matching product expressions
          */
-        private static final Pattern PATTERN = Pattern.compile("min\\(([\\s\\S]+)\\)");
+        private static final Pattern PATTERN = Pattern.compile("product\\(([\\s\\S]+)\\)");
 
         /**
          * {@inheritDoc}
