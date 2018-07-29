@@ -39,7 +39,7 @@ public class PsiElementFactory {
     private static final Map<Class<? extends PsiElement<?>>, Class<?>> CLASS_TYPES = new HashMap<>();
 
     /**
-     * Parses text into pis elements. May return null if no element was found.
+     * Parses text into psi elements. May return null if no element was found.
      *
      * @param input the text to be parsed
      * @return the parsed psi element, or null if none were found
