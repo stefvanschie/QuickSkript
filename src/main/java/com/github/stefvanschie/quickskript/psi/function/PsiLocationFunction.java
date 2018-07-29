@@ -85,7 +85,7 @@ public class PsiLocationFunction implements PsiElement<Location> {
     public static class Factory implements PsiFactory<PsiLocationFunction> {
 
         /**
-         * The pattern for matching date expressions
+         * The pattern for matching location expressions
          */
         private static final Pattern PATTERN = Pattern.compile("location\\(((?:[\\s\\S]+,[ ]*)+[\\s\\S]+)\\)");
 

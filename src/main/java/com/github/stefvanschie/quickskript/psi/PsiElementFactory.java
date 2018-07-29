@@ -86,6 +86,7 @@ public class PsiElementFactory {
         FACTORIES.add(new PsiInverseSineFunction.Factory());
         FACTORIES.add(new PsiInverseTangentFunction.Factory());
         FACTORIES.add(new PsiLocationFunction.Factory());
+        FACTORIES.add(new PsiLogarithmFunction.Factory());
         FACTORIES.add(new PsiNaturalLogarithmFunction.Factory());
 
         //literals
