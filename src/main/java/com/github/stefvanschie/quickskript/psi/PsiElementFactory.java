@@ -105,8 +105,9 @@ public class PsiElementFactory {
      */
     private static void registerElement(@NotNull Class<? extends PsiElement<?>> elementClass, @NotNull Class<?> elementReturnType,
                                         @NotNull PsiFactory<? extends PsiElement<?>> elementFactory) {
-        CLASS_TYPES.put(elementClass, elementReturnType);
-        FACTORIES.add(elementFactory);
+        Validate.isTrue(CLASS_TYPES.put(elementClass, elementReturnType) == null,
+				"The specified PsiElement has already been registered!");
+		Validate.isTrue(FACTORIES.add(elementFactory), "The specified PsiFactory has already been registered!");
     }
     
     /**
@@ -123,7 +124,10 @@ public class PsiElementFactory {
                                         @NotNull PsiFactory<? extends PsiElement<?>>... elementFactories) {
         Validate.notEmpty(elementFactories);
         Validate.noNullElements(elementFactories);
-        CLASS_TYPES.put(elementClass, elementReturnType);
-        FACTORIES.addAll(Arrays.asList(elementFactories));
+		Validate.isTrue(CLASS_TYPES.put(elementClass, elementReturnType) == null,
+				"The specified PsiElement has already been registered!");
+		for (PsiFactory<? extends PsiElement<?>> factory : elementFactories) {
+			Validate.isTrue(FACTORIES.add(factory), factory.getClass().getName() + " has already been registered!");
+		}
     }
 }
