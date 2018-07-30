@@ -2,14 +2,15 @@ package com.github.stefvanschie.quickskript.psi;
 
 import com.github.stefvanschie.quickskript.psi.function.*;
 import com.github.stefvanschie.quickskript.psi.literal.PsiNumber;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.util.*;
 
 /**
  * A factory for creating psi elements from text
@@ -17,13 +18,13 @@ import java.util.Set;
  * @since 0.1.0
  */
 public class PsiElementFactory {
-
+    
     /**
      * A list of all possible factories available
      */
     @NotNull
     private static final Set<PsiFactory> FACTORIES = new HashSet<>();
-
+    
     /**
      * A class which holds a psi element class and it's return type
      */
@@ -37,7 +38,7 @@ public class PsiElementFactory {
      */
     @NotNull
     private static final Map<Class<? extends PsiElement<?>>, Class<?>> CLASS_TYPES = new HashMap<>();
-
+    
     /**
      * Parses text into psi elements. May return null if no element was found.
      *
@@ -49,58 +50,77 @@ public class PsiElementFactory {
     @Contract("null, _ -> fail")
     public static PsiElement<?> parseText(@NotNull String input, @NotNull Class<?> classType) {
         input = input.trim();
-
+        
         for (PsiFactory<?> factory : FACTORIES) {
             PsiElement<?> element = factory.parse(input);
-
+            
             if (element != null && classType.isAssignableFrom(CLASS_TYPES.get(element.getClass())))
                 return element;
         }
-
+        
         return null;
     }
-
-    /**
-     * Returns the class types map
-     *
-     * @return the class types
-     * @since 0.1.0
-     */
-    @NotNull
-    @Contract(pure = true)
-    public static Map<Class<? extends PsiElement<?>>, Class<?>> getClassTypes() {
-        return CLASS_TYPES;
-    }
-
+    
     static {
         //functions
-        FACTORIES.add(new PsiAbsoluteValueFunction.Factory());
-        FACTORIES.add(new PsiAtan2Function.Factory());
-        FACTORIES.add(new PsiCalculateExperienceFunction.Factory());
-        FACTORIES.add(new PsiCeilFunction.Factory());
-        FACTORIES.add(new PsiCosineFunction.Factory());
-        FACTORIES.add(new PsiDateFunction.Factory());
-        FACTORIES.add(new PsiExponentialFunction.Factory());
-        FACTORIES.add(new PsiFloorFunction.Factory());
-        FACTORIES.add(new PsiInverseCosineFunction.Factory());
-        FACTORIES.add(new PsiInverseSineFunction.Factory());
-        FACTORIES.add(new PsiInverseTangentFunction.Factory());
-        FACTORIES.add(new PsiLocationFunction.Factory());
-        FACTORIES.add(new PsiLogarithmFunction.Factory());
-        FACTORIES.add(new PsiMaximumFunction.Factory());
-        FACTORIES.add(new PsiMinimumFunction.Factory());
-        FACTORIES.add(new PsiModuloFunction.Factory());
-        FACTORIES.add(new PsiNaturalLogarithmFunction.Factory());
-        FACTORIES.add(new PsiProductFunction.Factory());
-        FACTORIES.add(new PsiRoundFunction.Factory());
-        FACTORIES.add(new PsiSineFunction.Factory());
-        FACTORIES.add(new PsiSquareRootFunction.Factory());
-        FACTORIES.add(new PsiSumFunction.Factory());
-        FACTORIES.add(new PsiTangentFunction.Factory());
-        FACTORIES.add(new PsiVectorFunction.Factory());
-        FACTORIES.add(new PsiWorldFunction.Factory());
-
+        registerElement(PsiAbsoluteValueFunction.class, Double.class, new PsiAbsoluteValueFunction.Factory());
+        registerElement(PsiAtan2Function.class, Double.class, new PsiAtan2Function.Factory());
+        registerElement(PsiCalculateExperienceFunction.class, Long.class, new PsiCalculateExperienceFunction.Factory());
+        registerElement(PsiCeilFunction.class, Double.class, new PsiCeilFunction.Factory());
+        registerElement(PsiCosineFunction.class, Double.class, new PsiCosineFunction.Factory());
+        registerElement(PsiDateFunction.class, LocalDateTime.class, new PsiDateFunction.Factory());
+        registerElement(PsiExponentialFunction.class, Double.class, new PsiExponentialFunction.Factory());
+        registerElement(PsiFloorFunction.class, Double.class, new PsiFloorFunction.Factory());
+        registerElement(PsiInverseCosineFunction.class, Double.class, new PsiInverseCosineFunction.Factory());
+        registerElement(PsiInverseSineFunction.class, Double.class, new PsiInverseSineFunction.Factory());
+        registerElement(PsiInverseTangentFunction.class, Double.class, new PsiInverseTangentFunction.Factory());
+        registerElement(PsiLocationFunction.class, Location.class, new PsiLocationFunction.Factory());
+        registerElement(PsiLogarithmFunction.class, Double.class, new PsiLogarithmFunction.Factory());
+        registerElement(PsiMaximumFunction.class, Double.class, new PsiMaximumFunction.Factory());
+        registerElement(PsiMinimumFunction.class, Double.class, new PsiMinimumFunction.Factory());
+        registerElement(PsiModuloFunction.class, Double.class, new PsiModuloFunction.Factory());
+        registerElement(PsiNaturalLogarithmFunction.class, Double.class, new PsiNaturalLogarithmFunction.Factory());
+        registerElement(PsiProductFunction.class, Double.class, new PsiProductFunction.Factory());
+        registerElement(PsiRoundFunction.class, Long.class, new PsiRoundFunction.Factory());
+        registerElement(PsiSineFunction.class, Double.class, new PsiSineFunction.Factory());
+        registerElement(PsiSquareRootFunction.class, Double.class, new PsiSquareRootFunction.Factory());
+        registerElement(PsiSumFunction.class, Double.class, new PsiSumFunction.Factory());
+        registerElement(PsiTangentFunction.class, Double.class, new PsiTangentFunction.Factory());
+        registerElement(PsiVectorFunction.class, Vector.class, new PsiVectorFunction.Factory());
+        registerElement(PsiWorldFunction.class, World.class, new PsiWorldFunction.Factory());
+        
         //literals
-        FACTORIES.add(new PsiNumber.Factory());
+        registerElement(PsiNumber.class, Double.class, new PsiNumber.Factory());
+    }
+    
+    /**
+     * Registers the specified {@link PsiElement} by linking its {@link Class}
+     * to its return type ({@link Class}) and by saving its {@link PsiFactory}.
+     *
+     * @param elementClass the class of the {@link PsiElement} being registered
+     * @param elementReturnType the return type of the {@link PsiElement} being registered
+     * @param elementFactory the {@link PsiFactory} of the {@link PsiElement} being registered
+     * @since 0.1.0
+     */
+    private static void registerElement(Class<? extends PsiElement<?>> elementClass, Class<?> elementReturnType,
+                                        PsiFactory<? extends PsiElement<?>> elementFactory) {
+        CLASS_TYPES.put(elementClass, elementReturnType);
+        FACTORIES.add(elementFactory);
+    }
+    
+    /**
+     * Registers the specified {@link PsiElement} by linking its {@link Class}
+     * to its return type ({@link Class}) and by saving its {@link PsiFactory}.
+     *
+     * @param elementClass the class of the {@link PsiElement} being registered
+     * @param elementReturnType the return type of the {@link PsiElement} being registered
+     * @param elementFactories the {@link PsiFactory}s of the {@link PsiElement} being registered
+     * @since 0.1.0
+     */
+    @SafeVarargs
+    private static void registerElement(Class<? extends PsiElement<?>> elementClass, Class<?> elementReturnType,
+                                        PsiFactory<? extends PsiElement<?>>... elementFactories) {
+        CLASS_TYPES.put(elementClass, elementReturnType);
+        FACTORIES.addAll(Arrays.asList(elementFactories));
     }
 }

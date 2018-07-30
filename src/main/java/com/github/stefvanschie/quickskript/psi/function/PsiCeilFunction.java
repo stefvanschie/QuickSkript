@@ -72,8 +72,4 @@ public class PsiCeilFunction implements PsiElement<Double> {
             return new PsiCeilFunction(element);
         }
     }
-
-    static {
-        PsiElementFactory.getClassTypes().put(PsiCeilFunction.class, Double.class);
-    }
 }

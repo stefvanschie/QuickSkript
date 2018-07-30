@@ -71,8 +71,4 @@ public class PsiCosineFunction implements PsiElement<Double> {
             return new PsiCosineFunction(element);
         }
     }
-
-    static {
-        PsiElementFactory.getClassTypes().put(PsiCosineFunction.class, Double.class);
-    }
 }

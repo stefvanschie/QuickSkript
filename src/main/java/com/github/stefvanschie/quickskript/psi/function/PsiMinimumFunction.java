@@ -110,8 +110,4 @@ public class PsiMinimumFunction implements PsiElement<Double> {
             return new PsiMinimumFunction(numbers);
         }
     }
-
-    static {
-        PsiElementFactory.getClassTypes().put(PsiMinimumFunction.class, Double.class);
-    }
 }

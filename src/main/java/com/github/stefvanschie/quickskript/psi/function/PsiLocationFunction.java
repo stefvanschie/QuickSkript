@@ -125,8 +125,4 @@ public class PsiLocationFunction implements PsiElement<Location> {
             );
         }
     }
-
-    static {
-        PsiElementFactory.getClassTypes().put(PsiLocationFunction.class, Location.class);
-    }
 }

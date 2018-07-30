@@ -109,8 +109,4 @@ public class PsiSumFunction implements PsiElement<Double> {
             return new PsiSumFunction(numbers);
         }
     }
-
-    static {
-        PsiElementFactory.getClassTypes().put(PsiSumFunction.class, Double.class);
-    }
 }

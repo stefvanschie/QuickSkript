@@ -90,8 +90,4 @@ public class PsiVectorFunction implements PsiElement<Vector> {
             return new PsiVectorFunction(x, y, z);
         }
     }
-
-    static {
-        PsiElementFactory.getClassTypes().put(PsiVectorFunction.class, Vector.class);
-    }
 }

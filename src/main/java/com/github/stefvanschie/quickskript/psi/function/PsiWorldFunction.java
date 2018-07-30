@@ -74,8 +74,4 @@ public class PsiWorldFunction implements PsiElement<World> {
             return new PsiWorldFunction(element);
         }
     }
-
-    static {
-        PsiElementFactory.getClassTypes().put(PsiWorldFunction.class, World.class);
-    }
 }
