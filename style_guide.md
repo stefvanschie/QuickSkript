@@ -5,7 +5,7 @@ All the text underneath are only the points in which the styling of this project
 Tab characters *may* be used for indentation.
 
 3 ([original](https://google.github.io/styleguide/javaguide.html#s3-source-file-structure)):  
-This project uses The Unlicense license, therefor no license or copyright information at the top.
+This project uses MIT license, therefor no license or copyright information at the top.
 
 3.3.1 ([original](https://google.github.io/styleguide/javaguide.html#s3.3.1-wildcard-imports)):  
 Wildcard imports, static or otherwise, *may* be used.
