@@ -72,8 +72,4 @@ public class PsiExponentialFunction implements PsiElement<Double> {
             return new PsiExponentialFunction(element);
         }
     }
-
-    static {
-        PsiElementFactory.getClassTypes().put(PsiExponentialFunction.class, Double.class);
-    }
 }

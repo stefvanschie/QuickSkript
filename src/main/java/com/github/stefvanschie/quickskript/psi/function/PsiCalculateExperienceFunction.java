@@ -84,8 +84,4 @@ public class PsiCalculateExperienceFunction implements PsiElement<Long> {
             return new PsiCalculateExperienceFunction(element);
         }
     }
-
-    static {
-        PsiElementFactory.getClassTypes().put(PsiCalculateExperienceFunction.class, Long.class);
-    }
 }

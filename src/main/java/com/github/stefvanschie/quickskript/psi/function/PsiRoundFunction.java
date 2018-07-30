@@ -73,8 +73,4 @@ public class PsiRoundFunction implements PsiElement<Long> {
             return new PsiRoundFunction(element);
         }
     }
-
-    static {
-        PsiElementFactory.getClassTypes().put(PsiRoundFunction.class, Long.class);
-    }
 }

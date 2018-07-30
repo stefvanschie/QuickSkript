@@ -72,8 +72,4 @@ public class PsiFloorFunction implements PsiElement<Double> {
             return new PsiFloorFunction(element);
         }
     }
-
-    static {
-        PsiElementFactory.getClassTypes().put(PsiFloorFunction.class, Double.class);
-    }
 }

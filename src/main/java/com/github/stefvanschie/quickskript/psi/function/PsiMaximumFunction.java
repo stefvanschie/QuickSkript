@@ -110,8 +110,4 @@ public class PsiMaximumFunction implements PsiElement<Double> {
             return new PsiMaximumFunction(numbers);
         }
     }
-
-    static {
-        PsiElementFactory.getClassTypes().put(PsiMaximumFunction.class, Double.class);
-    }
 }

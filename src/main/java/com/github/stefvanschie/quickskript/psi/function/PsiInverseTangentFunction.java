@@ -72,8 +72,4 @@ public class PsiInverseTangentFunction implements PsiElement<Double> {
             return new PsiInverseTangentFunction(element);
         }
     }
-
-    static {
-        PsiElementFactory.getClassTypes().put(PsiInverseTangentFunction.class, Double.class);
-    }
 }

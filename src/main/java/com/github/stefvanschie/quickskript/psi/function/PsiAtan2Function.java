@@ -80,8 +80,4 @@ public class PsiAtan2Function implements PsiElement<Double> {
             return new PsiAtan2Function(xElement, yElement);
         }
     }
-
-    static {
-        PsiElementFactory.getClassTypes().put(PsiAtan2Function.class, Double.class);
-    }
 }
