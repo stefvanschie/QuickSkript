@@ -2,6 +2,7 @@ package com.github.stefvanschie.quickskript.psi;
 
 import com.github.stefvanschie.quickskript.psi.function.*;
 import com.github.stefvanschie.quickskript.psi.literal.PsiNumber;
+import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.util.Vector;
@@ -102,8 +103,8 @@ public class PsiElementFactory {
      * @param elementFactory the {@link PsiFactory} of the {@link PsiElement} being registered
      * @since 0.1.0
      */
-    private static void registerElement(Class<? extends PsiElement<?>> elementClass, Class<?> elementReturnType,
-                                        PsiFactory<? extends PsiElement<?>> elementFactory) {
+    private static void registerElement(@NotNull Class<? extends PsiElement<?>> elementClass, @NotNull Class<?> elementReturnType,
+                                        @NotNull PsiFactory<? extends PsiElement<?>> elementFactory) {
         CLASS_TYPES.put(elementClass, elementReturnType);
         FACTORIES.add(elementFactory);
     }
@@ -118,8 +119,10 @@ public class PsiElementFactory {
      * @since 0.1.0
      */
     @SafeVarargs
-    private static void registerElement(Class<? extends PsiElement<?>> elementClass, Class<?> elementReturnType,
-                                        PsiFactory<? extends PsiElement<?>>... elementFactories) {
+    private static void registerElement(@NotNull Class<? extends PsiElement<?>> elementClass, @NotNull Class<?> elementReturnType,
+                                        @NotNull PsiFactory<? extends PsiElement<?>>... elementFactories) {
+        Validate.notEmpty(elementFactories);
+        Validate.noNullElements(elementFactories);
         CLASS_TYPES.put(elementClass, elementReturnType);
         FACTORIES.addAll(Arrays.asList(elementFactories));
     }
