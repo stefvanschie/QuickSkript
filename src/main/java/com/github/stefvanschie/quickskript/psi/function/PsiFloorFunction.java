@@ -31,18 +31,18 @@ public class PsiFloorFunction extends PsiElement<Double> {
     private PsiFloorFunction(PsiElement<Number> parameter) {
         this.parameter = parameter;
 
-        if (this.parameter.isPreComputed())
-            preComputed = execute();
+        if (this.parameter.isPreComputed()) {
+            preComputed = executeImpl();
+            this.parameter = null;
+        }
     }
 
     /**
      * {@inheritDoc}
      */
+    @NotNull
     @Override
-    public Double execute() {
-        if (isPreComputed())
-            return preComputed;
-
+    protected Double executeImpl() {
         return Math.floor(parameter.execute().doubleValue());
     }
 

@@ -9,7 +9,6 @@ import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -26,19 +25,25 @@ public class PsiLocationFunction extends PsiElement<Location> {
      * The world for this location
      */
     @NotNull
-    private PsiElement<World> world;
+    private final PsiElement<World> world;
 
     /**
      * The x, y and z for this location
      */
     @NotNull
-    private PsiElement<Number> x, y, z;
+    private final PsiElement<Number> x;
+    @NotNull
+    private final PsiElement<Number> y;
+    @NotNull
+    private final PsiElement<Number> z;
 
     /**
      * Optional yaw an pitch for this location
      */
     @Nullable
-    private PsiElement<Number> yaw, pitch;
+    private final PsiElement<Number> yaw;
+    @Nullable
+    private final PsiElement<Number> pitch;
 
     /**
      * Creates a new location function
@@ -60,20 +65,14 @@ public class PsiLocationFunction extends PsiElement<Location> {
         this.z = z;
         this.yaw = yaw;
         this.pitch = pitch;
-
-        if (this.world.isPreComputed() && this.x.isPreComputed() && this.y.isPreComputed() && this.z.isPreComputed() &&
-            (this.yaw == null || this.yaw.isPreComputed()) && (this.pitch == null || this.pitch.isPreComputed()))
-            preComputed = execute();
     }
 
     /**
      * {@inheritDoc}
      */
+    @NotNull
     @Override
-    public Location execute() {
-        if (isPreComputed())
-            return preComputed;
-
+    public Location executeImpl() {
         return new Location(
             world.execute(),
             x.execute().doubleValue(),

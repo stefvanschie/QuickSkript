@@ -20,7 +20,6 @@ public class PsiRoundFunction extends PsiElement<Long> {
     /**
      * The value to round
      */
-    @NotNull
     private PsiElement<Number> parameter;
 
     /**
@@ -32,18 +31,18 @@ public class PsiRoundFunction extends PsiElement<Long> {
     private PsiRoundFunction(@NotNull PsiElement<Number> parameter) {
         this.parameter = parameter;
 
-        if (this.parameter.isPreComputed())
-            preComputed = execute();
+        if (this.parameter.isPreComputed()) {
+            preComputed = executeImpl();
+            this.parameter = null;
+        }
     }
 
     /**
      * {@inheritDoc}
      */
+    @NotNull
     @Override
-    public Long execute() {
-        if (isPreComputed())
-            return preComputed;
-
+    protected Long executeImpl() {
         return Math.round(parameter.execute().doubleValue());
     }
 

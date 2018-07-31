@@ -23,7 +23,7 @@ public class PsiWorldFunction extends PsiElement<World> {
     /**
      * The parameter for getting the world
      */
-    private PsiElement<String> parameter;
+    private final PsiElement<String> parameter;
 
     /**
      * Creates a new world function
@@ -39,7 +39,7 @@ public class PsiWorldFunction extends PsiElement<World> {
      * {@inheritDoc}
      */
     @Override
-    public World execute() {
+    public World executeImpl() {
         return Bukkit.getWorld(parameter.execute());
     }
 

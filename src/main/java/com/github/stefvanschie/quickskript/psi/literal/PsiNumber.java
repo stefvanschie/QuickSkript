@@ -29,9 +29,8 @@ public class PsiNumber extends PsiElement<Double> {
      */
     @NotNull
     @Override
-    public Double execute() {
-        //noinspection ConstantConditions
-        return preComputed;
+    public Double executeImpl() {
+        throw new AssertionError("Since this preComputed variable is always set, this method should never get called");
     }
 
     /**

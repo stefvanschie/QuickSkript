@@ -20,7 +20,6 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
     /**
      * The value to calculate the logarithm of
      */
-    @NotNull
     private PsiElement<Number> value;
 
     /**
@@ -40,18 +39,18 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
         this.value = value;
         this.base = base;
 
-        if (this.value.isPreComputed() && (this.base == null || this.base.isPreComputed()))
-            preComputed = execute();
+        if (this.value.isPreComputed() && (this.base == null || this.base.isPreComputed())) {
+            preComputed = executeImpl();
+            this.value = this.base = null;
+        }
     }
 
     /**
      * {@inheritDoc}
      */
+    @NotNull
     @Override
-    public Double execute() {
-        if (isPreComputed())
-            return preComputed;
-
+    protected Double executeImpl() {
         return Math.log10(value.execute().doubleValue()) / Math.log10(base == null ? 10 : base.execute().doubleValue());
     }
 

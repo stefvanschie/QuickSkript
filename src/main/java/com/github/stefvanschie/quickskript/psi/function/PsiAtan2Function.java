@@ -33,18 +33,18 @@ public class PsiAtan2Function extends PsiElement<Double> {
         this.x = x;
         this.y = y;
 
-        if (this.x.isPreComputed() && this.y.isPreComputed())
-            preComputed = execute();
+        if (this.x.isPreComputed() && this.y.isPreComputed()) {
+            preComputed = executeImpl();
+            this.x = this.y = null;
+        }
     }
 
     /**
      * {@inheritDoc}
      */
+    @NotNull
     @Override
-    public Double execute() {
-        if (isPreComputed())
-            return preComputed;
-
+    protected Double executeImpl() {
         return Math.atan2(x.execute().doubleValue(), y.execute().doubleValue());
     }
 

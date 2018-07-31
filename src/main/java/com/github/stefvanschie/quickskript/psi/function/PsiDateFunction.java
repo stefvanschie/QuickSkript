@@ -23,7 +23,6 @@ public class PsiDateFunction extends PsiElement<LocalDateTime> {
     /**
      * The year, month and day parameters
      */
-    @NotNull
     private PsiElement<Number> year, month, day;
 
     /**
@@ -58,18 +57,18 @@ public class PsiDateFunction extends PsiElement<LocalDateTime> {
         if (this.year.isPreComputed() && this.month.isPreComputed() && this.day.isPreComputed() &&
             (this.hour == null || this.hour.isPreComputed()) && (this.minute == null || this.minute.isPreComputed()) &&
             (this.second == null || this.second.isPreComputed()) &&
-            (this.millisecond == null || this.millisecond.isPreComputed()))
-            preComputed = execute();
+            (this.millisecond == null || this.millisecond.isPreComputed())) {
+            preComputed = executeImpl();
+            this.year = this.month = this.day = this.hour = this.minute = this.second = this.millisecond = null;
+        }
     }
 
     /**
      * {@inheritDoc}
      */
+    @NotNull
     @Override
-    public LocalDateTime execute() {
-        if (isPreComputed())
-            return preComputed;
-
+    protected LocalDateTime executeImpl() {
         return LocalDateTime.of(
             year.execute().intValue(),
             month.execute().intValue(),

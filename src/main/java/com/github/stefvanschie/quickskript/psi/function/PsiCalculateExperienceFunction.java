@@ -31,18 +31,18 @@ public class PsiCalculateExperienceFunction extends PsiElement<Long> {
     private PsiCalculateExperienceFunction(PsiElement<Number> parameter) {
         this.parameter = parameter;
 
-        if (this.parameter.isPreComputed())
-            preComputed = execute();
+        if (this.parameter.isPreComputed()) {
+            preComputed = executeImpl();
+            this.parameter = null;
+        }
     }
 
     /**
      * {@inheritDoc}
      */
+    @NotNull
     @Override
-    public Long execute() {
-        if (isPreComputed())
-            return preComputed;
-
+    protected Long executeImpl() {
         long level = parameter.execute().longValue();
         long exp = 0;
 

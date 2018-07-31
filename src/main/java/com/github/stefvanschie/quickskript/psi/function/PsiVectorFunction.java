@@ -35,18 +35,18 @@ public class PsiVectorFunction extends PsiElement<Vector> {
         this.y = y;
         this.z = z;
 
-        if (this.x.isPreComputed() && this.y.isPreComputed() && this.z.isPreComputed())
-            preComputed = execute();
+        if (this.x.isPreComputed() && this.y.isPreComputed() && this.z.isPreComputed()) {
+            preComputed = executeImpl();
+            this.x = this.y = this.z = null;
+        }
     }
 
     /**
      * {@inheritDoc}
      */
+    @NotNull
     @Override
-    public Vector execute() {
-        if (isPreComputed())
-            return preComputed;
-
+    protected Vector executeImpl() {
         return new Vector(x.execute().doubleValue(), y.execute().doubleValue(), z.execute().doubleValue());
     }
 
