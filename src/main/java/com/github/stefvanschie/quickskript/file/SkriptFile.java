@@ -37,8 +37,29 @@ public class SkriptFile extends SkriptFileSection {
         try {
             List<String> strings = Files.readAllLines(file.toPath());
 
+            //remove comments
+            for (int i = 0; i < strings.size(); i++) {
+                String line = strings.get(i);
+                int index = line.indexOf('#');
+
+                if (index != -1)
+                    strings.set(i, line.substring(0, index));
+            }
+
             //if a line is empty or only contains spaces, remove it, otherwise it'll screw the rest of the algorithm up
             strings.removeIf(string -> string.isEmpty() || string.matches("[ ]+"));
+
+            //remove trailing spaces
+            for (int i = 0; i < strings.size(); i++) {
+                String line = strings.get(i);
+                int len = line.length();
+
+                for (; len > 0; len--)
+                    if (!Character.isWhitespace(line.charAt(len - 1)))
+                        break;
+
+                strings.set(i, line.substring(0, len));
+            }
 
             skriptFile.parse(strings);
         } catch (IOException e) {
