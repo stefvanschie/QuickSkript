@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  *
  * @since 0.1.0
  */
-public class PsiLogarithmFunction implements PsiElement<Double> {
+public class PsiLogarithmFunction extends PsiElement<Double> {
 
     /**
      * The value to calculate the logarithm of
@@ -39,6 +39,9 @@ public class PsiLogarithmFunction implements PsiElement<Double> {
     private PsiLogarithmFunction(@NotNull PsiElement<Number> value, @Nullable PsiElement<Number> base) {
         this.value = value;
         this.base = base;
+
+        if (this.value.isPreComputed() && (this.base == null || this.base.isPreComputed()))
+            preComputed = execute();
     }
 
     /**
@@ -46,6 +49,9 @@ public class PsiLogarithmFunction implements PsiElement<Double> {
      */
     @Override
     public Double execute() {
+        if (isPreComputed())
+            return preComputed;
+
         return Math.log10(value.execute().doubleValue()) / Math.log10(base == null ? 10 : base.execute().doubleValue());
     }
 

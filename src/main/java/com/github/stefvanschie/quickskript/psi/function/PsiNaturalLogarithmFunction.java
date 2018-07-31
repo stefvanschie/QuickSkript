@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  *
  * @since 0.1.0
  */
-public class PsiNaturalLogarithmFunction implements PsiElement<Double> {
+public class PsiNaturalLogarithmFunction extends PsiElement<Double> {
 
     /**
      * The parameter for calculating the given number
@@ -30,6 +30,9 @@ public class PsiNaturalLogarithmFunction implements PsiElement<Double> {
      */
     private PsiNaturalLogarithmFunction(PsiElement<Number> parameter) {
         this.parameter = parameter;
+
+        if (this.parameter.isPreComputed())
+            preComputed = execute();
     }
 
     /**
@@ -37,6 +40,9 @@ public class PsiNaturalLogarithmFunction implements PsiElement<Double> {
      */
     @Override
     public Double execute() {
+        if (isPreComputed())
+            return preComputed;
+
         return Math.log(parameter.execute().doubleValue());
     }
 

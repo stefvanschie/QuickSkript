@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
  *
  * @since 0.1.0
  */
-public class PsiLocationFunction implements PsiElement<Location> {
+public class PsiLocationFunction extends PsiElement<Location> {
 
     /**
      * The world for this location
@@ -60,6 +60,10 @@ public class PsiLocationFunction implements PsiElement<Location> {
         this.z = z;
         this.yaw = yaw;
         this.pitch = pitch;
+
+        if (this.world.isPreComputed() && this.x.isPreComputed() && this.y.isPreComputed() && this.z.isPreComputed() &&
+            (this.yaw == null || this.yaw.isPreComputed()) && (this.pitch == null || this.pitch.isPreComputed()))
+            preComputed = execute();
     }
 
     /**
@@ -67,6 +71,9 @@ public class PsiLocationFunction implements PsiElement<Location> {
      */
     @Override
     public Location execute() {
+        if (isPreComputed())
+            return preComputed;
+
         return new Location(
             world.execute(),
             x.execute().doubleValue(),

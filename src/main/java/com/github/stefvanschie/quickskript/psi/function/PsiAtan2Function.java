@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  *
  * @since 0.1.0
  */
-public class PsiAtan2Function implements PsiElement<Double> {
+public class PsiAtan2Function extends PsiElement<Double> {
 
     /**
      * The x and y parameters used to calculate the atan2
@@ -32,6 +32,9 @@ public class PsiAtan2Function implements PsiElement<Double> {
     private PsiAtan2Function(PsiElement<Number> x, PsiElement<Number> y) {
         this.x = x;
         this.y = y;
+
+        if (this.x.isPreComputed() && this.y.isPreComputed())
+            preComputed = execute();
     }
 
     /**
@@ -39,6 +42,9 @@ public class PsiAtan2Function implements PsiElement<Double> {
      */
     @Override
     public Double execute() {
+        if (isPreComputed())
+            return preComputed;
+
         return Math.atan2(x.execute().doubleValue(), y.execute().doubleValue());
     }
 

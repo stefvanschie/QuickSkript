@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  *
  * @since 0.1.0
  */
-public class PsiRoundFunction implements PsiElement<Long> {
+public class PsiRoundFunction extends PsiElement<Long> {
 
     /**
      * The value to round
@@ -31,6 +31,9 @@ public class PsiRoundFunction implements PsiElement<Long> {
      */
     private PsiRoundFunction(@NotNull PsiElement<Number> parameter) {
         this.parameter = parameter;
+
+        if (this.parameter.isPreComputed())
+            preComputed = execute();
     }
 
     /**
@@ -38,6 +41,9 @@ public class PsiRoundFunction implements PsiElement<Long> {
      */
     @Override
     public Long execute() {
+        if (isPreComputed())
+            return preComputed;
+
         return Math.round(parameter.execute().doubleValue());
     }
 

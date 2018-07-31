@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
  *
  * @since 0.1.0
  */
-public class PsiDateFunction implements PsiElement<LocalDateTime> {
+public class PsiDateFunction extends PsiElement<LocalDateTime> {
 
     /**
      * The year, month and day parameters
@@ -54,6 +54,12 @@ public class PsiDateFunction implements PsiElement<LocalDateTime> {
         this.minute = minute;
         this.second = second;
         this.millisecond = millisecond;
+
+        if (this.year.isPreComputed() && this.month.isPreComputed() && this.day.isPreComputed() &&
+            (this.hour == null || this.hour.isPreComputed()) && (this.minute == null || this.minute.isPreComputed()) &&
+            (this.second == null || this.second.isPreComputed()) &&
+            (this.millisecond == null || this.millisecond.isPreComputed()))
+            preComputed = execute();
     }
 
     /**
@@ -61,6 +67,9 @@ public class PsiDateFunction implements PsiElement<LocalDateTime> {
      */
     @Override
     public LocalDateTime execute() {
+        if (isPreComputed())
+            return preComputed;
+
         return LocalDateTime.of(
             year.execute().intValue(),
             month.execute().intValue(),

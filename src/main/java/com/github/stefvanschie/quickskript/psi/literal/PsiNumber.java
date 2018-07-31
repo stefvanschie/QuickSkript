@@ -9,16 +9,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * A psi element which holds numbers
+ * A psi element which holds numbers. This is always pre computed.
  *
  * @since 0.1.0
  */
-public class PsiNumber implements PsiElement<Double> {
-
-    /**
-     * The number this element is holding
-     */
-    private final double number;
+public class PsiNumber extends PsiElement<Double> {
 
     /**
      * Creates a new psi number
@@ -26,7 +21,7 @@ public class PsiNumber implements PsiElement<Double> {
      * @param number the number this psi is wrapping
      */
     private PsiNumber(double number) {
-        this.number = number;
+        preComputed = number;
     }
 
     /**
@@ -35,7 +30,8 @@ public class PsiNumber implements PsiElement<Double> {
     @NotNull
     @Override
     public Double execute() {
-        return number;
+        //noinspection ConstantConditions
+        return preComputed;
     }
 
     /**

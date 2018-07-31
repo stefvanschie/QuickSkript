@@ -13,11 +13,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Gets a world from a given string
+ * Gets a world from a given string. This will never be pre computed, since there is no guarantee that any world
+ * management plugin is loaded when this plugin is enabled.
  *
  * @since 0.1.0
  */
-public class PsiWorldFunction implements PsiElement<World> {
+public class PsiWorldFunction extends PsiElement<World> {
 
     /**
      * The parameter for getting the world

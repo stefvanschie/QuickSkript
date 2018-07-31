@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  *
  * @since 0.1.0
  */
-public class PsiModuloFunction implements PsiElement<Double> {
+public class PsiModuloFunction extends PsiElement<Double> {
 
     /**
      * Two numeric values for the calculation
@@ -31,6 +31,9 @@ public class PsiModuloFunction implements PsiElement<Double> {
     private PsiModuloFunction(PsiElement<Number> a, PsiElement<Number> b) {
         this.a = a;
         this.b = b;
+
+        if (this.a.isPreComputed() && this.b.isPreComputed())
+            preComputed = execute();
     }
 
     /**
@@ -38,6 +41,9 @@ public class PsiModuloFunction implements PsiElement<Double> {
      */
     @Override
     public Double execute() {
+        if (isPreComputed())
+            return preComputed;
+
         return a.execute().doubleValue() % b.execute().doubleValue();
     }
 

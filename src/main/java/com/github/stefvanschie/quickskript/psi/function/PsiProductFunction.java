@@ -21,7 +21,7 @@ import java.util.stream.StreamSupport;
  *
  * @since 0.1.0
  */
-public class PsiProductFunction implements PsiElement<Double> {
+public class PsiProductFunction extends PsiElement<Double> {
 
     /**
      * The collection of numbers. Only in use when element isn't in use.
@@ -41,6 +41,9 @@ public class PsiProductFunction implements PsiElement<Double> {
      */
     private PsiProductFunction(Collection<PsiElement<Number>> numbers) {
         this.numbers = numbers;
+
+        if (this.numbers.stream().allMatch(PsiElement::isPreComputed))
+            preComputed = execute();
     }
 
     /**
@@ -51,6 +54,9 @@ public class PsiProductFunction implements PsiElement<Double> {
      */
     private PsiProductFunction(PsiElement<Iterable<Number>> element) {
         this.element = element;
+
+        if (this.element.isPreComputed())
+            preComputed = execute();
     }
 
     /**
@@ -58,6 +64,9 @@ public class PsiProductFunction implements PsiElement<Double> {
      */
     @Override
     public Double execute() {
+        if (isPreComputed())
+            return preComputed;
+
         Stream<Number> stream = null;
 
         if (numbers == null && element != null)

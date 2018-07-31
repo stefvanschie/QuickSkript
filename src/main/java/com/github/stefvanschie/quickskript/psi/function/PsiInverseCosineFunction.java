@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  *
  * @since 0.1.0
  */
-public class PsiInverseCosineFunction implements PsiElement<Double> {
+public class PsiInverseCosineFunction extends PsiElement<Double> {
 
     /**
      * The parameter used to calculate the inverse cosine
@@ -29,6 +29,9 @@ public class PsiInverseCosineFunction implements PsiElement<Double> {
      */
     private PsiInverseCosineFunction(PsiElement<Number> parameter) {
         this.parameter = parameter;
+
+        if (this.parameter.isPreComputed())
+            preComputed = execute();
     }
 
     /**
@@ -36,6 +39,9 @@ public class PsiInverseCosineFunction implements PsiElement<Double> {
      */
     @Override
     public Double execute() {
+        if (isPreComputed())
+            return preComputed;
+
         return Math.acos(parameter.execute().doubleValue());
     }
 

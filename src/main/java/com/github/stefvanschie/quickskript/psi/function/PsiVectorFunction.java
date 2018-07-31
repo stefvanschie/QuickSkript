@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
  *
  * @since 0.1.0
  */
-public class PsiVectorFunction implements PsiElement<Vector> {
+public class PsiVectorFunction extends PsiElement<Vector> {
 
     /**
      * Three coordinates for the vector
@@ -34,6 +34,9 @@ public class PsiVectorFunction implements PsiElement<Vector> {
         this.x = x;
         this.y = y;
         this.z = z;
+
+        if (this.x.isPreComputed() && this.y.isPreComputed() && this.z.isPreComputed())
+            preComputed = execute();
     }
 
     /**
@@ -41,6 +44,9 @@ public class PsiVectorFunction implements PsiElement<Vector> {
      */
     @Override
     public Vector execute() {
+        if (isPreComputed())
+            return preComputed;
+
         return new Vector(x.execute().doubleValue(), y.execute().doubleValue(), z.execute().doubleValue());
     }
 

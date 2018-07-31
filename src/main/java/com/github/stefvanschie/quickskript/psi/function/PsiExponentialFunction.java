@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  *
  * @since 0.1.0
  */
-public class PsiExponentialFunction implements PsiElement<Double> {
+public class PsiExponentialFunction extends PsiElement<Double> {
 
     /**
      * The parameter used to calculate the exponent
@@ -30,6 +30,9 @@ public class PsiExponentialFunction implements PsiElement<Double> {
      */
     private PsiExponentialFunction(PsiElement<Number> parameter) {
         this.parameter = parameter;
+
+        if (this.parameter.isPreComputed())
+            preComputed = execute();
     }
 
     /**
@@ -37,6 +40,9 @@ public class PsiExponentialFunction implements PsiElement<Double> {
      */
     @Override
     public Double execute() {
+        if (isPreComputed())
+            return preComputed;
+
         return Math.exp(parameter.execute().doubleValue());
     }
 

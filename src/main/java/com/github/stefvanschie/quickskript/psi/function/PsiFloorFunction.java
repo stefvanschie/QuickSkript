@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  *
  * @since 0.1.0
  */
-public class PsiFloorFunction implements PsiElement<Double> {
+public class PsiFloorFunction extends PsiElement<Double> {
 
     /**
      * The parameter for flooring the number
@@ -30,6 +30,9 @@ public class PsiFloorFunction implements PsiElement<Double> {
      */
     private PsiFloorFunction(PsiElement<Number> parameter) {
         this.parameter = parameter;
+
+        if (this.parameter.isPreComputed())
+            preComputed = execute();
     }
 
     /**
@@ -37,6 +40,9 @@ public class PsiFloorFunction implements PsiElement<Double> {
      */
     @Override
     public Double execute() {
+        if (isPreComputed())
+            return preComputed;
+
         return Math.floor(parameter.execute().doubleValue());
     }
 

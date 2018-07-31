@@ -19,7 +19,7 @@ import java.util.stream.StreamSupport;
  *
  * @since 0.1.0
  */
-public class PsiSumFunction implements PsiElement<Double> {
+public class PsiSumFunction extends PsiElement<Double> {
 
     /**
      * The collection of numbers. Only in use when element isn't in use.
@@ -39,6 +39,9 @@ public class PsiSumFunction implements PsiElement<Double> {
      */
     private PsiSumFunction(Collection<PsiElement<Number>> numbers) {
         this.numbers = numbers;
+
+        if (this.numbers.stream().allMatch(PsiElement::isPreComputed))
+            preComputed = execute();
     }
 
     /**
@@ -49,6 +52,9 @@ public class PsiSumFunction implements PsiElement<Double> {
      */
     private PsiSumFunction(PsiElement<Iterable<Number>> element) {
         this.element = element;
+
+        if (this.element.isPreComputed())
+            preComputed = execute();
     }
 
     /**
@@ -56,6 +62,9 @@ public class PsiSumFunction implements PsiElement<Double> {
      */
     @Override
     public Double execute() {
+        if (isPreComputed())
+            return preComputed;
+
         Stream<Number> stream = null;
 
         if (numbers == null && element != null)

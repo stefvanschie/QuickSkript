@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  *
  * @since 0.1.0
  */
-public class PsiInverseTangentFunction implements PsiElement<Double> {
+public class PsiInverseTangentFunction extends PsiElement<Double> {
 
     /**
      * The parameter for calculating the inverse tangent
@@ -30,6 +30,9 @@ public class PsiInverseTangentFunction implements PsiElement<Double> {
      */
     private PsiInverseTangentFunction(PsiElement<Number> parameter) {
         this.parameter = parameter;
+
+        if (this.parameter.isPreComputed())
+            preComputed = execute();
     }
 
     /**
@@ -37,6 +40,9 @@ public class PsiInverseTangentFunction implements PsiElement<Double> {
      */
     @Override
     public Double execute() {
+        if (isPreComputed())
+            return preComputed;
+
         return Math.atan(parameter.execute().doubleValue());
     }
 

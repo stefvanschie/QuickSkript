@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  *
  * @since 0.1.0
  */
-public class PsiCalculateExperienceFunction implements PsiElement<Long> {
+public class PsiCalculateExperienceFunction extends PsiElement<Long> {
 
     /**
      * The parameter for calculating the amount of exp
@@ -30,6 +30,9 @@ public class PsiCalculateExperienceFunction implements PsiElement<Long> {
      */
     private PsiCalculateExperienceFunction(PsiElement<Number> parameter) {
         this.parameter = parameter;
+
+        if (this.parameter.isPreComputed())
+            preComputed = execute();
     }
 
     /**
@@ -37,6 +40,9 @@ public class PsiCalculateExperienceFunction implements PsiElement<Long> {
      */
     @Override
     public Long execute() {
+        if (isPreComputed())
+            return preComputed;
+
         long level = parameter.execute().longValue();
         long exp = 0;
 

@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  *
  * @since 0.1.0
  */
-public class PsiSineFunction implements PsiElement<Double> {
+public class PsiSineFunction extends PsiElement<Double> {
 
     /**
      * The parameter to use for calculating the sine
@@ -30,6 +30,9 @@ public class PsiSineFunction implements PsiElement<Double> {
      */
     private PsiSineFunction(PsiElement<Number> parameter) {
         this.parameter = parameter;
+
+        if (this.parameter.isPreComputed())
+            preComputed = execute();
     }
 
     /**
@@ -37,6 +40,9 @@ public class PsiSineFunction implements PsiElement<Double> {
      */
     @Override
     public Double execute() {
+        if (isPreComputed())
+            return preComputed;
+
         return Math.sin(parameter.execute().doubleValue());
     }
 

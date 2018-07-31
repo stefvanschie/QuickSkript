@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  *
  * @since 0.1.0
  */
-public class PsiCeilFunction implements PsiElement<Double> {
+public class PsiCeilFunction extends PsiElement<Double> {
 
     /**
      * The parameter to round up
@@ -30,6 +30,9 @@ public class PsiCeilFunction implements PsiElement<Double> {
      */
     private PsiCeilFunction(PsiElement<Number> parameter) {
         this.parameter = parameter;
+
+        if (this.parameter.isPreComputed())
+            preComputed = execute();
     }
 
     /**
@@ -37,6 +40,9 @@ public class PsiCeilFunction implements PsiElement<Double> {
      */
     @Override
     public Double execute() {
+        if (isPreComputed())
+            return preComputed;
+
         return Math.ceil(parameter.execute().doubleValue());
     }
 
