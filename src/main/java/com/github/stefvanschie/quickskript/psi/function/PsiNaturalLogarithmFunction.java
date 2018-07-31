@@ -72,8 +72,4 @@ public class PsiNaturalLogarithmFunction implements PsiElement<Double> {
             return new PsiNaturalLogarithmFunction(element);
         }
     }
-
-    static {
-        PsiElementFactory.getClassTypes().put(PsiNaturalLogarithmFunction.class, Double.class);
-    }
 }

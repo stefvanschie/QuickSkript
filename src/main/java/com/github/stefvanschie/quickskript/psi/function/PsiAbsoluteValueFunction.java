@@ -71,8 +71,4 @@ public class PsiAbsoluteValueFunction implements PsiElement<Double> {
             return new PsiAbsoluteValueFunction(element);
         }
     }
-
-    static {
-        PsiElementFactory.getClassTypes().put(PsiAbsoluteValueFunction.class, Double.class);
-    }
 }

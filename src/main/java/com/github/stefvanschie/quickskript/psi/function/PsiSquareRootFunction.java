@@ -72,8 +72,4 @@ public class PsiSquareRootFunction implements PsiElement<Double> {
             return new PsiSquareRootFunction(element);
         }
     }
-
-    static {
-        PsiElementFactory.getClassTypes().put(PsiSquareRootFunction.class, Double.class);
-    }
 }

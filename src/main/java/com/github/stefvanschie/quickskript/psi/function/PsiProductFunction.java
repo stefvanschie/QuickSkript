@@ -118,8 +118,4 @@ public class PsiProductFunction implements PsiElement<Double> {
             return new PsiProductFunction(numbers);
         }
     }
-
-    static {
-        PsiElementFactory.getClassTypes().put(PsiProductFunction.class, Double.class);
-    }
 }

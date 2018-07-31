@@ -94,8 +94,4 @@ public class PsiLogarithmFunction implements PsiElement<Double> {
             return new PsiLogarithmFunction(value, base);
         }
     }
-
-    static {
-        PsiElementFactory.getClassTypes().put(PsiLogarithmFunction.class, Double.class);
-    }
 }

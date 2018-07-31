@@ -82,8 +82,4 @@ public class PsiModuloFunction implements PsiElement<Double> {
             return new PsiModuloFunction(a, b);
         }
     }
-
-    static {
-        PsiElementFactory.getClassTypes().put(PsiModuloFunction.class, Double.class);
-    }
 }

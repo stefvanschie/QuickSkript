@@ -116,8 +116,4 @@ public class PsiDateFunction implements PsiElement<LocalDateTime> {
             );
         }
     }
-
-    static {
-        PsiElementFactory.getClassTypes().put(PsiDateFunction.class, LocalDateTime.class);
-    }
 }
