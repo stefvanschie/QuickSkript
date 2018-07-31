@@ -11,7 +11,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * A factory for creating psi elements from text
@@ -24,8 +27,7 @@ public class PsiElementFactory {
      * A list of all possible factories available
      */
     @NotNull
-    private static final Set<PsiFactory> FACTORIES = new HashSet<>();
-    
+    private static final Set<PsiFactory<?>> FACTORIES = new HashSet<>();
     /**
      * A class which holds a psi element class and it's return type
      */
