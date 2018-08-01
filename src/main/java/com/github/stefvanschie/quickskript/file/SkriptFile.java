@@ -1,7 +1,9 @@
 package com.github.stefvanschie.quickskript.file;
 
+import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,46 +28,48 @@ public class SkriptFile extends SkriptFileSection {
      * Loads a skript file from a given file
      *
      * @param file the actual file
-     * @return the skript file
+     * @return the skript file, or null if it couldn't be loaded
      * @since 0.1.0
      */
-    @NotNull
+    @Nullable
     @Contract(pure = true)
     public static SkriptFile load(@NotNull File file) {
-        SkriptFile skriptFile = new SkriptFile();
+        Validate.isTrue(file.isFile() && file.canRead(), "The file must be a valid, readable, existing file.");
 
+        List<String> strings;
         try {
-            List<String> strings = Files.readAllLines(file.toPath());
-
-            //remove comments
-            for (int i = 0; i < strings.size(); i++) {
-                String line = strings.get(i);
-                int index = line.indexOf('#');
-
-                if (index != -1)
-                    strings.set(i, line.substring(0, index));
-            }
-
-            //if a line is empty or only contains spaces, remove it, otherwise it'll screw the rest of the algorithm up
-            strings.removeIf(string -> string.isEmpty() || string.matches("[ ]+"));
-
-            //remove trailing spaces
-            for (int i = 0; i < strings.size(); i++) {
-                String line = strings.get(i);
-                int len = line.length();
-
-                for (; len > 0; len--)
-                    if (!Character.isWhitespace(line.charAt(len - 1)))
-                        break;
-
-                strings.set(i, line.substring(0, len));
-            }
-
-            skriptFile.parse(strings);
+            strings = Files.readAllLines(file.toPath());
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
 
+        //remove comments
+        for (int i = 0; i < strings.size(); i++) {
+            String line = strings.get(i);
+            int index = line.indexOf('#');
+
+            if (index != -1)
+                strings.set(i, line.substring(0, index));
+        }
+
+        //if a line is empty or only contains spaces, remove it, otherwise it'll screw the rest of the algorithm up
+        strings.removeIf(string -> string.isEmpty() || string.matches("[ ]+"));
+
+        //remove trailing spaces
+        for (int i = 0; i < strings.size(); i++) {
+            String line = strings.get(i);
+            int len = line.length();
+
+            for (; len > 0; len--)
+                if (!Character.isWhitespace(line.charAt(len - 1)))
+                    break;
+
+            strings.set(i, line.substring(0, len));
+        }
+
+        SkriptFile skriptFile = new SkriptFile();
+        skriptFile.parse(strings);
         return skriptFile;
     }
 }

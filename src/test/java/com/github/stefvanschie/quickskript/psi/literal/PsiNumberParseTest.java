@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PsiNumberParseTest {
 
-    private String[] correctCases = {
+    private final String[] correctCases = {
             "3",
             "94",
             "6.8",
@@ -19,7 +19,7 @@ class PsiNumberParseTest {
             "-44.65",
     };
 
-    private String[] failCases = {
+    private final String[] failCases = {
             "--0",
             "0.",
             ".9",

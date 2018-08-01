@@ -14,7 +14,7 @@ public class SkriptFileNode {
      * The text of this node, this may be null if the represented node is the skript file itself
      */
     @Nullable
-    private String text;
+    private final String text;
 
     /**
      * Creates a new node with the specified text
