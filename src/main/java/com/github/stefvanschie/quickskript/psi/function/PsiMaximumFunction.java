@@ -3,7 +3,6 @@ package com.github.stefvanschie.quickskript.psi.function;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.PsiFactory;
-import com.github.stefvanschie.quickskript.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.psi.util.ConversionUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -41,8 +40,10 @@ public class PsiMaximumFunction extends PsiElement<Double> {
     private PsiMaximumFunction(Collection<PsiElement<Number>> numbers) {
         this.numbers = numbers;
 
-        if (this.numbers.stream().allMatch(PsiElement::isPreComputed))
-            preComputed = execute();
+        if (this.numbers.stream().allMatch(PsiElement::isPreComputed)) {
+            preComputed = executeImpl();
+            this.element = null;
+        }
     }
 
     /**
@@ -54,18 +55,18 @@ public class PsiMaximumFunction extends PsiElement<Double> {
     private PsiMaximumFunction(PsiElement<Iterable<Number>> element) {
         this.element = element;
 
-        if (this.element.isPreComputed())
-            preComputed = execute();
+        if (this.element.isPreComputed()) {
+            preComputed = executeImpl();
+            this.element = null;
+        }
     }
 
     /**
      * {@inheritDoc}
      */
+    @NotNull
     @Override
-    public Double execute() {
-        if (isPreComputed())
-            return preComputed;
-
+    protected Double executeImpl() {
         Stream<Number> stream = null;
 
         if (numbers == null && element != null)

@@ -31,18 +31,18 @@ public class PsiTangentFunction extends PsiElement<Double> {
     private PsiTangentFunction(PsiElement<Number> parameter) {
         this.parameter = parameter;
 
-        if (this.parameter.isPreComputed())
-            preComputed = execute();
+        if (this.parameter.isPreComputed()) {
+            preComputed = executeImpl();
+            this.parameter = null;
+        }
     }
 
     /**
      * {@inheritDoc}
      */
+    @NotNull
     @Override
-    public Double execute() {
-        if (isPreComputed())
-            return preComputed;
-
+    protected Double executeImpl() {
         return Math.tan(parameter.execute().doubleValue());
     }
 

@@ -18,11 +18,22 @@ public abstract class PsiElement<T> {
     protected T preComputed;
 
     /**
-     * Executes this element
+     * Returns a pre computed value if {@link #isPreComputed()} returns true otherwise executes this element
      *
+     * @return the computed value which is null if the computation returned null
      * @since 0.1.0
      */
-    public abstract T execute();
+    public final T execute() {
+        return isPreComputed() ? preComputed : executeImpl();
+    }
+
+    /**
+     * Executes this element
+     *
+     * @return the computed value which is null if the computation returned null
+     * @since 0.1.0
+     */
+    protected abstract T executeImpl();
 
     /**
      * Gets whether this element was pre computed when loading
@@ -34,5 +45,4 @@ public abstract class PsiElement<T> {
     public boolean isPreComputed() {
         return preComputed != null;
     }
-
 }

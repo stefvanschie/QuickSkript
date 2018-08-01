@@ -32,18 +32,18 @@ public class PsiModuloFunction extends PsiElement<Double> {
         this.a = a;
         this.b = b;
 
-        if (this.a.isPreComputed() && this.b.isPreComputed())
-            preComputed = execute();
+        if (this.a.isPreComputed() && this.b.isPreComputed()) {
+            preComputed = executeImpl();
+            this.a = this.b = null;
+        }
     }
 
     /**
      * {@inheritDoc}
      */
+    @NotNull
     @Override
-    public Double execute() {
-        if (isPreComputed())
-            return preComputed;
-
+    protected Double executeImpl() {
         return a.execute().doubleValue() % b.execute().doubleValue();
     }
 

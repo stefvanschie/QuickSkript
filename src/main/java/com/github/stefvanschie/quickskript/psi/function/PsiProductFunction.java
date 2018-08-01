@@ -42,8 +42,10 @@ public class PsiProductFunction extends PsiElement<Double> {
     private PsiProductFunction(Collection<PsiElement<Number>> numbers) {
         this.numbers = numbers;
 
-        if (this.numbers.stream().allMatch(PsiElement::isPreComputed))
-            preComputed = execute();
+        if (this.numbers.stream().allMatch(PsiElement::isPreComputed)) {
+            preComputed = executeImpl();
+            this.numbers = null;
+        }
     }
 
     /**
@@ -55,18 +57,18 @@ public class PsiProductFunction extends PsiElement<Double> {
     private PsiProductFunction(PsiElement<Iterable<Number>> element) {
         this.element = element;
 
-        if (this.element.isPreComputed())
-            preComputed = execute();
+        if (this.element.isPreComputed()) {
+            preComputed = executeImpl();
+            this.element = null;
+        }
     }
 
     /**
      * {@inheritDoc}
      */
+    @NotNull
     @Override
-    public Double execute() {
-        if (isPreComputed())
-            return preComputed;
-
+    protected Double executeImpl() {
         Stream<Number> stream = null;
 
         if (numbers == null && element != null)
