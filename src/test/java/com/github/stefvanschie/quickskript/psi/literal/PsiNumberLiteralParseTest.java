@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PsiNumberParseTest {
+class PsiNumberLiteralParseTest {
 
     private final String[] correctCases = {
             "3",
@@ -29,9 +29,9 @@ class PsiNumberParseTest {
     @Test
     void testParsing() {
         for (String correctCase : correctCases)
-            assertNotNull(new PsiNumber.Factory().parse(correctCase));
+            assertNotNull(new PsiNumberLiteral.Factory().parse(correctCase));
 
         for (String failCase : failCases)
-            assertNull(new PsiNumber.Factory().parse(failCase));
+            assertNull(new PsiNumberLiteral.Factory().parse(failCase));
     }
 }

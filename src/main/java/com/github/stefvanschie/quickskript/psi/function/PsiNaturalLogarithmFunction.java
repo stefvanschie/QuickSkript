@@ -23,7 +23,7 @@ public class PsiNaturalLogarithmFunction extends PsiElement<Double> {
     private PsiElement<Number> parameter;
 
     /**
-     * Creates a new naturla logarithm function
+     * Creates a new natural logarithm function
      *
      * @param parameter the parameter
      * @since 0.1.0

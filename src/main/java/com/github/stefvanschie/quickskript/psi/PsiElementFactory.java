@@ -1,7 +1,9 @@
 package com.github.stefvanschie.quickskript.psi;
 
 import com.github.stefvanschie.quickskript.psi.function.*;
-import com.github.stefvanschie.quickskript.psi.literal.PsiNumber;
+import com.github.stefvanschie.quickskript.psi.literal.PsiNumberLiteral;
+import com.github.stefvanschie.quickskript.psi.literal.PsiStringLiteral;
+import com.github.stefvanschie.quickskript.util.TextMessage;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -93,7 +95,8 @@ public class PsiElementFactory {
         registerElement(PsiWorldFunction.class, World.class, new PsiWorldFunction.Factory());
         
         //literals
-        registerElement(PsiNumber.class, Double.class, new PsiNumber.Factory());
+        registerElement(PsiNumberLiteral.class, Double.class, new PsiNumberLiteral.Factory());
+        registerElement(PsiStringLiteral.class, TextMessage.class, new PsiStringLiteral.Factory());
     }
     
     /**

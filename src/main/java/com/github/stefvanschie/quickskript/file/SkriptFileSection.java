@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @since 0.1.0
  */
-public class SkriptFileSection extends SkriptFileNode {
+class SkriptFileSection extends SkriptFileNode {
 
     /**
      * The underlying nodes in this section
@@ -39,12 +39,12 @@ public class SkriptFileSection extends SkriptFileNode {
     }
 
     /**
-     * Parses a section from the given ehader and strings
+     * Parses a section from the given header and strings
      *
      * @param nodes the underlying nodes
      * @since 0.1.0
      */
-    public void parse(@NotNull List<String> nodes) {
+    void parse(@NotNull List<String> nodes) {
         for (int index = 0; index < nodes.size(); index++) {
             String node = nodes.get(index);
 

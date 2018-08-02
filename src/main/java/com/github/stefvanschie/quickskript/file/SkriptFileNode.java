@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
  *
  * @since 0.1.0
  */
-public class SkriptFileNode {
+class SkriptFileNode {
 
     /**
      * The text of this node, this may be null if the represented node is the skript file itself

@@ -13,14 +13,14 @@ import java.util.regex.Pattern;
  *
  * @since 0.1.0
  */
-public class PsiNumber extends PsiElement<Double> {
+public class PsiNumberLiteral extends PsiElement<Double> {
 
     /**
      * Creates a new psi number
      *
      * @param number the number this psi is wrapping
      */
-    private PsiNumber(double number) {
+    private PsiNumberLiteral(double number) {
         preComputed = number;
     }
 
@@ -34,11 +34,11 @@ public class PsiNumber extends PsiElement<Double> {
     }
 
     /**
-     * The factory for creating {@link PsiNumber}s.
+     * The factory for creating {@link PsiNumberLiteral}s.
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiFactory<PsiNumber> {
+    public static class Factory implements PsiFactory<PsiNumberLiteral> {
 
         /**
          * The pattern for matching number literals
@@ -50,13 +50,13 @@ public class PsiNumber extends PsiElement<Double> {
          */
         @Nullable
         @Override
-        public PsiNumber parse(@NotNull String text) {
+        public PsiNumberLiteral parse(@NotNull String text) {
             Matcher matcher = PATTERN.matcher(text);
 
             if (!matcher.matches())
                 return null;
 
-            return new PsiNumber(Double.parseDouble(text));
+            return new PsiNumberLiteral(Double.parseDouble(text));
         }
     }
 }
