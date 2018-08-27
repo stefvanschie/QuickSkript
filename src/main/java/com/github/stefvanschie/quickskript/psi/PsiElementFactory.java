@@ -1,12 +1,15 @@
 package com.github.stefvanschie.quickskript.psi;
 
+import com.github.stefvanschie.quickskript.psi.effect.PsiMessageEffect;
 import com.github.stefvanschie.quickskript.psi.function.*;
 import com.github.stefvanschie.quickskript.psi.literal.PsiNumberLiteral;
 import com.github.stefvanschie.quickskript.psi.literal.PsiStringLiteral;
+import com.github.stefvanschie.quickskript.psi.type.PsiConsoleSenderType;
 import com.github.stefvanschie.quickskript.util.TextMessage;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -67,6 +70,9 @@ public class PsiElementFactory {
     }
     
     static {
+        //effect
+        registerElement(PsiMessageEffect.class, Void.class, new PsiMessageEffect.Factory());
+
         //functions
         registerElement(PsiAbsoluteValueFunction.class, Double.class, new PsiAbsoluteValueFunction.Factory());
         registerElement(PsiAtan2Function.class, Double.class, new PsiAtan2Function.Factory());
@@ -97,6 +103,9 @@ public class PsiElementFactory {
         //literals
         registerElement(PsiNumberLiteral.class, Double.class, new PsiNumberLiteral.Factory());
         registerElement(PsiStringLiteral.class, TextMessage.class, new PsiStringLiteral.Factory());
+
+        //type
+        registerElement(PsiConsoleSenderType.class, ConsoleCommandSender.class, new PsiConsoleSenderType.Factory());
     }
     
     /**

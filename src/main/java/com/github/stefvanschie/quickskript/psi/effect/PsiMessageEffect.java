@@ -45,8 +45,7 @@ public class PsiMessageEffect extends PsiElement<Void> {
      */
     @Override
     protected Void executeImpl() {
-        //apparently receiver is optional, but I have no idea who gets send the message when no receiver is specified
-        //TODO if the receiver is null, an error will be thrown
+        //TODO if the receiver is null, it should use a receiver based on the execution context
         receiver.execute().sendMessage(message.execute().construct());
         return null;
     }
