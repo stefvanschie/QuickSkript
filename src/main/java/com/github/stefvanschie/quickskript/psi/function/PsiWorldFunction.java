@@ -1,5 +1,6 @@
 package com.github.stefvanschie.quickskript.psi.function;
 
+import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.PsiFactory;
@@ -39,8 +40,8 @@ public class PsiWorldFunction extends PsiElement<World> {
      * {@inheritDoc}
      */
     @Override
-    public World executeImpl() {
-        return Bukkit.getWorld(parameter.execute());
+    public World executeImpl(@Nullable Context context) {
+        return Bukkit.getWorld(parameter.execute(context));
     }
 
     /**

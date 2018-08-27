@@ -1,5 +1,6 @@
 package com.github.stefvanschie.quickskript.psi.function;
 
+import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.PsiFactory;
@@ -32,7 +33,7 @@ public class PsiRoundFunction extends PsiElement<Long> {
         this.parameter = parameter;
 
         if (this.parameter.isPreComputed()) {
-            preComputed = executeImpl();
+            preComputed = executeImpl(null);
             this.parameter = null;
         }
     }
@@ -42,8 +43,8 @@ public class PsiRoundFunction extends PsiElement<Long> {
      */
     @NotNull
     @Override
-    protected Long executeImpl() {
-        return Math.round(parameter.execute().doubleValue());
+    protected Long executeImpl(@Nullable Context context) {
+        return Math.round(parameter.execute(context).doubleValue());
     }
 
     /**

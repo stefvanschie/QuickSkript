@@ -1,5 +1,6 @@
 package com.github.stefvanschie.quickskript.psi.function;
 
+import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.PsiFactory;
@@ -32,7 +33,7 @@ public class PsiFloorFunction extends PsiElement<Double> {
         this.parameter = parameter;
 
         if (this.parameter.isPreComputed()) {
-            preComputed = executeImpl();
+            preComputed = executeImpl(null);
             this.parameter = null;
         }
     }
@@ -42,8 +43,8 @@ public class PsiFloorFunction extends PsiElement<Double> {
      */
     @NotNull
     @Override
-    protected Double executeImpl() {
-        return Math.floor(parameter.execute().doubleValue());
+    protected Double executeImpl(@Nullable Context context) {
+        return Math.floor(parameter.execute(context).doubleValue());
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.skript;
 
 import com.github.stefvanschie.quickskript.QuickSkript;
+import com.github.stefvanschie.quickskript.context.CommandContext;
 import com.github.stefvanschie.quickskript.file.SkriptFileSection;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
@@ -43,8 +44,10 @@ public class SkriptCommand implements CommandExecutor {
      * {@inheritDoc}
      */
     @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        elements.forEach(PsiElement::execute);
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        CommandContext context = new CommandContext(sender);
+
+        elements.forEach(element -> element.execute(context));
 
         return true;
     }

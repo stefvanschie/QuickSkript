@@ -57,8 +57,6 @@ public class Skript {
      * @since 0.1.0
      */
     private void registerCommand(@NotNull SkriptFileSection section) {
-        System.out.println("Registering command " + section.getText());
-
         String text = section.getText();
 
         if (text == null)
@@ -66,8 +64,6 @@ public class Skript {
 
         //noinspection HardcodedFileSeparator
         String commandName = section.getText().substring("command /".length());
-
-        System.out.println("Command name " + commandName);
 
         PluginCommand command = createCommand(commandName, QuickSkript.getPlugin(QuickSkript.class));
 
@@ -104,8 +100,6 @@ public class Skript {
         }
 
         getCommandMap().register("quickskript", command);
-
-        System.out.println("Registered command");
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.github.stefvanschie.quickskript.psi.literal;
 
+import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiFactory;
 import org.jetbrains.annotations.NotNull;
@@ -29,7 +30,7 @@ public class PsiNumberLiteral extends PsiElement<Double> {
      */
     @NotNull
     @Override
-    public Double executeImpl() {
+    public Double executeImpl(@Nullable Context context) {
         throw new AssertionError("Since this preComputed variable is always set, this method should never get called");
     }
 

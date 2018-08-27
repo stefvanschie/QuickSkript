@@ -1,5 +1,6 @@
 package com.github.stefvanschie.quickskript.psi.function;
 
+import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.PsiFactory;
@@ -72,14 +73,14 @@ public class PsiLocationFunction extends PsiElement<Location> {
      */
     @NotNull
     @Override
-    public Location executeImpl() {
+    public Location executeImpl(@Nullable Context context) {
         return new Location(
-            world.execute(),
-            x.execute().doubleValue(),
-            y.execute().doubleValue(),
-            z.execute().doubleValue(),
-            yaw == null ? 0 : yaw.execute().floatValue(),
-            pitch == null ? 0 : pitch.execute().floatValue()
+            world.execute(context),
+            x.execute(context).doubleValue(),
+            y.execute(context).doubleValue(),
+            z.execute(context).doubleValue(),
+            yaw == null ? 0 : yaw.execute(context).floatValue(),
+            pitch == null ? 0 : pitch.execute(context).floatValue()
         );
     }
 

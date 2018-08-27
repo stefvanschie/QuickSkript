@@ -1,5 +1,7 @@
 package com.github.stefvanschie.quickskript.psi.effect;
 
+import com.github.stefvanschie.quickskript.context.CommandContext;
+import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.PsiFactory;
@@ -44,9 +46,17 @@ public class PsiMessageEffect extends PsiElement<Void> {
      * {@inheritDoc}
      */
     @Override
-    protected Void executeImpl() {
-        //TODO if the receiver is null, it should use a receiver based on the execution context
-        receiver.execute().sendMessage(message.execute().construct());
+    protected Void executeImpl(@Nullable Context context) {
+        CommandSender receiver;
+
+        if (this.receiver == null && context instanceof CommandContext)
+            receiver = ((CommandContext) context).getSender();
+        else if (this.receiver != null)
+            receiver = this.receiver.execute(context);
+        else
+            throw new IllegalStateException("Unable to execute message instruction, since no possible receiver has been found");
+
+        receiver.sendMessage(message.execute(context).construct());
         return null;
     }
 

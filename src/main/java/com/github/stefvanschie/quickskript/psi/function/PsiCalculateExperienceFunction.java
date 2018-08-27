@@ -1,5 +1,6 @@
 package com.github.stefvanschie.quickskript.psi.function;
 
+import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.PsiFactory;
@@ -32,7 +33,7 @@ public class PsiCalculateExperienceFunction extends PsiElement<Long> {
         this.parameter = parameter;
 
         if (this.parameter.isPreComputed()) {
-            preComputed = executeImpl();
+            preComputed = executeImpl(null);
             this.parameter = null;
         }
     }
@@ -42,8 +43,8 @@ public class PsiCalculateExperienceFunction extends PsiElement<Long> {
      */
     @NotNull
     @Override
-    protected Long executeImpl() {
-        long level = parameter.execute().longValue();
+    protected Long executeImpl(@Nullable Context context) {
+        long level = parameter.execute(context).longValue();
         long exp = 0;
 
         if (level > 0) {

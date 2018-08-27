@@ -1,5 +1,6 @@
 package com.github.stefvanschie.quickskript.psi.function;
 
+import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.PsiFactory;
@@ -40,7 +41,7 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
         this.base = base;
 
         if (this.value.isPreComputed() && (this.base == null || this.base.isPreComputed())) {
-            preComputed = executeImpl();
+            preComputed = executeImpl(null);
             this.value = this.base = null;
         }
     }
@@ -50,8 +51,8 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
      */
     @NotNull
     @Override
-    protected Double executeImpl() {
-        return Math.log10(value.execute().doubleValue()) / Math.log10(base == null ? 10 : base.execute().doubleValue());
+    protected Double executeImpl(@Nullable Context context) {
+        return Math.log10(value.execute(context).doubleValue()) / Math.log10(base == null ? 10 : base.execute(context).doubleValue());
     }
 
     /**

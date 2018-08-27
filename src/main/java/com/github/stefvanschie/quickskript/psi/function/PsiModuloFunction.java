@@ -1,5 +1,6 @@
 package com.github.stefvanschie.quickskript.psi.function;
 
+import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.PsiFactory;
@@ -33,7 +34,7 @@ public class PsiModuloFunction extends PsiElement<Double> {
         this.b = b;
 
         if (this.a.isPreComputed() && this.b.isPreComputed()) {
-            preComputed = executeImpl();
+            preComputed = executeImpl(null);
             this.a = this.b = null;
         }
     }
@@ -43,8 +44,8 @@ public class PsiModuloFunction extends PsiElement<Double> {
      */
     @NotNull
     @Override
-    protected Double executeImpl() {
-        return a.execute().doubleValue() % b.execute().doubleValue();
+    protected Double executeImpl(@Nullable Context context) {
+        return a.execute(context).doubleValue() % b.execute(context).doubleValue();
     }
 
     /**

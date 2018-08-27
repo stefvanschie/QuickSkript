@@ -1,5 +1,6 @@
 package com.github.stefvanschie.quickskript.psi;
 
+import com.github.stefvanschie.quickskript.context.Context;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,20 +21,22 @@ public abstract class PsiElement<T> {
     /**
      * Returns a pre computed value if {@link #isPreComputed()} returns true otherwise executes this element
      *
+     * @param context the context this code is being executed in, may be null if the code is expected to be pre computed
      * @return the computed value which is null if the computation returned null
      * @since 0.1.0
      */
-    public final T execute() {
-        return isPreComputed() ? preComputed : executeImpl();
+    public final T execute(@Nullable Context context) {
+        return isPreComputed() ? preComputed : executeImpl(context);
     }
 
     /**
      * Executes this element
      *
+     * @param context the context this code is being executed in, may be null if the code is expected to be pre computed
      * @return the computed value which is null if the computation returned null
      * @since 0.1.0
      */
-    protected abstract T executeImpl();
+    protected abstract T executeImpl(@Nullable Context context);
 
     /**
      * Gets whether this element was pre computed when loading

@@ -47,16 +47,4 @@ public class TextMessage {
 
         return message.toString();
     }
-
-    /**
-     * Gets a list of all parts currently present in this message
-     *
-     * @return all parts
-     *
-     * @since 0.1.0
-     */
-    @NotNull
-    public List<TextPart> getParts() {
-        return parts;
-    }
 }

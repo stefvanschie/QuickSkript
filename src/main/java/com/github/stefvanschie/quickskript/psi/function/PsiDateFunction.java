@@ -1,5 +1,6 @@
 package com.github.stefvanschie.quickskript.psi.function;
 
+import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.PsiFactory;
@@ -58,7 +59,7 @@ public class PsiDateFunction extends PsiElement<LocalDateTime> {
             (this.hour == null || this.hour.isPreComputed()) && (this.minute == null || this.minute.isPreComputed()) &&
             (this.second == null || this.second.isPreComputed()) &&
             (this.millisecond == null || this.millisecond.isPreComputed())) {
-            preComputed = executeImpl();
+            preComputed = executeImpl(null);
             this.year = this.month = this.day = this.hour = this.minute = this.second = this.millisecond = null;
         }
     }
@@ -68,15 +69,15 @@ public class PsiDateFunction extends PsiElement<LocalDateTime> {
      */
     @NotNull
     @Override
-    protected LocalDateTime executeImpl() {
+    protected LocalDateTime executeImpl(@Nullable Context context) {
         return LocalDateTime.of(
-            year.execute().intValue(),
-            month.execute().intValue(),
-            day.execute().intValue(),
-            hour == null ? 0 : hour.execute().intValue(),
-            minute == null ? 0 : minute.execute().intValue(),
-            second == null ? 0 : second.execute().intValue(),
-            millisecond == null ? 0 : millisecond.execute().intValue() * 1000000
+            year.execute(context).intValue(),
+            month.execute(context).intValue(),
+            day.execute(context).intValue(),
+            hour == null ? 0 : hour.execute(context).intValue(),
+            minute == null ? 0 : minute.execute(context).intValue(),
+            second == null ? 0 : second.execute(context).intValue(),
+            millisecond == null ? 0 : millisecond.execute(context).intValue() * 1000000
         );
     }
 

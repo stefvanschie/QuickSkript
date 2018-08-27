@@ -1,5 +1,6 @@
 package com.github.stefvanschie.quickskript.psi.type;
 
+import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiFactory;
 import org.bukkit.Bukkit;
@@ -26,8 +27,9 @@ public class PsiConsoleSenderType extends PsiElement<ConsoleCommandSender> {
     /**
      * {@inheritDoc}
      */
+    @NotNull
     @Override
-    protected ConsoleCommandSender executeImpl() {
+    protected ConsoleCommandSender executeImpl(@Nullable Context context) {
         throw new AssertionError("Since this preComputed variable is always set, this method should never get called");
     }
 

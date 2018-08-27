@@ -1,5 +1,6 @@
 package com.github.stefvanschie.quickskript.psi.function;
 
+import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.PsiFactory;
@@ -36,7 +37,7 @@ public class PsiVectorFunction extends PsiElement<Vector> {
         this.z = z;
 
         if (this.x.isPreComputed() && this.y.isPreComputed() && this.z.isPreComputed()) {
-            preComputed = executeImpl();
+            preComputed = executeImpl(null);
             this.x = this.y = this.z = null;
         }
     }
@@ -46,8 +47,9 @@ public class PsiVectorFunction extends PsiElement<Vector> {
      */
     @NotNull
     @Override
-    protected Vector executeImpl() {
-        return new Vector(x.execute().doubleValue(), y.execute().doubleValue(), z.execute().doubleValue());
+    protected Vector executeImpl(@Nullable Context context) {
+        return new Vector(x.execute(context).doubleValue(), y.execute(context).doubleValue(),
+            z.execute(context).doubleValue());
     }
 
     /**

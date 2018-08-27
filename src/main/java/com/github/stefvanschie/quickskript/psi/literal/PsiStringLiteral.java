@@ -1,5 +1,6 @@
 package com.github.stefvanschie.quickskript.psi.literal;
 
+import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiFactory;
 import com.github.stefvanschie.quickskript.util.TextFormat;
@@ -32,8 +33,9 @@ public class PsiStringLiteral extends PsiElement<TextMessage> {
     /**
      * {@inheritDoc}
      */
+    @NotNull
     @Override
-    protected TextMessage executeImpl() {
+    protected TextMessage executeImpl(@Nullable Context context) {
         throw new AssertionError("Since this preComputed variable is always set, this method should never get called");
     }
 
@@ -72,7 +74,7 @@ public class PsiStringLiteral extends PsiElement<TextMessage> {
             Matcher colorMatcher = COLOR_PATTERN.matcher(text);
 
             while (colorMatcher.find()) {
-                char code = colorMatcher.group(1).charAt(1);
+                char code = colorMatcher.group(1).charAt(0);
 
                 message.addPart(new TextString(text.substring(0, colorMatcher.start())));
                 message.addPart(new TextFormat(code));

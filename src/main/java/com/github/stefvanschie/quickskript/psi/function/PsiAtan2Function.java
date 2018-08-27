@@ -1,5 +1,6 @@
 package com.github.stefvanschie.quickskript.psi.function;
 
+import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.PsiFactory;
@@ -34,7 +35,7 @@ public class PsiAtan2Function extends PsiElement<Double> {
         this.y = y;
 
         if (this.x.isPreComputed() && this.y.isPreComputed()) {
-            preComputed = executeImpl();
+            preComputed = executeImpl(null);
             this.x = this.y = null;
         }
     }
@@ -44,8 +45,8 @@ public class PsiAtan2Function extends PsiElement<Double> {
      */
     @NotNull
     @Override
-    protected Double executeImpl() {
-        return Math.atan2(x.execute().doubleValue(), y.execute().doubleValue());
+    protected Double executeImpl(@Nullable Context context) {
+        return Math.atan2(x.execute(context).doubleValue(), y.execute(context).doubleValue());
     }
 
     /**

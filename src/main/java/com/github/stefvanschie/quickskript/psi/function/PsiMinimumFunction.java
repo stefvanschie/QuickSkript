@@ -1,5 +1,6 @@
 package com.github.stefvanschie.quickskript.psi.function;
 
+import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.PsiFactory;
@@ -41,7 +42,7 @@ public class PsiMinimumFunction extends PsiElement<Double> {
         this.numbers = numbers;
 
         if (this.numbers.stream().allMatch(PsiElement::isPreComputed)) {
-            preComputed = executeImpl();
+            preComputed = executeImpl(null);
             this.numbers = null;
         }
     }
@@ -56,7 +57,7 @@ public class PsiMinimumFunction extends PsiElement<Double> {
         this.element = element;
 
         if (this.element.isPreComputed()) {
-            preComputed = executeImpl();
+            preComputed = executeImpl(null);
             this.element = null;
         }
     }
@@ -66,13 +67,13 @@ public class PsiMinimumFunction extends PsiElement<Double> {
      */
     @NotNull
     @Override
-    protected Double executeImpl() {
+    protected Double executeImpl(@Nullable Context context) {
         Stream<Number> stream = null;
 
         if (numbers == null && element != null)
-            stream = StreamSupport.stream(element.execute().spliterator(), false);
+            stream = StreamSupport.stream(element.execute(context).spliterator(), false);
         else if (numbers != null && element == null)
-            stream = numbers.stream().map(PsiElement::execute);
+            stream = numbers.stream().map(element -> element.execute(context));
 
         if (stream == null)
             throw new IllegalStateException("Neither numbers or element is initialized; unable to compute value");
