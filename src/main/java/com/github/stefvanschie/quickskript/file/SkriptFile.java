@@ -20,7 +20,7 @@ public class SkriptFile extends SkriptFileSection {
     /**
      * {@inheritDoc}
      */
-    private SkriptFile() {
+    public SkriptFile() {
         super(null);
     }
 

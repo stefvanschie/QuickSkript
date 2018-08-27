@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @since 0.1.0
  */
-class SkriptFileSection extends SkriptFileNode {
+public class SkriptFileSection extends SkriptFileNode {
 
     /**
      * The underlying nodes in this section
@@ -34,7 +34,7 @@ class SkriptFileSection extends SkriptFileNode {
      */
     @NotNull
     @Contract(pure = true)
-    private List<SkriptFileNode> getNodes() {
+    public List<SkriptFileNode> getNodes() {
         return nodes;
     }
 

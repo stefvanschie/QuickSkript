@@ -88,7 +88,7 @@ public class PsiMessageEffect extends PsiElement<Void> {
             if (index != -1) {
                 String to = text.substring(index + 4);
 
-                text = text.substring(0, index - 1);
+                text = text.substring(0, index);
 
                 //find player or console
                 receiver = (PsiElement<CommandSender>) PsiElementFactory.parseText(to, CommandSender.class);

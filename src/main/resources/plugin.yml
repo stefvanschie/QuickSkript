@@ -1,0 +1,5 @@
+main: com.github.stefvanschie.quickskript.QuickSkript
+name: QuickSkript
+version: 0.1.0
+
+api-version: 1.13

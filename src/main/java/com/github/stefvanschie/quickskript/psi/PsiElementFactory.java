@@ -56,13 +56,14 @@ public class PsiElementFactory {
      */
     @Nullable
     @Contract("null, _ -> fail")
-    public static PsiElement<?> parseText(@NotNull String input, @NotNull Class<?> classType) {
+    public static PsiElement<?> parseText(@NotNull String input, @Nullable Class<?> classType) {
         input = input.trim();
         
         for (PsiFactory<?> factory : FACTORIES) {
             PsiElement<?> element = factory.parse(input);
             
-            if (element != null && classType.isAssignableFrom(CLASS_TYPES.get(element.getClass())))
+            if (element != null &&
+                (classType == null || classType.isAssignableFrom(CLASS_TYPES.get(element.getClass()))))
                 return element;
         }
         

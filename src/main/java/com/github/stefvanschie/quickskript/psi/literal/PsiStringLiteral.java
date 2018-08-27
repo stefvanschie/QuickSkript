@@ -72,12 +72,17 @@ public class PsiStringLiteral extends PsiElement<TextMessage> {
             Matcher colorMatcher = COLOR_PATTERN.matcher(text);
 
             while (colorMatcher.find()) {
-                char code = colorMatcher.group(1).charAt(0);
+                char code = colorMatcher.group(1).charAt(1);
 
                 message.addPart(new TextString(text.substring(0, colorMatcher.start())));
                 message.addPart(new TextFormat(code));
-                message.addPart(new TextString(text.substring(colorMatcher.end())));
+
+                text = text.substring(colorMatcher.end());
+
+                colorMatcher.reset(text);
             }
+
+            message.addPart(new TextString(text));
 
             return new PsiStringLiteral(message);
         }
