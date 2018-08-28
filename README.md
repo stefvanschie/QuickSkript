@@ -56,6 +56,8 @@ I was asked to also provide timings for other skript interpreters, so I decided 
 Mean time: 105 857 (rounded down from 105 857.4)
 Median time: 104 367
 
+Note that these tests were performed by executing the command from Bukkit.dispatchCommand, whereas the previous test was measured from the moment the command execution started, so the results include any additional execution time the Bukkit.dispatchCommand may have.
+
 Just to repeat it again, these tests are *very* sloppy and in no way serve as an acurate benchmark for the speed of both QuickSkript nor SkriptLang.
 
 *Tests executed in August 2018*
