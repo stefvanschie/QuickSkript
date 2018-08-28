@@ -1,10 +1,10 @@
 package com.github.stefvanschie.quickskript.psi;
 
 import com.github.stefvanschie.quickskript.psi.effect.PsiMessageEffect;
+import com.github.stefvanschie.quickskript.psi.expression.PsiConsoleSenderExpression;
 import com.github.stefvanschie.quickskript.psi.function.*;
 import com.github.stefvanschie.quickskript.psi.literal.PsiNumberLiteral;
 import com.github.stefvanschie.quickskript.psi.literal.PsiStringLiteral;
-import com.github.stefvanschie.quickskript.psi.type.PsiConsoleSenderType;
 import com.github.stefvanschie.quickskript.util.TextMessage;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
@@ -71,8 +71,12 @@ public class PsiElementFactory {
     }
     
     static {
-        //effect
+        //effects
         registerElement(PsiMessageEffect.class, Void.class, new PsiMessageEffect.Factory());
+
+        //expressions
+        registerElement(PsiConsoleSenderExpression.class, ConsoleCommandSender.class,
+            new PsiConsoleSenderExpression.Factory());
 
         //functions
         registerElement(PsiAbsoluteValueFunction.class, Double.class, new PsiAbsoluteValueFunction.Factory());
@@ -104,9 +108,6 @@ public class PsiElementFactory {
         //literals
         registerElement(PsiNumberLiteral.class, Double.class, new PsiNumberLiteral.Factory());
         registerElement(PsiStringLiteral.class, TextMessage.class, new PsiStringLiteral.Factory());
-
-        //type
-        registerElement(PsiConsoleSenderType.class, ConsoleCommandSender.class, new PsiConsoleSenderType.Factory());
     }
     
     /**

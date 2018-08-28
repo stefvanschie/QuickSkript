@@ -1,4 +1,4 @@
-package com.github.stefvanschie.quickskript.psi.type;
+package com.github.stefvanschie.quickskript.psi.expression;
 
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
@@ -8,19 +8,22 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * A type that returns the global command sender object. This element is always pre computed.
  *
  * @since 0.1.0
  */
-public class PsiConsoleSenderType extends PsiElement<ConsoleCommandSender> {
+public class PsiConsoleSenderExpression extends PsiElement<ConsoleCommandSender> {
 
     /**
      * Creates a new psi console sender type
      *
      * @since 0.1.0
      */
-    private PsiConsoleSenderType() {
+    private PsiConsoleSenderExpression() {
         preComputed = Bukkit.getConsoleSender();
     }
 
@@ -38,18 +41,22 @@ public class PsiConsoleSenderType extends PsiElement<ConsoleCommandSender> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiFactory<PsiConsoleSenderType> {
+    public static class Factory implements PsiFactory<PsiConsoleSenderExpression> {
+
+        private Pattern PATTERN = Pattern.compile("(?:the )?(?:(?:console)|(?:server))");
 
         /**
          * {@inheritDoc}
          */
         @Nullable
         @Override
-        public PsiConsoleSenderType parse(@NotNull String text) {
-            if (!text.equalsIgnoreCase("the console"))
+        public PsiConsoleSenderExpression parse(@NotNull String text) {
+            Matcher matcher = PATTERN.matcher(text);
+            
+            if (!matcher.matches())
                 return null;
 
-            return new PsiConsoleSenderType();
+            return new PsiConsoleSenderExpression();
         }
     }
 }
