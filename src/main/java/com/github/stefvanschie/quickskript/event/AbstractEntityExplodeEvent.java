@@ -40,7 +40,7 @@ public class AbstractEntityExplodeEvent extends AbstractEvent {
      */
     @Override
     public void execute(Listener listener, Event event) {
-        this.event.execute();
+        this.event.execute(event);
     }
 
     /**

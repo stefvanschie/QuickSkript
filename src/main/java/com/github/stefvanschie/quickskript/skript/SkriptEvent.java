@@ -39,8 +39,8 @@ public class SkriptEvent {
     /**
      * Executes the contents of this event
      */
-    public void execute() {
-        EventContext context = new EventContext();
+    public void execute(@NotNull Event event) {
+        EventContext context = new EventContext(event);
 
         elements.forEach(element -> element.execute(context));
     }

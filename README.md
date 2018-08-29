@@ -1,9 +1,11 @@
 # QuickSkript
 QuickSkript aims to be a Skript parser and executor with high speed.
 
-QuickSkript pre-parses your entire code when it loads the skript. Most interpreters out there read and parse your code while executing and this makes it so the execution time of these Skript is often high. Because QuickSkript parses the code before executing it, we can ensure that our skripts run as fast as possible when executing them.
+QuickSkript pre-parses your entire code when it loads the skript. Some interpreters out there read and parse your code while executing and this makes it so the execution time of these Skript is often high. Because QuickSkript parses the code before executing it, we can ensure that our skripts run as fast as possible when executing them.
 
-However this fast execution comes at a cost, mainly in terms of RAM. Because QuickSkript stores all your code when loading the skript, more RAM is needed than would normally be the case with other interpreters. If your server does not have a lot of RAM, you may want to use slower, but less resource consuming interpreters to prevent your server from crashing.
+Another advantage QuickSkript offers is the ability to pre calculate constants within your code. Say you have the following piece of code: 'sqrt(sum(1, 2, 3))'. Most interpreters would calculate that when you run the command, or when the event is fired. QuickSkript on the other hand can determine that the result of that calculation will always be the same and will calculate the result (2.44948...) when loading. That way we only have to calculate it once and after that we can use the already calculated result.
+
+However this fast execution comes at a cost, mainly in terms of RAM. Because QuickSkript stores all your code when loading the skript, more RAM is needed than would normally be the case with some other interpreters. If your server does not have a lot of RAM, you may want to use slower, but less resource consuming interpreters to prevent your server from crashing.
 
 ## State of the project
 QuickSkript has been able to be run on a modern (1.13, Paper) server and has run its first skript file.

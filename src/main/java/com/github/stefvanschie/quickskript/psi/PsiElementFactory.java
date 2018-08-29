@@ -1,5 +1,6 @@
 package com.github.stefvanschie.quickskript.psi;
 
+import com.github.stefvanschie.quickskript.psi.effect.PsiCancelEventEffect;
 import com.github.stefvanschie.quickskript.psi.effect.PsiMessageEffect;
 import com.github.stefvanschie.quickskript.psi.expression.PsiConsoleSenderExpression;
 import com.github.stefvanschie.quickskript.psi.expression.PsiParseExpression;
@@ -7,7 +8,6 @@ import com.github.stefvanschie.quickskript.psi.function.*;
 import com.github.stefvanschie.quickskript.psi.literal.PsiNumberLiteral;
 import com.github.stefvanschie.quickskript.psi.literal.PsiStringLiteral;
 import org.apache.commons.lang3.Validate;
-import org.bukkit.event.Event;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -70,6 +70,7 @@ public class PsiElementFactory {
     
     static {
         //effects
+        registerElement(new PsiCancelEventEffect.Factory());
         registerElement(new PsiMessageEffect.Factory());
 
         //expressions
