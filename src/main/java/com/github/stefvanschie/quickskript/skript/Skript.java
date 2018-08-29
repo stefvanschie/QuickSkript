@@ -5,6 +5,7 @@ import com.github.stefvanschie.quickskript.file.SkriptFile;
 import com.github.stefvanschie.quickskript.file.SkriptFileLine;
 import com.github.stefvanschie.quickskript.file.SkriptFileNode;
 import com.github.stefvanschie.quickskript.file.SkriptFileSection;
+import com.github.stefvanschie.quickskript.util.TextMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginCommand;
@@ -81,10 +82,20 @@ public class Skript {
             .findAny()
             .orElse(null);
 
-        String permissionName = null;
-
         if (permission != null && permission.getText() != null)
-            permissionName = permission.getText().substring("permission:".length()).trim();
+            command.setPermission(permission.getText().substring("permission:".length()).trim());
+
+        SkriptFileLine permissionMessage = (SkriptFileLine) section.getNodes().stream()
+            .filter(node -> node instanceof SkriptFileLine &&
+                node.getText() != null &&
+                node.getText().startsWith("permission message:"))
+            .findAny()
+            .orElse(null);
+
+        if (permissionMessage != null && permissionMessage.getText() != null)
+            command.setPermissionMessage(TextMessage.parse(
+                permissionMessage.getText().substring("permission message:".length()).trim()
+            ).construct());
 
         SkriptFileSection trigger = null;
 
@@ -102,7 +113,7 @@ public class Skript {
             return;
         }
 
-        command.setExecutor(new SkriptCommand(trigger, permissionName));
+        command.setExecutor(new SkriptCommand(trigger));
 
         CommandMap commandMap = getCommandMap();
 
