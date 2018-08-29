@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.PsiFactory;
+import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.psi.exception.ParseException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,7 +22,7 @@ public class PsiCalculateExperienceFunction extends PsiElement<Long> {
     /**
      * The parameter for calculating the amount of exp
      */
-    private PsiElement<Number> parameter;
+    private PsiElement<?> parameter;
 
     /**
      * Creates a calculate experience function
@@ -29,7 +30,7 @@ public class PsiCalculateExperienceFunction extends PsiElement<Long> {
      * @param parameter the parameter
      * @since 0.1.0
      */
-    private PsiCalculateExperienceFunction(PsiElement<Number> parameter) {
+    private PsiCalculateExperienceFunction(PsiElement<?> parameter) {
         this.parameter = parameter;
 
         if (this.parameter.isPreComputed()) {
@@ -44,16 +45,21 @@ public class PsiCalculateExperienceFunction extends PsiElement<Long> {
     @NotNull
     @Override
     protected Long executeImpl(@Nullable Context context) {
-        long level = parameter.execute(context).longValue();
+        Object result = parameter.execute(context);
+
+        if (!(result instanceof Number))
+            throw new ExecutionException("Result of expression should be a number, but it wasn't");
+
+        long level = ((Number) result).longValue();
         long exp = 0;
 
         if (level > 0) {
             if (level <= 15)
                 exp = level * level + 6 * level;
             else if (level <= 30)
-                exp = (int) (2.5 * level * level - 40.5 * level - 360);
+                exp = (long) (2.5 * level * level - 40.5 * level - 360);
             else
-                exp = (int) (4.5 * level * level - 162.5 * level - 2220);
+                exp = (long) (4.5 * level * level - 162.5 * level - 2220);
         }
 
         return exp;
@@ -83,7 +89,7 @@ public class PsiCalculateExperienceFunction extends PsiElement<Long> {
                 return null;
 
             String expression = matcher.group(1);
-            PsiElement<Number> element = (PsiElement<Number>) PsiElementFactory.parseText(expression, Number.class);
+            PsiElement<?> element = PsiElementFactory.parseText(expression);
 
             if (element == null)
                 throw new ParseException("Function was unable to find an expression named " + expression);

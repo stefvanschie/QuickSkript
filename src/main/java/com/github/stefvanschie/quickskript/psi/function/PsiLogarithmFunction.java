@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.PsiFactory;
+import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.psi.exception.ParseException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,13 +22,13 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
     /**
      * The value to calculate the logarithm of
      */
-    private PsiElement<Number> value;
+    private PsiElement<?> value;
 
     /**
      * The base for the logarithm
      */
     @Nullable
-    private PsiElement<Number> base;
+    private PsiElement<?> base;
 
     /**
      * Creates a new logarithm function
@@ -36,7 +37,7 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
      * @param base the base
      * @since 0.1.0
      */
-    private PsiLogarithmFunction(@NotNull PsiElement<Number> value, @Nullable PsiElement<Number> base) {
+    private PsiLogarithmFunction(@NotNull PsiElement<?> value, @Nullable PsiElement<?> base) {
         this.value = value;
         this.base = base;
 
@@ -52,7 +53,18 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
     @NotNull
     @Override
     protected Double executeImpl(@Nullable Context context) {
-        return Math.log10(value.execute(context).doubleValue()) / Math.log10(base == null ? 10 : base.execute(context).doubleValue());
+        Object valueResult = value.execute(context);
+
+        if (!(valueResult instanceof Number))
+            throw new ExecutionException("Result of expression should be a number, but it wasn't");
+
+        Object baseResult = base == null ? null : base.execute(context);
+
+        if (baseResult != null && !(baseResult instanceof Number))
+            throw new ExecutionException("Result of expression should be a number, but it wasn't");
+
+        return Math.log10(((Number) valueResult).doubleValue()) /
+            Math.log10(baseResult == null ? 10 : ((Number) baseResult).doubleValue());
     }
 
     /**
@@ -83,15 +95,15 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
             if (values.length < 1 || values.length > 2)
                 return null;
 
-            PsiElement<Number> value = (PsiElement<Number>) PsiElementFactory.parseText(values[0], Number.class);
+            PsiElement<?> value = PsiElementFactory.parseText(values[0]);
 
             if (value == null)
                 throw new ParseException("Function was unable to find an expression named " + values[0]);
 
-            PsiElement<Number> base = null;
+            PsiElement<?> base = null;
 
             if (values.length == 2) {
-                base = (PsiElement<Number>) PsiElementFactory.parseText(values[1], Number.class);
+                base = PsiElementFactory.parseText(values[1]);
 
                 if (base == null)
                     throw new ParseException("Function was unable to find an expression named " + values[1]);

@@ -4,7 +4,9 @@ import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.PsiFactory;
+import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.psi.exception.ParseException;
+import com.github.stefvanschie.quickskript.util.TextMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
@@ -24,7 +26,7 @@ public class PsiWorldFunction extends PsiElement<World> {
     /**
      * The parameter for getting the world
      */
-    private final PsiElement<String> parameter;
+    private final PsiElement<?> parameter;
 
     /**
      * Creates a new world function
@@ -32,7 +34,7 @@ public class PsiWorldFunction extends PsiElement<World> {
      * @param parameter the parameter
      * @since 0.1.0
      */
-    private PsiWorldFunction(PsiElement<String> parameter) {
+    private PsiWorldFunction(PsiElement<?> parameter) {
         this.parameter = parameter;
     }
 
@@ -41,7 +43,12 @@ public class PsiWorldFunction extends PsiElement<World> {
      */
     @Override
     public World executeImpl(@Nullable Context context) {
-        return Bukkit.getWorld(parameter.execute(context));
+        Object result = parameter.execute(context);
+
+        if (!(result instanceof TextMessage))
+            throw new ExecutionException("Result of expression should be a text message, but it wasn't");
+
+        return Bukkit.getWorld(((TextMessage) result).construct());
     }
 
     /**
@@ -68,7 +75,7 @@ public class PsiWorldFunction extends PsiElement<World> {
                 return null;
 
             String expression = matcher.group(1);
-            PsiElement<String> element = (PsiElement<String>) PsiElementFactory.parseText(expression, String.class);
+            PsiElement<?> element = PsiElementFactory.parseText(expression);
 
             if (element == null)
                 throw new ParseException("Function was unable to find an expression named " + expression);

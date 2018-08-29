@@ -43,7 +43,10 @@ public class PsiConsoleSenderExpression extends PsiElement<ConsoleCommandSender>
      */
     public static class Factory implements PsiFactory<PsiConsoleSenderExpression> {
 
-        private Pattern PATTERN = Pattern.compile("(?:the )?(?:(?:console)|(?:server))");
+        /**
+         * The pattern to parse console sender expressions with
+         */
+        private static final Pattern PATTERN = Pattern.compile("(?:the )?(?:(?:console)|(?:server))");
 
         /**
          * {@inheritDoc}

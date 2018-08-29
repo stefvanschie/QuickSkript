@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.PsiFactory;
+import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.psi.exception.ParseException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,7 +22,7 @@ public class PsiAtan2Function extends PsiElement<Double> {
     /**
      * The x and y parameters used to calculate the atan2
      */
-    private PsiElement<Number> x, y;
+    private PsiElement<?> x, y;
 
     /**
      * Creates a new atan2 function
@@ -30,7 +31,7 @@ public class PsiAtan2Function extends PsiElement<Double> {
      * @param y the y parameter
      * @since 0.1.0
      */
-    private PsiAtan2Function(PsiElement<Number> x, PsiElement<Number> y) {
+    private PsiAtan2Function(PsiElement<?> x, PsiElement<?> y) {
         this.x = x;
         this.y = y;
 
@@ -46,7 +47,17 @@ public class PsiAtan2Function extends PsiElement<Double> {
     @NotNull
     @Override
     protected Double executeImpl(@Nullable Context context) {
-        return Math.atan2(x.execute(context).doubleValue(), y.execute(context).doubleValue());
+        Object xResult = x.execute(context);
+
+        if (!(xResult instanceof Number))
+            throw new ExecutionException("Result of expression should be a number, but it wasn't");
+
+        Object yResult = y.execute(context);
+
+        if (!(yResult instanceof Number))
+            throw new ExecutionException("Result of expression should be a number, but it wasn't");
+
+        return Math.atan2(((Number) xResult).doubleValue(), ((Number) yResult).doubleValue());
     }
 
     /**
@@ -73,13 +84,13 @@ public class PsiAtan2Function extends PsiElement<Double> {
                 return null;
 
             String xExpression = matcher.group(1);
-            PsiElement<Number> xElement = (PsiElement<Number>) PsiElementFactory.parseText(xExpression, Number.class);
+            PsiElement<?> xElement = PsiElementFactory.parseText(xExpression);
 
             if (xElement == null)
                 throw new ParseException("Function was unable to find an expression named " + xExpression);
 
             String yExpression = matcher.group(2);
-            PsiElement<Number> yElement = (PsiElement<Number>) PsiElementFactory.parseText(yExpression, Number.class);
+            PsiElement<?> yElement = PsiElementFactory.parseText(yExpression);
 
             if (yElement == null)
                 throw new ParseException("Function was unable to find an expression named " + yExpression);

@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.PsiFactory;
+import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.psi.exception.ParseException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,7 +22,7 @@ public class PsiModuloFunction extends PsiElement<Double> {
     /**
      * Two numeric values for the calculation
      */
-    private PsiElement<Number> a, b;
+    private PsiElement<?> a, b;
 
     /**
      * Creates a new modulo function
@@ -29,7 +30,7 @@ public class PsiModuloFunction extends PsiElement<Double> {
      * @param a the left hand operator
      * @param b the right hand operator
      */
-    private PsiModuloFunction(PsiElement<Number> a, PsiElement<Number> b) {
+    private PsiModuloFunction(PsiElement<?> a, PsiElement<?> b) {
         this.a = a;
         this.b = b;
 
@@ -45,7 +46,17 @@ public class PsiModuloFunction extends PsiElement<Double> {
     @NotNull
     @Override
     protected Double executeImpl(@Nullable Context context) {
-        return a.execute(context).doubleValue() % b.execute(context).doubleValue();
+        Object aResult = a.execute(context);
+
+        if (!(aResult instanceof Number))
+            throw new ExecutionException("Result of expression should be a number, but it wasn't");
+
+        Object bResult = b.execute(context);
+
+        if (!(bResult instanceof Number))
+            throw new ExecutionException("Result of expression should be a number, but it wasn't");
+
+        return ((Number) aResult).doubleValue() % ((Number) bResult).doubleValue();
     }
 
     /**
@@ -76,12 +87,12 @@ public class PsiModuloFunction extends PsiElement<Double> {
             if (values.length != 2)
                 return null;
 
-            PsiElement<Number> a = (PsiElement<Number>) PsiElementFactory.parseText(values[0], Number.class);
+            PsiElement<?> a = PsiElementFactory.parseText(values[0]);
 
             if (a == null)
                 throw new ParseException("Function was unable to find an expression named " + values[0]);
 
-            PsiElement<Number> b = (PsiElement<Number>) PsiElementFactory.parseText(values[1], Number.class);
+            PsiElement<?> b = PsiElementFactory.parseText(values[1]);
 
             if (b == null)
                 throw new ParseException("Function was unable to find an expression named " + values[1]);

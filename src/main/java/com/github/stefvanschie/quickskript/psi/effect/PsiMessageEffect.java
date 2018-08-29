@@ -5,6 +5,7 @@ import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.PsiFactory;
+import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.util.TextMessage;
 import org.bukkit.command.CommandSender;
@@ -22,13 +23,13 @@ public class PsiMessageEffect extends PsiElement<Void> {
      * The message to be send to the {@link #receiver}
      */
     @NotNull
-    private final PsiElement<TextMessage> message;
+    private final PsiElement<?> message;
 
     /**
      * The receiver of the {@link #message}. This may be null.
      */
     @Nullable
-    private final PsiElement<CommandSender> receiver;
+    private final PsiElement<?> receiver;
 
     /**
      * Creates a new message effect.
@@ -37,7 +38,7 @@ public class PsiMessageEffect extends PsiElement<Void> {
      * @param receiver the receiver to receive the message
      * @since 0.1.0
      */
-    private PsiMessageEffect(@NotNull PsiElement<TextMessage> message, @Nullable PsiElement<CommandSender> receiver) {
+    private PsiMessageEffect(@NotNull PsiElement<?> message, @Nullable PsiElement<?> receiver) {
         this.message = message;
         this.receiver = receiver;
     }
@@ -51,12 +52,22 @@ public class PsiMessageEffect extends PsiElement<Void> {
 
         if (this.receiver == null && context instanceof CommandContext)
             receiver = ((CommandContext) context).getSender();
-        else if (this.receiver != null)
-            receiver = this.receiver.execute(context);
-        else
+        else if (this.receiver != null) {
+            Object result = this.receiver.execute(context);
+
+            if (!(result instanceof CommandSender))
+                throw new ExecutionException("Result of expression should be a command sender, but it wasn't");
+
+            receiver = (CommandSender) result;
+        } else
             throw new IllegalStateException("Unable to execute message instruction, since no possible receiver has been found");
 
-        receiver.sendMessage(message.execute(context).construct());
+        Object textResult = message.execute(context);
+
+        if (!(textResult instanceof TextMessage))
+            throw new ExecutionException("Result of expression should be a text message, but it wasn't");
+
+        receiver.sendMessage(((TextMessage) textResult).construct());
         return null;
     }
 
@@ -93,7 +104,7 @@ public class PsiMessageEffect extends PsiElement<Void> {
 
             int index = text.indexOf(" to ");
 
-            PsiElement<CommandSender> receiver = null;
+            PsiElement<?> receiver = null;
 
             if (index != -1) {
                 String to = text.substring(index + 4);
@@ -101,14 +112,13 @@ public class PsiMessageEffect extends PsiElement<Void> {
                 text = text.substring(0, index);
 
                 //find player or console
-                receiver = (PsiElement<CommandSender>) PsiElementFactory.parseText(to, CommandSender.class);
+                receiver = PsiElementFactory.parseText(to);
 
                 if (receiver == null)
                     throw new ParseException("Effect was unable to find an expression named " + to);
             }
 
-            PsiElement<TextMessage> message = (PsiElement<TextMessage>) PsiElementFactory.parseText(text,
-                TextMessage.class);
+            PsiElement<?> message = PsiElementFactory.parseText(text);
 
             if (message == null)
                 throw new ParseException("Effect was unable to find an expression named " + text);

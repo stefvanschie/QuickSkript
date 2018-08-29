@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.PsiFactory;
+import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,13 +25,13 @@ public class PsiDateFunction extends PsiElement<LocalDateTime> {
     /**
      * The year, month and day parameters
      */
-    private PsiElement<Number> year, month, day;
+    private PsiElement<?> year, month, day;
 
     /**
      * The hour, minute, second, millisecond parameters
      */
     @Nullable
-    private PsiElement<Number> hour, minute, second, millisecond;
+    private PsiElement<?> hour, minute, second, millisecond;
 
     /**
      * Creates a new date function
@@ -43,10 +44,9 @@ public class PsiDateFunction extends PsiElement<LocalDateTime> {
      * @param second the second
      * @param millisecond the millisecond
      */
-    private PsiDateFunction(@NotNull PsiElement<Number> year, @NotNull PsiElement<Number> month,
-                            @NotNull PsiElement<Number> day, @Nullable PsiElement<Number> hour,
-                            @Nullable PsiElement<Number> minute, @Nullable PsiElement<Number> second,
-                            @Nullable PsiElement<Number> millisecond) {
+    private PsiDateFunction(@NotNull PsiElement<?> year, @NotNull PsiElement<?> month, @NotNull PsiElement<?> day,
+                            @Nullable PsiElement<?> hour, @Nullable PsiElement<?> minute,
+                            @Nullable PsiElement<?> second, @Nullable PsiElement<?> millisecond) {
         this.year = year;
         this.month = month;
         this.day = day;
@@ -70,14 +70,49 @@ public class PsiDateFunction extends PsiElement<LocalDateTime> {
     @NotNull
     @Override
     protected LocalDateTime executeImpl(@Nullable Context context) {
+        Object yearResult = year.execute(context);
+
+        if (!(yearResult instanceof Number))
+            throw new ExecutionException("Result of expression should be a number, but it wasn't");
+
+        Object monthResult = month.execute(context);
+
+        if (!(monthResult instanceof Number))
+            throw new ExecutionException("Result of expression should be a number, but it wasn't");
+
+        Object dayResult = day.execute(context);
+
+        if (!(dayResult instanceof Number))
+            throw new ExecutionException("Result of expression should be a number, but it wasn't");
+
+        Object hourResult = hour == null ? null : hour.execute(context);
+
+        if (hourResult != null && !(hourResult instanceof Number))
+            throw new ExecutionException("Result of expression should be a number, but it wasn't");
+
+        Object minuteResult = minute == null ? null : minute.execute(context);
+
+        if (minuteResult != null && !(minuteResult instanceof Number))
+            throw new ExecutionException("Result of expression should be a number, but it wasn't");
+
+        Object secondResult = second == null ? null : second.execute(context);
+
+        if (secondResult != null && !(secondResult instanceof Number))
+            throw new ExecutionException("Result of expression should be a number, but it wasn't");
+
+        Object millisecondResult = millisecond == null ? null : millisecond.execute(context);
+
+        if (millisecondResult != null && !(millisecondResult instanceof Number))
+            throw new ExecutionException("Result of expression should be a number, but it wasn't");
+
         return LocalDateTime.of(
-            year.execute(context).intValue(),
-            month.execute(context).intValue(),
-            day.execute(context).intValue(),
-            hour == null ? 0 : hour.execute(context).intValue(),
-            minute == null ? 0 : minute.execute(context).intValue(),
-            second == null ? 0 : second.execute(context).intValue(),
-            millisecond == null ? 0 : millisecond.execute(context).intValue() * 1000000
+            ((Number) yearResult).intValue(),
+            ((Number) monthResult).intValue(),
+            ((Number) dayResult).intValue(),
+            hourResult == null ? 0 : ((Number) hourResult).intValue(),
+            minuteResult == null ? 0 : ((Number) minuteResult).intValue(),
+            secondResult == null ? 0 : ((Number) secondResult).intValue(),
+            millisecondResult == null ? 0 : ((Number) millisecondResult).intValue() * 1000000
         );
     }
 
@@ -109,10 +144,10 @@ public class PsiDateFunction extends PsiElement<LocalDateTime> {
             if (values.length < 3 || values.length > 9)
                 return null;
 
-            List<PsiElement<Number>> elements = new ArrayList<>(Math.min(values.length, 7));
+            List<PsiElement<?>> elements = new ArrayList<>(Math.min(values.length, 7));
 
             for (int i = 0; i < values.length; i++)
-                elements.add(i, (PsiElement<Number>) PsiElementFactory.parseText(values[i], Number.class));
+                elements.add(i, PsiElementFactory.parseText(values[i]));
 
             return new PsiDateFunction(
                 elements.get(0),

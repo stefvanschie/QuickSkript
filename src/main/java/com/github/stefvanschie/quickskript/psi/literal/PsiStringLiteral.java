@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.psi.literal;
 
 import com.github.stefvanschie.quickskript.context.Context;
+import com.github.stefvanschie.quickskript.psi.PsiConverter;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiFactory;
 import com.github.stefvanschie.quickskript.util.TextFormat;
@@ -52,41 +53,34 @@ public class PsiStringLiteral extends PsiElement<TextMessage> {
         private final static Pattern PATTERN = Pattern.compile("\"([\\s\\S]+)\"");
 
         /**
-         * A pattern for matching color codes
+         * {@inheritDoc}
          */
-        private final static Pattern COLOR_PATTERN = Pattern.compile("[&" + ChatColor.COLOR_CHAR + "]([0-9a-fk-or])");
+        @Nullable
+        @Override
+        public PsiStringLiteral parse(@NotNull String text) {
+            Matcher matcher = PATTERN.matcher(text);
+
+            if (!matcher.matches())
+                return null;
+
+            return new PsiStringLiteral(TextMessage.parse(matcher.group(1)));
+        }
+    }
+
+    /**
+     * A converter to convert types to a psi string literal
+     *
+     * @since 0.1.0
+     */
+    public static class Converter implements PsiConverter<PsiStringLiteral> {
 
         /**
          * {@inheritDoc}
          */
         @Nullable
         @Override
-        public PsiStringLiteral parse(@NotNull String text) {
-            TextMessage message = new TextMessage();
-
-            Matcher matcher = PATTERN.matcher(text);
-
-            if (!matcher.matches())
-                return null;
-
-            text = matcher.group(1);
-
-            Matcher colorMatcher = COLOR_PATTERN.matcher(text);
-
-            while (colorMatcher.find()) {
-                char code = colorMatcher.group(1).charAt(0);
-
-                message.addPart(new TextString(text.substring(0, colorMatcher.start())));
-                message.addPart(new TextFormat(code));
-
-                text = text.substring(colorMatcher.end());
-
-                colorMatcher.reset(text);
-            }
-
-            message.addPart(new TextString(text));
-
-            return new PsiStringLiteral(message);
+        public PsiStringLiteral convert(@NotNull Object object) {
+            return new PsiStringLiteral(TextMessage.parse(object.toString()));
         }
     }
 }

@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.PsiFactory;
+import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.psi.exception.ParseException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,7 +22,7 @@ public class PsiNaturalLogarithmFunction extends PsiElement<Double> {
     /**
      * The parameter for calculating the given number
      */
-    private PsiElement<Number> parameter;
+    private PsiElement<?> parameter;
 
     /**
      * Creates a new natural logarithm function
@@ -29,7 +30,7 @@ public class PsiNaturalLogarithmFunction extends PsiElement<Double> {
      * @param parameter the parameter
      * @since 0.1.0
      */
-    private PsiNaturalLogarithmFunction(PsiElement<Number> parameter) {
+    private PsiNaturalLogarithmFunction(PsiElement<?> parameter) {
         this.parameter = parameter;
 
         if (this.parameter.isPreComputed()) {
@@ -44,7 +45,12 @@ public class PsiNaturalLogarithmFunction extends PsiElement<Double> {
     @NotNull
     @Override
     protected Double executeImpl(@Nullable Context context) {
-        return Math.log(parameter.execute(context).doubleValue());
+        Object result = parameter.execute(context);
+
+        if (!(result instanceof Number))
+            throw new ExecutionException("Result of expression should be a number, but it wasn't");
+
+        return Math.log(((Number) result).doubleValue());
     }
 
     /**
@@ -71,7 +77,7 @@ public class PsiNaturalLogarithmFunction extends PsiElement<Double> {
                 return null;
 
             String expression = matcher.group(1);
-            PsiElement<Number> element = (PsiElement<Number>) PsiElementFactory.parseText(expression, Number.class);
+            PsiElement<?> element = PsiElementFactory.parseText(expression);
 
             if (element == null)
                 throw new ParseException("Function was unable to find an expression named " + expression);

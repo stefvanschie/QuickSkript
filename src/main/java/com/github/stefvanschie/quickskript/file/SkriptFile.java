@@ -20,7 +20,7 @@ public class SkriptFile extends SkriptFileSection {
     /**
      * {@inheritDoc}
      */
-    public SkriptFile() {
+    private SkriptFile() {
         super(null);
     }
 
@@ -67,6 +67,10 @@ public class SkriptFile extends SkriptFileSection {
 
             strings.set(i, line.substring(0, len));
         }
+
+        //replace \t with four spaces
+        for (int i = 0; i < strings.size(); i++)
+            strings.set(i, strings.get(i).replace("\t", "    "));
 
         SkriptFile skriptFile = new SkriptFile();
         skriptFile.parse(strings);

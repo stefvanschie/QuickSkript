@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.psi.literal;
 
 import com.github.stefvanschie.quickskript.context.Context;
+import com.github.stefvanschie.quickskript.psi.PsiConverter;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiFactory;
 import org.jetbrains.annotations.NotNull;
@@ -58,6 +59,23 @@ public class PsiNumberLiteral extends PsiElement<Double> {
                 return null;
 
             return new PsiNumberLiteral(Double.parseDouble(text));
+        }
+    }
+
+    /**
+     * A converter to convert other types to this one
+     *
+     * @since 0.1.0
+     */
+    public static class Converter implements PsiConverter<PsiNumberLiteral> {
+
+        /**
+         * {@inheritDoc}
+         */
+        @Nullable
+        @Override
+        public PsiNumberLiteral convert(@NotNull Object object) {
+            return new PsiNumberLiteral(Double.parseDouble(object.toString()));
         }
     }
 }
