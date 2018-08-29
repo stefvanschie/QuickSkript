@@ -17,6 +17,7 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 
 /**
  * A class for loading and containing skript files
@@ -86,6 +87,18 @@ public class Skript {
             command.setDescription(
                 TextMessage.parse(description.getText().substring("description:".length()).trim()).construct()
             );
+
+        SkriptFileLine aliases = (SkriptFileLine) section.getNodes().stream()
+            .filter(node -> node instanceof SkriptFileLine &&
+                node.getText() != null &&
+                node.getText().startsWith("aliases:"))
+            .findAny()
+            .orElse(null);
+
+        if (aliases != null && aliases.getText() != null)
+            command.setAliases(Arrays.asList(
+                aliases.getText().substring("aliases:".length()).replace(" ", "").split(",")
+            ));
 
         SkriptFileLine permission = (SkriptFileLine) section.getNodes().stream()
             .filter(node -> node instanceof SkriptFileLine &&
