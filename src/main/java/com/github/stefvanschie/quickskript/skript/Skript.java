@@ -5,6 +5,7 @@ import com.github.stefvanschie.quickskript.file.SkriptFile;
 import com.github.stefvanschie.quickskript.file.SkriptFileLine;
 import com.github.stefvanschie.quickskript.file.SkriptFileNode;
 import com.github.stefvanschie.quickskript.file.SkriptFileSection;
+import com.github.stefvanschie.quickskript.skript.util.ExecutionTarget;
 import com.github.stefvanschie.quickskript.util.TextMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
@@ -132,6 +133,18 @@ public class Skript {
         if (usage != null && usage.getText() != null)
             command.setUsage(TextMessage.parse(usage.getText().substring("usage:".length()).trim()).construct());
 
+        SkriptFileLine executableBy = (SkriptFileLine) section.getNodes().stream()
+            .filter(node -> node instanceof SkriptFileLine &&
+                node.getText() != null &&
+                node.getText().startsWith("executable by:"))
+            .findAny()
+            .orElse(null);
+
+        ExecutionTarget target = null;
+
+        if (executableBy != null && executableBy.getText() != null)
+            target = ExecutionTarget.parse(executableBy.getText().substring("executable by:".length()).trim());
+
         SkriptFileSection trigger = null;
 
         for (SkriptFileNode node : section.getNodes()) {
@@ -148,7 +161,7 @@ public class Skript {
             return;
         }
 
-        command.setExecutor(new SkriptCommand(trigger));
+        command.setExecutor(new SkriptCommand(trigger, target));
 
         CommandMap commandMap = getCommandMap();
 
