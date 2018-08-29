@@ -7,6 +7,7 @@ import com.github.stefvanschie.quickskript.psi.function.*;
 import com.github.stefvanschie.quickskript.psi.literal.PsiNumberLiteral;
 import com.github.stefvanschie.quickskript.psi.literal.PsiStringLiteral;
 import org.apache.commons.lang3.Validate;
+import org.bukkit.event.Event;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -29,6 +30,7 @@ public class PsiElementFactory {
     /**
      * A map indexing converters by their name
      */
+    @NotNull
     private static final Map<String, PsiConverter<?>> CONVERTERS = new HashMap<>();
     
     /**

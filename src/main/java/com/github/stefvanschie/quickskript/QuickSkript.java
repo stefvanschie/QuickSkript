@@ -35,7 +35,10 @@ public class QuickSkript extends JavaPlugin {
                 continue;
             }
 
-            new Skript(skriptFile).registerCommands();
+            Skript skript = new Skript(skriptFile);
+
+            skript.registerCommands();
+            skript.registerEvents();
         }
     }
 }

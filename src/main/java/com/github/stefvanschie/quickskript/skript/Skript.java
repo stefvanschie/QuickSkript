@@ -1,6 +1,8 @@
 package com.github.stefvanschie.quickskript.skript;
 
 import com.github.stefvanschie.quickskript.QuickSkript;
+import com.github.stefvanschie.quickskript.event.AbstractEvent;
+import com.github.stefvanschie.quickskript.event.AbstractEventUtil;
 import com.github.stefvanschie.quickskript.file.SkriptFile;
 import com.github.stefvanschie.quickskript.file.SkriptFileLine;
 import com.github.stefvanschie.quickskript.file.SkriptFileNode;
@@ -52,6 +54,17 @@ public class Skript {
 
             return text != null && text.startsWith("command") && node instanceof SkriptFileSection;
         }).forEach(node -> registerCommand((SkriptFileSection) node));
+    }
+
+    /**
+     * Registers all events in this skript
+     *
+     * @since 0.1.0
+     */
+    public void registerEvents() {
+        file.getNodes().stream()
+            .filter(node -> node instanceof SkriptFileSection && node.getText() != null)
+            .forEach(node -> registerEvent((SkriptFileSection) node));
     }
 
     /**
@@ -172,6 +185,26 @@ public class Skript {
         }
 
         getCommandMap().register("quickskript", command);
+    }
+
+    /**
+     * Tries to register this event. If the provided section isn't a valid event, this method will silently fail.
+     *
+     * @param section the section the event is contained in.
+     * @since 0.1.0
+     */
+    private void registerEvent(@NotNull SkriptFileSection section) {
+        String text = section.getText();
+
+        if (text == null)
+            return;
+
+        AbstractEvent event = AbstractEventUtil.parseText(text);
+
+        if (event == null)
+            return;
+
+        event.register(new SkriptEvent(section));
     }
 
     /**
