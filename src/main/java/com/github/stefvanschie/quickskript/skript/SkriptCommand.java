@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.skript;
 
-import com.github.stefvanschie.quickskript.QuickSkript;
 import com.github.stefvanschie.quickskript.context.CommandContext;
 import com.github.stefvanschie.quickskript.file.SkriptFileSection;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
@@ -26,13 +25,20 @@ public class SkriptCommand implements CommandExecutor {
     private List<PsiElement<?>> elements;
 
     /**
+     * The permission required to run this command
+     */
+    private String permission;
+
+    /**
      * Constructs a new skript command from the given file section. The file section should match with the 'trigger'
      * part in a skript file.
      *
-     * @param section the file section to laod the elements from
+     * @param section the file section to load the elements from
      * @since 0.1.0
      */
-    SkriptCommand(@NotNull SkriptFileSection section) {
+    SkriptCommand(@NotNull SkriptFileSection section, String permission) {
+        this.permission = permission;
+
         elements = new ArrayList<>(section.getNodes().size());
 
         section.getNodes().stream()
@@ -45,6 +51,9 @@ public class SkriptCommand implements CommandExecutor {
      */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (permission != null && !sender.hasPermission(permission))
+            return false;
+
         CommandContext context = new CommandContext(sender);
 
         elements.forEach(element -> element.execute(context));

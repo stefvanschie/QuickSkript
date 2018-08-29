@@ -2,6 +2,7 @@ package com.github.stefvanschie.quickskript.skript;
 
 import com.github.stefvanschie.quickskript.QuickSkript;
 import com.github.stefvanschie.quickskript.file.SkriptFile;
+import com.github.stefvanschie.quickskript.file.SkriptFileLine;
 import com.github.stefvanschie.quickskript.file.SkriptFileNode;
 import com.github.stefvanschie.quickskript.file.SkriptFileSection;
 import org.bukkit.Bukkit;
@@ -73,6 +74,18 @@ public class Skript {
             return;
         }
 
+        SkriptFileLine permission = (SkriptFileLine) section.getNodes().stream()
+            .filter(node -> node instanceof SkriptFileLine &&
+                node.getText() != null &&
+                node.getText().startsWith("permission:"))
+            .findAny()
+            .orElse(null);
+
+        String permissionName = null;
+
+        if (permission != null && permission.getText() != null)
+            permissionName = permission.getText().substring("permission:".length()).trim();
+
         SkriptFileSection trigger = null;
 
         for (SkriptFileNode node : section.getNodes()) {
@@ -89,7 +102,7 @@ public class Skript {
             return;
         }
 
-        command.setExecutor(new SkriptCommand(trigger));
+        command.setExecutor(new SkriptCommand(trigger, permissionName));
 
         CommandMap commandMap = getCommandMap();
 

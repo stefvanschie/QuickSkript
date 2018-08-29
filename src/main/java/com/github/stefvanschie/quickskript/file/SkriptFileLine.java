@@ -5,7 +5,7 @@ package com.github.stefvanschie.quickskript.file;
  *
  * @since 0.1.0
  */
-class SkriptFileLine extends SkriptFileNode {
+public class SkriptFileLine extends SkriptFileNode {
 
     /**
      * {@inheritDoc}
