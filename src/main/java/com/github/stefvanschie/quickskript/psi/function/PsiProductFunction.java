@@ -107,9 +107,13 @@ public class PsiProductFunction extends PsiElement<Double> {
                 numbers.add(PsiElementFactory.parseText(value));
 
             PsiElement<Iterable<?>> iterable = new PsiElement<Iterable<?>>() {
+                {
+                    preComputed = numbers;
+                }
+
                 @Override
                 protected Iterable<?> executeImpl(@Nullable Context context) {
-                    return numbers;
+                    throw new AssertionError("Since this preComputed variable is always set, this method should never get called");
                 }
             };
 
