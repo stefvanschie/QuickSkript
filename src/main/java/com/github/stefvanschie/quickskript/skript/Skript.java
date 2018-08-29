@@ -75,6 +75,18 @@ public class Skript {
             return;
         }
 
+        SkriptFileLine description = (SkriptFileLine) section.getNodes().stream()
+            .filter(node -> node instanceof SkriptFileLine &&
+                node.getText() != null &&
+                node.getText().startsWith("description:"))
+            .findAny()
+            .orElse(null);
+
+        if (description != null && description.getText() != null)
+            command.setDescription(
+                TextMessage.parse(description.getText().substring("description:".length()).trim()).construct()
+            );
+
         SkriptFileLine permission = (SkriptFileLine) section.getNodes().stream()
             .filter(node -> node instanceof SkriptFileLine &&
                 node.getText() != null &&
