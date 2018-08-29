@@ -122,6 +122,16 @@ public class Skript {
                 permissionMessage.getText().substring("permission message:".length()).trim()
             ).construct());
 
+        SkriptFileLine usage = (SkriptFileLine) section.getNodes().stream()
+            .filter(node -> node instanceof SkriptFileLine &&
+                node.getText() != null &&
+                node.getText().startsWith("usage:"))
+            .findAny()
+            .orElse(null);
+
+        if (usage != null && usage.getText() != null)
+            command.setUsage(TextMessage.parse(usage.getText().substring("usage:".length()).trim()).construct());
+
         SkriptFileSection trigger = null;
 
         for (SkriptFileNode node : section.getNodes()) {
