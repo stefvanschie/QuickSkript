@@ -27,11 +27,13 @@ public class SimpleEventProxyFactory extends EventProxyFactory {
     /**
      * The storage of registered event handlers.
      */
+    @NotNull
     private static final Map<Class<? extends Event>, Set<SkriptEvent>> REGISTERED_HANDLERS = new HashMap<>();
 
     /**
      * The executor which handles the execution of all event handlers in the storage.
      */
+    @NotNull
     private static final EventExecutor HANDLER_EXECUTOR = (listener, event) ->
             REGISTERED_HANDLERS.get(event.getClass())
                     .forEach(handler -> handler.execute(event));
@@ -39,13 +41,14 @@ public class SimpleEventProxyFactory extends EventProxyFactory {
     /**
      * The storage of the registered event patterns.
      */
+    @NotNull
     private final Set<Pair<Class<? extends Event>, Pattern>> eventPatterns = new HashSet<>();
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public boolean tryRegister(@NotNull String text, Supplier<SkriptEvent> toRegisterSupplier) {
+    public boolean tryRegister(@NotNull String text, @NotNull Supplier<SkriptEvent> toRegisterSupplier) {
         for (Pair<Class<? extends Event>, Pattern> eventPattern : eventPatterns) {
             if (!eventPattern.getValue().matcher(text).matches())
                 continue;
@@ -70,7 +73,8 @@ public class SimpleEventProxyFactory extends EventProxyFactory {
      *
      * @since 0.1.0
      */
-    public SimpleEventProxyFactory registerEvent(Class<? extends Event> event, String regex) {
+    @NotNull
+    public SimpleEventProxyFactory registerEvent(@NotNull Class<? extends Event> event, @NotNull String regex) {
         eventPatterns.add(new Pair<>(event, Pattern.compile(regex)));
         return this;
     }

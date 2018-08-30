@@ -14,6 +14,7 @@ import java.util.function.Supplier;
  */
 public abstract class EventProxyFactory {
 
+    @NotNull
     protected static final Listener EMPTY_LISTENER = new Listener() {};
 
     /**
@@ -24,5 +25,5 @@ public abstract class EventProxyFactory {
      * @return whether a registration took place
      * @since 0.1.0
      */
-    public abstract boolean tryRegister(@NotNull String text, Supplier<SkriptEvent> toRegisterSupplier);
+    public abstract boolean tryRegister(@NotNull String text, @NotNull Supplier<SkriptEvent> toRegisterSupplier);
 }

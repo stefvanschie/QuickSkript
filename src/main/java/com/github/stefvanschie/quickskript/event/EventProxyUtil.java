@@ -31,7 +31,7 @@ public class EventProxyUtil {
      * @return whether a registration took place
      * @since 0.1.0
      */
-    public static boolean tryRegisterText(@NotNull String input, Supplier<SkriptEvent> toRegisterSupplier) {
+    public static boolean tryRegisterText(@NotNull String input, @NotNull Supplier<SkriptEvent> toRegisterSupplier) {
         input = input.trim();
 
         for (EventProxyFactory factory : FACTORIES) {

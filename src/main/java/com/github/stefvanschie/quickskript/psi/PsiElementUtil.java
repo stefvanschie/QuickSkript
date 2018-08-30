@@ -130,7 +130,7 @@ public class PsiElementUtil {
      * @param converter the converter
      * @since 0.1.0
      */
-    private static void registerConverter(@NotNull String name, PsiConverter<?> converter) {
+    private static void registerConverter(@NotNull String name, @NotNull PsiConverter<?> converter) {
         Validate.isTrue(CONVERTERS.put(name, converter) == null, "The specified PsiConverter has already been registered.");
     }
 }
