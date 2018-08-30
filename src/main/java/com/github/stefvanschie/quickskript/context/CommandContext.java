@@ -14,7 +14,7 @@ public class CommandContext implements Context {
      * The executor of the command
      */
     @NotNull
-    private CommandSender sender;
+    private final CommandSender sender;
 
     /**
      * Constructs a new command context.

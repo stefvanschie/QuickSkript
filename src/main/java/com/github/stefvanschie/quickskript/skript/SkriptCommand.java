@@ -26,13 +26,13 @@ public class SkriptCommand implements CommandExecutor {
     /**
      * A list of elements that should get executed
      */
-    private List<PsiElement<?>> elements;
+    private final List<PsiElement<?>> elements;
 
     /**
      * Specifies the execution target. When null, everything/everyone can use this command.
      */
     @Nullable
-    private ExecutionTarget executionTarget;
+    private final ExecutionTarget executionTarget;
 
     /**
      * Constructs a new skript command from the given file section. The file section should match with the 'trigger'
