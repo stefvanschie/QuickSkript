@@ -3,9 +3,9 @@ package com.github.stefvanschie.quickskript.psi.function;
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.psi.PsiElementUtil;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.psi.literal.PsiPrecomputedHolder;
+import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -81,7 +81,7 @@ public class PsiSumFunction extends PsiElement<Double> {
         /**
          * The pattern for matching sum expressions
          */
-        private static final Pattern PATTERN = Pattern.compile("sum\\(([\\s\\S]+)\\)");
+        private final Pattern PATTERN = Pattern.compile("sum\\(([\\s\\S]+)\\)");
 
         /**
          * {@inheritDoc}
@@ -97,13 +97,14 @@ public class PsiSumFunction extends PsiElement<Double> {
             String[] values = matcher.group(1).replace(" ", "").split(",");
 
             if (values.length == 1) {
-                PsiElement<?> iterable = PsiElementUtil.tryParseText(values[0]);
+                PsiElement<?> iterable = SkriptLoader.get().tryParseElement(values[0]);
 
                 if (iterable != null)
                     return new PsiSumFunction(iterable);
             }
+            
             return new PsiSumFunction(new PsiPrecomputedHolder<>(Arrays.stream(values)
-                    .map(PsiElementUtil::tryParseText)
+                    .map(string -> SkriptLoader.get().tryParseElement(string))
                     .collect(Collectors.toList())));
         }
     }

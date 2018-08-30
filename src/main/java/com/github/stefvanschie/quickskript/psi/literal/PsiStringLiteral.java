@@ -36,7 +36,7 @@ public class PsiStringLiteral extends PsiPrecomputedHolder<TextMessage> {
         /**
          * A pattern for matching strings
          */
-        private final static Pattern PATTERN = Pattern.compile("\"([\\s\\S]+)\"");
+        private final Pattern PATTERN = Pattern.compile("\"([\\s\\S]+)\"");
 
         /**
          * {@inheritDoc}

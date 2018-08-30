@@ -1,7 +1,6 @@
 package com.github.stefvanschie.quickskript.skript;
 
 import com.github.stefvanschie.quickskript.QuickSkript;
-import com.github.stefvanschie.quickskript.event.EventProxyUtil;
 import com.github.stefvanschie.quickskript.file.SkriptFile;
 import com.github.stefvanschie.quickskript.file.SkriptFileLine;
 import com.github.stefvanschie.quickskript.file.SkriptFileNode;
@@ -198,7 +197,7 @@ public class Skript {
         if (text == null)
             return;
 
-        EventProxyUtil.tryRegisterText(text, () -> new SkriptEvent(section));
+        SkriptLoader.get().tryRegisterEvent(text, () -> new SkriptEvent(section));
     }
 
     /**

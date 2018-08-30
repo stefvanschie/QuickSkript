@@ -54,7 +54,7 @@ public class PsiCancelEventEffect extends PsiElement<Void> {
         /**
          * A pattern for matching psi cancel event effects
          */
-        private static final Pattern PATTERN = Pattern.compile("cancel (?:the )?event");
+        private final Pattern PATTERN = Pattern.compile("cancel (?:the )?event");
 
         /**
          * {@inheritDoc}

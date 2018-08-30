@@ -36,7 +36,7 @@ public class PsiConsoleSenderExpression extends PsiPrecomputedHolder<ConsoleComm
         /**
          * The pattern to parse console sender expressions with
          */
-        private static final Pattern PATTERN = Pattern.compile("(?:the )?(?:(?:console)|(?:server))");
+        private final Pattern PATTERN = Pattern.compile("(?:the )?(?:(?:console)|(?:server))");
 
         /**
          * {@inheritDoc}

@@ -3,10 +3,10 @@ package com.github.stefvanschie.quickskript.psi.effect;
 import com.github.stefvanschie.quickskript.context.CommandContext;
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
-import com.github.stefvanschie.quickskript.psi.PsiElementUtil;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.psi.exception.ParseException;
+import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.util.TextMessage;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -112,13 +112,13 @@ public class PsiMessageEffect extends PsiElement<Void> {
                 text = text.substring(0, index);
 
                 //find player or console
-                receiver = PsiElementUtil.tryParseText(to);
+                receiver = SkriptLoader.get().tryParseElement(to);
 
                 if (receiver == null)
                     throw new ParseException("Effect was unable to find an expression named " + to);
             }
 
-            PsiElement<?> message = PsiElementUtil.tryParseText(text);
+            PsiElement<?> message = SkriptLoader.get().tryParseElement(text);
 
             if (message == null)
                 throw new ParseException("Effect was unable to find an expression named " + text);

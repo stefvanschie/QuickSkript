@@ -3,7 +3,6 @@ package com.github.stefvanschie.quickskript.skript;
 import com.github.stefvanschie.quickskript.context.CommandContext;
 import com.github.stefvanschie.quickskript.file.SkriptFileSection;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
-import com.github.stefvanschie.quickskript.psi.PsiElementUtil;
 import com.github.stefvanschie.quickskript.skript.util.ExecutionTarget;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,8 +12,8 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Represents an arbitrary skript command
@@ -44,11 +43,10 @@ public class SkriptCommand implements CommandExecutor {
     SkriptCommand(@NotNull SkriptFileSection section, @Nullable ExecutionTarget executionTarget) {
         this.executionTarget = executionTarget;
 
-        elements = new ArrayList<>(section.getNodes().size());
-
-        section.getNodes().stream()
-            .filter(node -> node.getText() != null)
-            .forEach(node -> elements.add(PsiElementUtil.tryParseText(node.getText())));
+        elements = section.getNodes().stream()
+                .filter(node -> node.getText() != null)
+                .map(node -> SkriptLoader.get().tryParseElement(node.getText()))
+                .collect(Collectors.toList());
     }
 
     /**

@@ -54,7 +54,7 @@ public class TextMessage {
     /**
      * A pattern for matching color codes
      */
-    private final static Pattern COLOR_PATTERN = Pattern.compile("[&" + ChatColor.COLOR_CHAR + "]([0-9a-fk-or])");
+    private static final Pattern COLOR_PATTERN = Pattern.compile("[&" + ChatColor.COLOR_CHAR + "]([0-9a-fk-or])");
 
     /**
      * Parses a text message from the given string

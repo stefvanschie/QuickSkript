@@ -2,10 +2,10 @@ package com.github.stefvanschie.quickskript.psi.function;
 
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
-import com.github.stefvanschie.quickskript.psi.PsiElementUtil;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.psi.exception.ParseException;
+import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -77,7 +77,7 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
         /**
          * The pattern for matching logarithm expressions
          */
-        private static final Pattern PATTERN = Pattern.compile("log\\(([\\s\\S]+)\\)");
+        private final Pattern PATTERN = Pattern.compile("log\\(([\\s\\S]+)\\)");
 
         /**
          * {@inheritDoc}
@@ -95,7 +95,7 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
             if (values.length < 1 || values.length > 2)
                 return null;
 
-            PsiElement<?> value = PsiElementUtil.tryParseText(values[0]);
+            PsiElement<?> value = SkriptLoader.get().tryParseElement(values[0]);
 
             if (value == null)
                 throw new ParseException("Function was unable to find an expression named " + values[0]);
@@ -103,7 +103,7 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
             PsiElement<?> base = null;
 
             if (values.length == 2) {
-                base = PsiElementUtil.tryParseText(values[1]);
+                base = SkriptLoader.get().tryParseElement(values[1]);
 
                 if (base == null)
                     throw new ParseException("Function was unable to find an expression named " + values[1]);
