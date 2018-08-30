@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.event;
 
 import org.apache.commons.lang3.Validate;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -51,6 +52,11 @@ public class AbstractEventUtil {
     }
 
     static {
-        registerFactory(new AbstractEntityExplodeEvent.Factory());
+        registerFactory(new AbstractSimpleEvent.Factory() {
+            @Override
+            protected void registerEvents() {
+                registerEvent("on explo(?:(?:d(?:e|ing))|(?:sion))", EntityExplodeEvent.class);
+            }
+        });
     }
 }
