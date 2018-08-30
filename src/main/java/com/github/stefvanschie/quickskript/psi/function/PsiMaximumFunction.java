@@ -2,8 +2,8 @@ package com.github.stefvanschie.quickskript.psi.function;
 
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
+import com.github.stefvanschie.quickskript.psi.PsiElementUtil;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.psi.PsiFactory;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -78,7 +78,7 @@ public class PsiMaximumFunction extends PsiElement<Double> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiFactory<PsiMaximumFunction> {
+    public static class Factory implements PsiElementFactory<PsiMaximumFunction> {
 
         /**
          * The pattern for matching maximum expressions
@@ -99,7 +99,7 @@ public class PsiMaximumFunction extends PsiElement<Double> {
             String[] values = matcher.group(1).replace(" ", "").split(",");
 
             if (values.length == 1) {
-                PsiElement<?> iterable = PsiElementFactory.tryParseText(values[0]);
+                PsiElement<?> iterable = PsiElementUtil.tryParseText(values[0]);
 
                 if (iterable != null)
                     return new PsiMaximumFunction(iterable);
@@ -108,7 +108,7 @@ public class PsiMaximumFunction extends PsiElement<Double> {
             Set<PsiElement<?>> numbers = new HashSet<>();
 
             for (String value : values)
-                numbers.add(PsiElementFactory.tryParseText(value));
+                numbers.add(PsiElementUtil.tryParseText(value));
 
             PsiElement<Iterable<?>> iterable = new PsiElement<Iterable<?>>() {
                 {

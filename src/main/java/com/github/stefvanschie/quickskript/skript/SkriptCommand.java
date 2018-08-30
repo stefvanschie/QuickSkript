@@ -3,7 +3,7 @@ package com.github.stefvanschie.quickskript.skript;
 import com.github.stefvanschie.quickskript.context.CommandContext;
 import com.github.stefvanschie.quickskript.file.SkriptFileSection;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
-import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
+import com.github.stefvanschie.quickskript.psi.PsiElementUtil;
 import com.github.stefvanschie.quickskript.skript.util.ExecutionTarget;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -48,7 +48,7 @@ public class SkriptCommand implements CommandExecutor {
 
         section.getNodes().stream()
             .filter(node -> node.getText() != null)
-            .forEach(node -> elements.add(PsiElementFactory.tryParseText(node.getText())));
+            .forEach(node -> elements.add(PsiElementUtil.tryParseText(node.getText())));
     }
 
     /**

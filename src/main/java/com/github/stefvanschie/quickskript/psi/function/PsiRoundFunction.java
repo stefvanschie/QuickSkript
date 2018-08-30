@@ -3,7 +3,7 @@ package com.github.stefvanschie.quickskript.psi.function;
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.psi.PsiFactory;
+import com.github.stefvanschie.quickskript.psi.PsiElementUtil;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.psi.exception.ParseException;
 import org.jetbrains.annotations.NotNull;
@@ -58,7 +58,7 @@ public class PsiRoundFunction extends PsiElement<Long> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiFactory<PsiRoundFunction> {
+    public static class Factory implements PsiElementFactory<PsiRoundFunction> {
 
         /**
          * The pattern for matching round expressions
@@ -77,7 +77,7 @@ public class PsiRoundFunction extends PsiElement<Long> {
                 return null;
 
             String expression = matcher.group(1);
-            PsiElement<?> element = PsiElementFactory.tryParseText(expression);
+            PsiElement<?> element = PsiElementUtil.tryParseText(expression);
 
             if (element == null)
                 throw new ParseException("Function was unable to find an expression named " + expression);

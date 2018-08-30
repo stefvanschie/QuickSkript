@@ -3,7 +3,7 @@ package com.github.stefvanschie.quickskript.psi.function;
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.psi.PsiFactory;
+import com.github.stefvanschie.quickskript.psi.PsiElementUtil;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -121,7 +121,7 @@ public class PsiDateFunction extends PsiElement<LocalDateTime> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiFactory<PsiDateFunction> {
+    public static class Factory implements PsiElementFactory<PsiDateFunction> {
 
         /**
          * The pattern for matching date expressions
@@ -147,7 +147,7 @@ public class PsiDateFunction extends PsiElement<LocalDateTime> {
             List<PsiElement<?>> elements = new ArrayList<>(Math.min(values.length, 7));
 
             for (int i = 0; i < values.length; i++)
-                elements.add(i, PsiElementFactory.tryParseText(values[i]));
+                elements.add(i, PsiElementUtil.tryParseText(values[i]));
 
             return new PsiDateFunction(
                 elements.get(0),

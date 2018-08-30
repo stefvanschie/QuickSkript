@@ -3,8 +3,8 @@ package com.github.stefvanschie.quickskript.psi.effect;
 import com.github.stefvanschie.quickskript.context.CommandContext;
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
+import com.github.stefvanschie.quickskript.psi.PsiElementUtil;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.psi.PsiFactory;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.util.TextMessage;
@@ -76,7 +76,7 @@ public class PsiMessageEffect extends PsiElement<Void> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiFactory<PsiMessageEffect> {
+    public static class Factory implements PsiElementFactory<PsiMessageEffect> {
 
         /**
          * {@inheritDoc}
@@ -112,13 +112,13 @@ public class PsiMessageEffect extends PsiElement<Void> {
                 text = text.substring(0, index);
 
                 //find player or console
-                receiver = PsiElementFactory.tryParseText(to);
+                receiver = PsiElementUtil.tryParseText(to);
 
                 if (receiver == null)
                     throw new ParseException("Effect was unable to find an expression named " + to);
             }
 
-            PsiElement<?> message = PsiElementFactory.tryParseText(text);
+            PsiElement<?> message = PsiElementUtil.tryParseText(text);
 
             if (message == null)
                 throw new ParseException("Effect was unable to find an expression named " + text);

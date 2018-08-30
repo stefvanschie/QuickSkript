@@ -3,7 +3,7 @@ package com.github.stefvanschie.quickskript.psi.function;
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.psi.PsiFactory;
+import com.github.stefvanschie.quickskript.psi.PsiElementUtil;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.psi.exception.ParseException;
 import org.bukkit.util.Vector;
@@ -73,7 +73,7 @@ public class PsiVectorFunction extends PsiElement<Vector> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiFactory<PsiVectorFunction> {
+    public static class Factory implements PsiElementFactory<PsiVectorFunction> {
 
         /**
          * The pattern for matching vector expressions
@@ -96,17 +96,17 @@ public class PsiVectorFunction extends PsiElement<Vector> {
             if (values.length != 3)
                 return null;
 
-            PsiElement<?> x = PsiElementFactory.tryParseText(values[0]);
+            PsiElement<?> x = PsiElementUtil.tryParseText(values[0]);
 
             if (x == null)
                 throw new ParseException("Function was unable to find an expression named " + values[0]);
 
-            PsiElement<?> y = PsiElementFactory.tryParseText(values[1]);
+            PsiElement<?> y = PsiElementUtil.tryParseText(values[1]);
 
             if (y == null)
                 throw new ParseException("Function was unable to find an expression named " + values[1]);
 
-            PsiElement<?> z = PsiElementFactory.tryParseText(values[2]);
+            PsiElement<?> z = PsiElementUtil.tryParseText(values[2]);
 
             if (z == null)
                 throw new ParseException("Function was unable to find an expression named " + values[2]);

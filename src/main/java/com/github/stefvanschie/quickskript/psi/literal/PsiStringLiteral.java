@@ -3,11 +3,8 @@ package com.github.stefvanschie.quickskript.psi.literal;
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiConverter;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
-import com.github.stefvanschie.quickskript.psi.PsiFactory;
-import com.github.stefvanschie.quickskript.util.TextFormat;
+import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.util.TextMessage;
-import com.github.stefvanschie.quickskript.util.TextString;
-import org.bukkit.ChatColor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -45,7 +42,7 @@ public class PsiStringLiteral extends PsiElement<TextMessage> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiFactory<PsiStringLiteral> {
+    public static class Factory implements PsiElementFactory<PsiStringLiteral> {
 
         /**
          * A pattern for matching strings

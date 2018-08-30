@@ -2,7 +2,7 @@ package com.github.stefvanschie.quickskript.psi.expression;
 
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
-import com.github.stefvanschie.quickskript.psi.PsiFactory;
+import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -41,7 +41,7 @@ public class PsiConsoleSenderExpression extends PsiElement<ConsoleCommandSender>
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiFactory<PsiConsoleSenderExpression> {
+    public static class Factory implements PsiElementFactory<PsiConsoleSenderExpression> {
 
         /**
          * The pattern to parse console sender expressions with
