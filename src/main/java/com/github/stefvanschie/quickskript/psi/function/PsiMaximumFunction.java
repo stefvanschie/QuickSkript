@@ -5,13 +5,14 @@ import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementUtil;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
+import com.github.stefvanschie.quickskript.psi.literal.PsiPrecomputedHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Returns the highest value from a given collection of numbers
@@ -105,23 +106,9 @@ public class PsiMaximumFunction extends PsiElement<Double> {
                     return new PsiMaximumFunction(iterable);
             }
 
-            Set<PsiElement<?>> numbers = new HashSet<>();
-
-            for (String value : values)
-                numbers.add(PsiElementUtil.tryParseText(value));
-
-            PsiElement<Iterable<?>> iterable = new PsiElement<Iterable<?>>() {
-                {
-                    preComputed = numbers;
-                }
-
-                @Override
-                protected Iterable<?> executeImpl(@Nullable Context context) {
-                    throw new AssertionError("Since this preComputed variable is always set, this method should never get called");
-                }
-            };
-
-            return new PsiMaximumFunction(iterable);
+            return new PsiMaximumFunction(new PsiPrecomputedHolder<>(Arrays.stream(values)
+                    .map(PsiElementUtil::tryParseText)
+                    .collect(Collectors.toList())));
         }
     }
 }

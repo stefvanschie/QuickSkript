@@ -6,8 +6,8 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Supplier;
 
 /**
@@ -21,7 +21,7 @@ public class EventProxyUtil {
     /**
      * A set containing all registered abstract event factories.
      */
-    private static final Set<EventProxyFactory> FACTORIES = new HashSet<>();
+    private static final List<EventProxyFactory> FACTORIES = new ArrayList<>();
 
     /**
      * Parses the inputted text and returns the abstract event parsed from it, or null if none was found.

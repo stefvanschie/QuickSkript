@@ -1,8 +1,6 @@
 package com.github.stefvanschie.quickskript.psi.literal;
 
-import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiConverter;
-import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.util.TextMessage;
 import org.jetbrains.annotations.NotNull;
@@ -16,7 +14,7 @@ import java.util.regex.Pattern;
  *
  * @since 0.1.0
  */
-public class PsiStringLiteral extends PsiElement<TextMessage> {
+public class PsiStringLiteral extends PsiPrecomputedHolder<TextMessage> {
 
     /**
      * Creates a new string literal from the given message
@@ -25,16 +23,7 @@ public class PsiStringLiteral extends PsiElement<TextMessage> {
      * @since 0.1.0
      */
     private PsiStringLiteral(@NotNull TextMessage message) {
-        preComputed = message;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @NotNull
-    @Override
-    protected TextMessage executeImpl(@Nullable Context context) {
-        throw new AssertionError("Since this preComputed variable is always set, this method should never get called");
+        super(message);
     }
 
     /**

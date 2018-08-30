@@ -9,10 +9,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.plugin.EventExecutor;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
@@ -28,7 +25,7 @@ public class SimpleEventProxyFactory extends EventProxyFactory {
      * The storage of registered event handlers.
      */
     @NotNull
-    private static final Map<Class<? extends Event>, Set<SkriptEvent>> REGISTERED_HANDLERS = new HashMap<>();
+    private static final Map<Class<? extends Event>, List<SkriptEvent>> REGISTERED_HANDLERS = new HashMap<>();
 
     /**
      * The executor which handles the execution of all event handlers in the storage.
@@ -42,7 +39,7 @@ public class SimpleEventProxyFactory extends EventProxyFactory {
      * The storage of the registered event patterns.
      */
     @NotNull
-    private final Set<Pair<Class<? extends Event>, Pattern>> eventPatterns = new HashSet<>();
+    private final List<Pair<Class<? extends Event>, Pattern>> eventPatterns = new ArrayList<>();
 
     /**
      * {@inheritDoc}
@@ -56,7 +53,7 @@ public class SimpleEventProxyFactory extends EventProxyFactory {
             REGISTERED_HANDLERS.computeIfAbsent(eventPattern.getKey(), event -> {
                 Bukkit.getPluginManager().registerEvent(event, EMPTY_LISTENER,
                         EventPriority.NORMAL, HANDLER_EXECUTOR, QuickSkript.getPlugin(QuickSkript.class));
-                return new HashSet<>();
+                return new ArrayList<>();
             }).add(toRegisterSupplier.get());
             return true;
         }

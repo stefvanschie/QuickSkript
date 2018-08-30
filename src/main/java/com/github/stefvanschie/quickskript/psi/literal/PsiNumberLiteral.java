@@ -1,8 +1,6 @@
 package com.github.stefvanschie.quickskript.psi.literal;
 
-import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiConverter;
-import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -15,7 +13,7 @@ import java.util.regex.Pattern;
  *
  * @since 0.1.0
  */
-public class PsiNumberLiteral extends PsiElement<Double> {
+public class PsiNumberLiteral extends PsiPrecomputedHolder<Double> {
 
     /**
      * Creates a new psi number
@@ -23,16 +21,7 @@ public class PsiNumberLiteral extends PsiElement<Double> {
      * @param number the number this psi is wrapping
      */
     private PsiNumberLiteral(double number) {
-        preComputed = number;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @NotNull
-    @Override
-    public Double executeImpl(@Nullable Context context) {
-        throw new AssertionError("Since this preComputed variable is always set, this method should never get called");
+        super(number);
     }
 
     /**

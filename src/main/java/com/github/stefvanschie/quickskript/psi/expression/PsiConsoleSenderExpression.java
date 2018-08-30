@@ -1,8 +1,7 @@
 package com.github.stefvanschie.quickskript.psi.expression;
 
-import com.github.stefvanschie.quickskript.context.Context;
-import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
+import com.github.stefvanschie.quickskript.psi.literal.PsiPrecomputedHolder;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -16,7 +15,7 @@ import java.util.regex.Pattern;
  *
  * @since 0.1.0
  */
-public class PsiConsoleSenderExpression extends PsiElement<ConsoleCommandSender> {
+public class PsiConsoleSenderExpression extends PsiPrecomputedHolder<ConsoleCommandSender> {
 
     /**
      * Creates a new psi console sender type
@@ -24,16 +23,7 @@ public class PsiConsoleSenderExpression extends PsiElement<ConsoleCommandSender>
      * @since 0.1.0
      */
     private PsiConsoleSenderExpression() {
-        preComputed = Bukkit.getConsoleSender();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @NotNull
-    @Override
-    protected ConsoleCommandSender executeImpl(@Nullable Context context) {
-        throw new AssertionError("Since this preComputed variable is always set, this method should never get called");
+        super(Bukkit.getConsoleSender());
     }
 
     /**
