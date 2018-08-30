@@ -25,13 +25,13 @@ public class PsiParseExpression extends PsiElement<Object> {
      * The value we want to change the type of
      */
     @NotNull
-    private PsiElement<?> value;
+    private final PsiElement<?> value;
 
     /**
      * The factory that will parse our value
      */
     @NotNull
-    private PsiConverter<?> converter;
+    private final PsiConverter<?> converter;
 
     /**
      * Constructs a new parse expression

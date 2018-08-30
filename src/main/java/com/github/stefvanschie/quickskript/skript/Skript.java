@@ -1,8 +1,7 @@
 package com.github.stefvanschie.quickskript.skript;
 
 import com.github.stefvanschie.quickskript.QuickSkript;
-import com.github.stefvanschie.quickskript.event.AbstractEvent;
-import com.github.stefvanschie.quickskript.event.AbstractEventUtil;
+import com.github.stefvanschie.quickskript.event.EventProxyUtil;
 import com.github.stefvanschie.quickskript.file.SkriptFile;
 import com.github.stefvanschie.quickskript.file.SkriptFileLine;
 import com.github.stefvanschie.quickskript.file.SkriptFileNode;
@@ -31,7 +30,7 @@ public class Skript {
      * The internal skript file
      */
     @NotNull
-    private SkriptFile file;
+    private final SkriptFile file;
 
     /**
      * Constructs a new skript object
@@ -199,12 +198,7 @@ public class Skript {
         if (text == null)
             return;
 
-        AbstractEvent event = AbstractEventUtil.tryParseText(text);
-
-        if (event == null)
-            return;
-
-        event.register(new SkriptEvent(section));
+        EventProxyUtil.tryRegisterText(text, () -> new SkriptEvent(section));
     }
 
     /**

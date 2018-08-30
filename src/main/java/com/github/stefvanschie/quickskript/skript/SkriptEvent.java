@@ -20,7 +20,7 @@ public class SkriptEvent {
     /**
      * A list of elements that should get executed
      */
-    private List<PsiElement<?>> elements;
+    private final List<PsiElement<?>> elements;
 
     /**
      * Constructs a new skript event.

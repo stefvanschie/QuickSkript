@@ -37,7 +37,7 @@ public enum ExecutionTarget {
      * The name of this execution target as to be used in scripts.
      */
     @NotNull
-    private String name;
+    private final String name;
 
     /**
      * Constructs a new execution target
@@ -59,8 +59,10 @@ public enum ExecutionTarget {
     @Nullable
     @Contract(value = "null -> null", pure = true)
     public static ExecutionTarget parse(@NotNull String input) {
+        input = input.toLowerCase();
+
         for (ExecutionTarget value : ExecutionTarget.values()) {
-            if (value.name.equalsIgnoreCase(input))
+            if (value.name.equals(input))
                 return value;
         }
 

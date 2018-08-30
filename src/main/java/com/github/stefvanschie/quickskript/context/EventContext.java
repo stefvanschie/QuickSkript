@@ -14,7 +14,7 @@ public class EventContext implements Context {
      * The event that was being executed
      */
     @NotNull
-    private Event event;
+    private final Event event;
 
     /**
      * Constructs a new event context
