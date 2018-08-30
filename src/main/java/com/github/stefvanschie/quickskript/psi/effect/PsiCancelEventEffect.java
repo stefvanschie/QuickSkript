@@ -3,7 +3,7 @@ package com.github.stefvanschie.quickskript.psi.effect;
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.context.EventContext;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
-import com.github.stefvanschie.quickskript.psi.PsiFactory;
+import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
@@ -49,7 +49,7 @@ public class PsiCancelEventEffect extends PsiElement<Void> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiFactory<PsiCancelEventEffect> {
+    public static class Factory implements PsiElementFactory<PsiCancelEventEffect> {
 
         /**
          * A pattern for matching psi cancel event effects
@@ -61,7 +61,7 @@ public class PsiCancelEventEffect extends PsiElement<Void> {
          */
         @Nullable
         @Override
-        public PsiCancelEventEffect parse(@NotNull String text) {
+        public PsiCancelEventEffect tryParse(@NotNull String text) {
             Matcher matcher = PATTERN.matcher(text);
 
             if (!matcher.matches())

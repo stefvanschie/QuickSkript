@@ -3,7 +3,7 @@ package com.github.stefvanschie.quickskript.psi.literal;
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiConverter;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
-import com.github.stefvanschie.quickskript.psi.PsiFactory;
+import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -40,7 +40,7 @@ public class PsiNumberLiteral extends PsiElement<Double> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiFactory<PsiNumberLiteral> {
+    public static class Factory implements PsiElementFactory<PsiNumberLiteral> {
 
         /**
          * The pattern for matching number literals
@@ -52,7 +52,7 @@ public class PsiNumberLiteral extends PsiElement<Double> {
          */
         @Nullable
         @Override
-        public PsiNumberLiteral parse(@NotNull String text) {
+        public PsiNumberLiteral tryParse(@NotNull String text) {
             Matcher matcher = PATTERN.matcher(text);
 
             if (!matcher.matches())

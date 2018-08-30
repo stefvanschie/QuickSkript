@@ -3,7 +3,7 @@ package com.github.stefvanschie.quickskript.skript;
 import com.github.stefvanschie.quickskript.context.EventContext;
 import com.github.stefvanschie.quickskript.file.SkriptFileSection;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
-import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
+import com.github.stefvanschie.quickskript.psi.PsiElementUtil;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,7 +33,7 @@ public class SkriptEvent {
 
         section.getNodes().stream()
             .filter(node -> node.getText() != null)
-            .forEach(node -> elements.add(PsiElementFactory.parseText(node.getText())));
+            .forEach(node -> elements.add(PsiElementUtil.tryParseText(node.getText())));
     }
 
     /**

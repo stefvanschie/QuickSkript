@@ -3,7 +3,7 @@ package com.github.stefvanschie.quickskript.psi.function;
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.psi.PsiFactory;
+import com.github.stefvanschie.quickskript.psi.PsiElementUtil;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.psi.exception.ParseException;
 import org.bukkit.Location;
@@ -113,7 +113,7 @@ public class PsiLocationFunction extends PsiElement<Location> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiFactory<PsiLocationFunction> {
+    public static class Factory implements PsiElementFactory<PsiLocationFunction> {
 
         /**
          * The pattern for matching location expressions
@@ -125,7 +125,7 @@ public class PsiLocationFunction extends PsiElement<Location> {
          */
         @Nullable
         @Override
-        public PsiLocationFunction parse(@NotNull String text) {
+        public PsiLocationFunction tryParse(@NotNull String text) {
             Matcher matcher = PATTERN.matcher(text);
 
             if (!matcher.matches())
@@ -136,7 +136,7 @@ public class PsiLocationFunction extends PsiElement<Location> {
             if (values.length < 4 || values.length > 6)
                 return null;
 
-            PsiElement<?> world = PsiElementFactory.parseText(values[0]);
+            PsiElement<?> world = PsiElementUtil.tryParseText(values[0]);
 
             if (world == null)
                 throw new ParseException("Function was unable to find an expression named " + values[0]);
@@ -144,7 +144,7 @@ public class PsiLocationFunction extends PsiElement<Location> {
             List<PsiElement<?>> elements = new ArrayList<>(Math.min(values.length, 5));
 
             for (int i = 1; i < values.length; i++)
-                elements.add(i - 1, PsiElementFactory.parseText(values[i]));
+                elements.add(i - 1, PsiElementUtil.tryParseText(values[i]));
 
             return new PsiLocationFunction(
                 world,

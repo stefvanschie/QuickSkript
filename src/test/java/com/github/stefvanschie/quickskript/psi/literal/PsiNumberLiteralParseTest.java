@@ -29,9 +29,9 @@ class PsiNumberLiteralParseTest {
     @Test
     void testParsing() {
         for (String correctCase : correctCases)
-            assertNotNull(new PsiNumberLiteral.Factory().parse(correctCase));
+            assertNotNull(new PsiNumberLiteral.Factory().tryParse(correctCase));
 
         for (String failCase : failCases)
-            assertNull(new PsiNumberLiteral.Factory().parse(failCase));
+            assertNull(new PsiNumberLiteral.Factory().tryParse(failCase));
     }
 }

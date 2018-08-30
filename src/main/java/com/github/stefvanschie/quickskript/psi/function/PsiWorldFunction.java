@@ -3,7 +3,7 @@ package com.github.stefvanschie.quickskript.psi.function;
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.psi.PsiFactory;
+import com.github.stefvanschie.quickskript.psi.PsiElementUtil;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.util.TextMessage;
@@ -56,7 +56,7 @@ public class PsiWorldFunction extends PsiElement<World> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiFactory<PsiWorldFunction> {
+    public static class Factory implements PsiElementFactory<PsiWorldFunction> {
 
         /**
          * The pattern for matching world function expressions
@@ -68,14 +68,14 @@ public class PsiWorldFunction extends PsiElement<World> {
          */
         @Nullable
         @Override
-        public PsiWorldFunction parse(@NotNull String text) {
+        public PsiWorldFunction tryParse(@NotNull String text) {
             Matcher matcher = PATTERN.matcher(text);
 
             if (!matcher.matches())
                 return null;
 
             String expression = matcher.group(1);
-            PsiElement<?> element = PsiElementFactory.parseText(expression);
+            PsiElement<?> element = PsiElementUtil.tryParseText(expression);
 
             if (element == null)
                 throw new ParseException("Function was unable to find an expression named " + expression);

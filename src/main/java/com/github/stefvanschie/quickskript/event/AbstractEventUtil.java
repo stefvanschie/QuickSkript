@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.event;
 
 import org.apache.commons.lang3.Validate;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -27,11 +28,11 @@ public class AbstractEventUtil {
      * @since 0.1.0
      */
     @Nullable
-    public static AbstractEvent parseText(@NotNull String input) {
+    public static AbstractEvent tryParseText(@NotNull String input) {
         input = input.trim();
 
         for (AbstractEventFactory<? extends AbstractEvent> factory : FACTORIES) {
-            AbstractEvent result = factory.parse(input);
+            AbstractEvent result = factory.tryParse(input);
 
             if (result != null)
                 return result;
@@ -51,6 +52,11 @@ public class AbstractEventUtil {
     }
 
     static {
-        registerFactory(new AbstractEntityExplodeEvent.Factory());
+        registerFactory(new AbstractSimpleEvent.Factory() {
+            @Override
+            protected void registerEvents() {
+                registerEvent("on explo(?:(?:d(?:e|ing))|(?:sion))", EntityExplodeEvent.class);
+            }
+        });
     }
 }
