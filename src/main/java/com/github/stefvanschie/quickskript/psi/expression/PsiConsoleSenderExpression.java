@@ -53,7 +53,7 @@ public class PsiConsoleSenderExpression extends PsiElement<ConsoleCommandSender>
          */
         @Nullable
         @Override
-        public PsiConsoleSenderExpression parse(@NotNull String text) {
+        public PsiConsoleSenderExpression tryParse(@NotNull String text) {
             Matcher matcher = PATTERN.matcher(text);
             
             if (!matcher.matches())

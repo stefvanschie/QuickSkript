@@ -70,14 +70,14 @@ public class PsiExponentialFunction extends PsiElement<Double> {
          */
         @Nullable
         @Override
-        public PsiExponentialFunction parse(@NotNull String text) {
+        public PsiExponentialFunction tryParse(@NotNull String text) {
             Matcher matcher = PATTERN.matcher(text);
 
             if (!matcher.matches())
                 return null;
 
             String expression = matcher.group(1);
-            PsiElement<?> element = PsiElementFactory.parseText(expression);
+            PsiElement<?> element = PsiElementFactory.tryParseText(expression);
 
             if (element == null)
                 throw new ParseException("Function was unable to find an expression named " + expression);

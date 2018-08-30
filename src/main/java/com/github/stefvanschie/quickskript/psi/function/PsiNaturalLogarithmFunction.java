@@ -70,14 +70,14 @@ public class PsiNaturalLogarithmFunction extends PsiElement<Double> {
          */
         @Nullable
         @Override
-        public PsiNaturalLogarithmFunction parse(@NotNull String text) {
+        public PsiNaturalLogarithmFunction tryParse(@NotNull String text) {
             Matcher matcher = PATTERN.matcher(text);
 
             if (!matcher.matches())
                 return null;
 
             String expression = matcher.group(1);
-            PsiElement<?> element = PsiElementFactory.parseText(expression);
+            PsiElement<?> element = PsiElementFactory.tryParseText(expression);
 
             if (element == null)
                 throw new ParseException("Function was unable to find an expression named " + expression);

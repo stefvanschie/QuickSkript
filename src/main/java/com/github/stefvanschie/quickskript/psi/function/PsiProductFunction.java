@@ -86,7 +86,7 @@ public class PsiProductFunction extends PsiElement<Double> {
          */
         @Nullable
         @Override
-        public PsiProductFunction parse(@NotNull String text) {
+        public PsiProductFunction tryParse(@NotNull String text) {
             Matcher matcher = PATTERN.matcher(text);
 
             if (!matcher.matches())
@@ -95,7 +95,7 @@ public class PsiProductFunction extends PsiElement<Double> {
             String[] values = matcher.group(1).replace(" ", "").split(",");
 
             if (values.length == 1) {
-                PsiElement<?> iterable = PsiElementFactory.parseText(values[0]);
+                PsiElement<?> iterable = PsiElementFactory.tryParseText(values[0]);
 
                 if (iterable != null)
                     return new PsiProductFunction(iterable);
@@ -104,7 +104,7 @@ public class PsiProductFunction extends PsiElement<Double> {
             Set<PsiElement<?>> numbers = new HashSet<>();
 
             for (String value : values)
-                numbers.add(PsiElementFactory.parseText(value));
+                numbers.add(PsiElementFactory.tryParseText(value));
 
             PsiElement<Iterable<?>> iterable = new PsiElement<Iterable<?>>() {
                 {

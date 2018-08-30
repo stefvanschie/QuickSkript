@@ -83,7 +83,7 @@ public class PsiMessageEffect extends PsiElement<Void> {
          */
         @Nullable
         @Override
-        public PsiMessageEffect parse(@NotNull String text) {
+        public PsiMessageEffect tryParse(@NotNull String text) {
             if (!text.startsWith("message") && !text.startsWith("send"))
                 return null;
 
@@ -112,13 +112,13 @@ public class PsiMessageEffect extends PsiElement<Void> {
                 text = text.substring(0, index);
 
                 //find player or console
-                receiver = PsiElementFactory.parseText(to);
+                receiver = PsiElementFactory.tryParseText(to);
 
                 if (receiver == null)
                     throw new ParseException("Effect was unable to find an expression named " + to);
             }
 
-            PsiElement<?> message = PsiElementFactory.parseText(text);
+            PsiElement<?> message = PsiElementFactory.tryParseText(text);
 
             if (message == null)
                 throw new ParseException("Effect was unable to find an expression named " + text);

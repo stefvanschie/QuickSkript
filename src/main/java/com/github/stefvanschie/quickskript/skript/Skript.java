@@ -199,7 +199,7 @@ public class Skript {
         if (text == null)
             return;
 
-        AbstractEvent event = AbstractEventUtil.parseText(text);
+        AbstractEvent event = AbstractEventUtil.tryParseText(text);
 
         if (event == null)
             return;

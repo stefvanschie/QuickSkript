@@ -61,7 +61,7 @@ public class PsiCancelEventEffect extends PsiElement<Void> {
          */
         @Nullable
         @Override
-        public PsiCancelEventEffect parse(@NotNull String text) {
+        public PsiCancelEventEffect tryParse(@NotNull String text) {
             Matcher matcher = PATTERN.matcher(text);
 
             if (!matcher.matches())

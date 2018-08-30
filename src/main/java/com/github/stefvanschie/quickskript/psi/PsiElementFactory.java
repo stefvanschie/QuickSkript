@@ -42,11 +42,11 @@ public class PsiElementFactory {
      */
     @Nullable
     @Contract("null -> fail")
-    public static PsiElement<?> parseText(@NotNull String input) {
+    public static PsiElement<?> tryParseText(@NotNull String input) {
         input = input.trim();
 
         for (PsiFactory<?> factory : FACTORIES) {
-            PsiElement<?> element = factory.parse(input);
+            PsiElement<?> element = factory.tryParse(input);
             
             if (element != null)
                 return element;

@@ -77,20 +77,20 @@ public class PsiAtan2Function extends PsiElement<Double> {
          */
         @Nullable
         @Override
-        public PsiAtan2Function parse(@NotNull String text) {
+        public PsiAtan2Function tryParse(@NotNull String text) {
             Matcher matcher = PATTERN.matcher(text);
 
             if (!matcher.matches())
                 return null;
 
             String xExpression = matcher.group(1);
-            PsiElement<?> xElement = PsiElementFactory.parseText(xExpression);
+            PsiElement<?> xElement = PsiElementFactory.tryParseText(xExpression);
 
             if (xElement == null)
                 throw new ParseException("Function was unable to find an expression named " + xExpression);
 
             String yExpression = matcher.group(2);
-            PsiElement<?> yElement = PsiElementFactory.parseText(yExpression);
+            PsiElement<?> yElement = PsiElementFactory.tryParseText(yExpression);
 
             if (yElement == null)
                 throw new ParseException("Function was unable to find an expression named " + yExpression);

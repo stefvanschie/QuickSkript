@@ -85,7 +85,7 @@ public class PsiVectorFunction extends PsiElement<Vector> {
          */
         @Nullable
         @Override
-        public PsiVectorFunction parse(@NotNull String text) {
+        public PsiVectorFunction tryParse(@NotNull String text) {
             Matcher matcher = PATTERN.matcher(text);
 
             if (!matcher.matches())
@@ -96,17 +96,17 @@ public class PsiVectorFunction extends PsiElement<Vector> {
             if (values.length != 3)
                 return null;
 
-            PsiElement<?> x = PsiElementFactory.parseText(values[0]);
+            PsiElement<?> x = PsiElementFactory.tryParseText(values[0]);
 
             if (x == null)
                 throw new ParseException("Function was unable to find an expression named " + values[0]);
 
-            PsiElement<?> y = PsiElementFactory.parseText(values[1]);
+            PsiElement<?> y = PsiElementFactory.tryParseText(values[1]);
 
             if (y == null)
                 throw new ParseException("Function was unable to find an expression named " + values[1]);
 
-            PsiElement<?> z = PsiElementFactory.parseText(values[2]);
+            PsiElement<?> z = PsiElementFactory.tryParseText(values[2]);
 
             if (z == null)
                 throw new ParseException("Function was unable to find an expression named " + values[2]);

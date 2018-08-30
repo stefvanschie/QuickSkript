@@ -54,7 +54,7 @@ public class AbstractEntityExplodeEvent extends AbstractEvent {
          * {@inheritDoc}
          */
         @Override
-        public AbstractEntityExplodeEvent parse(@NotNull String text) {
+        public AbstractEntityExplodeEvent tryParse(@NotNull String text) {
             Matcher matcher = PATTERN.matcher(text);
 
             if (!matcher.matches())

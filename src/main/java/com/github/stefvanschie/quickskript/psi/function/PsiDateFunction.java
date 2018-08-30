@@ -133,7 +133,7 @@ public class PsiDateFunction extends PsiElement<LocalDateTime> {
          */
         @Nullable
         @Override
-        public PsiDateFunction parse(@NotNull String text) {
+        public PsiDateFunction tryParse(@NotNull String text) {
             Matcher matcher = PATTERN.matcher(text);
 
             if (!matcher.matches())
@@ -147,7 +147,7 @@ public class PsiDateFunction extends PsiElement<LocalDateTime> {
             List<PsiElement<?>> elements = new ArrayList<>(Math.min(values.length, 7));
 
             for (int i = 0; i < values.length; i++)
-                elements.add(i, PsiElementFactory.parseText(values[i]));
+                elements.add(i, PsiElementFactory.tryParseText(values[i]));
 
             return new PsiDateFunction(
                 elements.get(0),

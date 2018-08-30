@@ -19,5 +19,5 @@ public interface AbstractEventFactory<T extends AbstractEvent> {
      * @since 0.1.0
      */
     @Nullable
-    T parse(@NotNull String text);
+    T tryParse(@NotNull String text);
 }

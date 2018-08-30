@@ -84,7 +84,7 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
          */
         @Nullable
         @Override
-        public PsiLogarithmFunction parse(@NotNull String text) {
+        public PsiLogarithmFunction tryParse(@NotNull String text) {
             Matcher matcher = PATTERN.matcher(text);
 
             if (!matcher.matches())
@@ -95,7 +95,7 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
             if (values.length < 1 || values.length > 2)
                 return null;
 
-            PsiElement<?> value = PsiElementFactory.parseText(values[0]);
+            PsiElement<?> value = PsiElementFactory.tryParseText(values[0]);
 
             if (value == null)
                 throw new ParseException("Function was unable to find an expression named " + values[0]);
@@ -103,7 +103,7 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
             PsiElement<?> base = null;
 
             if (values.length == 2) {
-                base = PsiElementFactory.parseText(values[1]);
+                base = PsiElementFactory.tryParseText(values[1]);
 
                 if (base == null)
                     throw new ParseException("Function was unable to find an expression named " + values[1]);

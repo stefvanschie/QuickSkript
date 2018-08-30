@@ -48,7 +48,7 @@ public class SkriptCommand implements CommandExecutor {
 
         section.getNodes().stream()
             .filter(node -> node.getText() != null)
-            .forEach(node -> elements.add(PsiElementFactory.parseText(node.getText())));
+            .forEach(node -> elements.add(PsiElementFactory.tryParseText(node.getText())));
     }
 
     /**

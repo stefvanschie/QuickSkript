@@ -76,7 +76,7 @@ public class PsiModuloFunction extends PsiElement<Double> {
          */
         @Nullable
         @Override
-        public PsiModuloFunction parse(@NotNull String text) {
+        public PsiModuloFunction tryParse(@NotNull String text) {
             Matcher matcher = PATTERN.matcher(text);
 
             if (!matcher.matches())
@@ -87,12 +87,12 @@ public class PsiModuloFunction extends PsiElement<Double> {
             if (values.length != 2)
                 return null;
 
-            PsiElement<?> a = PsiElementFactory.parseText(values[0]);
+            PsiElement<?> a = PsiElementFactory.tryParseText(values[0]);
 
             if (a == null)
                 throw new ParseException("Function was unable to find an expression named " + values[0]);
 
-            PsiElement<?> b = PsiElementFactory.parseText(values[1]);
+            PsiElement<?> b = PsiElementFactory.tryParseText(values[1]);
 
             if (b == null)
                 throw new ParseException("Function was unable to find an expression named " + values[1]);

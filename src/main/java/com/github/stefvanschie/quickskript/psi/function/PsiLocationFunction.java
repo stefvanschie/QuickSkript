@@ -125,7 +125,7 @@ public class PsiLocationFunction extends PsiElement<Location> {
          */
         @Nullable
         @Override
-        public PsiLocationFunction parse(@NotNull String text) {
+        public PsiLocationFunction tryParse(@NotNull String text) {
             Matcher matcher = PATTERN.matcher(text);
 
             if (!matcher.matches())
@@ -136,7 +136,7 @@ public class PsiLocationFunction extends PsiElement<Location> {
             if (values.length < 4 || values.length > 6)
                 return null;
 
-            PsiElement<?> world = PsiElementFactory.parseText(values[0]);
+            PsiElement<?> world = PsiElementFactory.tryParseText(values[0]);
 
             if (world == null)
                 throw new ParseException("Function was unable to find an expression named " + values[0]);
@@ -144,7 +144,7 @@ public class PsiLocationFunction extends PsiElement<Location> {
             List<PsiElement<?>> elements = new ArrayList<>(Math.min(values.length, 5));
 
             for (int i = 1; i < values.length; i++)
-                elements.add(i - 1, PsiElementFactory.parseText(values[i]));
+                elements.add(i - 1, PsiElementFactory.tryParseText(values[i]));
 
             return new PsiLocationFunction(
                 world,

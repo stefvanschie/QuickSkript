@@ -52,7 +52,7 @@ public class PsiNumberLiteral extends PsiElement<Double> {
          */
         @Nullable
         @Override
-        public PsiNumberLiteral parse(@NotNull String text) {
+        public PsiNumberLiteral tryParse(@NotNull String text) {
             Matcher matcher = PATTERN.matcher(text);
 
             if (!matcher.matches())

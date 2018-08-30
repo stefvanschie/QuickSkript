@@ -27,11 +27,11 @@ public class AbstractEventUtil {
      * @since 0.1.0
      */
     @Nullable
-    public static AbstractEvent parseText(@NotNull String input) {
+    public static AbstractEvent tryParseText(@NotNull String input) {
         input = input.trim();
 
         for (AbstractEventFactory<? extends AbstractEvent> factory : FACTORIES) {
-            AbstractEvent result = factory.parse(input);
+            AbstractEvent result = factory.tryParse(input);
 
             if (result != null)
                 return result;

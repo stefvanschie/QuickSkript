@@ -57,7 +57,7 @@ public class PsiStringLiteral extends PsiElement<TextMessage> {
          */
         @Nullable
         @Override
-        public PsiStringLiteral parse(@NotNull String text) {
+        public PsiStringLiteral tryParse(@NotNull String text) {
             Matcher matcher = PATTERN.matcher(text);
 
             if (!matcher.matches())

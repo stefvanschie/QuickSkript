@@ -79,7 +79,7 @@ public class PsiParseExpression extends PsiElement<Object> {
          */
         @Nullable
         @Override
-        public PsiParseExpression parse(@NotNull String text) {
+        public PsiParseExpression tryParse(@NotNull String text) {
             Matcher matcher = PATTERN.matcher(text);
 
             if (!matcher.matches())
@@ -87,7 +87,7 @@ public class PsiParseExpression extends PsiElement<Object> {
 
             String valueString = matcher.group(1);
 
-            PsiElement<?> value = PsiElementFactory.parseText(valueString);
+            PsiElement<?> value = PsiElementFactory.tryParseText(valueString);
 
             if (value == null)
                 throw new ParseException("Expression was unable to find an expression named " + valueString);
