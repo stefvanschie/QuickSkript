@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
  *
  * @since 0.1.0
  */
-public abstract class ComplexEventProxyFactory extends EventProxyFactory {
+public class ComplexEventProxyFactory extends EventProxyFactory {
 
     /**
      * The storage of registered event handlers.
@@ -74,11 +74,14 @@ public abstract class ComplexEventProxyFactory extends EventProxyFactory {
      * @param regex the pattern of the event in Skript source
      * @param filterCreator the {@link Function} which creates a {@link Predicate}
      * based on the {@link Matcher} created by the specified regex and the Skript source
-     * @see #registerEvents()
+     * @return itself for chaining
+     *
      * @since 0.1.0
      */
-    protected void registerEvent(Class<? extends Event> event, String regex, Function<Matcher, Predicate<Event>> filterCreator) {
+    public ComplexEventProxyFactory registerEvent(Class<? extends Event> event, String regex,
+                                                     Function<Matcher, Predicate<Event>> filterCreator) {
         eventPatterns.add(new EventPattern(event, regex, filterCreator));
+        return this;
     }
 
     /**

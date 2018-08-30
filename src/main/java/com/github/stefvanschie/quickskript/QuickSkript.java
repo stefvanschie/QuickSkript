@@ -14,6 +14,11 @@ import java.util.Objects;
  */
 public class QuickSkript extends JavaPlugin {
 
+    public static void main(String[] args) {
+        new QuickSkript().onEnable(); //fake entry point for code analyzers
+        throw new AssertionError("Plugins shouldn't be used as entry points!");
+    }
+
     /**
      * {@inheritDoc}
      */

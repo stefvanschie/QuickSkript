@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
  *
  * @since 0.1.0
  */
-public abstract class SimpleEventProxyFactory extends EventProxyFactory {
+public class SimpleEventProxyFactory extends EventProxyFactory {
 
     /**
      * The storage of registered event handlers.
@@ -66,10 +66,12 @@ public abstract class SimpleEventProxyFactory extends EventProxyFactory {
      *
      * @param event the event to register
      * @param regex the pattern of the event in Skript source
-     * @see #registerEvents()
+     * @return itself for chaining
+     *
      * @since 0.1.0
      */
-    protected void registerEvent(Class<? extends Event> event, String regex) {
+    public SimpleEventProxyFactory registerEvent(Class<? extends Event> event, String regex) {
         eventPatterns.add(new Pair<>(event, Pattern.compile(regex)));
+        return this;
     }
 }

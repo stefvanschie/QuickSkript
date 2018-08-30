@@ -15,6 +15,7 @@ import java.util.function.Supplier;
  *
  * @since 0.1.0
  */
+@SuppressWarnings("HardcodedFileSeparator")
 public class EventProxyUtil {
 
     /**
@@ -52,18 +53,13 @@ public class EventProxyUtil {
     }
 
     static {
-        registerFactory(new SimpleEventProxyFactory() {
-            @Override
-            protected void registerEvents() {
-                registerEvent(EntityExplodeEvent.class, "on explo(?:(?:d(?:e|ing))|(?:sion))");
-                registerEvent(PlayerCommandPreprocessEvent.class, "on command");
-            }
-        });
+        registerFactory(new SimpleEventProxyFactory()
+                .registerEvent(EntityExplodeEvent.class, "on explo(?:(?:d(?:e|ing))|(?:sion))")
+                .registerEvent(PlayerCommandPreprocessEvent.class, "on command")
+        );
 
-        registerFactory(new ComplexEventProxyFactory() {
-            @Override
-            protected void registerEvents() {
-                registerEvent(PlayerCommandPreprocessEvent.class, "on command \"([\\s\\S]+)\"", matcher -> {
+        registerFactory(new ComplexEventProxyFactory()
+                .registerEvent(PlayerCommandPreprocessEvent.class, "on command \"([\\s\\S]+)\"", matcher -> {
                     String command = matcher.group(1);
                     String finalCommand = command.startsWith("/") ? command.substring(1) : command;
 
@@ -71,8 +67,7 @@ public class EventProxyUtil {
                         String message = ((PlayerCommandPreprocessEvent) event).getMessage();
                         return message.startsWith(finalCommand, message.startsWith("/") ? 1 : 0);
                     };
-                });
-            }
-        });
+                })
+        );
     }
 }
