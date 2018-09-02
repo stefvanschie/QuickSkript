@@ -60,6 +60,6 @@ Median time: 104 367
 
 Note that these tests were performed by executing the command from Bukkit.dispatchCommand, whereas the previous test was measured from the moment the command execution started, so the results include any additional execution time the Bukkit.dispatchCommand may have.
 
-Just to repeat it again, these tests are *very* sloppy and in no way serve as an acurate benchmark for the speed of both QuickSkript nor SkriptLang.
+Just to repeat it again, these tests are *very* sloppy and in no way serve as an accurate benchmark for the speed of both QuickSkript nor SkriptLang.
 
 *Tests executed in August 2018*

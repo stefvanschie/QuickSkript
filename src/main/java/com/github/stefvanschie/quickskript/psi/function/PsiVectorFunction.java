@@ -3,9 +3,9 @@ package com.github.stefvanschie.quickskript.psi.function;
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.psi.PsiElementUtil;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.psi.exception.ParseException;
+import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -78,7 +78,7 @@ public class PsiVectorFunction extends PsiElement<Vector> {
         /**
          * The pattern for matching vector expressions
          */
-        private static final Pattern PATTERN = Pattern.compile("vector\\(([\\s\\S]+)\\)");
+        private final Pattern PATTERN = Pattern.compile("vector\\(([\\s\\S]+)\\)");
 
         /**
          * {@inheritDoc}
@@ -96,17 +96,17 @@ public class PsiVectorFunction extends PsiElement<Vector> {
             if (values.length != 3)
                 return null;
 
-            PsiElement<?> x = PsiElementUtil.tryParseText(values[0]);
+            PsiElement<?> x = SkriptLoader.get().tryParseElement(values[0]);
 
             if (x == null)
                 throw new ParseException("Function was unable to find an expression named " + values[0]);
 
-            PsiElement<?> y = PsiElementUtil.tryParseText(values[1]);
+            PsiElement<?> y = SkriptLoader.get().tryParseElement(values[1]);
 
             if (y == null)
                 throw new ParseException("Function was unable to find an expression named " + values[1]);
 
-            PsiElement<?> z = PsiElementUtil.tryParseText(values[2]);
+            PsiElement<?> z = SkriptLoader.get().tryParseElement(values[2]);
 
             if (z == null)
                 throw new ParseException("Function was unable to find an expression named " + values[2]);

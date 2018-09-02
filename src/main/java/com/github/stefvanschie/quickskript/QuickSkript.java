@@ -2,6 +2,7 @@ package com.github.stefvanschie.quickskript;
 
 import com.github.stefvanschie.quickskript.file.SkriptFile;
 import com.github.stefvanschie.quickskript.skript.Skript;
+import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -14,31 +15,39 @@ import java.util.Objects;
  */
 public class QuickSkript extends JavaPlugin {
 
+    public static void main(String[] args) {
+        new QuickSkript().onEnable(); //fake entry point for code analyzers
+        throw new AssertionError("Plugins shouldn't be used as entry points!");
+    }
+
     /**
      * {@inheritDoc}
      */
     @Override
     public void onEnable() {
-        File skriptFolder = new File(getDataFolder(), "skripts");
+        try (SkriptLoader ignored = new SkriptLoader()) {
 
-        if (!skriptFolder.exists() && !skriptFolder.mkdirs())
-            getLogger().warning("Unable to create skripts folder.");
+            File skriptFolder = new File(getDataFolder(), "skripts");
 
-        for (File file : Objects.requireNonNull(skriptFolder.listFiles())) {
-            if (!file.isFile())
-                continue;
+            if (!skriptFolder.exists() && !skriptFolder.mkdirs())
+                getLogger().warning("Unable to create skripts folder.");
 
-            SkriptFile skriptFile = SkriptFile.load(file);
+            for (File file : Objects.requireNonNull(skriptFolder.listFiles())) {
+                if (!file.isFile())
+                    continue;
 
-            if (skriptFile == null) {
-                getLogger().warning("Unable to load skript named " + file.getName());
-                continue;
+                SkriptFile skriptFile = SkriptFile.load(file);
+
+                if (skriptFile == null) {
+                    getLogger().warning("Unable to load skript named " + file.getName());
+                    continue;
+                }
+
+                Skript skript = new Skript(skriptFile);
+
+                skript.registerCommands();
+                skript.registerEvents();
             }
-
-            Skript skript = new Skript(skriptFile);
-
-            skript.registerCommands();
-            skript.registerEvents();
         }
     }
 }

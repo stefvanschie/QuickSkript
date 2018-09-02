@@ -14,11 +14,8 @@ import java.util.function.Supplier;
  */
 public abstract class EventProxyFactory {
 
+    @NotNull
     protected static final Listener EMPTY_LISTENER = new Listener() {};
-
-    protected EventProxyFactory() {
-        registerEvents();
-    }
 
     /**
      * Tries to parse the given text for this specified factory.
@@ -28,13 +25,5 @@ public abstract class EventProxyFactory {
      * @return whether a registration took place
      * @since 0.1.0
      */
-    public abstract boolean tryRegister(@NotNull String text, Supplier<SkriptEvent> toRegisterSupplier);
-
-    /**
-     * A method which is called once during construction,
-     * designed to force all implementations of this class to register events.
-     *
-     * @since 0.1.0
-     */
-    protected abstract void registerEvents();
+    public abstract boolean tryRegister(@NotNull String text, @NotNull Supplier<SkriptEvent> toRegisterSupplier);
 }

@@ -3,9 +3,9 @@ package com.github.stefvanschie.quickskript.psi.expression;
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiConverter;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
-import com.github.stefvanschie.quickskript.psi.PsiElementUtil;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.exception.ParseException;
+import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -72,7 +72,7 @@ public class PsiParseExpression extends PsiElement<Object> {
         /**
          * The pattern to match parse expressions with
          */
-        private static final Pattern PATTERN = Pattern.compile("([\\s\\S]+) parsed as ([\\s\\S]+)");
+        private final Pattern PATTERN = Pattern.compile("([\\s\\S]+) parsed as ([\\s\\S]+)");
 
         /**
          * {@inheritDoc}
@@ -87,14 +87,14 @@ public class PsiParseExpression extends PsiElement<Object> {
 
             String valueString = matcher.group(1);
 
-            PsiElement<?> value = PsiElementUtil.tryParseText(valueString);
+            PsiElement<?> value = SkriptLoader.get().tryParseElement(valueString);
 
             if (value == null)
                 throw new ParseException("Expression was unable to find an expression named " + valueString);
 
             String factoryString = matcher.group(2);
 
-            PsiConverter<?> converter = PsiElementUtil.getConverter(factoryString);
+            PsiConverter<?> converter = SkriptLoader.get().getConverter(factoryString);
 
             if (converter == null)
                 throw new ParseException("Expression was unable to find a factory named " + factoryString);

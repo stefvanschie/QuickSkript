@@ -3,9 +3,9 @@ package com.github.stefvanschie.quickskript.psi.function;
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.psi.PsiElementUtil;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.psi.exception.ParseException;
+import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -63,7 +63,7 @@ public class PsiTangentFunction extends PsiElement<Double> {
         /**
          * The pattern for matching tangent function expressions
          */
-        private static final Pattern PATTERN = Pattern.compile("tan\\(([\\s\\S]+)\\)");
+        private final Pattern PATTERN = Pattern.compile("tan\\(([\\s\\S]+)\\)");
 
         /**
          * {@inheritDoc}
@@ -77,7 +77,7 @@ public class PsiTangentFunction extends PsiElement<Double> {
                 return null;
 
             String expression = matcher.group(1);
-            PsiElement<?> element = PsiElementUtil.tryParseText(expression);
+            PsiElement<?> element = SkriptLoader.get().tryParseElement(expression);
 
             if (element == null)
                 throw new ParseException("Function was unable to find an expression named " + expression);

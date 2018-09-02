@@ -2,10 +2,10 @@ package com.github.stefvanschie.quickskript.psi.function;
 
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
-import com.github.stefvanschie.quickskript.psi.PsiElementUtil;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.psi.exception.ParseException;
+import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -70,7 +70,7 @@ public class PsiAtan2Function extends PsiElement<Double> {
         /**
          * The pattern for matching atan2 function expressions
          */
-        private static final Pattern PATTERN = Pattern.compile("atan2\\(([\\s\\S]+),[ ]*([\\s\\S]+)\\)");
+        private final Pattern PATTERN = Pattern.compile("atan2\\(([\\s\\S]+),[ ]*([\\s\\S]+)\\)");
 
         /**
          * {@inheritDoc}
@@ -84,13 +84,13 @@ public class PsiAtan2Function extends PsiElement<Double> {
                 return null;
 
             String xExpression = matcher.group(1);
-            PsiElement<?> xElement = PsiElementUtil.tryParseText(xExpression);
+            PsiElement<?> xElement = SkriptLoader.get().tryParseElement(xExpression);
 
             if (xElement == null)
                 throw new ParseException("Function was unable to find an expression named " + xExpression);
 
             String yExpression = matcher.group(2);
-            PsiElement<?> yElement = PsiElementUtil.tryParseText(yExpression);
+            PsiElement<?> yElement = SkriptLoader.get().tryParseElement(yExpression);
 
             if (yElement == null)
                 throw new ParseException("Function was unable to find an expression named " + yExpression);

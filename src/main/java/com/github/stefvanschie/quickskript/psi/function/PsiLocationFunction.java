@@ -3,9 +3,9 @@ package com.github.stefvanschie.quickskript.psi.function;
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.psi.PsiElementUtil;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.psi.exception.ParseException;
+import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
@@ -118,7 +118,7 @@ public class PsiLocationFunction extends PsiElement<Location> {
         /**
          * The pattern for matching location expressions
          */
-        private static final Pattern PATTERN = Pattern.compile("location\\(((?:[\\s\\S]+,[ ]*)+[\\s\\S]+)\\)");
+        private final Pattern PATTERN = Pattern.compile("location\\(((?:[\\s\\S]+,[ ]*)+[\\s\\S]+)\\)");
 
         /**
          * {@inheritDoc}
@@ -136,7 +136,7 @@ public class PsiLocationFunction extends PsiElement<Location> {
             if (values.length < 4 || values.length > 6)
                 return null;
 
-            PsiElement<?> world = PsiElementUtil.tryParseText(values[0]);
+            PsiElement<?> world = SkriptLoader.get().tryParseElement(values[0]);
 
             if (world == null)
                 throw new ParseException("Function was unable to find an expression named " + values[0]);
@@ -144,7 +144,7 @@ public class PsiLocationFunction extends PsiElement<Location> {
             List<PsiElement<?>> elements = new ArrayList<>(Math.min(values.length, 5));
 
             for (int i = 1; i < values.length; i++)
-                elements.add(i - 1, PsiElementUtil.tryParseText(values[i]));
+                elements.add(i - 1, SkriptLoader.get().tryParseElement(values[i]));
 
             return new PsiLocationFunction(
                 world,

@@ -9,10 +9,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.plugin.EventExecutor;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
@@ -22,16 +19,18 @@ import java.util.regex.Pattern;
  *
  * @since 0.1.0
  */
-public abstract class SimpleEventProxyFactory extends EventProxyFactory {
+public class SimpleEventProxyFactory extends EventProxyFactory {
 
     /**
      * The storage of registered event handlers.
      */
-    private static final Map<Class<? extends Event>, Set<SkriptEvent>> REGISTERED_HANDLERS = new HashMap<>();
+    @NotNull
+    private static final Map<Class<? extends Event>, List<SkriptEvent>> REGISTERED_HANDLERS = new HashMap<>();
 
     /**
      * The executor which handles the execution of all event handlers in the storage.
      */
+    @NotNull
     private static final EventExecutor HANDLER_EXECUTOR = (listener, event) ->
             REGISTERED_HANDLERS.get(event.getClass())
                     .forEach(handler -> handler.execute(event));
@@ -39,13 +38,14 @@ public abstract class SimpleEventProxyFactory extends EventProxyFactory {
     /**
      * The storage of the registered event patterns.
      */
-    private final Set<Pair<Class<? extends Event>, Pattern>> eventPatterns = new HashSet<>();
+    @NotNull
+    private final List<Pair<Class<? extends Event>, Pattern>> eventPatterns = new ArrayList<>();
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public boolean tryRegister(@NotNull String text, Supplier<SkriptEvent> toRegisterSupplier) {
+    public boolean tryRegister(@NotNull String text, @NotNull Supplier<SkriptEvent> toRegisterSupplier) {
         for (Pair<Class<? extends Event>, Pattern> eventPattern : eventPatterns) {
             if (!eventPattern.getValue().matcher(text).matches())
                 continue;
@@ -53,7 +53,7 @@ public abstract class SimpleEventProxyFactory extends EventProxyFactory {
             REGISTERED_HANDLERS.computeIfAbsent(eventPattern.getKey(), event -> {
                 Bukkit.getPluginManager().registerEvent(event, EMPTY_LISTENER,
                         EventPriority.NORMAL, HANDLER_EXECUTOR, QuickSkript.getPlugin(QuickSkript.class));
-                return new HashSet<>();
+                return new ArrayList<>();
             }).add(toRegisterSupplier.get());
             return true;
         }
@@ -66,10 +66,13 @@ public abstract class SimpleEventProxyFactory extends EventProxyFactory {
      *
      * @param event the event to register
      * @param regex the pattern of the event in Skript source
-     * @see #registerEvents()
+     * @return itself for chaining
+     *
      * @since 0.1.0
      */
-    protected void registerEvent(Class<? extends Event> event, String regex) {
+    @NotNull
+    public SimpleEventProxyFactory registerEvent(@NotNull Class<? extends Event> event, @NotNull String regex) {
         eventPatterns.add(new Pair<>(event, Pattern.compile(regex)));
+        return this;
     }
 }

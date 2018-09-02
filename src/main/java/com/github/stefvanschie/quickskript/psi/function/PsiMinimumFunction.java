@@ -2,16 +2,17 @@ package com.github.stefvanschie.quickskript.psi.function;
 
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
-import com.github.stefvanschie.quickskript.psi.PsiElementUtil;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
+import com.github.stefvanschie.quickskript.psi.literal.PsiPrecomputedHolder;
+import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Returns the lowest value from a given collection of numbers
@@ -83,7 +84,7 @@ public class PsiMinimumFunction extends PsiElement<Double> {
         /**
          * The pattern for matching minimum expressions
          */
-        private static final Pattern PATTERN = Pattern.compile("min\\(([\\s\\S]+)\\)");
+        private final Pattern PATTERN = Pattern.compile("min\\(([\\s\\S]+)\\)");
 
         /**
          * {@inheritDoc}
@@ -99,29 +100,15 @@ public class PsiMinimumFunction extends PsiElement<Double> {
             String[] values = matcher.group(1).replace(" ", "").split(",");
 
             if (values.length == 1) {
-                PsiElement<?> iterable = PsiElementUtil.tryParseText(values[0]);
+                PsiElement<?> iterable = SkriptLoader.get().tryParseElement(values[0]);
 
                 if (iterable != null)
                     return new PsiMinimumFunction(iterable);
             }
 
-            Set<PsiElement<?>> numbers = new HashSet<>();
-
-            for (String value : values)
-                numbers.add(PsiElementUtil.tryParseText(value));
-
-            PsiElement<Iterable<?>> iterable = new PsiElement<Iterable<?>>() {
-                {
-                    preComputed = numbers;
-                }
-
-                @Override
-                protected Iterable<?> executeImpl(@Nullable Context context) {
-                    throw new AssertionError("Since this preComputed variable is always set, this method should never get called");
-                }
-            };
-
-            return new PsiMinimumFunction(iterable);
+            return new PsiMinimumFunction(new PsiPrecomputedHolder<>(Arrays.stream(values)
+                    .map(string -> SkriptLoader.get().tryParseElement(string))
+                    .collect(Collectors.toList())));
         }
     }
 }

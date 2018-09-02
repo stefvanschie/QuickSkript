@@ -3,9 +3,9 @@ package com.github.stefvanschie.quickskript.psi.function;
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.psi.PsiElementUtil;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.psi.exception.ParseException;
+import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -69,7 +69,7 @@ public class PsiModuloFunction extends PsiElement<Double> {
         /**
          * The pattern for matching modulo expressions
          */
-        private static final Pattern PATTERN = Pattern.compile("mod\\(([\\s\\S]+)\\)");
+        private final Pattern PATTERN = Pattern.compile("mod\\(([\\s\\S]+)\\)");
 
         /**
          * {@inheritDoc}
@@ -87,12 +87,12 @@ public class PsiModuloFunction extends PsiElement<Double> {
             if (values.length != 2)
                 return null;
 
-            PsiElement<?> a = PsiElementUtil.tryParseText(values[0]);
+            PsiElement<?> a = SkriptLoader.get().tryParseElement(values[0]);
 
             if (a == null)
                 throw new ParseException("Function was unable to find an expression named " + values[0]);
 
-            PsiElement<?> b = PsiElementUtil.tryParseText(values[1]);
+            PsiElement<?> b = SkriptLoader.get().tryParseElement(values[1]);
 
             if (b == null)
                 throw new ParseException("Function was unable to find an expression named " + values[1]);

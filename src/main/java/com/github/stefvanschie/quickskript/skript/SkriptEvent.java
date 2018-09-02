@@ -3,12 +3,11 @@ package com.github.stefvanschie.quickskript.skript;
 import com.github.stefvanschie.quickskript.context.EventContext;
 import com.github.stefvanschie.quickskript.file.SkriptFileSection;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
-import com.github.stefvanschie.quickskript.psi.PsiElementUtil;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Represents an event we're listening for.
@@ -29,11 +28,10 @@ public class SkriptEvent {
      * @since 0.1.0
      */
     SkriptEvent(@NotNull SkriptFileSection section) {
-        elements = new ArrayList<>(section.getNodes().size());
-
-        section.getNodes().stream()
-            .filter(node -> node.getText() != null)
-            .forEach(node -> elements.add(PsiElementUtil.tryParseText(node.getText())));
+        elements = section.getNodes().stream()
+                .filter(node -> node.getText() != null)
+                .map(node -> SkriptLoader.get().tryParseElement(node.getText()))
+                .collect(Collectors.toList());
     }
 
     /**
