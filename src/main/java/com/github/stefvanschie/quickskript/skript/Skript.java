@@ -7,17 +7,8 @@ import com.github.stefvanschie.quickskript.file.SkriptFileNode;
 import com.github.stefvanschie.quickskript.file.SkriptFileSection;
 import com.github.stefvanschie.quickskript.skript.util.ExecutionTarget;
 import com.github.stefvanschie.quickskript.util.TextMessage;
-import org.bukkit.Bukkit;
-import org.bukkit.command.CommandMap;
-import org.bukkit.command.PluginCommand;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.SimplePluginManager;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 /**
@@ -61,8 +52,8 @@ public class Skript {
      */
     public void registerEvents() {
         file.getNodes().stream()
-            .filter(node -> node instanceof SkriptFileSection && node.getText() != null)
-            .forEach(node -> registerEvent((SkriptFileSection) node));
+                .filter(node -> node instanceof SkriptFileSection && node.getText() != null)
+                .forEach(node -> registerEvent((SkriptFileSection) node));
     }
 
     /**
@@ -80,109 +71,91 @@ public class Skript {
         //noinspection HardcodedFileSeparator
         String commandName = section.getText().substring("command /".length());
 
-        PluginCommand command = createCommand(commandName, QuickSkript.getPlugin(QuickSkript.class));
+        SkriptLoader.get().registerCommand(commandName, command -> {
 
-        if (command == null) {
-            QuickSkript.getPlugin(QuickSkript.class).getLogger()
-                .warning("Command " + commandName + " failed to load.");
-            return;
-        }
+            //noinspection ConstantConditions
+            section.getNodes().stream()
+                    .filter(node -> node instanceof SkriptFileLine &&
+                            node.getText() != null &&
+                            node.getText().startsWith("description:"))
+                    .findAny()
+                    .ifPresent(description -> command.setDescription(TextMessage.parse(
+                            description.getText().substring("description:".length()).trim()).construct()
+                    ));
 
-        SkriptFileLine description = (SkriptFileLine) section.getNodes().stream()
-            .filter(node -> node instanceof SkriptFileLine &&
-                node.getText() != null &&
-                node.getText().startsWith("description:"))
-            .findAny()
-            .orElse(null);
+            //noinspection ConstantConditions
+            section.getNodes().stream()
+                    .filter(node -> node instanceof SkriptFileLine &&
+                            node.getText() != null &&
+                            node.getText().startsWith("aliases:"))
+                    .findAny()
+                    .ifPresent(aliases -> command.setAliases(Arrays.asList(
+                            aliases.getText().substring("aliases:".length()).replace(" ", "").split(",")
+                    )));
 
-        if (description != null && description.getText() != null)
-            command.setDescription(
-                TextMessage.parse(description.getText().substring("description:".length()).trim()).construct()
-            );
+            //noinspection ConstantConditions
+            section.getNodes().stream()
+                    .filter(node -> node instanceof SkriptFileLine &&
+                            node.getText() != null &&
+                            node.getText().startsWith("permission:"))
+                    .findAny()
+                    .ifPresent(permission -> command.setPermission(
+                            permission.getText().substring("permission:".length()).trim()
+                    ));
 
-        SkriptFileLine aliases = (SkriptFileLine) section.getNodes().stream()
-            .filter(node -> node instanceof SkriptFileLine &&
-                node.getText() != null &&
-                node.getText().startsWith("aliases:"))
-            .findAny()
-            .orElse(null);
+            //noinspection ConstantConditions
+            section.getNodes().stream()
+                    .filter(node -> node instanceof SkriptFileLine &&
+                            node.getText() != null &&
+                            node.getText().startsWith("permission message:"))
+                    .findAny()
+                    .ifPresent(permissionMessage -> command.setPermissionMessage(TextMessage.parse(
+                            permissionMessage.getText().substring("permission message:".length()).trim()
+                    ).construct()));
 
-        if (aliases != null && aliases.getText() != null)
-            command.setAliases(Arrays.asList(
-                aliases.getText().substring("aliases:".length()).replace(" ", "").split(",")
-            ));
+            //noinspection ConstantConditions
+            section.getNodes().stream()
+                    .filter(node -> node instanceof SkriptFileLine &&
+                            node.getText() != null &&
+                            node.getText().startsWith("usage:"))
+                    .findAny()
+                    .ifPresent(usage -> command.setUsage(TextMessage.parse(
+                            usage.getText().substring("usage:".length()).trim()).construct()
+                    ));
 
-        SkriptFileLine permission = (SkriptFileLine) section.getNodes().stream()
-            .filter(node -> node instanceof SkriptFileLine &&
-                node.getText() != null &&
-                node.getText().startsWith("permission:"))
-            .findAny()
-            .orElse(null);
+            ExecutionTarget target = section.getNodes().stream()
+                    .filter(node -> node instanceof SkriptFileLine &&
+                            node.getText() != null &&
+                            node.getText().startsWith("executable by:"))
+                    .limit(1)
+                    .map(executableBy -> ExecutionTarget.parse(
+                            executableBy.getText().substring("executable by:".length()).trim()
+                    ))
+                    .findAny()
+                    .orElse(null);
 
-        if (permission != null && permission.getText() != null)
-            command.setPermission(permission.getText().substring("permission:".length()).trim());
+            SkriptFileSection trigger = null;
 
-        SkriptFileLine permissionMessage = (SkriptFileLine) section.getNodes().stream()
-            .filter(node -> node instanceof SkriptFileLine &&
-                node.getText() != null &&
-                node.getText().startsWith("permission message:"))
-            .findAny()
-            .orElse(null);
+            for (SkriptFileNode node : section.getNodes()) {
+                if (node instanceof SkriptFileSection && node.getText() != null &&
+                        node.getText().equalsIgnoreCase("trigger")) {
 
-        if (permissionMessage != null && permissionMessage.getText() != null)
-            command.setPermissionMessage(TextMessage.parse(
-                permissionMessage.getText().substring("permission message:".length()).trim()
-            ).construct());
+                    if (trigger != null) {
+                        QuickSkript.getInstance().getLogger().warning("Command " + commandName + " has multiple valid triggers");
+                        break;
+                    }
 
-        SkriptFileLine usage = (SkriptFileLine) section.getNodes().stream()
-            .filter(node -> node instanceof SkriptFileLine &&
-                node.getText() != null &&
-                node.getText().startsWith("usage:"))
-            .findAny()
-            .orElse(null);
-
-        if (usage != null && usage.getText() != null)
-            command.setUsage(TextMessage.parse(usage.getText().substring("usage:".length()).trim()).construct());
-
-        SkriptFileLine executableBy = (SkriptFileLine) section.getNodes().stream()
-            .filter(node -> node instanceof SkriptFileLine &&
-                node.getText() != null &&
-                node.getText().startsWith("executable by:"))
-            .findAny()
-            .orElse(null);
-
-        ExecutionTarget target = null;
-
-        if (executableBy != null && executableBy.getText() != null)
-            target = ExecutionTarget.parse(executableBy.getText().substring("executable by:".length()).trim());
-
-        SkriptFileSection trigger = null;
-
-        for (SkriptFileNode node : section.getNodes()) {
-            if (node instanceof SkriptFileSection && node.getText() != null &&
-                node.getText().equalsIgnoreCase("trigger")) {
-                trigger = (SkriptFileSection) node;
-                break;
+                    trigger = (SkriptFileSection) node;
+                }
             }
-        }
 
-        if (trigger == null) {
-            QuickSkript.getPlugin(QuickSkript.class).getLogger()
-                .warning("Command " + commandName + " failed to load, because no trigger is set");
-            return;
-        }
+            if (trigger == null) {
+                QuickSkript.getInstance().getLogger().severe("Command " + commandName + " failed to load, because no trigger is set");
+                return;
+            }
 
-        command.setExecutor(new SkriptCommand(trigger, target));
-
-        CommandMap commandMap = getCommandMap();
-
-        if (commandMap == null) {
-            QuickSkript.getPlugin(QuickSkript.class).getLogger()
-                .warning("Unable to locate command map, command " + commandName + " failed to load.");
-            return;
-        }
-
-        getCommandMap().register("quickskript", command);
+            command.setExecutor(new SkriptCommand(trigger, target));
+        });
     }
 
     /**
@@ -198,47 +171,5 @@ public class Skript {
             return;
 
         SkriptLoader.get().tryRegisterEvent(text, () -> new SkriptEvent(section));
-    }
-
-    /**
-     * Creates a new command from the given name, belonging to the specified plugin
-     *
-     * @param name the name of the commands
-     * @param plugin the plugin this command belongs to
-     * @return the newly created command
-     * @since 0.1.0
-     */
-    @Nullable
-    private PluginCommand createCommand(String name, Plugin plugin) {
-        try {
-            Constructor<PluginCommand> c = PluginCommand.class.getDeclaredConstructor(String.class, Plugin.class);
-            c.setAccessible(true);
-
-            return c.newInstance(name, plugin);
-        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    /**
-     * Gets the command map internally used
-     *
-     * @return the command map
-     * @since 0.1.0
-     */
-    @Nullable
-    private CommandMap getCommandMap() {
-        try {
-            Field commandMap = SimplePluginManager.class.getDeclaredField("commandMap");
-            commandMap.setAccessible(true);
-
-            return (CommandMap) commandMap.get(Bukkit.getPluginManager());
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
-        return null;
     }
 }

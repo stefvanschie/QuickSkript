@@ -58,7 +58,7 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
 
             REGISTERED_HANDLERS.computeIfAbsent(eventPattern.getEvent(), event -> {
                 Bukkit.getPluginManager().registerEvent(event, EMPTY_LISTENER,
-                        EventPriority.NORMAL, HANDLER_EXECUTOR, QuickSkript.getPlugin(QuickSkript.class));
+                        EventPriority.NORMAL, HANDLER_EXECUTOR, QuickSkript.getInstance());
                 return new ArrayList<>();
             }).add(new Pair<>(toRegisterSupplier.get(), eventPattern.getFilterCreator().apply(matcher)));
             return true;
