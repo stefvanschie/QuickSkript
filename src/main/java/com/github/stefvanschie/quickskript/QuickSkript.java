@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript;
 
 import com.github.stefvanschie.quickskript.file.SkriptFile;
+import com.github.stefvanschie.quickskript.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.skript.Skript;
 import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -39,25 +40,38 @@ public class QuickSkript extends JavaPlugin {
 
             File skriptFolder = new File(getDataFolder(), "skripts");
 
-            if (!skriptFolder.exists() && !skriptFolder.mkdirs())
+            if (!skriptFolder.exists() && !skriptFolder.mkdirs()) {
                 getLogger().severe("Unable to create skripts folder.");
+                return;
+            }
 
             for (File file : Objects.requireNonNull(skriptFolder.listFiles())) {
-                if (!file.isFile())
+                if (!file.isFile() || !file.getName().endsWith(".sk"))
                     continue;
+
+                String skriptName = file.getName().substring(0, file.getName().lastIndexOf('.'));
 
                 SkriptFile skriptFile;
                 try {
                     skriptFile = SkriptFile.load(file);
                 } catch (IOException e) {
-                    getLogger().log(Level.SEVERE, "Unable to load skript named " + file.getName(), e);
+                    getLogger().log(Level.SEVERE, "Unable to load skript named " + skriptName, e);
                     continue;
                 }
 
-                Skript skript = new Skript(skriptFile);
+                Skript skript = new Skript(skriptName, skriptFile);
 
-                skript.registerCommands();
-                skript.registerEvents();
+                try {
+                    skript.registerCommands();
+                } catch (ParseException e) {
+                    getLogger().log(Level.SEVERE, "Error while parsing commands of skript named " + skriptName, e);
+                }
+
+                try {
+                    skript.registerEvents();
+                } catch (ParseException e) {
+                    getLogger().log(Level.SEVERE, "Error while parsing events of skript named " + skriptName, e);
+                }
             }
         }
     }

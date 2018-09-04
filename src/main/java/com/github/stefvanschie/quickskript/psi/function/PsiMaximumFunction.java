@@ -47,12 +47,7 @@ public class PsiMaximumFunction extends PsiElement<Double> {
     @NotNull
     @Override
     protected Double executeImpl(@Nullable Context context) {
-        Object elementResult = element.execute(context);
-
-        if (!(elementResult instanceof Iterable<?>))
-            throw new ExecutionException("Result of expression should be an iterable, but it wasn't");
-
-        Iterable<?> iterable = (Iterable<?>) elementResult;
+        Iterable<?> iterable = element.execute(context, Iterable.class);
 
         double max = -Double.MAX_VALUE; //negative double max value is the actual smallest value, double min value is still positive
 
@@ -60,12 +55,7 @@ public class PsiMaximumFunction extends PsiElement<Double> {
             if (!(object instanceof PsiElement<?>))
                 throw new ExecutionException("Iterable should only contain psi elements, but it didn't");
 
-            Object numberResult = ((PsiElement) object).execute(context);
-
-            if (!(numberResult instanceof Number))
-                throw new ExecutionException("Result of expression should be a number, but it wasn't");
-
-            double value = ((Number) numberResult).doubleValue();
+            double value = ((PsiElement<?>) object).execute(context, Number.class).doubleValue();
 
             if (max < value)
                 max = value;
@@ -107,7 +97,7 @@ public class PsiMaximumFunction extends PsiElement<Double> {
             }
 
             return new PsiMaximumFunction(new PsiPrecomputedHolder<>(Arrays.stream(values)
-                    .map(string -> SkriptLoader.get().tryParseElement(string))
+                    .map(string -> SkriptLoader.get().forceParseElement(string))
                     .collect(Collectors.toList())));
         }
     }

@@ -3,8 +3,6 @@ package com.github.stefvanschie.quickskript.psi.function;
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
-import com.github.stefvanschie.quickskript.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -68,43 +66,13 @@ public class PsiLocationFunction extends PsiElement<Location> {
     @NotNull
     @Override
     public Location executeImpl(@Nullable Context context) {
-        Object worldResult = world.execute(context);
-
-        if (!(worldResult instanceof World))
-            throw new ExecutionException("Result of expression should be a world, but it wasn't");
-
-        Object xResult = x.execute(context);
-
-        if (!(xResult instanceof Number))
-            throw new ExecutionException("Result of expression should be a number, but it wasn't");
-
-        Object yResult = y.execute(context);
-
-        if (!(yResult instanceof Number))
-            throw new ExecutionException("Result of expression should be a number, but it wasn't");
-
-        Object zResult = z.execute(context);
-
-        if (!(zResult instanceof Number))
-            throw new ExecutionException("Result of expression should be a number, but it wasn't");
-
-        Object yawResult = yaw == null ? null : yaw.execute(context);
-
-        if (yawResult != null && !(yawResult instanceof Number))
-            throw new ExecutionException("Result of expression should be a number, but it wasn't");
-
-        Object pitchResult = pitch == null ? null : pitch.execute(context);
-
-        if (pitchResult != null && !(pitchResult instanceof Number))
-            throw new ExecutionException("Result of expression should be a number, but it wasn't");
-
         return new Location(
-            (World) worldResult,
-            ((Number) xResult).doubleValue(),
-            ((Number) yResult).doubleValue(),
-            ((Number) zResult).doubleValue(),
-            yawResult == null ? 0 : ((Number) yawResult).floatValue(),
-            pitchResult == null ? 0 : ((Number) pitchResult).floatValue()
+                world.execute(context, World.class),
+                x.execute(context, Number.class).doubleValue(),
+                y.execute(context, Number.class).doubleValue(),
+                z.execute(context, Number.class).doubleValue(),
+                yaw == null ? 0 : yaw.execute(context, Number.class).floatValue(),
+                pitch == null ? 0 : pitch.execute(context, Number.class).floatValue()
         );
     }
 
@@ -136,23 +104,20 @@ public class PsiLocationFunction extends PsiElement<Location> {
             if (values.length < 4 || values.length > 6)
                 return null;
 
-            PsiElement<?> world = SkriptLoader.get().tryParseElement(values[0]);
-
-            if (world == null)
-                throw new ParseException("Function was unable to find an expression named " + values[0]);
+            PsiElement<?> world = SkriptLoader.get().forceParseElement(values[0]);
 
             List<PsiElement<?>> elements = new ArrayList<>(Math.min(values.length, 5));
 
             for (int i = 1; i < values.length; i++)
-                elements.add(i - 1, SkriptLoader.get().tryParseElement(values[i]));
+                elements.add(i - 1, SkriptLoader.get().forceParseElement(values[i]));
 
             return new PsiLocationFunction(
-                world,
-                elements.get(0),
-                elements.get(1),
-                elements.get(2),
-                elements.size() > 3 ? elements.get(3) : null,
-                elements.size() > 4 ? elements.get(4) : null
+                    world,
+                    elements.get(0),
+                    elements.get(1),
+                    elements.get(2),
+                    elements.size() > 3 ? elements.get(3) : null,
+                    elements.size() > 4 ? elements.get(4) : null
             );
         }
     }

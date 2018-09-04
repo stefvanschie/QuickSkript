@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.context.EventContext;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
+import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
@@ -24,7 +25,8 @@ public class PsiCancelEventEffect extends PsiElement<Void> {
      *
      * @since 0.1.0
      */
-    private PsiCancelEventEffect() {}
+    private PsiCancelEventEffect() {
+    }
 
     /**
      * {@inheritDoc}
@@ -32,12 +34,12 @@ public class PsiCancelEventEffect extends PsiElement<Void> {
     @Override
     protected Void executeImpl(@Nullable Context context) {
         if (!(context instanceof EventContext))
-            throw new IllegalStateException("Code is not being run from an event and thus can't cancel anything.");
+            throw new ExecutionException("Code is not being run from an event and thus can't cancel anything.");
 
         Event event = ((EventContext) context).getEvent();
 
         if (!(event instanceof Cancellable))
-            throw new UnsupportedOperationException("This event cannot be cancelled.");
+            throw new ExecutionException("This event cannot be cancelled.");
 
         ((Cancellable) event).setCancelled(true);
 

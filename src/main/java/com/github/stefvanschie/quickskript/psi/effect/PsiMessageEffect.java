@@ -5,7 +5,6 @@ import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
-import com.github.stefvanschie.quickskript.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.util.TextMessage;
 import org.bukkit.command.CommandSender;
@@ -53,21 +52,11 @@ public class PsiMessageEffect extends PsiElement<Void> {
         if (this.receiver == null && context instanceof CommandContext)
             receiver = ((CommandContext) context).getSender();
         else if (this.receiver != null) {
-            Object result = this.receiver.execute(context);
-
-            if (!(result instanceof CommandSender))
-                throw new ExecutionException("Result of expression should be a command sender, but it wasn't");
-
-            receiver = (CommandSender) result;
+            receiver = this.receiver.execute(context, CommandSender.class);
         } else
-            throw new IllegalStateException("Unable to execute message instruction, since no possible receiver has been found");
+            throw new ExecutionException("Unable to execute message instruction, since no possible receiver has been found");
 
-        Object textResult = message.execute(context);
-
-        if (!(textResult instanceof TextMessage))
-            throw new ExecutionException("Result of expression should be a text message, but it wasn't");
-
-        receiver.sendMessage(((TextMessage) textResult).construct());
+        receiver.sendMessage(message.execute(context, TextMessage.class).construct());
         return null;
     }
 
@@ -112,16 +101,10 @@ public class PsiMessageEffect extends PsiElement<Void> {
                 text = text.substring(0, index);
 
                 //find player or console
-                receiver = SkriptLoader.get().tryParseElement(to);
-
-                if (receiver == null)
-                    throw new ParseException("Effect was unable to find an expression named " + to);
+                receiver = SkriptLoader.get().forceParseElement(to);
             }
 
-            PsiElement<?> message = SkriptLoader.get().tryParseElement(text);
-
-            if (message == null)
-                throw new ParseException("Effect was unable to find an expression named " + text);
+            PsiElement<?> message = SkriptLoader.get().forceParseElement(text);
 
             return new PsiMessageEffect(message, receiver);
         }

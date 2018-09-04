@@ -47,25 +47,15 @@ public class PsiSumFunction extends PsiElement<Double> {
     @NotNull
     @Override
     protected Double executeImpl(@Nullable Context context) {
-        Object elementResult = element.execute(context);
+        Iterable<?> iterable = element.execute(context, Iterable.class);
 
-        if (!(elementResult instanceof Iterable<?>))
-            throw new ExecutionException("Result of expression should be an iterable, but it wasn't");
-
-        Iterable<?> iterable = (Iterable<?>) elementResult;
-
-        double result = 0; //negative double max value is the actual smallest value, double min value is still positive
+        double result = 0;
 
         for (Object object : iterable) {
             if (!(object instanceof PsiElement<?>))
                 throw new ExecutionException("Iterable should only contain psi elements, but it didn't");
 
-            Object numberResult = ((PsiElement) object).execute(context);
-
-            if (!(numberResult instanceof Number))
-                throw new ExecutionException("Result of expression should be a number, but it wasn't");
-
-            result += ((Number) numberResult).doubleValue();
+            result += ((PsiElement<?>) object).execute(context, Number.class).doubleValue();
         }
 
         return result;
@@ -104,7 +94,7 @@ public class PsiSumFunction extends PsiElement<Double> {
             }
             
             return new PsiSumFunction(new PsiPrecomputedHolder<>(Arrays.stream(values)
-                    .map(string -> SkriptLoader.get().tryParseElement(string))
+                    .map(string -> SkriptLoader.get().forceParseElement(string))
                     .collect(Collectors.toList())));
         }
     }

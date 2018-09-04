@@ -1,8 +1,10 @@
 package com.github.stefvanschie.quickskript.skript;
 
+import com.github.stefvanschie.quickskript.QuickSkript;
 import com.github.stefvanschie.quickskript.context.CommandContext;
 import com.github.stefvanschie.quickskript.file.SkriptFileSection;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
+import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.skript.util.ExecutionTarget;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 /**
@@ -21,6 +24,12 @@ import java.util.stream.Collectors;
  * @since 0.1.0
  */
 public class SkriptCommand implements CommandExecutor {
+
+    /**
+     * The skript this command belongs to
+     */
+    @NotNull
+    private final Skript skript;
 
     /**
      * A list of elements that should get executed
@@ -40,12 +49,13 @@ public class SkriptCommand implements CommandExecutor {
      * @param section the file section to load the elements from
      * @since 0.1.0
      */
-    SkriptCommand(@NotNull SkriptFileSection section, @Nullable ExecutionTarget executionTarget) {
+    SkriptCommand(@NotNull Skript skript, @NotNull SkriptFileSection section, @Nullable ExecutionTarget executionTarget) {
+        this.skript = skript;
         this.executionTarget = executionTarget;
 
         elements = section.getNodes().stream()
                 .filter(node -> node.getText() != null)
-                .map(node -> SkriptLoader.get().tryParseElement(node.getText()))
+                .map(node -> SkriptLoader.get().forceParseElement(node.getText()))
                 .collect(Collectors.toList());
     }
 
@@ -55,15 +65,19 @@ public class SkriptCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (executionTarget != null &&
-            ((executionTarget == ExecutionTarget.CONSOLE && !(sender instanceof ConsoleCommandSender)) ||
-                (executionTarget == ExecutionTarget.PLAYERS && !(sender instanceof Player)) ||
-                (executionTarget == ExecutionTarget.CONSOLE_AND_PLAYERS &&
-                    !(sender instanceof Player) && !(sender instanceof ConsoleCommandSender))))
+                ((executionTarget == ExecutionTarget.CONSOLE && !(sender instanceof ConsoleCommandSender)) ||
+                        (executionTarget == ExecutionTarget.PLAYERS && !(sender instanceof Player)) ||
+                        (executionTarget == ExecutionTarget.CONSOLE_AND_PLAYERS &&
+                                !(sender instanceof Player) && !(sender instanceof ConsoleCommandSender))))
             return false;
 
         CommandContext context = new CommandContext(sender);
 
-        elements.forEach(element -> element.execute(context));
+        try {
+            elements.forEach(element -> element.execute(context));
+        } catch (ExecutionException e) {
+            QuickSkript.getInstance().getLogger().log(Level.SEVERE, "Error while executing skript named " + skript.getName(), e);
+        }
 
         return true;
     }
