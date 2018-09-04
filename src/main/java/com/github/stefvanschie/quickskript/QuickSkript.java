@@ -4,9 +4,12 @@ import com.github.stefvanschie.quickskript.file.SkriptFile;
 import com.github.stefvanschie.quickskript.skript.Skript;
 import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.Contract;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
+import java.util.logging.Level;
 
 /**
  * Main QuickSkript class
@@ -14,6 +17,11 @@ import java.util.Objects;
  * @since 0.1.0
  */
 public class QuickSkript extends JavaPlugin {
+
+    /**
+     * The current instance of this plugin or null if the plugin is not enabled.
+     */
+    private static QuickSkript instance;
 
     public static void main(String[] args) {
         new QuickSkript().onEnable(); //fake entry point for code analyzers
@@ -25,21 +33,24 @@ public class QuickSkript extends JavaPlugin {
      */
     @Override
     public void onEnable() {
+        instance = this;
+
         try (SkriptLoader ignored = new SkriptLoader()) {
 
             File skriptFolder = new File(getDataFolder(), "skripts");
 
             if (!skriptFolder.exists() && !skriptFolder.mkdirs())
-                getLogger().warning("Unable to create skripts folder.");
+                getLogger().severe("Unable to create skripts folder.");
 
             for (File file : Objects.requireNonNull(skriptFolder.listFiles())) {
                 if (!file.isFile())
                     continue;
 
-                SkriptFile skriptFile = SkriptFile.load(file);
-
-                if (skriptFile == null) {
-                    getLogger().warning("Unable to load skript named " + file.getName());
+                SkriptFile skriptFile;
+                try {
+                    skriptFile = SkriptFile.load(file);
+                } catch (IOException e) {
+                    getLogger().log(Level.SEVERE, "Unable to load skript named " + file.getName(), e);
                     continue;
                 }
 
@@ -49,5 +60,26 @@ public class QuickSkript extends JavaPlugin {
                 skript.registerEvents();
             }
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onDisable() {
+        instance = null;
+    }
+
+
+    /**
+     * Since plugins are singletons by design in Bukkit, this method
+     * aims to be a short and efficient way of getting the plugin instance.
+     *
+     * @return the current instance of the plugin or null if the plugin is not enabled
+     * @since 0.1.0
+     */
+    @Contract(pure = true)
+    public static QuickSkript getInstance() {
+        return instance;
     }
 }

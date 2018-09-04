@@ -52,7 +52,7 @@ public class SimpleEventProxyFactory extends EventProxyFactory {
 
             REGISTERED_HANDLERS.computeIfAbsent(eventPattern.getKey(), event -> {
                 Bukkit.getPluginManager().registerEvent(event, EMPTY_LISTENER,
-                        EventPriority.NORMAL, HANDLER_EXECUTOR, QuickSkript.getPlugin(QuickSkript.class));
+                        EventPriority.NORMAL, HANDLER_EXECUTOR, QuickSkript.getInstance());
                 return new ArrayList<>();
             }).add(toRegisterSupplier.get());
             return true;

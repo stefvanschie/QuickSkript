@@ -3,7 +3,6 @@ package com.github.stefvanschie.quickskript.file;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,20 +28,15 @@ public class SkriptFile extends SkriptFileSection {
      *
      * @param file the actual file
      * @return the skript file, or null if it couldn't be loaded
+     * @throws IOException if an error occurs while reading the file
      * @since 0.1.0
      */
-    @Nullable
+    @NotNull
     @Contract(pure = true)
-    public static SkriptFile load(@NotNull File file) {
+    public static SkriptFile load(@NotNull File file) throws IOException {
         Validate.isTrue(file.isFile() && file.canRead(), "The file must be a valid, readable, existing file.");
 
-        List<String> strings;
-        try {
-            strings = Files.readAllLines(file.toPath());
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        List<String> strings = Files.readAllLines(file.toPath());
 
         //remove comments
         for (int i = 0; i < strings.size(); i++) {

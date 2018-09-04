@@ -1,5 +1,6 @@
 package com.github.stefvanschie.quickskript.skript;
 
+import com.github.stefvanschie.quickskript.QuickSkript;
 import com.github.stefvanschie.quickskript.event.ComplexEventProxyFactory;
 import com.github.stefvanschie.quickskript.event.EventProxyFactory;
 import com.github.stefvanschie.quickskript.event.SimpleEventProxyFactory;
@@ -14,13 +15,23 @@ import com.github.stefvanschie.quickskript.psi.function.*;
 import com.github.stefvanschie.quickskript.psi.literal.PsiNumberLiteral;
 import com.github.stefvanschie.quickskript.psi.literal.PsiStringLiteral;
 import org.apache.commons.lang3.Validate;
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandMap;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.SimplePluginManager;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -39,7 +50,6 @@ public class SkriptLoader implements AutoCloseable {
      */
     @Nullable
     private static SkriptLoader instance;
-    //TODO alternative to static singleton: dependency inject into each PsiElementFactory + some other stuff
 
     /**
      * Gets the current loader instance. Returns null if there are none present.
@@ -72,6 +82,18 @@ public class SkriptLoader implements AutoCloseable {
     private final List<EventProxyFactory> events = new ArrayList<>();
 
     /**
+     * The constructor of {@link PluginCommand} wrapped into a {@link Function}.
+     */
+    @NotNull
+    private final Function<String, PluginCommand> commandConstructor;
+
+    /**
+     * The internally used instance of the {@link CommandMap}.
+     */
+    @NotNull
+    private final CommandMap commandMap;
+
+    /**
      * Create a new instance, initializing it with all default (non-addon) data.
      *
      * @since 0.1.0
@@ -82,6 +104,26 @@ public class SkriptLoader implements AutoCloseable {
         registerDefaultElements();
         registerDefaultConverters();
         registerDefaultEvents();
+
+        try {
+            Constructor<PluginCommand> rawConstructor = PluginCommand.class.getDeclaredConstructor(String.class, Plugin.class);
+            rawConstructor.setAccessible(true);
+
+            commandConstructor = name -> {
+                try {
+                    return rawConstructor.newInstance(name, QuickSkript.getInstance());
+                } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                    throw new AssertionError("Error while constructing a PluginCommand instance:", e);
+                }
+            };
+
+            Field commandMapField = SimplePluginManager.class.getDeclaredField("commandMap");
+            commandMapField.setAccessible(true);
+            commandMap = (CommandMap) commandMapField.get(Bukkit.getPluginManager());
+
+        } catch (NoSuchMethodException | NoSuchFieldException | IllegalAccessException e) {
+            throw new AssertionError("Error while getting the CommandMap:", e);
+        }
 
         instance = this;
     }
@@ -175,7 +217,24 @@ public class SkriptLoader implements AutoCloseable {
 
 
     /**
+     * Creates a command and registers it in the internal {@link CommandMap}
+     * after running the specified initializer.
+     *
+     * @param name the name of the command
+     * @param initializer the initializer of the new command instance
+     * @since 0.1.0
+     */
+    public void registerCommand(String name, Consumer<PluginCommand> initializer) {
+        PluginCommand command = commandConstructor.apply(name);
+        initializer.accept(command);
+        commandMap.register("quickskript", command);
+    }
+
+
+    /**
      * Deletes the current loader instance.
+     *
+     * @since 0.1.0
      */
     @Override
     public void close() {
