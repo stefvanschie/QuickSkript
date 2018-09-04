@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.psi;
 
 import com.github.stefvanschie.quickskript.context.Context;
+import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,7 +20,7 @@ public abstract class PsiElement<T> {
     protected T preComputed;
 
     /**
-     * Returns a pre computed value if {@link #isPreComputed()} returns true otherwise executes this element
+     * Returns a pre computed value if {@link #isPreComputed()} returns true otherwise executes this element.
      *
      * @param context the context this code is being executed in, may be null if the code is expected to be pre computed
      * @return the computed value which is null if the computation returned null
@@ -27,6 +28,25 @@ public abstract class PsiElement<T> {
      */
     public final T execute(@Nullable Context context) {
         return isPreComputed() ? preComputed : executeImpl(context);
+    }
+
+    /**
+     * Returns a pre computed value if {@link #isPreComputed()} returns true otherwise executes this element.
+     * If the result is not an instance of the specified {@link Class} an {@link ExecutionException} is thrown.
+     *
+     * @param context the context this code is being executed in, may be null if the code is expected to be pre computed
+     * @param forcedResult the {@link Class} this method must return an instance of
+     * @param <R> the type this method must return an instance of
+     * @return the computed value which is null if the computation returned null
+     * @since 0.1.0
+     */
+    public <R> R execute(@Nullable Context context, Class<R> forcedResult) {
+        T result = execute(context);
+        if (forcedResult.isInstance(result))
+            return forcedResult.cast(result);
+
+        throw new ExecutionException("Result of " + getClass().getSimpleName() +
+                " should be a " + forcedResult.getSimpleName() + ", but it wasn't");
     }
 
     /**

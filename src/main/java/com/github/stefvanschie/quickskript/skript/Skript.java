@@ -7,14 +7,22 @@ import com.github.stefvanschie.quickskript.file.SkriptFileNode;
 import com.github.stefvanschie.quickskript.file.SkriptFileSection;
 import com.github.stefvanschie.quickskript.skript.util.ExecutionTarget;
 import com.github.stefvanschie.quickskript.util.TextMessage;
+import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * A class for loading and containing skript files
  */
 public class Skript {
+
+    /**
+     * The name of the skript
+     */
+    @NotNull
+    private final String name;
 
     /**
      * The internal skript file
@@ -25,11 +33,25 @@ public class Skript {
     /**
      * Constructs a new skript object
      *
+     * @param name the name of the skript,
+     * eg. the name of the file without the .sk extension
      * @param file the file this skript belongs to
      * @since 0.1.0
      */
-    public Skript(@NotNull SkriptFile file) {
+    public Skript(@NotNull String name, @NotNull SkriptFile file) {
+        this.name = name;
         this.file = file;
+    }
+
+    /**
+     * Returns the name of this skript.
+     *
+     * @return the name of this skript
+     * @since 0.1.0
+     */
+    @NotNull
+    public String getName() {
+        return name;
     }
 
     /**
@@ -64,63 +86,56 @@ public class Skript {
      */
     private void registerCommand(@NotNull SkriptFileSection section) {
         String text = section.getText();
-
-        if (text == null)
-            throw new IllegalStateException("Command is file itself, which isn't possible");
+        Validate.notNull(text, "Command is file itself, which isn't possible");
 
         //noinspection HardcodedFileSeparator
         String commandName = section.getText().substring("command /".length());
 
         SkriptLoader.get().registerCommand(commandName, command -> {
 
-            //noinspection ConstantConditions
             section.getNodes().stream()
                     .filter(node -> node instanceof SkriptFileLine &&
                             node.getText() != null &&
                             node.getText().startsWith("description:"))
                     .findAny()
                     .ifPresent(description -> command.setDescription(TextMessage.parse(
-                            description.getText().substring("description:".length()).trim()).construct()
+                            Objects.requireNonNull(description.getText()).substring("description:".length()).trim()).construct()
                     ));
 
-            //noinspection ConstantConditions
             section.getNodes().stream()
                     .filter(node -> node instanceof SkriptFileLine &&
                             node.getText() != null &&
                             node.getText().startsWith("aliases:"))
                     .findAny()
                     .ifPresent(aliases -> command.setAliases(Arrays.asList(
-                            aliases.getText().substring("aliases:".length()).replace(" ", "").split(",")
+                            Objects.requireNonNull(aliases.getText()).substring("aliases:".length()).replace(" ", "").split(",")
                     )));
 
-            //noinspection ConstantConditions
             section.getNodes().stream()
                     .filter(node -> node instanceof SkriptFileLine &&
                             node.getText() != null &&
                             node.getText().startsWith("permission:"))
                     .findAny()
                     .ifPresent(permission -> command.setPermission(
-                            permission.getText().substring("permission:".length()).trim()
+                            Objects.requireNonNull(permission.getText()).substring("permission:".length()).trim()
                     ));
 
-            //noinspection ConstantConditions
             section.getNodes().stream()
                     .filter(node -> node instanceof SkriptFileLine &&
                             node.getText() != null &&
                             node.getText().startsWith("permission message:"))
                     .findAny()
                     .ifPresent(permissionMessage -> command.setPermissionMessage(TextMessage.parse(
-                            permissionMessage.getText().substring("permission message:".length()).trim()
+                            Objects.requireNonNull(permissionMessage.getText()).substring("permission message:".length()).trim()
                     ).construct()));
 
-            //noinspection ConstantConditions
             section.getNodes().stream()
                     .filter(node -> node instanceof SkriptFileLine &&
                             node.getText() != null &&
                             node.getText().startsWith("usage:"))
                     .findAny()
                     .ifPresent(usage -> command.setUsage(TextMessage.parse(
-                            usage.getText().substring("usage:".length()).trim()).construct()
+                            Objects.requireNonNull(usage.getText()).substring("usage:".length()).trim()).construct()
                     ));
 
             ExecutionTarget target = section.getNodes().stream()
@@ -154,7 +169,7 @@ public class Skript {
                 return;
             }
 
-            command.setExecutor(new SkriptCommand(trigger, target));
+            command.setExecutor(new SkriptCommand(this, trigger, target));
         });
     }
 
@@ -170,6 +185,6 @@ public class Skript {
         if (text == null)
             return;
 
-        SkriptLoader.get().tryRegisterEvent(text, () -> new SkriptEvent(section));
+        SkriptLoader.get().tryRegisterEvent(text, () -> new SkriptEvent(this, section));
     }
 }

@@ -3,8 +3,6 @@ package com.github.stefvanschie.quickskript.psi.function;
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
-import com.github.stefvanschie.quickskript.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -46,17 +44,7 @@ public class PsiModuloFunction extends PsiElement<Double> {
     @NotNull
     @Override
     protected Double executeImpl(@Nullable Context context) {
-        Object aResult = a.execute(context);
-
-        if (!(aResult instanceof Number))
-            throw new ExecutionException("Result of expression should be a number, but it wasn't");
-
-        Object bResult = b.execute(context);
-
-        if (!(bResult instanceof Number))
-            throw new ExecutionException("Result of expression should be a number, but it wasn't");
-
-        return ((Number) aResult).doubleValue() % ((Number) bResult).doubleValue();
+        return a.execute(context, Number.class).doubleValue() % b.execute(context, Number.class).doubleValue();
     }
 
     /**
@@ -87,15 +75,8 @@ public class PsiModuloFunction extends PsiElement<Double> {
             if (values.length != 2)
                 return null;
 
-            PsiElement<?> a = SkriptLoader.get().tryParseElement(values[0]);
-
-            if (a == null)
-                throw new ParseException("Function was unable to find an expression named " + values[0]);
-
-            PsiElement<?> b = SkriptLoader.get().tryParseElement(values[1]);
-
-            if (b == null)
-                throw new ParseException("Function was unable to find an expression named " + values[1]);
+            PsiElement<?> a = SkriptLoader.get().forceParseElement(values[0]);
+            PsiElement<?> b = SkriptLoader.get().forceParseElement(values[1]);
 
             return new PsiModuloFunction(a, b);
         }

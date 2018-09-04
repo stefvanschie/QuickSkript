@@ -9,6 +9,7 @@ import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.effect.PsiCancelEventEffect;
 import com.github.stefvanschie.quickskript.psi.effect.PsiMessageEffect;
+import com.github.stefvanschie.quickskript.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.psi.expression.PsiConsoleSenderExpression;
 import com.github.stefvanschie.quickskript.psi.expression.PsiParseExpression;
 import com.github.stefvanschie.quickskript.psi.function.*;
@@ -130,7 +131,8 @@ public class SkriptLoader implements AutoCloseable {
 
 
     /**
-     * Parses text into psi elements. Returns null if no element was found.
+     * Parses text into psi elements.
+     * Returns null if no element was found.
      *
      * @param input the text to be parsed
      * @return the parsed psi element, or null if none were found
@@ -152,7 +154,26 @@ public class SkriptLoader implements AutoCloseable {
     }
 
     /**
+     * Parses text into psi elements.
+     * Throws a {@link ParseException} if no element was found.
+     *
+     * @param input the text to be parsed
+     * @return the parsed psi element
+     * @since 0.1.0
+     */
+    @NotNull
+    public PsiElement<?> forceParseElement(@NotNull String input) {
+        PsiElement<?> result = tryParseElement(input);
+        if (result != null)
+            return result;
+
+        throw new ParseException("Unable to find an expression named: " + input);
+    }
+
+
+    /**
      * Returns a converter based on the specified name.
+     * Returns null if no converter was found.
      *
      * @param name the name of the converter
      * @return the converter
@@ -160,9 +181,28 @@ public class SkriptLoader implements AutoCloseable {
      */
     @Nullable
     @Contract(pure = true)
-    public PsiConverter<?> getConverter(@NotNull String name) {
+    public PsiConverter<?> tryGetConverter(@NotNull String name) {
         return converters.get(name);
     }
+
+    /**
+     * Returns a converter based on the specified name.
+     * Throws a {@link ParseException} if no converter was found.
+     *
+     * @param name the name of the converter
+     * @return the converter
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public PsiConverter<?> forceGetConverter(@NotNull String name) {
+        PsiConverter<?> result = tryGetConverter(name);
+        if (result != null)
+            return result;
+
+        throw new ParseException("Unable to find a converter named: " + name);
+    }
+
 
     /**
      * Parses the inputted text and returns whether an event was registered.

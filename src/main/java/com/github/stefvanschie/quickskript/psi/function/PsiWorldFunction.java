@@ -3,8 +3,6 @@ package com.github.stefvanschie.quickskript.psi.function;
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
-import com.github.stefvanschie.quickskript.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.util.TextMessage;
 import org.bukkit.Bukkit;
@@ -43,12 +41,7 @@ public class PsiWorldFunction extends PsiElement<World> {
      */
     @Override
     public World executeImpl(@Nullable Context context) {
-        Object result = parameter.execute(context);
-
-        if (!(result instanceof TextMessage))
-            throw new ExecutionException("Result of expression should be a text message, but it wasn't");
-
-        return Bukkit.getWorld(((TextMessage) result).construct());
+        return Bukkit.getWorld(parameter.execute(context, TextMessage.class).construct());
     }
 
     /**
@@ -75,10 +68,7 @@ public class PsiWorldFunction extends PsiElement<World> {
                 return null;
 
             String expression = matcher.group(1);
-            PsiElement<?> element = SkriptLoader.get().tryParseElement(expression);
-
-            if (element == null)
-                throw new ParseException("Function was unable to find an expression named " + expression);
+            PsiElement<?> element = SkriptLoader.get().forceParseElement(expression);
 
             return new PsiWorldFunction(element);
         }

@@ -3,8 +3,6 @@ package com.github.stefvanschie.quickskript.psi.function;
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
-import com.github.stefvanschie.quickskript.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
@@ -49,23 +47,11 @@ public class PsiVectorFunction extends PsiElement<Vector> {
     @NotNull
     @Override
     protected Vector executeImpl(@Nullable Context context) {
-        Object xResult = x.execute(context);
+        Number xResult = x.execute(context, Number.class);
+        Number yResult = y.execute(context, Number.class);
+        Number zResult = z.execute(context, Number.class);
 
-        if (!(xResult instanceof Number))
-            throw new ExecutionException("Result of expression should be a number, but it wasn't");
-
-        Object yResult = y.execute(context);
-
-        if (!(yResult instanceof Number))
-            throw new ExecutionException("Result of expression should be a number, but it wasn't");
-
-        Object zResult = z.execute(context);
-
-        if (!(zResult instanceof Number))
-            throw new ExecutionException("Result of expression should be a number, but it wasn't");
-
-        return new Vector(((Number) xResult).doubleValue(), ((Number) yResult).doubleValue(),
-            ((Number) zResult).doubleValue());
+        return new Vector(xResult.doubleValue(), yResult.doubleValue(), zResult.doubleValue());
     }
 
     /**
@@ -96,20 +82,9 @@ public class PsiVectorFunction extends PsiElement<Vector> {
             if (values.length != 3)
                 return null;
 
-            PsiElement<?> x = SkriptLoader.get().tryParseElement(values[0]);
-
-            if (x == null)
-                throw new ParseException("Function was unable to find an expression named " + values[0]);
-
-            PsiElement<?> y = SkriptLoader.get().tryParseElement(values[1]);
-
-            if (y == null)
-                throw new ParseException("Function was unable to find an expression named " + values[1]);
-
-            PsiElement<?> z = SkriptLoader.get().tryParseElement(values[2]);
-
-            if (z == null)
-                throw new ParseException("Function was unable to find an expression named " + values[2]);
+            PsiElement<?> x = SkriptLoader.get().forceParseElement(values[0]);
+            PsiElement<?> y = SkriptLoader.get().forceParseElement(values[1]);
+            PsiElement<?> z = SkriptLoader.get().forceParseElement(values[2]);
 
             return new PsiVectorFunction(x, y, z);
         }

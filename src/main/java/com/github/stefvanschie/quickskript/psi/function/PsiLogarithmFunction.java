@@ -3,8 +3,6 @@ package com.github.stefvanschie.quickskript.psi.function;
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
-import com.github.stefvanschie.quickskript.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -53,18 +51,8 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
     @NotNull
     @Override
     protected Double executeImpl(@Nullable Context context) {
-        Object valueResult = value.execute(context);
-
-        if (!(valueResult instanceof Number))
-            throw new ExecutionException("Result of expression should be a number, but it wasn't");
-
-        Object baseResult = base == null ? null : base.execute(context);
-
-        if (baseResult != null && !(baseResult instanceof Number))
-            throw new ExecutionException("Result of expression should be a number, but it wasn't");
-
-        return Math.log10(((Number) valueResult).doubleValue()) /
-            Math.log10(baseResult == null ? 10 : ((Number) baseResult).doubleValue());
+        return Math.log10(value.execute(context, Number.class).doubleValue()) /
+            Math.log10(base == null ? 10 : base.execute(context, Number.class).doubleValue());
     }
 
     /**
@@ -95,18 +83,12 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
             if (values.length < 1 || values.length > 2)
                 return null;
 
-            PsiElement<?> value = SkriptLoader.get().tryParseElement(values[0]);
-
-            if (value == null)
-                throw new ParseException("Function was unable to find an expression named " + values[0]);
+            PsiElement<?> value = SkriptLoader.get().forceParseElement(values[0]);
 
             PsiElement<?> base = null;
 
             if (values.length == 2) {
-                base = SkriptLoader.get().tryParseElement(values[1]);
-
-                if (base == null)
-                    throw new ParseException("Function was unable to find an expression named " + values[1]);
+                base = SkriptLoader.get().forceParseElement(values[1]);
             }
 
             return new PsiLogarithmFunction(value, base);

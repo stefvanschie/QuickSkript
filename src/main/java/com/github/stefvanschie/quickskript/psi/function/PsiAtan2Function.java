@@ -3,8 +3,6 @@ package com.github.stefvanschie.quickskript.psi.function;
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
-import com.github.stefvanschie.quickskript.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -47,17 +45,7 @@ public class PsiAtan2Function extends PsiElement<Double> {
     @NotNull
     @Override
     protected Double executeImpl(@Nullable Context context) {
-        Object xResult = x.execute(context);
-
-        if (!(xResult instanceof Number))
-            throw new ExecutionException("Result of expression should be a number, but it wasn't");
-
-        Object yResult = y.execute(context);
-
-        if (!(yResult instanceof Number))
-            throw new ExecutionException("Result of expression should be a number, but it wasn't");
-
-        return Math.atan2(((Number) xResult).doubleValue(), ((Number) yResult).doubleValue());
+        return Math.atan2(x.execute(context, Number.class).doubleValue(), y.execute(context, Number.class).doubleValue());
     }
 
     /**
@@ -84,16 +72,10 @@ public class PsiAtan2Function extends PsiElement<Double> {
                 return null;
 
             String xExpression = matcher.group(1);
-            PsiElement<?> xElement = SkriptLoader.get().tryParseElement(xExpression);
-
-            if (xElement == null)
-                throw new ParseException("Function was unable to find an expression named " + xExpression);
+            PsiElement<?> xElement = SkriptLoader.get().forceParseElement(xExpression);
 
             String yExpression = matcher.group(2);
-            PsiElement<?> yElement = SkriptLoader.get().tryParseElement(yExpression);
-
-            if (yElement == null)
-                throw new ParseException("Function was unable to find an expression named " + yExpression);
+            PsiElement<?> yElement = SkriptLoader.get().forceParseElement(yExpression);
 
             return new PsiAtan2Function(xElement, yElement);
         }
