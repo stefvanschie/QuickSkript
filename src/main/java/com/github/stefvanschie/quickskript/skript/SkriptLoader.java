@@ -12,10 +12,11 @@ import com.github.stefvanschie.quickskript.psi.effect.PsiMessageEffect;
 import com.github.stefvanschie.quickskript.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.psi.expression.PsiConsoleSenderExpression;
 import com.github.stefvanschie.quickskript.psi.expression.PsiParseExpression;
+import com.github.stefvanschie.quickskript.psi.expression.PsiRandomNumberExpression;
 import com.github.stefvanschie.quickskript.psi.function.*;
 import com.github.stefvanschie.quickskript.psi.literal.PsiNumberLiteral;
 import com.github.stefvanschie.quickskript.psi.literal.PsiStringLiteral;
-import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginCommand;
@@ -273,6 +274,7 @@ public class SkriptLoader implements AutoCloseable {
 
     /**
      * Deletes the current loader instance.
+     * Normally should only be called if you are the one who created it.
      *
      * @since 0.1.0
      */
@@ -291,6 +293,7 @@ public class SkriptLoader implements AutoCloseable {
         //expressions
         registerElement(new PsiConsoleSenderExpression.Factory());
         registerElement(new PsiParseExpression.Factory());
+        registerElement(new PsiRandomNumberExpression.Factory());
 
         //functions
         registerElement(new PsiAbsoluteValueFunction.Factory());
@@ -338,7 +341,7 @@ public class SkriptLoader implements AutoCloseable {
 
         registerEvent(new ComplexEventProxyFactory()
                 .registerEvent(PlayerCommandPreprocessEvent.class, "on command \"([\\s\\S]+)\"", matcher -> {
-                    String command = matcher.group(1);
+                    String command = matcher.group(1); //TODO the regex of this group is probably incorrect
                     String finalCommand = command.startsWith("/") ? command.substring(1) : command;
 
                     return event -> {

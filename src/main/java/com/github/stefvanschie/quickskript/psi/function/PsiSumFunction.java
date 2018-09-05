@@ -4,12 +4,13 @@ import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
-import com.github.stefvanschie.quickskript.psi.literal.PsiPrecomputedHolder;
+import com.github.stefvanschie.quickskript.psi.literal.PsiCollection;
 import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -29,7 +30,7 @@ public class PsiSumFunction extends PsiElement<Double> {
     /**
      * Creates a new sum function
      *
-     * @param element an element containing an iterable of numbers
+     * @param element an element containing a collection of elements of numbers
      * @since 0.1.0
      */
     private PsiSumFunction(PsiElement<?> element) {
@@ -47,13 +48,13 @@ public class PsiSumFunction extends PsiElement<Double> {
     @NotNull
     @Override
     protected Double executeImpl(@Nullable Context context) {
-        Iterable<?> iterable = element.execute(context, Iterable.class);
+        Collection<?> collection = element.execute(context, Collection.class);
 
         double result = 0;
 
-        for (Object object : iterable) {
+        for (Object object : collection) {
             if (!(object instanceof PsiElement<?>))
-                throw new ExecutionException("Iterable should only contain psi elements, but it didn't");
+                throw new ExecutionException("Collection should only contain psi elements, but it didn't");
 
             result += ((PsiElement<?>) object).execute(context, Number.class).doubleValue();
         }
@@ -71,7 +72,7 @@ public class PsiSumFunction extends PsiElement<Double> {
         /**
          * The pattern for matching sum expressions
          */
-        private final Pattern PATTERN = Pattern.compile("sum\\(([\\s\\S]+)\\)");
+        private final Pattern pattern = Pattern.compile("sum\\(([\\s\\S]+)\\)");
 
         /**
          * {@inheritDoc}
@@ -79,7 +80,7 @@ public class PsiSumFunction extends PsiElement<Double> {
         @Nullable
         @Override
         public PsiSumFunction tryParse(@NotNull String text) {
-            Matcher matcher = PATTERN.matcher(text);
+            Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches())
                 return null;
@@ -87,13 +88,13 @@ public class PsiSumFunction extends PsiElement<Double> {
             String[] values = matcher.group(1).replace(" ", "").split(",");
 
             if (values.length == 1) {
-                PsiElement<?> iterable = SkriptLoader.get().tryParseElement(values[0]);
+                PsiElement<?> collection = SkriptLoader.get().tryParseElement(values[0]);
 
-                if (iterable != null)
-                    return new PsiSumFunction(iterable);
+                if (collection != null)
+                    return new PsiSumFunction(collection);
             }
             
-            return new PsiSumFunction(new PsiPrecomputedHolder<>(Arrays.stream(values)
+            return new PsiSumFunction(new PsiCollection<>(Arrays.stream(values)
                     .map(string -> SkriptLoader.get().forceParseElement(string))
                     .collect(Collectors.toList())));
         }

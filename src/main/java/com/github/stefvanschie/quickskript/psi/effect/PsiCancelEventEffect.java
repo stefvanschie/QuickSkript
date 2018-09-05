@@ -56,7 +56,7 @@ public class PsiCancelEventEffect extends PsiElement<Void> {
         /**
          * A pattern for matching psi cancel event effects
          */
-        private final Pattern PATTERN = Pattern.compile("cancel (?:the )?event");
+        private final Pattern pattern = Pattern.compile("cancel (?:the )?event");
 
         /**
          * {@inheritDoc}
@@ -64,7 +64,7 @@ public class PsiCancelEventEffect extends PsiElement<Void> {
         @Nullable
         @Override
         public PsiCancelEventEffect tryParse(@NotNull String text) {
-            Matcher matcher = PATTERN.matcher(text);
+            Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches())
                 return null;

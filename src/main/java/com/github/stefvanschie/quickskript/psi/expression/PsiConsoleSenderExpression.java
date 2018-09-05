@@ -36,7 +36,7 @@ public class PsiConsoleSenderExpression extends PsiPrecomputedHolder<ConsoleComm
         /**
          * The pattern to parse console sender expressions with
          */
-        private final Pattern PATTERN = Pattern.compile("(?:the )?(?:(?:console)|(?:server))");
+        private final Pattern pattern = Pattern.compile("(?:the )?(?:(?:console)|(?:server))");
 
         /**
          * {@inheritDoc}
@@ -44,7 +44,7 @@ public class PsiConsoleSenderExpression extends PsiPrecomputedHolder<ConsoleComm
         @Nullable
         @Override
         public PsiConsoleSenderExpression tryParse(@NotNull String text) {
-            Matcher matcher = PATTERN.matcher(text);
+            Matcher matcher = pattern.matcher(text);
             
             if (!matcher.matches())
                 return null;

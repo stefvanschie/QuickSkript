@@ -56,7 +56,7 @@ public class PsiSineFunction extends PsiElement<Double> {
         /**
          * The pattern for matching sine function expressions
          */
-        private final Pattern PATTERN = Pattern.compile("sin\\(([\\s\\S]+)\\)");
+        private final Pattern pattern = Pattern.compile("sin\\(([\\s\\S]+)\\)");
 
         /**
          * {@inheritDoc}
@@ -64,7 +64,7 @@ public class PsiSineFunction extends PsiElement<Double> {
         @Nullable
         @Override
         public PsiSineFunction tryParse(@NotNull String text) {
-            Matcher matcher = PATTERN.matcher(text);
+            Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches())
                 return null;

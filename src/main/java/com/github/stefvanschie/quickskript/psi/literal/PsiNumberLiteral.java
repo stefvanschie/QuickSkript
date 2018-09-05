@@ -34,7 +34,7 @@ public class PsiNumberLiteral extends PsiPrecomputedHolder<Double> {
         /**
          * The pattern for matching number literals
          */
-        private final Pattern PATTERN = Pattern.compile("-?\\d+(?:.\\d+)?");
+        private final Pattern pattern = Pattern.compile("-?\\d+(?:.\\d+)?");
 
         /**
          * {@inheritDoc}
@@ -42,7 +42,7 @@ public class PsiNumberLiteral extends PsiPrecomputedHolder<Double> {
         @Nullable
         @Override
         public PsiNumberLiteral tryParse(@NotNull String text) {
-            Matcher matcher = PATTERN.matcher(text);
+            Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches())
                 return null;
