@@ -4,7 +4,7 @@ import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
-import com.github.stefvanschie.quickskript.psi.literal.PsiPrecomputedHolder;
+import com.github.stefvanschie.quickskript.psi.literal.PsiCollection;
 import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -29,7 +29,7 @@ public class PsiMaximumFunction extends PsiElement<Double> {
     /**
      * Creates a new maximum function
      *
-     * @param element an element containing an iterable of numbers
+     * @param element an element containing a collection of elements of numbers
      * @since 0.1.0
      */
     private PsiMaximumFunction(PsiElement<?> element) {
@@ -47,13 +47,13 @@ public class PsiMaximumFunction extends PsiElement<Double> {
     @NotNull
     @Override
     protected Double executeImpl(@Nullable Context context) {
-        Iterable<?> iterable = element.execute(context, Iterable.class);
+        Collection<?> collection = element.execute(context, Collection.class);
 
         double max = -Double.MAX_VALUE; //negative double max value is the actual smallest value, double min value is still positive
 
-        for (Object object : iterable) {
+        for (Object object : collection) {
             if (!(object instanceof PsiElement<?>))
-                throw new ExecutionException("Iterable should only contain psi elements, but it didn't");
+                throw new ExecutionException("Collection should only contain psi elements, but it didn't");
 
             double value = ((PsiElement<?>) object).execute(context, Number.class).doubleValue();
 
@@ -74,7 +74,7 @@ public class PsiMaximumFunction extends PsiElement<Double> {
         /**
          * The pattern for matching maximum expressions
          */
-        private final Pattern PATTERN = Pattern.compile("max\\(([\\s\\S]+)\\)");
+        private final Pattern pattern = Pattern.compile("max\\(([\\s\\S]+)\\)");
 
         /**
          * {@inheritDoc}
@@ -82,7 +82,7 @@ public class PsiMaximumFunction extends PsiElement<Double> {
         @Nullable
         @Override
         public PsiMaximumFunction tryParse(@NotNull String text) {
-            Matcher matcher = PATTERN.matcher(text);
+            Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches())
                 return null;
@@ -90,13 +90,13 @@ public class PsiMaximumFunction extends PsiElement<Double> {
             String[] values = matcher.group(1).replace(" ", "").split(",");
 
             if (values.length == 1) {
-                PsiElement<?> iterable = SkriptLoader.get().tryParseElement(values[0]);
+                PsiElement<?> collection = SkriptLoader.get().tryParseElement(values[0]);
 
-                if (iterable != null)
-                    return new PsiMaximumFunction(iterable);
+                if (collection != null)
+                    return new PsiMaximumFunction(collection);
             }
 
-            return new PsiMaximumFunction(new PsiPrecomputedHolder<>(Arrays.stream(values)
+            return new PsiMaximumFunction(new PsiCollection<>(Arrays.stream(values)
                     .map(string -> SkriptLoader.get().forceParseElement(string))
                     .collect(Collectors.toList())));
         }

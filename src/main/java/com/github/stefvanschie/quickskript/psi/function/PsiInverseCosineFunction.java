@@ -55,7 +55,7 @@ public class PsiInverseCosineFunction extends PsiElement<Double> {
         /**
          * The pattern for matching inverse cosine function expressions
          */
-        private final Pattern PATTERN = Pattern.compile("acos\\(([\\s\\S]+)\\)");
+        private final Pattern pattern = Pattern.compile("acos\\(([\\s\\S]+)\\)");
 
         /**
          * {@inheritDoc}
@@ -63,7 +63,7 @@ public class PsiInverseCosineFunction extends PsiElement<Double> {
         @Nullable
         @Override
         public PsiInverseCosineFunction tryParse(@NotNull String text) {
-            Matcher matcher = PATTERN.matcher(text);
+            Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches())
                 return null;

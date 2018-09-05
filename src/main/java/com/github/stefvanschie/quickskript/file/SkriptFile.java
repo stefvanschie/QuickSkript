@@ -1,6 +1,6 @@
 package com.github.stefvanschie.quickskript.file;
 
-import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang.Validate;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 

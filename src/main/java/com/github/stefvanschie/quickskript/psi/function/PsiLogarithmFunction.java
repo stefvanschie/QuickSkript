@@ -51,8 +51,12 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
     @NotNull
     @Override
     protected Double executeImpl(@Nullable Context context) {
-        return Math.log10(value.execute(context, Number.class).doubleValue()) /
-            Math.log10(base == null ? 10 : base.execute(context, Number.class).doubleValue());
+        double result = Math.log10(value.execute(context, Number.class).doubleValue());
+
+        if (base != null)
+            result /= base.execute(context, Number.class).doubleValue();
+
+        return result;
     }
 
     /**
@@ -65,7 +69,7 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
         /**
          * The pattern for matching logarithm expressions
          */
-        private final Pattern PATTERN = Pattern.compile("log\\(([\\s\\S]+)\\)");
+        private final Pattern pattern = Pattern.compile("log\\(([\\s\\S]+)\\)");
 
         /**
          * {@inheritDoc}
@@ -73,7 +77,7 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
         @Nullable
         @Override
         public PsiLogarithmFunction tryParse(@NotNull String text) {
-            Matcher matcher = PATTERN.matcher(text);
+            Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches())
                 return null;

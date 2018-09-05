@@ -7,7 +7,7 @@ import com.github.stefvanschie.quickskript.file.SkriptFileNode;
 import com.github.stefvanschie.quickskript.file.SkriptFileSection;
 import com.github.stefvanschie.quickskript.skript.util.ExecutionTarget;
 import com.github.stefvanschie.quickskript.util.TextMessage;
-import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang.Validate;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;

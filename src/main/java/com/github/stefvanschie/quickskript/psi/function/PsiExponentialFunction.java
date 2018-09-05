@@ -56,7 +56,7 @@ public class PsiExponentialFunction extends PsiElement<Double> {
         /**
          * The pattern for matching cosine expressions
          */
-        private final Pattern PATTERN = Pattern.compile("exp\\(([\\s\\S]+)\\)");
+        private final Pattern pattern = Pattern.compile("exp\\(([\\s\\S]+)\\)");
 
         /**
          * {@inheritDoc}
@@ -64,7 +64,7 @@ public class PsiExponentialFunction extends PsiElement<Double> {
         @Nullable
         @Override
         public PsiExponentialFunction tryParse(@NotNull String text) {
-            Matcher matcher = PATTERN.matcher(text);
+            Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches())
                 return null;

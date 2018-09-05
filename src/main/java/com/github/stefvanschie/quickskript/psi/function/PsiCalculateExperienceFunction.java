@@ -68,7 +68,7 @@ public class PsiCalculateExperienceFunction extends PsiElement<Long> {
         /**
          * The pattern for matching calculate experience expressions
          */
-        private final Pattern PATTERN = Pattern.compile("calcExperience\\(([\\s\\S]+)\\)");
+        private final Pattern pattern = Pattern.compile("calcExperience\\(([\\s\\S]+)\\)");
 
         /**
          * {@inheritDoc}
@@ -76,7 +76,7 @@ public class PsiCalculateExperienceFunction extends PsiElement<Long> {
         @Nullable
         @Override
         public PsiCalculateExperienceFunction tryParse(@NotNull String text) {
-            Matcher matcher = PATTERN.matcher(text);
+            Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches())
                 return null;
