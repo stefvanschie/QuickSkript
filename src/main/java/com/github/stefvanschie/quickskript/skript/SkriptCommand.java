@@ -46,7 +46,9 @@ public class SkriptCommand implements CommandExecutor {
      * Constructs a new skript command from the given file section. The file section should match with the 'trigger'
      * part in a skript file.
      *
+     * @param skript the source of this command executor code
      * @param section the file section to load the elements from
+     * @param executionTarget the group which can execute this command
      * @since 0.1.0
      */
     SkriptCommand(@NotNull Skript skript, @NotNull SkriptFileSection section, @Nullable ExecutionTarget executionTarget) {

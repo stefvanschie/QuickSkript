@@ -1,4 +1,4 @@
-package com.github.stefvanschie.quickskript.psi;
+package com.github.stefvanschie.quickskript.parsing;
 
 import com.github.stefvanschie.quickskript.TestClassBase;
 import com.github.stefvanschie.quickskript.psi.literal.PsiNumberLiteral;

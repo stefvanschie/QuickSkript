@@ -2,6 +2,7 @@ package com.github.stefvanschie.quickskript.psi.literal;
 
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -37,6 +38,7 @@ public class PsiCollection<T> extends PsiElement<Collection<PsiElement<T>>> {
      * {@inheritDoc}
      */
     @Override
+    @Contract(pure = true)
     protected final Collection<PsiElement<T>> executeImpl(@Nullable Context context) {
         return elements;
     }

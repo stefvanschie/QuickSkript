@@ -2,6 +2,7 @@ package com.github.stefvanschie.quickskript.psi.literal;
 
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -24,6 +25,7 @@ public class PsiPrecomputedHolder<T> extends PsiElement<T> {
      * {@inheritDoc}
      */
     @Override
+    @Contract("_ -> fail")
     protected final T executeImpl(@Nullable Context context) {
         throw new AssertionError("Since the preComputed variable is always set, this method should never get called");
     }

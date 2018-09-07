@@ -49,9 +49,9 @@ public class QuickSkript extends JavaPlugin {
                 if (!file.isFile() || !file.getName().endsWith(".sk"))
                     continue;
 
-                String skriptName = file.getName().substring(0, file.getName().lastIndexOf('.'));
-
+                String skriptName = SkriptFile.getName(file);
                 SkriptFile skriptFile;
+
                 try {
                     skriptFile = SkriptFile.load(file);
                 } catch (IOException e) {

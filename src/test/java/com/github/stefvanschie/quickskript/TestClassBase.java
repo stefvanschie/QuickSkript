@@ -23,7 +23,8 @@ public class TestClassBase {
     @BeforeAll
     void initialize() throws IllegalAccessException {
         Server server = mock(Server.class);
-        when(server.getPluginManager()).thenReturn(new SimplePluginManager(server, new SimpleCommandMap(server)));
+        SimplePluginManager pluginManager = new SimplePluginManager(server, new SimpleCommandMap(server));
+        when(server.getPluginManager()).thenReturn(pluginManager);
         FieldUtils.writeDeclaredStaticField(Bukkit.class, "server", server, true);
 
         QuickSkript plugin = mock(QuickSkript.class);

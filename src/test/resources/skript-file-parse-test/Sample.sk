@@ -1,0 +1,3 @@
+command /message:
+    trigger:
+        message "Hi!" to the console

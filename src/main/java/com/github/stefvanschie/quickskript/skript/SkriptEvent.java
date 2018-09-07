@@ -33,6 +33,7 @@ public class SkriptEvent {
     /**
      * Constructs a new skript event.
      *
+     * @param skript the source of this event handler code
      * @param section the file section to load the elements from
      * @since 0.1.0
      */
@@ -47,6 +48,8 @@ public class SkriptEvent {
 
     /**
      * Executes the contents of this event
+     *
+     * @param event the event being executed
      */
     public void execute(@NotNull Event event) {
         EventContext context = new EventContext(event);
