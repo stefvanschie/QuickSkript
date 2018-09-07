@@ -1,3 +1,9 @@
-command /message:
-    trigger:
+ #This is a comment.
+    #The next line is an empty line.
+
+command /message: #Another comment
+    trigger:    #And yet another comment
         message "Hi!" to the console
+
+on command:
+    message "This is Sample." to the console
