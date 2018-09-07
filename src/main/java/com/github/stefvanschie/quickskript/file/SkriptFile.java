@@ -75,15 +75,17 @@ public class SkriptFile extends SkriptFileSection {
     }
 
     /**
-     * Gets a user friendly name for a {@link SkriptFile} from the given {@link File}.
+     * A utility method which removes the .sk extension from
+     * the file name if it is present and if the file name is not just that.
      *
-     * @param file the source of the file name
+     * @param file the file which is the source of the name
      * @return the user friendly name
      */
     @NotNull
     @Contract(pure = true)
     public static String getName(@NotNull File file) {
-        int index = file.getName().lastIndexOf('.');
-        return index == -1 ? file.getName() : file.getName().substring(0, index);
+        String name = file.getName();
+        return name.length() > 3 && name.endsWith(".sk")
+                ? name.substring(0, name.length() - 3) : name;
     }
 }
