@@ -5,14 +5,13 @@ import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.psi.expression.PsiRandomNumberExpression;
 import com.github.stefvanschie.quickskript.psi.function.*;
-import com.github.stefvanschie.quickskript.psi.literal.PsiCollection;
+import com.github.stefvanschie.quickskript.psi.util.PsiCollection;
 import com.github.stefvanschie.quickskript.psi.literal.PsiNumberLiteral;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Constructor;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.BiFunction;
@@ -166,7 +165,7 @@ class PsiNumberExecutabilityTest extends TestClassBase {
 
         clazz -= biFunctions.size();
         return (PsiElement<Number>) collectionFunctions.get(clazz)
-                .newInstance(new PsiCollection<>(Arrays.asList(parameters)));
+                .newInstance(new PsiCollection<>(parameters));
     }
 
 

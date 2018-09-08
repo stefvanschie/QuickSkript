@@ -1,4 +1,4 @@
-package com.github.stefvanschie.quickskript.psi.literal;
+package com.github.stefvanschie.quickskript.psi.util;
 
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;

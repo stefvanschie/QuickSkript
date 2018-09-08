@@ -2,7 +2,7 @@ package com.github.stefvanschie.quickskript.parsing;
 
 import com.github.stefvanschie.quickskript.TestClassBase;
 import com.github.stefvanschie.quickskript.psi.literal.PsiNumberLiteral;
-import com.github.stefvanschie.quickskript.psi.literal.PsiPrecomputedHolder;
+import com.github.stefvanschie.quickskript.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.psi.literal.PsiStringLiteral;
 import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import org.junit.jupiter.api.Test;

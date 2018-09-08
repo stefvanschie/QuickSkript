@@ -1,7 +1,7 @@
 package com.github.stefvanschie.quickskript.psi.expression;
 
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.psi.literal.PsiPrecomputedHolder;
+import com.github.stefvanschie.quickskript.psi.util.PsiPrecomputedHolder;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.jetbrains.annotations.NotNull;
