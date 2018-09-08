@@ -7,11 +7,14 @@ import com.github.stefvanschie.quickskript.file.SkriptFileNode;
 import com.github.stefvanschie.quickskript.file.SkriptFileSection;
 import com.github.stefvanschie.quickskript.skript.util.ExecutionTarget;
 import com.github.stefvanschie.quickskript.util.TextMessage;
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
-import java.util.Objects;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * A class for loading and containing skript files
@@ -55,27 +58,28 @@ public class Skript {
     }
 
     /**
-     * Registers all commands in this skript
-     *
-     * @since 0.1.0
-     */
-    public void registerCommands() {
-        file.getNodes().stream().filter(node -> {
-            String text = node.getText();
-
-            return text != null && text.startsWith("command") && node instanceof SkriptFileSection;
-        }).forEach(node -> registerCommand((SkriptFileSection) node));
-    }
-
-    /**
      * Registers all events in this skript
      *
      * @since 0.1.0
      */
     public void registerEventExecutors() {
         file.getNodes().stream()
-                .filter(node -> node instanceof SkriptFileSection && node.getText() != null)
-                .forEach(node -> registerEventExecutor((SkriptFileSection) node));
+                .filter(node -> node instanceof SkriptFileSection)
+                .map(node -> (SkriptFileSection) node)
+                .forEach(section -> SkriptLoader.get().tryRegisterEventExecutor(section.getText(),
+                        () -> new SkriptEventExecutor(this, section)));
+    }
+
+    /**
+     * Registers all commands in this skript
+     *
+     * @since 0.1.0
+     */
+    public void registerCommands() {
+        file.getNodes().stream()
+                .filter(node -> node.getText().startsWith("command")
+                        && node instanceof SkriptFileSection)
+                .forEach(node -> registerCommand((SkriptFileSection) node));
     }
 
     /**
@@ -85,78 +89,58 @@ public class Skript {
      * @since 0.1.0
      */
     private void registerCommand(@NotNull SkriptFileSection section) {
-        String text = section.getText();
-        Validate.notNull(text, "Command is file itself, which isn't possible");
-
         //noinspection HardcodedFileSeparator
         String commandName = section.getText().substring("command /".length());
 
         SkriptLoader.get().registerCommand(commandName, command -> {
 
-            section.getNodes().stream()
-                    .filter(node -> node instanceof SkriptFileLine &&
-                            node.getText() != null &&
-                            node.getText().startsWith("description:"))
-                    .findAny()
-                    .ifPresent(description -> command.setDescription(TextMessage.parse(
-                            Objects.requireNonNull(description.getText()).substring("description:".length()).trim()).construct()
-                    ));
+            List<SkriptFileLine> lines = section.getNodes().stream()
+                    .filter(node -> node instanceof SkriptFileLine)
+                    .map(node -> (SkriptFileLine) node)
+                    .collect(Collectors.toList());
 
-            section.getNodes().stream()
-                    .filter(node -> node instanceof SkriptFileLine &&
-                            node.getText() != null &&
-                            node.getText().startsWith("aliases:"))
-                    .findAny()
-                    .ifPresent(aliases -> command.setAliases(Arrays.asList(
-                            Objects.requireNonNull(aliases.getText()).substring("aliases:".length()).replace(" ", "").split(",")
-                    )));
+            String description = getFileLineValue(lines, "description:",
+                    "Command " + commandName + " has multiple valid descriptions");
+            if (description != null) {
+                command.setDescription(TextMessage.parse(description).construct());
+            }
 
-            section.getNodes().stream()
-                    .filter(node -> node instanceof SkriptFileLine &&
-                            node.getText() != null &&
-                            node.getText().startsWith("permission:"))
-                    .findAny()
-                    .ifPresent(permission -> command.setPermission(
-                            Objects.requireNonNull(permission.getText()).substring("permission:".length()).trim()
-                    ));
+            String aliases = getFileLineValue(lines, "aliases:",
+                    "Command " + commandName + " has multiple valid aliases");
+            if (aliases != null) {
+                command.setAliases(Arrays.asList(StringUtils.replace(aliases, " ", "").split(",")));
+            }
 
-            section.getNodes().stream()
-                    .filter(node -> node instanceof SkriptFileLine &&
-                            node.getText() != null &&
-                            node.getText().startsWith("permission message:"))
-                    .findAny()
-                    .ifPresent(permissionMessage -> command.setPermissionMessage(TextMessage.parse(
-                            Objects.requireNonNull(permissionMessage.getText()).substring("permission message:".length()).trim()
-                    ).construct()));
+            String permission = getFileLineValue(lines, "permission:",
+                    "Command " + commandName + " has multiple valid permissions");
+            if (permission != null) {
+                command.setPermission(TextMessage.parse(permission).construct());
+            }
 
-            section.getNodes().stream()
-                    .filter(node -> node instanceof SkriptFileLine &&
-                            node.getText() != null &&
-                            node.getText().startsWith("usage:"))
-                    .findAny()
-                    .ifPresent(usage -> command.setUsage(TextMessage.parse(
-                            Objects.requireNonNull(usage.getText()).substring("usage:".length()).trim()).construct()
-                    ));
+            String permissionMessage = getFileLineValue(lines, "permission message:",
+                    "Command " + commandName + " has multiple valid permission messages");
+            if (permissionMessage != null) {
+                command.setPermissionMessage(TextMessage.parse(permissionMessage).construct());
+            }
 
-            ExecutionTarget target = section.getNodes().stream()
-                    .filter(node -> node instanceof SkriptFileLine &&
-                            node.getText() != null &&
-                            node.getText().startsWith("executable by:"))
-                    .limit(1)
-                    .map(executableBy -> ExecutionTarget.parse(
-                            executableBy.getText().substring("executable by:".length()).trim()
-                    ))
-                    .findAny()
-                    .orElse(null);
+            String usage = getFileLineValue(lines, "usage:",
+                    "Command " + commandName + " has multiple valid usages");
+            if (usage != null) {
+                command.setUsage(TextMessage.parse(usage).construct());
+            }
+
+            String rawTarget = getFileLineValue(lines, "usage:",
+                    "Command " + commandName + " has multiple valid execution targets");
+            ExecutionTarget target = rawTarget == null ? null : ExecutionTarget.parse(rawTarget);
 
             SkriptFileSection trigger = null;
 
             for (SkriptFileNode node : section.getNodes()) {
-                if (node instanceof SkriptFileSection && node.getText() != null &&
-                        node.getText().equalsIgnoreCase("trigger")) {
+                if (node instanceof SkriptFileSection && node.getText().equalsIgnoreCase("trigger")) {
 
                     if (trigger != null) {
-                        QuickSkript.getInstance().getLogger().warning("Command " + commandName + " has multiple valid triggers");
+                        QuickSkript.getInstance().getLogger().warning("Command " + commandName +
+                                " has multiple valid triggers");
                         break;
                     }
 
@@ -165,7 +149,8 @@ public class Skript {
             }
 
             if (trigger == null) {
-                QuickSkript.getInstance().getLogger().severe("Command " + commandName + " failed to load, because no trigger is set");
+                QuickSkript.getInstance().getLogger().severe("Command " + commandName +
+                        " failed to load, because no trigger is set");
                 return;
             }
 
@@ -174,17 +159,32 @@ public class Skript {
     }
 
     /**
-     * Tries to register this event. If the provided section isn't a valid event, this method will silently fail.
+     * Finds a line which starts with the specified key.
      *
-     * @param section the section the event is contained in.
-     * @since 0.1.0
+     * @param lines the lines in which to search
+     * @param key the key of the value
+     * @param multipleMatchWarning the warning to log in case of multiple matches
+     * @return the found value or null in case none were found
      */
-    private void registerEventExecutor(@NotNull SkriptFileSection section) {
-        String text = section.getText();
+    @Nullable
+    @Contract(pure = true)
+    private static String getFileLineValue(@NotNull List<SkriptFileLine> lines, @NotNull String key,
+                                           @NotNull String multipleMatchWarning) {
+        String value = null;
 
-        if (text == null)
-            return;
+        for (SkriptFileLine line : lines) {
+            if (line.getText().startsWith(key)) {
 
-        SkriptLoader.get().tryRegisterEventExecutor(text, () -> new SkriptEventExecutor(this, section));
+                if (value != null) {
+                    QuickSkript.getInstance().getLogger().warning(multipleMatchWarning);
+                    break;
+                }
+
+                value = line.getText().substring(key.length()).trim();
+
+            }
+        }
+
+        return value;
     }
 }

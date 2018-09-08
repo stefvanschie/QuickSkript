@@ -22,7 +22,7 @@ public class SkriptFileSection extends SkriptFileNode {
     /**
      * {@inheritDoc}
      */
-    SkriptFileSection(String text) {
+    SkriptFileSection(@NotNull String text) {
         super(text);
     }
 

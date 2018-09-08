@@ -41,7 +41,6 @@ public class SkriptEventExecutor {
         this.skript = skript;
 
         elements = section.getNodes().stream()
-                .filter(node -> node.getText() != null)
                 .map(node -> SkriptLoader.get().forceParseElement(node.getText()))
                 .collect(Collectors.toList());
     }

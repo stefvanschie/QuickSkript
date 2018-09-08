@@ -17,14 +17,7 @@ import java.util.List;
  *
  * @since 0.1.0
  */
-public class SkriptFile extends SkriptFileSection {
-
-    /**
-     * {@inheritDoc}
-     */
-    private SkriptFile() {
-        super(null);
-    }
+public class SkriptFile {
 
     /**
      * Loads a skript file from a given file
@@ -38,21 +31,32 @@ public class SkriptFile extends SkriptFileSection {
     @Contract(pure = true)
     public static SkriptFile load(@NotNull File file) throws IOException {
         Validate.isTrue(file.isFile() && file.canRead(), "The file must be a valid, readable, existing file.");
-        return load(Files.readAllLines(file.toPath()));
+        return loadInternal(Files.readAllLines(file.toPath()));
     }
 
     /**
      * Loads a skript file from the given lines
      *
-     * @param lines the lines to load (the variable will be cloned - won't be modified)
+     * @param lines the lines to load (will be cloned - won't be modified)
      * @return the skript file
      * @since 0.1.0
      */
     @NotNull
     @Contract(pure = true)
-    public static SkriptFile load(List<String> lines) {
-        lines = new ArrayList<>(lines);
+    public static SkriptFile load(@NotNull List<String> lines) {
+        return loadInternal(new ArrayList<>(lines));
+    }
 
+    /**
+     * Loads a skript file from the given lines.
+     * This method mutates its parameter, therefore should only be used internally.
+     *
+     * @param lines the lines to load
+     * @return the skript file
+     * @since 0.1.0
+     */
+    @NotNull
+    private static SkriptFile loadInternal(@NotNull List<String> lines) {
         //remove comments
         for (int i = 0; i < lines.size(); i++) {
             String line = lines.get(i);
@@ -69,9 +73,9 @@ public class SkriptFile extends SkriptFileSection {
         for (int i = 0; i < lines.size(); i++)
             lines.set(i, StringUtils.replace(StringUtils.stripEnd(lines.get(i), null), "\t", "    "));
 
-        SkriptFile skriptFile = new SkriptFile();
-        skriptFile.parse(lines);
-        return skriptFile;
+        SkriptFileSection section = new SkriptFileSection("");
+        section.parse(lines);
+        return new SkriptFile(section);
     }
 
     /**
@@ -87,5 +91,32 @@ public class SkriptFile extends SkriptFileSection {
         String name = file.getName();
         return name.length() > 3 && name.endsWith(".sk")
                 ? name.substring(0, name.length() - 3) : name;
+    }
+
+    /**
+     * The section which stores all information of this file
+     */
+    @NotNull
+    private final SkriptFileSection section;
+
+    /**
+     * Creates a new instance backed by the specified section
+     *
+     * @param section the backing section of this file
+     */
+    private SkriptFile(@NotNull SkriptFileSection section) {
+        this.section = section;
+    }
+
+    /**
+     * Returns a list of nodes
+     *
+     * @return the nodes
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public List<SkriptFileNode> getNodes() {
+        return section.getNodes();
     }
 }
