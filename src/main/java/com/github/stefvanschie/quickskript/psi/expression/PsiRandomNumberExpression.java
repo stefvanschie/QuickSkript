@@ -46,7 +46,7 @@ public class PsiRandomNumberExpression extends PsiElement<Number> {
             Number minNumber = this.min.execute(null, Number.class);
             Number maxNumber = this.max.execute(null, Number.class);
 
-            if (minNumber.equals(maxNumber)) {
+            if (minNumber.doubleValue() == maxNumber.doubleValue()) {
                 preComputed = minNumber;
                 return;
             }
@@ -90,12 +90,12 @@ public class PsiRandomNumberExpression extends PsiElement<Number> {
         /**
          * The pattern for matching random number expressions with integer values
          */
-        private final Pattern integerPattern = Pattern.compile("a? random integer (from|between) (-?\\d+) (to|and) (-?\\d+)");
+        private final Pattern integerPattern = Pattern.compile("(a )?random integer (from|between) (-?\\d+) (to|and) (-?\\d+)");
 
         /**
          * The pattern for matching random number expressions with floating point values
          */
-        private final Pattern numberPattern = Pattern.compile("a? random number (from|between) (-?\\d+(?:.\\d+)?) (to|and) (-?\\d+(?:.\\d+)?)");
+        private final Pattern numberPattern = Pattern.compile("(a )?random number (from|between) (-?\\d+(?:.\\d+)?) (to|and) (-?\\d+(?:.\\d+)?)");
 
         /**
          * {@inheritDoc}
@@ -116,8 +116,8 @@ public class PsiRandomNumberExpression extends PsiElement<Number> {
             }
 
             return new PsiRandomNumberExpression(integer,
-                    SkriptLoader.get().forceParseElement(matcher.group(1)),
-                    SkriptLoader.get().forceParseElement(matcher.group(2)));
+                    SkriptLoader.get().forceParseElement(matcher.group(3)),
+                    SkriptLoader.get().forceParseElement(matcher.group(5)));
         }
     }
 }

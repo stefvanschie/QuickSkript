@@ -13,11 +13,11 @@ import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 /**
- * Represents an event we're listening for.
+ * Represents an arbitrary skript event handler.
  *
  * @since 0.1.0
  */
-public class SkriptEvent {
+public class SkriptEventExecutor {
 
     /**
      * The skript this command belongs to
@@ -33,20 +33,22 @@ public class SkriptEvent {
     /**
      * Constructs a new skript event.
      *
+     * @param skript the source of this event handler code
      * @param section the file section to load the elements from
      * @since 0.1.0
      */
-    SkriptEvent(@NotNull Skript skript, @NotNull SkriptFileSection section) {
+    SkriptEventExecutor(@NotNull Skript skript, @NotNull SkriptFileSection section) {
         this.skript = skript;
 
         elements = section.getNodes().stream()
-                .filter(node -> node.getText() != null)
                 .map(node -> SkriptLoader.get().forceParseElement(node.getText()))
                 .collect(Collectors.toList());
     }
 
     /**
      * Executes the contents of this event
+     *
+     * @param event the event being executed
      */
     public void execute(@NotNull Event event) {
         EventContext context = new EventContext(event);

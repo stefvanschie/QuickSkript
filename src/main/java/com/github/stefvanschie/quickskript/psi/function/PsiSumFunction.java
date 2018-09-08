@@ -4,7 +4,7 @@ import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
-import com.github.stefvanschie.quickskript.psi.literal.PsiCollection;
+import com.github.stefvanschie.quickskript.psi.util.PsiCollection;
 import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -13,7 +13,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 /**
  * Returns the sum of a given collection of numbers
@@ -95,8 +94,7 @@ public class PsiSumFunction extends PsiElement<Double> {
             }
             
             return new PsiSumFunction(new PsiCollection<>(Arrays.stream(values)
-                    .map(string -> SkriptLoader.get().forceParseElement(string))
-                    .collect(Collectors.toList())));
+                    .map(string -> SkriptLoader.get().forceParseElement(string))));
         }
     }
 }

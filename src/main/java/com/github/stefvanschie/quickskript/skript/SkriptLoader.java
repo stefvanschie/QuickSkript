@@ -78,7 +78,7 @@ public class SkriptLoader implements AutoCloseable {
     private final Map<String, PsiConverter<?>> converters = new HashMap<>();
 
     /**
-     * A list of all event factories.
+     * A list of all event proxy factories.
      */
     @NotNull
     private final List<EventProxyFactory> events = new ArrayList<>();
@@ -206,14 +206,15 @@ public class SkriptLoader implements AutoCloseable {
 
 
     /**
-     * Parses the inputted text and returns whether an event was registered.
+     * Parses the inputted text and returns whether an event executor was registered.
      *
      * @param input the input to parse
-     * @param toRegisterSupplier a {@link Supplier} which can create one {@link SkriptEvent} instance to register
+     * @param toRegisterSupplier a {@link Supplier} which can create one {@link SkriptEventExecutor} instance to register
      * @return whether a registration took place
      * @since 0.1.0
      */
-    public boolean tryRegisterEvent(@NotNull String input, @NotNull Supplier<SkriptEvent> toRegisterSupplier) {
+    public boolean tryRegisterEventExecutor(@NotNull String input,
+                                            @NotNull Supplier<SkriptEventExecutor> toRegisterSupplier) {
         input = input.trim();
 
         for (EventProxyFactory factory : events) {

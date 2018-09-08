@@ -5,7 +5,7 @@ import org.apache.commons.lang.reflect.FieldUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.command.SimpleCommandMap;
-import org.bukkit.plugin.*;
+import org.bukkit.plugin.SimplePluginManager;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.TestInstance;
@@ -21,14 +21,16 @@ import static org.mockito.Mockito.*;
 public class TestClassBase {
 
     @BeforeAll
-    void initialize() throws IllegalAccessException {
+    void initialize() throws ReflectiveOperationException {
         Server server = mock(Server.class);
-        when(server.getPluginManager()).thenReturn(new SimplePluginManager(server, new SimpleCommandMap(server)));
+        SimplePluginManager pluginManager = new SimplePluginManager(server, new SimpleCommandMap(server));
+        when(server.getPluginManager()).thenReturn(pluginManager);
         FieldUtils.writeDeclaredStaticField(Bukkit.class, "server", server, true);
 
         QuickSkript plugin = mock(QuickSkript.class);
-        FieldUtils.writeDeclaredStaticField(QuickSkript.class, "instance", plugin, true);
+        when(plugin.isEnabled()).thenReturn(true);
         when(plugin.getLogger()).thenReturn(Logger.getGlobal());
+        FieldUtils.writeDeclaredStaticField(QuickSkript.class, "instance", plugin, true);
 
         new SkriptLoader();
     }

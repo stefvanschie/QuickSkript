@@ -9,8 +9,6 @@ import com.github.stefvanschie.quickskript.skript.util.ExecutionTarget;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,11 +17,11 @@ import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 /**
- * Represents an arbitrary skript command
+ * Represents an arbitrary skript command handler.
  *
  * @since 0.1.0
  */
-public class SkriptCommand implements CommandExecutor {
+public class SkriptCommandExecutor implements CommandExecutor {
 
     /**
      * The skript this command belongs to
@@ -46,15 +44,16 @@ public class SkriptCommand implements CommandExecutor {
      * Constructs a new skript command from the given file section. The file section should match with the 'trigger'
      * part in a skript file.
      *
+     * @param skript the source of this command executor code
      * @param section the file section to load the elements from
+     * @param executionTarget the group which can execute this command
      * @since 0.1.0
      */
-    SkriptCommand(@NotNull Skript skript, @NotNull SkriptFileSection section, @Nullable ExecutionTarget executionTarget) {
+    SkriptCommandExecutor(@NotNull Skript skript, @NotNull SkriptFileSection section, @Nullable ExecutionTarget executionTarget) {
         this.skript = skript;
         this.executionTarget = executionTarget;
 
         elements = section.getNodes().stream()
-                .filter(node -> node.getText() != null)
                 .map(node -> SkriptLoader.get().forceParseElement(node.getText()))
                 .collect(Collectors.toList());
     }
@@ -64,11 +63,7 @@ public class SkriptCommand implements CommandExecutor {
      */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (executionTarget != null &&
-                ((executionTarget == ExecutionTarget.CONSOLE && !(sender instanceof ConsoleCommandSender)) ||
-                        (executionTarget == ExecutionTarget.PLAYERS && !(sender instanceof Player)) ||
-                        (executionTarget == ExecutionTarget.CONSOLE_AND_PLAYERS &&
-                                !(sender instanceof Player) && !(sender instanceof ConsoleCommandSender))))
+        if (executionTarget != null && !executionTarget.matches(sender))
             return false;
 
         CommandContext context = new CommandContext(sender);

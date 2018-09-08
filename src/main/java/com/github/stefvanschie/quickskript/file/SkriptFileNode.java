@@ -1,7 +1,7 @@
 package com.github.stefvanschie.quickskript.file;
 
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * An abstract skript file node
@@ -11,9 +11,9 @@ import org.jetbrains.annotations.Nullable;
 public class SkriptFileNode {
 
     /**
-     * The text of this node, this may be null if the represented node is the skript file itself
+     * The text of this node
      */
-    @Nullable
+    @NotNull
     private final String text;
 
     /**
@@ -22,7 +22,7 @@ public class SkriptFileNode {
      * @param text the text
      * @since 0.1.0
      */
-    SkriptFileNode(@Nullable String text) {
+    SkriptFileNode(@NotNull String text) {
         this.text = text;
     }
 
@@ -32,7 +32,7 @@ public class SkriptFileNode {
      * @return the text
      * @since 0.1.0
      */
-    @Nullable
+    @NotNull
     @Contract(pure = true)
     public String getText() {
         return text;

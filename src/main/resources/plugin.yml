@@ -1,5 +1,6 @@
-main: com.github.stefvanschie.quickskript.QuickSkript
-name: QuickSkript
-version: 0.1.0
+main: ${package}.${name}
+name: ${name}
+version: ${project.version}
 
+website: ${url}
 api-version: 1.13

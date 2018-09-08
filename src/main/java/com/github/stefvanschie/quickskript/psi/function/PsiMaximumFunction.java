@@ -4,7 +4,7 @@ import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
-import com.github.stefvanschie.quickskript.psi.literal.PsiCollection;
+import com.github.stefvanschie.quickskript.psi.util.PsiCollection;
 import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -12,7 +12,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 /**
  * Returns the highest value from a given collection of numbers
@@ -97,8 +96,7 @@ public class PsiMaximumFunction extends PsiElement<Double> {
             }
 
             return new PsiMaximumFunction(new PsiCollection<>(Arrays.stream(values)
-                    .map(string -> SkriptLoader.get().forceParseElement(string))
-                    .collect(Collectors.toList())));
+                    .map(string -> SkriptLoader.get().forceParseElement(string))));
         }
     }
 }
