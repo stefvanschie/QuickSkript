@@ -29,8 +29,8 @@ class SkriptFileParseTest extends TestClassBase {
             assertDoesNotThrow(skript::registerCommands,
                     "Error while parsing commands of skript file: " + file.getName());
 
-            assertDoesNotThrow(skript::registerEvents,
-                    "Error while parsing events of skript file: " + file.getName());
+            assertDoesNotThrow(skript::registerEventExecutors,
+                    "Error while parsing event executors of skript file: " + file.getName());
         }
     }
 }

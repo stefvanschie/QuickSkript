@@ -13,11 +13,11 @@ import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 /**
- * Represents an event we're listening for.
+ * Represents an arbitrary skript event handler.
  *
  * @since 0.1.0
  */
-public class SkriptEvent {
+public class SkriptEventExecutor {
 
     /**
      * The skript this command belongs to
@@ -37,7 +37,7 @@ public class SkriptEvent {
      * @param section the file section to load the elements from
      * @since 0.1.0
      */
-    SkriptEvent(@NotNull Skript skript, @NotNull SkriptFileSection section) {
+    SkriptEventExecutor(@NotNull Skript skript, @NotNull SkriptFileSection section) {
         this.skript = skript;
 
         elements = section.getNodes().stream()

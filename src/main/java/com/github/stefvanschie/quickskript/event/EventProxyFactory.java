@@ -1,6 +1,6 @@
 package com.github.stefvanschie.quickskript.event;
 
-import com.github.stefvanschie.quickskript.skript.SkriptEvent;
+import com.github.stefvanschie.quickskript.skript.SkriptEventExecutor;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,9 +21,9 @@ public abstract class EventProxyFactory {
      * Tries to parse the given text for this specified factory.
      *
      * @param text the text to be parsed
-     * @param toRegisterSupplier a {@link Supplier} which can create one {@link SkriptEvent} instance to register
+     * @param toRegisterSupplier a {@link Supplier} which can create one {@link SkriptEventExecutor} instance to register
      * @return whether a registration took place
      * @since 0.1.0
      */
-    public abstract boolean tryRegister(@NotNull String text, @NotNull Supplier<SkriptEvent> toRegisterSupplier);
+    public abstract boolean tryRegister(@NotNull String text, @NotNull Supplier<SkriptEventExecutor> toRegisterSupplier);
 }

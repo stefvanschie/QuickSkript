@@ -72,10 +72,10 @@ public class Skript {
      *
      * @since 0.1.0
      */
-    public void registerEvents() {
+    public void registerEventExecutors() {
         file.getNodes().stream()
                 .filter(node -> node instanceof SkriptFileSection && node.getText() != null)
-                .forEach(node -> registerEvent((SkriptFileSection) node));
+                .forEach(node -> registerEventExecutor((SkriptFileSection) node));
     }
 
     /**
@@ -169,7 +169,7 @@ public class Skript {
                 return;
             }
 
-            command.setExecutor(new SkriptCommand(this, trigger, target));
+            command.setExecutor(new SkriptCommandExecutor(this, trigger, target));
         });
     }
 
@@ -179,12 +179,12 @@ public class Skript {
      * @param section the section the event is contained in.
      * @since 0.1.0
      */
-    private void registerEvent(@NotNull SkriptFileSection section) {
+    private void registerEventExecutor(@NotNull SkriptFileSection section) {
         String text = section.getText();
 
         if (text == null)
             return;
 
-        SkriptLoader.get().tryRegisterEvent(text, () -> new SkriptEvent(this, section));
+        SkriptLoader.get().tryRegisterEventExecutor(text, () -> new SkriptEventExecutor(this, section));
     }
 }

@@ -1,5 +1,8 @@
 package com.github.stefvanschie.quickskript.skript.util;
 
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -47,6 +50,19 @@ public enum ExecutionTarget {
      */
     ExecutionTarget(@NotNull String name) {
         this.name = name;
+    }
+
+    /**
+     * Returns whether the specified sender fits the criteria of this instance
+     *
+     * @param sender the sender to check
+     * @return whether the sender meets the criteria
+     * @since 0.1.0
+     */
+    @Contract(pure = true)
+    public boolean matches(@NotNull CommandSender sender) {
+        return (sender instanceof Player && (this == PLAYERS || this == CONSOLE_AND_PLAYERS)) ||
+                (sender instanceof ConsoleCommandSender && (this == CONSOLE || this == CONSOLE_AND_PLAYERS));
     }
 
     /**

@@ -1,7 +1,7 @@
 package com.github.stefvanschie.quickskript.event;
 
 import com.github.stefvanschie.quickskript.QuickSkript;
-import com.github.stefvanschie.quickskript.skript.SkriptEvent;
+import com.github.stefvanschie.quickskript.skript.SkriptEventExecutor;
 import javafx.util.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
@@ -25,7 +25,7 @@ public class SimpleEventProxyFactory extends EventProxyFactory {
      * The storage of registered event handlers.
      */
     @NotNull
-    private static final Map<Class<? extends Event>, List<SkriptEvent>> REGISTERED_HANDLERS = new HashMap<>();
+    private static final Map<Class<? extends Event>, List<SkriptEventExecutor>> REGISTERED_HANDLERS = new HashMap<>();
 
     /**
      * The executor which handles the execution of all event handlers in the storage.
@@ -45,7 +45,7 @@ public class SimpleEventProxyFactory extends EventProxyFactory {
      * {@inheritDoc}
      */
     @Override
-    public boolean tryRegister(@NotNull String text, @NotNull Supplier<SkriptEvent> toRegisterSupplier) {
+    public boolean tryRegister(@NotNull String text, @NotNull Supplier<SkriptEventExecutor> toRegisterSupplier) {
         for (Pair<Class<? extends Event>, Pattern> eventPattern : eventPatterns) {
             if (!eventPattern.getValue().matcher(text).matches())
                 continue;
