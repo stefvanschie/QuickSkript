@@ -30,7 +30,9 @@ public class PsiVectorFunction extends PsiElement<Vector> {
      * @param y the y value
      * @param z the z value
      */
-    private PsiVectorFunction(PsiElement<?> x, PsiElement<?> y, PsiElement<?> z) {
+    private PsiVectorFunction(PsiElement<?> x, PsiElement<?> y, PsiElement<?> z, int lineNumber) {
+        super(lineNumber);
+
         this.x = x;
         this.y = y;
         this.z = z;
@@ -71,7 +73,7 @@ public class PsiVectorFunction extends PsiElement<Vector> {
          */
         @Nullable
         @Override
-        public PsiVectorFunction tryParse(@NotNull String text) {
+        public PsiVectorFunction tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches())
@@ -82,11 +84,11 @@ public class PsiVectorFunction extends PsiElement<Vector> {
             if (values.length != 3)
                 return null;
 
-            PsiElement<?> x = SkriptLoader.get().forceParseElement(values[0]);
-            PsiElement<?> y = SkriptLoader.get().forceParseElement(values[1]);
-            PsiElement<?> z = SkriptLoader.get().forceParseElement(values[2]);
+            PsiElement<?> x = SkriptLoader.get().forceParseElement(values[0], lineNumber);
+            PsiElement<?> y = SkriptLoader.get().forceParseElement(values[1], lineNumber);
+            PsiElement<?> z = SkriptLoader.get().forceParseElement(values[2], lineNumber);
 
-            return new PsiVectorFunction(x, y, z);
+            return new PsiVectorFunction(x, y, z, lineNumber);
         }
     }
 }

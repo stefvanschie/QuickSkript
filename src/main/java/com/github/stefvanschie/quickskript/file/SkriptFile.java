@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @since 0.1.0
  */
-public class SkriptFile {
+public class SkriptFile extends SkriptFileSection {
 
     /**
      * Loads a skript file from a given file
@@ -67,14 +67,14 @@ public class SkriptFile {
         }
 
         //if a line is empty or only contains spaces, remove it, otherwise it'll screw the rest of the algorithm up
-        lines.removeIf(string -> string.isEmpty() || string.matches(" +"));
+        lines.replaceAll(line -> line.matches(" +") ? "" : line);
 
         //remove trailing spaces and replace \t with four spaces
         for (int i = 0; i < lines.size(); i++)
             lines.set(i, StringUtils.replace(StringUtils.stripEnd(lines.get(i), null), "\t", "    "));
 
-        SkriptFileSection section = new SkriptFileSection("");
-        section.parse(lines);
+        SkriptFileSection section = new SkriptFileSection("", 0);
+        section.parse(lines, 1);
         return new SkriptFile(section);
     }
 
@@ -105,6 +105,8 @@ public class SkriptFile {
      * @param section the backing section of this file
      */
     private SkriptFile(@NotNull SkriptFileSection section) {
+        super(section.getText(), 0);
+
         this.section = section;
     }
 

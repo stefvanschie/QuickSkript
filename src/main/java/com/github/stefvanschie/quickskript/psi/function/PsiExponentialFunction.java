@@ -28,7 +28,9 @@ public class PsiExponentialFunction extends PsiElement<Double> {
      * @param parameter the parameter
      * @since 0.1.0
      */
-    private PsiExponentialFunction(PsiElement<?> parameter) {
+    private PsiExponentialFunction(PsiElement<?> parameter, int lineNumber) {
+        super(lineNumber);
+
         this.parameter = parameter;
 
         if (this.parameter.isPreComputed()) {
@@ -63,16 +65,16 @@ public class PsiExponentialFunction extends PsiElement<Double> {
          */
         @Nullable
         @Override
-        public PsiExponentialFunction tryParse(@NotNull String text) {
+        public PsiExponentialFunction tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches())
                 return null;
 
             String expression = matcher.group(1);
-            PsiElement<?> element = SkriptLoader.get().forceParseElement(expression);
+            PsiElement<?> element = SkriptLoader.get().forceParseElement(expression, lineNumber);
 
-            return new PsiExponentialFunction(element);
+            return new PsiExponentialFunction(element, lineNumber);
         }
     }
 }

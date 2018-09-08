@@ -41,7 +41,7 @@ public class SkriptEventExecutor {
         this.skript = skript;
 
         elements = section.getNodes().stream()
-                .map(node -> SkriptLoader.get().forceParseElement(node.getText()))
+                .map(node -> SkriptLoader.get().forceParseElement(node.getText(), node.getLineNumber()))
                 .collect(Collectors.toList());
     }
 

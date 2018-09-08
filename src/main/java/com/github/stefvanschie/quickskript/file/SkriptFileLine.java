@@ -10,7 +10,7 @@ public class SkriptFileLine extends SkriptFileNode {
     /**
      * {@inheritDoc}
      */
-    SkriptFileLine(String text) {
-        super(text);
+    SkriptFileLine(String text, int lineNumber) {
+        super(text, lineNumber);
     }
 }

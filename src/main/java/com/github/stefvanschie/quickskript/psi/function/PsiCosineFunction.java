@@ -27,7 +27,9 @@ public class PsiCosineFunction extends PsiElement<Double> {
      *
      * @param parameter the parameter 0.1.0
      */
-    private PsiCosineFunction(PsiElement<?> parameter) {
+    private PsiCosineFunction(PsiElement<?> parameter, int lineNumber) {
+        super(lineNumber);
+
         this.parameter = parameter;
 
         if (this.parameter.isPreComputed()) {
@@ -62,16 +64,16 @@ public class PsiCosineFunction extends PsiElement<Double> {
          */
         @Nullable
         @Override
-        public PsiCosineFunction tryParse(@NotNull String text) {
+        public PsiCosineFunction tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches())
                 return null;
 
             String expression = matcher.group(1);
-            PsiElement<?> element = SkriptLoader.get().forceParseElement(expression);
+            PsiElement<?> element = SkriptLoader.get().forceParseElement(expression, lineNumber);
 
-            return new PsiCosineFunction(element);
+            return new PsiCosineFunction(element, lineNumber);
         }
     }
 }

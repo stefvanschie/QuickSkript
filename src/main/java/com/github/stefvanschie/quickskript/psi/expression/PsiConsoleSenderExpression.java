@@ -22,8 +22,8 @@ public class PsiConsoleSenderExpression extends PsiPrecomputedHolder<ConsoleComm
      *
      * @since 0.1.0
      */
-    private PsiConsoleSenderExpression() {
-        super(Bukkit.getConsoleSender());
+    private PsiConsoleSenderExpression(int lineNumber) {
+        super(Bukkit.getConsoleSender(), lineNumber);
     }
 
     /**
@@ -43,13 +43,13 @@ public class PsiConsoleSenderExpression extends PsiPrecomputedHolder<ConsoleComm
          */
         @Nullable
         @Override
-        public PsiConsoleSenderExpression tryParse(@NotNull String text) {
+        public PsiConsoleSenderExpression tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
             
             if (!matcher.matches())
                 return null;
 
-            return new PsiConsoleSenderExpression();
+            return new PsiConsoleSenderExpression(lineNumber);
         }
     }
 }

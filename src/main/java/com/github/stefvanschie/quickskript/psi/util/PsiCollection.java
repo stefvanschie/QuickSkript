@@ -31,8 +31,12 @@ public class PsiCollection<T> extends PsiElement<Collection<PsiElement<T>>> {
      * Creates a new psi element which stores the specified {@link Collection}.
      *
      * @param elements the element this psi should store
+     * @param lineNumber the line number of this element
+     * @since 0.1.0
      */
-    public PsiCollection(@NotNull Collection<PsiElement<T>> elements) {
+    public PsiCollection(@NotNull Collection<PsiElement<T>> elements, int lineNumber) {
+        super(lineNumber);
+
         if (elements.stream().allMatch(PsiElement::isPreComputed))
             preComputed = elements;
         else
@@ -45,20 +49,24 @@ public class PsiCollection<T> extends PsiElement<Collection<PsiElement<T>>> {
      * {@link List} which is a terminal operation.
      *
      * @param elements the element this psi should store
+     * @param lineNumber the line number of this element
+     * @since 0.1.0
      */
-    public PsiCollection(@NotNull Stream<PsiElement<T>> elements) {
-        this(elements.collect(Collectors.toList()));
+    public PsiCollection(@NotNull Stream<PsiElement<T>> elements, int lineNumber) {
+        this(elements.collect(Collectors.toList()), lineNumber);
     }
 
     /**
      * Creates a new psi element which stores the specified ones.
      * The array is internally converted into a {@link List}.
      *
+     * @param lineNumber the line number of this element
      * @param elements the element this psi should store
+     * @since 0.1.0
      */
     @SafeVarargs
-    public PsiCollection(@NotNull PsiElement<T>... elements) {
-        this(Arrays.asList(elements));
+    public PsiCollection(int lineNumber, @NotNull PsiElement<T>... elements) {
+        this(Arrays.asList(elements), lineNumber);
     }
 
     /**

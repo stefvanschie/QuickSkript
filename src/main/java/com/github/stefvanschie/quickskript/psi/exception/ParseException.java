@@ -8,9 +8,26 @@ package com.github.stefvanschie.quickskript.psi.exception;
 public class ParseException extends RuntimeException {
 
     /**
+     * Stores the line number this error occurred at
+     */
+    private int lineNumber;
+
+    /**
      * {@inheritDoc}
      */
-    public ParseException(String message) {
+    public ParseException(String message, int lineNumber) {
         super(message);
+
+        this.lineNumber = lineNumber;
+    }
+
+    /**
+     * Gets the line number this error occured at
+     *
+     * @return the line number
+     * @since 0.1.0
+     */
+    public int getLineNumber() {
+        return lineNumber;
     }
 }

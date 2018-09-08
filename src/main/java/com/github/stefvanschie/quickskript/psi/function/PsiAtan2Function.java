@@ -29,7 +29,9 @@ public class PsiAtan2Function extends PsiElement<Double> {
      * @param y the y parameter
      * @since 0.1.0
      */
-    private PsiAtan2Function(PsiElement<?> x, PsiElement<?> y) {
+    private PsiAtan2Function(PsiElement<?> x, PsiElement<?> y, int lineNumber) {
+        super(lineNumber);
+
         this.x = x;
         this.y = y;
 
@@ -65,19 +67,19 @@ public class PsiAtan2Function extends PsiElement<Double> {
          */
         @Nullable
         @Override
-        public PsiAtan2Function tryParse(@NotNull String text) {
+        public PsiAtan2Function tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches())
                 return null;
 
             String xExpression = matcher.group(1);
-            PsiElement<?> xElement = SkriptLoader.get().forceParseElement(xExpression);
+            PsiElement<?> xElement = SkriptLoader.get().forceParseElement(xExpression, lineNumber);
 
             String yExpression = matcher.group(2);
-            PsiElement<?> yElement = SkriptLoader.get().forceParseElement(yExpression);
+            PsiElement<?> yElement = SkriptLoader.get().forceParseElement(yExpression, lineNumber);
 
-            return new PsiAtan2Function(xElement, yElement);
+            return new PsiAtan2Function(xElement, yElement, lineNumber);
         }
     }
 }

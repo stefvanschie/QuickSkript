@@ -21,11 +21,10 @@ import java.util.regex.Pattern;
 public class PsiCancelEventEffect extends PsiElement<Void> {
 
     /**
-     * Constructs a new psi cancel event effect
-     *
-     * @since 0.1.0
+     * {@inheritDoc}
      */
-    private PsiCancelEventEffect() {
+    private PsiCancelEventEffect(int lineNumber) {
+        super(lineNumber);
     }
 
     /**
@@ -34,12 +33,13 @@ public class PsiCancelEventEffect extends PsiElement<Void> {
     @Override
     protected Void executeImpl(@Nullable Context context) {
         if (!(context instanceof EventContext))
-            throw new ExecutionException("Code is not being run from an event and thus can't cancel anything.");
+            throw new ExecutionException("Code is not being run from an event and thus can't cancel anything.",
+                lineNumber);
 
         Event event = ((EventContext) context).getEvent();
 
         if (!(event instanceof Cancellable))
-            throw new ExecutionException("This event cannot be cancelled.");
+            throw new ExecutionException("This event cannot be cancelled.", lineNumber);
 
         ((Cancellable) event).setCancelled(true);
 
@@ -63,13 +63,13 @@ public class PsiCancelEventEffect extends PsiElement<Void> {
          */
         @Nullable
         @Override
-        public PsiCancelEventEffect tryParse(@NotNull String text) {
+        public PsiCancelEventEffect tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches())
                 return null;
 
-            return new PsiCancelEventEffect();
+            return new PsiCancelEventEffect(lineNumber);
         }
     }
 }

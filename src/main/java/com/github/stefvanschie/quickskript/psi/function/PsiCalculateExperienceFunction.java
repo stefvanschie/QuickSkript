@@ -28,7 +28,9 @@ public class PsiCalculateExperienceFunction extends PsiElement<Long> {
      * @param parameter the parameter
      * @since 0.1.0
      */
-    private PsiCalculateExperienceFunction(PsiElement<?> parameter) {
+    private PsiCalculateExperienceFunction(PsiElement<?> parameter, int lineNumber) {
+        super(lineNumber);
+
         this.parameter = parameter;
 
         if (this.parameter.isPreComputed()) {
@@ -75,16 +77,16 @@ public class PsiCalculateExperienceFunction extends PsiElement<Long> {
          */
         @Nullable
         @Override
-        public PsiCalculateExperienceFunction tryParse(@NotNull String text) {
+        public PsiCalculateExperienceFunction tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches())
                 return null;
 
             String expression = matcher.group(1);
-            PsiElement<?> element = SkriptLoader.get().forceParseElement(expression);
+            PsiElement<?> element = SkriptLoader.get().forceParseElement(expression, lineNumber);
 
-            return new PsiCalculateExperienceFunction(element);
+            return new PsiCalculateExperienceFunction(element, lineNumber);
         }
     }
 }

@@ -32,7 +32,9 @@ public class PsiMinimumFunction extends PsiElement<Double> {
      * @param element an element containing a collection of elements of numbers
      * @since 0.1.0
      */
-    private PsiMinimumFunction(PsiElement<?> element) {
+    private PsiMinimumFunction(PsiElement<?> element, int lineNumber) {
+        super(lineNumber);
+
         this.element = element;
 
         if (this.element.isPreComputed()) {
@@ -53,7 +55,7 @@ public class PsiMinimumFunction extends PsiElement<Double> {
 
         for (Object object : collection) {
             if (!(object instanceof PsiElement<?>))
-                throw new ExecutionException("Collection should only contain psi elements, but it didn't");
+                throw new ExecutionException("Collection should only contain psi elements, but it didn't", lineNumber);
 
             double value = ((PsiElement<?>) object).execute(context, Number.class).doubleValue();
 
@@ -81,7 +83,7 @@ public class PsiMinimumFunction extends PsiElement<Double> {
          */
         @Nullable
         @Override
-        public PsiMinimumFunction tryParse(@NotNull String text) {
+        public PsiMinimumFunction tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches())
@@ -90,14 +92,14 @@ public class PsiMinimumFunction extends PsiElement<Double> {
             String[] values = matcher.group(1).replace(" ", "").split(",");
 
             if (values.length == 1) {
-                PsiElement<?> collection = SkriptLoader.get().tryParseElement(values[0]);
+                PsiElement<?> collection = SkriptLoader.get().tryParseElement(values[0], lineNumber);
 
                 if (collection != null)
-                    return new PsiMinimumFunction(collection);
+                    return new PsiMinimumFunction(collection, lineNumber);
             }
 
             return new PsiMinimumFunction(new PsiCollection<>(Arrays.stream(values)
-                    .map(string -> SkriptLoader.get().forceParseElement(string))));
+                .map(string -> SkriptLoader.get().forceParseElement(string, lineNumber)), lineNumber), lineNumber);
         }
     }
 }

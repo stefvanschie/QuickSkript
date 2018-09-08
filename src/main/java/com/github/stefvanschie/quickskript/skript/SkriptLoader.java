@@ -136,16 +136,17 @@ public class SkriptLoader implements AutoCloseable {
      * Returns null if no element was found.
      *
      * @param input the text to be parsed
+     * @param lineNumber the line number of the element which will potentially be parsed
      * @return the parsed psi element, or null if none were found
      * @since 0.1.0
      */
     @Nullable
-    @Contract("null -> fail")
-    public PsiElement<?> tryParseElement(@NotNull String input) {
+    @Contract("null, _ -> fail")
+    public PsiElement<?> tryParseElement(@NotNull String input, int lineNumber) {
         input = input.trim();
 
         for (PsiElementFactory<?> factory : elements) {
-            PsiElement<?> element = factory.tryParse(input);
+            PsiElement<?> element = factory.tryParse(input, lineNumber);
 
             if (element != null)
                 return element;
@@ -159,16 +160,17 @@ public class SkriptLoader implements AutoCloseable {
      * Throws a {@link ParseException} if no element was found.
      *
      * @param input the text to be parsed
+     * @param lineNumber the line number of the element that will be parsed
      * @return the parsed psi element
      * @since 0.1.0
      */
     @NotNull
-    public PsiElement<?> forceParseElement(@NotNull String input) {
-        PsiElement<?> result = tryParseElement(input);
+    public PsiElement<?> forceParseElement(@NotNull String input, int lineNumber) {
+        PsiElement<?> result = tryParseElement(input, lineNumber);
         if (result != null)
             return result;
 
-        throw new ParseException("Unable to find an expression named: " + input);
+        throw new ParseException("Unable to find an expression named: " + input, lineNumber);
     }
 
 
@@ -191,17 +193,18 @@ public class SkriptLoader implements AutoCloseable {
      * Throws a {@link ParseException} if no converter was found.
      *
      * @param name the name of the converter
+     * @param lineNumber the line number of the element that tried to retrieve a converter
      * @return the converter
      * @since 0.1.0
      */
     @NotNull
     @Contract(pure = true)
-    public PsiConverter<?> forceGetConverter(@NotNull String name) {
+    public PsiConverter<?> forceGetConverter(@NotNull String name, int lineNumber) {
         PsiConverter<?> result = tryGetConverter(name);
         if (result != null)
             return result;
 
-        throw new ParseException("Unable to find a converter named: " + name);
+        throw new ParseException("Unable to find a converter named: " + name, lineNumber);
     }
 
 

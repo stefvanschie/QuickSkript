@@ -28,7 +28,9 @@ public class PsiModuloFunction extends PsiElement<Double> {
      * @param a the left hand operator
      * @param b the right hand operator
      */
-    private PsiModuloFunction(PsiElement<?> a, PsiElement<?> b) {
+    private PsiModuloFunction(PsiElement<?> a, PsiElement<?> b, int lineNumber) {
+        super(lineNumber);
+
         this.a = a;
         this.b = b;
 
@@ -64,7 +66,7 @@ public class PsiModuloFunction extends PsiElement<Double> {
          */
         @Nullable
         @Override
-        public PsiModuloFunction tryParse(@NotNull String text) {
+        public PsiModuloFunction tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches())
@@ -75,10 +77,10 @@ public class PsiModuloFunction extends PsiElement<Double> {
             if (values.length != 2)
                 return null;
 
-            PsiElement<?> a = SkriptLoader.get().forceParseElement(values[0]);
-            PsiElement<?> b = SkriptLoader.get().forceParseElement(values[1]);
+            PsiElement<?> a = SkriptLoader.get().forceParseElement(values[0], lineNumber);
+            PsiElement<?> b = SkriptLoader.get().forceParseElement(values[1], lineNumber);
 
-            return new PsiModuloFunction(a, b);
+            return new PsiModuloFunction(a, b, lineNumber);
         }
     }
 }

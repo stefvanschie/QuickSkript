@@ -51,7 +51,10 @@ public class PsiLocationFunction extends PsiElement<Location> {
      * @since 0.1.0
      */
     private PsiLocationFunction(@NotNull PsiElement<?> world, @NotNull PsiElement<?> x, @NotNull PsiElement<?> y,
-                                @NotNull PsiElement<?> z, @Nullable PsiElement<?> yaw, @Nullable PsiElement<?> pitch) {
+                                @NotNull PsiElement<?> z, @Nullable PsiElement<?> yaw, @Nullable PsiElement<?> pitch,
+                                int lineNumber) {
+        super(lineNumber);
+
         this.world = world;
         this.x = x;
         this.y = y;
@@ -93,7 +96,7 @@ public class PsiLocationFunction extends PsiElement<Location> {
          */
         @Nullable
         @Override
-        public PsiLocationFunction tryParse(@NotNull String text) {
+        public PsiLocationFunction tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches())
@@ -104,20 +107,21 @@ public class PsiLocationFunction extends PsiElement<Location> {
             if (values.length < 4 || values.length > 6)
                 return null;
 
-            PsiElement<?> world = SkriptLoader.get().forceParseElement(values[0]);
+            PsiElement<?> world = SkriptLoader.get().forceParseElement(values[0], lineNumber);
 
             List<PsiElement<?>> elements = new ArrayList<>(Math.min(values.length, 5));
 
             for (int i = 1; i < values.length; i++)
-                elements.add(i - 1, SkriptLoader.get().forceParseElement(values[i]));
+                elements.add(i - 1, SkriptLoader.get().forceParseElement(values[i], lineNumber));
 
             return new PsiLocationFunction(
-                    world,
-                    elements.get(0),
-                    elements.get(1),
-                    elements.get(2),
-                    elements.size() > 3 ? elements.get(3) : null,
-                    elements.size() > 4 ? elements.get(4) : null
+                world,
+                elements.get(0),
+                elements.get(1),
+                elements.get(2),
+                elements.size() > 3 ? elements.get(3) : null,
+                elements.size() > 4 ? elements.get(4) : null,
+                lineNumber
             );
         }
     }

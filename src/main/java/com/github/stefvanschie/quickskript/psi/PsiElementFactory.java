@@ -15,9 +15,10 @@ public interface PsiElementFactory<T extends PsiElement<?>> {
      * Tries to parse the given text for this specified factory.
      *
      * @param text the text to be parsed
+     * @param lineNumber the line number of the element we're currently parsing
      * @return the element created, or null if the element could not be created
      * @since 0.1.0
      */
     @Nullable
-    T tryParse(@NotNull String text);
+    T tryParse(@NotNull String text, int lineNumber);
 }

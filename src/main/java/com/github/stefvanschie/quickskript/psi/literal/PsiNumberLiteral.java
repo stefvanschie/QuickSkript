@@ -21,8 +21,8 @@ public class PsiNumberLiteral extends PsiPrecomputedHolder<Double> {
      *
      * @param number the number this psi is wrapping
      */
-    private PsiNumberLiteral(double number) {
-        super(number);
+    private PsiNumberLiteral(double number, int lineNumber) {
+        super(number, lineNumber);
     }
 
     /**
@@ -42,13 +42,13 @@ public class PsiNumberLiteral extends PsiPrecomputedHolder<Double> {
          */
         @Nullable
         @Override
-        public PsiNumberLiteral tryParse(@NotNull String text) {
+        public PsiNumberLiteral tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches())
                 return null;
 
-            return new PsiNumberLiteral(Double.parseDouble(text));
+            return new PsiNumberLiteral(Double.parseDouble(text), lineNumber);
         }
     }
 
@@ -64,8 +64,8 @@ public class PsiNumberLiteral extends PsiPrecomputedHolder<Double> {
          */
         @Nullable
         @Override
-        public PsiNumberLiteral convert(@NotNull Object object) {
-            return new PsiNumberLiteral(Double.parseDouble(object.toString()));
+        public PsiNumberLiteral convert(@NotNull Object object, int lineNumber) {
+            return new PsiNumberLiteral(Double.parseDouble(object.toString()), lineNumber);
         }
     }
 }

@@ -76,39 +76,39 @@ class PsiNumberExecutabilityTest extends TestClassBase {
             PsiSineFunction.class,
             PsiSquareRootFunction.class,
             PsiTangentFunction.class
-    ).map(clazz -> getConstructor(clazz, PsiElement.class)).collect(Collectors.toList());
+    ).map(clazz -> getConstructor(clazz, PsiElement.class, int.class)).collect(Collectors.toList());
 
     private final List<Constructor<?>> biFunctions = Stream.of(
             PsiAtan2Function.class,
             PsiModuloFunction.class,
             PsiLogarithmFunction.class
-    ).map(clazz -> getConstructor(clazz, PsiElement.class, PsiElement.class)).collect(Collectors.toList());
+    ).map(clazz -> getConstructor(clazz, PsiElement.class, PsiElement.class, int.class)).collect(Collectors.toList());
 
     private final List<Constructor<?>> collectionFunctions = Stream.of(
             PsiMaximumFunction.class,
             PsiMinimumFunction.class,
             PsiProductFunction.class,
             PsiSumFunction.class
-    ).map(clazz -> getConstructor(clazz, PsiElement.class)).collect(Collectors.toList());
+    ).map(clazz -> getConstructor(clazz, PsiElement.class, int.class)).collect(Collectors.toList());
 
 
     PsiNumberExecutabilityTest() {
         Constructor<PsiElement<Number>> literal = (Constructor<PsiElement<Number>>)
-                getConstructor(PsiNumberLiteral.class, double.class);
+                getConstructor(PsiNumberLiteral.class, double.class, int.class);
         literalConstructor = value -> {
             try {
-                return (PsiElement<Number>) literal.newInstance(value);
+                return (PsiElement<Number>) literal.newInstance(value, -1);
             } catch (ReflectiveOperationException e) {
                 throw new RuntimeException(e);
             }
         };
 
         Constructor<PsiElement<Number>> random = (Constructor<PsiElement<Number>>)
-                getConstructor(PsiRandomNumberExpression.class, boolean.class, PsiElement.class, PsiElement.class);
+                getConstructor(PsiRandomNumberExpression.class, boolean.class, PsiElement.class, PsiElement.class, int.class);
         randomConstructor = (min, max) -> {
             try {
                 return (PsiElement<Number>) random.newInstance(false,
-                        literalConstructor.apply(min), literalConstructor.apply(max));
+                        literalConstructor.apply(min), literalConstructor.apply(max), -1);
             } catch (ReflectiveOperationException e) {
                 throw new RuntimeException(e);
             }
@@ -150,12 +150,12 @@ class PsiNumberExecutabilityTest extends TestClassBase {
         int clazz = random.nextInt(monoFunctions.size() + biFunctions.size() + collectionFunctions.size());
 
         if (clazz < monoFunctions.size()) {
-            return (PsiElement<Number>) monoFunctions.get(clazz).newInstance(next(context));
+            return (PsiElement<Number>) monoFunctions.get(clazz).newInstance(next(context), -1);
         }
 
         clazz -= monoFunctions.size();
         if (clazz < biFunctions.size()) {
-            return (PsiElement<Number>) biFunctions.get(clazz).newInstance(next(context), next(context));
+            return (PsiElement<Number>) biFunctions.get(clazz).newInstance(next(context), next(context), -1);
         }
 
         PsiElement<Number>[] parameters = (PsiElement<Number>[]) new PsiElement[random.nextInt(1, 5)];
@@ -165,7 +165,7 @@ class PsiNumberExecutabilityTest extends TestClassBase {
 
         clazz -= biFunctions.size();
         return (PsiElement<Number>) collectionFunctions.get(clazz)
-                .newInstance(new PsiCollection<>(parameters));
+                .newInstance(new PsiCollection<>(-1, parameters), -1);
     }
 
 

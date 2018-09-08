@@ -20,6 +20,21 @@ public abstract class PsiElement<T> {
     protected T preComputed;
 
     /**
+     * The line number this element belongs to
+     */
+    protected final int lineNumber;
+
+    /**
+     * Creates a new element with the given lien number
+     *
+     * @param lineNumber the line number this element is associated with
+     * @since 0.1.0
+     */
+    public PsiElement(int lineNumber) {
+        this.lineNumber = lineNumber;
+    }
+
+    /**
      * Returns a pre computed value if {@link #isPreComputed()} returns true otherwise executes this element.
      *
      * @param context the context this code is being executed in, may be null if the code is expected to be pre computed
@@ -46,7 +61,7 @@ public abstract class PsiElement<T> {
             return forcedResult.cast(result);
 
         throw new ExecutionException("Result of " + getClass().getSimpleName() +
-                " should be a " + forcedResult.getSimpleName() + ", but it wasn't");
+                " should be a " + forcedResult.getSimpleName() + ", but it wasn't", lineNumber);
     }
 
     /**

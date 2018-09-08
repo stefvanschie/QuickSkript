@@ -28,7 +28,9 @@ public class PsiCeilFunction extends PsiElement<Double> {
      * @param parameter the parameter
      * @since 0.1.0
      */
-    private PsiCeilFunction(PsiElement<?> parameter) {
+    private PsiCeilFunction(PsiElement<?> parameter, int lineNumber) {
+        super(lineNumber);
+
         this.parameter = parameter;
 
         if (this.parameter.isPreComputed()) {
@@ -63,16 +65,16 @@ public class PsiCeilFunction extends PsiElement<Double> {
          */
         @Nullable
         @Override
-        public PsiCeilFunction tryParse(@NotNull String text) {
+        public PsiCeilFunction tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches())
                 return null;
 
             String expression = matcher.group(1);
-            PsiElement<?> element = SkriptLoader.get().forceParseElement(expression);
+            PsiElement<?> element = SkriptLoader.get().forceParseElement(expression, lineNumber);
 
-            return new PsiCeilFunction(element);
+            return new PsiCeilFunction(element, lineNumber);
         }
     }
 }

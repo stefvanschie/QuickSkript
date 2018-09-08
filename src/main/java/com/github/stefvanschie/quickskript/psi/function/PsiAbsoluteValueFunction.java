@@ -27,7 +27,9 @@ public class PsiAbsoluteValueFunction extends PsiElement<Double> {
      *
      * @param parameter the parameter for calculating this value
      */
-    private PsiAbsoluteValueFunction(PsiElement<?> parameter) {
+    private PsiAbsoluteValueFunction(PsiElement<?> parameter, int lineNumber) {
+        super(lineNumber);
+
         this.parameter = parameter;
 
         if (this.parameter.isPreComputed()) {
@@ -62,16 +64,16 @@ public class PsiAbsoluteValueFunction extends PsiElement<Double> {
          */
         @Nullable
         @Override
-        public PsiAbsoluteValueFunction tryParse(@NotNull String text) {
+        public PsiAbsoluteValueFunction tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches())
                 return null;
 
             String expression = matcher.group(1);
-            PsiElement<?> element = SkriptLoader.get().forceParseElement(expression);
+            PsiElement<?> element = SkriptLoader.get().forceParseElement(expression, lineNumber);
 
-            return new PsiAbsoluteValueFunction(element);
+            return new PsiAbsoluteValueFunction(element, lineNumber);
         }
     }
 }

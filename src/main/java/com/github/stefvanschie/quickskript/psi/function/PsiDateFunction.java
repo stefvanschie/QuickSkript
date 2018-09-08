@@ -45,7 +45,9 @@ public class PsiDateFunction extends PsiElement<LocalDateTime> {
      */
     private PsiDateFunction(@NotNull PsiElement<?> year, @NotNull PsiElement<?> month, @NotNull PsiElement<?> day,
                             @Nullable PsiElement<?> hour, @Nullable PsiElement<?> minute,
-                            @Nullable PsiElement<?> second, @Nullable PsiElement<?> millisecond) {
+                            @Nullable PsiElement<?> second, @Nullable PsiElement<?> millisecond, int lineNumber) {
+        super(lineNumber);
+
         this.year = year;
         this.month = month;
         this.day = day;
@@ -97,7 +99,7 @@ public class PsiDateFunction extends PsiElement<LocalDateTime> {
          */
         @Nullable
         @Override
-        public PsiDateFunction tryParse(@NotNull String text) {
+        public PsiDateFunction tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches())
@@ -111,16 +113,17 @@ public class PsiDateFunction extends PsiElement<LocalDateTime> {
             List<PsiElement<?>> elements = new ArrayList<>(Math.min(values.length, 7));
 
             for (int i = 0; i < values.length; i++)
-                elements.add(i, SkriptLoader.get().forceParseElement(values[i]));
+                elements.add(i, SkriptLoader.get().forceParseElement(values[i], lineNumber));
 
             return new PsiDateFunction(
-                    elements.get(0),
-                    elements.get(1),
-                    elements.get(2),
-                    elements.size() > 3 ? elements.get(3) : null,
-                    elements.size() > 4 ? elements.get(4) : null,
-                    elements.size() > 5 ? elements.get(5) : null,
-                    elements.size() > 6 ? elements.get(6) : null
+                elements.get(0),
+                elements.get(1),
+                elements.get(2),
+                elements.size() > 3 ? elements.get(3) : null,
+                elements.size() > 4 ? elements.get(4) : null,
+                elements.size() > 5 ? elements.get(5) : null,
+                elements.size() > 6 ? elements.get(6) : null,
+                lineNumber
             );
         }
     }

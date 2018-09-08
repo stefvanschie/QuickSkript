@@ -55,8 +55,8 @@ class PsiLiteralParseTest extends TestClassBase {
         SkriptLoader loader = SkriptLoader.get();
 
         inputHolders.forEach((clazz, cases) -> {
-            cases.getSuccess().forEach(input -> assertTrue(clazz.isInstance(loader.forceParseElement(input))));
-            cases.getFailure().forEach(input -> assertNull(loader.tryParseElement(input)));
+            cases.getSuccess().forEach(input -> assertTrue(clazz.isInstance(loader.forceParseElement(input, -1))));
+            cases.getFailure().forEach(input -> assertNull(loader.tryParseElement(input, -1)));
         });
     }
 

@@ -13,7 +13,7 @@ public class ExecutionException extends ParseException {
     /**
      * {@inheritDoc}
      */
-    public ExecutionException(String message) {
-        super(message);
+    public ExecutionException(String message, int lineNumber) {
+        super(message, lineNumber);
     }
 }

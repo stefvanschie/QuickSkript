@@ -32,7 +32,9 @@ public class PsiWorldFunction extends PsiElement<World> {
      * @param parameter the parameter
      * @since 0.1.0
      */
-    private PsiWorldFunction(PsiElement<?> parameter) {
+    private PsiWorldFunction(PsiElement<?> parameter, int lineNumber) {
+        super(lineNumber);
+
         this.parameter = parameter;
     }
 
@@ -61,16 +63,16 @@ public class PsiWorldFunction extends PsiElement<World> {
          */
         @Nullable
         @Override
-        public PsiWorldFunction tryParse(@NotNull String text) {
+        public PsiWorldFunction tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches())
                 return null;
 
             String expression = matcher.group(1);
-            PsiElement<?> element = SkriptLoader.get().forceParseElement(expression);
+            PsiElement<?> element = SkriptLoader.get().forceParseElement(expression, lineNumber);
 
-            return new PsiWorldFunction(element);
+            return new PsiWorldFunction(element, lineNumber);
         }
     }
 }

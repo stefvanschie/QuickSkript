@@ -39,7 +39,9 @@ public class PsiParseExpression extends PsiElement<Object> {
      * @param converter the converter which will convert the value
      * @since 0.1.0
      */
-    private PsiParseExpression(@NotNull PsiElement<?> value, @NotNull PsiConverter<?> converter) {
+    private PsiParseExpression(@NotNull PsiElement<?> value, @NotNull PsiConverter<?> converter, int lineNumber) {
+        super(lineNumber);
+
         this.value = value;
         this.converter = converter;
 
@@ -52,7 +54,7 @@ public class PsiParseExpression extends PsiElement<Object> {
      */
     @Override
     protected Object executeImpl(@Nullable Context context) {
-        PsiElement<?> parse = converter.convert(value.execute(context).toString());
+        PsiElement<?> parse = converter.convert(value.execute(context).toString(), lineNumber);
 
         //TODO: if this stuff can't be parsed, the parse error needs to be set
         if (parse == null)
@@ -78,7 +80,7 @@ public class PsiParseExpression extends PsiElement<Object> {
          */
         @Nullable
         @Override
-        public PsiParseExpression tryParse(@NotNull String text) {
+        public PsiParseExpression tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches())
@@ -86,13 +88,13 @@ public class PsiParseExpression extends PsiElement<Object> {
 
             String valueString = matcher.group(1);
 
-            PsiElement<?> value = SkriptLoader.get().forceParseElement(valueString);
+            PsiElement<?> value = SkriptLoader.get().forceParseElement(valueString, lineNumber);
 
             String factoryString = matcher.group(2);
 
-            PsiConverter<?> converter = SkriptLoader.get().forceGetConverter(factoryString);
+            PsiConverter<?> converter = SkriptLoader.get().forceGetConverter(factoryString, lineNumber);
 
-            return new PsiParseExpression(value, converter);
+            return new PsiParseExpression(value, converter, lineNumber);
         }
     }
 }

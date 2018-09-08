@@ -28,7 +28,9 @@ public class PsiInverseSineFunction extends PsiElement<Double> {
      * @param parameter the parameter
      * @since 0.1.0
      */
-    private PsiInverseSineFunction(PsiElement<?> parameter) {
+    private PsiInverseSineFunction(PsiElement<?> parameter, int lineNumber) {
+        super(lineNumber);
+
         this.parameter = parameter;
 
         if (this.parameter.isPreComputed()) {
@@ -63,16 +65,16 @@ public class PsiInverseSineFunction extends PsiElement<Double> {
          */
         @Nullable
         @Override
-        public PsiInverseSineFunction tryParse(@NotNull String text) {
+        public PsiInverseSineFunction tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches())
                 return null;
 
             String expression = matcher.group(1);
-            PsiElement<?> element = SkriptLoader.get().forceParseElement(expression);
+            PsiElement<?> element = SkriptLoader.get().forceParseElement(expression, lineNumber);
 
-            return new PsiInverseSineFunction(element);
+            return new PsiInverseSineFunction(element, lineNumber);
         }
     }
 }

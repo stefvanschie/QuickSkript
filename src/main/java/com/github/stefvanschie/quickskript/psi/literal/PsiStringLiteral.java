@@ -23,8 +23,8 @@ public class PsiStringLiteral extends PsiPrecomputedHolder<TextMessage> {
      * @param message the message this psi is wrapping
      * @since 0.1.0
      */
-    private PsiStringLiteral(@NotNull TextMessage message) {
-        super(message);
+    private PsiStringLiteral(@NotNull TextMessage message, int lineNumber) {
+        super(message, lineNumber);
     }
 
     /**
@@ -44,13 +44,13 @@ public class PsiStringLiteral extends PsiPrecomputedHolder<TextMessage> {
          */
         @Nullable
         @Override
-        public PsiStringLiteral tryParse(@NotNull String text) {
+        public PsiStringLiteral tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches())
                 return null;
 
-            return new PsiStringLiteral(TextMessage.parse(matcher.group(1)));
+            return new PsiStringLiteral(TextMessage.parse(matcher.group(1)), lineNumber);
         }
     }
 
@@ -66,8 +66,8 @@ public class PsiStringLiteral extends PsiPrecomputedHolder<TextMessage> {
          */
         @Nullable
         @Override
-        public PsiStringLiteral convert(@NotNull Object object) {
-            return new PsiStringLiteral(TextMessage.parse(object.toString()));
+        public PsiStringLiteral convert(@NotNull Object object, int lineNumber) {
+            return new PsiStringLiteral(TextMessage.parse(object.toString()), lineNumber);
         }
     }
 }

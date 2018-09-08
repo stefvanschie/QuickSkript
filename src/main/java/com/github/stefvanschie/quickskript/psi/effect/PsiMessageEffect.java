@@ -37,7 +37,9 @@ public class PsiMessageEffect extends PsiElement<Void> {
      * @param receiver the receiver to receive the message
      * @since 0.1.0
      */
-    private PsiMessageEffect(@NotNull PsiElement<?> message, @Nullable PsiElement<?> receiver) {
+    private PsiMessageEffect(@NotNull PsiElement<?> message, @Nullable PsiElement<?> receiver, int lineNumber) {
+        super(lineNumber);
+
         this.message = message;
         this.receiver = receiver;
     }
@@ -54,7 +56,9 @@ public class PsiMessageEffect extends PsiElement<Void> {
         else if (this.receiver != null) {
             receiver = this.receiver.execute(context, CommandSender.class);
         } else
-            throw new ExecutionException("Unable to execute message instruction, since no possible receiver has been found");
+            throw new ExecutionException(
+                "Unable to execute message instruction, since no possible receiver has been found", lineNumber
+            );
 
         receiver.sendMessage(message.execute(context, TextMessage.class).construct());
         return null;
@@ -72,7 +76,7 @@ public class PsiMessageEffect extends PsiElement<Void> {
          */
         @Nullable
         @Override
-        public PsiMessageEffect tryParse(@NotNull String text) {
+        public PsiMessageEffect tryParse(@NotNull String text, int lineNumber) {
             if (!text.startsWith("message") && !text.startsWith("send"))
                 return null;
 
@@ -101,12 +105,12 @@ public class PsiMessageEffect extends PsiElement<Void> {
                 text = text.substring(0, index);
 
                 //find player or console
-                receiver = SkriptLoader.get().forceParseElement(to);
+                receiver = SkriptLoader.get().forceParseElement(to, lineNumber);
             }
 
-            PsiElement<?> message = SkriptLoader.get().forceParseElement(text);
+            PsiElement<?> message = SkriptLoader.get().forceParseElement(text, lineNumber);
 
-            return new PsiMessageEffect(message, receiver);
+            return new PsiMessageEffect(message, receiver, lineNumber);
         }
     }
 }

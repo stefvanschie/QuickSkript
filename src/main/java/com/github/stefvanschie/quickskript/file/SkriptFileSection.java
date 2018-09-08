@@ -22,8 +22,8 @@ public class SkriptFileSection extends SkriptFileNode {
     /**
      * {@inheritDoc}
      */
-    SkriptFileSection(@NotNull String text) {
-        super(text);
+    SkriptFileSection(@NotNull String text, int lineNumber) {
+        super(text, lineNumber);
     }
 
     /**
@@ -42,15 +42,22 @@ public class SkriptFileSection extends SkriptFileNode {
      * Parses a section from the given header and strings
      *
      * @param nodes the underlying nodes
+     * @param lineNumberOffset the offset of the line number from the starting node. This value represents the line
+     *                         number of the first node in the list.
      * @since 0.1.0
      */
-    void parse(@NotNull List<String> nodes) {
+    void parse(@NotNull List<String> nodes, int lineNumberOffset) {
         for (int index = 0; index < nodes.size(); index++) {
             String node = nodes.get(index);
 
+            if (node.isEmpty())
+                continue;
+
+            int newLineNumberOffset = lineNumberOffset + index;
+
             //isn't a section
             if (!node.endsWith(":")) {
-                getNodes().add(new SkriptFileLine(node));
+                getNodes().add(new SkriptFileLine(node, newLineNumberOffset));
                 continue;
             }
 
@@ -73,9 +80,9 @@ public class SkriptFileSection extends SkriptFileNode {
             String header = nodes.get(index);
 
             SkriptFileSection skriptFileSection =
-                    new SkriptFileSection(header.substring(0, header.length() - 1));
+                    new SkriptFileSection(header.substring(0, header.length() - 1), newLineNumberOffset);
 
-            skriptFileSection.parse(strings);
+            skriptFileSection.parse(strings, newLineNumberOffset + 1);
 
             getNodes().add(skriptFileSection);
 

@@ -35,7 +35,9 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
      * @param base the base
      * @since 0.1.0
      */
-    private PsiLogarithmFunction(@NotNull PsiElement<?> value, @Nullable PsiElement<?> base) {
+    private PsiLogarithmFunction(@NotNull PsiElement<?> value, @Nullable PsiElement<?> base, int lineNumber) {
+        super(lineNumber);
+
         this.value = value;
         this.base = base;
 
@@ -76,7 +78,7 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
          */
         @Nullable
         @Override
-        public PsiLogarithmFunction tryParse(@NotNull String text) {
+        public PsiLogarithmFunction tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches())
@@ -87,15 +89,15 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
             if (values.length < 1 || values.length > 2)
                 return null;
 
-            PsiElement<?> value = SkriptLoader.get().forceParseElement(values[0]);
+            PsiElement<?> value = SkriptLoader.get().forceParseElement(values[0], lineNumber);
 
             PsiElement<?> base = null;
 
             if (values.length == 2) {
-                base = SkriptLoader.get().forceParseElement(values[1]);
+                base = SkriptLoader.get().forceParseElement(values[1], lineNumber);
             }
 
-            return new PsiLogarithmFunction(value, base);
+            return new PsiLogarithmFunction(value, base, lineNumber);
         }
     }
 }

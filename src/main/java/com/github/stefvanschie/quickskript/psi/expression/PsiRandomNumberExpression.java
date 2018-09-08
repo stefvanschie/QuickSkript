@@ -37,7 +37,9 @@ public class PsiRandomNumberExpression extends PsiElement<Number> {
      * @param max the other bound of the valid value range
      * @since 0.1.0
      */
-    private PsiRandomNumberExpression(boolean integer, @NotNull PsiElement<?> min, @NotNull PsiElement<?> max) {
+    private PsiRandomNumberExpression(boolean integer, @NotNull PsiElement<?> min, @NotNull PsiElement<?> max, int lineNumber) {
+        super(lineNumber);
+
         this.integer = integer;
         this.min = min;
         this.max = max;
@@ -102,7 +104,7 @@ public class PsiRandomNumberExpression extends PsiElement<Number> {
          */
         @Nullable
         @Override
-        public PsiRandomNumberExpression tryParse(@NotNull String text) {
+        public PsiRandomNumberExpression tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = integerPattern.matcher(text);
             boolean integer = true;
 
@@ -116,8 +118,8 @@ public class PsiRandomNumberExpression extends PsiElement<Number> {
             }
 
             return new PsiRandomNumberExpression(integer,
-                    SkriptLoader.get().forceParseElement(matcher.group(3)),
-                    SkriptLoader.get().forceParseElement(matcher.group(5)));
+                    SkriptLoader.get().forceParseElement(matcher.group(3), lineNumber),
+                    SkriptLoader.get().forceParseElement(matcher.group(5), lineNumber), lineNumber);
         }
     }
 }
