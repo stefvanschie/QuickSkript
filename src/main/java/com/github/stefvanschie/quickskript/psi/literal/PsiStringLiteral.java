@@ -3,7 +3,7 @@ package com.github.stefvanschie.quickskript.psi.literal;
 import com.github.stefvanschie.quickskript.psi.PsiConverter;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.util.PsiPrecomputedHolder;
-import com.github.stefvanschie.quickskript.util.TextMessage;
+import com.github.stefvanschie.quickskript.util.Text;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  *
  * @since 0.1.0
  */
-public class PsiStringLiteral extends PsiPrecomputedHolder<TextMessage> {
+public class PsiStringLiteral extends PsiPrecomputedHolder<Text> {
 
     /**
      * Creates a new string literal from the given message
@@ -23,7 +23,7 @@ public class PsiStringLiteral extends PsiPrecomputedHolder<TextMessage> {
      * @param message the message this psi is wrapping
      * @since 0.1.0
      */
-    private PsiStringLiteral(@NotNull TextMessage message, int lineNumber) {
+    private PsiStringLiteral(@NotNull Text message, int lineNumber) {
         super(message, lineNumber);
     }
 
@@ -50,7 +50,7 @@ public class PsiStringLiteral extends PsiPrecomputedHolder<TextMessage> {
             if (!matcher.matches())
                 return null;
 
-            return new PsiStringLiteral(TextMessage.parse(matcher.group(1)), lineNumber);
+            return new PsiStringLiteral(Text.parse(matcher.group(1)), lineNumber);
         }
     }
 
@@ -67,7 +67,7 @@ public class PsiStringLiteral extends PsiPrecomputedHolder<TextMessage> {
         @Nullable
         @Override
         public PsiStringLiteral convert(@NotNull Object object, int lineNumber) {
-            return new PsiStringLiteral(TextMessage.parse(object.toString()), lineNumber);
+            return new PsiStringLiteral(Text.parse(object.toString()), lineNumber);
         }
     }
 }

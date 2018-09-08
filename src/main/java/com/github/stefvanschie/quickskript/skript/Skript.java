@@ -6,7 +6,7 @@ import com.github.stefvanschie.quickskript.file.SkriptFileLine;
 import com.github.stefvanschie.quickskript.file.SkriptFileNode;
 import com.github.stefvanschie.quickskript.file.SkriptFileSection;
 import com.github.stefvanschie.quickskript.skript.util.ExecutionTarget;
-import com.github.stefvanschie.quickskript.util.TextMessage;
+import com.github.stefvanschie.quickskript.util.Text;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -102,7 +102,7 @@ public class Skript {
             String description = getFileLineValue(lines, "description:",
                     "Command " + commandName + " has multiple valid descriptions");
             if (description != null) {
-                command.setDescription(TextMessage.parse(description).construct());
+                command.setDescription(Text.parse(description).construct());
             }
 
             String aliases = getFileLineValue(lines, "aliases:",
@@ -114,19 +114,19 @@ public class Skript {
             String permission = getFileLineValue(lines, "permission:",
                     "Command " + commandName + " has multiple valid permissions");
             if (permission != null) {
-                command.setPermission(TextMessage.parse(permission).construct());
+                command.setPermission(Text.parse(permission).construct());
             }
 
             String permissionMessage = getFileLineValue(lines, "permission message:",
                     "Command " + commandName + " has multiple valid permission messages");
             if (permissionMessage != null) {
-                command.setPermissionMessage(TextMessage.parse(permissionMessage).construct());
+                command.setPermissionMessage(Text.parse(permissionMessage).construct());
             }
 
             String usage = getFileLineValue(lines, "usage:",
                     "Command " + commandName + " has multiple valid usages");
             if (usage != null) {
-                command.setUsage(TextMessage.parse(usage).construct());
+                command.setUsage(Text.parse(usage).construct());
             }
 
             String rawTarget = getFileLineValue(lines, "usage:",

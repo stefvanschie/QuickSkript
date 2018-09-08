@@ -4,7 +4,7 @@ import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.skript.SkriptLoader;
-import com.github.stefvanschie.quickskript.util.TextMessage;
+import com.github.stefvanschie.quickskript.util.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
@@ -43,7 +43,7 @@ public class PsiWorldFunction extends PsiElement<World> {
      */
     @Override
     public World executeImpl(@Nullable Context context) {
-        return Bukkit.getWorld(parameter.execute(context, TextMessage.class).construct());
+        return Bukkit.getWorld(parameter.execute(context, Text.class).construct());
     }
 
     /**
