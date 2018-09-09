@@ -56,7 +56,8 @@ public class SkriptEventExecutor {
         try {
             elements.forEach(element -> element.execute(context));
         } catch (ExecutionException e) {
-            QuickSkript.getInstance().getLogger().log(Level.SEVERE, "Error while executing skript named " + skript.getName(), e);
+            QuickSkript.getInstance().getLogger().log(Level.SEVERE, "Error while executing:" +
+                    e.getExtraInfo(skript.getName()), e);
         }
     }
 }
