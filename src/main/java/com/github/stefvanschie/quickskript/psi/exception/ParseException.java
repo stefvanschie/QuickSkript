@@ -33,10 +33,11 @@ public class ParseException extends RuntimeException {
      * @param fileName the name of the {@link SkriptFile}
      * in which the code which caused this exception is
      * @return extra information regarding this exception
+     * @since 0.1.0
      */
     @NotNull
     @Contract(pure = true)
-    public String getExtraInfo(String fileName) {
+    public String getExtraInfo(@NotNull String fileName) {
         return System.lineSeparator() + "Skript file: " + fileName + " | Line number: " + lineNumber;
     }
 }

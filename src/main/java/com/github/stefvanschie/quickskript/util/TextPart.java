@@ -5,4 +5,14 @@ package com.github.stefvanschie.quickskript.util;
  *
  * @since 0.1.0
  */
-interface TextPart {}
+interface TextPart {
+
+    /**
+     * Adds this {@link TextPart} instance to the end of
+     * the specified {@link StringBuilder}.
+     *
+     * @param builder the builder to append to
+     * @since 0.1.0
+     */
+    void append(StringBuilder builder);
+}
