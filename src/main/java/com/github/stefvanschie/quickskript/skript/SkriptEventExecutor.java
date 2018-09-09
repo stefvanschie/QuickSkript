@@ -49,12 +49,21 @@ public class SkriptEventExecutor {
      * Executes the contents of this event
      *
      * @param event the event being executed
+     * @since 0.1.0
      */
     public void execute(@NotNull Event event) {
         EventContext context = new EventContext(event);
 
         try {
-            elements.forEach(element -> element.execute(context));
+            for (PsiElement<?> element : elements) {
+                Object result = element.execute(context);
+
+                if (!(result instanceof Boolean))
+                    continue;
+
+                if (!(Boolean) result)
+                    break;
+            }
         } catch (ExecutionException e) {
             QuickSkript.getInstance().getLogger().log(Level.SEVERE, "Error while executing:" +
                     e.getExtraInfo(skript.getName()), e);

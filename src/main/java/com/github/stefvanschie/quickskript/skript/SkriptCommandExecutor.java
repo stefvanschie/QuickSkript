@@ -69,7 +69,15 @@ public class SkriptCommandExecutor implements CommandExecutor {
         CommandContext context = new CommandContext(sender);
 
         try {
-            elements.forEach(element -> element.execute(context));
+            for (PsiElement<?> element : elements) {
+                Object result = element.execute(context);
+
+                if (!(result instanceof Boolean))
+                    continue;
+
+                if (!(Boolean) result)
+                    break;
+            }
         } catch (ExecutionException e) {
             QuickSkript.getInstance().getLogger().log(Level.SEVERE, "Error while executing skript:" +
                     e.getExtraInfo(skript.getName()), e);

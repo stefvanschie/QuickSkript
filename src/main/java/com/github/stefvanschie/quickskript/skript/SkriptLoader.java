@@ -7,6 +7,7 @@ import com.github.stefvanschie.quickskript.event.SimpleEventProxyFactory;
 import com.github.stefvanschie.quickskript.psi.PsiConverter;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
+import com.github.stefvanschie.quickskript.psi.condition.PsiHasPermissionCondition;
 import com.github.stefvanschie.quickskript.psi.effect.PsiCancelEventEffect;
 import com.github.stefvanschie.quickskript.psi.effect.PsiMessageEffect;
 import com.github.stefvanschie.quickskript.psi.exception.ParseException;
@@ -15,6 +16,7 @@ import com.github.stefvanschie.quickskript.psi.expression.PsiParseExpression;
 import com.github.stefvanschie.quickskript.psi.expression.PsiRandomNumberExpression;
 import com.github.stefvanschie.quickskript.psi.function.*;
 import com.github.stefvanschie.quickskript.psi.literal.PsiNumberLiteral;
+import com.github.stefvanschie.quickskript.psi.literal.PsiPlayerLiteral;
 import com.github.stefvanschie.quickskript.psi.literal.PsiStringLiteral;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
@@ -292,6 +294,9 @@ public class SkriptLoader implements AutoCloseable {
 
 
     private void registerDefaultElements() {
+        //condition
+        registerElement(new PsiHasPermissionCondition.Factory());
+
         //effects
         registerElement(new PsiCancelEventEffect.Factory());
         registerElement(new PsiMessageEffect.Factory());
@@ -330,6 +335,7 @@ public class SkriptLoader implements AutoCloseable {
 
         //literals
         registerElement(new PsiNumberLiteral.Factory());
+        registerElement(new PsiPlayerLiteral.Factory());
         registerElement(new PsiStringLiteral.Factory());
     }
 
