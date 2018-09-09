@@ -9,6 +9,7 @@ import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.condition.PsiHasPermissionCondition;
 import com.github.stefvanschie.quickskript.psi.effect.PsiCancelEventEffect;
+import com.github.stefvanschie.quickskript.psi.effect.PsiExplosionEffect;
 import com.github.stefvanschie.quickskript.psi.effect.PsiMessageEffect;
 import com.github.stefvanschie.quickskript.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.psi.expression.PsiConsoleSenderExpression;
@@ -294,11 +295,12 @@ public class SkriptLoader implements AutoCloseable {
 
 
     private void registerDefaultElements() {
-        //condition
+        //conditions
         registerElement(new PsiHasPermissionCondition.Factory());
 
         //effects
         registerElement(new PsiCancelEventEffect.Factory());
+        registerElement(new PsiExplosionEffect.Factory());
         registerElement(new PsiMessageEffect.Factory());
 
         //expressions
