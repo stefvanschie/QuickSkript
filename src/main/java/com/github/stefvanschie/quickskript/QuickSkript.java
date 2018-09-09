@@ -63,14 +63,9 @@ public class QuickSkript extends JavaPlugin {
 
                 try {
                     skript.registerCommands();
-                } catch (ParseException e) {
-                    getLogger().log(Level.SEVERE, "Error while parsing commands of skript named " + skriptName + " at line " + e.getLineNumber(), e);
-                }
-
-                try {
                     skript.registerEventExecutors();
                 } catch (ParseException e) {
-                    getLogger().log(Level.SEVERE, "Error while parsing event executors of skript named " + skriptName + " at line " + e.getLineNumber(), e);
+                    getLogger().log(Level.SEVERE, "Error while parsing:" + e.getExtraInfo(skriptName), e);
                 }
             }
         }

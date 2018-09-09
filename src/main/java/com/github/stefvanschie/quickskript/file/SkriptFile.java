@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @since 0.1.0
  */
-public class SkriptFile extends SkriptFileSection {
+public class SkriptFile {
 
     /**
      * Loads a skript file from a given file
@@ -105,8 +105,6 @@ public class SkriptFile extends SkriptFileSection {
      * @param section the backing section of this file
      */
     private SkriptFile(@NotNull SkriptFileSection section) {
-        super(section.getText(), 0);
-
         this.section = section;
     }
 

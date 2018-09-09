@@ -39,10 +39,7 @@ public final class Text {
     public String construct() {
         StringBuilder message = new StringBuilder();
 
-        parts.forEach(part -> {
-            if (part instanceof TextString)
-                message.append(((TextString) part).getText());
-        });
+        parts.forEach(part -> part.append(message));
 
         return message.toString();
     }

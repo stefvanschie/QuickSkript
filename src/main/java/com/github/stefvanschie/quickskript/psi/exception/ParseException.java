@@ -1,5 +1,9 @@
 package com.github.stefvanschie.quickskript.psi.exception;
 
+import com.github.stefvanschie.quickskript.file.SkriptFile;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 /**
  * An exception thrown when the parser was unable to execute properly.
  *
@@ -8,9 +12,9 @@ package com.github.stefvanschie.quickskript.psi.exception;
 public class ParseException extends RuntimeException {
 
     /**
-     * Stores the line number this error occurred at
+     * Stores the line number this exception occurred at
      */
-    private int lineNumber;
+    private final int lineNumber;
 
     /**
      * {@inheritDoc}
@@ -22,12 +26,18 @@ public class ParseException extends RuntimeException {
     }
 
     /**
-     * Gets the line number this error occured at
+     * Constructs and returns text containing extra information regarding this exception.
+     * A line separator is inserted at the start for convenience.
+     * This method should always be used when the exception gets handled.
      *
-     * @return the line number
+     * @param fileName the name of the {@link SkriptFile}
+     * in which the code which caused this exception is
+     * @return extra information regarding this exception
      * @since 0.1.0
      */
-    public int getLineNumber() {
-        return lineNumber;
+    @NotNull
+    @Contract(pure = true)
+    public String getExtraInfo(@NotNull String fileName) {
+        return System.lineSeparator() + "Skript file: " + fileName + " | Line number: " + lineNumber;
     }
 }

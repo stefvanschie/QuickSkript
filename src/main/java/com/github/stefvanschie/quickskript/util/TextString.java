@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.util;
 
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -27,14 +26,10 @@ public class TextString implements TextPart {
     }
 
     /**
-     * Returns the text message
-     *
-     * @return the text
-     * @since 0.1.0
+     * {@inheritDoc}
      */
-    @NotNull
-    @Contract(pure = true)
-    public String getText() {
-        return text;
+    @Override
+    public void append(@NotNull StringBuilder builder) {
+        builder.append(text);
     }
 }
