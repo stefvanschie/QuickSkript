@@ -20,8 +20,10 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.SimplePluginManager;
 import org.jetbrains.annotations.Contract;
@@ -339,20 +341,42 @@ public class SkriptLoader implements AutoCloseable {
     @SuppressWarnings("HardcodedFileSeparator")
     private void registerDefaultEvents() {
         registerEvent(new SimpleEventProxyFactory()
-                .registerEvent(EntityExplodeEvent.class, "on explo(?:(?:d(?:e|ing))|(?:sion))")
-                .registerEvent(PlayerCommandPreprocessEvent.class, "on command")
+            .registerEvent(EntityExplodeEvent.class, "on explo(?:(?:d(?:e|ing))|(?:sion))")
+            .registerEvent(PlayerCommandPreprocessEvent.class, "on command")
         );
 
         registerEvent(new ComplexEventProxyFactory()
-                .registerEvent(PlayerCommandPreprocessEvent.class, "on command \"([\\s\\S]+)\"", matcher -> {
-                    String command = matcher.group(1); //TODO the regex of this group is probably incorrect
-                    String finalCommand = command.startsWith("/") ? command.substring(1) : command;
+            .registerEvent(PlayerCommandPreprocessEvent.class, "on command \"([\\s\\S]+)\"", matcher -> {
+                String command = matcher.group(1); //TODO the regex of this group is probably incorrect
+                String finalCommand = command.startsWith("/") ? command.substring(1) : command;
 
-                    return event -> {
-                        String message = ((PlayerCommandPreprocessEvent) event).getMessage();
-                        return message.startsWith(finalCommand, message.startsWith("/") ? 1 : 0);
-                    };
-                })
+                return event -> {
+                    String message = ((PlayerCommandPreprocessEvent) event).getMessage();
+                    return message.startsWith(finalCommand, message.startsWith("/") ? 1 : 0);
+                };
+            })
+            .registerEvent(PlayerInteractEvent.class,
+                "on (?:(right|left)(?: |-)?)?(?:mouse(?: |-)?)?click(?:ing)?", matcher -> {
+                    //TODO: This expression needs to be completed in the future, since it's missing optional additional parts
+
+                    String clickType = matcher.group(1);
+
+                    if (clickType == null)
+                        return event -> true;
+                    else if (clickType.equals("left"))
+                        return event -> {
+                            Action action = ((PlayerInteractEvent) event).getAction();
+                            return action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK;
+                        };
+                    else if (clickType.equals("right"))
+                        return event -> {
+                            Action action = ((PlayerInteractEvent) event).getAction();
+                            return action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK;
+                        };
+
+                    throw new AssertionError("Unknown click type detected for event registration");
+                }
+            )
         );
     }
 }

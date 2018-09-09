@@ -2,12 +2,15 @@ package com.github.stefvanschie.quickskript.psi.effect;
 
 import com.github.stefvanschie.quickskript.context.CommandContext;
 import com.github.stefvanschie.quickskript.context.Context;
+import com.github.stefvanschie.quickskript.context.EventContext;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.util.Text;
 import org.bukkit.command.CommandSender;
+import org.bukkit.event.Event;
+import org.bukkit.event.player.PlayerEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -49,13 +52,21 @@ public class PsiMessageEffect extends PsiElement<Void> {
      */
     @Override
     protected Void executeImpl(@Nullable Context context) {
-        CommandSender receiver;
+        CommandSender receiver = null;
 
-        if (this.receiver == null && context instanceof CommandContext)
-            receiver = ((CommandContext) context).getSender();
-        else if (this.receiver != null) {
-            receiver = this.receiver.execute(context, CommandSender.class);
+        if (this.receiver == null) {
+            if (context instanceof CommandContext)
+                receiver = ((CommandContext) context).getSender();
+            else if (context instanceof EventContext) {
+                Event event = ((EventContext) context).getEvent();
+
+                if (event instanceof PlayerEvent)
+                    receiver = ((PlayerEvent) event).getPlayer();
+            }
         } else
+            receiver = this.receiver.execute(context, CommandSender.class);
+
+        if (receiver == null)
             throw new ExecutionException(
                 "Unable to execute message instruction, since no possible receiver has been found", lineNumber
             );
