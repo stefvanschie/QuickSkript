@@ -51,6 +51,9 @@ public class PsiPlayerLiteral extends PsiElement<Player> {
             if (!(event instanceof PlayerEvent))
                 throw new ExecutionException("Event wasn't performed by a player", lineNumber);
 
+            //TODO this doesn't work with some events, eg. BlockBreakEvent
+            // -> fully implement together with the expression which can get all types of entities
+
             return ((PlayerEvent) event).getPlayer();
         }
 

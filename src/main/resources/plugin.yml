@@ -1,5 +1,5 @@
-main: ${package}.${name}
-name: ${name}
+main: ${package}.${project.name}
+name: ${project.name}
 version: ${project.version}
 
 website: ${url}

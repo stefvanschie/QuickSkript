@@ -23,18 +23,18 @@ public class PsiHasPermissionCondition extends PsiElement<Boolean> {
     /**
      * The player/console to check the {@link #permission} for
      */
-    private PsiElement<?> permissible;
+    private final PsiElement<?> permissible;
 
     /**
      * The permission to check for
      */
-    private PsiElement<?> permission;
+    private final PsiElement<?> permission;
 
     /**
      * True if the result stays the same, false if it needs to be inverted. This is determined by whether there is a
      * "doesn't/don't/does not/do not" in the condition.
      */
-    private boolean positive;
+    private final boolean positive;
 
     /**
      * Creates a new element with the given lien number
