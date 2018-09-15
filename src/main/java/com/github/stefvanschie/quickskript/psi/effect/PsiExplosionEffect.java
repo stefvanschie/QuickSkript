@@ -30,12 +30,12 @@ public class PsiExplosionEffect extends PsiElement<Void> {
     /**
      * The amount of force that should be applied to the created explosion
      */
-    private PsiElement<?> force;
+    private final PsiElement<?> force;
 
     /**
      * True if this explosion won't do any damage, false otherwise
      */
-    private boolean safe;
+    private final boolean safe;
 
     /**
      * Creates a new element with the given lien number
