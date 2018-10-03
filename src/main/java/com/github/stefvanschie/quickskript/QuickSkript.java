@@ -4,8 +4,12 @@ import com.github.stefvanschie.quickskript.file.SkriptFile;
 import com.github.stefvanschie.quickskript.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.skript.Skript;
 import com.github.stefvanschie.quickskript.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.skript.profiler.EmptySkriptProfiler;
+import com.github.stefvanschie.quickskript.skript.profiler.SimpleSkriptProfiler;
+import com.github.stefvanschie.quickskript.skript.profiler.SkriptProfiler;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,11 +34,31 @@ public class QuickSkript extends JavaPlugin {
     }
 
     /**
+     * Since plugins are singletons by design in Bukkit, this method
+     * aims to be a short and efficient way of getting the plugin instance.
+     *
+     * @return the current instance of the plugin or null if the plugin is not enabled
+     * @since 0.1.0
+     */
+    @Contract(pure = true)
+    public static QuickSkript getInstance() {
+        return instance;
+    }
+
+
+    /**
+     * The profiler to use throughout this plugin
+     */
+    @NotNull
+    private SkriptProfiler profiler = new EmptySkriptProfiler();
+
+    /**
      * {@inheritDoc}
      */
     @Override
     public void onEnable() {
         instance = this;
+        profiler = new SimpleSkriptProfiler();
 
         try (SkriptLoader ignored = new SkriptLoader()) {
 
@@ -81,14 +105,23 @@ public class QuickSkript extends JavaPlugin {
 
 
     /**
-     * Since plugins are singletons by design in Bukkit, this method
-     * aims to be a short and efficient way of getting the plugin instance.
+     * Gets the active profiler instance.
      *
-     * @return the current instance of the plugin or null if the plugin is not enabled
+     * @return the current profiler
      * @since 0.1.0
      */
-    @Contract(pure = true)
-    public static QuickSkript getInstance() {
-        return instance;
+    @NotNull
+    public SkriptProfiler getSkriptProfiler() {
+        return profiler;
+    }
+
+    /**
+     * Sets the active profiler instance.
+     *
+     * @param profiler the new profile to use
+     * @since 0.1.0
+     */
+    public void setSkriptProfiler(@NotNull SkriptProfiler profiler) {
+        this.profiler = profiler;
     }
 }

@@ -5,6 +5,7 @@ import com.github.stefvanschie.quickskript.context.CommandContext;
 import com.github.stefvanschie.quickskript.file.SkriptFileSection;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
+import com.github.stefvanschie.quickskript.skript.profiler.SkriptProfiler;
 import com.github.stefvanschie.quickskript.skript.util.ExecutionTarget;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -30,8 +31,15 @@ public class SkriptCommandExecutor implements CommandExecutor {
     private final Skript skript;
 
     /**
+     * The identifier of this instance to use with the {@link SkriptProfiler}
+     */
+    @NotNull
+    private final String profilerIdentifier;
+
+    /**
      * A list of elements that should get executed
      */
+    @NotNull
     private final List<PsiElement<?>> elements;
 
     /**
@@ -51,6 +59,7 @@ public class SkriptCommandExecutor implements CommandExecutor {
      */
     SkriptCommandExecutor(@NotNull Skript skript, @NotNull SkriptFileSection section, @Nullable ExecutionTarget executionTarget) {
         this.skript = skript;
+        profilerIdentifier = SkriptProfiler.getIdentifier(skript, section.getLineNumber());
         this.executionTarget = executionTarget;
 
         elements = section.getNodes().stream()
@@ -67,6 +76,7 @@ public class SkriptCommandExecutor implements CommandExecutor {
             return false;
 
         CommandContext context = new CommandContext(sender);
+        long startTime = System.nanoTime();
 
         try {
             for (PsiElement<?> element : elements) {
@@ -81,8 +91,11 @@ public class SkriptCommandExecutor implements CommandExecutor {
         } catch (ExecutionException e) {
             QuickSkript.getInstance().getLogger().log(Level.SEVERE, "Error while executing skript:" +
                     e.getExtraInfo(skript.getName()), e);
+            return true;
         }
 
+        QuickSkript.getInstance().getSkriptProfiler().onTimeMeasured(context,
+                profilerIdentifier, System.nanoTime() - startTime);
         return true;
     }
 }

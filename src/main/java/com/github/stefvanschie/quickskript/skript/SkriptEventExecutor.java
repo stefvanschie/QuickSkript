@@ -5,6 +5,7 @@ import com.github.stefvanschie.quickskript.context.EventContext;
 import com.github.stefvanschie.quickskript.file.SkriptFileSection;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
+import com.github.stefvanschie.quickskript.skript.profiler.SkriptProfiler;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,8 +27,15 @@ public class SkriptEventExecutor {
     private final Skript skript;
 
     /**
+     * The identifier of this instance to use with the {@link SkriptProfiler}
+     */
+    @NotNull
+    private final String profilerIdentifier;
+
+    /**
      * A list of elements that should get executed
      */
+    @NotNull
     private final List<PsiElement<?>> elements;
 
     /**
@@ -39,6 +47,7 @@ public class SkriptEventExecutor {
      */
     SkriptEventExecutor(@NotNull Skript skript, @NotNull SkriptFileSection section) {
         this.skript = skript;
+        profilerIdentifier = SkriptProfiler.getIdentifier(skript, section.getLineNumber());
 
         elements = section.getNodes().stream()
                 .map(node -> SkriptLoader.get().forceParseElement(node.getText(), node.getLineNumber()))
@@ -53,6 +62,7 @@ public class SkriptEventExecutor {
      */
     public void execute(@NotNull Event event) {
         EventContext context = new EventContext(event);
+        long startTime = System.nanoTime();
 
         try {
             for (PsiElement<?> element : elements) {
@@ -67,6 +77,10 @@ public class SkriptEventExecutor {
         } catch (ExecutionException e) {
             QuickSkript.getInstance().getLogger().log(Level.SEVERE, "Error while executing:" +
                     e.getExtraInfo(skript.getName()), e);
+            return;
         }
+
+        QuickSkript.getInstance().getSkriptProfiler().onTimeMeasured(context,
+                profilerIdentifier, System.nanoTime() - startTime);
     }
 }
