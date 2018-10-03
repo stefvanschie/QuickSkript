@@ -18,7 +18,7 @@ public class EmptySkriptProfiler extends SkriptProfiler {
      * {@inheritDoc}
      */
     @Override
-    public void onTimeMeasured(@NotNull Context context, @NotNull String identifier, long elapsedTime) {
+    public void onTimeMeasured(@NotNull Context context, @NotNull Identifier identifier, long elapsedTime) {
     }
 
     /**
@@ -26,7 +26,7 @@ public class EmptySkriptProfiler extends SkriptProfiler {
      */
     @Nullable
     @Override
-    public TimingEntry getTimingEntry(@NotNull Class<? extends Context> contextType, @NotNull String identifier) {
+    public TimingEntry getTimingEntry(@NotNull Class<? extends Context> contextType, @NotNull Identifier identifier) {
         return null;
     }
 
@@ -35,7 +35,7 @@ public class EmptySkriptProfiler extends SkriptProfiler {
      */
     @NotNull
     @Override
-    public Collection<String> getTimingEntryIdentifiers(@NotNull Class<? extends Context> contextType) {
+    public Collection<Identifier> getTimingEntryIdentifiers(@NotNull Class<? extends Context> contextType) {
         return Collections.emptySet();
     }
 }
