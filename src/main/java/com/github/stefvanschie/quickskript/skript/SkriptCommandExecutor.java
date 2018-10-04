@@ -94,7 +94,7 @@ public class SkriptCommandExecutor implements CommandExecutor {
             return true;
         }
 
-        QuickSkript.getInstance().getSkriptProfiler().onTimeMeasured(context,
+        QuickSkript.getInstance().getSkriptProfiler().onTimeMeasured(CommandContext.class,
                 profilerIdentifier, System.nanoTime() - startTime);
         return true;
     }

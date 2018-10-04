@@ -18,7 +18,7 @@ public class EmptySkriptProfiler extends SkriptProfiler {
      * {@inheritDoc}
      */
     @Override
-    public void onTimeMeasured(@NotNull Context context, @NotNull Identifier identifier, long elapsedTime) {
+    public void onTimeMeasured(@NotNull Class<? extends Context> contextType, @NotNull Identifier identifier, long elapsedTime) {
     }
 
     /**

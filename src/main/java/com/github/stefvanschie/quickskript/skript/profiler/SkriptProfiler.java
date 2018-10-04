@@ -18,12 +18,12 @@ public abstract class SkriptProfiler {
     /**
      * Called whenever the code inside an entry point was (successfully) executed.
      *
-     * @param context the context of the entry point
+     * @param contextType the type of context of the entry point
      * @param identifier the identifier of the entry point
      * @param elapsedTime the time in nanoseconds it took to execute the code in the entry point
      * @since 0.1.0
      */
-    public abstract void onTimeMeasured(@NotNull Context context, @NotNull Identifier identifier, long elapsedTime);
+    public abstract void onTimeMeasured(@NotNull Class<? extends Context> contextType, @NotNull Identifier identifier, long elapsedTime);
 
     /**
      * Gets the entry associated with the specified entry point.

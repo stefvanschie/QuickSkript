@@ -17,14 +17,14 @@ public class SimpleSkriptProfiler extends SkriptProfiler {
     /**
      * The storage of the profiler entries
      */
-    private final Map<Class<? extends Context>, Map<Identifier, SimpleEntry>> storage = new HashMap<>();
+    private final Map<Class<? extends Context>, Map<Identifier, SimpleEntry>> storage = new IdentityHashMap<>();
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void onTimeMeasured(@NotNull Context context, @NotNull Identifier identifier, long elapsedTime) {
-        storage.computeIfAbsent(context.getClass(), type -> new HashMap<>())
+    public void onTimeMeasured(@NotNull Class<? extends Context> contextType, @NotNull Identifier identifier, long elapsedTime) {
+        storage.computeIfAbsent(contextType, type -> new HashMap<>())
                 .computeIfAbsent(identifier, id -> new SimpleEntry())
                 .add(elapsedTime);
     }

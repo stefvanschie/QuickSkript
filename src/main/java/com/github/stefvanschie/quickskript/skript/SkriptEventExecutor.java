@@ -80,7 +80,7 @@ public class SkriptEventExecutor {
             return;
         }
 
-        QuickSkript.getInstance().getSkriptProfiler().onTimeMeasured(context,
+        QuickSkript.getInstance().getSkriptProfiler().onTimeMeasured(EventContext.class,
                 profilerIdentifier, System.nanoTime() - startTime);
     }
 }
