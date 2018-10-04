@@ -34,7 +34,7 @@ public class SkriptCommandExecutor implements CommandExecutor {
      * The identifier of this instance to use with the {@link SkriptProfiler}
      */
     @NotNull
-    private final String profilerIdentifier;
+    private final SkriptProfiler.Identifier profilerIdentifier;
 
     /**
      * A list of elements that should get executed
@@ -59,7 +59,7 @@ public class SkriptCommandExecutor implements CommandExecutor {
      */
     SkriptCommandExecutor(@NotNull Skript skript, @NotNull SkriptFileSection section, @Nullable ExecutionTarget executionTarget) {
         this.skript = skript;
-        profilerIdentifier = SkriptProfiler.getIdentifier(skript, section.getLineNumber());
+        profilerIdentifier = new SkriptProfiler.Identifier(skript, section.getLineNumber());
         this.executionTarget = executionTarget;
 
         elements = section.getNodes().stream()
@@ -94,7 +94,7 @@ public class SkriptCommandExecutor implements CommandExecutor {
             return true;
         }
 
-        QuickSkript.getInstance().getSkriptProfiler().onTimeMeasured(context,
+        QuickSkript.getInstance().getSkriptProfiler().onTimeMeasured(CommandContext.class,
                 profilerIdentifier, System.nanoTime() - startTime);
         return true;
     }

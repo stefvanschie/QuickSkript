@@ -30,7 +30,7 @@ public class SkriptEventExecutor {
      * The identifier of this instance to use with the {@link SkriptProfiler}
      */
     @NotNull
-    private final String profilerIdentifier;
+    private final SkriptProfiler.Identifier profilerIdentifier;
 
     /**
      * A list of elements that should get executed
@@ -47,7 +47,7 @@ public class SkriptEventExecutor {
      */
     SkriptEventExecutor(@NotNull Skript skript, @NotNull SkriptFileSection section) {
         this.skript = skript;
-        profilerIdentifier = SkriptProfiler.getIdentifier(skript, section.getLineNumber());
+        profilerIdentifier = new SkriptProfiler.Identifier(skript, section.getLineNumber());
 
         elements = section.getNodes().stream()
                 .map(node -> SkriptLoader.get().forceParseElement(node.getText(), node.getLineNumber()))
@@ -80,7 +80,7 @@ public class SkriptEventExecutor {
             return;
         }
 
-        QuickSkript.getInstance().getSkriptProfiler().onTimeMeasured(context,
+        QuickSkript.getInstance().getSkriptProfiler().onTimeMeasured(EventContext.class,
                 profilerIdentifier, System.nanoTime() - startTime);
     }
 }

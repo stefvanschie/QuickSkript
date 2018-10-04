@@ -17,14 +17,14 @@ public class SimpleSkriptProfiler extends SkriptProfiler {
     /**
      * The storage of the profiler entries
      */
-    private final Map<Class<? extends Context>, Map<String, SimpleEntry>> storage = new HashMap<>();
+    private final Map<Class<? extends Context>, Map<Identifier, SimpleEntry>> storage = new IdentityHashMap<>();
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void onTimeMeasured(@NotNull Context context, @NotNull String identifier, long elapsedTime) {
-        storage.computeIfAbsent(context.getClass(), type -> new HashMap<>())
+    public void onTimeMeasured(@NotNull Class<? extends Context> contextType, @NotNull Identifier identifier, long elapsedTime) {
+        storage.computeIfAbsent(contextType, type -> new HashMap<>())
                 .computeIfAbsent(identifier, id -> new SimpleEntry())
                 .add(elapsedTime);
     }
@@ -34,8 +34,8 @@ public class SimpleSkriptProfiler extends SkriptProfiler {
      */
     @Nullable
     @Override
-    public TimingEntry getTimingEntry(@NotNull Class<? extends Context> contextType, @NotNull String identifier) {
-        Map<String, SimpleEntry> entries = storage.get(contextType);
+    public TimingEntry getTimingEntry(@NotNull Class<? extends Context> contextType, @NotNull Identifier identifier) {
+        Map<Identifier, SimpleEntry> entries = storage.get(contextType);
         return entries == null ? null : entries.get(identifier);
     }
 
@@ -44,8 +44,8 @@ public class SimpleSkriptProfiler extends SkriptProfiler {
      */
     @NotNull
     @Override
-    public Collection<String> getTimingEntryIdentifiers(@NotNull Class<? extends Context> contextType) {
-        Map<String, SimpleEntry> entries = storage.get(contextType);
+    public Collection<Identifier> getTimingEntryIdentifiers(@NotNull Class<? extends Context> contextType) {
+        Map<Identifier, SimpleEntry> entries = storage.get(contextType);
         return entries == null ? Collections.emptySet() : entries.keySet();
     }
 
@@ -54,6 +54,7 @@ public class SimpleSkriptProfiler extends SkriptProfiler {
      * A simple implementation of a profiler entry.
      */
     private static class SimpleEntry implements TimingEntry {
+
         /**
          * The number of times the elapsed time was recorded
          */
