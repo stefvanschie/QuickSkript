@@ -128,7 +128,7 @@ class PsiNumberExecutabilityTest extends TestClassBase {
         System.out.println("Average PsiNumberExecutabilityTest instance count: " + ((float)instanceCount / runCount));
     }
 
-    private void test(Supplier<PsiElement<Number>> supplier, boolean precomputed) throws ReflectiveOperationException {
+    private void test(@NotNull Supplier<PsiElement<Number>> supplier, boolean precomputed) throws ReflectiveOperationException {
         try {
             RunContext context = new RunContext(supplier);
             PsiElement<Number> result = next(context);
@@ -184,7 +184,7 @@ class PsiNumberExecutabilityTest extends TestClassBase {
         private final Supplier<PsiElement<Number>> directSupplier;
         private double directChance;
 
-        RunContext(Supplier<PsiElement<Number>> directSupplier) {
+        RunContext(@NotNull Supplier<PsiElement<Number>> directSupplier) {
             this.directSupplier = directSupplier;
         }
 

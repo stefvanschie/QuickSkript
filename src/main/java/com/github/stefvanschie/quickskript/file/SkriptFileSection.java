@@ -1,10 +1,13 @@
 package com.github.stefvanschie.quickskript.file;
 
+import com.github.stefvanschie.quickskript.psi.PsiElement;
+import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Represents a section of skript lines
@@ -39,11 +42,35 @@ public class SkriptFileSection extends SkriptFileNode {
     }
 
     /**
+     * Parses all of the nodes, including the ones inside nested
+     * {@link SkriptFileSection}s into a psi structure
+     *
+     * @return the nodes parsed into a psi structure
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public List<PsiElement<?>> parseNodes() {
+        //TODO stuff to look out for:
+        // - else statements need to hook into the if statements
+        // - the 'if' keyword is optional
+        // - there is a 'wait # <timestamp>' expression (maybe a preprocessor for stuff like this? - indent it?)
+        // - loops are easy: <while/loop> <some stuff>:
+        // - inside if statements, the unhandled Boolean is probably handled just outside: halts execution if false
+        // - inside loop and while statements the unhandled boolean means continue
+        // - exit (optional number) expression exists
+
+        return getNodes().stream()
+                .map(node -> SkriptLoader.get().forceParseElement(node.getText(), node.getLineNumber()))
+                .collect(Collectors.toList());
+    }
+
+    /**
      * Parses a section from the given header and strings
      *
      * @param nodes the underlying nodes
      * @param lineNumberOffset the offset of the line number from the starting node. This value represents the line
-     *                         number of the first node in the list.
+     * number of the first node in the list.
      * @since 0.1.0
      */
     void parse(@NotNull List<String> nodes, int lineNumberOffset) {

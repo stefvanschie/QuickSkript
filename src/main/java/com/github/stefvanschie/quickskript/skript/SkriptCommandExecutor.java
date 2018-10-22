@@ -15,7 +15,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.logging.Level;
-import java.util.stream.Collectors;
 
 /**
  * Represents an arbitrary skript command handler.
@@ -61,10 +60,7 @@ public class SkriptCommandExecutor implements CommandExecutor {
         this.skript = skript;
         profilerIdentifier = new SkriptProfiler.Identifier(skript, section.getLineNumber());
         this.executionTarget = executionTarget;
-
-        elements = section.getNodes().stream()
-                .map(node -> SkriptLoader.get().forceParseElement(node.getText(), node.getLineNumber()))
-                .collect(Collectors.toList());
+        elements = section.parseNodes();
     }
 
     /**
@@ -80,12 +76,7 @@ public class SkriptCommandExecutor implements CommandExecutor {
 
         try {
             for (PsiElement<?> element : elements) {
-                Object result = element.execute(context);
-
-                if (!(result instanceof Boolean))
-                    continue;
-
-                if (!(Boolean) result)
+                if (element.execute(context) == Boolean.FALSE)
                     break;
             }
         } catch (ExecutionException e) {

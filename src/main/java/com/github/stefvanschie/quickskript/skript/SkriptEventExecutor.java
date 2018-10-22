@@ -11,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.logging.Level;
-import java.util.stream.Collectors;
 
 /**
  * Represents an arbitrary skript event handler.
@@ -48,10 +47,7 @@ public class SkriptEventExecutor {
     SkriptEventExecutor(@NotNull Skript skript, @NotNull SkriptFileSection section) {
         this.skript = skript;
         profilerIdentifier = new SkriptProfiler.Identifier(skript, section.getLineNumber());
-
-        elements = section.getNodes().stream()
-                .map(node -> SkriptLoader.get().forceParseElement(node.getText(), node.getLineNumber()))
-                .collect(Collectors.toList());
+        elements = section.parseNodes();
     }
 
     /**
@@ -66,12 +62,7 @@ public class SkriptEventExecutor {
 
         try {
             for (PsiElement<?> element : elements) {
-                Object result = element.execute(context);
-
-                if (!(result instanceof Boolean))
-                    continue;
-
-                if (!(Boolean) result)
+                if (element.execute(context) == Boolean.FALSE)
                     break;
             }
         } catch (ExecutionException e) {
