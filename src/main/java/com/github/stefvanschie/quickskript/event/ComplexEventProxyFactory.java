@@ -2,7 +2,6 @@ package com.github.stefvanschie.quickskript.event;
 
 import com.github.stefvanschie.quickskript.QuickSkript;
 import com.github.stefvanschie.quickskript.skript.SkriptEventExecutor;
-import javafx.util.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
@@ -28,7 +27,7 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
      * The storage of registered event handlers.
      */
     @NotNull
-    private static final Map<Class<? extends Event>, List<Pair<SkriptEventExecutor, Predicate<Event>>>> REGISTERED_HANDLERS = new HashMap<>();
+    private static final Map<Class<? extends Event>, List<Map.Entry<SkriptEventExecutor, Predicate<Event>>>> REGISTERED_HANDLERS = new HashMap<>();
 
     /**
      * The executor which handles the execution of all event handlers in the storage.
@@ -60,7 +59,7 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
                 Bukkit.getPluginManager().registerEvent(event, EMPTY_LISTENER,
                         EventPriority.NORMAL, HANDLER_EXECUTOR, QuickSkript.getInstance());
                 return new ArrayList<>();
-            }).add(new Pair<>(toRegisterSupplier.get(), eventPattern.getFilterCreator().apply(matcher)));
+            }).add(Map.entry(toRegisterSupplier.get(), eventPattern.getFilterCreator().apply(matcher)));
             return true;
         }
 
