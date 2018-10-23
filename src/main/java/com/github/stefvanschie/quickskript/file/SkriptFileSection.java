@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Represents a section of skript lines
@@ -50,19 +50,16 @@ public class SkriptFileSection extends SkriptFileNode {
      */
     @NotNull
     @Contract(pure = true)
-    public List<PsiElement<?>> parseNodes() {
+    public Stream<PsiElement<?>> parseNodes() {
         //TODO stuff to look out for:
         // - else statements need to hook into the if statements
         // - the 'if' keyword is optional
         // - there is a 'wait # <timestamp>' expression (maybe a preprocessor for stuff like this? - indent it?)
-        // - loops are easy: <while/loop> <some stuff>:
-        // - inside if statements, the unhandled Boolean is probably handled just outside: halts execution if false
-        // - inside loop and while statements the unhandled boolean means continue
         // - exit (optional number) expression exists
+        // - stop <?> expression exists
 
         return getNodes().stream()
-                .map(node -> SkriptLoader.get().forceParseElement(node.getText(), node.getLineNumber()))
-                .collect(Collectors.toList());
+                .map(node -> SkriptLoader.get().forceParseElement(node.getText(), node.getLineNumber()));
     }
 
     /**

@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.psi;
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -55,7 +56,8 @@ public abstract class PsiElement<T> {
      * @return the computed value which is null if the computation returned null
      * @since 0.1.0
      */
-    public <R> R execute(@Nullable Context context, Class<R> forcedResult) {
+    @NotNull
+    public <R> R execute(@Nullable Context context, @NotNull Class<R> forcedResult) {
         T result = execute(context);
         if (forcedResult.isInstance(result))
             return forcedResult.cast(result);

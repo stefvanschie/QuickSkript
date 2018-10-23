@@ -5,11 +5,11 @@ import com.github.stefvanschie.quickskript.context.EventContext;
 import com.github.stefvanschie.quickskript.file.SkriptFileSection;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
+import com.github.stefvanschie.quickskript.psi.section.PsiSection;
 import com.github.stefvanschie.quickskript.skript.profiler.SkriptProfiler;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.logging.Level;
 
 /**
@@ -32,10 +32,10 @@ public class SkriptEventExecutor {
     private final SkriptProfiler.Identifier profilerIdentifier;
 
     /**
-     * A list of elements that should get executed
+     * The elements that should get executed
      */
     @NotNull
-    private final List<PsiElement<?>> elements;
+    private final PsiSection elements;
 
     /**
      * Constructs a new skript event.
@@ -47,7 +47,7 @@ public class SkriptEventExecutor {
     SkriptEventExecutor(@NotNull Skript skript, @NotNull SkriptFileSection section) {
         this.skript = skript;
         profilerIdentifier = new SkriptProfiler.Identifier(skript, section.getLineNumber());
-        elements = section.parseNodes();
+        elements = new PsiSection(section.parseNodes().toArray(PsiElement[]::new), section.getLineNumber());
     }
 
     /**
@@ -57,14 +57,10 @@ public class SkriptEventExecutor {
      * @since 0.1.0
      */
     public void execute(@NotNull Event event) {
-        EventContext context = new EventContext(event);
         long startTime = System.nanoTime();
 
         try {
-            for (PsiElement<?> element : elements) {
-                if (element.execute(context) == Boolean.FALSE)
-                    break;
-            }
+            elements.execute(new EventContext(event));
         } catch (ExecutionException e) {
             QuickSkript.getInstance().getLogger().log(Level.SEVERE, "Error while executing:" +
                     e.getExtraInfo(skript.getName()), e);

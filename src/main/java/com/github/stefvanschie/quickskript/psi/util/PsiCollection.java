@@ -72,9 +72,10 @@ public class PsiCollection<T> extends PsiElement<Collection<PsiElement<T>>> {
     /**
      * {@inheritDoc}
      */
-    @Override
+    @NotNull
     @Contract(pure = true)
-    protected final Collection<PsiElement<T>> executeImpl(@Nullable Context context) {
+    @Override
+    protected Collection<PsiElement<T>> executeImpl(@Nullable Context context) {
         return elements;
     }
 }
