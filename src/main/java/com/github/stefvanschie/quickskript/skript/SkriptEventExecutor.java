@@ -3,7 +3,6 @@ package com.github.stefvanschie.quickskript.skript;
 import com.github.stefvanschie.quickskript.QuickSkript;
 import com.github.stefvanschie.quickskript.context.EventContext;
 import com.github.stefvanschie.quickskript.file.SkriptFileSection;
-import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.psi.section.PsiSection;
 import com.github.stefvanschie.quickskript.skript.profiler.SkriptProfiler;
@@ -47,7 +46,7 @@ public class SkriptEventExecutor {
     SkriptEventExecutor(@NotNull Skript skript, @NotNull SkriptFileSection section) {
         this.skript = skript;
         profilerIdentifier = new SkriptProfiler.Identifier(skript, section.getLineNumber());
-        elements = new PsiSection(section.parseNodes().toArray(PsiElement[]::new), section.getLineNumber());
+        elements = section.parseNodes();
     }
 
     /**

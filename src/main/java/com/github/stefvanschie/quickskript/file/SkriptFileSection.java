@@ -1,13 +1,13 @@
 package com.github.stefvanschie.quickskript.file;
 
 import com.github.stefvanschie.quickskript.psi.PsiElement;
+import com.github.stefvanschie.quickskript.psi.section.PsiSection;
 import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 /**
  * Represents a section of skript lines
@@ -50,7 +50,7 @@ public class SkriptFileSection extends SkriptFileNode {
      */
     @NotNull
     @Contract(pure = true)
-    public Stream<PsiElement<?>> parseNodes() {
+    public PsiSection parseNodes() {
         //TODO stuff to look out for:
         // - else statements need to hook into the if statements
         // - the 'if' keyword is optional
@@ -58,8 +58,9 @@ public class SkriptFileSection extends SkriptFileNode {
         // - exit (optional number) expression exists
         // - stop <?> expression exists
 
-        return getNodes().stream()
-                .map(node -> SkriptLoader.get().forceParseElement(node.getText(), node.getLineNumber()));
+        return new PsiSection(getNodes().stream()
+                .map(node -> SkriptLoader.get().forceParseElement(node.getText(), node.getLineNumber()))
+                .toArray(PsiElement[]::new), getLineNumber());
     }
 
     /**

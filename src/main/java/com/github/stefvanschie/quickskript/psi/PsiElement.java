@@ -42,6 +42,7 @@ public abstract class PsiElement<T> {
      * @return the computed value which is null if the computation returned null
      * @since 0.1.0
      */
+    @Nullable
     public final T execute(@Nullable Context context) {
         return isPreComputed() ? preComputed : executeImpl(context);
     }
@@ -63,7 +64,8 @@ public abstract class PsiElement<T> {
             return forcedResult.cast(result);
 
         throw new ExecutionException("Result of " + getClass().getSimpleName() +
-                " should be a " + forcedResult.getSimpleName() + ", but it wasn't", lineNumber);
+                " should be " + forcedResult.getSimpleName() + ", but it was " +
+                (result == null ? "null" : result.getClass().getSimpleName()), lineNumber);
     }
 
     /**
@@ -73,6 +75,7 @@ public abstract class PsiElement<T> {
      * @return the computed value which is null if the computation returned null
      * @since 0.1.0
      */
+    @Nullable
     protected abstract T executeImpl(@Nullable Context context);
 
     /**

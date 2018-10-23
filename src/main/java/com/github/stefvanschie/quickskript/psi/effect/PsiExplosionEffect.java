@@ -55,6 +55,7 @@ public class PsiExplosionEffect extends PsiElement<Void> {
     /**
      * {@inheritDoc}
      */
+    @Nullable
     @Override
     protected Void executeImpl(@Nullable Context context) {
         if (context == null)

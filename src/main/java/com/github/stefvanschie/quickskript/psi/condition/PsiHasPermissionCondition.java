@@ -58,6 +58,7 @@ public class PsiHasPermissionCondition extends PsiElement<Boolean> {
     /**
      * {@inheritDoc}
      */
+    @NotNull
     @Override
     protected Boolean executeImpl(@Nullable Context context) {
         return positive == permissible

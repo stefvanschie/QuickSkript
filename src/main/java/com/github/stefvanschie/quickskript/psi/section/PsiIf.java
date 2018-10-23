@@ -43,6 +43,7 @@ public class PsiIf extends PsiElement<Void> {
     }
 
 
+    @Nullable
     @Override
     protected Void executeImpl(@Nullable Context context) {
         if (condition.execute(context, Boolean.class)) {

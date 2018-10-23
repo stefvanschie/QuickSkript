@@ -3,7 +3,6 @@ package com.github.stefvanschie.quickskript.skript;
 import com.github.stefvanschie.quickskript.QuickSkript;
 import com.github.stefvanschie.quickskript.context.CommandContext;
 import com.github.stefvanschie.quickskript.file.SkriptFileSection;
-import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.psi.section.PsiSection;
 import com.github.stefvanschie.quickskript.skript.profiler.SkriptProfiler;
@@ -60,7 +59,7 @@ public class SkriptCommandExecutor implements CommandExecutor {
         this.skript = skript;
         profilerIdentifier = new SkriptProfiler.Identifier(skript, section.getLineNumber());
         this.executionTarget = executionTarget;
-        elements = new PsiSection(section.parseNodes().toArray(PsiElement[]::new), section.getLineNumber());
+        elements = section.parseNodes();
     }
 
     /**
