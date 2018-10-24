@@ -4,8 +4,7 @@ import com.github.stefvanschie.quickskript.QuickSkript;
 import com.github.stefvanschie.quickskript.context.EventContext;
 import com.github.stefvanschie.quickskript.file.SkriptFileSection;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
-import com.github.stefvanschie.quickskript.psi.section.PsiSection;
-import com.github.stefvanschie.quickskript.skript.profiler.SkriptProfiler;
+import com.github.stefvanschie.quickskript.psi.section.PsiBaseSection;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,16 +24,10 @@ public class SkriptEventExecutor {
     private final Skript skript;
 
     /**
-     * The identifier of this instance to use with the {@link SkriptProfiler}
-     */
-    @NotNull
-    private final SkriptProfiler.Identifier profilerIdentifier;
-
-    /**
      * The elements that should get executed
      */
     @NotNull
-    private final PsiSection elements;
+    private final PsiBaseSection elements;
 
     /**
      * Constructs a new skript event.
@@ -45,8 +38,7 @@ public class SkriptEventExecutor {
      */
     SkriptEventExecutor(@NotNull Skript skript, @NotNull SkriptFileSection section) {
         this.skript = skript;
-        profilerIdentifier = new SkriptProfiler.Identifier(skript, section.getLineNumber());
-        elements = section.parseNodes();
+        elements = new PsiBaseSection(skript, section, EventContext.class);
     }
 
     /**
@@ -56,17 +48,11 @@ public class SkriptEventExecutor {
      * @since 0.1.0
      */
     public void execute(@NotNull Event event) {
-        long startTime = System.nanoTime();
-
         try {
             elements.execute(new EventContext(event));
         } catch (ExecutionException e) {
             QuickSkript.getInstance().getLogger().log(Level.SEVERE, "Error while executing:" +
                     e.getExtraInfo(skript.getName()), e);
-            return;
         }
-
-        QuickSkript.getInstance().getSkriptProfiler().onTimeMeasured(EventContext.class,
-                profilerIdentifier, System.nanoTime() - startTime);
     }
 }

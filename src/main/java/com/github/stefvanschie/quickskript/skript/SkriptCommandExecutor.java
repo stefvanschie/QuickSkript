@@ -2,10 +2,10 @@ package com.github.stefvanschie.quickskript.skript;
 
 import com.github.stefvanschie.quickskript.QuickSkript;
 import com.github.stefvanschie.quickskript.context.CommandContext;
+import com.github.stefvanschie.quickskript.context.EventContext;
 import com.github.stefvanschie.quickskript.file.SkriptFileSection;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
-import com.github.stefvanschie.quickskript.psi.section.PsiSection;
-import com.github.stefvanschie.quickskript.skript.profiler.SkriptProfiler;
+import com.github.stefvanschie.quickskript.psi.section.PsiBaseSection;
 import com.github.stefvanschie.quickskript.skript.util.ExecutionTarget;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -29,16 +29,10 @@ public class SkriptCommandExecutor implements CommandExecutor {
     private final Skript skript;
 
     /**
-     * The identifier of this instance to use with the {@link SkriptProfiler}
-     */
-    @NotNull
-    private final SkriptProfiler.Identifier profilerIdentifier;
-
-    /**
      * The elements that should get executed
      */
     @NotNull
-    private final PsiSection elements;
+    private final PsiBaseSection elements;
 
     /**
      * Specifies the execution target. When null, everything/everyone can use this command.
@@ -57,9 +51,8 @@ public class SkriptCommandExecutor implements CommandExecutor {
      */
     SkriptCommandExecutor(@NotNull Skript skript, @NotNull SkriptFileSection section, @Nullable ExecutionTarget executionTarget) {
         this.skript = skript;
-        profilerIdentifier = new SkriptProfiler.Identifier(skript, section.getLineNumber());
         this.executionTarget = executionTarget;
-        elements = section.parseNodes();
+        elements = new PsiBaseSection(skript, section, EventContext.class);
     }
 
     /**
@@ -70,18 +63,12 @@ public class SkriptCommandExecutor implements CommandExecutor {
         if (executionTarget != null && !executionTarget.matches(sender))
             return false;
 
-        long startTime = System.nanoTime();
-
         try {
             elements.execute(new CommandContext(sender));
         } catch (ExecutionException e) {
             QuickSkript.getInstance().getLogger().log(Level.SEVERE, "Error while executing skript:" +
                     e.getExtraInfo(skript.getName()), e);
-            return true;
         }
-
-        QuickSkript.getInstance().getSkriptProfiler().onTimeMeasured(CommandContext.class,
-                profilerIdentifier, System.nanoTime() - startTime);
         return true;
     }
 }

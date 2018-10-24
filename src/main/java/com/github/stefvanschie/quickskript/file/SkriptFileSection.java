@@ -1,13 +1,15 @@
 package com.github.stefvanschie.quickskript.file;
 
 import com.github.stefvanschie.quickskript.psi.PsiElement;
-import com.github.stefvanschie.quickskript.psi.section.PsiSection;
+import com.github.stefvanschie.quickskript.psi.PsiSection;
+import com.github.stefvanschie.quickskript.psi.exception.ParseException;
+import com.github.stefvanschie.quickskript.psi.section.PsiIf;
 import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.function.Supplier;
 
 /**
  * Represents a section of skript lines
@@ -50,17 +52,46 @@ public class SkriptFileSection extends SkriptFileNode {
      */
     @NotNull
     @Contract(pure = true)
-    public PsiSection parseNodes() {
+    public PsiElement<?>[] parseNodes() {
         //TODO stuff to look out for:
-        // - else statements need to hook into the if statements
-        // - the 'if' keyword is optional
         // - there is a 'wait # <timestamp>' expression (maybe a preprocessor for stuff like this? - indent it?)
         // - exit (optional number) expression exists
         // - stop <?> expression exists
 
-        return new PsiSection(getNodes().stream()
-                .map(node -> SkriptLoader.get().forceParseElement(node.getText(), node.getLineNumber()))
-                .toArray(PsiElement[]::new), getLineNumber());
+        Deque<PsiElement<?>> result = new ArrayDeque<>(nodes.size());
+        SkriptLoader loader = SkriptLoader.get();
+
+        PsiIf latestValidIf = null;
+
+        for (SkriptFileNode node : nodes) {
+            if (!(node instanceof SkriptFileSection)) {
+                result.add(loader.forceParseElement(node.getText(), node.getLineNumber()));
+                continue;
+            }
+
+            String text = node.getText();
+            boolean elseSection = text.startsWith("else ");
+
+            if (elseSection) {
+                if (latestValidIf == null)
+                    throw new ParseException("No available if statement was found for the else statement", node.getLineNumber());
+
+                text = node.getText().substring("else ".length());
+            }
+
+            SkriptFileSection fileSection = (SkriptFileSection) node;
+            Supplier<PsiElement<?>[]> elementsSupplier = fileSection::parseNodes;
+            PsiSection section = loader.forceParseSection(text, elementsSupplier, node.getLineNumber());
+
+            if (elseSection) {
+                latestValidIf.setElseSection(section);
+            }
+
+            latestValidIf = section instanceof PsiIf ? (PsiIf) section : null;
+            result.add(section);
+        }
+
+        return result.toArray(PsiElement[]::new);
     }
 
     /**

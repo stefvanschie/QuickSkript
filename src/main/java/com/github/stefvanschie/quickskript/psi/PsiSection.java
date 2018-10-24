@@ -1,18 +1,17 @@
-package com.github.stefvanschie.quickskript.psi.section;
+package com.github.stefvanschie.quickskript.psi;
 
 import com.github.stefvanschie.quickskript.context.Context;
-import com.github.stefvanschie.quickskript.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 
-public class PsiSection extends PsiElement<Void> {
+public abstract class PsiSection extends PsiElement<Void> { //TODO docs to all classes, etc.
 
     @NotNull
-    private final PsiElement[] elements;
+    protected final PsiElement<?>[] elements;
 
-    public PsiSection(@NotNull PsiElement[] elements, int lineNumber) {
+    protected PsiSection(@NotNull PsiElement<?>[] elements, int lineNumber) {
         super(lineNumber);
         this.elements = elements;
 
@@ -21,7 +20,6 @@ public class PsiSection extends PsiElement<Void> {
             //TODO warning
         }
     }
-
 
     @Nullable
     @Override

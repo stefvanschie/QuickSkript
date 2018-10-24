@@ -19,6 +19,9 @@ import java.util.function.BiFunction;
 @SuppressWarnings("HardcodedLineSeparator")
 class SkriptFileSectionTest extends TestClassBase {
 
+    //TODO similar test, but one which relies on SkriptFileSection#parseNodes() maybe?
+    //same or separate class?
+
     private static final String INDENTATION = "    ";
 
     private final BiFunction<String, Integer, SkriptFileSection> sectionConstructor;
