@@ -41,7 +41,7 @@ public class QuickSkript extends JavaPlugin {
      * @since 0.1.0
      */
     @Contract(pure = true)
-    public static QuickSkript getInstance() {
+    public static QuickSkript getInstance() { //TODO some unified parsing, compiler error + warn logging through this class?
         return instance;
     }
 

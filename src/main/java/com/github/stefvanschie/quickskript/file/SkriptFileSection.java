@@ -9,7 +9,6 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.function.Supplier;
 
 /**
  * Represents a section of skript lines
@@ -79,16 +78,16 @@ public class SkriptFileSection extends SkriptFileNode {
                 text = node.getText().substring("else ".length());
             }
 
-            SkriptFileSection fileSection = (SkriptFileSection) node;
-            Supplier<PsiElement<?>[]> elementsSupplier = fileSection::parseNodes;
-            PsiSection section = loader.forceParseSection(text, elementsSupplier, node.getLineNumber());
+            PsiSection section = loader.forceParseSection(text,
+                    ((SkriptFileSection) node)::parseNodes, node.getLineNumber());
 
             if (elseSection) {
                 latestValidIf.setElseSection(section);
+            } else {
+                result.add(section);
             }
 
             latestValidIf = section instanceof PsiIf ? (PsiIf) section : null;
-            result.add(section);
         }
 
         return result.toArray(PsiElement[]::new);
