@@ -52,11 +52,6 @@ public class SkriptFileSection extends SkriptFileNode {
     @NotNull
     @Contract(pure = true)
     public PsiElement<?>[] parseNodes() {
-        //TODO stuff to look out for:
-        // - there is a 'wait # <timestamp>' expression (maybe a preprocessor for stuff like this? - indent it?)
-        // - exit (optional number) expression exists
-        // - stop <?> expression exists
-
         Deque<PsiElement<?>> result = new ArrayDeque<>(nodes.size());
         SkriptLoader loader = SkriptLoader.get();
 

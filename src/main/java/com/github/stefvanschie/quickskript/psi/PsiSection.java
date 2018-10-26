@@ -6,11 +6,28 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 
-public abstract class PsiSection extends PsiElement<Void> { //TODO docs to all classes, etc.
+/**
+ * An abstract representation of a section in a skript file.
+ * Other sections should extend upon the functionality implemented in this class:
+ * it executes all contained elements in order until {@link Boolean#FALSE} is returned.
+ *
+ * @since 0.1.0
+ */
+public abstract class PsiSection extends PsiElement<Void> {
 
+    /**
+     * The elements this section contains.
+     */
     @NotNull
     protected final PsiElement<?>[] elements;
 
+    /**
+     * Creates a new section with the specified contained elements and line number.
+     *
+     * @param elements the elements this section should contain
+     * @param lineNumber the line number this element is associated with
+     * @since 0.1.0
+     */
     protected PsiSection(@NotNull PsiElement<?>[] elements, int lineNumber) {
         super(lineNumber);
         this.elements = elements;
@@ -21,6 +38,9 @@ public abstract class PsiSection extends PsiElement<Void> { //TODO docs to all c
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Nullable
     @Override
     protected Void executeImpl(@Nullable Context context) {

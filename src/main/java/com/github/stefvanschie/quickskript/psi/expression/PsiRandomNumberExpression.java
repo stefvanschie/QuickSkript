@@ -67,8 +67,8 @@ public class PsiRandomNumberExpression extends PsiElement<Number> {
     @NotNull
     @Override
     protected Number executeImpl(@Nullable Context context) {
-        Number minNumber = this.min.execute(context, Number.class);
-        Number maxNumber = this.max.execute(context, Number.class);
+        Number minNumber = min.execute(context, Number.class);
+        Number maxNumber = max.execute(context, Number.class);
 
         if (minNumber.doubleValue() > maxNumber.doubleValue()) {
             Number temp = maxNumber;

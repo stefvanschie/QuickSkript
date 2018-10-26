@@ -115,6 +115,7 @@ public class SkriptLoader implements AutoCloseable {
         Validate.isTrue(instance == null, "A SkriptLoader is already present, can't create another one.");
 
         registerDefaultElements();
+        registerDefaultSections();
         registerDefaultConverters();
         registerDefaultEvents();
 
@@ -191,7 +192,7 @@ public class SkriptLoader implements AutoCloseable {
      * Throws a {@link ParseException} if the parsing wasn't successful.
      *
      * @param input the text to be parsed
-     * @param elementsSupplier the action which parses the elements on demand
+     * @param elementsSupplier the action which parses the contained elements on demand
      * @param lineNumber the line number of the section that will be parsed
      * @return the parsed psi section, or null if none were found
      * @since 0.1.0

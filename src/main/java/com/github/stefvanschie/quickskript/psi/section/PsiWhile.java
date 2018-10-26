@@ -12,11 +12,27 @@ import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * A section which continuously executes its contained elements while the condition is met.
+ *
+ * @since 0.1.0
+ */
 public class PsiWhile extends PsiSection {
 
+    /**
+     * The condition of the continuing execution.
+     */
     @NotNull
     private final PsiElement<?> condition;
 
+    /**
+     * Creates a new psi while section.
+     *
+     * @param elements the elements this section should contain
+     * @param condition the condition of the continuing execution
+     * @param lineNumber the line number this element is associated with
+     * @since 0.1.0
+     */
     private PsiWhile(@NotNull PsiElement<?>[] elements, @NotNull PsiElement<?> condition, int lineNumber) {
         super(elements, lineNumber);
         this.condition = condition;
@@ -26,6 +42,9 @@ public class PsiWhile extends PsiSection {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Nullable
     @Override
     protected Void executeImpl(@Nullable Context context) {
@@ -35,10 +54,21 @@ public class PsiWhile extends PsiSection {
         return null;
     }
 
+    /**
+     * A factory for creating while sections.
+     *
+     * @since 0.1.0
+     */
     public static class Factory implements PsiSectionFactory<PsiWhile> {
 
+        /**
+         * The pattern to parse while sections with.
+         */
         private final Pattern pattern = Pattern.compile("while ([\\s\\S]+)");
 
+        /**
+         * {@inheritDoc}
+         */
         @Nullable
         @Override
         public PsiWhile tryParse(@NotNull String text, @NotNull Supplier<PsiElement<?>[]> elementsSupplier, int lineNumber) {

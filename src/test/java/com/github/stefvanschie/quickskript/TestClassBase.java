@@ -1,15 +1,22 @@
 package com.github.stefvanschie.quickskript;
 
+import com.github.stefvanschie.quickskript.file.SkriptFile;
+import com.github.stefvanschie.quickskript.skript.Skript;
 import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import org.apache.commons.lang.reflect.FieldUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.plugin.SimplePluginManager;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.TestInstance;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.*;
 import java.util.logging.Logger;
 
 import static org.mockito.Mockito.*;
@@ -19,6 +26,29 @@ import static org.mockito.Mockito.*;
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TestClassBase {
+
+    @NotNull
+    protected static Collection<File> getSampleSkriptFiles() {
+        URL resource = TestClassBase.class.getClassLoader().getResource("sample-skript-files");
+        File directory = new File(Objects.requireNonNull(resource).getPath());
+        return Arrays.asList(Objects.requireNonNull(directory.listFiles()));
+    }
+
+    @NotNull
+    protected static Collection<Skript> getSampleSkripts() {
+        Collection<File> files = getSampleSkriptFiles();
+        Queue<Skript> result = new ArrayDeque<>(files.size());
+
+        try {
+            for (File file : files) {
+                result.add(new Skript(SkriptFile.getName(file), SkriptFile.load(file)));
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return result;
+    }
 
     @BeforeAll
     void initialize() throws ReflectiveOperationException {

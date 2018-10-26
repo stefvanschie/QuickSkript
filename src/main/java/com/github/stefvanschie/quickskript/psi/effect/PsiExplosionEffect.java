@@ -78,12 +78,9 @@ public class PsiExplosionEffect extends PsiElement<Void> {
             if (!(event instanceof EntityEvent) && !(event instanceof PlayerEvent))
                 throw new ExecutionException("Event wasn't performed by an entity or player", lineNumber);
 
-            Entity entity;
-
-            if (event instanceof EntityEvent)
-                entity = ((EntityEvent) event).getEntity();
-            else
-                entity = ((PlayerEvent) event).getPlayer();
+            Entity entity = event instanceof EntityEvent
+                    ? ((EntityEvent) event).getEntity()
+                    : ((PlayerEvent) event).getPlayer();
 
             Location location = entity.getLocation();
 

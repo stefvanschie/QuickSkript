@@ -1,6 +1,8 @@
-package com.github.stefvanschie.quickskript.file;
+package com.github.stefvanschie.quickskript.parsing;
 
 import com.github.stefvanschie.quickskript.TestClassBase;
+import com.github.stefvanschie.quickskript.file.SkriptFileNode;
+import com.github.stefvanschie.quickskript.file.SkriptFileSection;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -17,17 +19,14 @@ import java.util.function.BiFunction;
  * class correctly parses the sections.
  */
 @SuppressWarnings("HardcodedLineSeparator")
-class SkriptFileSectionTest extends TestClassBase {
-
-    //TODO similar test, but one which relies on SkriptFileSection#parseNodes() maybe?
-    //same or separate class?
+class SkriptFileSectionParseTest extends TestClassBase {
 
     private static final String INDENTATION = "    ";
 
     private final BiFunction<String, Integer, SkriptFileSection> sectionConstructor;
     private final BiConsumer<SkriptFileSection, Object[]> sectionParser;
 
-    SkriptFileSectionTest() throws ReflectiveOperationException {
+    SkriptFileSectionParseTest() throws ReflectiveOperationException {
         Constructor<SkriptFileSection> constructor = SkriptFileSection.class.getDeclaredConstructor(String.class, int.class);
         constructor.setAccessible(true);
         sectionConstructor = (text, lineNumber) -> {

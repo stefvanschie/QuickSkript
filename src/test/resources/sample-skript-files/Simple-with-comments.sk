@@ -6,4 +6,4 @@ command /message: #Another comment
         message "Hi!" to the console
 
 on command:
-    message "This is Sample." to the console
+    message "This is a sample." to the console

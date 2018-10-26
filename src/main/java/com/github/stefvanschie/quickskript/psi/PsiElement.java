@@ -26,12 +26,12 @@ public abstract class PsiElement<T> {
     protected final int lineNumber;
 
     /**
-     * Creates a new element with the given lien number
+     * Creates a new element with the given line number
      *
      * @param lineNumber the line number this element is associated with
      * @since 0.1.0
      */
-    public PsiElement(int lineNumber) {
+    protected PsiElement(int lineNumber) {
         this.lineNumber = lineNumber;
     }
 

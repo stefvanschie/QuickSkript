@@ -26,7 +26,7 @@ public final class Text {
      * @since 0.1.0
      */
     private Text(TextPart part) {
-        this.parts.add(part);
+        parts.add(part);
     }
 
     /**

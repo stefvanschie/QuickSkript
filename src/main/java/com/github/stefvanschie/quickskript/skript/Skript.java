@@ -181,7 +181,6 @@ public class Skript {
                 }
 
                 value = line.getText().substring(key.length()).trim();
-
             }
         }
 
