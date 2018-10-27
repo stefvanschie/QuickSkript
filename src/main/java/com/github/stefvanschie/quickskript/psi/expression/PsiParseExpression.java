@@ -52,15 +52,20 @@ public class PsiParseExpression extends PsiElement<Object> {
     /**
      * {@inheritDoc}
      */
+    @Nullable
     @Override
     protected Object executeImpl(@Nullable Context context) {
-        PsiElement<?> parse = converter.convert(value.execute(context).toString(), lineNumber);
+        Object toParse = value.execute(context);
+        if (toParse == null)
+            return null; //TODO didn't think this through, no idea what should happen, please fix
+
+        PsiElement<?> parsed = converter.convert(toParse.toString(), lineNumber);
 
         //TODO: if this stuff can't be parsed, the parse error needs to be set
-        if (parse == null)
+        if (parsed == null)
             return null;
 
-        return parse.execute(context);
+        return parsed.execute(context);
     }
 
     /**

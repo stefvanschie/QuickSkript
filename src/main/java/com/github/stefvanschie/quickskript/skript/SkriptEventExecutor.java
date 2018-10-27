@@ -3,15 +3,12 @@ package com.github.stefvanschie.quickskript.skript;
 import com.github.stefvanschie.quickskript.QuickSkript;
 import com.github.stefvanschie.quickskript.context.EventContext;
 import com.github.stefvanschie.quickskript.file.SkriptFileSection;
-import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
-import com.github.stefvanschie.quickskript.skript.profiler.SkriptProfiler;
+import com.github.stefvanschie.quickskript.psi.section.PsiBaseSection;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.logging.Level;
-import java.util.stream.Collectors;
 
 /**
  * Represents an arbitrary skript event handler.
@@ -27,16 +24,10 @@ public class SkriptEventExecutor {
     private final Skript skript;
 
     /**
-     * The identifier of this instance to use with the {@link SkriptProfiler}
+     * The elements that should get executed
      */
     @NotNull
-    private final SkriptProfiler.Identifier profilerIdentifier;
-
-    /**
-     * A list of elements that should get executed
-     */
-    @NotNull
-    private final List<PsiElement<?>> elements;
+    private final PsiBaseSection elements;
 
     /**
      * Constructs a new skript event.
@@ -47,11 +38,7 @@ public class SkriptEventExecutor {
      */
     SkriptEventExecutor(@NotNull Skript skript, @NotNull SkriptFileSection section) {
         this.skript = skript;
-        profilerIdentifier = new SkriptProfiler.Identifier(skript, section.getLineNumber());
-
-        elements = section.getNodes().stream()
-                .map(node -> SkriptLoader.get().forceParseElement(node.getText(), node.getLineNumber()))
-                .collect(Collectors.toList());
+        elements = new PsiBaseSection(skript, section, EventContext.class);
     }
 
     /**
@@ -61,26 +48,11 @@ public class SkriptEventExecutor {
      * @since 0.1.0
      */
     public void execute(@NotNull Event event) {
-        EventContext context = new EventContext(event);
-        long startTime = System.nanoTime();
-
         try {
-            for (PsiElement<?> element : elements) {
-                Object result = element.execute(context);
-
-                if (!(result instanceof Boolean))
-                    continue;
-
-                if (!(Boolean) result)
-                    break;
-            }
+            elements.execute(new EventContext(event));
         } catch (ExecutionException e) {
             QuickSkript.getInstance().getLogger().log(Level.SEVERE, "Error while executing:" +
                     e.getExtraInfo(skript.getName()), e);
-            return;
         }
-
-        QuickSkript.getInstance().getSkriptProfiler().onTimeMeasured(EventContext.class,
-                profilerIdentifier, System.nanoTime() - startTime);
     }
 }

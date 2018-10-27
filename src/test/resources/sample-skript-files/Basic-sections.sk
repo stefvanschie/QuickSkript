@@ -1,0 +1,3 @@
+on command:
+    message "test" to the console
+    #TODO write this sample once boolean expressions get implemented

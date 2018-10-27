@@ -30,6 +30,7 @@ public class PsiCancelEventEffect extends PsiElement<Void> {
     /**
      * {@inheritDoc}
      */
+    @Nullable
     @Override
     protected Void executeImpl(@Nullable Context context) {
         if (!(context instanceof EventContext))

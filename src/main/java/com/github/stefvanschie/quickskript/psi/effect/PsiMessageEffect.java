@@ -50,6 +50,7 @@ public class PsiMessageEffect extends PsiElement<Void> {
     /**
      * {@inheritDoc}
      */
+    @Nullable
     @Override
     protected Void executeImpl(@Nullable Context context) {
         CommandSender receiver = null;

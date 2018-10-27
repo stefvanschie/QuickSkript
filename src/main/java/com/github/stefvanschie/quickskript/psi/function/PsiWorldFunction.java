@@ -41,6 +41,7 @@ public class PsiWorldFunction extends PsiElement<World> {
     /**
      * {@inheritDoc}
      */
+    @Nullable
     @Override
     public World executeImpl(@Nullable Context context) {
         return Bukkit.getWorld(parameter.execute(context, Text.class).construct());

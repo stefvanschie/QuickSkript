@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.psi;
 import com.github.stefvanschie.quickskript.context.Context;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -25,12 +26,12 @@ public abstract class PsiElement<T> {
     protected final int lineNumber;
 
     /**
-     * Creates a new element with the given lien number
+     * Creates a new element with the given line number
      *
      * @param lineNumber the line number this element is associated with
      * @since 0.1.0
      */
-    public PsiElement(int lineNumber) {
+    protected PsiElement(int lineNumber) {
         this.lineNumber = lineNumber;
     }
 
@@ -41,6 +42,7 @@ public abstract class PsiElement<T> {
      * @return the computed value which is null if the computation returned null
      * @since 0.1.0
      */
+    @Nullable
     public final T execute(@Nullable Context context) {
         return isPreComputed() ? preComputed : executeImpl(context);
     }
@@ -55,13 +57,15 @@ public abstract class PsiElement<T> {
      * @return the computed value which is null if the computation returned null
      * @since 0.1.0
      */
-    public <R> R execute(@Nullable Context context, Class<R> forcedResult) {
+    @NotNull
+    public <R> R execute(@Nullable Context context, @NotNull Class<R> forcedResult) {
         T result = execute(context);
         if (forcedResult.isInstance(result))
             return forcedResult.cast(result);
 
         throw new ExecutionException("Result of " + getClass().getSimpleName() +
-                " should be a " + forcedResult.getSimpleName() + ", but it wasn't", lineNumber);
+                " should be " + forcedResult.getSimpleName() + ", but it was " +
+                (result == null ? "null" : result.getClass().getSimpleName()), lineNumber);
     }
 
     /**
@@ -71,6 +75,7 @@ public abstract class PsiElement<T> {
      * @return the computed value which is null if the computation returned null
      * @since 0.1.0
      */
+    @Nullable
     protected abstract T executeImpl(@Nullable Context context);
 
     /**

@@ -2,10 +2,10 @@ package com.github.stefvanschie.quickskript.skript;
 
 import com.github.stefvanschie.quickskript.QuickSkript;
 import com.github.stefvanschie.quickskript.context.CommandContext;
+import com.github.stefvanschie.quickskript.context.EventContext;
 import com.github.stefvanschie.quickskript.file.SkriptFileSection;
-import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
-import com.github.stefvanschie.quickskript.skript.profiler.SkriptProfiler;
+import com.github.stefvanschie.quickskript.psi.section.PsiBaseSection;
 import com.github.stefvanschie.quickskript.skript.util.ExecutionTarget;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,9 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.logging.Level;
-import java.util.stream.Collectors;
 
 /**
  * Represents an arbitrary skript command handler.
@@ -31,16 +29,10 @@ public class SkriptCommandExecutor implements CommandExecutor {
     private final Skript skript;
 
     /**
-     * The identifier of this instance to use with the {@link SkriptProfiler}
+     * The elements that should get executed
      */
     @NotNull
-    private final SkriptProfiler.Identifier profilerIdentifier;
-
-    /**
-     * A list of elements that should get executed
-     */
-    @NotNull
-    private final List<PsiElement<?>> elements;
+    private final PsiBaseSection elements;
 
     /**
      * Specifies the execution target. When null, everything/everyone can use this command.
@@ -59,12 +51,8 @@ public class SkriptCommandExecutor implements CommandExecutor {
      */
     SkriptCommandExecutor(@NotNull Skript skript, @NotNull SkriptFileSection section, @Nullable ExecutionTarget executionTarget) {
         this.skript = skript;
-        profilerIdentifier = new SkriptProfiler.Identifier(skript, section.getLineNumber());
         this.executionTarget = executionTarget;
-
-        elements = section.getNodes().stream()
-                .map(node -> SkriptLoader.get().forceParseElement(node.getText(), node.getLineNumber()))
-                .collect(Collectors.toList());
+        elements = new PsiBaseSection(skript, section, EventContext.class);
     }
 
     /**
@@ -75,27 +63,12 @@ public class SkriptCommandExecutor implements CommandExecutor {
         if (executionTarget != null && !executionTarget.matches(sender))
             return false;
 
-        CommandContext context = new CommandContext(sender);
-        long startTime = System.nanoTime();
-
         try {
-            for (PsiElement<?> element : elements) {
-                Object result = element.execute(context);
-
-                if (!(result instanceof Boolean))
-                    continue;
-
-                if (!(Boolean) result)
-                    break;
-            }
+            elements.execute(new CommandContext(sender));
         } catch (ExecutionException e) {
             QuickSkript.getInstance().getLogger().log(Level.SEVERE, "Error while executing skript:" +
                     e.getExtraInfo(skript.getName()), e);
-            return true;
         }
-
-        QuickSkript.getInstance().getSkriptProfiler().onTimeMeasured(CommandContext.class,
-                profilerIdentifier, System.nanoTime() - startTime);
         return true;
     }
 }

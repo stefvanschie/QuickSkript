@@ -4,9 +4,7 @@ import com.github.stefvanschie.quickskript.QuickSkript;
 import com.github.stefvanschie.quickskript.event.ComplexEventProxyFactory;
 import com.github.stefvanschie.quickskript.event.EventProxyFactory;
 import com.github.stefvanschie.quickskript.event.SimpleEventProxyFactory;
-import com.github.stefvanschie.quickskript.psi.PsiConverter;
-import com.github.stefvanschie.quickskript.psi.PsiElement;
-import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
+import com.github.stefvanschie.quickskript.psi.*;
 import com.github.stefvanschie.quickskript.psi.condition.PsiHasPermissionCondition;
 import com.github.stefvanschie.quickskript.psi.effect.PsiCancelEventEffect;
 import com.github.stefvanschie.quickskript.psi.effect.PsiExplosionEffect;
@@ -19,6 +17,8 @@ import com.github.stefvanschie.quickskript.psi.function.*;
 import com.github.stefvanschie.quickskript.psi.literal.PsiNumberLiteral;
 import com.github.stefvanschie.quickskript.psi.literal.PsiPlayerLiteral;
 import com.github.stefvanschie.quickskript.psi.literal.PsiStringLiteral;
+import com.github.stefvanschie.quickskript.psi.section.PsiIf;
+import com.github.stefvanschie.quickskript.psi.section.PsiWhile;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
@@ -53,13 +53,13 @@ import java.util.function.Supplier;
 public class SkriptLoader implements AutoCloseable {
 
     /**
-     * The current loader instance or null if there are none present.
+     * The current loader instance or null if there is none present.
      */
     @Nullable
     private static SkriptLoader instance;
 
     /**
-     * Gets the current loader instance. Returns null if there are none present.
+     * Gets the current loader instance. Returns null if there is none present.
      *
      * @return the current instance
      * @since 0.1.0
@@ -75,6 +75,12 @@ public class SkriptLoader implements AutoCloseable {
      */
     @NotNull
     private final List<PsiElementFactory<?>> elements = new ArrayList<>();
+
+    /**
+     * A list of all psi section factories.
+     */
+    @NotNull
+    private final List<PsiSectionFactory<?>> sections = new ArrayList<>();
 
     /**
      * A map indexing converters by their name.
@@ -109,6 +115,7 @@ public class SkriptLoader implements AutoCloseable {
         Validate.isTrue(instance == null, "A SkriptLoader is already present, can't create another one.");
 
         registerDefaultElements();
+        registerDefaultSections();
         registerDefaultConverters();
         registerDefaultEvents();
 
@@ -146,7 +153,7 @@ public class SkriptLoader implements AutoCloseable {
      * @since 0.1.0
      */
     @Nullable
-    @Contract("null, _ -> fail")
+    @Contract(pure = true)
     public PsiElement<?> tryParseElement(@NotNull String input, int lineNumber) {
         input = input.trim();
 
@@ -170,12 +177,41 @@ public class SkriptLoader implements AutoCloseable {
      * @since 0.1.0
      */
     @NotNull
+    @Contract(pure = true)
     public PsiElement<?> forceParseElement(@NotNull String input, int lineNumber) {
         PsiElement<?> result = tryParseElement(input, lineNumber);
         if (result != null)
             return result;
 
         throw new ParseException("Unable to find an expression named: " + input, lineNumber);
+    }
+
+
+    /**
+     * Parses a file section into a psi section.
+     * Throws a {@link ParseException} if the parsing wasn't successful.
+     *
+     * @param input the text to be parsed
+     * @param elementsSupplier the action which parses the contained elements on demand
+     * @param lineNumber the line number of the section that will be parsed
+     * @return the parsed psi section, or null if none were found
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public PsiSection forceParseSection(@NotNull String input,
+            @NotNull Supplier<PsiElement<?>[]> elementsSupplier, int lineNumber) {
+        for (PsiSectionFactory<?> factory : sections) {
+            PsiSection result = factory.tryParse(input, elementsSupplier, lineNumber);
+
+            if (result != null)
+                return result;
+        }
+
+        //fall back to an 'if' statement which doesn't start with 'if'
+        PsiElement<?> condition = forceParseElement(input, lineNumber);
+        //try to parse the condition before all elements inside the section
+        return new PsiIf(elementsSupplier.get(), condition, lineNumber);
     }
 
 
@@ -222,7 +258,7 @@ public class SkriptLoader implements AutoCloseable {
      * @since 0.1.0
      */
     public boolean tryRegisterEventExecutor(@NotNull String input,
-                                            @NotNull Supplier<SkriptEventExecutor> toRegisterSupplier) {
+            @NotNull Supplier<SkriptEventExecutor> toRegisterSupplier) {
         input = input.trim();
 
         for (EventProxyFactory factory : events) {
@@ -242,6 +278,16 @@ public class SkriptLoader implements AutoCloseable {
      */
     public void registerElement(@NotNull PsiElementFactory<?> factory) {
         elements.add(factory);
+    }
+
+    /**
+     * Registers the specified factory.
+     *
+     * @param factory the section factory to register
+     * @since 0.1.0
+     */
+    public void registerSection(@NotNull PsiSectionFactory<?> factory) {
+        sections.add(factory);
     }
 
     /**
@@ -274,7 +320,7 @@ public class SkriptLoader implements AutoCloseable {
      * @param initializer the initializer of the new command instance
      * @since 0.1.0
      */
-    public void registerCommand(String name, Consumer<PluginCommand> initializer) {
+    public void registerCommand(@NotNull String name, @NotNull Consumer<PluginCommand> initializer) {
         PluginCommand command = commandConstructor.apply(name);
         initializer.accept(command);
         commandMap.register("quickskript", command);
@@ -341,6 +387,11 @@ public class SkriptLoader implements AutoCloseable {
         registerElement(new PsiStringLiteral.Factory());
     }
 
+    private void registerDefaultSections() {
+        registerSection(new PsiIf.Factory());
+        registerSection(new PsiWhile.Factory());
+    }
+
     private void registerDefaultConverters() {
         registerConverter("number", new PsiNumberLiteral.Converter());
         registerConverter("text", new PsiStringLiteral.Converter());
@@ -349,42 +400,42 @@ public class SkriptLoader implements AutoCloseable {
     @SuppressWarnings("HardcodedFileSeparator")
     private void registerDefaultEvents() {
         registerEvent(new SimpleEventProxyFactory()
-            .registerEvent(EntityExplodeEvent.class, "on explo(?:(?:d(?:e|ing))|(?:sion))")
-            .registerEvent(PlayerCommandPreprocessEvent.class, "on command")
+                .registerEvent(EntityExplodeEvent.class, "on explo(?:(?:d(?:e|ing))|(?:sion))")
+                .registerEvent(PlayerCommandPreprocessEvent.class, "on command")
         );
 
         registerEvent(new ComplexEventProxyFactory()
-            .registerEvent(PlayerCommandPreprocessEvent.class, "on command \"([\\s\\S]+)\"", matcher -> {
-                String command = matcher.group(1); //TODO the regex of this group is probably incorrect
-                String finalCommand = command.startsWith("/") ? command.substring(1) : command;
+                .registerEvent(PlayerCommandPreprocessEvent.class, "on command \"([\\s\\S]+)\"", matcher -> {
+                    String command = matcher.group(1); //TODO the regex of this group is probably incorrect
+                    String finalCommand = command.startsWith("/") ? command.substring(1) : command;
 
-                return event -> {
-                    String message = ((PlayerCommandPreprocessEvent) event).getMessage();
-                    return message.startsWith(finalCommand, message.startsWith("/") ? 1 : 0);
-                };
-            })
-            .registerEvent(PlayerInteractEvent.class,
-                "on (?:(right|left)(?: |-)?)?(?:mouse(?: |-)?)?click(?:ing)?", matcher -> {
-                    //TODO: This expression needs to be completed in the future, since it's missing optional additional parts
+                    return event -> {
+                        String message = ((PlayerCommandPreprocessEvent) event).getMessage();
+                        return message.startsWith(finalCommand, message.startsWith("/") ? 1 : 0);
+                    };
+                })
+                .registerEvent(PlayerInteractEvent.class,
+                        "on (?:(right|left)(?: |-)?)?(?:mouse(?: |-)?)?click(?:ing)?", matcher -> {
+                            //TODO: This expression needs to be completed in the future, since it's missing optional additional parts
 
-                    String clickType = matcher.group(1);
+                            String clickType = matcher.group(1);
 
-                    if (clickType == null)
-                        return event -> true;
-                    else if (clickType.equals("left"))
-                        return event -> {
-                            Action action = ((PlayerInteractEvent) event).getAction();
-                            return action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK;
-                        };
-                    else if (clickType.equals("right"))
-                        return event -> {
-                            Action action = ((PlayerInteractEvent) event).getAction();
-                            return action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK;
-                        };
+                            if (clickType == null)
+                                return event -> true;
+                            else if (clickType.equals("left"))
+                                return event -> {
+                                    Action action = ((PlayerInteractEvent) event).getAction();
+                                    return action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK;
+                                };
+                            else if (clickType.equals("right"))
+                                return event -> {
+                                    Action action = ((PlayerInteractEvent) event).getAction();
+                                    return action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK;
+                                };
 
-                    throw new AssertionError("Unknown click type detected for event registration");
-                }
-            )
+                            throw new AssertionError("Unknown click type detected for event registration");
+                        }
+                )
         );
     }
 }

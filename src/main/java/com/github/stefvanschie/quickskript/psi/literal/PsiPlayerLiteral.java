@@ -33,6 +33,7 @@ public class PsiPlayerLiteral extends PsiElement<Player> {
     /**
      * {@inheritDoc}
      */
+    @NotNull
     @Override
     protected Player executeImpl(@Nullable Context context) {
         if (context == null)
@@ -57,7 +58,8 @@ public class PsiPlayerLiteral extends PsiElement<Player> {
             return ((PlayerEvent) event).getPlayer();
         }
 
-        throw new ExecutionException("Unknown context found when trying to parse a player", lineNumber);
+        throw new ExecutionException("Unknown context found when trying to parse a player: " +
+                context.getClass().getSimpleName(), lineNumber);
     }
 
     /**

@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Represents a skript file. The source of the code does not necessary have to be a file,
@@ -67,7 +68,8 @@ public class SkriptFile {
         }
 
         //if a line is empty or only contains spaces, remove it, otherwise it'll screw the rest of the algorithm up
-        lines.replaceAll(line -> line.matches(" +") ? "" : line);
+        Pattern emptyLinePattern = Pattern.compile(" +");
+        lines.replaceAll(line -> emptyLinePattern.matcher(line).matches() ? "" : line);
 
         //remove trailing spaces and replace \t with four spaces
         for (int i = 0; i < lines.size(); i++)
