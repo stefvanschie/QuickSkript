@@ -6,6 +6,7 @@ import com.github.stefvanschie.quickskript.event.EventProxyFactory;
 import com.github.stefvanschie.quickskript.event.SimpleEventProxyFactory;
 import com.github.stefvanschie.quickskript.psi.*;
 import com.github.stefvanschie.quickskript.psi.condition.PsiHasPermissionCondition;
+import com.github.stefvanschie.quickskript.psi.condition.PsiIsCondition;
 import com.github.stefvanschie.quickskript.psi.effect.PsiCancelEventEffect;
 import com.github.stefvanschie.quickskript.psi.effect.PsiExplosionEffect;
 import com.github.stefvanschie.quickskript.psi.effect.PsiMessageEffect;
@@ -14,6 +15,7 @@ import com.github.stefvanschie.quickskript.psi.expression.PsiConsoleSenderExpres
 import com.github.stefvanschie.quickskript.psi.expression.PsiParseExpression;
 import com.github.stefvanschie.quickskript.psi.expression.PsiRandomNumberExpression;
 import com.github.stefvanschie.quickskript.psi.function.*;
+import com.github.stefvanschie.quickskript.psi.literal.PsiBooleanLiteral;
 import com.github.stefvanschie.quickskript.psi.literal.PsiNumberLiteral;
 import com.github.stefvanschie.quickskript.psi.literal.PsiPlayerLiteral;
 import com.github.stefvanschie.quickskript.psi.literal.PsiStringLiteral;
@@ -341,13 +343,18 @@ public class SkriptLoader implements AutoCloseable {
 
 
     private void registerDefaultElements() {
-        //conditions
-        registerElement(new PsiHasPermissionCondition.Factory());
-
         //effects
+        //these are at the top, cause they are always the outermost element
         registerElement(new PsiCancelEventEffect.Factory());
         registerElement(new PsiExplosionEffect.Factory());
         registerElement(new PsiMessageEffect.Factory());
+
+        //this one is here, because it has special identifiers around it
+        registerElement(new PsiStringLiteral.Factory());
+
+        //conditions
+        registerElement(new PsiHasPermissionCondition.Factory());
+        registerElement(new PsiIsCondition.Factory());
 
         //expressions
         registerElement(new PsiConsoleSenderExpression.Factory());
@@ -382,9 +389,9 @@ public class SkriptLoader implements AutoCloseable {
         registerElement(new PsiWorldFunction.Factory());
 
         //literals
+        registerElement(new PsiBooleanLiteral.Factory());
         registerElement(new PsiNumberLiteral.Factory());
         registerElement(new PsiPlayerLiteral.Factory());
-        registerElement(new PsiStringLiteral.Factory());
     }
 
     private void registerDefaultSections() {
