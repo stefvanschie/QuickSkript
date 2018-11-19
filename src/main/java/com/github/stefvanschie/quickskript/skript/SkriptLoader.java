@@ -28,6 +28,7 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.AreaEffectCloudApplyEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.Plugin;
@@ -410,6 +411,7 @@ public class SkriptLoader implements AutoCloseable {
         registerEvent(new SimpleEventProxyFactory()
                 .registerEvent(AreaEffectCloudApplyEvent.class, "on (?:(?:area)|(?:AoE)) (?:cloud )?effect")
                 .registerEvent(EntityExplodeEvent.class, "on explo(?:(?:d(?:e|ing))|(?:sion))")
+                .registerEvent(PlayerBedEnterEvent.class, "on (?:(?:bed enter(?:ing)?)|(?:(?:player )?enter(?:ing)? (?:a )?bed))")
                 .registerEvent(PlayerCommandPreprocessEvent.class, "on command")
         );
 
