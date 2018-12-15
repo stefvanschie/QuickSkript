@@ -413,6 +413,7 @@ public class SkriptLoader implements AutoCloseable {
                 .registerEvent(PlayerBedEnterEvent.class, "on (?:(?:bed enter(?:ing)?)|(?:(?:player )?enter(?:ing)? (?:a )?bed))")
                 .registerEvent(PlayerBedLeaveEvent.class, "on (?:(?:bed leav(?:e|ing))|(?:(player )?leav(?:e|ing) (a )?bed))")
                 .registerEvent(BlockDamageEvent.class, "on block damag(?:ing|e)")
+                .registerEvent(PlayerBucketEmptyEvent.class, "on(?: player)?(?: empty(?:ing)?)?(?: a)? bucket(?: empty(?:ing)?)?")
                 .registerEvent(PlayerCommandPreprocessEvent.class, "on command")
         );
 
