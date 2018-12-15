@@ -10,6 +10,7 @@ import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.util.Text;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Event;
+import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.player.PlayerEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -63,6 +64,8 @@ public class PsiMessageEffect extends PsiElement<Void> {
 
                 if (event instanceof PlayerEvent)
                     receiver = ((PlayerEvent) event).getPlayer();
+                else if (event instanceof BlockDamageEvent)
+                    receiver = ((BlockDamageEvent) event).getPlayer();
             }
         } else
             receiver = this.receiver.execute(context, CommandSender.class);

@@ -9,6 +9,7 @@ import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.player.PlayerEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -48,6 +49,10 @@ public class PsiPlayerLiteral extends PsiElement<Player> {
             return (Player) sender;
         } else if (context instanceof EventContext) {
             Event event = ((EventContext) context).getEvent();
+
+            if (event instanceof BlockDamageEvent) {
+                return ((BlockDamageEvent) event).getPlayer();
+            }
 
             if (!(event instanceof PlayerEvent))
                 throw new ExecutionException("Event wasn't performed by a player", lineNumber);
