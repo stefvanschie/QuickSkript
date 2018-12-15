@@ -413,7 +413,6 @@ public class SkriptLoader implements AutoCloseable {
                 .registerEvent(PlayerBedEnterEvent.class, "on (?:(?:bed enter(?:ing)?)|(?:(?:player )?enter(?:ing)? (?:a )?bed))")
                 .registerEvent(PlayerBedLeaveEvent.class, "on (?:(?:bed leav(?:e|ing))|(?:(player )?leav(?:e|ing) (a )?bed))")
                 .registerEvent(BlockDamageEvent.class, "on block damag(?:ing|e)")
-                .registerEvent(PlayerEditBookEvent.class, "on book (?:edit|change|write)")
                 .registerEvent(PlayerCommandPreprocessEvent.class, "on command")
         );
 
@@ -426,6 +425,15 @@ public class SkriptLoader implements AutoCloseable {
                         String message = ((PlayerCommandPreprocessEvent) event).getMessage();
                         return message.startsWith(finalCommand, message.startsWith("/") ? 1 : 0);
                     };
+                })
+                .registerEvent(PlayerEditBookEvent.class, "on book (edit|change|write|sign|signing)", matcher -> {
+                    String group = matcher.group(1);
+
+                    if (group.equalsIgnoreCase("sign") || group.equalsIgnoreCase("signing")) {
+                        return event -> ((PlayerEditBookEvent) event).isSigning();
+                    } else {
+                        return event -> !((PlayerEditBookEvent) event).isSigning();
+                    }
                 })
                 .registerEvent(PlayerInteractEvent.class,
                         "on (?:(right|left)(?: |-)?)?(?:mouse(?: |-)?)?click(?:ing)?", matcher -> {
