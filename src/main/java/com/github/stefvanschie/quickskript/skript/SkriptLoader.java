@@ -31,6 +31,7 @@ import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.entity.AreaEffectCloudApplyEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkPopulateEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.SimplePluginManager;
@@ -413,6 +414,7 @@ public class SkriptLoader implements AutoCloseable {
                 .registerEvent(AreaEffectCloudApplyEvent.class, "on (?:(?:area)|(?:AoE)) (?:cloud )?effect")
                 .registerEvent(BlockCanBuildEvent.class, "on(?: block)? can build check")
                 .registerEvent(BlockDamageEvent.class, "on block damag(?:ing|e)")
+                .registerEvent(ChunkLoadEvent.class, "on chunk load(?:ing)?")
                 .registerEvent(ChunkPopulateEvent.class, "on chunk (?:generat|populat)(?:e|ing)")
                 .registerEvent(EntityExplodeEvent.class, "on explo(?:(?:d(?:e|ing))|(?:sion))")
                 .registerEvent(PlayerBedEnterEvent.class, "on (?:(?:bed enter(?:ing)?)|(?:(?:player )?enter(?:ing)? (?:a )?bed))")
