@@ -4,6 +4,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockCanBuildEvent;
 import org.bukkit.event.block.BlockDamageEvent;
+import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.player.PlayerEvent;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -50,12 +51,14 @@ public class EventContext implements Context {
     @Contract(pure = true)
     @Override
     public CommandSender getCommandSender() {
-        if (event instanceof PlayerEvent)
+        if (getEvent() instanceof PlayerEvent)
             return ((PlayerEvent) getEvent()).getPlayer();
-        else if (event instanceof BlockDamageEvent)
+        else if (getEvent() instanceof BlockDamageEvent)
             return ((BlockDamageEvent) getEvent()).getPlayer();
-        else if (event instanceof BlockCanBuildEvent)
+        else if (getEvent() instanceof BlockCanBuildEvent)
             return ((BlockCanBuildEvent) getEvent()).getPlayer();
+        else if (getEvent() instanceof EntityCombustEvent)
+            return ((EntityCombustEvent) getEvent()).getEntity();
 
         return null;
     }
