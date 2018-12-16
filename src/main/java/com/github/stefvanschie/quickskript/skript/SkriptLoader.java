@@ -23,15 +23,14 @@ import com.github.stefvanschie.quickskript.psi.section.PsiIf;
 import com.github.stefvanschie.quickskript.psi.section.PsiWhile;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.entity.Enderman;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockCanBuildEvent;
 import org.bukkit.event.block.BlockDamageEvent;
-import org.bukkit.event.entity.AreaEffectCloudApplyEvent;
-import org.bukkit.event.entity.CreeperPowerEvent;
-import org.bukkit.event.entity.EntityCombustEvent;
-import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkPopulateEvent;
@@ -432,6 +431,12 @@ public class SkriptLoader implements AutoCloseable {
         );
 
         registerEvent(new ComplexEventProxyFactory()
+                .registerEvent(EntityChangeBlockEvent.class, "on enderman place", matcher -> event -> {
+                    EntityChangeBlockEvent entityChangeBlockEvent = (EntityChangeBlockEvent) event;
+
+                    return entityChangeBlockEvent.getEntity() instanceof Enderman &&
+                        entityChangeBlockEvent.getTo() != Material.AIR;
+                })
                 .registerEvent(PlayerCommandPreprocessEvent.class, "on command \"([\\s\\S]+)\"", matcher -> {
                     String command = matcher.group(1); //TODO the regex of this group is probably incorrect
                     String finalCommand = command.startsWith("/") ? command.substring(1) : command;
