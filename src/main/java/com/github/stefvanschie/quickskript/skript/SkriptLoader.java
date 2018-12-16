@@ -29,6 +29,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockCanBuildEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.entity.AreaEffectCloudApplyEvent;
+import org.bukkit.event.entity.CreeperPowerEvent;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.*;
@@ -419,6 +420,7 @@ public class SkriptLoader implements AutoCloseable {
                 .registerEvent(ChunkLoadEvent.class, "on chunk load(?:ing)?")
                 .registerEvent(ChunkPopulateEvent.class, "on chunk (?:generat|populat)(?:e|ing)")
                 .registerEvent(ChunkUnloadEvent.class, "on chunk unload(?:ing)?")
+                .registerEvent(CreeperPowerEvent.class, "on creeper power")
                 .registerEvent(EntityCombustEvent.class, "on combust(?:ing)?")
                 .registerEvent(EntityExplodeEvent.class, "on explo(?:(?:d(?:e|ing))|(?:sion))")
                 .registerEvent(PlayerBedEnterEvent.class, "on (?:(?:bed enter(?:ing)?)|(?:(?:player )?enter(?:ing)? (?:a )?bed))")
