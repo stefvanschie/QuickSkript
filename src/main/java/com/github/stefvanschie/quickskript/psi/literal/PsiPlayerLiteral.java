@@ -37,34 +37,17 @@ public class PsiPlayerLiteral extends PsiElement<Player> {
     @NotNull
     @Override
     protected Player executeImpl(@Nullable Context context) {
-        if (context == null)
+        if (context == null) {
             throw new ExecutionException("Cannot find a player without a context", lineNumber);
-
-        if (context instanceof CommandContext) {
-            CommandSender sender = ((CommandContext) context).getSender();
-
-            if (!(sender instanceof Player))
-                throw new ExecutionException("Command wasn't executed by a player", lineNumber);
-
-            return (Player) sender;
-        } else if (context instanceof EventContext) {
-            Event event = ((EventContext) context).getEvent();
-
-            if (event instanceof BlockDamageEvent) {
-                return ((BlockDamageEvent) event).getPlayer();
-            }
-
-            if (!(event instanceof PlayerEvent))
-                throw new ExecutionException("Event wasn't performed by a player", lineNumber);
-
-            //TODO this doesn't work with some events, eg. BlockBreakEvent
-            // -> fully implement together with the expression which can get all types of entities
-
-            return ((PlayerEvent) event).getPlayer();
         }
 
-        throw new ExecutionException("Unknown context found when trying to parse a player: " +
-                context.getClass().getSimpleName(), lineNumber);
+        CommandSender sender = context.getCommandSender();
+
+        if (!(sender instanceof Player)) {
+            throw new ExecutionException("Command wasn't executed by a player", lineNumber);
+        }
+
+        return (Player) sender;
     }
 
     /**

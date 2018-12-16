@@ -1,7 +1,13 @@
 package com.github.stefvanschie.quickskript.context;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.event.Event;
+import org.bukkit.event.block.BlockCanBuildEvent;
+import org.bukkit.event.block.BlockDamageEvent;
+import org.bukkit.event.player.PlayerEvent;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * An event context to indicate the code is being ran from an event.
@@ -35,5 +41,22 @@ public class EventContext implements Context {
     @NotNull
     public Event getEvent() {
         return event;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Nullable
+    @Contract(pure = true)
+    @Override
+    public CommandSender getCommandSender() {
+        if (event instanceof PlayerEvent)
+            return ((PlayerEvent) getEvent()).getPlayer();
+        else if (event instanceof BlockDamageEvent)
+            return ((BlockDamageEvent) getEvent()).getPlayer();
+        else if (event instanceof BlockCanBuildEvent)
+            return ((BlockCanBuildEvent) getEvent()).getPlayer();
+
+        return null;
     }
 }

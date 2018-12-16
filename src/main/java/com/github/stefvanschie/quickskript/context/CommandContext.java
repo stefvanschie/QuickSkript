@@ -1,7 +1,9 @@
 package com.github.stefvanschie.quickskript.context;
 
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * A command context to indicate this code is being ran from a command and to provide information about said command.
@@ -35,5 +37,15 @@ public class CommandContext implements Context {
     @NotNull
     public CommandSender getSender() {
         return sender;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Nullable
+    @Contract(pure = true)
+    @Override
+    public CommandSender getCommandSender() {
+        return getSender();
     }
 }

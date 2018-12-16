@@ -56,18 +56,9 @@ public class PsiMessageEffect extends PsiElement<Void> {
     protected Void executeImpl(@Nullable Context context) {
         CommandSender receiver = null;
 
-        if (this.receiver == null) {
-            if (context instanceof CommandContext)
-                receiver = ((CommandContext) context).getSender();
-            else if (context instanceof EventContext) {
-                Event event = ((EventContext) context).getEvent();
-
-                if (event instanceof PlayerEvent)
-                    receiver = ((PlayerEvent) event).getPlayer();
-                else if (event instanceof BlockDamageEvent)
-                    receiver = ((BlockDamageEvent) event).getPlayer();
-            }
-        } else
+        if (this.receiver == null && context != null) {
+            receiver = context.getCommandSender();
+        } else if (this.receiver != null)
             receiver = this.receiver.execute(context, CommandSender.class);
 
         if (receiver == null)
