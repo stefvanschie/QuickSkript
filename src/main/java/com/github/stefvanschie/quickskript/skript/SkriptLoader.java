@@ -27,6 +27,7 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Enderman;
+import org.bukkit.entity.Sheep;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockCanBuildEvent;
 import org.bukkit.event.block.BlockDamageEvent;
@@ -443,6 +444,8 @@ public class SkriptLoader implements AutoCloseable {
                     return entityChangeBlockEvent.getEntity() instanceof Enderman &&
                         entityChangeBlockEvent.getTo() == Material.AIR;
                 })
+                .registerEvent(EntityChangeBlockEvent.class, "on sheep eat", matcher -> event ->
+                    ((EntityChangeBlockEvent) event).getEntity() instanceof Sheep)
                 .registerEvent(PlayerCommandPreprocessEvent.class, "on command \"([\\s\\S]+)\"", matcher -> {
                     String command = matcher.group(1); //TODO the regex of this group is probably incorrect
                     String finalCommand = command.startsWith("/") ? command.substring(1) : command;
