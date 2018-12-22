@@ -1,4 +1,4 @@
-package com.github.stefvanschie.quickskript.util;
+package com.github.stefvanschie.quickskript.util.text;
 
 /**
  * An interface for text parts, serves no other purpose than creating an abstract layer for all parts

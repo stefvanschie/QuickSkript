@@ -21,6 +21,7 @@ import com.github.stefvanschie.quickskript.psi.literal.PsiPlayerLiteral;
 import com.github.stefvanschie.quickskript.psi.literal.PsiStringLiteral;
 import com.github.stefvanschie.quickskript.psi.section.PsiIf;
 import com.github.stefvanschie.quickskript.psi.section.PsiWhile;
+import com.github.stefvanschie.quickskript.util.Platform;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -423,6 +424,7 @@ public class SkriptLoader implements AutoCloseable {
                 .registerEvent(ChunkUnloadEvent.class, "on chunk unload(?:ing)?")
                 .registerEvent(CreeperPowerEvent.class, "on creeper power")
                 .registerEvent(EntityCombustEvent.class, "on combust(?:ing)?")
+                .registerEvent("org.spigotmc.event.entity.EntityDismountEvent", "on dismount(?:ing)?", Platform.SPIGOT)
                 .registerEvent(EntityExplodeEvent.class, "on explo(?:(?:d(?:e|ing))|(?:sion))")
                 .registerEvent(PlayerBedEnterEvent.class, "on (?:(?:bed enter(?:ing)?)|(?:(?:player )?enter(?:ing)? (?:a )?bed))")
                 .registerEvent(PlayerBedLeaveEvent.class, "on (?:(?:bed leav(?:e|ing))|(?:(player )?leav(?:e|ing) (a )?bed))")

@@ -3,7 +3,7 @@ package com.github.stefvanschie.quickskript.psi.literal;
 import com.github.stefvanschie.quickskript.psi.PsiConverter;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.util.PsiPrecomputedHolder;
-import com.github.stefvanschie.quickskript.util.Text;
+import com.github.stefvanschie.quickskript.util.text.Text;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

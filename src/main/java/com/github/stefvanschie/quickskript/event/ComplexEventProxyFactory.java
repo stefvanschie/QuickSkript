@@ -2,11 +2,13 @@ package com.github.stefvanschie.quickskript.event;
 
 import com.github.stefvanschie.quickskript.QuickSkript;
 import com.github.stefvanschie.quickskript.skript.SkriptEventExecutor;
+import com.github.stefvanschie.quickskript.util.Platform;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
 import org.bukkit.plugin.EventExecutor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.Function;
@@ -55,6 +57,13 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
             if (!matcher.matches())
                 continue;
 
+            if (eventPattern.getEvent() == null) {
+                QuickSkript.getInstance().getLogger().warning(
+                    "The event '" + matcher.group() + "' is not available on your platform."
+                );
+                continue;
+            }
+
             REGISTERED_HANDLERS.computeIfAbsent(eventPattern.getEvent(), event -> {
                 Bukkit.getPluginManager().registerEvent(event, EMPTY_LISTENER,
                         EventPriority.NORMAL, HANDLER_EXECUTOR, QuickSkript.getInstance());
@@ -84,19 +93,52 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
     }
 
     /**
+     * Maps the specified regex to the specified Bukkit event.
+     *
+     * @param eventName the event to register's name. This is the full class name including the package
+     * @param regex the pattern of the event in Skript source
+     * @param filterCreator the {@link Function} which creates a {@link Predicate}
+     * based on the {@link Matcher} created by the specified regex and the Skript source
+     * @param platform the platform required for this event
+     * @return itself for chaining
+     * @since 0.1.0
+     */
+    @NotNull
+    public ComplexEventProxyFactory registerEvent(@NotNull String eventName, @NotNull String regex,
+                                                  @NotNull Function<Matcher, Predicate<Event>> filterCreator,
+                                                  @NotNull Platform platform) {
+        if (Platform.getPlatform().isAvailable(platform)) {
+            try {
+                eventPatterns.add(new EventPattern((Class<? extends Event>) Class.forName(eventName), regex,
+                    filterCreator));
+            } catch (ClassNotFoundException exception) {
+                exception.printStackTrace();
+            }
+        } else {
+            eventPatterns.add(new EventPattern(null, regex, filterCreator));
+        }
+
+        return this;
+    }
+
+    /**
      * A container class for registered event patterns.
      *
      * @since 0.1.0
      */
     private static class EventPattern {
-        @NotNull
+
+        /**
+         * The event to listen for. This is null if the event is not available on the current platform.
+         */
+        @Nullable
         private final Class<? extends Event> event;
         @NotNull
         private final Pattern pattern;
         @NotNull
         private final Function<Matcher, Predicate<Event>> filterCreator;
 
-        EventPattern(@NotNull Class<? extends Event> event, @NotNull String regex,
+        EventPattern(@Nullable Class<? extends Event> event, @NotNull String regex,
                      @NotNull Function<Matcher, Predicate<Event>> filterCreator) {
             this.event = event;
             pattern = Pattern.compile(regex);
@@ -104,7 +146,7 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
         }
 
 
-        @NotNull
+        @Nullable
         Class<? extends Event> getEvent() {
             return event;
         }

@@ -1,4 +1,4 @@
-package com.github.stefvanschie.quickskript.util;
+package com.github.stefvanschie.quickskript.util.text;
 
 import org.jetbrains.annotations.NotNull;
 

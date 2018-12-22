@@ -1,17 +1,12 @@
 package com.github.stefvanschie.quickskript.psi.effect;
 
-import com.github.stefvanschie.quickskript.context.CommandContext;
 import com.github.stefvanschie.quickskript.context.Context;
-import com.github.stefvanschie.quickskript.context.EventContext;
 import com.github.stefvanschie.quickskript.psi.PsiElement;
 import com.github.stefvanschie.quickskript.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.skript.SkriptLoader;
-import com.github.stefvanschie.quickskript.util.Text;
+import com.github.stefvanschie.quickskript.util.text.Text;
 import org.bukkit.command.CommandSender;
-import org.bukkit.event.Event;
-import org.bukkit.event.block.BlockDamageEvent;
-import org.bukkit.event.player.PlayerEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

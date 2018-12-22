@@ -6,7 +6,7 @@ import com.github.stefvanschie.quickskript.file.SkriptFileLine;
 import com.github.stefvanschie.quickskript.file.SkriptFileNode;
 import com.github.stefvanschie.quickskript.file.SkriptFileSection;
 import com.github.stefvanschie.quickskript.skript.util.ExecutionTarget;
-import com.github.stefvanschie.quickskript.util.Text;
+import com.github.stefvanschie.quickskript.util.text.Text;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
