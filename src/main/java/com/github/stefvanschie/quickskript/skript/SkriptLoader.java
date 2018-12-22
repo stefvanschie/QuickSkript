@@ -426,6 +426,7 @@ public class SkriptLoader implements AutoCloseable {
                 .registerEvent(EntityCombustEvent.class, "on combust(?:ing)?")
                 .registerEvent("org.spigotmc.event.entity.EntityDismountEvent", "on dismount(?:ing)?", Platform.SPIGOT)
                 .registerEvent(EntityExplodeEvent.class, "on explo(?:(?:d(?:e|ing))|(?:sion))")
+                .registerEvent("org.spigotmc.event.entity.EntityMountEvent", "on mount(?:ing)?", Platform.SPIGOT)
                 .registerEvent(PlayerBedEnterEvent.class, "on (?:(?:bed enter(?:ing)?)|(?:(?:player )?enter(?:ing)? (?:a )?bed))")
                 .registerEvent(PlayerBedLeaveEvent.class, "on (?:(?:bed leav(?:e|ing))|(?:(player )?leav(?:e|ing) (a )?bed))")
                 .registerEvent(PlayerBucketEmptyEvent.class, "on(?: player)?(?: empty(?:ing)?)?(?: a)? bucket(?: empty(?:ing)?)?")
