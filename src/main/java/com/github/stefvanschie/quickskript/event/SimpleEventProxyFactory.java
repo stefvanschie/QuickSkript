@@ -32,9 +32,14 @@ public class SimpleEventProxyFactory extends EventProxyFactory {
      * The executor which handles the execution of all event handlers in the storage.
      */
     @NotNull
-    private static final EventExecutor HANDLER_EXECUTOR = (listener, event) ->
-            REGISTERED_HANDLERS.get(event.getClass())
-                    .forEach(handler -> handler.execute(event));
+    private static final EventExecutor HANDLER_EXECUTOR = (listener, event) -> {
+        List<SkriptEventExecutor> handlers = REGISTERED_HANDLERS.get(event.getClass());
+
+        //yes this can be null, thank Bukkit for that
+        if (handlers != null) {
+            handlers.forEach(handler -> handler.execute(event));
+        }
+    };
 
     /**
      * The storage of the registered event patterns.

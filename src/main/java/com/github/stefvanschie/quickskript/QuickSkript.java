@@ -7,6 +7,8 @@ import com.github.stefvanschie.quickskript.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.skript.profiler.EmptySkriptProfiler;
 import com.github.stefvanschie.quickskript.skript.profiler.SimpleSkriptProfiler;
 import com.github.stefvanschie.quickskript.skript.profiler.SkriptProfiler;
+import com.github.stefvanschie.quickskript.util.event.ExperienceOrbSpawnEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -60,6 +62,10 @@ public class QuickSkript extends JavaPlugin {
         instance = this;
         profiler = new SimpleSkriptProfiler();
 
+        //load custom events
+        Bukkit.getPluginManager().registerEvents(new ExperienceOrbSpawnEvent.Listener(), this);
+
+        //load scripts
         try (SkriptLoader ignored = new SkriptLoader()) {
 
             File skriptFolder = new File(getDataFolder(), "skripts");

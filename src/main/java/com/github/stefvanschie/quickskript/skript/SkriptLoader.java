@@ -22,12 +22,14 @@ import com.github.stefvanschie.quickskript.psi.literal.PsiStringLiteral;
 import com.github.stefvanschie.quickskript.psi.section.PsiIf;
 import com.github.stefvanschie.quickskript.psi.section.PsiWhile;
 import com.github.stefvanschie.quickskript.util.Platform;
+import com.github.stefvanschie.quickskript.util.event.ExperienceOrbSpawnEvent;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Enderman;
+import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Silverfish;
 import org.bukkit.event.block.Action;
@@ -427,6 +429,7 @@ public class SkriptLoader implements AutoCloseable {
                 .registerEvent("org.spigotmc.event.entity.EntityDismountEvent", "on dismount(?:ing)?", Platform.SPIGOT)
                 .registerEvent(EntityExplodeEvent.class, "on explo(?:(?:d(?:e|ing))|(?:sion))")
                 .registerEvent("org.spigotmc.event.entity.EntityMountEvent", "on mount(?:ing)?", Platform.SPIGOT)
+                .registerEvent(ExperienceOrbSpawnEvent.class, "on (?:(?:e)?xp(?:erience)?(?: orb)? spawn|spawn of(?: a(?:n)?)? (?:e)?xp(?:erience)?(?: orb)?)")
                 .registerEvent(PlayerBedEnterEvent.class, "on (?:(?:bed enter(?:ing)?)|(?:(?:player )?enter(?:ing)? (?:a )?bed))")
                 .registerEvent(PlayerBedLeaveEvent.class, "on (?:(?:bed leav(?:e|ing))|(?:(player )?leav(?:e|ing) (a )?bed))")
                 .registerEvent(PlayerBucketEmptyEvent.class, "on(?: player)?(?: empty(?:ing)?)?(?: a)? bucket(?: empty(?:ing)?)?")

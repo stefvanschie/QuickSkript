@@ -35,10 +35,16 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
      * The executor which handles the execution of all event handlers in the storage.
      */
     @NotNull
-    private static final EventExecutor HANDLER_EXECUTOR = (listener, event) ->
-            REGISTERED_HANDLERS.get(event.getClass()).stream()
-                    .filter(handler -> handler.getValue().test(event))
-                    .forEach(handler -> handler.getKey().execute(event));
+    private static final EventExecutor HANDLER_EXECUTOR = (listener, event) -> {
+        List<Map.Entry<SkriptEventExecutor, Predicate<Event>>> handlers = REGISTERED_HANDLERS.get(event.getClass());
+
+        //yes this can be null, thank Bukkit for that
+        if (handlers != null) {
+            handlers.stream()
+                .filter(handler -> handler.getValue().test(event))
+                .forEach(handler -> handler.getKey().execute(event));
+        }
+    };
 
     /**
      * The storage of the registered event patterns.
