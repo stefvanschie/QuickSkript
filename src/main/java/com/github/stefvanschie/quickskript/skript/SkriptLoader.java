@@ -453,7 +453,8 @@ public class SkriptLoader implements AutoCloseable {
                         entityChangeBlockEvent.getTo() == Material.AIR;
                 })
                 .registerEvent(EntityChangeBlockEvent.class, "on sheep eat", matcher -> event ->
-                    ((EntityChangeBlockEvent) event).getEntity() instanceof Sheep)
+                    ((EntityChangeBlockEvent) event).getEntity() instanceof Sheep
+                )
                 .registerEvent(EntityChangeBlockEvent.class, "on silverfish enter", matcher -> event -> {
                     EntityChangeBlockEvent entityChangeBlockEvent = (EntityChangeBlockEvent) event;
 
@@ -512,6 +513,9 @@ public class SkriptLoader implements AutoCloseable {
 
                             throw new AssertionError("Unknown click type detected for event registration");
                         }
+                )
+                .registerEvent(PlayerJoinEvent.class, "on first (?:join|login)", matcher -> event ->
+                    !((PlayerJoinEvent) event).getPlayer().hasPlayedBefore()
                 )
         );
     }
