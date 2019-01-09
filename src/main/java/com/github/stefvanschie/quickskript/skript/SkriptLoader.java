@@ -436,6 +436,7 @@ public class SkriptLoader implements AutoCloseable {
                 .registerEvent(PlayerBucketEmptyEvent.class, "on(?: player)?(?: empty(?:ing)?)?(?: a)? bucket(?: empty(?:ing)?)?")
                 .registerEvent(PlayerBucketFillEvent.class, "on(?: player)?(?: fill(?:ing)?)?(?: a)? bucket(?: fill(?:ing)?)?")
                 .registerEvent(PlayerCommandPreprocessEvent.class, "on command")
+                .registerEvent(PlayerFishEvent.class, "on(?: player)? fish(?:ing)?")
                 .registerEvent(PlayerLoginEvent.class, "on(?: player)? connect(?:ing)?")
         );
 
