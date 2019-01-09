@@ -29,7 +29,8 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
      * The storage of registered event handlers.
      */
     @NotNull
-    private static final Map<Class<? extends Event>, List<Map.Entry<SkriptEventExecutor, Predicate<Event>>>> REGISTERED_HANDLERS = new HashMap<>();
+    private static final Map<Class<? extends Event>, List<Map.Entry<SkriptEventExecutor,
+            Predicate<Event>>>> REGISTERED_HANDLERS = new HashMap<>();
 
     /**
      * The executor which handles the execution of all event handlers in the storage.
@@ -41,8 +42,8 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
         //yes this can be null, thank Bukkit for that
         if (handlers != null) {
             handlers.stream()
-                .filter(handler -> handler.getValue().test(event))
-                .forEach(handler -> handler.getKey().execute(event));
+                    .filter(handler -> handler.getValue().test(event))
+                    .forEach(handler -> handler.getKey().execute(event));
         }
     };
 
@@ -65,7 +66,7 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
 
             if (eventPattern.getEvent() == null) {
                 QuickSkript.getInstance().getLogger().warning(
-                    "The event '" + matcher.group() + "' is not available on your platform."
+                        "The event '" + matcher.group() + "' is not available on your platform."
                 );
                 continue;
             }
@@ -74,7 +75,7 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
                 Bukkit.getPluginManager().registerEvent(event, EMPTY_LISTENER,
                         EventPriority.NORMAL, HANDLER_EXECUTOR, QuickSkript.getInstance());
                 return new ArrayList<>();
-            }).add(Map.entry(toRegisterSupplier.get(), eventPattern.getFilterCreator().apply(matcher)));
+            }).add(Map.entry(toRegisterSupplier.get(), Objects.requireNonNull(eventPattern.getFilterCreator()).apply(matcher)));
             return true;
         }
 
@@ -92,9 +93,9 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
      * @since 0.1.0
      */
     @NotNull
-    public ComplexEventProxyFactory registerEvent(@NotNull Class<? extends Event> event, @NotNull String regex,
-                                                  @NotNull Function<Matcher, Predicate<Event>> filterCreator) {
-        eventPatterns.add(new EventPattern(event, regex, filterCreator));
+    public <T extends Event> ComplexEventProxyFactory registerEvent(@NotNull Class<T> event, @NotNull String regex,
+            @NotNull Function<Matcher, Predicate<T>> filterCreator) {
+        eventPatterns.add(new EventPattern(event, regex, (Function<Matcher, Predicate<Event>>) (Object) filterCreator));
         return this;
     }
 
@@ -110,20 +111,19 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
      * @since 0.1.0
      */
     @NotNull
-    public ComplexEventProxyFactory registerEvent(@NotNull String eventName, @NotNull String regex,
-                                                  @NotNull Function<Matcher, Predicate<Event>> filterCreator,
-                                                  @NotNull Platform platform) {
-        if (Platform.getPlatform().isAvailable(platform)) {
-            try {
-                eventPatterns.add(new EventPattern((Class<? extends Event>) Class.forName(eventName), regex,
-                    filterCreator));
-            } catch (ClassNotFoundException exception) {
-                exception.printStackTrace();
-            }
-        } else {
-            eventPatterns.add(new EventPattern(null, regex, filterCreator));
+    public <T extends Event> ComplexEventProxyFactory registerEvent(@NotNull String eventName, @NotNull String regex,
+            @NotNull Function<Matcher, Predicate<T>> filterCreator, @NotNull Platform platform) {
+        if (!Platform.getPlatform().isAvailable(platform)) {
+            eventPatterns.add(new EventPattern(null, regex, null));
+            return this;
         }
 
+        try {
+            eventPatterns.add(new EventPattern((Class<? extends Event>) Class.forName(eventName), regex,
+                    (Function<Matcher, Predicate<Event>>) (Object) filterCreator));
+        } catch (ClassNotFoundException exception) {
+            exception.printStackTrace();
+        }
         return this;
     }
 
@@ -136,16 +136,22 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
 
         /**
          * The event to listen for. This is null if the event is not available on the current platform.
+         * This is needed so events which exist in the Skript but are not supported on the current platform
+         * can be detected and therefore a warning can be displayed.
          */
         @Nullable
         private final Class<? extends Event> event;
         @NotNull
         private final Pattern pattern;
-        @NotNull
+        /**
+         * Whether the listener should be executed when the specified event is fired.
+         * This is null when {@link #event} is null.
+         */
+        @Nullable
         private final Function<Matcher, Predicate<Event>> filterCreator;
 
         EventPattern(@Nullable Class<? extends Event> event, @NotNull String regex,
-                     @NotNull Function<Matcher, Predicate<Event>> filterCreator) {
+                @Nullable Function<Matcher, Predicate<Event>> filterCreator) {
             this.event = event;
             pattern = Pattern.compile(regex);
             this.filterCreator = filterCreator;
@@ -162,7 +168,7 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
             return pattern.matcher(text);
         }
 
-        @NotNull
+        @Nullable
         Function<Matcher, Predicate<Event>> getFilterCreator() {
             return filterCreator;
         }

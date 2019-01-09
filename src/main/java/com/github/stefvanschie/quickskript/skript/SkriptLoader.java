@@ -29,7 +29,6 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Enderman;
-import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Silverfish;
 import org.bukkit.event.block.Action;
@@ -441,83 +440,58 @@ public class SkriptLoader implements AutoCloseable {
         );
 
         registerEvent(new ComplexEventProxyFactory()
-                .registerEvent(EntityChangeBlockEvent.class, "on enderman place", matcher -> event -> {
-                    EntityChangeBlockEvent entityChangeBlockEvent = (EntityChangeBlockEvent) event;
-
-                    return entityChangeBlockEvent.getEntity() instanceof Enderman &&
-                        entityChangeBlockEvent.getTo() != Material.AIR;
-                })
-                .registerEvent(EntityChangeBlockEvent.class, "on enderman pickup", matcher -> event -> {
-                    EntityChangeBlockEvent entityChangeBlockEvent = (EntityChangeBlockEvent) event;
-
-                    return entityChangeBlockEvent.getEntity() instanceof Enderman &&
-                        entityChangeBlockEvent.getTo() == Material.AIR;
-                })
+                .registerEvent(EntityChangeBlockEvent.class, "on enderman place", matcher -> event ->
+                        event.getEntity() instanceof Enderman && event.getTo() != Material.AIR)
+                .registerEvent(EntityChangeBlockEvent.class, "on enderman pickup", matcher -> event ->
+                        event.getEntity() instanceof Enderman && event.getTo() == Material.AIR)
                 .registerEvent(EntityChangeBlockEvent.class, "on sheep eat", matcher -> event ->
-                    ((EntityChangeBlockEvent) event).getEntity() instanceof Sheep
-                )
-                .registerEvent(EntityChangeBlockEvent.class, "on silverfish enter", matcher -> event -> {
-                    EntityChangeBlockEvent entityChangeBlockEvent = (EntityChangeBlockEvent) event;
-
-                    return entityChangeBlockEvent.getEntity() instanceof Silverfish &&
-                        EnumSet.of(
-                            Material.INFESTED_COBBLESTONE,
-                            Material.INFESTED_STONE,
-                            Material.INFESTED_CHISELED_STONE_BRICKS,
-                            Material.INFESTED_CRACKED_STONE_BRICKS,
-                            Material.INFESTED_MOSSY_STONE_BRICKS,
-                            Material.INFESTED_STONE_BRICKS
-                        ).contains(entityChangeBlockEvent.getTo());
-                })
-                .registerEvent(EntityChangeBlockEvent.class, "on silverfish exit", matcher -> event -> {
-                    EntityChangeBlockEvent entityChangeBlockEvent = (EntityChangeBlockEvent) event;
-
-                    return entityChangeBlockEvent.getEntity() instanceof Silverfish &&
-                        entityChangeBlockEvent.getTo() == Material.AIR;
-                })
+                        event.getEntity() instanceof Sheep)
+                .registerEvent(EntityChangeBlockEvent.class, "on silverfish enter", matcher -> event ->
+                        event.getEntity() instanceof Silverfish && EnumSet.of(
+                                Material.INFESTED_COBBLESTONE,
+                                Material.INFESTED_STONE,
+                                Material.INFESTED_CHISELED_STONE_BRICKS,
+                                Material.INFESTED_CRACKED_STONE_BRICKS,
+                                Material.INFESTED_MOSSY_STONE_BRICKS,
+                                Material.INFESTED_STONE_BRICKS
+                        ).contains(event.getTo()))
+                .registerEvent(EntityChangeBlockEvent.class, "on silverfish exit", matcher -> event ->
+                        event.getEntity() instanceof Silverfish && event.getTo() == Material.AIR)
                 .registerEvent(PlayerCommandPreprocessEvent.class, "on command \"([\\s\\S]+)\"", matcher -> {
                     String command = matcher.group(1); //TODO the regex of this group is probably incorrect
                     String finalCommand = command.startsWith("/") ? command.substring(1) : command;
 
                     return event -> {
-                        String message = ((PlayerCommandPreprocessEvent) event).getMessage();
+                        String message = event.getMessage();
                         return message.startsWith(finalCommand, message.startsWith("/") ? 1 : 0);
                     };
                 })
                 .registerEvent(PlayerEditBookEvent.class, "on book (edit|change|write|sign|signing)", matcher -> {
-                    String group = matcher.group(1);
-
-                    if (group.equalsIgnoreCase("sign") || group.equalsIgnoreCase("signing")) {
-                        return event -> ((PlayerEditBookEvent) event).isSigning();
-                    } else {
-                        return event -> !((PlayerEditBookEvent) event).isSigning();
-                    }
+                    String group = matcher.group(1).toLowerCase();
+                    return group.equals("sign") || group.equals("signing")
+                            ? PlayerEditBookEvent::isSigning : event -> !event.isSigning();
                 })
-                .registerEvent(PlayerInteractEvent.class,
-                        "on (?:(right|left)(?: |-)?)?(?:mouse(?: |-)?)?click(?:ing)?", matcher -> {
-                            //TODO: This expression needs to be completed in the future, since it's missing optional additional parts
+                .registerEvent(PlayerInteractEvent.class, "on (?:(right|left)(?: |-)?)?(?:mouse(?: |-)?)?click(?:ing)?", matcher -> {
+                    //TODO: This expression needs to be completed in the future, since it's missing optional additional parts
+                    String clickType = matcher.group(1);
 
-                            String clickType = matcher.group(1);
+                    if (clickType == null)
+                        return event -> true;
+                    else if (clickType.equals("left"))
+                        return event -> {
+                            Action action = event.getAction();
+                            return action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK;
+                        };
+                    else if (clickType.equals("right"))
+                        return event -> {
+                            Action action = event.getAction();
+                            return action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK;
+                        };
 
-                            if (clickType == null)
-                                return event -> true;
-                            else if (clickType.equals("left"))
-                                return event -> {
-                                    Action action = ((PlayerInteractEvent) event).getAction();
-                                    return action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK;
-                                };
-                            else if (clickType.equals("right"))
-                                return event -> {
-                                    Action action = ((PlayerInteractEvent) event).getAction();
-                                    return action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK;
-                                };
-
-                            throw new AssertionError("Unknown click type detected for event registration");
-                        }
-                )
+                    throw new AssertionError("Unknown click type detected for event registration");
+                })
                 .registerEvent(PlayerJoinEvent.class, "on first (?:join|login)", matcher -> event ->
-                    !((PlayerJoinEvent) event).getPlayer().hasPlayedBefore()
-                )
+                        !event.getPlayer().hasPlayedBefore())
         );
     }
 }
