@@ -437,6 +437,7 @@ public class SkriptLoader implements AutoCloseable {
                 .registerEvent(PlayerCommandPreprocessEvent.class, "on command")
                 .registerEvent(PlayerFishEvent.class, "on(?: player)? fish(?:ing)?")
                 .registerEvent(PlayerLoginEvent.class, "on(?: player)? connect(?:ing)?")
+                .registerEvent(PlayerToggleFlightEvent.class, "on(?: player)? (?:flight toggl(?:e|ing)|toggl(?:e|ing) flight)")
         );
 
         registerEvent(new ComplexEventProxyFactory()
