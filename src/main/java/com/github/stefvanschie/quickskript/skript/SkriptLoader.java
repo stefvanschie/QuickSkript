@@ -435,6 +435,7 @@ public class SkriptLoader implements AutoCloseable {
                 .registerEvent(EntityToggleGlideEvent.class, "on(?: toggle)? glid(?:e|ing)(?: state change)?")
                 .registerEvent(ExperienceOrbSpawnEvent.class, "on (?:(?:e)?xp(?:erience)?(?: orb)? spawn|spawn of(?: a(?:n)?)? (?:e)?xp(?:erience)?(?: orb)?)")
                 .registerEvent(ExplosionPrimeEvent.class, "on explosion prime")
+                .registerEvent(FoodLevelChangeEvent.class, "on (?:food|hunger) (?:level|met(?:er|re)|bar) chang(?:e|ing)")
                 .registerEvent(FurnaceBurnEvent.class, "on fuel burn(?:ing)?")
                 .registerEvent(PlayerBedEnterEvent.class, "on (?:(?:bed enter(?:ing)?)|(?:(?:player )?enter(?:ing)? (?:a )?bed))")
                 .registerEvent(PlayerBedLeaveEvent.class, "on (?:(?:bed leav(?:e|ing))|(?:(player )?leav(?:e|ing) (a )?bed))")
