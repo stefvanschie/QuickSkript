@@ -445,6 +445,7 @@ public class SkriptLoader implements AutoCloseable {
                 .registerEvent(PlayerBucketFillEvent.class, "on(?: player)?(?: fill(?:ing)?)?(?: a)? bucket(?: fill(?:ing)?)?")
                 .registerEvent(PlayerCommandPreprocessEvent.class, "on command")
                 .registerEvent(PlayerFishEvent.class, "on(?: player)? fish(?:ing)?")
+                .registerEvent(PlayerItemBreakEvent.class, "on(?: player)? (?:tool break(?:ing)?|break(?:ing)?(?: (?:a|the))? tool)")
                 .registerEvent(PlayerLoginEvent.class, "on(?: player)? connect(?:ing)?")
                 .registerEvent(PlayerSwapHandItemsEvent.class, "on swap(ping of)?(?: (?:hand|held))? items?")
                 .registerEvent(PlayerToggleFlightEvent.class, "on(?: player)? (?:flight toggl(?:e|ing)|toggl(?:e|ing) flight)")
