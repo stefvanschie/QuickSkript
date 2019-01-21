@@ -34,6 +34,7 @@ import org.bukkit.entity.Silverfish;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.FurnaceBurnEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkPopulateEvent;
@@ -435,6 +436,7 @@ public class SkriptLoader implements AutoCloseable {
                 .registerEvent(ExplosionPrimeEvent.class, "on explosion prime")
                 .registerEvent(FoodLevelChangeEvent.class, "on (?:food|hunger) (?:level|met(?:er|re)|bar) chang(?:e|ing)")
                 .registerEvent(FurnaceBurnEvent.class, "on fuel burn(?:ing)?")
+                .registerEvent(InventoryCloseEvent.class, "on inventory clos(?:ed?|ing)")
                 .registerEvent(PlayerBedEnterEvent.class, "on (?:(?:bed enter(?:ing)?)|(?:(?:player )?enter(?:ing)? (?:a )?bed))")
                 .registerEvent(PlayerBedLeaveEvent.class, "on (?:(?:bed leav(?:e|ing))|(?:(player )?leav(?:e|ing) (a )?bed))")
                 .registerEvent(PlayerBucketEmptyEvent.class, "on(?: player)?(?: empty(?:ing)?)?(?: a)? bucket(?: empty(?:ing)?)?")
