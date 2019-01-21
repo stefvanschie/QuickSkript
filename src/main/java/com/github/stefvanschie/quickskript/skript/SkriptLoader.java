@@ -36,6 +36,7 @@ import org.bukkit.event.block.BlockCanBuildEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.entity.*;
+import org.bukkit.event.inventory.FurnaceBurnEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkPopulateEvent;
@@ -432,6 +433,7 @@ public class SkriptLoader implements AutoCloseable {
                 .registerEvent("org.spigotmc.event.entity.EntityMountEvent", "on mount(?:ing)?", Platform.SPIGOT)
                 .registerEvent(ExperienceOrbSpawnEvent.class, "on (?:(?:e)?xp(?:erience)?(?: orb)? spawn|spawn of(?: a(?:n)?)? (?:e)?xp(?:erience)?(?: orb)?)")
                 .registerEvent(ExplosionPrimeEvent.class, "on explosion prime")
+                .registerEvent(FurnaceBurnEvent.class, "on fuel burn(?:ing)?")
                 .registerEvent(PlayerBedEnterEvent.class, "on (?:(?:bed enter(?:ing)?)|(?:(?:player )?enter(?:ing)? (?:a )?bed))")
                 .registerEvent(PlayerBedLeaveEvent.class, "on (?:(?:bed leav(?:e|ing))|(?:(player )?leav(?:e|ing) (a )?bed))")
                 .registerEvent(PlayerBucketEmptyEvent.class, "on(?: player)?(?: empty(?:ing)?)?(?: a)? bucket(?: empty(?:ing)?)?")
