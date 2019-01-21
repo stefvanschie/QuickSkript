@@ -34,6 +34,7 @@ import org.bukkit.entity.Silverfish;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockCanBuildEvent;
 import org.bukkit.event.block.BlockDamageEvent;
+import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
 import org.bukkit.event.world.ChunkLoadEvent;
@@ -420,6 +421,7 @@ public class SkriptLoader implements AutoCloseable {
                 .registerEvent(AreaEffectCloudApplyEvent.class, "on (?:(?:area)|(?:AoE)) (?:cloud )?effect")
                 .registerEvent(BlockCanBuildEvent.class, "on(?: block)? can build check")
                 .registerEvent(BlockDamageEvent.class, "on block damag(?:ing|e)")
+                .registerEvent(BlockFromToEvent.class, "on(?: block)? (?:flow(?:ing)?|mov(?:e|ing))")
                 .registerEvent(ChunkLoadEvent.class, "on chunk load(?:ing)?")
                 .registerEvent(ChunkPopulateEvent.class, "on chunk (?:generat|populat)(?:e|ing)")
                 .registerEvent(ChunkUnloadEvent.class, "on chunk unload(?:ing)?")
