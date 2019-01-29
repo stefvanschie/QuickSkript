@@ -1,0 +1,109 @@
+package com.github.stefvanschie.quickskript.core.psi.function;
+
+import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.psi.PsiElement;
+import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
+import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/**
+ * Creates a vector
+ *
+ * @since 0.1.0
+ */
+public class PsiVectorFunction extends PsiElement<Object> {
+
+    /**
+     * Three coordinates for the vector
+     */
+    protected PsiElement<?> x, y, z;
+
+    /**
+     * Creates a new vector function
+     *
+     * @param x the x value
+     * @param y the y value
+     * @param z the z value
+     * @param lineNumber the line number
+     * @since 0.1.0
+     */
+    protected PsiVectorFunction(PsiElement<?> x, PsiElement<?> y, PsiElement<?> z, int lineNumber) {
+        super(lineNumber);
+
+        this.x = x;
+        this.y = y;
+        this.z = z;
+
+        if (this.x.isPreComputed() && this.y.isPreComputed() && this.z.isPreComputed()) {
+            preComputed = executeImpl(null);
+            this.x = this.y = this.z = null;
+        }
+    }
+
+    /**
+     * @throws UnsupportedOperationException implementation is required for this functionality
+     */
+    @NotNull
+    @Override
+    protected Object executeImpl(@Nullable Context context) {
+        throw new UnsupportedOperationException("Cannot execute expression without implementation.");
+    }
+
+    /**
+     * A factory for creating vector functions
+     *
+     * @since 0.1.0
+     */
+    public static class Factory implements PsiElementFactory<PsiVectorFunction> {
+
+        /**
+         * The pattern for matching vector expressions
+         */
+        private final Pattern pattern = Pattern.compile("vector\\(([\\s\\S]+)\\)");
+
+        /**
+         * {@inheritDoc}
+         */
+        @Nullable
+        @Override
+        public PsiVectorFunction tryParse(@NotNull String text, int lineNumber) {
+            Matcher matcher = pattern.matcher(text);
+
+            if (!matcher.matches()) {
+                return null;
+            }
+
+            String[] values = matcher.group(1).replace(" ", "").split(",");
+
+            if (values.length != 3)
+                return null;
+
+            PsiElement<?> x = SkriptLoader.get().forceParseElement(values[0], lineNumber);
+            PsiElement<?> y = SkriptLoader.get().forceParseElement(values[1], lineNumber);
+            PsiElement<?> z = SkriptLoader.get().forceParseElement(values[2], lineNumber);
+
+            return create(x, y, z, lineNumber);
+        }
+
+        /**
+         * Provides a default way for creating the specified object for this factory with the given parameters as
+         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
+         * method.
+         *
+         * @param x the x component of the vector
+         * @param y the y component of the vector
+         * @param z the z component of the vector
+         * @param lineNumber the line number
+         * @return the function
+         * @since 0.1.0
+         */
+        @NotNull
+        protected PsiVectorFunction create(PsiElement<?> x, PsiElement<?> y, PsiElement<?> z, int lineNumber) {
+            return new PsiVectorFunction(x, y, z, lineNumber);
+        }
+    }
+}

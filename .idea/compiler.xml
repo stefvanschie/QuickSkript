@@ -6,11 +6,16 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="quickskript" />
+        <module name="bukkit" />
+        <module name="quickskript.bukkit" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="bukkit" target="11" />
+      <module name="core" target="11" />
       <module name="quickskript" target="11" />
+      <module name="quickskript.bukkit" target="11" />
+      <module name="quickskript.core" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

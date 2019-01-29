@@ -1,0 +1,6 @@
+main: ${package}.QuickSkript
+name: QuickSkript
+version: ${project.version}
+
+website: ${url}
+api-version: 1.13
