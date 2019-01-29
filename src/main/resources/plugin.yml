@@ -1,6 +1,0 @@
-main: ${package}.${project.name}
-name: ${project.name}
-version: ${project.version}
-
-website: ${url}
-api-version: 1.13
