@@ -34,6 +34,8 @@ import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Tag;
+import org.bukkit.block.Block;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Enderman;
@@ -310,6 +312,22 @@ public class BukkitSkriptLoader extends SkriptLoader {
 
                     throw new AssertionError("Unknown click type detected for event registration");
                 })
+                .registerEvent(PlayerInteractEvent.class, "on(?: step(?:ping)? on)?(?: a)?(?: pressure)? plate",
+                    matcher -> event -> {
+                        Block clickedBlock = event.getClickedBlock();
+
+                        return event.getAction() == Action.PHYSICAL && clickedBlock != null && EnumSet.of(
+                            Material.OAK_PRESSURE_PLATE,
+                            Material.SPRUCE_PRESSURE_PLATE,
+                            Material.BIRCH_PRESSURE_PLATE,
+                            Material.JUNGLE_PRESSURE_PLATE,
+                            Material.ACACIA_PRESSURE_PLATE,
+                            Material.DARK_OAK_PRESSURE_PLATE,
+                            Material.STONE_PRESSURE_PLATE,
+                            Material.HEAVY_WEIGHTED_PRESSURE_PLATE,
+                            Material.LIGHT_WEIGHTED_PRESSURE_PLATE
+                        ).contains(clickedBlock.getType());
+                    })
                 .registerEvent(PlayerJoinEvent.class, "on first (?:join|login)", matcher -> event ->
                         !event.getPlayer().hasPlayedBefore())
         );
