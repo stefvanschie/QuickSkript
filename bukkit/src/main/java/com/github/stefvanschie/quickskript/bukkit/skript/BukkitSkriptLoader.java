@@ -45,6 +45,7 @@ import org.bukkit.event.inventory.FurnaceBurnEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.event.weather.LightningStrikeEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkPopulateEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
@@ -226,6 +227,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                 .registerEvent(InventoryCloseEvent.class, "on inventory clos(?:ed?|ing)")
                 .registerEvent(InventoryOpenEvent.class, "on inventory open(?:ed)?")
                 .registerEvent(LeavesDecayEvent.class, "on leaves decay(?:ing)?")
+                .registerEvent(LightningStrikeEvent.class, "on lightning(?: strike)?")
                 .registerEvent(PlayerBedEnterEvent.class, "on (?:(?:bed enter(?:ing)?)|(?:(?:player )?enter(?:ing)? (?:a )?bed))")
                 .registerEvent(PlayerBedLeaveEvent.class, "on (?:(?:bed leav(?:e|ing))|(?:(player )?leav(?:e|ing) (a )?bed))")
                 .registerEvent(PlayerBucketEmptyEvent.class, "on(?: player)?(?: empty(?:ing)?)?(?: a)? bucket(?: empty(?:ing)?)?")
