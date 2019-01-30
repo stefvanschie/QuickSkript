@@ -328,6 +328,15 @@ public class BukkitSkriptLoader extends SkriptLoader {
                             Material.LIGHT_WEIGHTED_PRESSURE_PLATE
                         ).contains(clickedBlock.getType());
                     })
+                .registerEvent(PlayerInteractEvent.class, "on( trip|( step(ping)? on)?( a)? tripwire)",
+                    matcher -> event -> {
+                        Block clickedBlock = event.getClickedBlock();
+
+                        return event.getAction() == Action.PHYSICAL && clickedBlock != null && EnumSet.of(
+                            Material.TRIPWIRE,
+                            Material.TRIPWIRE_HOOK
+                        ).contains(clickedBlock.getType());
+                    })
                 .registerEvent(PlayerJoinEvent.class, "on first (?:join|login)", matcher -> event ->
                         !event.getPlayer().hasPlayedBefore())
         );
