@@ -236,6 +236,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                 .registerEvent(PlayerBedLeaveEvent.class, "on (?:(?:bed leav(?:e|ing))|(?:(player )?leav(?:e|ing) (a )?bed))")
                 .registerEvent(PlayerBucketEmptyEvent.class, "on(?: player)?(?: empty(?:ing)?)?(?: a)? bucket(?: empty(?:ing)?)?")
                 .registerEvent(PlayerBucketFillEvent.class, "on(?: player)?(?: fill(?:ing)?)?(?: a)? bucket(?: fill(?:ing)?)?")
+                .registerEvent(PlayerChangedWorldEvent.class, "on(?: player)? world chang(?:ing|ed?)")
                 .registerEvent(PlayerCommandPreprocessEvent.class, "on command")
                 .registerEvent(PlayerFishEvent.class, "on(?: player)? fish(?:ing)?")
                 .registerEvent(PlayerItemBreakEvent.class, "on(?: player)? (?:tool break(?:ing)?|break(?:ing)?(?: (?:a|the))? tool)")
