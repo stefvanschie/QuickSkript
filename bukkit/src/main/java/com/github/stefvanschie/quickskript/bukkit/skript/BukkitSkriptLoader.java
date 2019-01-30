@@ -211,6 +211,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                 .registerEvent(BlockFromToEvent.class, "on(?: block)? (?:flow(?:ing)?|mov(?:e|ing))")
                 .registerEvent(BlockIgniteEvent.class, "on(?: block)? ignit(?:e|ion)?")
                 .registerEvent(BlockPhysicsEvent.class, "on(?: block)? physics")
+                .registerEvent(BlockPistonExtendEvent.class, "on piston extend(?:ing)?")
                 .registerEvent(ChunkLoadEvent.class, "on chunk load(?:ing)?")
                 .registerEvent(ChunkPopulateEvent.class, "on chunk (?:generat|populat)(?:e|ing)")
                 .registerEvent(ChunkUnloadEvent.class, "on chunk unload(?:ing)?")
