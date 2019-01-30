@@ -246,6 +246,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                 .registerEvent(PlayerLevelChangeEvent.class, "on(?: player)? level(?: change)?")
                 .registerEvent(PlayerLocaleChangeEvent.class, "on(?: player)? (?:(?:language|locale) chang(?:e|ing)|chang(?:e|ing) (?:language|locale))")
                 .registerEvent(PlayerLoginEvent.class, "on(?: player)? connect(?:ing)?")
+                .registerEvent(PlayerPortalEvent.class, "on(?: player)? portal")
                 .registerEvent(PlayerSwapHandItemsEvent.class, "on swap(ping of)?(?: (?:hand|held))? items?")
                 .registerEvent(PlayerToggleFlightEvent.class, "on(?: player)? (?:flight toggl(?:e|ing)|toggl(?:e|ing) flight)")
         );
