@@ -49,6 +49,7 @@ import org.bukkit.event.weather.LightningStrikeEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkPopulateEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
+import org.bukkit.event.world.PortalCreateEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.SimplePluginManager;
 import org.jetbrains.annotations.Contract;
@@ -249,6 +250,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                 .registerEvent(PlayerPortalEvent.class, "on(?: player)? portal")
                 .registerEvent(PlayerSwapHandItemsEvent.class, "on swap(ping of)?(?: (?:hand|held))? items?")
                 .registerEvent(PlayerToggleFlightEvent.class, "on(?: player)? (?:flight toggl(?:e|ing)|toggl(?:e|ing) flight)")
+                .registerEvent(PortalCreateEvent.class, "on portal creat(?:e|ion)")
         );
 
         registerEvent(new ComplexEventProxyFactory()
