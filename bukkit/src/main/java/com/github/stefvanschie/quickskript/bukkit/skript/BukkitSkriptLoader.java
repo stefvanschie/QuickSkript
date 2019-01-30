@@ -229,6 +229,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                 .registerEvent(InventoryOpenEvent.class, "on inventory open(?:ed)?")
                 .registerEvent(LeavesDecayEvent.class, "on leaves decay(?:ing)?")
                 .registerEvent(LightningStrikeEvent.class, "on lightning(?: strike)?")
+                .registerEvent(PigZapEvent.class, "on pig ?zap")
                 .registerEvent(PlayerBedEnterEvent.class, "on (?:(?:bed enter(?:ing)?)|(?:(?:player )?enter(?:ing)? (?:a )?bed))")
                 .registerEvent(PlayerBedLeaveEvent.class, "on (?:(?:bed leav(?:e|ing))|(?:(player )?leav(?:e|ing) (a )?bed))")
                 .registerEvent(PlayerBucketEmptyEvent.class, "on(?: player)?(?: empty(?:ing)?)?(?: a)? bucket(?: empty(?:ing)?)?")
