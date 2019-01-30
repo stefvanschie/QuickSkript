@@ -235,6 +235,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                 .registerEvent(PlayerJoinEvent.class, "on(?: player)? (?:log(?:ging )?in|join(?:ing)?)")
                 .registerEvent("com.destroystokyo.paper.event.player.PlayerJumpEvent", "on(?: player)? jump(?:ing)?", Platform.PAPER)
                 .registerEvent(PlayerKickEvent.class, "on(?: player)?(?: being)? kick(?:ed)?")
+                .registerEvent(PlayerLocaleChangeEvent.class, "on(?: player)? ((language|locale) chang(e|ing)|chang(e|ing) (language|locale))")
                 .registerEvent(PlayerLoginEvent.class, "on(?: player)? connect(?:ing)?")
                 .registerEvent(PlayerSwapHandItemsEvent.class, "on swap(ping of)?(?: (?:hand|held))? items?")
                 .registerEvent(PlayerToggleFlightEvent.class, "on(?: player)? (?:flight toggl(?:e|ing)|toggl(?:e|ing) flight)")
