@@ -253,6 +253,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                 .registerEvent(PlayerLoginEvent.class, "on(?: player)? connect(?:ing)?")
                 .registerEvent(PlayerPortalEvent.class, "on(?: player)? portal")
                 .registerEvent(PlayerQuitEvent.class, "on (?:quit(?:ting)?|disconnect(?:ing)?|log(?:ging | )?out)")
+                .registerEvent(PlayerRespawnEvent.class, "on(?: player)? respawn(?:ing)?")
                 .registerEvent(PlayerSwapHandItemsEvent.class, "on swap(ping of)?(?: (?:hand|held))? items?")
                 .registerEvent(PlayerToggleFlightEvent.class, "on(?: player)? (?:flight toggl(?:e|ing)|toggl(?:e|ing) flight)")
                 .registerEvent(PortalCreateEvent.class, "on portal creat(?:e|ion)")
