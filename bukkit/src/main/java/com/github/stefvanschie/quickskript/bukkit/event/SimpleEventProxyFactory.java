@@ -38,7 +38,24 @@ public class SimpleEventProxyFactory extends EventProxyFactory {
         //yes this can be null, thank Bukkit for that
         if (handlers != null) {
             handlers.forEach(handler -> handler.execute(event));
+            return;
         }
+
+        //and we can thank Paper for this
+        if (event.getClass().getCanonicalName()
+            .equals("com.destroystokyo.paper.network.StandardPaperServerListPingEventImpl")) {
+            for (Map.Entry<Class<? extends Event>, List<SkriptEventExecutor>> entry : REGISTERED_HANDLERS.entrySet()) {
+                if (!entry.getKey().getCanonicalName()
+                    .equals("com.destroystokyo.paper.event.server.PaperServerListPingEvent")) {
+                    continue;
+                }
+
+                entry.getValue().forEach(handler -> handler.execute(event));
+                break;
+            }
+        }
+
+        //Which other surprises will be found in the event system? Find out the next time this file gets changed.
     };
 
     /**
@@ -58,6 +75,8 @@ public class SimpleEventProxyFactory extends EventProxyFactory {
             if (!matcher.matches()) {
                 continue;
             }
+
+            System.out.println("Registering to " + eventPattern.getValue() + " with event " + eventPattern.getKey().getCanonicalName());
 
             if (eventPattern.getKey() == null) {
                 QuickSkript.getInstance().getLogger().warning(

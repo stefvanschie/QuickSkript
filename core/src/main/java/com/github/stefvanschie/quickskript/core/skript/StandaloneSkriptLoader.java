@@ -23,6 +23,8 @@ import com.github.stefvanschie.quickskript.core.psi.section.PsiWhile;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * An impl. of {@link SkriptLoader} for applications that are not tied to a specific Minecraft server platform impl. If
@@ -43,6 +45,10 @@ public class StandaloneSkriptLoader extends SkriptLoader {
      * A map to hold all events
      */
     private final Map<String, PsiBaseSection> events = new HashMap<>();
+
+    private final Set<Pattern> registeredEvents = Set.of(
+        //TODO: Add all events
+    );
 
     /**
      * {@inheritDoc}
@@ -149,12 +155,10 @@ public class StandaloneSkriptLoader extends SkriptLoader {
 
     @Override
     public void tryRegisterEvent(Skript skript, SkriptFileSection section) {
-        if (!section.getText().startsWith("on ")) {
-            return;
+        String event = section.getText();
+
+        if (registeredEvents.stream().anyMatch(pattern -> pattern.matcher(event).matches())) {
+            events.put(event, new PsiBaseSection(skript, section, EventContext.class));
         }
-
-        String event = section.getText().substring("on ".length());
-
-        commands.put(event, new PsiBaseSection(skript, section, EventContext.class));
     }
 }
