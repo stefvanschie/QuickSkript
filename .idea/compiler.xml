@@ -7,7 +7,6 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="bukkit" />
-        <module name="quickskript.bukkit" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

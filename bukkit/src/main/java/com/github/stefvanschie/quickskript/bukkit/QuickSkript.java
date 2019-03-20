@@ -2,11 +2,13 @@ package com.github.stefvanschie.quickskript.bukkit;
 
 import com.github.stefvanschie.quickskript.bukkit.skript.BukkitSkriptLoader;
 import com.github.stefvanschie.quickskript.bukkit.util.event.ExperienceOrbSpawnEvent;
+import com.github.stefvanschie.quickskript.bukkit.util.event.QuickSkriptPostEnableEvent;
 import com.github.stefvanschie.quickskript.core.file.SkriptFile;
 import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.core.skript.Skript;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Contract;
 
@@ -51,8 +53,10 @@ public class QuickSkript extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
+        PluginManager pluginManager = Bukkit.getPluginManager();
+
         //load custom events
-        Bukkit.getPluginManager().registerEvents(new ExperienceOrbSpawnEvent.Listener(), this);
+        pluginManager.registerEvents(new ExperienceOrbSpawnEvent.Listener(), this);
 
         //load scripts
         try (SkriptLoader ignored = new BukkitSkriptLoader()) {
@@ -89,6 +93,8 @@ public class QuickSkript extends JavaPlugin {
                 }
             }
         }
+
+        pluginManager.callEvent(new QuickSkriptPostEnableEvent());
     }
 
     /**

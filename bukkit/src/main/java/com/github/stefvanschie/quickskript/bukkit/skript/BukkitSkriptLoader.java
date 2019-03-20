@@ -17,6 +17,7 @@ import com.github.stefvanschie.quickskript.bukkit.psi.literal.PsiPlayerLiteralIm
 import com.github.stefvanschie.quickskript.bukkit.skript.util.ExecutionTarget;
 import com.github.stefvanschie.quickskript.bukkit.util.Platform;
 import com.github.stefvanschie.quickskript.bukkit.util.event.ExperienceOrbSpawnEvent;
+import com.github.stefvanschie.quickskript.bukkit.util.event.QuickSkriptPostEnableEvent;
 import com.github.stefvanschie.quickskript.core.file.SkriptFileLine;
 import com.github.stefvanschie.quickskript.core.file.SkriptFileNode;
 import com.github.stefvanschie.quickskript.core.file.SkriptFileSection;
@@ -47,6 +48,7 @@ import org.bukkit.event.inventory.FurnaceBurnEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.event.weather.LightningStrikeEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
@@ -264,6 +266,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                     Platform.getPlatform() == Platform.PAPER ? PaperServerListPingEvent.class : ServerListPingEvent.class,
                     "(?:on )?server(?: list)? ping"
                 )
+                .registerEvent(QuickSkriptPostEnableEvent.class, "(?:on )?(server|skript) (start|load|enable)")
         );
 
         registerEvent(new ComplexEventProxyFactory()
@@ -349,6 +352,8 @@ public class BukkitSkriptLoader extends SkriptLoader {
                     })
                 .registerEvent(PlayerJoinEvent.class, "(?:on )?first (?:join|login)", matcher -> event ->
                         !event.getPlayer().hasPlayedBefore())
+                .registerEvent(PluginDisableEvent.class, "(?:on )?(server|skript) (stop|unload|disable)",
+                    matcher -> event -> event.getPlugin().equals(QuickSkript.getInstance()))
         );
     }
 

@@ -76,8 +76,6 @@ public class SimpleEventProxyFactory extends EventProxyFactory {
                 continue;
             }
 
-            System.out.println("Registering to " + eventPattern.getValue() + " with event " + eventPattern.getKey().getCanonicalName());
-
             if (eventPattern.getKey() == null) {
                 QuickSkript.getInstance().getLogger().warning(
                     "The event '" + matcher.group() + "' is not available on your platform."
