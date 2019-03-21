@@ -267,6 +267,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                     "(?:on )?server(?: list)? ping"
                 )
                 .registerEvent(QuickSkriptPostEnableEvent.class, "(?:on )?(server|skript) (start|load|enable)")
+                .registerEvent(SheepRegrowWoolEvent.class, "(?:on )?sheep (?:re)?grow(?:ing)? wool")
         );
 
         registerEvent(new ComplexEventProxyFactory()
