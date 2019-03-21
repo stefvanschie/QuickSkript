@@ -45,6 +45,7 @@ import org.bukkit.entity.Silverfish;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.FurnaceBurnEvent;
+import org.bukkit.event.inventory.FurnaceSmeltEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.*;
@@ -236,6 +237,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                 .registerEvent(ExplosionPrimeEvent.class, "(?:on )?explosion prime")
                 .registerEvent(FoodLevelChangeEvent.class, "(?:on )?(?:food|hunger) (?:level|met(?:er|re)|bar) chang(?:e|ing)")
                 .registerEvent(FurnaceBurnEvent.class, "(?:on )?fuel burn(?:ing)?")
+                .registerEvent(FurnaceSmeltEvent.class, "(?:on )?(?:(?:ore )?smelt(?:ing)?(?: of ore)?)")
                 .registerEvent(InventoryCloseEvent.class, "(?:on )?inventory clos(?:ed?|ing)")
                 .registerEvent(InventoryOpenEvent.class, "(?:on )?inventory open(?:ed)?")
                 .registerEvent(LeavesDecayEvent.class, "(?:on )?leaves decay(?:ing)?")
