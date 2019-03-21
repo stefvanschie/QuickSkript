@@ -270,6 +270,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                 .registerEvent(QuickSkriptPostEnableEvent.class, "(?:on )?(server|skript) (start|load|enable)")
                 .registerEvent(SheepRegrowWoolEvent.class, "(?:on )?sheep (?:re)?grow(?:ing)? wool")
                 .registerEvent(SignChangeEvent.class, "(?:on )?(?:sign (?:change?|edit)(?:ing)?|(?:player )?(?:change?|edit)(?:ing)?(?: a)? sign)")
+                .registerEvent(SlimeSplitEvent.class, "(?:on )?slime split(?:ting)?")
         );
 
         registerEvent(new ComplexEventProxyFactory()
