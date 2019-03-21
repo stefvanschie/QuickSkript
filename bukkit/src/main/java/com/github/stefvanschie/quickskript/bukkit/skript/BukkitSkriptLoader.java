@@ -262,6 +262,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                 .registerEvent(PlayerToggleFlightEvent.class, "(?:on )?(?:player )?(?:flight toggl(?:e|ing)|toggl(?:e|ing) flight)")
                 .registerEvent(PortalCreateEvent.class, "(?:on )?portal creat(?:e|ion)")
                 .registerEvent(ProjectileHitEvent.class, "(?:on )?projectile hit")
+                .registerEvent(ProjectileLaunchEvent.class, "(?:on )?(projectile )?shoot")
                 .registerEvent(
                     Platform.getPlatform() == Platform.PAPER ? PaperServerListPingEvent.class : ServerListPingEvent.class,
                     "(?:on )?server(?: list)? ping"
