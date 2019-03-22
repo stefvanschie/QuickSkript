@@ -52,10 +52,7 @@ import org.bukkit.event.player.*;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.event.weather.LightningStrikeEvent;
-import org.bukkit.event.world.ChunkLoadEvent;
-import org.bukkit.event.world.ChunkPopulateEvent;
-import org.bukkit.event.world.ChunkUnloadEvent;
-import org.bukkit.event.world.PortalCreateEvent;
+import org.bukkit.event.world.*;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.SimplePluginManager;
 import org.jetbrains.annotations.Contract;
@@ -274,6 +271,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                 .registerEvent(SheepRegrowWoolEvent.class, "(?:on )?sheep (?:re)?grow(?:ing)? wool")
                 .registerEvent(SignChangeEvent.class, "(?:on )?(?:sign (?:change?|edit)(?:ing)?|(?:player )?(?:change?|edit)(?:ing)?(?: a)? sign)")
                 .registerEvent(SlimeSplitEvent.class, "(?:on )?slime split(?:ting)?")
+                .registerEvent(SpawnChangeEvent.class, "(?:on )?(?:world )?spawn change")
         );
 
         registerEvent(new ComplexEventProxyFactory()
