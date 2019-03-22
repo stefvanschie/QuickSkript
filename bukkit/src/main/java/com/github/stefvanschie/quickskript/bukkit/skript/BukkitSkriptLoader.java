@@ -218,6 +218,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                 .registerEvent(BlockPistonExtendEvent.class, "(?:on )?piston extend(?:ing)?")
                 .registerEvent(BlockPistonRetractEvent.class, "(?:on )?piston retract(?:ing)?")
                 .registerEvent(BlockRedstoneEvent.class, "(?:on )?redstone(?: current)?(?: chang(e|ing))?")
+                .registerEvent(BlockSpreadEvent.class, "(?:on )?spread(ing)?")
                 .registerEvent(ChunkLoadEvent.class, "(?:on )?chunk load(?:ing)?")
                 .registerEvent(ChunkPopulateEvent.class, "(?:on )?chunk (?:generat|populat)(?:e|ing)")
                 .registerEvent(ChunkUnloadEvent.class, "(?:on )?chunk unload(?:ing)?")
