@@ -51,6 +51,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.ServerListPingEvent;
+import org.bukkit.event.vehicle.VehicleCreateEvent;
 import org.bukkit.event.weather.LightningStrikeEvent;
 import org.bukkit.event.world.*;
 import org.bukkit.plugin.Plugin;
@@ -280,6 +281,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                 .registerEvent(SignChangeEvent.class, "(?:on )?(?:sign (?:change?|edit)(?:ing)?|(?:player )?(?:change?|edit)(?:ing)?(?: a)? sign)")
                 .registerEvent(SlimeSplitEvent.class, "(?:on )?slime split(?:ting)?")
                 .registerEvent(SpawnChangeEvent.class, "(?:on )?(?:world )?spawn change")
+                .registerEvent(VehicleCreateEvent.class, "(?:on )?(?:vehicle create|creat(?:e|ing|ion of)(?: a)? vehicle)")
         );
 
         registerEvent(new ComplexEventProxyFactory()
