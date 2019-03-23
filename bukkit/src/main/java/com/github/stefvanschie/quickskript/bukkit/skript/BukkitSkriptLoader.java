@@ -287,6 +287,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                 .registerEvent(VehicleEnterEvent.class, "(?:on )?(?:vehicle enter|enter(?:ing)?(?: a)? vehicle)")
                 .registerEvent(VehicleExitEvent.class, "(?:on )?(?:vehicle exit|exit(?:ing)?(?: a)? vehicle)")
                 .registerEvent(WorldInitEvent.class, "(?:on )?world init(?:ialization)?")
+                .registerEvent(WorldLoadEvent.class, "(?:on )?world load(?:ing)?")
         );
 
         registerEvent(new ComplexEventProxyFactory()
