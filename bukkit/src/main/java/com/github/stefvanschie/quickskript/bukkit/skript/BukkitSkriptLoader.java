@@ -289,6 +289,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                 .registerEvent(WorldInitEvent.class, "(?:on )?world init(?:ialization)?")
                 .registerEvent(WorldLoadEvent.class, "(?:on )?world load(?:ing)?")
                 .registerEvent(WorldSaveEvent.class, "(?:on )?world sav(?:e|ing)")
+                .registerEvent(WorldUnloadEvent.class, "(?:on )?world unload(?:ing)?")
         );
 
         registerEvent(new ComplexEventProxyFactory()
