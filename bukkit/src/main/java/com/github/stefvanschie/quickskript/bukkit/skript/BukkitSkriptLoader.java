@@ -231,7 +231,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                 .registerEvent(EntityRegainHealthEvent.class, "(?:on )?heal(?:ing)?")
                 .registerEvent(EntityResurrectEvent.class, "(?:on )?(?:entity )?resurrect(?:ion)?(?: attempt)?")
                 .registerEvent(EntityTameEvent.class, "(?:on )?(?:entity )?(?:tam(?:e|ing))")
-                .registerEvent(EntityTargetEvent.class, "(?:on )?(?:entity )?target")
+                .registerEvent(EntityTargetEvent.class, "(?:on )?(?:entity )?(?:un-?)?target")
                 .registerEvent(EntityToggleGlideEvent.class, "(?:on )?(?:toggle )?glid(?:e|ing)(?: state change)?")
                 .registerEvent(EntityToggleSwimEvent.class, "(?:on )?(?:entity )?(?:toggl(?:e|ing) swim|swim toggl(?:e|ing))")
                 .registerEvent(ExperienceOrbSpawnEvent.class, "(?:on )?(?:(?:e)?xp(?:erience)?(?: orb)? spawn|spawn of(?: a(?:n)?)? (?:e)?xp(?:erience)?(?: orb)?)")
