@@ -33,7 +33,17 @@ public class SimpleEventProxyFactory extends EventProxyFactory {
      */
     @NotNull
     private static final EventExecutor HANDLER_EXECUTOR = (listener, event) -> {
-        List<SkriptEventExecutor> handlers = REGISTERED_HANDLERS.get(event.getClass());
+        Class<?> clazz = event.getClass();
+        List<SkriptEventExecutor> handlers = null;
+
+        while (handlers == null) {
+            handlers = REGISTERED_HANDLERS.get(clazz);
+            clazz = event.getClass().getSuperclass();
+
+            if (clazz == null) {
+                break;
+            }
+        }
 
         //yes this can be null, thank Bukkit for that
         if (handlers != null) {
