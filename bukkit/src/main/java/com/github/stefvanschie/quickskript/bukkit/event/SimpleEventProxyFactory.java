@@ -38,7 +38,9 @@ public class SimpleEventProxyFactory extends EventProxyFactory {
 
         while (handlers == null) {
             handlers = REGISTERED_HANDLERS.get(clazz);
-            clazz = event.getClass().getSuperclass();
+            clazz = clazz.getSuperclass();
+
+            System.out.println(clazz != null ? clazz.getCanonicalName() : "null");
 
             if (clazz == null) {
                 break;

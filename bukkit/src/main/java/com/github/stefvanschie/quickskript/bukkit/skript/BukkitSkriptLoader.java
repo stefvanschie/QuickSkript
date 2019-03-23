@@ -224,6 +224,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                 .registerEvent(ChunkPopulateEvent.class, "(?:on )?chunk (?:generat|populat)(?:e|ing)")
                 .registerEvent(ChunkUnloadEvent.class, "(?:on )?chunk unload(?:ing)?")
                 .registerEvent(CreeperPowerEvent.class, "(?:on )?creeper power")
+                .registerEvent(EntityBreakDoorEvent.class, "(?:on )?zombie break(?:ing)?(?: a)?( wood(?:en)?)? door")
                 .registerEvent(EntityCombustEvent.class, "(?:on )?combust(?:ing)?")
                 .registerEvent("org.spigotmc.event.entity.EntityDismountEvent", "(?:on )?dismount(?:ing)?", Platform.SPIGOT)
                 .registerEvent(EntityExplodeEvent.class, "(?:on )?explo(?:(?:d(?:e|ing))|(?:sion))")
