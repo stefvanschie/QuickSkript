@@ -51,10 +51,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.ServerListPingEvent;
-import org.bukkit.event.vehicle.VehicleCreateEvent;
-import org.bukkit.event.vehicle.VehicleDamageEvent;
-import org.bukkit.event.vehicle.VehicleDestroyEvent;
-import org.bukkit.event.vehicle.VehicleEnterEvent;
+import org.bukkit.event.vehicle.*;
 import org.bukkit.event.weather.LightningStrikeEvent;
 import org.bukkit.event.world.*;
 import org.bukkit.plugin.Plugin;
@@ -288,6 +285,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                 .registerEvent(VehicleDamageEvent.class, "(?:on )?(?:vehicle damage|damag(?:e|ing)(?: a)? vehicle)")
                 .registerEvent(VehicleDestroyEvent.class, "(?:on )?(?:vehicle destroy|destr(?:oy(?:ing)?|uction of)(?: a)? vehicle)")
                 .registerEvent(VehicleEnterEvent.class, "(?:on )?(?:vehicle enter|enter(?:ing)?(?: a)? vehicle)")
+                .registerEvent(VehicleExitEvent.class, "(?:on )?(?:vehicle exit|exit(?:ing)?(?: a)? vehicle)")
         );
 
         registerEvent(new ComplexEventProxyFactory()
