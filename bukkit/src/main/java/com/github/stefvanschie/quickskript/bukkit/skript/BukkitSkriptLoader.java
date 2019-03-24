@@ -5,6 +5,7 @@ import com.github.stefvanschie.quickskript.bukkit.QuickSkript;
 import com.github.stefvanschie.quickskript.bukkit.event.ComplexEventProxyFactory;
 import com.github.stefvanschie.quickskript.bukkit.event.EventProxyFactory;
 import com.github.stefvanschie.quickskript.bukkit.event.SimpleEventProxyFactory;
+import com.github.stefvanschie.quickskript.bukkit.psi.condition.PsiCanFlyConditionImpl;
 import com.github.stefvanschie.quickskript.bukkit.psi.condition.PsiHasPermissionConditionImpl;
 import com.github.stefvanschie.quickskript.bukkit.psi.effect.PsiCancelEventEffectImpl;
 import com.github.stefvanschie.quickskript.bukkit.psi.effect.PsiExplosionEffectImpl;
@@ -142,6 +143,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiStringLiteral.Factory());
 
         //conditions
+        registerElement(new PsiCanFlyConditionImpl.Factory());
         registerElement(new PsiHasPermissionConditionImpl.Factory());
         registerElement(new PsiIsCondition.Factory());
 
