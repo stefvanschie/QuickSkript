@@ -23,6 +23,7 @@ import com.github.stefvanschie.quickskript.bukkit.util.event.QuickSkriptPostEnab
 import com.github.stefvanschie.quickskript.core.file.SkriptFileLine;
 import com.github.stefvanschie.quickskript.core.file.SkriptFileNode;
 import com.github.stefvanschie.quickskript.core.file.SkriptFileSection;
+import com.github.stefvanschie.quickskript.core.psi.condition.PsiChanceCondition;
 import com.github.stefvanschie.quickskript.core.psi.condition.PsiIsCondition;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiParseExpression;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiRandomNumberExpression;
@@ -148,6 +149,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         //conditions
         registerElement(new PsiCanFlyConditionImpl.Factory());
         registerElement(new PsiCanSeeConditionImpl.Factory());
+        registerElement(new PsiChanceCondition.Factory());
         registerElement(new PsiHasPermissionConditionImpl.Factory());
         registerElement(new PsiIsCondition.Factory());
 

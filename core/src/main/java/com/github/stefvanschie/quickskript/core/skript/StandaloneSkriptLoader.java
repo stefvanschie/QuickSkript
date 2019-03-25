@@ -3,9 +3,7 @@ package com.github.stefvanschie.quickskript.core.skript;
 import com.github.stefvanschie.quickskript.core.context.CommandContext;
 import com.github.stefvanschie.quickskript.core.context.EventContext;
 import com.github.stefvanschie.quickskript.core.file.SkriptFileSection;
-import com.github.stefvanschie.quickskript.core.psi.condition.PsiCanFlyCondition;
-import com.github.stefvanschie.quickskript.core.psi.condition.PsiCanSeeCondition;
-import com.github.stefvanschie.quickskript.core.psi.condition.PsiIsCondition;
+import com.github.stefvanschie.quickskript.core.psi.condition.*;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiCancelEventEffect;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiExplosionEffect;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiMessageEffect;
@@ -15,7 +13,6 @@ import com.github.stefvanschie.quickskript.core.psi.expression.PsiParseExpressio
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiRandomNumberExpression;
 import com.github.stefvanschie.quickskript.core.psi.function.*;
 import com.github.stefvanschie.quickskript.core.psi.literal.PsiBooleanLiteral;
-import com.github.stefvanschie.quickskript.core.psi.condition.PsiHasPermissionCondition;
 import com.github.stefvanschie.quickskript.core.psi.literal.PsiNumberLiteral;
 import com.github.stefvanschie.quickskript.core.psi.literal.PsiPlayerLiteral;
 import com.github.stefvanschie.quickskript.core.psi.literal.PsiStringLiteral;
@@ -71,6 +68,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         //conditions
         registerElement(new PsiCanFlyCondition.Factory());
         registerElement(new PsiCanSeeCondition.Factory());
+        registerElement(new PsiChanceCondition.Factory());
         registerElement(new PsiHasPermissionCondition.Factory());
         registerElement(new PsiIsCondition.Factory());
 
