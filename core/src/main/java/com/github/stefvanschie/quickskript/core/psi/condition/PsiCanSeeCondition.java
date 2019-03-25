@@ -12,36 +12,36 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Checks if the specified player is able to fly. This cannot be pre computed, since this value may change during
- * game play.
+ * Checks whether a player can see another player. This cannot be pre computed, since this may change during game play.
  *
  * @since 0.1.0
  */
-public class PsiCanFlyCondition extends PsiElement<Boolean> {
+public class PsiCanSeeCondition extends PsiElement<Boolean> {
 
     /**
-     * The player to check if they can fly
+     * The player and the target player
      */
-    @NotNull
-    protected final PsiElement<?> player;
+    protected PsiElement<?> player, targetPlayer;
 
     /**
-     * If this value is true, the result of the computation will stay the same. Otherwise, the result will be inverted.
+     * If false, the result of this execution should be negated.
      */
-    protected final boolean positive;
+    protected boolean positive;
 
     /**
      * Creates a new element with the given line number
      *
-     * @param player the player to test for
-     * @param positive whether the result needs to be inverted or not, see {@link #positive}
+     * @param player the player
+     * @param targetPlayer the player to test against
+     * @param positive false if the result should be negated
      * @param lineNumber the line number this element is associated with
      * @since 0.1.0
      */
-    protected PsiCanFlyCondition(@NotNull PsiElement<?> player, boolean positive, int lineNumber) {
+    protected PsiCanSeeCondition(PsiElement<?> player, PsiElement<?> targetPlayer, boolean positive, int lineNumber) {
         super(lineNumber);
 
         this.player = player;
+        this.targetPlayer = targetPlayer;
         this.positive = positive;
     }
 
@@ -55,42 +55,47 @@ public class PsiCanFlyCondition extends PsiElement<Boolean> {
     }
 
     /**
-     * A factory for creating {@link PsiCanFlyCondition}s.
+     * A factory for creating {@link PsiCanSeeCondition}s
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiCanFlyCondition> {
+    public static class Factory implements PsiElementFactory<PsiCanSeeCondition> {
 
         /**
-         * The pattern for matching positive can fly conditions
+         * A pattern for matching positive can see conditions
          */
-        private final Pattern positivePattern = Pattern.compile("([\\s\\S]+) can fly");
+        private final Pattern positivePattern = Pattern.compile("([\\s\\S]+) (?:(?:is|are) visible for|(?:is|are)(?:n't| not) invisible for|can see) ([\\s\\S]+)");
 
         /**
-         * The pattern for matching negative can fly conditions
+         * A pattern for matching negative can see conditions
          */
-        private final Pattern negativePattern = Pattern.compile("([\\s\\S]+) (?:can't|cannot|can not) fly");
+        private final Pattern negativePattern = Pattern.compile("([\\s\\S]+) (?:(?:is|are) invisible for|(?:is|are)(?:n't| not) visible for|can(?:'t| not) see) ([\\s\\S]+)");
 
         /**
          * {@inheritDoc}
          */
         @Nullable
+        @Contract(pure = true)
         @Override
-        public PsiCanFlyCondition tryParse(@NotNull String text, int lineNumber) {
+        public PsiCanSeeCondition tryParse(@NotNull String text, int lineNumber) {
             Matcher positiveMatcher = positivePattern.matcher(text);
+
+            System.out.println(text);
 
             if (positiveMatcher.matches()) {
                 PsiElement<?> player = SkriptLoader.get().forceParseElement(positiveMatcher.group(1), lineNumber);
+                PsiElement<?> targetPlayer = SkriptLoader.get().forceParseElement(positiveMatcher.group(2), lineNumber);
 
-                return create(player, true, lineNumber);
+                return create(player, targetPlayer, true, lineNumber);
             }
 
             Matcher negativeMatcher = negativePattern.matcher(text);
 
             if (negativeMatcher.matches()) {
                 PsiElement<?> player = SkriptLoader.get().forceParseElement(negativeMatcher.group(1), lineNumber);
+                PsiElement<?> targetPlayer = SkriptLoader.get().forceParseElement(negativeMatcher.group(2), lineNumber);
 
-                return create(player, false, lineNumber);
+                return create(player, targetPlayer, false, lineNumber);
             }
 
             return null;
@@ -101,16 +106,18 @@ public class PsiCanFlyCondition extends PsiElement<Boolean> {
          * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
          * method.
          *
-         * @param player the player to test for
-         * @param positive false if the result of the execution should be negated, true otherwise
+         * @param player the player
+         * @param targetPlayer the player to test against
+         * @param positive false if the result should be negated
          * @param lineNumber the line number
-         * @return the condition
+         * @return the can see condition
          * @since 0.1.0
          */
         @NotNull
         @Contract(pure = true)
-        protected PsiCanFlyCondition create(@NotNull PsiElement<?> player, boolean positive, int lineNumber) {
-            return new PsiCanFlyCondition(player, positive, lineNumber);
+        public PsiCanSeeCondition create(PsiElement<?> player, PsiElement<?> targetPlayer, boolean positive,
+                                         int lineNumber) {
+            return new PsiCanSeeCondition(player, targetPlayer, positive, lineNumber);
         }
     }
 }

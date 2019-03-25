@@ -8,6 +8,12 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Checks if the specified player is able to fly. This cannot be pre computed, since this value may change during
+ * game play.
+ *
+ * @since 0.1.0
+ */
 public class PsiCanFlyConditionImpl extends PsiCanFlyCondition {
 
     /**
@@ -29,7 +35,7 @@ public class PsiCanFlyConditionImpl extends PsiCanFlyCondition {
     @Contract(pure = true)
     @Override
     protected Boolean executeImpl(@Nullable Context context) {
-        return player.execute(context, Player.class).getAllowFlight();
+        return positive == player.execute(context, Player.class).getAllowFlight();
     }
 
     /**

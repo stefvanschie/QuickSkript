@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.context.CommandContext;
 import com.github.stefvanschie.quickskript.core.context.EventContext;
 import com.github.stefvanschie.quickskript.core.file.SkriptFileSection;
 import com.github.stefvanschie.quickskript.core.psi.condition.PsiCanFlyCondition;
+import com.github.stefvanschie.quickskript.core.psi.condition.PsiCanSeeCondition;
 import com.github.stefvanschie.quickskript.core.psi.condition.PsiIsCondition;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiCancelEventEffect;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiExplosionEffect;
@@ -65,14 +66,16 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         //this one is here, because it has special identifiers around it
         registerElement(new PsiStringLiteral.Factory());
 
+        registerElement(new PsiParseExpression.Factory());
+
         //conditions
         registerElement(new PsiCanFlyCondition.Factory());
+        registerElement(new PsiCanSeeCondition.Factory());
         registerElement(new PsiHasPermissionCondition.Factory());
         registerElement(new PsiIsCondition.Factory());
 
         //expressions
         registerElement(new PsiConsoleSenderExpression.Factory());
-        registerElement(new PsiParseExpression.Factory());
         registerElement(new PsiRandomNumberExpression.Factory());
 
         //functions
