@@ -1,0 +1,65 @@
+package com.github.stefvanschie.quickskript.bukkit.psi.condition;
+
+import com.github.stefvanschie.quickskript.bukkit.context.EventContextImpl;
+import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.context.EventContext;
+import com.github.stefvanschie.quickskript.core.psi.condition.PsiEventCancelledCondition;
+import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
+import org.bukkit.event.Cancellable;
+import org.bukkit.event.Event;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+public class PsiEventCancelledConditionImpl extends PsiEventCancelledCondition {
+
+    /**
+     * Creates a new element with the given line number
+     *
+     * @param positive   if false, the result of execution will be inverted
+     * @param lineNumber the line number this element is associated with
+     * @since 0.1.0
+     */
+    private PsiEventCancelledConditionImpl(boolean positive, int lineNumber) {
+        super(positive, lineNumber);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @NotNull
+    @Contract(pure = true)
+    @Override
+    protected Boolean executeImpl(@Nullable Context context) {
+        if (!(context instanceof EventContext)) {
+            throw new ExecutionException("Can't check whether the event was cancelled, since there is no event",
+                lineNumber);
+        }
+
+        Event event = ((EventContextImpl) context).getEvent();
+
+        if (!(event instanceof Cancellable)) {
+            return false;
+        }
+
+        return positive == ((Cancellable) event).isCancelled();
+    }
+
+    /**
+     * A factory for creating {@link PsiEventCancelledConditionImpl}s
+     *
+     * @since 0.1.0
+     */
+    public static class Factory extends PsiEventCancelledCondition.Factory {
+
+        /**
+         * {@inheritDoc}
+         */
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public PsiEventCancelledCondition create(boolean positive, int lineNumber) {
+            return new PsiEventCancelledConditionImpl(positive, lineNumber);
+        }
+    }
+}

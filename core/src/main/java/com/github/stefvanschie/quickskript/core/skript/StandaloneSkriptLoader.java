@@ -69,6 +69,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiCanFlyCondition.Factory());
         registerElement(new PsiCanSeeCondition.Factory());
         registerElement(new PsiChanceCondition.Factory());
+        registerElement(new PsiEventCancelledCondition.Factory());
         registerElement(new PsiHasPermissionCondition.Factory());
         registerElement(new PsiIsCondition.Factory());
 
