@@ -40,6 +40,11 @@ public class PsiExistsCondition extends PsiElement<Boolean> {
 
         this.object = object;
         this.positive = positive;
+
+        if (object.isPreComputed()) {
+            preComputed = executeImpl(null);
+            this.object = null;
+        }
     }
 
     /**

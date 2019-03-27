@@ -11,6 +11,12 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * A condition to check whether or not the event has been cancelled. This cannot be pre computed, since it is dependent
+ * on {@link Context}.
+ *
+ * @since 0.1.0
+ */
 public class PsiEventCancelledConditionImpl extends PsiEventCancelledCondition {
 
     /**

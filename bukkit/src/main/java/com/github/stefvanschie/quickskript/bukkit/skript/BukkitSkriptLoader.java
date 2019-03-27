@@ -5,10 +5,7 @@ import com.github.stefvanschie.quickskript.bukkit.QuickSkript;
 import com.github.stefvanschie.quickskript.bukkit.event.ComplexEventProxyFactory;
 import com.github.stefvanschie.quickskript.bukkit.event.EventProxyFactory;
 import com.github.stefvanschie.quickskript.bukkit.event.SimpleEventProxyFactory;
-import com.github.stefvanschie.quickskript.bukkit.psi.condition.PsiCanFlyConditionImpl;
-import com.github.stefvanschie.quickskript.bukkit.psi.condition.PsiCanSeeConditionImpl;
-import com.github.stefvanschie.quickskript.bukkit.psi.condition.PsiEventCancelledConditionImpl;
-import com.github.stefvanschie.quickskript.bukkit.psi.condition.PsiHasPermissionConditionImpl;
+import com.github.stefvanschie.quickskript.bukkit.psi.condition.*;
 import com.github.stefvanschie.quickskript.bukkit.psi.effect.PsiCancelEventEffectImpl;
 import com.github.stefvanschie.quickskript.bukkit.psi.effect.PsiExplosionEffectImpl;
 import com.github.stefvanschie.quickskript.bukkit.psi.effect.PsiMessageEffectImpl;
@@ -154,6 +151,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiChanceCondition.Factory());
         registerElement(new PsiEventCancelledConditionImpl.Factory());
         registerElement(new PsiExistsCondition.Factory());
+        registerElement(new PsiHasClientWeatherConditionImpl.Factory());
         registerElement(new PsiHasPermissionConditionImpl.Factory());
         registerElement(new PsiIsCondition.Factory());
 
