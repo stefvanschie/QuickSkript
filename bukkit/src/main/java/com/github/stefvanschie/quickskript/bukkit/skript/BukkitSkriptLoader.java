@@ -153,6 +153,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiHasPermissionConditionImpl.Factory());
         registerElement(new PsiHasPlayedBeforeConditionImpl.Factory());
         registerElement(new PsiHasScoreboardTagConditionImpl.Factory());
+        registerElement(new PsiIsAliveConditionImpl.Factory());
         registerElement(new PsiIsCondition.Factory());
 
         //expressions
