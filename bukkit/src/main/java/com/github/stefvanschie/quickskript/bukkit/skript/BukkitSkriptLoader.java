@@ -21,10 +21,7 @@ import com.github.stefvanschie.quickskript.bukkit.util.event.QuickSkriptPostEnab
 import com.github.stefvanschie.quickskript.core.file.SkriptFileLine;
 import com.github.stefvanschie.quickskript.core.file.SkriptFileNode;
 import com.github.stefvanschie.quickskript.core.file.SkriptFileSection;
-import com.github.stefvanschie.quickskript.core.psi.condition.PsiChanceCondition;
-import com.github.stefvanschie.quickskript.core.psi.condition.PsiExistsCondition;
-import com.github.stefvanschie.quickskript.core.psi.condition.PsiHasPlayedBeforeCondition;
-import com.github.stefvanschie.quickskript.core.psi.condition.PsiIsCondition;
+import com.github.stefvanschie.quickskript.core.psi.condition.*;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiParseExpression;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiRandomNumberExpression;
 import com.github.stefvanschie.quickskript.core.psi.function.*;
@@ -155,6 +152,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiHasClientWeatherConditionImpl.Factory());
         registerElement(new PsiHasPermissionConditionImpl.Factory());
         registerElement(new PsiHasPlayedBeforeConditionImpl.Factory());
+        registerElement(new PsiHasScoreboardTagConditionImpl.Factory());
         registerElement(new PsiIsCondition.Factory());
 
         //expressions

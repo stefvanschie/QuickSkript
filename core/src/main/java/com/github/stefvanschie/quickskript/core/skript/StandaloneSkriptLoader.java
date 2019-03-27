@@ -74,6 +74,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiHasClientWeatherCondition.Factory());
         registerElement(new PsiHasPermissionCondition.Factory());
         registerElement(new PsiHasPlayedBeforeCondition.Factory());
+        registerElement(new PsiHasScoreboardTagCondition.Factory());
         registerElement(new PsiIsCondition.Factory());
 
         //expressions

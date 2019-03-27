@@ -2,11 +2,8 @@ package com.github.stefvanschie.quickskript.bukkit.psi.condition;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
-import com.github.stefvanschie.quickskript.core.psi.condition.PsiHasPermissionCondition;
 import com.github.stefvanschie.quickskript.core.psi.condition.PsiHasPlayedBeforeCondition;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.permissions.Permissible;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
