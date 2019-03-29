@@ -33,25 +33,10 @@ public class SimpleEventProxyFactory extends EventProxyFactory {
      */
     @NotNull
     private static final EventExecutor HANDLER_EXECUTOR = (listener, event) -> {
-        Class<?> clazz = event.getClass();
-        List<SkriptEventExecutor> handlers = null;
-
-        while (handlers == null) {
-            handlers = REGISTERED_HANDLERS.get(clazz);
-            clazz = clazz.getSuperclass();
-
-            if (clazz == null) {
-                break;
-            }
-        }
-
-        //yes this can be null, thank Bukkit for that
-        if (handlers != null) {
-            handlers.forEach(handler -> handler.execute(event));
-            return;
-        }
-
-        //and we can thank Paper for this
+        /*
+        Paper has a custom implementation of the PaperServerListPingEvent which will be returned in here, so we need to
+        accommodate for that.
+         */
         if (event.getClass().getCanonicalName()
             .equals("com.destroystokyo.paper.network.StandardPaperServerListPingEventImpl")) {
             for (Map.Entry<Class<? extends Event>, List<SkriptEventExecutor>> entry : REGISTERED_HANDLERS.entrySet()) {
@@ -64,6 +49,23 @@ public class SimpleEventProxyFactory extends EventProxyFactory {
                 break;
             }
         }
+
+        /*
+        Bukkit on the other hand may register multiple events to the same handler, causing issues. This ensures that
+        every type and parent of an event is properly called.
+         */
+
+        Class<?> clazz = event.getClass();
+
+        do {
+            List<SkriptEventExecutor> handlers = REGISTERED_HANDLERS.get(clazz);
+
+            if (handlers != null) {
+                handlers.forEach(handler -> handler.execute(event));
+            }
+
+            clazz = clazz.getSuperclass();
+        } while (clazz != null);
 
         //Which other surprises will be found in the event system? Find out the next time this file gets changed.
     };
