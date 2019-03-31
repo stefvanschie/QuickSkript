@@ -65,6 +65,7 @@ public class PsiChanceCondition extends PsiElement<Boolean> {
         /**
          * The pattern for matching {@link PsiChanceCondition}s
          */
+        @NotNull
         private final Pattern pattern = Pattern.compile("chance of ([\\s\\S]+?)(%)?$");
 
         /**

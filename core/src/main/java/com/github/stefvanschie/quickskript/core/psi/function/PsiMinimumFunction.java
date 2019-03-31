@@ -79,6 +79,7 @@ public class PsiMinimumFunction extends PsiElement<Double> {
         /**
          * The pattern for matching minimum expressions
          */
+        @NotNull
         private final Pattern pattern = Pattern.compile("min\\(([\\s\\S]+)\\)");
 
         /**

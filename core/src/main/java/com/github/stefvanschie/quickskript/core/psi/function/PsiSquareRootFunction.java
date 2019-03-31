@@ -59,6 +59,7 @@ public class PsiSquareRootFunction extends PsiElement<Double> {
         /**
          * The pattern for matching square root function expressions
          */
+        @NotNull
         private final Pattern pattern = Pattern.compile("sqrt\\(([\\s\\S]+)\\)");
 
         /**

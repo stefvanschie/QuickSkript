@@ -45,6 +45,7 @@ public class PsiConsoleSenderExpression extends PsiElement<Object> {
         /**
          * The pattern to parse console sender expressions with
          */
+        @NotNull
         private final Pattern pattern = Pattern.compile("(?:the )?(?:(?:console)|(?:server))");
 
         /**

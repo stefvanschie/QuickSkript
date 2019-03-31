@@ -59,6 +59,7 @@ public class PsiSineFunction extends PsiElement<Double> {
         /**
          * The pattern for matching sine function expressions
          */
+        @NotNull
         private final Pattern pattern = Pattern.compile("sin\\(([\\s\\S]+)\\)");
 
         /**

@@ -64,12 +64,14 @@ public class PsiIsAliveCondition extends PsiElement<Boolean> {
         /**
          * The pattern for matching positive is alive conditions
          */
+        @NotNull
         private final Pattern positivePattern =
             Pattern.compile("([\\s\\S]+) (?:(?:is|are) alive|(?:isn't|is not|aren't|are not) dead)");
 
         /**
          * The pattern for matching negative is alive conditions
          */
+        @NotNull
         private final Pattern negativePattern =
             Pattern.compile("([\\s\\S]+) (?:(?:is|are) dead|(?:isn't|is not|aren't|are not) alive)");
 

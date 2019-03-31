@@ -59,6 +59,7 @@ public class PsiTangentFunction extends PsiElement<Double> {
         /**
          * The pattern for matching tangent function expressions
          */
+        @NotNull
         private final Pattern pattern = Pattern.compile("tan\\(([\\s\\S]+)\\)");
 
         /**

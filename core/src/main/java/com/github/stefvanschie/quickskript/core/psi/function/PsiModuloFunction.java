@@ -61,6 +61,7 @@ public class PsiModuloFunction extends PsiElement<Double> {
         /**
          * The pattern for matching modulo expressions
          */
+        @NotNull
         private final Pattern pattern = Pattern.compile("mod\\(([\\s\\S]+)\\)");
 
         /**

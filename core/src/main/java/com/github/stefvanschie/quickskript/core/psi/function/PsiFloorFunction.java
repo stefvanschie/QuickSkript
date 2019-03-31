@@ -59,6 +59,7 @@ public class PsiFloorFunction extends PsiElement<Double> {
         /**
          * The pattern for matching floor expressions
          */
+        @NotNull
         private final Pattern pattern = Pattern.compile("floor\\(([\\s\\S]+)\\)");
 
         /**

@@ -63,12 +63,16 @@ public class PsiHasClientWeatherCondition extends PsiElement<Boolean> {
         /**
          * The pattern for matching positive {@link PsiHasClientWeatherCondition}s
          */
-        private final Pattern positivePattern = Pattern.compile("([\\s\\S]+) (?:has|have) (?:a )?(?:client|custom) weather(?: set)?");
+        @NotNull
+        private final Pattern positivePattern =
+            Pattern.compile("([\\s\\S]+) (?:has|have) (?:a )?(?:client|custom) weather(?: set)?");
 
         /**
          * The pattern for matching negative {@link PsiHasClientWeatherCondition}s
          */
-        private final Pattern negativePattern = Pattern.compile("([\\s\\S]+) (?:doesn't|does not|do not|don't) have (?:a )?(?:client|custom) weather(?: set)?");
+        @NotNull
+        private final Pattern negativePattern = Pattern
+            .compile("([\\s\\S]+) (?:doesn't|does not|do not|don't) have (?:a )?(?:client|custom) weather(?: set)?");
 
         /**
          * {@inheritDoc}

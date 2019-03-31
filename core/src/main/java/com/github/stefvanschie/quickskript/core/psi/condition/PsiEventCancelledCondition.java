@@ -55,6 +55,7 @@ public class PsiEventCancelledCondition extends PsiElement<Boolean> {
         /**
          * The pattern used for matching {@link PsiEventCancelledCondition}s
          */
+        @NotNull
         private Pattern pattern = Pattern.compile("(?:the )?event is( not|n't)? cancell?ed");
 
         /**

@@ -63,6 +63,7 @@ public class PsiVectorFunction extends PsiElement<Object> {
         /**
          * The pattern for matching vector expressions
          */
+        @NotNull
         private final Pattern pattern = Pattern.compile("vector\\(([\\s\\S]+)\\)");
 
         /**

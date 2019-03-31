@@ -73,9 +73,14 @@ public class PsiHasScoreboardTagCondition extends PsiElement<Boolean> {
         /**
          * The pattern for matching positive psi has scoreboard tags
          */
+        @NotNull
         private Pattern positivePattern = Pattern
             .compile("([\\s\\S]+) (?:has|have)(?: the)? score ?board tags? ([\\s\\S]+)");
 
+        /**
+         * The pattern for matching negative psi has scoreboard tags
+         */
+        @NotNull
         private Pattern negativePattern = Pattern
             .compile("([\\s\\S]+) (?:doesn't|does not|do not|don't) have(?: the)? score ?board tags? ([\\s\\S]+)");
 

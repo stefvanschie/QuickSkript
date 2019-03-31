@@ -64,11 +64,13 @@ public class PsiCanFlyCondition extends PsiElement<Boolean> {
         /**
          * The pattern for matching positive can fly conditions
          */
+        @NotNull
         private final Pattern positivePattern = Pattern.compile("([\\s\\S]+) can fly");
 
         /**
          * The pattern for matching negative can fly conditions
          */
+        @NotNull
         private final Pattern negativePattern = Pattern.compile("([\\s\\S]+) (?:can't|cannot|can not) fly");
 
         /**

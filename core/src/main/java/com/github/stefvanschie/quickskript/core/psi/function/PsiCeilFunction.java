@@ -59,6 +59,7 @@ public class PsiCeilFunction extends PsiElement<Double> {
         /**
          * The pattern for matching ceil expressions
          */
+        @NotNull
         private final Pattern pattern = Pattern.compile("ceil(?:ing)?\\(([\\s\\S]+)\\)");
 
         /**

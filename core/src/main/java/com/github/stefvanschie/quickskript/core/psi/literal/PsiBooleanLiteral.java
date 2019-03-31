@@ -35,12 +35,14 @@ public class PsiBooleanLiteral extends PsiPrecomputedHolder<Boolean> {
         /**
          * A pattern for matching truthy values
          */
-        private static final Pattern TRUE_PATTERN = Pattern.compile("(?:true)|(?:yes)|(?:on)");
+        @NotNull
+        private final Pattern truePattern = Pattern.compile("(?:true)|(?:yes)|(?:on)");
 
         /**
          * A pattern for matching falsy values
          */
-        private static final Pattern FALSE_PATTERN = Pattern.compile("(?:false)|(?:no)|(?:off)");
+        @NotNull
+        private final Pattern falsePattern = Pattern.compile("(?:false)|(?:no)|(?:off)");
 
         /**
          * {@inheritDoc}
@@ -48,9 +50,9 @@ public class PsiBooleanLiteral extends PsiPrecomputedHolder<Boolean> {
         @Nullable
         @Override
         public PsiBooleanLiteral tryParse(@NotNull String text, int lineNumber) {
-            if (TRUE_PATTERN.matcher(text).matches()) {
+            if (truePattern.matcher(text).matches()) {
                 return create(true, lineNumber);
-            } else if (FALSE_PATTERN.matcher(text).matches()) {
+            } else if (falsePattern.matcher(text).matches()) {
                 return create(false, lineNumber);
             }
 

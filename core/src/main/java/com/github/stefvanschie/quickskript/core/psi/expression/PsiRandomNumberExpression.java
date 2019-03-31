@@ -80,12 +80,16 @@ public class PsiRandomNumberExpression extends PsiElement<Number> {
         /**
          * The pattern for matching random number expressions with integer values
          */
-        private final Pattern integerPattern = Pattern.compile("(a )?random integer (from|between) (-?\\d+) (to|and) (-?\\d+)");
+        @NotNull
+        private final Pattern integerPattern =
+            Pattern.compile("(a )?random integer (from|between) (-?\\d+) (to|and) (-?\\d+)");
 
         /**
          * The pattern for matching random number expressions with floating point values
          */
-        private final Pattern numberPattern = Pattern.compile("(a )?random number (from|between) (-?\\d+(?:.\\d+)?) (to|and) (-?\\d+(?:.\\d+)?)");
+        @NotNull
+        private final Pattern numberPattern =
+            Pattern.compile("(a )?random number (from|between) (-?\\d+(?:.\\d+)?) (to|and) (-?\\d+(?:.\\d+)?)");
 
         /**
          * {@inheritDoc}

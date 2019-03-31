@@ -75,6 +75,7 @@ public class PsiProductFunction extends PsiElement<Double> {
         /**
          * The pattern for matching product expressions
          */
+        @NotNull
         private final Pattern pattern = Pattern.compile("product\\(([\\s\\S]+)\\)");
 
         /**

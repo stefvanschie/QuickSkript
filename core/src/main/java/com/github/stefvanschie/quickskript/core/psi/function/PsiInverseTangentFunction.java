@@ -59,6 +59,7 @@ public class PsiInverseTangentFunction extends PsiElement<Double> {
         /**
          * The pattern for matching inverse tangent function expressions
          */
+        @NotNull
         private final Pattern pattern = Pattern.compile("atan\\(([\\s\\S]+)\\)");
 
         /**

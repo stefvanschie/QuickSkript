@@ -81,6 +81,7 @@ public class PsiLocationFunction extends PsiElement<Object> {
         /**
          * The pattern for matching location expressions
          */
+        @NotNull
         private final Pattern pattern = Pattern.compile("location\\(((?:[\\s\\S]+,[ ]*)+[\\s\\S]+)\\)");
 
         /**

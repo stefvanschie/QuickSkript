@@ -75,6 +75,7 @@ public class PsiSumFunction extends PsiElement<Double> {
         /**
          * The pattern for matching sum expressions
          */
+        @NotNull
         private final Pattern pattern = Pattern.compile("sum\\(([\\s\\S]+)\\)");
 
         /**

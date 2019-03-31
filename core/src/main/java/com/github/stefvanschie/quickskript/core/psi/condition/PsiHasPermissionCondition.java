@@ -72,6 +72,7 @@ public class PsiHasPermissionCondition extends PsiElement<Boolean> {
         /**
          * The pattern to match has permission conditions with
          */
+        @NotNull
         private final Pattern pattern = Pattern
             .compile("([\\s\\S]+?) ((?:do(?:es)?n't|do(?:es)? not) )?ha(?:ve|s) (?:the )?permissions? ([\\s\\S]+)");
 

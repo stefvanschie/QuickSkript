@@ -73,6 +73,7 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
         /**
          * The pattern for matching logarithm expressions
          */
+        @NotNull
         private final Pattern pattern = Pattern.compile("log\\(([\\s\\S]+)\\)");
 
         /**

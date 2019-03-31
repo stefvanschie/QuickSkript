@@ -89,6 +89,7 @@ public class PsiIf extends PsiSection {
         /**
          * The pattern to parse if sections with.
          */
+        @NotNull
         private final Pattern pattern = Pattern.compile("if ([\\s\\S]+)");
 
         /**

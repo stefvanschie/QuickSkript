@@ -83,6 +83,7 @@ public class PsiParseExpression extends PsiElement<Object> {
         /**
          * The pattern to match parse expressions with
          */
+        @NotNull
         private final Pattern pattern = Pattern.compile("([\\s\\S]+) parsed as ([\\s\\S]+)");
 
         /**

@@ -42,6 +42,7 @@ public class PsiPlayerLiteral extends PsiElement<Object> {
         /**
          * The pattern to parse player literals with
          */
+        @NotNull
         private final Pattern pattern = Pattern.compile("(?:the )?player");
 
         /**

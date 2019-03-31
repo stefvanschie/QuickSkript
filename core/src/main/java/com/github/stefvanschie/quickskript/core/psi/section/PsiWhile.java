@@ -65,6 +65,7 @@ public class PsiWhile extends PsiSection {
         /**
          * The pattern to parse while sections with.
          */
+        @NotNull
         private final Pattern pattern = Pattern.compile("while ([\\s\\S]+)");
 
         /**

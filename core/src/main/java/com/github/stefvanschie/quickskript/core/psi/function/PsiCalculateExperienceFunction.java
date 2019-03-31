@@ -72,6 +72,7 @@ public class PsiCalculateExperienceFunction extends PsiElement<Long> {
         /**
          * The pattern for matching calculate experience expressions
          */
+        @NotNull
         private final Pattern pattern = Pattern.compile("calcExperience\\(([\\s\\S]+)\\)");
 
         /**

@@ -59,6 +59,10 @@ public class PsiExplosionEffect extends PsiElement<Void> {
      */
     public static class Factory implements PsiElementFactory<PsiExplosionEffect> {
 
+        /**
+         * The pattern for matching psi explosion effects
+         */
+        @NotNull
         private final Pattern pattern = Pattern.compile(
             "(?:(?:create|make) )?(?:an? )?(safe )?explosion (?:of|with) (?:force|strength|power) ([\\s\\S]+)"
         );

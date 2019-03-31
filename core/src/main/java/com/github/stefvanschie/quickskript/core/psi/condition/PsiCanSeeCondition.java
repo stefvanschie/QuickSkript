@@ -64,12 +64,17 @@ public class PsiCanSeeCondition extends PsiElement<Boolean> {
         /**
          * A pattern for matching positive can see conditions
          */
-        private final Pattern positivePattern = Pattern.compile("([\\s\\S]+) (?:(?:is|are) visible for|(?:is|are)(?:n't| not) invisible for|can see) ([\\s\\S]+)");
+        @NotNull
+        private final Pattern positivePattern = Pattern
+            .compile("([\\s\\S]+) (?:(?:is|are) visible for|(?:is|are)(?:n't| not) invisible for|can see) ([\\s\\S]+)");
 
         /**
          * A pattern for matching negative can see conditions
          */
-        private final Pattern negativePattern = Pattern.compile("([\\s\\S]+) (?:(?:is|are) invisible for|(?:is|are)(?:n't| not) visible for|can(?:'t| not) see) ([\\s\\S]+)");
+        @NotNull
+        private final Pattern negativePattern = Pattern.compile(
+            "([\\s\\S]+) (?:(?:is|are) invisible for|(?:is|are)(?:n't| not) visible for|can(?:'t| not) see) ([\\s\\S]+)"
+        );
 
         /**
          * {@inheritDoc}

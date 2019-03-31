@@ -63,6 +63,7 @@ public class PsiHasPlayedBeforeCondition extends PsiElement<Boolean> {
         /**
          * The pattern to match positive has played before conditions
          */
+        @NotNull
         private final Pattern positivePattern = Pattern.compile(
             "([\\s\\S]+?) (?:(?:has|did) )?(?:already )?play(?:ed)? (?:on (?:this|the) server )?(?:before|already)"
         );
@@ -70,6 +71,7 @@ public class PsiHasPlayedBeforeCondition extends PsiElement<Boolean> {
         /**
          * The pattern to match negative has played before conditions
          */
+        @NotNull
         private final Pattern negativePattern = Pattern.compile(
             "([\\s\\S]+) (?:has not|hasn't|did not|didn't) (?:(?:already|yet) )?play(?:ed)? (?:on (?:this|the) server )?(?:before|already|yet)"
         );

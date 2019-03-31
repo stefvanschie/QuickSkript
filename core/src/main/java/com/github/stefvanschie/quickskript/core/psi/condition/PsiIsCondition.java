@@ -76,12 +76,14 @@ public class PsiIsCondition extends PsiElement<Boolean> {
         /**
          * A pattern for matching positive elements
          */
+        @NotNull
         private static final Pattern POSITIVE_PATTERN =
             Pattern.compile("([\\s\\S]+) (?:(?:is)|(?:are)|(?:=)) (?:(?:equal to)|(?:the same as) )?([\\s\\S]+)");
 
         /**
          * A pattern for matching negative elements
          */
+        @NotNull
         private static final Pattern NEGATIVE_PATTERN = Pattern.compile(
             "([\\s\\S]+) (?:(?:(?:(?:is)|(?:are)) (?:(?:not)|(?:neither)))|(?:!=)|(?:isn't)|(?:aren't)) (?:(?:equal to)|(?:the same as) )?([\\s\\S]+)"
         );

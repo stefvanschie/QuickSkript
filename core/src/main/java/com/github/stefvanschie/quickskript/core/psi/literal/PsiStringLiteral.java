@@ -38,6 +38,7 @@ public class PsiStringLiteral extends PsiPrecomputedHolder<Text> {
         /**
          * A pattern for matching strings
          */
+        @NotNull
         private final Pattern pattern = Pattern.compile("\"([\\s\\S]+)\"");
 
         /**
