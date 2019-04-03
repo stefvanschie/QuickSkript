@@ -25,7 +25,7 @@ public class PsiIsPoisonedConditionImpl extends PsiIsPoisonedCondition {
      * @param lineNumber   the line number this element is associated with
      * @since 0.1.0
      */
-    protected PsiIsPoisonedConditionImpl(@NotNull PsiElement<?> livingEntity, boolean positive, int lineNumber) {
+    private PsiIsPoisonedConditionImpl(@NotNull PsiElement<?> livingEntity, boolean positive, int lineNumber) {
         super(livingEntity, positive, lineNumber);
     }
 
