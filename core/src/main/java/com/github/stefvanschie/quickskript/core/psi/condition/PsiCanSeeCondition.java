@@ -85,8 +85,6 @@ public class PsiCanSeeCondition extends PsiElement<Boolean> {
         public PsiCanSeeCondition tryParse(@NotNull String text, int lineNumber) {
             Matcher positiveMatcher = positivePattern.matcher(text);
 
-            System.out.println(text);
-
             if (positiveMatcher.matches()) {
                 PsiElement<?> player = SkriptLoader.get().forceParseElement(positiveMatcher.group(1), lineNumber);
                 PsiElement<?> targetPlayer = SkriptLoader.get().forceParseElement(positiveMatcher.group(2), lineNumber);
