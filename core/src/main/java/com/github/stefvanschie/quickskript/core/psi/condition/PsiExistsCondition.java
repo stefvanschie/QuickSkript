@@ -27,7 +27,7 @@ public class PsiExistsCondition extends PsiElement<Boolean> {
      * False is the result should be negated. Keep in mind that 'exists' implies 'not null', so if this is false, it's
      * being checked if it is null.
      */
-    private boolean positive;
+    private final boolean positive;
 
     /**
      * Creates a new element with the given line number
@@ -35,7 +35,7 @@ public class PsiExistsCondition extends PsiElement<Boolean> {
      * @param lineNumber the line number this element is associated with
      * @since 0.1.0
      */
-    protected PsiExistsCondition(PsiElement<?> object, boolean positive, int lineNumber) {
+    private PsiExistsCondition(@NotNull PsiElement<?> object, boolean positive, int lineNumber) {
         super(lineNumber);
 
         this.object = object;

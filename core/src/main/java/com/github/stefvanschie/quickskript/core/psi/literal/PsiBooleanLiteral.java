@@ -2,6 +2,7 @@ package com.github.stefvanschie.quickskript.core.psi.literal;
 
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,7 +22,7 @@ public class PsiBooleanLiteral extends PsiPrecomputedHolder<Boolean> {
      * @param lineNumber the line number of this element
      * @since 0.1.0
      */
-    protected PsiBooleanLiteral(boolean value, int lineNumber) {
+    private PsiBooleanLiteral(boolean value, int lineNumber) {
         super(value, lineNumber);
     }
 
@@ -48,6 +49,7 @@ public class PsiBooleanLiteral extends PsiPrecomputedHolder<Boolean> {
          * {@inheritDoc}
          */
         @Nullable
+        @Contract(pure = true)
         @Override
         public PsiBooleanLiteral tryParse(@NotNull String text, int lineNumber) {
             if (truePattern.matcher(text).matches()) {
@@ -70,6 +72,7 @@ public class PsiBooleanLiteral extends PsiPrecomputedHolder<Boolean> {
          * @since 0.1.0
          */
         @NotNull
+        @Contract(pure = true)
         protected PsiBooleanLiteral create(boolean value, int lineNumber) {
             return new PsiBooleanLiteral(value, lineNumber);
         }

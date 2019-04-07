@@ -5,6 +5,7 @@ import com.github.stefvanschie.quickskript.core.psi.PsiConverter;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -40,7 +41,7 @@ public class PsiParseExpression extends PsiElement<Object> {
      * @param lineNumber the line number
      * @since 0.1.0
      */
-    protected PsiParseExpression(@NotNull PsiElement<?> value, @NotNull PsiConverter<?> converter, int lineNumber) {
+    private PsiParseExpression(@NotNull PsiElement<?> value, @NotNull PsiConverter<?> converter, int lineNumber) {
         super(lineNumber);
 
         this.value = value;
@@ -90,6 +91,7 @@ public class PsiParseExpression extends PsiElement<Object> {
          * {@inheritDoc}
          */
         @Nullable
+        @Contract(pure = true)
         @Override
         public PsiParseExpression tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
@@ -121,7 +123,9 @@ public class PsiParseExpression extends PsiElement<Object> {
          * @since 0.1.0
          */
         @NotNull
-        protected PsiParseExpression create(PsiElement<?> value, PsiConverter<?> converter, int lineNumber) {
+        @Contract(pure = true)
+        protected PsiParseExpression create(@NotNull PsiElement<?> value, @NotNull PsiConverter<?> converter,
+                                            int lineNumber) {
             return new PsiParseExpression(value, converter, lineNumber);
         }
     }

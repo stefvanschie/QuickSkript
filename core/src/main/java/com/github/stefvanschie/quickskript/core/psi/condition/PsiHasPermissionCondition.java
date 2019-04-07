@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,11 +22,13 @@ public class PsiHasPermissionCondition extends PsiElement<Boolean> {
     /**
      * The player/console to check the {@link #permission} for
      */
+    @NotNull
     protected final PsiElement<?> permissible;
 
     /**
      * The permission to check for
      */
+    @NotNull
     protected final PsiElement<?> permission;
 
     /**
@@ -44,8 +47,8 @@ public class PsiHasPermissionCondition extends PsiElement<Boolean> {
      * @param lineNumber the line number this element is associated with
      * @since 0.1.0
      */
-    protected PsiHasPermissionCondition(PsiElement<?> permissible, PsiElement<?> permission, boolean positive,
-                                      int lineNumber) {
+    protected PsiHasPermissionCondition(@NotNull PsiElement<?> permissible, @NotNull PsiElement<?> permission,
+                                        boolean positive, int lineNumber) {
         super(lineNumber);
 
         this.permissible = permissible;
@@ -80,6 +83,7 @@ public class PsiHasPermissionCondition extends PsiElement<Boolean> {
          * {@inheritDoc}
          */
         @Nullable
+        @Contract(pure = true)
         @Override
         public PsiHasPermissionCondition tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
@@ -107,7 +111,9 @@ public class PsiHasPermissionCondition extends PsiElement<Boolean> {
          * @since 0.1.0
          */
         @NotNull
-        protected PsiHasPermissionCondition create(PsiElement<?> permissible, PsiElement<?> permission, boolean positive,
+        @Contract(pure = true)
+        protected PsiHasPermissionCondition create(@NotNull PsiElement<?> permissible,
+                                                   @NotNull PsiElement<?> permission, boolean positive,
                                                    int lineNumber) {
             return new PsiHasPermissionCondition(permissible, permission, positive, lineNumber);
         }

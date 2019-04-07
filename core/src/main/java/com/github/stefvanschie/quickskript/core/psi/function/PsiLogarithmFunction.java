@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,7 +37,7 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
      * @param lineNumber the line number
      * @since 0.1.0
      */
-    protected PsiLogarithmFunction(@NotNull PsiElement<?> value, @Nullable PsiElement<?> base, int lineNumber) {
+    private PsiLogarithmFunction(@NotNull PsiElement<?> value, @Nullable PsiElement<?> base, int lineNumber) {
         super(lineNumber);
 
         this.value = value;
@@ -80,6 +81,7 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
          * {@inheritDoc}
          */
         @Nullable
+        @Contract(pure = true)
         @Override
         public PsiLogarithmFunction tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
@@ -117,7 +119,9 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
          * @since 0.1.0
          */
         @NotNull
-        protected PsiLogarithmFunction create(PsiElement<?> value, PsiElement<?> base, int lineNumber) {
+        @Contract(pure = true)
+        protected PsiLogarithmFunction create(@NotNull PsiElement<?> value, @Nullable PsiElement<?> base,
+                                              int lineNumber) {
             return new PsiLogarithmFunction(value, base, lineNumber);
         }
     }

@@ -23,13 +23,13 @@ public class PsiHasScoreboardTagCondition extends PsiElement<Boolean> {
      * The entity to check the {@link #tag} for
      */
     @NotNull
-    protected PsiElement<?> entity;
+    protected final PsiElement<?> entity;
 
     /**
      * The tag we're looking for
      */
     @NotNull
-    protected PsiElement<?> tag;
+    protected final PsiElement<?> tag;
 
     /**
      * False if the result needs to be inverted

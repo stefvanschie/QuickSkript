@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,12 +21,12 @@ public class PsiIsCondition extends PsiElement<Boolean> {
     /**
      * The left and right side which will be used for comparison
      */
-    protected final PsiElement<?> leftSide, rightSide;
+    private PsiElement<?> leftSide, rightSide;
 
     /**
      * True if the result stays the same, false if it needs to be inverted
      */
-    protected final boolean positive;
+    private final boolean positive;
 
     /**
      * Creates a new element with the given line number
@@ -36,7 +37,8 @@ public class PsiIsCondition extends PsiElement<Boolean> {
      * @param lineNumber the line number this element is associated with
      * @since 0.1.0
      */
-    protected PsiIsCondition(PsiElement<?> leftSide, PsiElement<?> rightSide, boolean positive, int lineNumber) {
+    private PsiIsCondition(@NotNull PsiElement<?> leftSide, @NotNull PsiElement<?> rightSide, boolean positive,
+                           int lineNumber) {
         super(lineNumber);
 
         this.leftSide = leftSide;
@@ -45,6 +47,9 @@ public class PsiIsCondition extends PsiElement<Boolean> {
 
         if (this.leftSide.isPreComputed() && this.rightSide.isPreComputed()) {
             //TODO: Show warning
+            preComputed = executeImpl(null);
+            this.leftSide = null;
+            this.rightSide = null;
         }
     }
 
@@ -92,6 +97,7 @@ public class PsiIsCondition extends PsiElement<Boolean> {
          * {@inheritDoc}
          */
         @Nullable
+        @Contract(pure = true)
         @Override
         public PsiIsCondition tryParse(@NotNull String text, int lineNumber) {
             var skriptLoader = SkriptLoader.get();
@@ -130,7 +136,9 @@ public class PsiIsCondition extends PsiElement<Boolean> {
          * @since 0.1.0
          */
         @NotNull
-        protected PsiIsCondition create(PsiElement<?> leftSide, PsiElement<?> rightSide, boolean positive, int lineNumber) {
+        @Contract(pure = true)
+        protected PsiIsCondition create(@NotNull PsiElement<?> leftSide, @NotNull PsiElement<?> rightSide,
+                                        boolean positive, int lineNumber) {
             return new PsiIsCondition(leftSide, rightSide, positive, lineNumber);
         }
     }

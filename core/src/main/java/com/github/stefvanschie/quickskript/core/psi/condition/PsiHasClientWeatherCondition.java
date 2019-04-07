@@ -22,12 +22,13 @@ public class PsiHasClientWeatherCondition extends PsiElement<Boolean> {
     /**
      * The player to check the weather for
      */
-    protected PsiElement<?> player;
+    @NotNull
+    protected final PsiElement<?> player;
 
     /**
      * False if the result should be negated
      */
-    protected boolean positive;
+    protected final boolean positive;
 
     /**
      * Creates a new element with the given line number
@@ -37,7 +38,7 @@ public class PsiHasClientWeatherCondition extends PsiElement<Boolean> {
      * @param lineNumber the line number this element is associated with
      * @since 0.1.0
      */
-    protected PsiHasClientWeatherCondition(PsiElement<?> player, boolean positive, int lineNumber) {
+    protected PsiHasClientWeatherCondition(@NotNull PsiElement<?> player, boolean positive, int lineNumber) {
         super(lineNumber);
 
         this.player = player;

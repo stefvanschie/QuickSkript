@@ -24,7 +24,7 @@ public class PsiHasClientWeatherConditionImpl extends PsiHasClientWeatherConditi
      * @param lineNumber the line number this element is associated with
      * @since 0.1.0
      */
-    private PsiHasClientWeatherConditionImpl(PsiElement<?> player, boolean positive, int lineNumber) {
+    private PsiHasClientWeatherConditionImpl(@NotNull PsiElement<?> player, boolean positive, int lineNumber) {
         super(player, positive, lineNumber);
     }
 

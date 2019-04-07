@@ -23,12 +23,12 @@ public class PsiIsPoisonedCondition extends PsiElement<Boolean> {
      * The living entity to check whether they are poisoned
      */
     @NotNull
-    protected PsiElement<?> livingEntity;
+    protected final PsiElement<?> livingEntity;
 
     /**
      * If false, the condition needs to be inverted
      */
-    protected boolean positive;
+    protected final boolean positive;
 
     /**
      * Creates a new element with the given line number

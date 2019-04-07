@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -61,6 +62,7 @@ public class PsiMessageEffect extends PsiElement<Void> {
          * {@inheritDoc}
          */
         @Nullable
+        @Contract(pure = true)
         @Override
         public PsiMessageEffect tryParse(@NotNull String text, int lineNumber) {
             if (!text.startsWith("message") && !text.startsWith("send"))
@@ -112,7 +114,9 @@ public class PsiMessageEffect extends PsiElement<Void> {
          * @since 0.1.0
          */
         @NotNull
-        protected PsiMessageEffect create(PsiElement<?> message, PsiElement<?> receiver, int lineNumber) {
+        @Contract(pure = true)
+        protected PsiMessageEffect create(@NotNull PsiElement<?> message, @Nullable PsiElement<?> receiver,
+                                          int lineNumber) {
             return new PsiMessageEffect(message, receiver, lineNumber);
         }
     }

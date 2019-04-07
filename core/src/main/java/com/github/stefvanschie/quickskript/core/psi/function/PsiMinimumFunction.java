@@ -6,6 +6,7 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiCollection;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,7 +34,7 @@ public class PsiMinimumFunction extends PsiElement<Double> {
      * @param lineNumber the line number
      * @since 0.1.0
      */
-    protected PsiMinimumFunction(PsiElement<?> element, int lineNumber) {
+    private PsiMinimumFunction(@NotNull PsiElement<?> element, int lineNumber) {
         super(lineNumber);
 
         this.element = element;
@@ -86,6 +87,7 @@ public class PsiMinimumFunction extends PsiElement<Double> {
          * {@inheritDoc}
          */
         @Nullable
+        @Contract(pure = true)
         @Override
         public PsiMinimumFunction tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
@@ -119,7 +121,8 @@ public class PsiMinimumFunction extends PsiElement<Double> {
          * @since 0.1.0
          */
         @NotNull
-        protected PsiMinimumFunction create(PsiElement<?> elements, int lineNumber) {
+        @Contract(pure = true)
+        protected PsiMinimumFunction create(@NotNull PsiElement<?> elements, int lineNumber) {
             return new PsiMinimumFunction(elements, lineNumber);
         }
     }

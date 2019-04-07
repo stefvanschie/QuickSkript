@@ -5,6 +5,7 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiSection;
 import com.github.stefvanschie.quickskript.core.psi.PsiSectionFactory;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,8 +24,7 @@ public class PsiIf extends PsiSection {
     /**
      * The condition of the execution.
      */
-    @NotNull
-    private final PsiElement<?> condition;
+    private PsiElement<?> condition;
 
     /**
      * The section which should get executed if the condition is not met, if any.
@@ -46,6 +46,8 @@ public class PsiIf extends PsiSection {
 
         if (condition.isPreComputed()) {
             //TODO warning
+            preComputed = executeImpl(null);
+            this.condition = null;
         }
     }
 
@@ -96,6 +98,7 @@ public class PsiIf extends PsiSection {
          * {@inheritDoc}
          */
         @Nullable
+        @Contract(pure = true)
         @Override
         public PsiIf tryParse(@NotNull String text, @NotNull Supplier<PsiElement<?>[]> elementsSupplier, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
@@ -117,7 +120,8 @@ public class PsiIf extends PsiSection {
          * @since 0.1.0
          */
         @NotNull
-        protected PsiIf create(PsiElement<?>[] elements, PsiElement<?> condition, int lineNumber) {
+        @Contract(pure = true)
+        protected PsiIf create(@NotNull PsiElement<?>[] elements, @NotNull PsiElement<?> condition, int lineNumber) {
             return new PsiIf(elements, condition, lineNumber);
         }
     }

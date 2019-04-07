@@ -23,12 +23,13 @@ public class PsiChanceCondition extends PsiElement<Boolean> {
     /**
      * The number for calculating the chance
      */
-    private PsiElement<?> number;
+    @NotNull
+    private final PsiElement<?> number;
 
     /**
      * Whether the number should be interpreted as a percentage or a floating point number between 0 and 1.
      */
-    private boolean asPercentage;
+    private final boolean asPercentage;
 
     /**
      * Creates a new element with the given line number
@@ -38,7 +39,7 @@ public class PsiChanceCondition extends PsiElement<Boolean> {
      * @param lineNumber the line number this element is associated with
      * @since 0.1.0
      */
-    protected PsiChanceCondition(PsiElement<?> number, boolean asPercentage, int lineNumber) {
+    private PsiChanceCondition(@NotNull PsiElement<?> number, boolean asPercentage, int lineNumber) {
         super(lineNumber);
 
         this.number = number;
@@ -99,7 +100,7 @@ public class PsiChanceCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        public PsiChanceCondition create(PsiElement<?> number, boolean asPercentage, int lineNumber) {
+        public PsiChanceCondition create(@NotNull PsiElement<?> number, boolean asPercentage, int lineNumber) {
             return new PsiChanceCondition(number, asPercentage, lineNumber);
         }
     }

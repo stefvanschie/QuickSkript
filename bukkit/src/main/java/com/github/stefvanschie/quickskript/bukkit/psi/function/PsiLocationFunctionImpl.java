@@ -27,8 +27,8 @@ public class PsiLocationFunctionImpl extends PsiLocationFunction {
      * @since 0.1.0
      */
     private PsiLocationFunctionImpl(@NotNull PsiElement<?> world, @NotNull PsiElement<?> x, @NotNull PsiElement<?> y,
-                                    @NotNull PsiElement<?> z, @Nullable PsiElement<?> yaw, @Nullable PsiElement<?> pitch,
-                                    int lineNumber) {
+                                    @NotNull PsiElement<?> z, @Nullable PsiElement<?> yaw,
+                                    @Nullable PsiElement<?> pitch, int lineNumber) {
         super(world, x, y, z, yaw, pitch, lineNumber);
     }
 

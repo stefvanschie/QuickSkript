@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,6 +22,7 @@ public class PsiHasPlayedBeforeCondition extends PsiElement<Boolean> {
     /**
      * The (offline)player to check
      */
+    @NotNull
     protected final PsiElement<?> player;
 
     /**
@@ -37,7 +39,7 @@ public class PsiHasPlayedBeforeCondition extends PsiElement<Boolean> {
      * @param lineNumber the line number this element is associated with
      * @since 0.1.0
      */
-    protected PsiHasPlayedBeforeCondition(PsiElement<?> player, boolean positive, int lineNumber) {
+    protected PsiHasPlayedBeforeCondition(@NotNull PsiElement<?> player, boolean positive, int lineNumber) {
         super(lineNumber);
 
         this.player = player;
@@ -80,6 +82,7 @@ public class PsiHasPlayedBeforeCondition extends PsiElement<Boolean> {
          * {@inheritDoc}
          */
         @Nullable
+        @Contract(pure = true)
         @Override
         public PsiHasPlayedBeforeCondition tryParse(@NotNull String text, int lineNumber) {
             Matcher positiveMatcher = positivePattern.matcher(text);
@@ -113,7 +116,8 @@ public class PsiHasPlayedBeforeCondition extends PsiElement<Boolean> {
          * @since 0.1.0
          */
         @NotNull
-        protected PsiHasPlayedBeforeCondition create(PsiElement<?> player, boolean positive, int lineNumber) {
+        @Contract(pure = true)
+        protected PsiHasPlayedBeforeCondition create(@NotNull PsiElement<?> player, boolean positive, int lineNumber) {
             return new PsiHasPlayedBeforeCondition(player, positive, lineNumber);
         }
     }

@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -52,6 +53,7 @@ public class PsiConsoleSenderExpression extends PsiElement<Object> {
          * {@inheritDoc}
          */
         @Nullable
+        @Contract(pure = true)
         @Override
         public PsiConsoleSenderExpression tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
@@ -73,6 +75,7 @@ public class PsiConsoleSenderExpression extends PsiElement<Object> {
          * @since 0.1.0
          */
         @NotNull
+        @Contract(pure = true)
         protected PsiConsoleSenderExpression create(int lineNumber) {
             return new PsiConsoleSenderExpression(lineNumber);
         }

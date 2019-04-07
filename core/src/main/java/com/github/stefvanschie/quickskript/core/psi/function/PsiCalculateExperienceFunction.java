@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,7 +30,7 @@ public class PsiCalculateExperienceFunction extends PsiElement<Long> {
      * @param lineNumber the line number
      * @since 0.1.0
      */
-    protected PsiCalculateExperienceFunction(PsiElement<?> parameter, int lineNumber) {
+    private PsiCalculateExperienceFunction(@NotNull PsiElement<?> parameter, int lineNumber) {
         super(lineNumber);
 
         this.parameter = parameter;
@@ -79,6 +80,7 @@ public class PsiCalculateExperienceFunction extends PsiElement<Long> {
          * {@inheritDoc}
          */
         @Nullable
+        @Contract(pure = true)
         @Override
         public PsiCalculateExperienceFunction tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
@@ -104,7 +106,8 @@ public class PsiCalculateExperienceFunction extends PsiElement<Long> {
          * @since 0.1.0
          */
         @NotNull
-        protected PsiCalculateExperienceFunction create(PsiElement<?> element, int lineNumber) {
+        @Contract(pure = true)
+        protected PsiCalculateExperienceFunction create(@NotNull PsiElement<?> element, int lineNumber) {
             return new PsiCalculateExperienceFunction(element, lineNumber);
         }
     }

@@ -21,7 +21,8 @@ public class PsiVectorFunctionImpl extends PsiVectorFunction {
      * @param y the y value
      * @param z the z value
      */
-    private PsiVectorFunctionImpl(PsiElement<?> x, PsiElement<?> y, PsiElement<?> z, int lineNumber) {
+    private PsiVectorFunctionImpl(@NotNull PsiElement<?> x, @NotNull PsiElement<?> y, @NotNull PsiElement<?> z,
+                                  int lineNumber) {
         super(x, y, z, lineNumber);
     }
 
@@ -50,7 +51,8 @@ public class PsiVectorFunctionImpl extends PsiVectorFunction {
          */
         @NotNull
         @Override
-        public PsiVectorFunctionImpl create(PsiElement<?> x, PsiElement<?> y, PsiElement<?> z, int lineNumber) {
+        public PsiVectorFunctionImpl create(@NotNull PsiElement<?> x, @NotNull PsiElement<?> y,
+                                            @NotNull PsiElement<?> z, int lineNumber) {
             return new PsiVectorFunctionImpl(x, y, z, lineNumber);
         }
     }

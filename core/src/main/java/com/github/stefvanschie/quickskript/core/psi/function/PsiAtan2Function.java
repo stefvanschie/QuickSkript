@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,7 +31,7 @@ public class PsiAtan2Function extends PsiElement<Double> {
      * @param lineNumber the line number
      * @since 0.1.0
      */
-    protected PsiAtan2Function(PsiElement<?> x, PsiElement<?> y, int lineNumber) {
+    private PsiAtan2Function(@NotNull PsiElement<?> x, @NotNull PsiElement<?> y, int lineNumber) {
         super(lineNumber);
 
         this.x = x;
@@ -68,6 +69,7 @@ public class PsiAtan2Function extends PsiElement<Double> {
          * {@inheritDoc}
          */
         @Nullable
+        @Contract(pure = true)
         @Override
         public PsiAtan2Function tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
@@ -97,7 +99,9 @@ public class PsiAtan2Function extends PsiElement<Double> {
          * @since 0.1.0
          */
         @NotNull
-        protected PsiAtan2Function create(PsiElement<?> xElement, PsiElement<?> yElement, int lineNumber) {
+        @Contract(pure = true)
+        protected PsiAtan2Function create(@NotNull PsiElement<?> xElement, @NotNull PsiElement<?> yElement,
+                                          int lineNumber) {
             return new PsiAtan2Function(xElement, yElement, lineNumber);
         }
     }

@@ -6,6 +6,7 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,7 +34,7 @@ public class PsiProductFunction extends PsiElement<Double> {
      * @param lineNumber the line number
      * @since 0.1.0
      */
-    protected PsiProductFunction(PsiElement<?> element, int lineNumber) {
+    private PsiProductFunction(@NotNull PsiElement<?> element, int lineNumber) {
         super(lineNumber);
 
         this.element = element;
@@ -82,6 +83,7 @@ public class PsiProductFunction extends PsiElement<Double> {
          * {@inheritDoc}
          */
         @Nullable
+        @Contract(pure = true)
         @Override
         public PsiProductFunction tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
@@ -115,7 +117,8 @@ public class PsiProductFunction extends PsiElement<Double> {
          * @since 0.1.0
          */
         @NotNull
-        protected PsiProductFunction create(PsiElement<?> elements, int lineNumber) {
+        @Contract(pure = true)
+        protected PsiProductFunction create(@NotNull PsiElement<?> elements, int lineNumber) {
             return new PsiProductFunction(elements, lineNumber);
         }
     }

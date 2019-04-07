@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -31,7 +32,8 @@ public class PsiVectorFunction extends PsiElement<Object> {
      * @param lineNumber the line number
      * @since 0.1.0
      */
-    protected PsiVectorFunction(PsiElement<?> x, PsiElement<?> y, PsiElement<?> z, int lineNumber) {
+    protected PsiVectorFunction(@NotNull PsiElement<?> x, @NotNull PsiElement<?> y, @NotNull PsiElement<?> z,
+                                int lineNumber) {
         super(lineNumber);
 
         this.x = x;
@@ -70,6 +72,7 @@ public class PsiVectorFunction extends PsiElement<Object> {
          * {@inheritDoc}
          */
         @Nullable
+        @Contract(pure = true)
         @Override
         public PsiVectorFunction tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
@@ -103,7 +106,9 @@ public class PsiVectorFunction extends PsiElement<Object> {
          * @since 0.1.0
          */
         @NotNull
-        protected PsiVectorFunction create(PsiElement<?> x, PsiElement<?> y, PsiElement<?> z, int lineNumber) {
+        @Contract(pure = true)
+        protected PsiVectorFunction create(@NotNull PsiElement<?> x, @NotNull PsiElement<?> y, @NotNull PsiElement<?> z,
+                                           int lineNumber) {
             return new PsiVectorFunction(x, y, z, lineNumber);
         }
     }

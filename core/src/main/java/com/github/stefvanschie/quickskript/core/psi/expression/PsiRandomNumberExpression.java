@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,6 +30,7 @@ public class PsiRandomNumberExpression extends PsiElement<Number> {
     /**
      * The min and the max values. They may need to be switched to make their names truthful
      */
+    @NotNull
     private final PsiElement<?> min, max;
 
     /**
@@ -40,7 +42,7 @@ public class PsiRandomNumberExpression extends PsiElement<Number> {
      * @param lineNumber the line number
      * @since 0.1.0
      */
-    protected PsiRandomNumberExpression(boolean integer, @NotNull PsiElement<?> min, @NotNull PsiElement<?> max,
+    private PsiRandomNumberExpression(boolean integer, @NotNull PsiElement<?> min, @NotNull PsiElement<?> max,
                                       int lineNumber) {
         super(lineNumber);
 
@@ -95,6 +97,7 @@ public class PsiRandomNumberExpression extends PsiElement<Number> {
          * {@inheritDoc}
          */
         @Nullable
+        @Contract(pure = true)
         @Override
         public PsiRandomNumberExpression tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = integerPattern.matcher(text);
@@ -128,7 +131,9 @@ public class PsiRandomNumberExpression extends PsiElement<Number> {
          * @since 0.1.0
          */
         @NotNull
-        protected PsiRandomNumberExpression create(boolean integer, PsiElement<?> min, PsiElement<?> max, int lineNumber) {
+        @Contract(pure = true)
+        protected PsiRandomNumberExpression create(boolean integer, @NotNull PsiElement<?> min,
+                                                   @NotNull PsiElement<?> max, int lineNumber) {
             return new PsiRandomNumberExpression(integer, min, max, lineNumber);
         }
     }

@@ -46,8 +46,9 @@ public class PsiHasPermissionConditionImpl extends PsiHasPermissionCondition {
          */
         @NotNull
         @Override
-        public PsiHasPermissionConditionImpl create(PsiElement<?> permissible, PsiElement<?> permission,
-                                                    boolean positive, int lineNumber) {
+        public PsiHasPermissionConditionImpl create(@NotNull PsiElement<?> permissible,
+                                                    @NotNull PsiElement<?> permission, boolean positive,
+                                                    int lineNumber) {
             return new PsiHasPermissionConditionImpl(permissible, permission, positive, lineNumber);
         }
     }

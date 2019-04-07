@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -88,6 +89,7 @@ public class PsiLocationFunction extends PsiElement<Object> {
          * {@inheritDoc}
          */
         @Nullable
+        @Contract(pure = true)
         @Override
         public PsiLocationFunction tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
@@ -137,8 +139,11 @@ public class PsiLocationFunction extends PsiElement<Object> {
          * @since 0.1.0
          */
         @NotNull
-        protected PsiLocationFunction create(PsiElement<?> world, PsiElement<?> x, PsiElement<?> y, PsiElement<?> z,
-                                             PsiElement<?> yaw, PsiElement<?> pitch, int lineNumber) {
+        @Contract(pure = true)
+        protected PsiLocationFunction create(@NotNull PsiElement<?> world, @NotNull PsiElement<?> x,
+                                             @NotNull PsiElement<?> y, @NotNull PsiElement<?> z,
+                                             @Nullable PsiElement<?> yaw, @Nullable PsiElement<?> pitch,
+                                             int lineNumber) {
             return new PsiLocationFunction(world, x, y, z, yaw, pitch, lineNumber);
         }
     }

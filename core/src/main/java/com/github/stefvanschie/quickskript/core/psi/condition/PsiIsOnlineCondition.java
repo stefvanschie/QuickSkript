@@ -22,12 +22,12 @@ public class PsiIsOnlineCondition extends PsiElement<Boolean> {
      * The offline player to check whether they are online
      */
     @NotNull
-    protected PsiElement<?> offlinePlayer;
+    protected final PsiElement<?> offlinePlayer;
 
     /**
      * False if the result of the execution should be negated
      */
-    protected boolean positive;
+    protected final boolean positive;
 
     /**
      * Creates a new element with the given line number

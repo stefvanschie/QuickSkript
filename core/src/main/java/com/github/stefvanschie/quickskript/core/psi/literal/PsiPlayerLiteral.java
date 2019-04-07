@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.core.psi.literal;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -49,6 +50,7 @@ public class PsiPlayerLiteral extends PsiElement<Object> {
          * {@inheritDoc}
          */
         @Nullable
+        @Contract(pure = true)
         @Override
         public PsiPlayerLiteral tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
@@ -70,6 +72,7 @@ public class PsiPlayerLiteral extends PsiElement<Object> {
          * @since 0.1.0
          */
         @NotNull
+        @Contract(pure = true)
         protected PsiPlayerLiteral create(int lineNumber) {
             return new PsiPlayerLiteral(lineNumber);
         }

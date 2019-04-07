@@ -6,6 +6,7 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,7 +34,7 @@ public class PsiMaximumFunction extends PsiElement<Double> {
      * @param lineNumber the line number
      * @since 0.1.0
      */
-    protected PsiMaximumFunction(PsiElement<?> element, int lineNumber) {
+    private PsiMaximumFunction(@NotNull PsiElement<?> element, int lineNumber) {
         super(lineNumber);
 
         this.element = element;
@@ -86,6 +87,7 @@ public class PsiMaximumFunction extends PsiElement<Double> {
          * {@inheritDoc}
          */
         @Nullable
+        @Contract(pure = true)
         @Override
         public PsiMaximumFunction tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
@@ -119,7 +121,8 @@ public class PsiMaximumFunction extends PsiElement<Double> {
          * @since 0.1.0
          */
         @NotNull
-        protected PsiMaximumFunction create(PsiCollection<?> elements, int lineNumber) {
+        @Contract(pure = true)
+        protected PsiMaximumFunction create(@NotNull PsiCollection<?> elements, int lineNumber) {
             return new PsiMaximumFunction(elements, lineNumber);
         }
     }

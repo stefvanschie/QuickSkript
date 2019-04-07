@@ -19,7 +19,7 @@ public class PsiHasPlayedBeforeConditionImpl extends PsiHasPlayedBeforeCondition
     /**
      * {@inheritDoc}
      */
-    private PsiHasPlayedBeforeConditionImpl(PsiElement<?> player, boolean positive, int lineNumber) {
+    private PsiHasPlayedBeforeConditionImpl(@NotNull PsiElement<?> player, boolean positive, int lineNumber) {
         super(player, positive, lineNumber);
     }
 
@@ -46,7 +46,7 @@ public class PsiHasPlayedBeforeConditionImpl extends PsiHasPlayedBeforeCondition
         @NotNull
         @Contract(pure = true)
         @Override
-        public PsiHasPlayedBeforeCondition create(PsiElement<?> player, boolean positive, int lineNumber) {
+        public PsiHasPlayedBeforeCondition create(@NotNull PsiElement<?> player, boolean positive, int lineNumber) {
             return new PsiHasPlayedBeforeConditionImpl(player, positive, lineNumber);
         }
     }

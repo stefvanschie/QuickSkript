@@ -23,12 +23,12 @@ public class PsiIsBurningCondition extends PsiElement<Boolean> {
      * The entity to check whether they are burned
      */
     @NotNull
-    protected PsiElement<?> entity;
+    protected final PsiElement<?> entity;
 
     /**
      * False if the execution result needs to be inverted
      */
-    protected boolean positive;
+    protected final boolean positive;
 
     /**
      * Creates a new element with the given line number

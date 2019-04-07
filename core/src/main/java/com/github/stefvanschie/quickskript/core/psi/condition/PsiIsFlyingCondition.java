@@ -23,12 +23,12 @@ public class PsiIsFlyingCondition extends PsiElement<Boolean> {
      * The player to check the flying state for
      */
     @NotNull
-    protected PsiElement<?> player;
+    protected final PsiElement<?> player;
 
     /**
      * Is false, the result of execution is inverted
      */
-    protected boolean positive;
+    protected final boolean positive;
 
     /**
      * Creates a new element with the given line number
@@ -77,6 +77,7 @@ public class PsiIsFlyingCondition extends PsiElement<Boolean> {
          * {@inheritDoc}
          */
         @Nullable
+        @Contract(pure = true)
         @Override
         public PsiIsFlyingCondition tryParse(@NotNull String text, int lineNumber) {
             Matcher positiveMatcher = positivePattern.matcher(text);

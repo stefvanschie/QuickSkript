@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -45,7 +46,7 @@ public class PsiDateFunction extends PsiElement<LocalDateTime> {
      * @param lineNumber the line number
      * @since 0.1.0
      */
-    protected PsiDateFunction(@NotNull PsiElement<?> year, @NotNull PsiElement<?> month, @NotNull PsiElement<?> day,
+    private PsiDateFunction(@NotNull PsiElement<?> year, @NotNull PsiElement<?> month, @NotNull PsiElement<?> day,
                             @Nullable PsiElement<?> hour, @Nullable PsiElement<?> minute,
                             @Nullable PsiElement<?> second, @Nullable PsiElement<?> millisecond, int lineNumber) {
         super(lineNumber);
@@ -59,9 +60,9 @@ public class PsiDateFunction extends PsiElement<LocalDateTime> {
         this.millisecond = millisecond;
 
         if (this.year.isPreComputed() && this.month.isPreComputed() && this.day.isPreComputed() &&
-                (this.hour == null || this.hour.isPreComputed()) && (this.minute == null || this.minute.isPreComputed()) &&
-                (this.second == null || this.second.isPreComputed()) &&
-                (this.millisecond == null || this.millisecond.isPreComputed())) {
+            (this.hour == null || this.hour.isPreComputed()) && (this.minute == null || this.minute.isPreComputed()) &&
+            (this.second == null || this.second.isPreComputed()) &&
+            (this.millisecond == null || this.millisecond.isPreComputed())) {
             preComputed = executeImpl(null);
             this.year = this.month = this.day = this.hour = this.minute = this.second = this.millisecond = null;
         }
@@ -101,6 +102,7 @@ public class PsiDateFunction extends PsiElement<LocalDateTime> {
          * {@inheritDoc}
          */
         @Nullable
+        @Contract(pure = true)
         @Override
         public PsiDateFunction tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
@@ -150,9 +152,11 @@ public class PsiDateFunction extends PsiElement<LocalDateTime> {
          * @since 0.1.0
          */
         @NotNull
-        protected PsiDateFunction create(PsiElement<?> year, PsiElement<?> month, PsiElement<?> day, PsiElement<?> hour,
-                                         PsiElement<?> minute, PsiElement<?> second, PsiElement<?> millisecond,
-                                         int lineNumber) {
+        @Contract(pure = true)
+        protected PsiDateFunction create(@NotNull PsiElement<?> year, @NotNull PsiElement<?> month,
+                                         @NotNull PsiElement<?> day, @Nullable PsiElement<?> hour,
+                                         @Nullable PsiElement<?> minute, @Nullable PsiElement<?> second,
+                                         @Nullable PsiElement<?> millisecond, int lineNumber) {
             return new PsiDateFunction(year, month, day, hour, minute, second, millisecond, lineNumber);
         }
     }

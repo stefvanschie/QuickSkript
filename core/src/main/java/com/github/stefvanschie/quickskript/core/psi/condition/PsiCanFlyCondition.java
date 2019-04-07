@@ -77,6 +77,7 @@ public class PsiCanFlyCondition extends PsiElement<Boolean> {
          * {@inheritDoc}
          */
         @Nullable
+        @Contract(pure = true)
         @Override
         public PsiCanFlyCondition tryParse(@NotNull String text, int lineNumber) {
             Matcher positiveMatcher = positivePattern.matcher(text);

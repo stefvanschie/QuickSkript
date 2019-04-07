@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.core.psi.util;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -19,7 +20,7 @@ public class PsiPrecomputedHolder<T> extends PsiElement<T> {
      * @param lineNumber the line number of this element
      * @since 0.1.0
      */
-    public PsiPrecomputedHolder(T value, int lineNumber) {
+    public PsiPrecomputedHolder(@NotNull T value, int lineNumber) {
         super(lineNumber);
 
         preComputed = value;

@@ -23,17 +23,17 @@ public class PsiIsBannedCondition extends PsiElement<Boolean> {
      * The object to check the ban for
      */
     @NotNull
-    protected PsiElement<?> object;
+    protected final PsiElement<?> object;
 
     /**
      * False if the execution result needs to be inverted
      */
-    protected boolean positive;
+    protected final boolean positive;
 
     /**
      * True if we're checking ip bans, false if not
      */
-    protected boolean ipBan;
+    protected final boolean ipBan;
 
     /**
      * Creates a new element with the given line number

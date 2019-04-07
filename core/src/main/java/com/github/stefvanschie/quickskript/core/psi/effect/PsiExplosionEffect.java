@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,6 +22,7 @@ public class PsiExplosionEffect extends PsiElement<Void> {
     /**
      * The amount of force that should be applied to the created explosion
      */
+    @NotNull
     protected final PsiElement<?> force;
 
     /**
@@ -36,7 +38,7 @@ public class PsiExplosionEffect extends PsiElement<Void> {
      * @param lineNumber the line number this element is associated with
      * @since 0.1.0
      */
-    protected PsiExplosionEffect(PsiElement<?> force, boolean safe, int lineNumber) {
+    protected PsiExplosionEffect(@NotNull PsiElement<?> force, boolean safe, int lineNumber) {
         super(lineNumber);
 
         this.force = force;
@@ -71,6 +73,7 @@ public class PsiExplosionEffect extends PsiElement<Void> {
          * {@inheritDoc}
          */
         @Nullable
+        @Contract(pure = true)
         @Override
         public PsiExplosionEffect tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
@@ -96,7 +99,8 @@ public class PsiExplosionEffect extends PsiElement<Void> {
          * @since 0.1.0
          */
         @NotNull
-        protected PsiExplosionEffect create(PsiElement<?> force, boolean safe, int lineNumber) {
+        @Contract(pure = true)
+        protected PsiExplosionEffect create(@NotNull PsiElement<?> force, boolean safe, int lineNumber) {
             return new PsiExplosionEffect(force, safe, lineNumber);
         }
     }

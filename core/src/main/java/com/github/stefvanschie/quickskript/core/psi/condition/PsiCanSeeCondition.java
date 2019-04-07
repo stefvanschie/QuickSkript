@@ -21,7 +21,8 @@ public class PsiCanSeeCondition extends PsiElement<Boolean> {
     /**
      * The player and the target player
      */
-    protected PsiElement<?> player, targetPlayer;
+    @NotNull
+    protected final PsiElement<?> player, targetPlayer;
 
     /**
      * If false, the result of this execution should be negated.
@@ -37,7 +38,8 @@ public class PsiCanSeeCondition extends PsiElement<Boolean> {
      * @param lineNumber the line number this element is associated with
      * @since 0.1.0
      */
-    protected PsiCanSeeCondition(PsiElement<?> player, PsiElement<?> targetPlayer, boolean positive, int lineNumber) {
+    protected PsiCanSeeCondition(@NotNull PsiElement<?> player, @NotNull PsiElement<?> targetPlayer, boolean positive,
+                                 int lineNumber) {
         super(lineNumber);
 
         this.player = player;
@@ -118,8 +120,8 @@ public class PsiCanSeeCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        public PsiCanSeeCondition create(PsiElement<?> player, PsiElement<?> targetPlayer, boolean positive,
-                                         int lineNumber) {
+        public PsiCanSeeCondition create(@NotNull PsiElement<?> player, @NotNull PsiElement<?> targetPlayer,
+                                         boolean positive, int lineNumber) {
             return new PsiCanSeeCondition(player, targetPlayer, positive, lineNumber);
         }
     }

@@ -34,11 +34,13 @@ public class PsiCollection<T> extends PsiElement<Collection<PsiElement<T>>> {
      * @param lineNumber the line number of this element
      * @since 0.1.0
      */
-    public PsiCollection(@NotNull Collection<PsiElement<T>> elements, int lineNumber) {
+    private PsiCollection(@NotNull Collection<PsiElement<T>> elements, int lineNumber) {
         super(lineNumber);
 
         if (elements.stream().allMatch(PsiElement::isPreComputed)) {
             preComputed = elements;
+
+            this.elements = null;
         } else {
             this.elements = elements;
         }

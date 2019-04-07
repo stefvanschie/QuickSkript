@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.psi.PsiConverter;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,7 +25,7 @@ public class PsiStringLiteral extends PsiPrecomputedHolder<Text> {
      * @param lineNumber the line number
      * @since 0.1.0
      */
-    protected PsiStringLiteral(@NotNull Text message, int lineNumber) {
+    private PsiStringLiteral(@NotNull Text message, int lineNumber) {
         super(message, lineNumber);
     }
 
@@ -45,6 +46,7 @@ public class PsiStringLiteral extends PsiPrecomputedHolder<Text> {
          * {@inheritDoc}
          */
         @Nullable
+        @Contract(pure = true)
         @Override
         public PsiStringLiteral tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
@@ -67,7 +69,8 @@ public class PsiStringLiteral extends PsiPrecomputedHolder<Text> {
          * @since 0.1.0
          */
         @NotNull
-        protected PsiStringLiteral create(Text text, int lineNumber) {
+        @Contract(pure = true)
+        protected PsiStringLiteral create(@NotNull Text text, int lineNumber) {
             return new PsiStringLiteral(text, lineNumber);
         }
     }
@@ -83,6 +86,7 @@ public class PsiStringLiteral extends PsiPrecomputedHolder<Text> {
          * {@inheritDoc}
          */
         @Nullable
+        @Contract(pure = true)
         @Override
         public PsiStringLiteral convert(@NotNull Object object, int lineNumber) {
             return new PsiStringLiteral(Text.parse(object.toString()), lineNumber);

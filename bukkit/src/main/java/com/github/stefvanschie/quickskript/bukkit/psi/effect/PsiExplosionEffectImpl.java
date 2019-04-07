@@ -27,7 +27,7 @@ public class PsiExplosionEffectImpl extends PsiExplosionEffect {
      * @param lineNumber the line number this element is associated with
      * @since 0.1.0
      */
-    private PsiExplosionEffectImpl(PsiElement<?> force, boolean safe, int lineNumber) {
+    private PsiExplosionEffectImpl(@NotNull PsiElement<?> force, boolean safe, int lineNumber) {
         super(force, safe, lineNumber);
     }
 
@@ -72,7 +72,7 @@ public class PsiExplosionEffectImpl extends PsiExplosionEffect {
          */
         @NotNull
         @Override
-        public PsiExplosionEffect create(PsiElement<?> force, boolean safe, int lineNumber) {
+        public PsiExplosionEffect create(@NotNull PsiElement<?> force, boolean safe, int lineNumber) {
             return new PsiExplosionEffectImpl(force, safe, lineNumber);
         }
     }

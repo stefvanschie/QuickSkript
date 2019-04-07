@@ -24,8 +24,8 @@ public class PsiCanSeeConditionImpl extends PsiCanSeeCondition {
      * @param lineNumber the line number this element is associated with
      * @since 0.1.0
      */
-    protected PsiCanSeeConditionImpl(PsiElement<?> player, PsiElement<?> targetPlayer, boolean positive,
-                                     int lineNumber) {
+    private PsiCanSeeConditionImpl(@NotNull PsiElement<?> player, @NotNull PsiElement<?> targetPlayer,
+                                     boolean positive, int lineNumber) {
         super(player, targetPlayer, positive, lineNumber);
     }
 
@@ -52,8 +52,8 @@ public class PsiCanSeeConditionImpl extends PsiCanSeeCondition {
         @NotNull
         @Contract(pure = true)
         @Override
-        public PsiCanSeeCondition create(PsiElement<?> player, PsiElement<?> targetPlayer, boolean positive,
-                                         int lineNumber) {
+        public PsiCanSeeCondition create(@NotNull PsiElement<?> player, @NotNull PsiElement<?> targetPlayer,
+                                         boolean positive, int lineNumber) {
             return new PsiCanSeeConditionImpl(player, targetPlayer, positive, lineNumber);
         }
     }

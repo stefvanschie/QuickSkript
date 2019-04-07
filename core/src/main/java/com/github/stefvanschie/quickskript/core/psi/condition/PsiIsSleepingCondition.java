@@ -23,12 +23,12 @@ public class PsiIsSleepingCondition extends PsiElement<Boolean> {
      * The player to check whether they are sleeping
      */
     @NotNull
-    protected PsiElement<?> player;
+    protected final PsiElement<?> player;
 
     /**
      * If false, the result of this execution will be negated
      */
-    protected boolean positive;
+    protected final boolean positive;
 
     /**
      * Creates a new element with the given line number

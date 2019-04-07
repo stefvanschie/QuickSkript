@@ -23,7 +23,7 @@ public class PsiWorldFunctionImpl extends PsiWorldFunction {
      * @param parameter the parameter
      * @since 0.1.0
      */
-    private PsiWorldFunctionImpl(PsiElement<?> parameter, int lineNumber) {
+    private PsiWorldFunctionImpl(@NotNull PsiElement<?> parameter, int lineNumber) {
         super(parameter, lineNumber);
     }
 
@@ -48,7 +48,7 @@ public class PsiWorldFunctionImpl extends PsiWorldFunction {
          */
         @NotNull
         @Override
-        public PsiWorldFunctionImpl create(PsiElement<?> parameter, int lineNumber) {
+        public PsiWorldFunctionImpl create(@NotNull PsiElement<?> parameter, int lineNumber) {
             return new PsiWorldFunctionImpl(parameter, lineNumber);
         }
     }

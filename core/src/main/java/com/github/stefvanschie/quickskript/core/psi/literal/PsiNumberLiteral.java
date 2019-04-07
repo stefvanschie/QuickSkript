@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.core.psi.literal;
 import com.github.stefvanschie.quickskript.core.psi.PsiConverter;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,7 +24,7 @@ public class PsiNumberLiteral extends PsiPrecomputedHolder<Double> {
      * @param lineNumber the line number
      * @since 0.1.0
      */
-    protected PsiNumberLiteral(double number, int lineNumber) {
+    private PsiNumberLiteral(double number, int lineNumber) {
         super(number, lineNumber);
     }
 
@@ -44,6 +45,7 @@ public class PsiNumberLiteral extends PsiPrecomputedHolder<Double> {
          * {@inheritDoc}
          */
         @Nullable
+        @Contract(pure = true)
         @Override
         public PsiNumberLiteral tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
@@ -66,6 +68,7 @@ public class PsiNumberLiteral extends PsiPrecomputedHolder<Double> {
          * @since 0.1.0
          */
         @NotNull
+        @Contract(pure = true)
         protected PsiNumberLiteral create(double value, int lineNumber) {
             return new PsiNumberLiteral(value, lineNumber);
         }
@@ -82,6 +85,7 @@ public class PsiNumberLiteral extends PsiPrecomputedHolder<Double> {
          * {@inheritDoc}
          */
         @Nullable
+        @Contract(pure = true)
         @Override
         public PsiNumberLiteral convert(@NotNull Object object, int lineNumber) {
             return new PsiNumberLiteral(Double.parseDouble(object.toString()), lineNumber);

@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,7 +30,7 @@ public class PsiSquareRootFunction extends PsiElement<Double> {
      * @param lineNumber the line number
      * @since 0.1.0
      */
-    protected PsiSquareRootFunction(PsiElement<?> parameter, int lineNumber) {
+    private PsiSquareRootFunction(@NotNull PsiElement<?> parameter, int lineNumber) {
         super(lineNumber);
 
         this.parameter = parameter;
@@ -66,6 +67,7 @@ public class PsiSquareRootFunction extends PsiElement<Double> {
          * {@inheritDoc}
          */
         @Nullable
+        @Contract(pure = true)
         @Override
         public PsiSquareRootFunction tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
@@ -91,7 +93,8 @@ public class PsiSquareRootFunction extends PsiElement<Double> {
          * @since 0.1.0
          */
         @NotNull
-        protected PsiSquareRootFunction create(PsiElement<?> element, int lineNumber) {
+        @Contract(pure = true)
+        protected PsiSquareRootFunction create(@NotNull PsiElement<?> element, int lineNumber) {
             return new PsiSquareRootFunction(element, lineNumber);
         }
     }

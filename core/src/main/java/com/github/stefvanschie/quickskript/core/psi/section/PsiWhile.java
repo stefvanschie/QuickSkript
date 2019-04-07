@@ -5,6 +5,7 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiSection;
 import com.github.stefvanschie.quickskript.core.psi.PsiSectionFactory;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,8 +23,7 @@ public class PsiWhile extends PsiSection {
     /**
      * The condition of the continuing execution.
      */
-    @NotNull
-    private final PsiElement<?> condition;
+    private PsiElement<?> condition;
 
     /**
      * Creates a new psi while section.
@@ -33,12 +33,15 @@ public class PsiWhile extends PsiSection {
      * @param lineNumber the line number this element is associated with
      * @since 0.1.0
      */
-    protected PsiWhile(@NotNull PsiElement<?>[] elements, @NotNull PsiElement<?> condition, int lineNumber) {
+    private PsiWhile(@NotNull PsiElement<?>[] elements, @NotNull PsiElement<?> condition, int lineNumber) {
         super(elements, lineNumber);
+
         this.condition = condition;
 
         if (condition.isPreComputed()) {
             //TODO warning
+            preComputed = executeImpl(null);
+            this.condition = null;
         }
     }
 
@@ -72,8 +75,10 @@ public class PsiWhile extends PsiSection {
          * {@inheritDoc}
          */
         @Nullable
+        @Contract(pure = true)
         @Override
-        public PsiWhile tryParse(@NotNull String text, @NotNull Supplier<PsiElement<?>[]> elementsSupplier, int lineNumber) {
+        public PsiWhile tryParse(@NotNull String text, @NotNull Supplier<PsiElement<?>[]> elementsSupplier,
+                                 int lineNumber) {
             Matcher matcher = pattern.matcher(text);
             return matcher.matches()
                     ? create(elementsSupplier.get(), SkriptLoader.get()
@@ -92,7 +97,8 @@ public class PsiWhile extends PsiSection {
          * @return the section
          */
         @NotNull
-        protected PsiWhile create(PsiElement<?>[] elements, PsiElement<?> condition, int lineNumber) {
+        @Contract(pure = true)
+        protected PsiWhile create(@NotNull PsiElement<?>[] elements, @NotNull PsiElement<?> condition, int lineNumber) {
             return new PsiWhile(elements, condition, lineNumber);
         }
     }

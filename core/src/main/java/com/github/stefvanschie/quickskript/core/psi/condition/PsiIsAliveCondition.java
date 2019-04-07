@@ -23,12 +23,12 @@ public class PsiIsAliveCondition extends PsiElement<Boolean> {
      * The living entity to check the alive state for
      */
     @NotNull
-    protected PsiElement<?> livingEntity;
+    protected final PsiElement<?> livingEntity;
 
     /**
      * False if the execution result needs to be inverted
      */
-    protected boolean positive;
+    protected final boolean positive;
 
     /**
      * Creates a new element with the given line number

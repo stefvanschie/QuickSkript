@@ -23,12 +23,12 @@ public class PsiIsSprintingCondition extends PsiElement<Boolean> {
      * The player to test their sprinting state
      */
     @NotNull
-    protected PsiElement<?> player;
+    protected final PsiElement<?> player;
 
     /**
      * False if the result of execution needs to be inverted
      */
-    protected boolean positive;
+    protected final boolean positive;
 
     /**
      * Creates a new element with the given line number
