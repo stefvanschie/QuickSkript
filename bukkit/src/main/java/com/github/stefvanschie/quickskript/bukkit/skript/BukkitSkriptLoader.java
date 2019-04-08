@@ -147,6 +147,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiCanFlyConditionImpl.Factory());
         registerElement(new PsiCanSeeConditionImpl.Factory());
         registerElement(new PsiChanceCondition.Factory());
+        registerElement(new PsiEndsWithCondition.Factory());
         registerElement(new PsiEventCancelledConditionImpl.Factory());
         registerElement(new PsiExistsCondition.Factory());
         registerElement(new PsiHasClientWeatherConditionImpl.Factory());
@@ -158,13 +159,13 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiIsBlockingConditionImpl.Factory());
         registerElement(new PsiIsBurningConditionImpl.Factory());
         registerElement(new PsiIsFlyingConditionImpl.Factory());
+        registerElement(new PsiIsOnGroundConditionImpl.Factory());
         registerElement(new PsiIsOnlineConditionImpl.Factory());
         registerElement(new PsiIsPoisonedConditionImpl.Factory());
         registerElement(new PsiIsSleepingConditionImpl.Factory());
         registerElement(new PsiIsSneakingConditionImpl.Factory());
         registerElement(new PsiIsSprintingConditionImpl.Factory());
         registerElement(new PsiIsSwimmingConditionImpl.Factory());
-        registerElement(new PsiIsOnGroundConditionImpl.Factory());
         registerElement(new PsiStartsWithCondition.Factory());
 
         registerElement(new PsiIsCondition.Factory());

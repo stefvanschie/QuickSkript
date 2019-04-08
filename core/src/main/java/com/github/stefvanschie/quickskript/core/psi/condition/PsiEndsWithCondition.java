@@ -13,12 +13,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Checks whether a given text starts with another given text. This may be pre computed, if the texts are also pre
+ * Checks whether a given text ends with another given text. This may be pre computed, if the texts are also pre
  * computed.
  *
  * @since 0.1.0
  */
-public class PsiStartsWithCondition extends PsiElement<Boolean> {
+public class PsiEndsWithCondition extends PsiElement<Boolean> {
 
     /**
      * The text that will be checked
@@ -26,9 +26,9 @@ public class PsiStartsWithCondition extends PsiElement<Boolean> {
     private PsiElement<?> text;
 
     /**
-     * The prefix to check for
+     * The suffix to check for
      */
-    private PsiElement<?> prefix;
+    private PsiElement<?> suffix;
 
     /**
      * False if the result of execution needs to be inverted
@@ -39,24 +39,24 @@ public class PsiStartsWithCondition extends PsiElement<Boolean> {
      * Creates a new element with the given line number
      *
      * @param text the text that will be checked
-     * @param prefix the prefix to check for
+     * @param suffix the suffix to check for
      * @param positive false if the result of execution needs to be inverted
      * @param lineNumber the line number this element is associated with
      * @since 0.1.0
      */
-    private PsiStartsWithCondition(@NotNull PsiElement<?> text, @NotNull PsiElement<?> prefix, boolean positive,
-                                     int lineNumber) {
+    private PsiEndsWithCondition(@NotNull PsiElement<?> text, @NotNull PsiElement<?> suffix, boolean positive,
+                                 int lineNumber) {
         super(lineNumber);
 
         this.text = text;
-        this.prefix = prefix;
+        this.suffix = suffix;
         this.positive = positive;
 
-        if (text.isPreComputed() && prefix.isPreComputed()) {
+        if (text.isPreComputed() && suffix.isPreComputed()) {
             preComputed = executeImpl(null);
 
             this.text = null;
-            this.prefix = null;
+            this.suffix = null;
         }
     }
 
@@ -69,28 +69,28 @@ public class PsiStartsWithCondition extends PsiElement<Boolean> {
     protected Boolean executeImpl(@Nullable Context context) {
         Text text = this.text.execute(context, Text.class);
 
-        return positive == text.toString().startsWith(prefix.execute(context, Text.class).toString());
+        return positive == text.toString().endsWith(suffix.execute(context, Text.class).toString());
     }
 
     /**
-     * A factory for creating {@link PsiStartsWithCondition}s
+     * A factory for creating {@link PsiEndsWithCondition}s
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiStartsWithCondition> {
+    public static class Factory implements PsiElementFactory<PsiEndsWithCondition> {
 
         /**
-         * A pattern for matching positive {@link PsiStartsWithCondition}s
+         * A pattern for matching positive {@link PsiEndsWithCondition}s
          */
         @NotNull
-        private final Pattern positivePattern = Pattern.compile("([\\s\\S]+) starts? with ([\\s\\S]+)");
+        private final Pattern positivePattern = Pattern.compile("([\\s\\S]+) ends? with ([\\s\\S]+)");
 
         /**
-         * A pattern for matching negative {@link PsiStartsWithCondition}s
+         * A pattern for matching negative {@link PsiEndsWithCondition}s
          */
         @NotNull
         private final Pattern negativePattern =
-            Pattern.compile("([\\s\\S]+) (?:doesn't|does not|do not|don't) start with ([\\s\\S]+)");
+            Pattern.compile("([\\s\\S]+) (?:doesn't|does not|do not|don't) end with ([\\s\\S]+)");
 
         /**
          * {@inheritDoc}
@@ -98,23 +98,23 @@ public class PsiStartsWithCondition extends PsiElement<Boolean> {
         @Nullable
         @Contract(pure = true)
         @Override
-        public PsiStartsWithCondition tryParse(@NotNull String text, int lineNumber) {
+        public PsiEndsWithCondition tryParse(@NotNull String text, int lineNumber) {
             Matcher positiveMatcher = positivePattern.matcher(text);
 
             if (positiveMatcher.matches()) {
                 PsiElement<?> textElement = SkriptLoader.get().forceParseElement(positiveMatcher.group(1), lineNumber);
-                PsiElement<?> prefix = SkriptLoader.get().forceParseElement(positiveMatcher.group(2), lineNumber);
+                PsiElement<?> suffix = SkriptLoader.get().forceParseElement(positiveMatcher.group(2), lineNumber);
 
-                return create(textElement, prefix, true, lineNumber);
+                return create(textElement, suffix, true, lineNumber);
             }
 
             Matcher negativeMatcher = negativePattern.matcher(text);
 
             if (negativeMatcher.matches()) {
                 PsiElement<?> textElement = SkriptLoader.get().forceParseElement(negativeMatcher.group(1), lineNumber);
-                PsiElement<?> prefix = SkriptLoader.get().forceParseElement(positiveMatcher.group(2), lineNumber);
+                PsiElement<?> suffix = SkriptLoader.get().forceParseElement(positiveMatcher.group(2), lineNumber);
 
-                return create(textElement, prefix, false, lineNumber);
+                return create(textElement, suffix, false, lineNumber);
             }
 
             return null;
@@ -126,7 +126,7 @@ public class PsiStartsWithCondition extends PsiElement<Boolean> {
          * method.
          *
          * @param text the text to check
-         * @param prefix the prefix to find in the text
+         * @param suffix the suffix to find in the text
          * @param positive false if the result of the execution should be negated, true otherwise
          * @param lineNumber the line number
          * @return the condition
@@ -134,9 +134,9 @@ public class PsiStartsWithCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        private PsiStartsWithCondition create(@NotNull PsiElement<?> text, @NotNull PsiElement<?> prefix,
-                                              boolean positive, int lineNumber) {
-            return new PsiStartsWithCondition(text, prefix, positive, lineNumber);
+        private PsiEndsWithCondition create(@NotNull PsiElement<?> text, @NotNull PsiElement<?> suffix,
+                                            boolean positive, int lineNumber) {
+            return new PsiEndsWithCondition(text, suffix, positive, lineNumber);
         }
     }
 }

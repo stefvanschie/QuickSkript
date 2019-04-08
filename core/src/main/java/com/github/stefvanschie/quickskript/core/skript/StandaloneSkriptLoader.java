@@ -69,6 +69,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiCanFlyCondition.Factory());
         registerElement(new PsiCanSeeCondition.Factory());
         registerElement(new PsiChanceCondition.Factory());
+        registerElement(new PsiEndsWithCondition.Factory());
         registerElement(new PsiEventCancelledCondition.Factory());
         registerElement(new PsiExistsCondition.Factory());
         registerElement(new PsiHasClientWeatherCondition.Factory());
@@ -80,13 +81,13 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiIsBlockingCondition.Factory());
         registerElement(new PsiIsBurningCondition.Factory());
         registerElement(new PsiIsFlyingCondition.Factory());
+        registerElement(new PsiIsOnGroundCondition.Factory());
         registerElement(new PsiIsOnlineCondition.Factory());
         registerElement(new PsiIsPoisonedCondition.Factory());
         registerElement(new PsiIsSleepingCondition.Factory());
         registerElement(new PsiIsSneakingCondition.Factory());
         registerElement(new PsiIsSprintingCondition.Factory());
         registerElement(new PsiIsSwimmingCondition.Factory());
-        registerElement(new PsiIsOnGroundCondition.Factory());
         registerElement(new PsiStartsWithCondition.Factory());
 
         registerElement(new PsiIsCondition.Factory());
