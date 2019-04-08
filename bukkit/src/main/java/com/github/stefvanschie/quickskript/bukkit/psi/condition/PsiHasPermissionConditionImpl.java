@@ -31,7 +31,7 @@ public class PsiHasPermissionConditionImpl extends PsiHasPermissionCondition {
     @Override
     protected Boolean executeImpl(@Nullable Context context) {
         return positive == permissible
-            .execute(context, Permissible.class).hasPermission(permission.execute(context, Text.class).construct());
+            .execute(context, Permissible.class).hasPermission(permission.execute(context, Text.class).toString());
     }
 
     /**

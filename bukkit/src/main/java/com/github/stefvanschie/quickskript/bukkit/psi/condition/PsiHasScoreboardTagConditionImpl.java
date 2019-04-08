@@ -40,7 +40,7 @@ public class PsiHasScoreboardTagConditionImpl extends PsiHasScoreboardTagConditi
     protected Boolean executeImpl(@Nullable Context context) {
         Entity entity = this.entity.execute(context, Entity.class);
 
-        return positive == entity.getScoreboardTags().contains(tag.execute(context, Text.class).construct());
+        return positive == entity.getScoreboardTags().contains(tag.execute(context, Text.class).toString());
     }
 
     /**

@@ -37,10 +37,11 @@ public class PsiStringLiteral extends PsiPrecomputedHolder<Text> {
     public static class Factory implements PsiElementFactory<PsiStringLiteral> {
 
         /**
-         * A pattern for matching strings
+         * A pattern for matching strings. Making the plus lazy is crucial to ensure this doesn't accidentally match
+         * multiple strings as one.
          */
         @NotNull
-        private final Pattern pattern = Pattern.compile("\"([\\s\\S]+)\"");
+        private final Pattern pattern = Pattern.compile("\"([^\"]+)\"");
 
         /**
          * {@inheritDoc}

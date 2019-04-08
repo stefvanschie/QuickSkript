@@ -36,7 +36,9 @@ public final class Text {
      * @since 0.1.0
      */
     @NotNull
-    public String construct() {
+    @Contract(pure = true)
+    @Override
+    public String toString() {
         StringBuilder message = new StringBuilder();
 
         parts.forEach(part -> part.append(message));

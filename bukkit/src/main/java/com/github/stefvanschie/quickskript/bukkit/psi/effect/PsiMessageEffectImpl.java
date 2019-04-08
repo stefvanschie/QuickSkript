@@ -47,7 +47,7 @@ public class PsiMessageEffectImpl extends PsiMessageEffect {
             );
         }
 
-        receiver.sendMessage(message.execute(context, Text.class).construct());
+        receiver.sendMessage(message.execute(context, Text.class).toString());
         return null;
     }
 

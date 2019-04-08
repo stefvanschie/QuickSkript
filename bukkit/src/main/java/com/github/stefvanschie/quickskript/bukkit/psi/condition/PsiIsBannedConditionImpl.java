@@ -54,7 +54,7 @@ public class PsiIsBannedConditionImpl extends PsiIsBannedCondition {
         }
 
         if (object instanceof Text) {
-            return positive == banList.isBanned(((Text) object).construct());
+            return positive == banList.isBanned(((Text) object).toString());
         }
 
         return null;

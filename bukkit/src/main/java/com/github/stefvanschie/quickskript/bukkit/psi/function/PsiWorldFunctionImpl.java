@@ -33,7 +33,7 @@ public class PsiWorldFunctionImpl extends PsiWorldFunction {
     @Nullable
     @Override
     public World executeImpl(@Nullable Context context) {
-        return Bukkit.getWorld(parameter.execute(context, Text.class).construct());
+        return Bukkit.getWorld(parameter.execute(context, Text.class).toString());
     }
 
     /**

@@ -165,6 +165,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiIsSprintingConditionImpl.Factory());
         registerElement(new PsiIsSwimmingConditionImpl.Factory());
         registerElement(new PsiIsOnGroundConditionImpl.Factory());
+        registerElement(new PsiStartsWithCondition.Factory());
 
         registerElement(new PsiIsCondition.Factory());
 
@@ -421,7 +422,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         String description = getFileLineValue(lines, "description:",
             "Command " + commandName + " has multiple valid descriptions");
         if (description != null) {
-            command.setDescription(Text.parse(description).construct());
+            command.setDescription(Text.parse(description).toString());
         }
 
         String aliases = getFileLineValue(lines, "aliases:",
@@ -433,19 +434,19 @@ public class BukkitSkriptLoader extends SkriptLoader {
         String permission = getFileLineValue(lines, "permission:",
             "Command " + commandName + " has multiple valid permissions");
         if (permission != null) {
-            command.setPermission(Text.parse(permission).construct());
+            command.setPermission(Text.parse(permission).toString());
         }
 
         String permissionMessage = getFileLineValue(lines, "permission message:",
             "Command " + commandName + " has multiple valid permission messages");
         if (permissionMessage != null) {
-            command.setPermissionMessage(Text.parse(permissionMessage).construct());
+            command.setPermissionMessage(Text.parse(permissionMessage).toString());
         }
 
         String usage = getFileLineValue(lines, "usage:",
             "Command " + commandName + " has multiple valid usages");
         if (usage != null) {
-            command.setUsage(Text.parse(usage).construct());
+            command.setUsage(Text.parse(usage).toString());
         }
 
         String rawTarget = getFileLineValue(lines, "usage:",
