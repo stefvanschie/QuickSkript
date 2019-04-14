@@ -6,10 +6,7 @@ import com.github.stefvanschie.quickskript.bukkit.event.ComplexEventProxyFactory
 import com.github.stefvanschie.quickskript.bukkit.event.EventProxyFactory;
 import com.github.stefvanschie.quickskript.bukkit.event.SimpleEventProxyFactory;
 import com.github.stefvanschie.quickskript.bukkit.psi.condition.*;
-import com.github.stefvanschie.quickskript.bukkit.psi.effect.PsiActionBarEffectImpl;
-import com.github.stefvanschie.quickskript.bukkit.psi.effect.PsiCancelEventEffectImpl;
-import com.github.stefvanschie.quickskript.bukkit.psi.effect.PsiExplosionEffectImpl;
-import com.github.stefvanschie.quickskript.bukkit.psi.effect.PsiMessageEffectImpl;
+import com.github.stefvanschie.quickskript.bukkit.psi.effect.*;
 import com.github.stefvanschie.quickskript.bukkit.psi.expression.PsiConsoleSenderExpressionImpl;
 import com.github.stefvanschie.quickskript.bukkit.psi.function.PsiLocationFunctionImpl;
 import com.github.stefvanschie.quickskript.bukkit.psi.function.PsiVectorFunctionImpl;
@@ -137,6 +134,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         //effects
         //these are at the top, cause they are always the outermost element
         registerElement(new PsiActionBarEffectImpl.Factory(), Platform.SPIGOT);
+        registerElement(new PsiBanEffectImpl.Factory());
         registerElement(new PsiCancelEventEffectImpl.Factory());
         registerElement(new PsiExplosionEffectImpl.Factory());
         registerElement(new PsiMessageEffectImpl.Factory());
