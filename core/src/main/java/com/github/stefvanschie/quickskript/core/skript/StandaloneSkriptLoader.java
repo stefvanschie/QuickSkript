@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.context.CommandContext;
 import com.github.stefvanschie.quickskript.core.context.EventContext;
 import com.github.stefvanschie.quickskript.core.file.SkriptFileSection;
 import com.github.stefvanschie.quickskript.core.psi.condition.*;
+import com.github.stefvanschie.quickskript.core.psi.effect.PsiActionBarEffect;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiCancelEventEffect;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiExplosionEffect;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiMessageEffect;
@@ -56,6 +57,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
     public void registerDefaultElements() {
         //effects
         //these are at the top, cause they are always the outermost element
+        registerElement(new PsiActionBarEffect.Factory());
         registerElement(new PsiCancelEventEffect.Factory());
         registerElement(new PsiExplosionEffect.Factory());
         registerElement(new PsiMessageEffect.Factory());

@@ -6,6 +6,7 @@ import com.github.stefvanschie.quickskript.bukkit.event.ComplexEventProxyFactory
 import com.github.stefvanschie.quickskript.bukkit.event.EventProxyFactory;
 import com.github.stefvanschie.quickskript.bukkit.event.SimpleEventProxyFactory;
 import com.github.stefvanschie.quickskript.bukkit.psi.condition.*;
+import com.github.stefvanschie.quickskript.bukkit.psi.effect.PsiActionBarEffectImpl;
 import com.github.stefvanschie.quickskript.bukkit.psi.effect.PsiCancelEventEffectImpl;
 import com.github.stefvanschie.quickskript.bukkit.psi.effect.PsiExplosionEffectImpl;
 import com.github.stefvanschie.quickskript.bukkit.psi.effect.PsiMessageEffectImpl;
@@ -21,6 +22,7 @@ import com.github.stefvanschie.quickskript.bukkit.util.event.QuickSkriptPostEnab
 import com.github.stefvanschie.quickskript.core.file.SkriptFileLine;
 import com.github.stefvanschie.quickskript.core.file.SkriptFileNode;
 import com.github.stefvanschie.quickskript.core.file.SkriptFileSection;
+import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.condition.*;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiParseExpression;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiRandomNumberExpression;
@@ -134,6 +136,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
     public void registerDefaultElements() {
         //effects
         //these are at the top, cause they are always the outermost element
+        registerElement(new PsiActionBarEffectImpl.Factory(), Platform.SPIGOT);
         registerElement(new PsiCancelEventEffectImpl.Factory());
         registerElement(new PsiExplosionEffectImpl.Factory());
         registerElement(new PsiMessageEffectImpl.Factory());
@@ -523,6 +526,19 @@ public class BukkitSkriptLoader extends SkriptLoader {
         }
 
         return value;
+    }
+
+    /**
+     * Registers this factory if the specified platform is available
+     *
+     * @param factory the factory to register
+     * @param minimumPlatform the minimum platform necessary
+     * @since 0.1.0
+     */
+    private void registerElement(@NotNull PsiElementFactory<?> factory, @NotNull Platform minimumPlatform) {
+        if (Platform.getPlatform().isAvailable(minimumPlatform)) {
+            registerElement(factory);
+        }
     }
 
     /**
