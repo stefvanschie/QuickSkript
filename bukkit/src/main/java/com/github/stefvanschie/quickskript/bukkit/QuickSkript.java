@@ -60,7 +60,6 @@ public class QuickSkript extends JavaPlugin {
 
         //load scripts
         try (SkriptLoader ignored = new BukkitSkriptLoader()) {
-
             File skriptFolder = new File(getDataFolder(), "skripts");
 
             if (!skriptFolder.exists() && !skriptFolder.mkdirs()) {

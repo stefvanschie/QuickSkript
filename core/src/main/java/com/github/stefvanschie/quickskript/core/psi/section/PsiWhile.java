@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiSection;
 import com.github.stefvanschie.quickskript.core.psi.PsiSectionFactory;
+import com.github.stefvanschie.quickskript.core.psi.util.SimpleInstructionPointerMovement;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -40,8 +41,6 @@ public class PsiWhile extends PsiSection {
 
         if (condition.isPreComputed()) {
             //TODO warning
-            preComputed = executeImpl(null);
-            this.condition = null;
         }
     }
 
@@ -51,8 +50,17 @@ public class PsiWhile extends PsiSection {
     @Nullable
     @Override
     protected Void executeImpl(@Nullable Context context) {
+        outerLoop:
         while (condition.execute(context, Boolean.class)) {
-            super.executeImpl(context);
+            for (PsiElement<?> element : elements) {
+                Object result = element.execute(context);
+
+                if (result == Boolean.FALSE) {
+                    break;
+                } else if (result == SimpleInstructionPointerMovement.Loop.CONTINUE) {
+                    continue outerLoop;
+                }
+            }
         }
 
         return null;

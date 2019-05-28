@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiSection;
 import com.github.stefvanschie.quickskript.core.psi.PsiSectionFactory;
+import com.github.stefvanschie.quickskript.core.psi.util.SimpleInstructionPointerMovement;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -73,7 +74,15 @@ public class PsiIf extends PsiSection {
     @Override
     protected Void executeImpl(@Nullable Context context) {
         if (condition.execute(context, Boolean.class)) {
-            super.executeImpl(context);
+            for (PsiElement<?> element : elements) {
+                Object result = element.execute(context);
+
+                if (result == Boolean.FALSE) {
+                    break;
+                } else if (result == SimpleInstructionPointerMovement.Loop.CONTINUE) {
+                    return null; //the loop is apparently outside of this if statement, so completely exit it
+                }
+            }
         } else if (elseSection != null) {
             elseSection.execute(context);
         }
