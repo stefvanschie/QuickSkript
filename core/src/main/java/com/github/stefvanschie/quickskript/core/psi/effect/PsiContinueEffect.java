@@ -2,7 +2,7 @@ package com.github.stefvanschie.quickskript.core.psi.effect;
 
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
-import com.github.stefvanschie.quickskript.core.psi.util.SimpleInstructionPointerMovement;
+import com.github.stefvanschie.quickskript.core.psi.util.pointermovement.SimpleInstructionPointerMovement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,7 +22,7 @@ public class PsiContinueEffect extends PsiPrecomputedHolder<SimpleInstructionPoi
      * @param lineNumber the line number of this element
      * @since 0.1.0
      */
-    public PsiContinueEffect(int lineNumber) {
+    private PsiContinueEffect(int lineNumber) {
         super(SimpleInstructionPointerMovement.Loop.CONTINUE, lineNumber);
     }
 

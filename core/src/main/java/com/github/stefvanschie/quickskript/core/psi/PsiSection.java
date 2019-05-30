@@ -1,6 +1,8 @@
 package com.github.stefvanschie.quickskript.core.psi;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.psi.util.pointermovement.ExitSectionsPointerMovement;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,7 +15,7 @@ import java.util.Arrays;
  *
  * @since 0.1.0
  */
-public abstract class PsiSection extends PsiElement<Void> {
+public abstract class PsiSection extends PsiElement<ExitSectionsPointerMovement> {
 
     /**
      * The elements this section contains.
@@ -43,7 +45,7 @@ public abstract class PsiSection extends PsiElement<Void> {
      */
     @Nullable
     @Override
-    protected Void executeImpl(@Nullable Context context) {
+    protected ExitSectionsPointerMovement executeImpl(@Nullable Context context) {
         for (PsiElement<?> element : elements) {
             if (element.execute(context) == Boolean.FALSE) {
                 break;
@@ -51,5 +53,17 @@ public abstract class PsiSection extends PsiElement<Void> {
         }
 
         return null;
+    }
+
+    /**
+     * Gets all elements in this section
+     *
+     * @return all elements
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public PsiElement<?>[] getElements() {
+        return elements;
     }
 }

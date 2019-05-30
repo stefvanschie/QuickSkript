@@ -4,7 +4,9 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiSection;
 import com.github.stefvanschie.quickskript.core.psi.PsiSectionFactory;
-import com.github.stefvanschie.quickskript.core.psi.util.SimpleInstructionPointerMovement;
+import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
+import com.github.stefvanschie.quickskript.core.psi.util.pointermovement.ExitSectionsPointerMovement;
+import com.github.stefvanschie.quickskript.core.psi.util.pointermovement.SimpleInstructionPointerMovement;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -49,7 +51,7 @@ public class PsiWhile extends PsiSection {
      */
     @Nullable
     @Override
-    protected Void executeImpl(@Nullable Context context) {
+    protected ExitSectionsPointerMovement executeImpl(@Nullable Context context) {
         outerLoop:
         while (condition.execute(context, Boolean.class)) {
             for (PsiElement<?> element : elements) {
@@ -57,8 +59,31 @@ public class PsiWhile extends PsiSection {
 
                 if (result == Boolean.FALSE) {
                     break;
-                } else if (result == SimpleInstructionPointerMovement.Loop.CONTINUE) {
+                }
+
+                if (result == SimpleInstructionPointerMovement.Loop.CONTINUE) {
                     continue outerLoop;
+                }
+
+                if (result instanceof ExitSectionsPointerMovement) {
+                    ExitSectionsPointerMovement pointerMovement = (ExitSectionsPointerMovement) result;
+                    ExitSectionsPointerMovement.Type type = pointerMovement.getType();
+
+                    if (type == ExitSectionsPointerMovement.Type.CONDITIONALS) {
+                        throw new ExecutionException("Tried to exit conditional, but found a loop", lineNumber);
+                    }
+
+                    Integer amount = pointerMovement.getAmount();
+
+                    if (amount == null) {
+                        return new ExitSectionsPointerMovement(type);
+                    }
+
+                    if (amount > 1) {
+                        return new ExitSectionsPointerMovement(type, amount - 1);
+                    }
+
+                    return null;
                 }
             }
         }

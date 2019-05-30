@@ -2,11 +2,16 @@ package com.github.stefvanschie.quickskript.core.psi.section;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.file.SkriptFileSection;
+import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiSection;
+import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
+import com.github.stefvanschie.quickskript.core.psi.util.pointermovement.ExitSectionsPointerMovement;
 import com.github.stefvanschie.quickskript.core.skript.Skript;
 import com.github.stefvanschie.quickskript.core.skript.profiler.SkriptProfiler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Locale;
 
 /**
  * A section which acts as the entry point for Skript code.
@@ -56,10 +61,39 @@ public class PsiBaseSection extends PsiSection {
      */
     @Nullable
     @Override
-    protected Void executeImpl(@Nullable Context context) {
+    protected ExitSectionsPointerMovement executeImpl(@Nullable Context context) {
         long startTime = System.nanoTime();
 
-        super.executeImpl(context);
+        for (PsiElement<?> element : elements) {
+            Object result = element.execute(context);
+
+            if (result == Boolean.FALSE) {
+                break;
+            }
+
+            if (result instanceof ExitSectionsPointerMovement) {
+                ExitSectionsPointerMovement pointerMovement = (ExitSectionsPointerMovement) result;
+                ExitSectionsPointerMovement.Type type = pointerMovement.getType();
+
+                if (type != ExitSectionsPointerMovement.Type.EVERYTHING) {
+                    throw new ExecutionException(
+                        "Tried to exit trigger, but found a " + type.name().toLowerCase(Locale.getDefault()), lineNumber
+                    );
+                }
+
+                Integer amount = pointerMovement.getAmount();
+
+                if (amount == null) {
+                    return new ExitSectionsPointerMovement(type);
+                }
+
+                if (amount > 1) {
+                    return new ExitSectionsPointerMovement(type, amount - 1);
+                }
+
+                return null;
+            }
+        }
 
         skript.getSkriptProfiler().onTimeMeasured(contextType, profilerIdentifier,
             System.nanoTime() - startTime);

@@ -1,4 +1,4 @@
-package com.github.stefvanschie.quickskript.core.psi.util;
+package com.github.stefvanschie.quickskript.core.psi.util.pointermovement;
 
 /**
  * An enum for indicating that the instruction pointer has to stop following its default execution order and move to a
