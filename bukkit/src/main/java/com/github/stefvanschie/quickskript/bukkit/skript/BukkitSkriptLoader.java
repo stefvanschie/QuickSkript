@@ -22,6 +22,7 @@ import com.github.stefvanschie.quickskript.core.file.SkriptFileSection;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.condition.*;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiContinueEffect;
+import com.github.stefvanschie.quickskript.core.psi.effect.PsiDoIfEffect;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiParseExpression;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiRandomNumberExpression;
 import com.github.stefvanschie.quickskript.core.psi.function.*;
@@ -139,6 +140,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiCancelEventEffectImpl.Factory());
         registerElement(new PsiCommandEffectImpl.Factory());
         registerElement(new PsiContinueEffect.Factory());
+        registerElement(new PsiDoIfEffect.Factory());
         registerElement(new PsiExplosionEffectImpl.Factory());
         registerElement(new PsiMessageEffectImpl.Factory());
         registerElement(new PsiUnbanEffectImpl.Factory());
