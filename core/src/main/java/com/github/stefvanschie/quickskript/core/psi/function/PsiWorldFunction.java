@@ -57,7 +57,7 @@ public class PsiWorldFunction extends PsiElement<Object> {
          * The pattern for matching world function expressions
          */
         @NotNull
-        private final Pattern pattern = Pattern.compile("world\\(([\\s\\S]+)\\)");
+        private final Pattern pattern = Pattern.compile("world\\((?<parameter>[\\s\\S]+)\\)");
 
         /**
          * {@inheritDoc}
@@ -72,7 +72,7 @@ public class PsiWorldFunction extends PsiElement<Object> {
                 return null;
             }
 
-            String expression = matcher.group(1);
+            String expression = matcher.group("parameter");
             PsiElement<?> element = SkriptLoader.get().forceParseElement(expression, lineNumber);
 
             return create(element, lineNumber);

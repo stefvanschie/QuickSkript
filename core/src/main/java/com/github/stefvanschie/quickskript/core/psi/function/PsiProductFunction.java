@@ -77,7 +77,7 @@ public class PsiProductFunction extends PsiElement<Double> {
          * The pattern for matching product expressions
          */
         @NotNull
-        private final Pattern pattern = Pattern.compile("product\\(([\\s\\S]+)\\)");
+        private final Pattern pattern = Pattern.compile("product\\((?<parameters>[\\s\\S]+)\\)");
 
         /**
          * {@inheritDoc}
@@ -92,7 +92,7 @@ public class PsiProductFunction extends PsiElement<Double> {
                 return null;
             }
 
-            String[] values = matcher.group(1).replace(" ", "").split(",");
+            String[] values = matcher.group("parameters").replace(" ", "").split(",");
 
             if (values.length == 1) {
                 PsiElement<?> collection = SkriptLoader.get().tryParseElement(values[0], lineNumber);

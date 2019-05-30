@@ -76,8 +76,9 @@ public class PsiHasPermissionCondition extends PsiElement<Boolean> {
          * The pattern to match has permission conditions with
          */
         @NotNull
-        private final Pattern pattern = Pattern
-            .compile("([\\s\\S]+?) ((?:do(?:es)?n't|do(?:es)? not) )?ha(?:ve|s) (?:the )?permissions? ([\\s\\S]+)");
+        private final Pattern pattern = Pattern.compile(
+            "(?<permissible>[\\s\\S]+?) ((?:do(?:es)?n't|do(?:es)? not) )?ha(?:ve|s) (?:the )?permissions? (?<permission>[\\s\\S]+)"
+        );
 
         /**
          * {@inheritDoc}
@@ -86,14 +87,16 @@ public class PsiHasPermissionCondition extends PsiElement<Boolean> {
         @Contract(pure = true)
         @Override
         public PsiHasPermissionCondition tryParse(@NotNull String text, int lineNumber) {
+            var skriptLoader = SkriptLoader.get();
+
             Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches()) {
                 return null;
             }
 
-            PsiElement<?> permissible = SkriptLoader.get().forceParseElement(matcher.group(1), lineNumber);
-            PsiElement<?> permission = SkriptLoader.get().forceParseElement(matcher.group(3), lineNumber);
+            PsiElement<?> permissible = skriptLoader.forceParseElement(matcher.group("permissible"), lineNumber);
+            PsiElement<?> permission = skriptLoader.forceParseElement(matcher.group("permission"), lineNumber);
 
             return create(permissible, permission, matcher.group(2) == null, lineNumber);
         }

@@ -63,7 +63,7 @@ public class PsiAtan2Function extends PsiElement<Double> {
          * The pattern for matching atan2 function expressions
          */
         @NotNull
-        private final Pattern pattern = Pattern.compile("atan2\\(([\\s\\S]+),[ ]*([\\s\\S]+)\\)");
+        private final Pattern pattern = Pattern.compile("atan2\\((?<x>[\\s\\S]+),[ ]*(?<y>[\\s\\S]+)\\)");
 
         /**
          * {@inheritDoc}
@@ -78,11 +78,13 @@ public class PsiAtan2Function extends PsiElement<Double> {
                 return null;
             }
 
-            String xExpression = matcher.group(1);
-            PsiElement<?> xElement = SkriptLoader.get().forceParseElement(xExpression, lineNumber);
+            var skriptLoader = SkriptLoader.get();
 
-            String yExpression = matcher.group(2);
-            PsiElement<?> yElement = SkriptLoader.get().forceParseElement(yExpression, lineNumber);
+            String xExpression = matcher.group("x");
+            PsiElement<?> xElement = skriptLoader.forceParseElement(xExpression, lineNumber);
+
+            String yExpression = matcher.group("y");
+            PsiElement<?> yElement = skriptLoader.forceParseElement(yExpression, lineNumber);
 
             return create(xElement, yElement, lineNumber);
         }

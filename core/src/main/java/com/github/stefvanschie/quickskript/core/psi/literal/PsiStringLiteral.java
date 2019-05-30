@@ -41,7 +41,7 @@ public class PsiStringLiteral extends PsiPrecomputedHolder<Text> {
          * multiple strings as one.
          */
         @NotNull
-        private final Pattern pattern = Pattern.compile("\"([^\"]+)\"");
+        private final Pattern pattern = Pattern.compile("\"(?<text>[^\"]+)\"");
 
         /**
          * {@inheritDoc}
@@ -56,7 +56,7 @@ public class PsiStringLiteral extends PsiPrecomputedHolder<Text> {
                 return null;
             }
 
-            return create(Text.parse(matcher.group(1)), lineNumber);
+            return create(Text.parse(matcher.group("text")), lineNumber);
         }
 
         /**

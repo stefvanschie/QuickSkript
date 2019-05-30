@@ -65,14 +65,14 @@ public class PsiIsOnlineCondition extends PsiElement<Boolean> {
          */
         @NotNull
         private final Pattern positivePattern =
-            Pattern.compile("([\\s\\S]+) (?:(?:is|are) online|(?:isn't|is not|aren't|are not) offline)");
+            Pattern.compile("(?<offlinePlayer>[\\s\\S]+) (?:(?:is|are) online|(?:isn't|is not|aren't|are not) offline)");
 
         /**
          * The pattern for matching negative {@link PsiIsOnlineCondition}s
          */
         @NotNull
         private final Pattern negativePattern =
-            Pattern.compile("([\\s\\S]+) (?:(?:is|are) offline|(?:isn't|is not|aren't|are not) online)");
+            Pattern.compile("(?<offlinePlayer>[\\s\\S]+) (?:(?:is|are) offline|(?:isn't|is not|aren't|are not) online)");
 
         /**
          * {@inheritDoc}
@@ -81,11 +81,14 @@ public class PsiIsOnlineCondition extends PsiElement<Boolean> {
         @Contract(pure = true)
         @Override
         public PsiIsOnlineCondition tryParse(@NotNull String text, int lineNumber) {
+            var skriptLoader = SkriptLoader.get();
+
             Matcher positiveMatcher = positivePattern.matcher(text);
 
             if (positiveMatcher.matches()) {
-                PsiElement<?> offlinePlayer =
-                    SkriptLoader.get().forceParseElement(positiveMatcher.group(1), lineNumber);
+                String offlinePlayerGroup = positiveMatcher.group("offlinePlayer");
+
+                PsiElement<?> offlinePlayer = skriptLoader.forceParseElement(offlinePlayerGroup, lineNumber);
 
                 return create(offlinePlayer, true, lineNumber);
             }
@@ -93,8 +96,9 @@ public class PsiIsOnlineCondition extends PsiElement<Boolean> {
             Matcher negativeMatcher = negativePattern.matcher(text);
 
             if (negativeMatcher.matches()) {
-                PsiElement<?> offlinePlayer =
-                    SkriptLoader.get().forceParseElement(negativeMatcher.group(1), lineNumber);
+                String offlinePlayerGroup = negativeMatcher.group("offlinePlayer");
+
+                PsiElement<?> offlinePlayer = skriptLoader.forceParseElement(offlinePlayerGroup, lineNumber);
 
                 return create(offlinePlayer, false, lineNumber);
             }

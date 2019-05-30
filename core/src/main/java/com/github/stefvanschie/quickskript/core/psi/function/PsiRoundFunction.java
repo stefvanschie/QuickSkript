@@ -61,7 +61,7 @@ public class PsiRoundFunction extends PsiElement<Long> {
          * The pattern for matching round expressions
          */
         @NotNull
-        private final Pattern pattern = Pattern.compile("round\\(([\\s\\S]+)\\)");
+        private final Pattern pattern = Pattern.compile("round\\((?<parameter>[\\s\\S]+)\\)");
 
         /**
          * {@inheritDoc}
@@ -76,7 +76,7 @@ public class PsiRoundFunction extends PsiElement<Long> {
                 return null;
             }
 
-            String expression = matcher.group(1);
+            String expression = matcher.group("parameter");
             PsiElement<?> element = SkriptLoader.get().forceParseElement(expression, lineNumber);
 
             return create(element, lineNumber);

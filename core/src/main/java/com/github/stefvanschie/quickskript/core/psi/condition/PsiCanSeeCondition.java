@@ -67,15 +67,16 @@ public class PsiCanSeeCondition extends PsiElement<Boolean> {
          * A pattern for matching positive can see conditions
          */
         @NotNull
-        private final Pattern positivePattern = Pattern
-            .compile("([\\s\\S]+) (?:(?:is|are) visible for|(?:is|are)(?:n't| not) invisible for|can see) ([\\s\\S]+)");
+        private final Pattern positivePattern = Pattern.compile(
+            "(?<player>[\\s\\S]+) (?:(?:is|are) visible for|(?:is|are)(?:n't| not) invisible for|can see) (?<targetPlayer>[\\s\\S]+)"
+        );
 
         /**
          * A pattern for matching negative can see conditions
          */
         @NotNull
         private final Pattern negativePattern = Pattern.compile(
-            "([\\s\\S]+) (?:(?:is|are) invisible for|(?:is|are)(?:n't| not) visible for|can(?:'t| not) see) ([\\s\\S]+)"
+            "(?<player>[\\s\\S]+) (?:(?:is|are) invisible for|(?:is|are)(?:n't| not) visible for|can(?:'t| not) see) (?<targetPlayer>[\\s\\S]+)"
         );
 
         /**
@@ -85,11 +86,16 @@ public class PsiCanSeeCondition extends PsiElement<Boolean> {
         @Contract(pure = true)
         @Override
         public PsiCanSeeCondition tryParse(@NotNull String text, int lineNumber) {
+            var skriptLoader = SkriptLoader.get();
+
             Matcher positiveMatcher = positivePattern.matcher(text);
 
             if (positiveMatcher.matches()) {
-                PsiElement<?> player = SkriptLoader.get().forceParseElement(positiveMatcher.group(1), lineNumber);
-                PsiElement<?> targetPlayer = SkriptLoader.get().forceParseElement(positiveMatcher.group(2), lineNumber);
+                String playerGroup = positiveMatcher.group("player");
+                String targetPlayerGroup = positiveMatcher.group("targetPlayer");
+
+                PsiElement<?> player = skriptLoader.forceParseElement(playerGroup, lineNumber);
+                PsiElement<?> targetPlayer = skriptLoader.forceParseElement(targetPlayerGroup, lineNumber);
 
                 return create(player, targetPlayer, true, lineNumber);
             }
@@ -97,8 +103,11 @@ public class PsiCanSeeCondition extends PsiElement<Boolean> {
             Matcher negativeMatcher = negativePattern.matcher(text);
 
             if (negativeMatcher.matches()) {
-                PsiElement<?> player = SkriptLoader.get().forceParseElement(negativeMatcher.group(1), lineNumber);
-                PsiElement<?> targetPlayer = SkriptLoader.get().forceParseElement(negativeMatcher.group(2), lineNumber);
+                String playerGroup = negativeMatcher.group("player");
+                String targetPlayerGroup = negativeMatcher.group("targetPlayer");
+
+                PsiElement<?> player = skriptLoader.forceParseElement(playerGroup, lineNumber);
+                PsiElement<?> targetPlayer = skriptLoader.forceParseElement(targetPlayerGroup, lineNumber);
 
                 return create(player, targetPlayer, false, lineNumber);
             }

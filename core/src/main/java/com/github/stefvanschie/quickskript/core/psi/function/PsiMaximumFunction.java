@@ -81,7 +81,7 @@ public class PsiMaximumFunction extends PsiElement<Double> {
          * The pattern for matching maximum expressions
          */
         @NotNull
-        private final Pattern pattern = Pattern.compile("max\\(([\\s\\S]+)\\)");
+        private final Pattern pattern = Pattern.compile("max\\((?<elements>[\\s\\S]+)\\)");
 
         /**
          * {@inheritDoc}
@@ -96,7 +96,7 @@ public class PsiMaximumFunction extends PsiElement<Double> {
                 return null;
             }
 
-            String[] values = matcher.group(1).replace(" ", "").split(",");
+            String[] values = matcher.group("elements").replace(" ", "").split(",");
 
             if (values.length == 1) {
                 PsiElement<?> collection = SkriptLoader.get().tryParseElement(values[0], lineNumber);

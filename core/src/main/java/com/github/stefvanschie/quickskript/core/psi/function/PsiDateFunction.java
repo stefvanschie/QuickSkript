@@ -96,7 +96,7 @@ public class PsiDateFunction extends PsiElement<LocalDateTime> {
          * The pattern for matching date expressions
          */
         @NotNull
-        private final Pattern pattern = Pattern.compile("date\\(((?:[\\s\\S]+, *)+[\\s\\S]+)\\)");
+        private final Pattern pattern = Pattern.compile("date\\((?<parameters>(?:[\\s\\S]+, *)+[\\s\\S]+)\\)");
 
         /**
          * {@inheritDoc}
@@ -111,7 +111,7 @@ public class PsiDateFunction extends PsiElement<LocalDateTime> {
                 return null;
             }
 
-            String[] values = matcher.group(1).replace(" ", "").split(",");
+            String[] values = matcher.group("parameters").replace(" ", "").split(",");
 
             if (values.length < 3 || values.length > 9) {
                 return null;

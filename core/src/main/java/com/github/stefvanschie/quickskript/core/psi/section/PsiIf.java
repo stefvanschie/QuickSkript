@@ -101,7 +101,7 @@ public class PsiIf extends PsiSection {
          * The pattern to parse if sections with.
          */
         @NotNull
-        private final Pattern pattern = Pattern.compile("if ([\\s\\S]+)");
+        private final Pattern pattern = Pattern.compile("if (?<statement>[\\s\\S]+)");
 
         /**
          * {@inheritDoc}
@@ -109,11 +109,12 @@ public class PsiIf extends PsiSection {
         @Nullable
         @Contract(pure = true)
         @Override
-        public PsiIf tryParse(@NotNull String text, @NotNull Supplier<PsiElement<?>[]> elementsSupplier, int lineNumber) {
+        public PsiIf tryParse(@NotNull String text, @NotNull Supplier<PsiElement<?>[]> elementsSupplier,
+                              int lineNumber) {
             Matcher matcher = pattern.matcher(text);
             return matcher.matches()
                     ? create(elementsSupplier.get(), SkriptLoader.get()
-                    .forceParseElement(matcher.group(1), lineNumber), lineNumber)
+                    .forceParseElement(matcher.group("statement"), lineNumber), lineNumber)
                     : null;
         }
 

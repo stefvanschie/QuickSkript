@@ -74,7 +74,7 @@ public class PsiCalculateExperienceFunction extends PsiElement<Long> {
          * The pattern for matching calculate experience expressions
          */
         @NotNull
-        private final Pattern pattern = Pattern.compile("calcExperience\\(([\\s\\S]+)\\)");
+        private final Pattern pattern = Pattern.compile("calcExperience\\((?<parameter>[\\s\\S]+)\\)");
 
         /**
          * {@inheritDoc}
@@ -89,7 +89,7 @@ public class PsiCalculateExperienceFunction extends PsiElement<Long> {
                 return null;
             }
 
-            String expression = matcher.group(1);
+            String expression = matcher.group("parameter");
             PsiElement<?> element = SkriptLoader.get().forceParseElement(expression, lineNumber);
 
             return create(element, lineNumber);

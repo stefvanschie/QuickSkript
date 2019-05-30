@@ -84,14 +84,15 @@ public class PsiRandomNumberExpression extends PsiElement<Number> {
          */
         @NotNull
         private final Pattern integerPattern =
-            Pattern.compile("(a )?random integer (from|between) (-?\\d+) (to|and) (-?\\d+)");
+            Pattern.compile("(?:a )?random integer (?:from|between) (?<min>-?\\d+) (?:to|and) (?<max>-?\\d+)");
 
         /**
          * The pattern for matching random number expressions with floating point values
          */
         @NotNull
-        private final Pattern numberPattern =
-            Pattern.compile("(a )?random number (from|between) (-?\\d+(?:.\\d+)?) (to|and) (-?\\d+(?:.\\d+)?)");
+        private final Pattern numberPattern = Pattern.compile(
+            "(?:a )?random number (?:from|between) (?<min>-?\\d+(?:.\\d+)?) (?:to|and) (?<max>-?\\d+(?:.\\d+)?)"
+        );
 
         /**
          * {@inheritDoc}
@@ -113,9 +114,12 @@ public class PsiRandomNumberExpression extends PsiElement<Number> {
                 }
             }
 
-            return create(integer,
-                    SkriptLoader.get().forceParseElement(matcher.group(3), lineNumber),
-                    SkriptLoader.get().forceParseElement(matcher.group(5), lineNumber), lineNumber);
+            var skriptLoader = SkriptLoader.get();
+
+            PsiElement<?> min = skriptLoader.forceParseElement(matcher.group("min"), lineNumber);
+            PsiElement<?> max = skriptLoader.forceParseElement(matcher.group("max"), lineNumber);
+
+            return create(integer, min, max, lineNumber);
         }
 
         /**

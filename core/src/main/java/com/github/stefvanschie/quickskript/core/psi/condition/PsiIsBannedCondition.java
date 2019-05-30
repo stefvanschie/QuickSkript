@@ -72,14 +72,14 @@ public class PsiIsBannedCondition extends PsiElement<Boolean> {
          * The pattern for matching positive is banned conditions
          */
         @NotNull
-        private final Pattern positivePattern = Pattern.compile("([\\s\\S]+) (?:is|are) (IP[ -])?banned");
+        private final Pattern positivePattern = Pattern.compile("(?<object>[\\s\\S]+) (?:is|are) (IP[ -])?banned");
 
         /**
          * The pattern for matching negative is banned conditions
          */
         @NotNull
         private final Pattern negativePattern =
-            Pattern.compile("([\\s\\S]+) (?:isn't|is not|aren't|are not) (IP[ -])?banned");
+            Pattern.compile("(?<object>[\\s\\S]+) (?:isn't|is not|aren't|are not) (IP[ -])?banned");
 
         /**
          * {@inheritDoc}
@@ -88,10 +88,14 @@ public class PsiIsBannedCondition extends PsiElement<Boolean> {
         @Contract(pure = true)
         @Override
         public PsiIsBannedCondition tryParse(@NotNull String text, int lineNumber) {
+            var skriptLoader = SkriptLoader.get();
+
             Matcher positiveMatcher = positivePattern.matcher(text);
 
             if (positiveMatcher.matches()) {
-                PsiElement<?> object = SkriptLoader.get().forceParseElement(positiveMatcher.group(1), lineNumber);
+                String objectGroup = positiveMatcher.group("object");
+
+                PsiElement<?> object = skriptLoader.forceParseElement(objectGroup, lineNumber);
 
                 return create(object, true, positiveMatcher.groupCount() >= 2, lineNumber);
             }
@@ -99,7 +103,9 @@ public class PsiIsBannedCondition extends PsiElement<Boolean> {
             Matcher negativeMatcher = negativePattern.matcher(text);
 
             if (negativeMatcher.matches()) {
-                PsiElement<?> object = SkriptLoader.get().forceParseElement(negativeMatcher.group(1), lineNumber);
+                String objectGroup = negativeMatcher.group("object");
+
+                PsiElement<?> object = skriptLoader.forceParseElement(objectGroup, lineNumber);
 
                 return create(object, false, negativeMatcher.groupCount() >= 2, lineNumber);
             }

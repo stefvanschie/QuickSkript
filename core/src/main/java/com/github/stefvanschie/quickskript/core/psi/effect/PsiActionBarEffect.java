@@ -66,7 +66,7 @@ public class PsiActionBarEffect extends PsiElement<Void> {
          */
         @NotNull
         private final Pattern pattern =
-            Pattern.compile("send (?:the )?action bar (?:with text )?([\\s\\S]+) to ([\\s\\S]+)");
+            Pattern.compile("send (?:the )?action bar (?:with text )?(?<text>[\\s\\S]+) to (?<player>[\\s\\S]+)");
 
         /**
          * {@inheritDoc}
@@ -81,10 +81,10 @@ public class PsiActionBarEffect extends PsiElement<Void> {
                 return null;
             }
 
-            SkriptLoader skriptLoader = SkriptLoader.get();
+            var skriptLoader = SkriptLoader.get();
 
-            PsiElement<?> textElement = skriptLoader.forceParseElement(matcher.group(1), lineNumber);
-            PsiElement<?> player = skriptLoader.forceParseElement(matcher.group(2), lineNumber);
+            PsiElement<?> textElement = skriptLoader.forceParseElement(matcher.group("text"), lineNumber);
+            PsiElement<?> player = skriptLoader.forceParseElement(matcher.group("player"), lineNumber);
 
             return create(player, textElement, lineNumber);
         }

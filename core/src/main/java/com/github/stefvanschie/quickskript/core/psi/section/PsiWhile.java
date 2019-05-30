@@ -77,7 +77,7 @@ public class PsiWhile extends PsiSection {
          * The pattern to parse while sections with.
          */
         @NotNull
-        private final Pattern pattern = Pattern.compile("while ([\\s\\S]+)");
+        private final Pattern pattern = Pattern.compile("while (?<statement>[\\s\\S]+)");
 
         /**
          * {@inheritDoc}
@@ -90,7 +90,7 @@ public class PsiWhile extends PsiSection {
             Matcher matcher = pattern.matcher(text);
             return matcher.matches()
                     ? create(elementsSupplier.get(), SkriptLoader.get()
-                    .forceParseElement(matcher.group(1), lineNumber), lineNumber)
+                    .forceParseElement(matcher.group("statement"), lineNumber), lineNumber)
                     : null;
         }
 

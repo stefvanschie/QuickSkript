@@ -66,14 +66,15 @@ public class PsiHasClientWeatherCondition extends PsiElement<Boolean> {
          */
         @NotNull
         private final Pattern positivePattern =
-            Pattern.compile("([\\s\\S]+) (?:has|have) (?:a )?(?:client|custom) weather(?: set)?");
+            Pattern.compile("(?<player>[\\s\\S]+) (?:has|have) (?:a )?(?:client|custom) weather(?: set)?");
 
         /**
          * The pattern for matching negative {@link PsiHasClientWeatherCondition}s
          */
         @NotNull
-        private final Pattern negativePattern = Pattern
-            .compile("([\\s\\S]+) (?:doesn't|does not|do not|don't) have (?:a )?(?:client|custom) weather(?: set)?");
+        private final Pattern negativePattern = Pattern.compile(
+            "(?<player>[\\s\\S]+) (?:doesn't|does not|do not|don't) have (?:a )?(?:client|custom) weather(?: set)?"
+        );
 
         /**
          * {@inheritDoc}
@@ -82,18 +83,24 @@ public class PsiHasClientWeatherCondition extends PsiElement<Boolean> {
         @Contract(pure = true)
         @Override
         public PsiHasClientWeatherCondition tryParse(@NotNull String text, int lineNumber) {
+            var skriptLoader = SkriptLoader.get();
+
             Matcher positiveMatcher = positivePattern.matcher(text);
 
             if (positiveMatcher.matches()) {
-                PsiElement<?> player = SkriptLoader.get().forceParseElement(positiveMatcher.group(1), lineNumber);
+                String playerGroup = positiveMatcher.group("player");
+
+                PsiElement<?> player = skriptLoader.forceParseElement(playerGroup, lineNumber);
 
                 return create(player, true, lineNumber);
             }
 
-            Matcher negativeeMatcher = negativePattern.matcher(text);
+            Matcher negativeMatcher = negativePattern.matcher(text);
 
-            if (negativeeMatcher.matches()) {
-                PsiElement<?> player = SkriptLoader.get().forceParseElement(negativeeMatcher.group(1), lineNumber);
+            if (negativeMatcher.matches()) {
+                String playerGroup = negativeMatcher.group("player");
+
+                PsiElement<?> player = skriptLoader.forceParseElement(playerGroup, lineNumber);
 
                 return create(player, false, lineNumber);
             }

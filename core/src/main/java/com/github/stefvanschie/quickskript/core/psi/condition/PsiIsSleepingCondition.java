@@ -65,13 +65,14 @@ public class PsiIsSleepingCondition extends PsiElement<Boolean> {
          * The pattern for matching positive {@link PsiIsSleepingCondition}s
          */
         @NotNull
-        private final Pattern positivePattern = Pattern.compile("([\\s\\S]+) (?:is|are) sleeping");
+        private final Pattern positivePattern = Pattern.compile("(?<player>[\\s\\S]+) (?:is|are) sleeping");
 
         /**
          * The pattern for matching negative {@link PsiIsSleepingCondition}s
          */
         @NotNull
-        private final Pattern negativePattern = Pattern.compile("([\\s\\S]+) (?:isn't|is not|aren't|are not) sleeping");
+        private final Pattern negativePattern =
+            Pattern.compile("(?<player>[\\s\\S]+) (?:isn't|is not|aren't|are not) sleeping");
 
         /**
          * {@inheritDoc}
@@ -80,10 +81,14 @@ public class PsiIsSleepingCondition extends PsiElement<Boolean> {
         @Contract(pure = true)
         @Override
         public PsiIsSleepingCondition tryParse(@NotNull String text, int lineNumber) {
+            var skriptLoader = SkriptLoader.get();
+
             Matcher positiveMatcher = positivePattern.matcher(text);
 
             if (positiveMatcher.matches()) {
-                PsiElement<?> player = SkriptLoader.get().forceParseElement(positiveMatcher.group(1), lineNumber);
+                String playerGroup = positiveMatcher.group("player");
+
+                PsiElement<?> player = skriptLoader.forceParseElement(playerGroup, lineNumber);
 
                 return create(player, true, lineNumber);
             }
@@ -91,7 +96,9 @@ public class PsiIsSleepingCondition extends PsiElement<Boolean> {
             Matcher negativeMatcher = negativePattern.matcher(text);
 
             if (negativeMatcher.matches()) {
-                PsiElement<?> player = SkriptLoader.get().forceParseElement(negativeMatcher.group(1), lineNumber);
+                String playerGroup = negativeMatcher.group("player");
+
+                PsiElement<?> player = skriptLoader.forceParseElement(playerGroup, lineNumber);
 
                 return create(player, false, lineNumber);
             }

@@ -65,14 +65,15 @@ public class PsiIsBlockingCondition extends PsiElement<Boolean> {
          * The pattern for matching positive is blocking conditions
          */
         @NotNull
-        private final Pattern positivePattern = Pattern.compile("([\\s\\S]+) (?:is|are) (?:blocking|defending)");
+        private final Pattern positivePattern =
+            Pattern.compile("(?<player>[\\s\\S]+) (?:is|are) (?:blocking|defending)");
 
         /**
          * The pattern for matching negative is blocking conditions
          */
         @NotNull
         private final Pattern negativePattern =
-            Pattern.compile("([\\s\\S]+) (?:isn't|is not|aren't|are not) (?:blocking|defending)");
+            Pattern.compile("(?<player>[\\s\\S]+) (?:isn't|is not|aren't|are not) (?:blocking|defending)");
 
         /**
          * {@inheritDoc}
@@ -81,10 +82,14 @@ public class PsiIsBlockingCondition extends PsiElement<Boolean> {
         @Contract(pure = true)
         @Override
         public PsiIsBlockingCondition tryParse(@NotNull String text, int lineNumber) {
+            var skriptLoader = SkriptLoader.get();
+
             Matcher positiveMatcher = positivePattern.matcher(text);
 
             if (positiveMatcher.matches()) {
-                PsiElement<?> player = SkriptLoader.get().forceParseElement(positiveMatcher.group(1), lineNumber);
+                String playerGroup = positiveMatcher.group("player");
+
+                PsiElement<?> player = skriptLoader.forceParseElement(playerGroup, lineNumber);
 
                 return create(player, true, lineNumber);
             }
@@ -92,7 +97,9 @@ public class PsiIsBlockingCondition extends PsiElement<Boolean> {
             Matcher negativeMatcher = negativePattern.matcher(text);
 
             if (negativeMatcher.matches()) {
-                PsiElement<?> player = SkriptLoader.get().forceParseElement(negativeMatcher.group(1), lineNumber);
+                String playerGroup = negativeMatcher.group("player");
+
+                PsiElement<?> player = skriptLoader.forceParseElement(playerGroup, lineNumber);
 
                 return create(player, false, lineNumber);
             }

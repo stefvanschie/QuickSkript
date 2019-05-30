@@ -61,7 +61,7 @@ public class PsiAbsoluteValueFunction extends PsiElement<Double> {
          * The pattern for matching absolute value functions
          */
         @NotNull
-        private final Pattern pattern = Pattern.compile("abs\\(([\\s\\S]+)\\)");
+        private final Pattern pattern = Pattern.compile("abs\\((?<parameter>[\\s\\S]+)\\)");
 
         /**
          * {@inheritDoc}
@@ -76,7 +76,7 @@ public class PsiAbsoluteValueFunction extends PsiElement<Double> {
                 return null;
             }
 
-            String expression = matcher.group(1);
+            String expression = matcher.group("parameter");
             PsiElement<?> element = SkriptLoader.get().forceParseElement(expression, lineNumber);
 
             return create(element, lineNumber);

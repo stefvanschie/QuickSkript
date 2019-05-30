@@ -65,14 +65,14 @@ public class PsiIsOnGroundCondition extends PsiElement<Boolean> {
          * A pattern for matching positive {@link PsiIsOnGroundCondition}s
          */
         @NotNull
-        private final Pattern positivePattern = Pattern.compile("([\\s\\S]+) (?:is|are) on (?:the )?ground");
+        private final Pattern positivePattern = Pattern.compile("(?<entity>[\\s\\S]+) (?:is|are) on (?:the )?ground");
 
         /**
          * A pattern for matching negative {@link PsiIsOnGroundCondition}s
          */
         @NotNull
         private final Pattern negativePattern =
-            Pattern.compile("([\\s\\S]+) (?:isn't|is not|aren't|are not) on (?:the )?ground");
+            Pattern.compile("(?<entity>[\\s\\S]+) (?:isn't|is not|aren't|are not) on (?:the )?ground");
 
         /**
          * {@inheritDoc}
@@ -81,10 +81,14 @@ public class PsiIsOnGroundCondition extends PsiElement<Boolean> {
         @Contract(pure = true)
         @Override
         public PsiIsOnGroundCondition tryParse(@NotNull String text, int lineNumber) {
+            var skriptLoader = SkriptLoader.get();
+
             Matcher positiveMatcher = positivePattern.matcher(text);
 
             if (positiveMatcher.matches()) {
-                PsiElement<?> entity = SkriptLoader.get().forceParseElement(positiveMatcher.group(1), lineNumber);
+                String entityGroup = positiveMatcher.group("entity");
+
+                PsiElement<?> entity = skriptLoader.forceParseElement(entityGroup, lineNumber);
 
                 return create(entity, true, lineNumber);
             }
@@ -92,7 +96,9 @@ public class PsiIsOnGroundCondition extends PsiElement<Boolean> {
             Matcher negativeMatcher = negativePattern.matcher(text);
 
             if (negativeMatcher.matches()) {
-                PsiElement<?> entity = SkriptLoader.get().forceParseElement(negativeMatcher.group(1), lineNumber);
+                String entityGroup = negativeMatcher.group("entity");
+
+                PsiElement<?> entity = skriptLoader.forceParseElement(entityGroup, lineNumber);
 
                 return create(entity, false, lineNumber);
             }

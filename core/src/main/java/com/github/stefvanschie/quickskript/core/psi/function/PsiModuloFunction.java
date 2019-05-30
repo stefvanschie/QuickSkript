@@ -63,7 +63,7 @@ public class PsiModuloFunction extends PsiElement<Double> {
          * The pattern for matching modulo expressions
          */
         @NotNull
-        private final Pattern pattern = Pattern.compile("mod\\(([\\s\\S]+)\\)");
+        private final Pattern pattern = Pattern.compile("mod\\((?<parameters>[\\s\\S]+)\\)");
 
         /**
          * {@inheritDoc}
@@ -78,7 +78,7 @@ public class PsiModuloFunction extends PsiElement<Double> {
                 return null;
             }
 
-            String[] values = matcher.group(1).replace(" ", "").split(",");
+            String[] values = matcher.group("parameters").replace(" ", "").split(",");
 
             if (values.length != 2) {
                 return null;

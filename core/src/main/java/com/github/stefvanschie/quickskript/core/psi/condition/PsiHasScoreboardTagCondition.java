@@ -75,14 +75,14 @@ public class PsiHasScoreboardTagCondition extends PsiElement<Boolean> {
          */
         @NotNull
         private Pattern positivePattern = Pattern
-            .compile("([\\s\\S]+) (?:has|have)(?: the)? score ?board tags? ([\\s\\S]+)");
+            .compile("(?<entity>[\\s\\S]+) (?:has|have)(?: the)? score ?board tags? (?<tag>[\\s\\S]+)");
 
         /**
          * The pattern for matching negative psi has scoreboard tags
          */
         @NotNull
         private Pattern negativePattern = Pattern
-            .compile("([\\s\\S]+) (?:doesn't|does not|do not|don't) have(?: the)? score ?board tags? ([\\s\\S]+)");
+            .compile("(?<entity>[\\s\\S]+) (?:doesn't|does not|do not|don't) have(?: the)? score ?board tags? (?<tag>[\\s\\S]+)");
 
         /**
          * {@inheritDoc}
@@ -91,11 +91,15 @@ public class PsiHasScoreboardTagCondition extends PsiElement<Boolean> {
         @Contract(pure = true)
         @Override
         public PsiHasScoreboardTagCondition tryParse(@NotNull String text, int lineNumber) {
+            var skriptLoader = SkriptLoader.get();
+
             Matcher positiveMatcher = positivePattern.matcher(text);
 
             if (positiveMatcher.matches()) {
-                PsiElement<?> entity = SkriptLoader.get().forceParseElement(positiveMatcher.group(1), lineNumber);
-                PsiElement<?> tag = SkriptLoader.get().forceParseElement(positiveMatcher.group(2), lineNumber);
+                String entityGroup = positiveMatcher.group("entity");
+
+                PsiElement<?> entity = skriptLoader.forceParseElement(entityGroup, lineNumber);
+                PsiElement<?> tag = skriptLoader.forceParseElement(positiveMatcher.group("tag"), lineNumber);
 
                 return create(entity, tag, true, lineNumber);
             }
@@ -103,8 +107,10 @@ public class PsiHasScoreboardTagCondition extends PsiElement<Boolean> {
             Matcher negativeMatcher = negativePattern.matcher(text);
 
             if (negativeMatcher.matches()) {
-                PsiElement<?> entity = SkriptLoader.get().forceParseElement(positiveMatcher.group(1), lineNumber);
-                PsiElement<?> tag = SkriptLoader.get().forceParseElement(positiveMatcher.group(2), lineNumber);
+                String entityGroup = negativeMatcher.group("entity");
+
+                PsiElement<?> entity = skriptLoader.forceParseElement(entityGroup, lineNumber);
+                PsiElement<?> tag = skriptLoader.forceParseElement(negativeMatcher.group("tag"), lineNumber);
 
                 return create(entity, tag, false, lineNumber);
             }

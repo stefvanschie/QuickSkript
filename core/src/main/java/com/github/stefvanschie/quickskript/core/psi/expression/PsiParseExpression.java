@@ -85,7 +85,7 @@ public class PsiParseExpression extends PsiElement<Object> {
          * The pattern to match parse expressions with
          */
         @NotNull
-        private final Pattern pattern = Pattern.compile("([\\s\\S]+) parsed as ([\\s\\S]+)");
+        private final Pattern pattern = Pattern.compile("(?<value>[\\s\\S]+) parsed as (?<converter>[\\s\\S]+)");
 
         /**
          * {@inheritDoc}
@@ -100,13 +100,15 @@ public class PsiParseExpression extends PsiElement<Object> {
                 return null;
             }
 
-            String valueString = matcher.group(1);
+            var skriptLoader = SkriptLoader.get();
 
-            PsiElement<?> value = SkriptLoader.get().forceParseElement(valueString, lineNumber);
+            String valueString = matcher.group("value");
 
-            String factoryString = matcher.group(2);
+            PsiElement<?> value = skriptLoader.forceParseElement(valueString, lineNumber);
 
-            PsiConverter<?> converter = SkriptLoader.get().forceGetConverter(factoryString, lineNumber);
+            String factoryString = matcher.group("converter");
+
+            PsiConverter<?> converter = skriptLoader.forceGetConverter(factoryString, lineNumber);
 
             return create(value, converter, lineNumber);
         }

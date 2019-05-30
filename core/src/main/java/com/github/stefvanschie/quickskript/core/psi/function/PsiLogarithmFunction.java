@@ -75,7 +75,7 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
          * The pattern for matching logarithm expressions
          */
         @NotNull
-        private final Pattern pattern = Pattern.compile("log\\(([\\s\\S]+)\\)");
+        private final Pattern pattern = Pattern.compile("log\\((?<parameters>[\\s\\S]+)\\)");
 
         /**
          * {@inheritDoc}
@@ -90,7 +90,7 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
                 return null;
             }
 
-            String[] values = matcher.group(1).replace(" ", "").split(",");
+            String[] values = matcher.group("parameters").replace(" ", "").split(",");
 
             if (values.length < 1 || values.length > 2) {
                 return null;

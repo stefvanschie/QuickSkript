@@ -83,14 +83,14 @@ public class PsiEndsWithCondition extends PsiElement<Boolean> {
          * A pattern for matching positive {@link PsiEndsWithCondition}s
          */
         @NotNull
-        private final Pattern positivePattern = Pattern.compile("([\\s\\S]+) ends? with ([\\s\\S]+)");
+        private final Pattern positivePattern = Pattern.compile("(?<text>[\\s\\S]+) ends? with (?<suffix>[\\s\\S]+)");
 
         /**
          * A pattern for matching negative {@link PsiEndsWithCondition}s
          */
         @NotNull
         private final Pattern negativePattern =
-            Pattern.compile("([\\s\\S]+) (?:doesn't|does not|do not|don't) end with ([\\s\\S]+)");
+            Pattern.compile("(?<text>[\\s\\S]+) (?:doesn't|does not|do not|don't) end with (?<suffix>[\\s\\S]+)");
 
         /**
          * {@inheritDoc}
@@ -99,11 +99,16 @@ public class PsiEndsWithCondition extends PsiElement<Boolean> {
         @Contract(pure = true)
         @Override
         public PsiEndsWithCondition tryParse(@NotNull String text, int lineNumber) {
+            var skriptLoader = SkriptLoader.get();
+
             Matcher positiveMatcher = positivePattern.matcher(text);
 
             if (positiveMatcher.matches()) {
-                PsiElement<?> textElement = SkriptLoader.get().forceParseElement(positiveMatcher.group(1), lineNumber);
-                PsiElement<?> suffix = SkriptLoader.get().forceParseElement(positiveMatcher.group(2), lineNumber);
+                String textGroup = positiveMatcher.group("text");
+                String suffixGroup = positiveMatcher.group("suffix");
+
+                PsiElement<?> textElement = skriptLoader.forceParseElement(textGroup, lineNumber);
+                PsiElement<?> suffix = skriptLoader.forceParseElement(suffixGroup, lineNumber);
 
                 return create(textElement, suffix, true, lineNumber);
             }
@@ -111,8 +116,11 @@ public class PsiEndsWithCondition extends PsiElement<Boolean> {
             Matcher negativeMatcher = negativePattern.matcher(text);
 
             if (negativeMatcher.matches()) {
-                PsiElement<?> textElement = SkriptLoader.get().forceParseElement(negativeMatcher.group(1), lineNumber);
-                PsiElement<?> suffix = SkriptLoader.get().forceParseElement(positiveMatcher.group(2), lineNumber);
+                String textGroup = negativeMatcher.group("text");
+                String suffixGroup = negativeMatcher.group("suffix");
+
+                PsiElement<?> textElement = skriptLoader.forceParseElement(textGroup, lineNumber);
+                PsiElement<?> suffix = skriptLoader.forceParseElement(suffixGroup, lineNumber);
 
                 return create(textElement, suffix, false, lineNumber);
             }

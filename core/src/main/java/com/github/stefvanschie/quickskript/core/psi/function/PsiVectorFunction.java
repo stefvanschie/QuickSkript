@@ -66,7 +66,7 @@ public class PsiVectorFunction extends PsiElement<Object> {
          * The pattern for matching vector expressions
          */
         @NotNull
-        private final Pattern pattern = Pattern.compile("vector\\(([\\s\\S]+)\\)");
+        private final Pattern pattern = Pattern.compile("vector\\((?<parameters>[\\s\\S]+)\\)");
 
         /**
          * {@inheritDoc}
@@ -81,14 +81,16 @@ public class PsiVectorFunction extends PsiElement<Object> {
                 return null;
             }
 
-            String[] values = matcher.group(1).replace(" ", "").split(",");
+            String[] values = matcher.group("parameters").replace(" ", "").split(",");
 
             if (values.length != 3)
                 return null;
 
-            PsiElement<?> x = SkriptLoader.get().forceParseElement(values[0], lineNumber);
-            PsiElement<?> y = SkriptLoader.get().forceParseElement(values[1], lineNumber);
-            PsiElement<?> z = SkriptLoader.get().forceParseElement(values[2], lineNumber);
+            var skriptLoader = SkriptLoader.get();
+
+            PsiElement<?> x = skriptLoader.forceParseElement(values[0], lineNumber);
+            PsiElement<?> y = skriptLoader.forceParseElement(values[1], lineNumber);
+            PsiElement<?> z = skriptLoader.forceParseElement(values[2], lineNumber);
 
             return create(x, y, z, lineNumber);
         }

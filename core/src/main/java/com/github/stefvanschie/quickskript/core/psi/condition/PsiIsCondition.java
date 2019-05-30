@@ -82,15 +82,16 @@ public class PsiIsCondition extends PsiElement<Boolean> {
          * A pattern for matching positive elements
          */
         @NotNull
-        private static final Pattern POSITIVE_PATTERN =
-            Pattern.compile("([\\s\\S]+) (?:(?:is)|(?:are)|(?:=)) (?:(?:equal to)|(?:the same as) )?([\\s\\S]+)");
+        private static final Pattern POSITIVE_PATTERN = Pattern.compile(
+            "(?<leftSide>[\\s\\S]+) (?:(?:is)|(?:are)|(?:=)) (?:(?:equal to)|(?:the same as) )?(?<rightSide>[\\s\\S]+)"
+        );
 
         /**
          * A pattern for matching negative elements
          */
         @NotNull
         private static final Pattern NEGATIVE_PATTERN = Pattern.compile(
-            "([\\s\\S]+) (?:(?:(?:(?:is)|(?:are)) (?:(?:not)|(?:neither)))|(?:!=)|(?:isn't)|(?:aren't)) (?:(?:equal to)|(?:the same as) )?([\\s\\S]+)"
+            "(?<leftSide>[\\s\\S]+) (?:(?:(?:(?:is)|(?:are)) (?:(?:not)|(?:neither)))|(?:!=)|(?:isn't)|(?:aren't)) (?:(?:equal to)|(?:the same as) )?(?<rightSide>[\\s\\S]+)"
         );
 
         /**
@@ -102,22 +103,28 @@ public class PsiIsCondition extends PsiElement<Boolean> {
         public PsiIsCondition tryParse(@NotNull String text, int lineNumber) {
             var skriptLoader = SkriptLoader.get();
 
-            var negativeMatcher = NEGATIVE_PATTERN.matcher(text);
-
-            if (negativeMatcher.matches()) {
-                var leftSideElement = skriptLoader.forceParseElement(negativeMatcher.group(1), lineNumber);
-                var rightSideElement = skriptLoader.forceParseElement(negativeMatcher.group(2), lineNumber);
-
-                return create(leftSideElement, rightSideElement, false, lineNumber);
-            }
-
             var positiveMatcher = POSITIVE_PATTERN.matcher(text);
 
             if (positiveMatcher.matches()) {
-                var leftSideElement = skriptLoader.forceParseElement(positiveMatcher.group(1), lineNumber);
-                var rightSideElement = skriptLoader.forceParseElement(positiveMatcher.group(2), lineNumber);
+                String leftSideGroup = positiveMatcher.group("leftSide");
+                String rightSideGroup = positiveMatcher.group("rightSide");
+
+                var leftSideElement = skriptLoader.forceParseElement(leftSideGroup, lineNumber);
+                var rightSideElement = skriptLoader.forceParseElement(rightSideGroup, lineNumber);
 
                 return create(leftSideElement, rightSideElement, true, lineNumber);
+            }
+
+            var negativeMatcher = NEGATIVE_PATTERN.matcher(text);
+
+            if (negativeMatcher.matches()) {
+                String leftSideGroup = negativeMatcher.group("leftSide");
+                String rightSideGroup = negativeMatcher.group("rightSide");
+
+                var leftSideElement = skriptLoader.forceParseElement(leftSideGroup, lineNumber);
+                var rightSideElement = skriptLoader.forceParseElement(rightSideGroup, lineNumber);
+
+                return create(leftSideElement, rightSideElement, false, lineNumber);
             }
 
             return null;

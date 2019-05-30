@@ -61,7 +61,7 @@ public class PsiNaturalLogarithmFunction extends PsiElement<Double> {
          * The pattern for matching cosine expressions
          */
         @NotNull
-        private final Pattern pattern = Pattern.compile("ln\\(([\\s\\S]+)\\)");
+        private final Pattern pattern = Pattern.compile("ln\\((?<parameter>[\\s\\S]+)\\)");
 
         /**
          * {@inheritDoc}
@@ -76,7 +76,7 @@ public class PsiNaturalLogarithmFunction extends PsiElement<Double> {
                 return null;
             }
 
-            String expression = matcher.group(1);
+            String expression = matcher.group("parameter");
             PsiElement<?> element = SkriptLoader.get().forceParseElement(expression, lineNumber);
 
             return create(element, lineNumber);

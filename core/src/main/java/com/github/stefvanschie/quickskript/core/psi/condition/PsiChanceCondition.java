@@ -67,7 +67,7 @@ public class PsiChanceCondition extends PsiElement<Boolean> {
          * The pattern for matching {@link PsiChanceCondition}s
          */
         @NotNull
-        private final Pattern pattern = Pattern.compile("chance of ([\\s\\S]+?)(%)?$");
+        private final Pattern pattern = Pattern.compile("chance of (?<number>[\\s\\S]+?)(%)?$");
 
         /**
          * {@inheritDoc}
@@ -82,7 +82,7 @@ public class PsiChanceCondition extends PsiElement<Boolean> {
                 return null;
             }
 
-            PsiElement<?> number = SkriptLoader.get().forceParseElement(matcher.group(1), lineNumber);
+            PsiElement<?> number = SkriptLoader.get().forceParseElement(matcher.group("number"), lineNumber);
 
             return create(number, matcher.groupCount() >= 2, lineNumber);
         }

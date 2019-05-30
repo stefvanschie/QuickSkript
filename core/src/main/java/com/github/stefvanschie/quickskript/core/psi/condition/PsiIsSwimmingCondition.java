@@ -65,13 +65,14 @@ public class PsiIsSwimmingCondition extends PsiElement<Boolean> {
          * A pattern for matching positive {@link PsiIsSwimmingCondition}s
          */
         @NotNull
-        private final Pattern positivePattern = Pattern.compile("([\\s\\S]+) (?:is|are) swimming");
+        private final Pattern positivePattern = Pattern.compile("(?<livingEntity>[\\s\\S]+) (?:is|are) swimming");
 
         /**
          * A pattern for matching negative {@link PsiIsSwimmingCondition}s
          */
         @NotNull
-        private final Pattern negativePattern = Pattern.compile("([\\s\\S]+) (?:isn't|is not|aren't|are not) swimming");
+        private final Pattern negativePattern =
+            Pattern.compile("(?<livingEntity>[\\s\\S]+) (?:isn't|is not|aren't|are not) swimming");
 
         /**
          * {@inheritDoc}
@@ -80,10 +81,14 @@ public class PsiIsSwimmingCondition extends PsiElement<Boolean> {
         @Contract(pure = true)
         @Override
         public PsiIsSwimmingCondition tryParse(@NotNull String text, int lineNumber) {
+            var skriptLoader = SkriptLoader.get();
+
             Matcher positiveMatcher = positivePattern.matcher(text);
 
             if (positiveMatcher.matches()) {
-                PsiElement<?> livingEntity = SkriptLoader.get().forceParseElement(positiveMatcher.group(1), lineNumber);
+                String livingEntityGroup = positiveMatcher.group("livingEntity");
+
+                PsiElement<?> livingEntity = skriptLoader.forceParseElement(livingEntityGroup, lineNumber);
 
                 return create(livingEntity, true, lineNumber);
             }
@@ -91,7 +96,9 @@ public class PsiIsSwimmingCondition extends PsiElement<Boolean> {
             Matcher negativeMatcher = negativePattern.matcher(text);
 
             if (negativeMatcher.matches()) {
-                PsiElement<?> livingEntity = SkriptLoader.get().forceParseElement(negativeMatcher.group(1), lineNumber);
+                String livingEntityGroup = negativeMatcher.group("livingEntity");
+
+                PsiElement<?> livingEntity = skriptLoader.forceParseElement(livingEntityGroup, lineNumber);
 
                 return create(livingEntity, false, lineNumber);
             }

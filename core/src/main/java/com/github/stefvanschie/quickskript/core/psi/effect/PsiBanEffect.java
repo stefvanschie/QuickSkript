@@ -73,15 +73,16 @@ public class PsiBanEffect extends PsiElement<Void> {
          * The pattern for non-IP-ban {@link PsiBanEffect}s
          */
         @NotNull
-        private final Pattern pattern =
-            Pattern.compile("ban ([\\s\\S]+?)(?: (?:by reason of|because(?: of)?|on account of|due to) ([\\s\\S]+))?$");
+        private final Pattern pattern = Pattern.compile(
+            "ban (?<object>[\\s\\S]+?)(?: (?:by reason of|because(?: of)?|on account of|due to) (?<reason>[\\s\\S]+))?$"
+        );
 
         /**
          * The pattern for IP-ban {@link PsiBanEffect}s
          */
         @NotNull
         private final Pattern ipBanPattern = Pattern.compile(
-            "(IP[- ])?ban ([\\s\\S]+?)( by IP)?(?: (?:by reason of|because(?: of)?|on account of|due to) ([\\s\\S]+))?$"
+            "(IP[- ])?ban (?<object>[\\s\\S]+?)( by IP)?(?: (?:by reason of|because(?: of)?|on account of|due to) (?<reason>[\\s\\S]+))?$"
         );
 
         /**
@@ -91,16 +92,18 @@ public class PsiBanEffect extends PsiElement<Void> {
         @Contract(pure = true)
         @Override
         public PsiBanEffect tryParse(@NotNull String text, int lineNumber) {
-            SkriptLoader skriptLoader = SkriptLoader.get();
+            var skriptLoader = SkriptLoader.get();
 
             Matcher nonIpBanMatcher = pattern.matcher(text);
 
             if (nonIpBanMatcher.matches()) {
-                PsiElement<?> object = skriptLoader.forceParseElement(nonIpBanMatcher.group(1), lineNumber);
+                String objectGroup = nonIpBanMatcher.group("object");
+
+                PsiElement<?> object = skriptLoader.forceParseElement(objectGroup, lineNumber);
                 PsiElement<?> reason = null;
 
                 if (nonIpBanMatcher.groupCount() >= 2) {
-                    reason = skriptLoader.forceParseElement(nonIpBanMatcher.group(2), lineNumber);
+                    reason = skriptLoader.forceParseElement(nonIpBanMatcher.group("reason"), lineNumber);
                 }
 
                 return create(object, reason, false, lineNumber);
@@ -109,11 +112,11 @@ public class PsiBanEffect extends PsiElement<Void> {
             Matcher ipBanMatcher = ipBanPattern.matcher(text);
 
             if (ipBanMatcher.matches()) {
-                PsiElement<?> object = skriptLoader.forceParseElement(ipBanMatcher.group(1), lineNumber);
+                PsiElement<?> object = skriptLoader.forceParseElement(ipBanMatcher.group("object"), lineNumber);
                 PsiElement<?> reason = null;
 
                 if (ipBanMatcher.groupCount() >= 2) {
-                    reason = skriptLoader.forceParseElement(ipBanMatcher.group(2), lineNumber);
+                    reason = skriptLoader.forceParseElement(ipBanMatcher.group("reason"), lineNumber);
                 }
 
                 return create(object, reason, true, lineNumber);

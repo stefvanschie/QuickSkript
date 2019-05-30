@@ -65,14 +65,15 @@ public class PsiIsBurningCondition extends PsiElement<Boolean> {
          * The pattern for matching positive is burning conditions
          */
         @NotNull
-        private final Pattern positivePattern = Pattern.compile("([\\s\\S]+) (?:is|are) (?:burning|ignited|on fire)");
+        private final Pattern positivePattern =
+            Pattern.compile("(?<entity>[\\s\\S]+) (?:is|are) (?:burning|ignited|on fire)");
 
         /**
          * The pattern for matching negative is burning conditions
          */
         @NotNull
         private final Pattern negativePattern =
-            Pattern.compile("([\\s\\S]+) (?:isn't|is not|aren't|are not) (?:burning|ignited|on fire)");
+            Pattern.compile("(?<entity>[\\s\\S]+) (?:isn't|is not|aren't|are not) (?:burning|ignited|on fire)");
 
         /**
          * {@inheritDoc}
@@ -81,10 +82,14 @@ public class PsiIsBurningCondition extends PsiElement<Boolean> {
         @Contract(pure = true)
         @Override
         public PsiIsBurningCondition tryParse(@NotNull String text, int lineNumber) {
+            var skriptLoader = SkriptLoader.get();
+
             Matcher positiveMatcher = positivePattern.matcher(text);
 
             if (positiveMatcher.matches()) {
-                PsiElement<?> entity = SkriptLoader.get().forceParseElement(positiveMatcher.group(1), lineNumber);
+                String entityGroup = positiveMatcher.group("entity");
+
+                PsiElement<?> entity = skriptLoader.forceParseElement(entityGroup, lineNumber);
 
                 return create(entity, true, lineNumber);
             }
@@ -92,7 +97,9 @@ public class PsiIsBurningCondition extends PsiElement<Boolean> {
             Matcher negativeMatcher = negativePattern.matcher(text);
 
             if (negativeMatcher.matches()) {
-                PsiElement<?> entity = SkriptLoader.get().forceParseElement(negativeMatcher.group(1), lineNumber);
+                String entityGroup = negativeMatcher.group("entity");
+
+                PsiElement<?> entity = skriptLoader.forceParseElement(entityGroup, lineNumber);
 
                 return create(entity, false, lineNumber);
             }

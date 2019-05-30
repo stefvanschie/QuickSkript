@@ -65,13 +65,13 @@ public class PsiCanFlyCondition extends PsiElement<Boolean> {
          * The pattern for matching positive can fly conditions
          */
         @NotNull
-        private final Pattern positivePattern = Pattern.compile("([\\s\\S]+) can fly");
+        private final Pattern positivePattern = Pattern.compile("(?<player>[\\s\\S]+) can fly");
 
         /**
          * The pattern for matching negative can fly conditions
          */
         @NotNull
-        private final Pattern negativePattern = Pattern.compile("([\\s\\S]+) (?:can't|cannot|can not) fly");
+        private final Pattern negativePattern = Pattern.compile("(?<player>[\\s\\S]+) (?:can't|cannot|can not) fly");
 
         /**
          * {@inheritDoc}
@@ -80,10 +80,12 @@ public class PsiCanFlyCondition extends PsiElement<Boolean> {
         @Contract(pure = true)
         @Override
         public PsiCanFlyCondition tryParse(@NotNull String text, int lineNumber) {
+            var skriptLoader = SkriptLoader.get();
             Matcher positiveMatcher = positivePattern.matcher(text);
 
             if (positiveMatcher.matches()) {
-                PsiElement<?> player = SkriptLoader.get().forceParseElement(positiveMatcher.group(1), lineNumber);
+                String playerGroup = positiveMatcher.group("player");
+                PsiElement<?> player = skriptLoader.forceParseElement(playerGroup, lineNumber);
 
                 return create(player, true, lineNumber);
             }
@@ -91,7 +93,8 @@ public class PsiCanFlyCondition extends PsiElement<Boolean> {
             Matcher negativeMatcher = negativePattern.matcher(text);
 
             if (negativeMatcher.matches()) {
-                PsiElement<?> player = SkriptLoader.get().forceParseElement(negativeMatcher.group(1), lineNumber);
+                String playerGroup = negativeMatcher.group("player");
+                PsiElement<?> player = skriptLoader.forceParseElement(playerGroup, lineNumber);
 
                 return create(player, false, lineNumber);
             }

@@ -66,7 +66,7 @@ public class PsiExplosionEffect extends PsiElement<Void> {
          */
         @NotNull
         private final Pattern pattern = Pattern.compile(
-            "(?:(?:create|make) )?(?:an? )?(safe )?explosion (?:of|with) (?:force|strength|power) ([\\s\\S]+)"
+            "(?:(?:create|make) )?(?:an? )?(?<safe>safe )?explosion (?:of|with) (?:force|strength|power) (?<force>[\\s\\S]+)"
         );
 
         /**
@@ -82,9 +82,9 @@ public class PsiExplosionEffect extends PsiElement<Void> {
                 return null;
             }
 
-            PsiElement<?> force = SkriptLoader.get().forceParseElement(matcher.group(2), lineNumber);
+            PsiElement<?> force = SkriptLoader.get().forceParseElement(matcher.group("force"), lineNumber);
 
-            return create(force, matcher.group(1) != null, lineNumber);
+            return create(force, matcher.group("safe") != null, lineNumber);
         }
 
         /**

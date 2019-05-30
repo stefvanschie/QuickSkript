@@ -83,14 +83,14 @@ public class PsiStartsWithCondition extends PsiElement<Boolean> {
          * A pattern for matching positive {@link PsiStartsWithCondition}s
          */
         @NotNull
-        private final Pattern positivePattern = Pattern.compile("([\\s\\S]+) starts? with ([\\s\\S]+)");
+        private final Pattern positivePattern = Pattern.compile("(?<text>[\\s\\S]+) starts? with (?<prefix>[\\s\\S]+)");
 
         /**
          * A pattern for matching negative {@link PsiStartsWithCondition}s
          */
         @NotNull
         private final Pattern negativePattern =
-            Pattern.compile("([\\s\\S]+) (?:doesn't|does not|do not|don't) start with ([\\s\\S]+)");
+            Pattern.compile("(?<text>[\\s\\S]+) (?:doesn't|does not|do not|don't) start with (?<prefix>[\\s\\S]+)");
 
         /**
          * {@inheritDoc}
@@ -99,11 +99,16 @@ public class PsiStartsWithCondition extends PsiElement<Boolean> {
         @Contract(pure = true)
         @Override
         public PsiStartsWithCondition tryParse(@NotNull String text, int lineNumber) {
+            var skriptLoader = SkriptLoader.get();
+
             Matcher positiveMatcher = positivePattern.matcher(text);
 
             if (positiveMatcher.matches()) {
-                PsiElement<?> textElement = SkriptLoader.get().forceParseElement(positiveMatcher.group(1), lineNumber);
-                PsiElement<?> prefix = SkriptLoader.get().forceParseElement(positiveMatcher.group(2), lineNumber);
+                String textGroup = positiveMatcher.group("text");
+                String prefixGroup = positiveMatcher.group("prefix");
+
+                PsiElement<?> textElement = skriptLoader.forceParseElement(textGroup, lineNumber);
+                PsiElement<?> prefix = skriptLoader.forceParseElement(prefixGroup, lineNumber);
 
                 return create(textElement, prefix, true, lineNumber);
             }
@@ -111,8 +116,11 @@ public class PsiStartsWithCondition extends PsiElement<Boolean> {
             Matcher negativeMatcher = negativePattern.matcher(text);
 
             if (negativeMatcher.matches()) {
-                PsiElement<?> textElement = SkriptLoader.get().forceParseElement(negativeMatcher.group(1), lineNumber);
-                PsiElement<?> prefix = SkriptLoader.get().forceParseElement(positiveMatcher.group(2), lineNumber);
+                String textGroup = negativeMatcher.group("text");
+                String prefixGroup = negativeMatcher.group("prefix");
+
+                PsiElement<?> textElement = skriptLoader.forceParseElement(textGroup, lineNumber);
+                PsiElement<?> prefix = skriptLoader.forceParseElement(prefixGroup, lineNumber);
 
                 return create(textElement, prefix, false, lineNumber);
             }

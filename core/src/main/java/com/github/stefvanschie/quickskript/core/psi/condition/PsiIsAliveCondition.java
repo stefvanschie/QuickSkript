@@ -66,14 +66,14 @@ public class PsiIsAliveCondition extends PsiElement<Boolean> {
          */
         @NotNull
         private final Pattern positivePattern =
-            Pattern.compile("([\\s\\S]+) (?:(?:is|are) alive|(?:isn't|is not|aren't|are not) dead)");
+            Pattern.compile("(?<livingEntity>[\\s\\S]+) (?:(?:is|are) alive|(?:isn't|is not|aren't|are not) dead)");
 
         /**
          * The pattern for matching negative is alive conditions
          */
         @NotNull
         private final Pattern negativePattern =
-            Pattern.compile("([\\s\\S]+) (?:(?:is|are) dead|(?:isn't|is not|aren't|are not) alive)");
+            Pattern.compile("(?<livingEntity>[\\s\\S]+) (?:(?:is|are) dead|(?:isn't|is not|aren't|are not) alive)");
 
         /**
          * {@inheritDoc}
@@ -82,10 +82,14 @@ public class PsiIsAliveCondition extends PsiElement<Boolean> {
         @Contract(pure = true)
         @Override
         public PsiIsAliveCondition tryParse(@NotNull String text, int lineNumber) {
+            var skriptLoader = SkriptLoader.get();
+
             Matcher positiveMatcher = positivePattern.matcher(text);
 
             if (positiveMatcher.matches()) {
-                PsiElement<?> livingEntity = SkriptLoader.get().forceParseElement(positiveMatcher.group(1), lineNumber);
+                String livingEntityGroup = positiveMatcher.group("livingEntity");
+
+                PsiElement<?> livingEntity = skriptLoader.forceParseElement(livingEntityGroup, lineNumber);
 
                 return create(livingEntity, true, lineNumber);
             }
@@ -93,7 +97,9 @@ public class PsiIsAliveCondition extends PsiElement<Boolean> {
             Matcher negativeMatcher = negativePattern.matcher(text);
 
             if (negativeMatcher.matches()) {
-                PsiElement<?> livingEntity = SkriptLoader.get().forceParseElement(negativeMatcher.group(1), lineNumber);
+                String livingEntityGroup = negativeMatcher.group("livingEntity");
+
+                PsiElement<?> livingEntity = skriptLoader.forceParseElement(livingEntityGroup, lineNumber);
 
                 return create(livingEntity, false, lineNumber);
             }
