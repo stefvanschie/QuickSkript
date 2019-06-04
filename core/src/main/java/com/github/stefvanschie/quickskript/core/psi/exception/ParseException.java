@@ -26,6 +26,15 @@ public class ParseException extends RuntimeException {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public ParseException(Throwable cause, int lineNumber) {
+        super(cause);
+
+        this.lineNumber = lineNumber;
+    }
+
+    /**
      * Constructs and returns text containing extra information regarding this exception.
      * A line separator is inserted at the start for convenience.
      * This method should always be used when the exception gets handled.

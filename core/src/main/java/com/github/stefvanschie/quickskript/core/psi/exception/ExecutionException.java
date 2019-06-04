@@ -16,4 +16,11 @@ public class ExecutionException extends ParseException {
     public ExecutionException(String message, int lineNumber) {
         super(message, lineNumber);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public ExecutionException(Throwable cause, int lineNumber) {
+        super(cause, lineNumber);
+    }
 }
