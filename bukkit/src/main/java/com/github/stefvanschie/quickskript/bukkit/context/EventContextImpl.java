@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.bukkit.context;
 
 import com.github.stefvanschie.quickskript.core.context.EventContext;
+import com.github.stefvanschie.quickskript.core.skript.Skript;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
@@ -20,6 +21,12 @@ import org.jetbrains.annotations.NotNull;
 public class EventContextImpl implements ContextImpl, EventContext {
 
     /**
+     * The skript that is executing this code
+     */
+    @NotNull
+    private final Skript skript;
+
+    /**
      * The event that was being executed
      */
     @NotNull
@@ -31,7 +38,8 @@ public class EventContextImpl implements ContextImpl, EventContext {
      * @param event the event that was executed
      * @since 0.1.0
      */
-    public EventContextImpl(@NotNull Event event) {
+    public EventContextImpl(@NotNull Skript skript, @NotNull Event event) {
+        this.skript = skript;
         this.event = event;
     }
 
@@ -70,5 +78,15 @@ public class EventContextImpl implements ContextImpl, EventContext {
         }
 
         return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @NotNull
+    @Contract(pure = true)
+    @Override
+    public Skript getSkript() {
+        return skript;
     }
 }

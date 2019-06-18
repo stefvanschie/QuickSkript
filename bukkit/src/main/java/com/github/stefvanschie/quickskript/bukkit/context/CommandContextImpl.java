@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.bukkit.context;
 
 import com.github.stefvanschie.quickskript.core.context.CommandContext;
+import com.github.stefvanschie.quickskript.core.skript.Skript;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -14,6 +15,12 @@ import org.jetbrains.annotations.Nullable;
 public class CommandContextImpl implements ContextImpl, CommandContext {
 
     /**
+     * The skript that is executing this code
+     */
+    @NotNull
+    private final Skript skript;
+
+    /**
      * The executor of the command
      */
     @NotNull
@@ -25,17 +32,28 @@ public class CommandContextImpl implements ContextImpl, CommandContext {
      * @param sender the executor of the command
      * @since 0.1.0
      */
-    public CommandContextImpl(@NotNull CommandSender sender) {
+    public CommandContextImpl(@NotNull Skript skript, @NotNull CommandSender sender) {
+        this.skript = skript;
         this.sender = sender;
     }
 
     /**
      * {@inheritDoc}
      */
-    @Nullable
+    @NotNull
     @Contract(pure = true)
     @Override
     public CommandSender getCommandSender() {
         return sender;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @NotNull
+    @Contract(pure = true)
+    @Override
+    public Skript getSkript() {
+        return skript;
     }
 }

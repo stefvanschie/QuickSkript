@@ -51,7 +51,7 @@ public class SkriptEventExecutor {
      */
     public void execute(@NotNull Event event) {
         try {
-            elements.execute(new EventContextImpl(event));
+            elements.execute(new EventContextImpl(skript, event));
         } catch (ExecutionException e) {
             QuickSkript.getInstance().getLogger().log(Level.SEVERE, "Error while executing:" +
                     e.getExtraInfo(skript.getName()), e);
