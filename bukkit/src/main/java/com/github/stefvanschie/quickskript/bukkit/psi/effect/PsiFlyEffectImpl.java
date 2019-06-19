@@ -22,7 +22,7 @@ public class PsiFlyEffectImpl extends PsiFlyEffect {
      * @param lineNumber the line number this element is associated with
      * @since 0.1.0
      */
-    protected PsiFlyEffectImpl(@NotNull PsiElement<?> player, boolean enable, int lineNumber) {
+    private PsiFlyEffectImpl(@NotNull PsiElement<?> player, boolean enable, int lineNumber) {
         super(player, enable, lineNumber);
     }
 

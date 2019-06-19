@@ -70,6 +70,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiLoadServerIconEffect.Factory());
         registerElement(new PsiLogEffect.Factory());
         registerElement(new PsiMessageEffect.Factory());
+        registerElement(new PsiSayEffect.Factory());
         registerElement(new PsiUnbanEffect.Factory());
 
         //this one is here, because it has special identifiers around it
