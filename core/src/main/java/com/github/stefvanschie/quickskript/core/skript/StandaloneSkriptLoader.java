@@ -57,6 +57,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiActionBarEffect.Factory());
         registerElement(new PsiBanEffect.Factory());
         registerElement(new PsiCancelEventEffect.Factory());
+        registerElement(new PsiCloseInventoryEffect.Factory());
         registerElement(new PsiCommandEffect.Factory());
         registerElement(new PsiContinueEffect.Factory());
         registerElement(new PsiDoIfEffect.Factory());

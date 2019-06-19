@@ -139,6 +139,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiActionBarEffectImpl.Factory(), Platform.SPIGOT);
         registerElement(new PsiBanEffectImpl.Factory());
         registerElement(new PsiCancelEventEffectImpl.Factory());
+        registerElement(new PsiCloseInventoryEffectImpl.Factory());
         registerElement(new PsiCommandEffectImpl.Factory());
         registerElement(new PsiContinueEffect.Factory());
         registerElement(new PsiDoIfEffect.Factory());
