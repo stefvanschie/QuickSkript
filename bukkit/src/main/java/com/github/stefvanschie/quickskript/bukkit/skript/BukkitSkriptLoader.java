@@ -155,6 +155,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiMessageEffectImpl.Factory());
         registerElement(new PsiPlayerInfoEffectImpl.Factory(), Platform.PAPER);
         registerElement(new PsiPlayerVisibilityEffectImpl.Factory());
+        registerElement(new PsiResetTitleEffectImpl.Factory());
         registerElement(new PsiSayEffectImpl.Factory());
         registerElement(new PsiShearEffectImpl.Factory());
         registerElement(new PsiUnbanEffectImpl.Factory());
