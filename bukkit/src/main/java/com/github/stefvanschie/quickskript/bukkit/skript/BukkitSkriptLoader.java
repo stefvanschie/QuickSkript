@@ -158,6 +158,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiResetTitleEffectImpl.Factory());
         registerElement(new PsiSayEffectImpl.Factory());
         registerElement(new PsiShearEffectImpl.Factory());
+        registerElement(new PsiToggleFlightEffectImpl.Factory());
         registerElement(new PsiUnbanEffectImpl.Factory());
 
         //this one is here, because it has special identifiers around it
@@ -282,7 +283,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                 .registerEvent(EntityTargetEvent.class, "(?:on )?(?:entity )?(?:un-?)?target")
                 .registerEvent(EntityToggleGlideEvent.class, "(?:on )?(?:toggle )?glid(?:e|ing)(?: state change)?")
                 .registerEvent(EntityToggleSwimEvent.class, "(?:on )?(?:entity )?(?:toggl(?:e|ing) swim|swim toggl(?:e|ing))")
-                .registerEvent(ExperienceOrbSpawnEvent.class, "(?:on )?(?:(?:e)?xp(?:erience)?(?: orb)? spawn|spawn of(?: a(?:n)?)? (?:e)?xp(?:erience)?(?: orb)?)")
+                .registerEvent(ExperienceOrbSpawnEvent.class, "(?:on )?(?:e?xp(?:erience)?(?: orb)? spawn|spawn of(?: a(?:n)?)? e?xp(?:erience)?(?: orb)?)")
                 .registerEvent(ExplosionPrimeEvent.class, "(?:on )?explosion prime")
                 .registerEvent(FoodLevelChangeEvent.class, "(?:on )?(?:food|hunger) (?:level|met(?:er|re)|bar) chang(?:e|ing)")
                 .registerEvent(FurnaceBurnEvent.class, "(?:on )?fuel burn(?:ing)?")
