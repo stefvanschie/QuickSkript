@@ -163,7 +163,7 @@ public abstract class SkriptLoader implements AutoCloseable {
      */
     @Nullable
     @Contract(pure = true)
-    public PsiConverter<?> tryGetConverter(@NotNull String name) {
+    private PsiConverter<?> tryGetConverter(@NotNull String name) {
         return converters.get(name);
     }
 

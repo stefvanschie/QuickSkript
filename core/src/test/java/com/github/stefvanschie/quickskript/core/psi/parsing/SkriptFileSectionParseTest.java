@@ -1,6 +1,6 @@
-package com.github.stefvanschie.quickskript.core.parsing;
+package com.github.stefvanschie.quickskript.core.psi.parsing;
 
-import com.github.stefvanschie.quickskript.core.TestClassBase;
+import com.github.stefvanschie.quickskript.core.psi.TestClassBase;
 import com.github.stefvanschie.quickskript.core.file.SkriptFileNode;
 import com.github.stefvanschie.quickskript.core.file.SkriptFileSection;
 import org.jetbrains.annotations.NotNull;
@@ -72,11 +72,10 @@ class SkriptFileSectionParseTest extends TestClassBase {
         Assertions.assertEquals(text, result);
     }
 
-    private void appendSection(@NotNull StringBuilder builder, @NotNull SkriptFileSection section, int indentationLevel) {
+    private void appendSection(@NotNull StringBuilder builder, @NotNull SkriptFileSection section,
+                               int indentationLevel) {
         for (SkriptFileNode node : section.getNodes()) {
-            for (int i = 0; i < indentationLevel; i++) {
-                builder.append(INDENTATION);
-            }
+            builder.append(INDENTATION.repeat(Math.max(0, indentationLevel)));
 
             builder.append(node.getText());
 

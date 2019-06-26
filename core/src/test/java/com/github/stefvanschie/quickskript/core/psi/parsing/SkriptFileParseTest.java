@@ -1,6 +1,6 @@
-package com.github.stefvanschie.quickskript.core.parsing;
+package com.github.stefvanschie.quickskript.core.psi.parsing;
 
-import com.github.stefvanschie.quickskript.core.TestClassBase;
+import com.github.stefvanschie.quickskript.core.psi.TestClassBase;
 import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.core.skript.Skript;
 import org.junit.jupiter.api.Test;

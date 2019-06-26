@@ -1,4 +1,4 @@
-package com.github.stefvanschie.quickskript.core;
+package com.github.stefvanschie.quickskript.core.psi;
 
 import com.github.stefvanschie.quickskript.core.file.SkriptFile;
 import com.github.stefvanschie.quickskript.core.skript.Skript;
@@ -21,7 +21,7 @@ import java.util.*;
 public class TestClassBase {
 
     @NotNull
-    protected static Collection<File> getSampleSkriptFiles() {
+    private static Collection<File> getSampleSkriptFiles() {
         URL resource = TestClassBase.class.getClassLoader().getResource("sample-skript-files");
         File directory = new File(Objects.requireNonNull(resource).getPath());
         return Arrays.asList(Objects.requireNonNull(directory.listFiles()));
