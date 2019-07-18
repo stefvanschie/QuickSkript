@@ -1,14 +1,13 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.regex.Pattern;
 
 /**
  * Shears or grows back wool on a sheep
@@ -57,35 +56,53 @@ public class PsiShearEffect extends PsiElement<Void> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiShearEffect> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * The pattern for matching this element
          */
         @NotNull
-        private final Pattern pattern = Pattern.compile("(un-?)?shear (?<sheep>.+)");
+        private final SkriptPattern shearPattern = SkriptPattern.parse("shear %living entities%");
 
         /**
-         * {@inheritDoc}
+         * The pattern for matching this element
          */
-        @Nullable
-        @Override
-        public PsiShearEffect tryParse(@NotNull String text, int lineNumber) {
-            var matcher = pattern.matcher(text);
+        @NotNull
+        private final SkriptPattern unshearPattern = SkriptPattern.parse("un[-]shear %living entities%");
 
-            if (!matcher.matches()) {
-                return null;
-            }
+        /**
+         * Parses the {@link #shearPattern} and invokes this method with its types if the match succeeds
+         *
+         * @param sheep the sheep to shear
+         * @param lineNumber the line number
+         * @return the effect
+         * @since 0.1.0
+         */
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("shearPattern")
+        public PsiShearEffect parseShear(@NotNull PsiElement<?> sheep, int lineNumber) {
+            return create(sheep, true, lineNumber);
+        }
 
-            PsiElement<?> sheep = SkriptLoader.get().forceParseElement(matcher.group("sheep"), lineNumber);
-
-            return create(sheep, matcher.groupCount() < 2, lineNumber);
+        /**
+         * Parses the {@link #unshearPattern} and invokes this method with its types if the match succeeds
+         *
+         * @param sheep the sheep to unshear
+         * @param lineNumber the line number
+         * @return the effect
+         * @since 0.1.0
+         */
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("unshearPattern")
+        public PsiShearEffect parseUnshear(@NotNull PsiElement<?> sheep, int lineNumber) {
+            return create(sheep, false, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters.
          *
          * @param sheep the sheep to shear
          * @param shear true to shear the sheep, otherwise grows back their wool
