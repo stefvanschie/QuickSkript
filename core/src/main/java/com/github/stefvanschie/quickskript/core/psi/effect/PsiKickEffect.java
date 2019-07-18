@@ -1,14 +1,13 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.regex.Pattern;
 
 /**
  * Kicks a player from the server.
@@ -58,43 +57,34 @@ public class PsiKickEffect extends PsiElement<Void> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiKickEffect> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * The pattern for matching {@link PsiKickEffect}s
          */
         @NotNull
-        private final Pattern pattern = Pattern
-            .compile("kick (?<player>.+?)(?: (?:by reason of|because(?: of)?|on account of|due to) (?<reason>.+?))?$");
+        private final SkriptPattern pattern =
+            SkriptPattern.parse("kick %players% [(by reason of|because [of]|on account of|due to) %text%]");
 
         /**
-         * {@inheritDoc}
+         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         *
+         * @param player the player to kick
+         * @param reason the reason for kicking this player, might be null
+         * @param lineNumber the line number
+         * @return the effect
+         * @since 0.1.0
          */
-        @Nullable
-        @Override
-        public PsiKickEffect tryParse(@NotNull String text, int lineNumber) {
-            var matcher = pattern.matcher(text);
-
-            if (!matcher.matches()) {
-                return null;
-            }
-
-            var skriptLoader = SkriptLoader.get();
-
-            PsiElement<?> player = skriptLoader.forceParseElement(matcher.group("player"), lineNumber);
-            PsiElement<?> reason = null;
-
-            if (matcher.groupCount() > 1) {
-                reason = skriptLoader.forceParseElement(matcher.group("reason"), lineNumber);
-            }
-
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("pattern")
+        public PsiKickEffect parse(@NotNull PsiElement<?> player, @NotNull PsiElement<?> reason, int lineNumber) {
             return create(player, reason, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters.
          *
          * @param player the player to kick
          * @param reason the reason for kicking the player, or null
