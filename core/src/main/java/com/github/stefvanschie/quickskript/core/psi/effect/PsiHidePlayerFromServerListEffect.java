@@ -1,14 +1,13 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.regex.Pattern;
 
 /**
  * Hides a player from the server list
@@ -50,36 +49,35 @@ public class PsiHidePlayerFromServerListEffect extends PsiElement<Void> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiHidePlayerFromServerListEffect> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * The pattern for matching {@link PsiHidePlayerFromServerListEffect}s with
          */
         @NotNull
-        private final Pattern pattern =
-            Pattern.compile("hide (<player>.+?)(?:'s? info(?:rmation)?)? (?:in|on|from) (?:the)? server list");
+        private final SkriptPattern[] patterns = SkriptPattern.parse(
+            "hide %players% (in|on|from) [the] server list",
+            "hide %players%'[s] info[rmation] (in|on|from) [the] server list"
+        );
 
         /**
-         * {@inheritDoc}
+         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         *
+         * @param player the player to hide
+         * @param lineNumber the line number
+         * @return the effect
+         * @since 0.1.0
          */
-        @Nullable
-        @Override
-        public PsiHidePlayerFromServerListEffect tryParse(@NotNull String text, int lineNumber) {
-            var matcher = pattern.matcher(text);
-
-            if (!matcher.matches()) {
-                return null;
-            }
-
-            PsiElement<?> player = SkriptLoader.get().forceParseElement(matcher.group("player"), lineNumber);
-
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("patterns")
+        public PsiHidePlayerFromServerListEffect parse(@NotNull PsiElement<?> player, int lineNumber) {
             return create(player, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters.
          *
          * @param player the player to hide from the server list
          * @param lineNumber the line number
