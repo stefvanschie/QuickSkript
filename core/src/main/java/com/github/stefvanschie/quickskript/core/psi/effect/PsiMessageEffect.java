@@ -1,9 +1,10 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -56,56 +57,36 @@ public class PsiMessageEffect extends PsiElement<Void> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiMessageEffect> {
+    public static class Factory implements PsiElementFactory {
 
         /**
-         * {@inheritDoc}
+         * The pattern to match {@link PsiMessageEffect}s
          */
-        @Nullable
+        @SuppressWarnings("HardcodedFileSeparator")
+        @NotNull
+        private final SkriptPattern pattern =
+            SkriptPattern.parse("(message|send [message[s]]) %texts% [to %players/console%]");
+
+        /**
+         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         *
+         * @param message the message to send
+         * @param receiver the player or console which should receive this message
+         * @param lineNumber the line number
+         * @return the effect
+         * @since 0.1.0
+         */
+        @NotNull
         @Contract(pure = true)
-        @Override
-        public PsiMessageEffect tryParse(@NotNull String text, int lineNumber) {
-            if (!text.startsWith("message") && !text.startsWith("send"))
-                return null;
-
-            if (text.startsWith("message")) {
-                text = text.substring(7).trim();
-            } else if (text.startsWith("send")) {
-                text = text.substring(4).trim();
-
-                if (text.startsWith("message")) {
-                    text = text.substring(7);
-
-                    if (text.startsWith("s")) {
-                        text = text.substring(1);
-                    }
-
-                    text = text.trim();
-                }
-            }
-
-            int index = text.indexOf(" to ");
-
-            PsiElement<?> receiver = null;
-
-            if (index != -1) {
-                String to = text.substring(index + 4);
-
-                text = text.substring(0, index);
-
-                //find player or console
-                receiver = SkriptLoader.get().forceParseElement(to, lineNumber);
-            }
-
-            PsiElement<?> message = SkriptLoader.get().forceParseElement(text, lineNumber);
-
+        @Pattern("pattern")
+        public PsiMessageEffect tryParse(@NotNull PsiElement<?> message, @Nullable PsiElement<?> receiver,
+                                         int lineNumber) {
             return create(message, receiver, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters.
          *
          * @param message the message to be sent
          * @param receiver the receiver of the message
