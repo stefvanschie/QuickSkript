@@ -1,10 +1,11 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -16,7 +17,6 @@ import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.regex.Pattern;
 
 /**
  * An effect for logging text to log files and the console
@@ -99,39 +99,33 @@ public class PsiLogEffect extends PsiElement<Void> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiLogEffect> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * The pattern for matching {@link PsiLogEffect}s
          */
-        private final Pattern pattern = Pattern.compile("log (?<text>.+?)(?: (?:to|in)(?: files?)? (?<file>.+))?$");
+        @NotNull
+        private final SkriptPattern pattern = SkriptPattern.parse("log %texts% [(to|in) [file[s]] %texts%]");
 
         /**
-         * {@inheritDoc}
+         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         *
+         * @param text the text to log
+         * @param fileName the file name to log to, or null
+         * @param lineNumber the line number
+         * @return the effect
+         * @since 0.1.0
          */
-        @Nullable
-        @Override
-        public PsiLogEffect tryParse(@NotNull String text, int lineNumber) {
-            var matcher = pattern.matcher(text);
-
-            if (!matcher.matches()) {
-                return null;
-            }
-
-            var skriptLoader = SkriptLoader.get();
-
-            PsiElement<?> textElement = skriptLoader.forceParseElement(matcher.group("text"), lineNumber);
-
-            String fileText = matcher.group("file");
-            PsiElement<?> file = fileText == null ? null : skriptLoader.forceParseElement(fileText, lineNumber);
-
-            return create(textElement, file, lineNumber);
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("pattern")
+        public PsiLogEffect parse(@NotNull PsiElement<?> text, @Nullable PsiElement<?> fileName, int lineNumber) {
+            return create(text, fileName, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters.
          *
          * @param text the text to log
          * @param fileName the name of the file to log to
