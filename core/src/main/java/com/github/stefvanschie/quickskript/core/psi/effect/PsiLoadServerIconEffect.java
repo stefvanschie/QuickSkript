@@ -1,14 +1,13 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.regex.Pattern;
 
 /**
  * Loads a server icon for later usage
@@ -50,34 +49,33 @@ public class PsiLoadServerIconEffect extends PsiElement<Void> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiLoadServerIconEffect> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * The pattern for matching {@link PsiLoadServerIconEffect}s
          */
         @NotNull
-        private final Pattern pattern =
-            Pattern.compile("load(?: the)? server icon (?:from|of)(?: the)?(?: image)?(?: file)? (?<path>.+)");
+        private final SkriptPattern pattern =
+            SkriptPattern.parse("load [the] server icon (from|of) [the] [image] [file] %text%");
 
         /**
-         * {@inheritDoc}
+         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         *
+         * @param path the path to the image in the server's file system
+         * @param lineNumber the line number
+         * @return the effect
+         * @since 0.1.0
          */
-        @Nullable
-        @Override
-        public PsiLoadServerIconEffect tryParse(@NotNull String text, int lineNumber) {
-            var matcher = pattern.matcher(text);
-
-            if (!matcher.matches()) {
-                return null;
-            }
-
-            return create(SkriptLoader.get().forceParseElement(matcher.group("path"), lineNumber), lineNumber);
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("pattern")
+        public PsiLoadServerIconEffect parse(@NotNull PsiElement<?> path, int lineNumber) {
+            return create(path, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters.
          *
          * @param path the path to the server icon
          * @param lineNumber the line number
