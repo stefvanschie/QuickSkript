@@ -1,15 +1,13 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Checks whether an entity is on the ground. This cannot be pre computed, since entities can land or come off of the
@@ -59,57 +57,54 @@ public class PsiIsOnGroundCondition extends PsiElement<Boolean> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiIsOnGroundCondition> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * A pattern for matching positive {@link PsiIsOnGroundCondition}s
          */
         @NotNull
-        private final Pattern positivePattern = Pattern.compile("(?<entity>[\\s\\S]+) (?:is|are) on (?:the )?ground");
+        private final SkriptPattern positivePattern = SkriptPattern.parse("%entities% (is|are) on [the] ground");
 
         /**
          * A pattern for matching negative {@link PsiIsOnGroundCondition}s
          */
         @NotNull
-        private final Pattern negativePattern =
-            Pattern.compile("(?<entity>[\\s\\S]+) (?:isn't|is not|aren't|are not) on (?:the )?ground");
+        private final SkriptPattern negativePattern =
+            SkriptPattern.parse("%entities% (isn't|is not|aren't|are not) on [the] ground");
 
         /**
-         * {@inheritDoc}
+         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         *
+         * @param entity the entity to check whether they are on the ground
+         * @param lineNumber the line number
+         * @return the condition
+         * @since 0.1.0
          */
-        @Nullable
+        @NotNull
         @Contract(pure = true)
-        @Override
-        public PsiIsOnGroundCondition tryParse(@NotNull String text, int lineNumber) {
-            var skriptLoader = SkriptLoader.get();
+        @Pattern("positivePattern")
+        public PsiIsOnGroundCondition parsePositive(@NotNull PsiElement<?> entity, int lineNumber) {
+            return create(entity, true, lineNumber);
+        }
 
-            Matcher positiveMatcher = positivePattern.matcher(text);
-
-            if (positiveMatcher.matches()) {
-                String entityGroup = positiveMatcher.group("entity");
-
-                PsiElement<?> entity = skriptLoader.forceParseElement(entityGroup, lineNumber);
-
-                return create(entity, true, lineNumber);
-            }
-
-            Matcher negativeMatcher = negativePattern.matcher(text);
-
-            if (negativeMatcher.matches()) {
-                String entityGroup = negativeMatcher.group("entity");
-
-                PsiElement<?> entity = skriptLoader.forceParseElement(entityGroup, lineNumber);
-
-                return create(entity, false, lineNumber);
-            }
-
-            return null;
+        /**
+         * Parses the {@link #negativePattern} and invokes this method with its types if the match succeeds
+         *
+         * @param entity the entity to check whether they are on the ground
+         * @param lineNumber the line number
+         * @return the condition
+         * @since 0.1.0
+         */
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("negativePattern")
+        public PsiIsOnGroundCondition parseNegative(@NotNull PsiElement<?> entity, int lineNumber) {
+            return create(entity, false, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters.
          *
          * @param entity the entity to check whether they are on the ground
          * @param positive false if the result of the execution should be negated, true otherwise

@@ -1,15 +1,13 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Checks whether a player has played before. This cannot be pre computed, since players can log out and log in,
@@ -60,60 +58,56 @@ public class PsiHasPlayedBeforeCondition extends PsiElement<Boolean> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiHasPlayedBeforeCondition> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * The pattern to match positive has played before conditions
          */
         @NotNull
-        private final Pattern positivePattern = Pattern.compile(
-            "(?<player>[\\s\\S]+?) (?:(?:has|did) )?(?:already )?play(?:ed)? (?:on (?:this|the) server )?(?:before|already)"
-        );
+        private final SkriptPattern positivePattern = SkriptPattern
+            .parse("%offline player% [(has|did)] [already] play[ed] [on (this|the) server] (before|already)");
 
         /**
          * The pattern to match negative has played before conditions
          */
         @NotNull
-        private final Pattern negativePattern = Pattern.compile(
-            "(?<player>[\\s\\S]+) (?:has not|hasn't|did not|didn't) (?:(?:already|yet) )?play(?:ed)? (?:on (?:this|the) server )?(?:before|already|yet)"
+        private final SkriptPattern negativePattern = SkriptPattern.parse(
+            "%offline player% (has not|hasn't|did not|didn't) [(already|yet)] play[ed] [on (this|the) server] (before|already|yet)"
         );
 
         /**
-         * {@inheritDoc}
+         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         *
+         * @param offlinePlayer the player to check
+         * @param lineNumber the line number
+         * @return the condition
+         * @since 0.1.0
          */
-        @Nullable
+        @NotNull
         @Contract(pure = true)
-        @Override
-        public PsiHasPlayedBeforeCondition tryParse(@NotNull String text, int lineNumber) {
-            var skriptLoader = SkriptLoader.get();
+        @Pattern("positivePattern")
+        public PsiHasPlayedBeforeCondition parsePositive(@NotNull PsiElement<?> offlinePlayer, int lineNumber) {
+            return create(offlinePlayer, true, lineNumber);
+        }
 
-            Matcher positiveMatcher = positivePattern.matcher(text);
-
-            if (positiveMatcher.matches()) {
-                String playerGroup = positiveMatcher.group("player");
-
-                PsiElement<?> player = skriptLoader.forceParseElement(playerGroup, lineNumber);
-
-                return create(player, true, lineNumber);
-            }
-
-            Matcher negativeMatcher = negativePattern.matcher(text);
-
-            if (negativeMatcher.matches()) {
-                String playerGroup = negativeMatcher.group("player");
-
-                PsiElement<?> player = skriptLoader.forceParseElement(playerGroup, lineNumber);
-
-                return create(player, false, lineNumber);
-            }
-
-            return null;
+        /**
+         * Parses the {@link #negativePattern} and invokes this method with its types if the match succeeds
+         *
+         * @param offlinePlayer the player to check
+         * @param lineNumber the line number
+         * @return the condition
+         * @since 0.1.0
+         */
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("negativePattern")
+        public PsiHasPlayedBeforeCondition parseNegative(@NotNull PsiElement<?> offlinePlayer, int lineNumber) {
+            return create(offlinePlayer, false, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters.
          *
          * @param player the player to check
          * @param positive false if the result of the execution should be negated, true otherwise

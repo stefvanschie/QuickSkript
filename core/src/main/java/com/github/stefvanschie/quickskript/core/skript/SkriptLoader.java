@@ -1,15 +1,27 @@
 package com.github.stefvanschie.quickskript.core.skript;
 
 import com.github.stefvanschie.quickskript.core.file.SkriptFileSection;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
+import com.github.stefvanschie.quickskript.core.pattern.group.SkriptPatternGroup;
+import com.github.stefvanschie.quickskript.core.pattern.group.TypeGroup;
 import com.github.stefvanschie.quickskript.core.psi.*;
 import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.core.psi.section.PsiIf;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.Literal;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.PatternTypeOrder;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.PatternTypeOrderHolder;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.exception.ParsingAnnotationInvalidValueException;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Instances of this class contain everything necessary for loading Skript files.
@@ -44,7 +56,7 @@ public abstract class SkriptLoader implements AutoCloseable {
      * A list of all psi element factories.
      */
     @NotNull
-    private final List<PsiElementFactory<?>> elements = new ArrayList<>();
+    private final List<PsiElementFactory> elements = new ArrayList<>();
 
     /**
      * A list of all psi section factories.
@@ -82,20 +94,149 @@ public abstract class SkriptLoader implements AutoCloseable {
      * Returns null if no element was found.
      *
      * @param input the text to be parsed
+     * @param constraint a constraint on the type of value to parse
      * @param lineNumber the line number of the element which will potentially be parsed
      * @return the parsed psi element, or null if none were found
      * @since 0.1.0
      */
     @Nullable
     @Contract(pure = true)
-    public PsiElement<?> tryParseElement(@NotNull String input, int lineNumber) {
+    public PsiElement<?> tryParseElement(@NotNull String input, @NotNull TypeGroup.Constraint constraint,
+                                         int lineNumber) {
         input = input.trim();
 
-        for (PsiElementFactory<?> factory : elements) {
-            PsiElement<?> element = factory.tryParse(input, lineNumber);
+        for (PsiElementFactory factory : elements) {
+            boolean isLiteral = factory.getClass().getAnnotation(Literal.class) != null;
 
-            if (element != null) {
-                return element;
+            if (isLiteral && constraint == TypeGroup.Constraint.NOT_LITERAL) {
+                continue;
+            }
+
+            if (!isLiteral && constraint == TypeGroup.Constraint.LITERAL) {
+                continue;
+            }
+
+            for (var method : factory.getClass().getDeclaredMethods()) {
+                Pattern pattern = method.getAnnotation(Pattern.class);
+
+                if (pattern == null) {
+                    continue;
+                }
+
+                try {
+                    var field = factory.getClass().getDeclaredField(pattern.value());
+
+                    field.setAccessible(true);
+
+                    Class<?> type = field.getType();
+
+                    SkriptPattern[] skriptPatterns;
+
+                    if (type == SkriptPattern.class) {
+                        skriptPatterns = new SkriptPattern[] {
+                            (SkriptPattern) field.get(factory)
+                        };
+                    } else if (type == SkriptPattern[].class) {
+                        skriptPatterns = (SkriptPattern[]) field.get(factory);
+                    } else {
+                        continue;
+                    }
+
+                    for (int skriptPatternIndex = 0; skriptPatternIndex < skriptPatterns.length; skriptPatternIndex++) {
+                        PatternTypeOrderHolder holder = method.getAnnotation(PatternTypeOrderHolder.class);
+                        PatternTypeOrder patternTypeOrder = null;
+
+                        if (holder != null) {
+                            final int finalSkriptPatternIndex = skriptPatternIndex;
+
+                            Stream<PatternTypeOrder> patternMetadataStream = Arrays.stream(holder.value())
+                                .filter(pm -> Arrays.stream(pm.patterns())
+                                    .anyMatch(patternIndex -> patternIndex == finalSkriptPatternIndex));
+
+                            if (patternMetadataStream.count() > 1) {
+                                throw new ParsingAnnotationInvalidValueException(
+                                    "Multiple PatternMetadata on the same method specify the same pattern"
+                                );
+                            }
+
+                            patternTypeOrder = patternMetadataStream.findAny().orElse(null);
+                        }
+
+                        SkriptPattern skriptPattern = skriptPatterns[skriptPatternIndex];
+
+                        int typeGroupAmount = (int) skriptPattern.getGroups().stream()
+                            .filter(group -> group instanceof TypeGroup)
+                            .count();
+
+                        if (method.getParameterCount() < typeGroupAmount + 1) {
+                            throw new IllegalStateException("Method '" + method.getName() + "' has "
+                                + method.getParameterCount() + " parameters, but we expected at least " +
+                                (typeGroupAmount + 1) + " parameters");
+                        }
+
+                        SkriptMatchResult result = skriptPattern.match(input);
+
+                        if (!result.isSuccessful() || result.getRestingString() != null) {
+                            continue;
+                        }
+
+                        Map<SkriptPatternGroup, String> matchedGroups = result.getMatchedGroups();
+
+                        List<TypeGroup> groups = matchedGroups.keySet().stream()
+                            .filter(group -> group instanceof TypeGroup)
+                            .map(group -> (TypeGroup) group)
+                            .collect(Collectors.toUnmodifiableList());
+
+                        List<String> matchedTypeTexts = matchedGroups.entrySet().stream()
+                            .filter(entry -> entry.getKey() instanceof TypeGroup)
+                            .map(Map.Entry::getValue)
+                            .collect(Collectors.toUnmodifiableList());
+
+                        PsiElement[] elements = new PsiElement[typeGroupAmount];
+
+                        for (int i = 0; i < elements.length && i < groups.size(); i++) {
+                            TypeGroup.Constraint groupConstraint = groups.get(i).getConstraint();
+                            int elementIndex = i;
+
+                            if (patternTypeOrder != null && !Arrays.equals(patternTypeOrder.typeOrder(), new int[]{})) {
+                                elementIndex = patternTypeOrder.typeOrder()[i];
+
+                                if (elements[elementIndex] != null) {
+                                    throw new ParsingAnnotationInvalidValueException(
+                                        "Type order of PatternMetadata contains duplicate number '" + elementIndex + "'"
+                                    );
+                                }
+                            }
+
+                            String matchedTypeText = matchedTypeTexts.get(i);
+
+                            elements[elementIndex] = forceParseElement(matchedTypeText, groupConstraint, lineNumber);
+                        }
+
+                        method.setAccessible(true);
+
+                        Object[] parameters;
+
+                        //allow an optional SkriptMatchResult in front
+                        if (method.getParameterTypes()[0] == SkriptMatchResult.class) {
+                            parameters = new Object[elements.length + 2];
+
+                            parameters[0] = result;
+
+                            System.arraycopy(elements, 0, parameters, 1, parameters.length - 2);
+                        } else {
+                            parameters = new Object[elements.length + 1];
+
+                            System.arraycopy(elements, 0, parameters, 0, parameters.length - 1);
+                        }
+
+                        parameters[parameters.length - 1] = lineNumber;
+
+                        return (PsiElement<?>) method.invoke(factory, parameters);
+                    }
+                } catch (NoSuchFieldException | IllegalAccessException | InvocationTargetException exception) {
+                    exception.printStackTrace();
+                }
             }
         }
 
@@ -107,14 +248,16 @@ public abstract class SkriptLoader implements AutoCloseable {
      * Throws a {@link ParseException} if no element was found.
      *
      * @param input the text to be parsed
+     * @param constraint a constraint on the type of value to parse
      * @param lineNumber the line number of the element that will be parsed
      * @return the parsed psi element
      * @since 0.1.0
      */
     @NotNull
     @Contract(pure = true)
-    public PsiElement<?> forceParseElement(@NotNull String input, int lineNumber) {
-        PsiElement<?> result = tryParseElement(input, lineNumber);
+    public PsiElement<?> forceParseElement(@NotNull String input, @NotNull TypeGroup.Constraint constraint,
+                                           int lineNumber) {
+        PsiElement<?> result = tryParseElement(input, constraint, lineNumber);
 
         if (result != null) {
             return result;
@@ -150,6 +293,21 @@ public abstract class SkriptLoader implements AutoCloseable {
         PsiElement<?> condition = forceParseElement(input, lineNumber);
         //try to parse the condition before all elements inside the section
         return new PsiIf(elementsSupplier.get(), condition, lineNumber);
+    }
+
+    /**
+     * Parses text into psi elements.
+     * Throws a {@link ParseException} if no element was found.
+     *
+     * @param input the text to be parsed
+     * @param lineNumber the line number of the element that will be parsed
+     * @return the parsed psi element
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public PsiElement<?> forceParseElement(@NotNull String input, int lineNumber) {
+        return forceParseElement(input, TypeGroup.Constraint.ALL, lineNumber);
     }
 
 
@@ -194,7 +352,7 @@ public abstract class SkriptLoader implements AutoCloseable {
      * @param factory the element factory to register
      * @since 0.1.0
      */
-    protected void registerElement(@NotNull PsiElementFactory<?> factory) {
+    protected void registerElement(@NotNull PsiElementFactory factory) {
         elements.add(factory);
     }
 

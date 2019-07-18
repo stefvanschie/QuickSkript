@@ -1,18 +1,13 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Closes the currently opened inventory for the human entity
@@ -54,41 +49,35 @@ public class PsiCloseInventoryEffect extends PsiElement<Void> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiCloseInventoryEffect> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * The patterns to match against
          */
         @NotNull
-        private final Set<Pattern> patterns = Stream.of(
-            "close(?: the)? inventory(?: view)? (?:to|of|for) (?<player>.+)",
-            "close (?<player>.+)'s? inventory(?: view)?"
-        ).map(Pattern::compile).collect(Collectors.toUnmodifiableSet());
+        private final SkriptPattern[] patterns = SkriptPattern.parse(
+            "close [the] inventory [view] (to|of|for) %players%",
+            "close %players%'[s] inventory [view]"
+        );
 
         /**
-         * {@inheritDoc}
+         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         *
+         * @param player the player to close the inventory for
+         * @param lineNumber the line number
+         * @return the effect
+         * @since 0.1.0
          */
-        @Nullable
-        @Override
-        public PsiCloseInventoryEffect tryParse(@NotNull String text, int lineNumber) {
-            var optionalMatcher = patterns.stream()
-                .map(pattern -> pattern.matcher(text))
-                .filter(Matcher::matches)
-                .findAny();
-
-            if (optionalMatcher.isEmpty()) {
-                return null;
-            }
-
-            String playerGroup = optionalMatcher.get().group("player");
-
-            return create(SkriptLoader.get().forceParseElement(playerGroup, lineNumber), lineNumber);
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("patterns")
+        public PsiCloseInventoryEffect parse(@NotNull PsiElement<?> player, int lineNumber) {
+            return create(player, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters.
          *
          * @param player the player to close the inventory for
          * @param lineNumber the line number of this effect

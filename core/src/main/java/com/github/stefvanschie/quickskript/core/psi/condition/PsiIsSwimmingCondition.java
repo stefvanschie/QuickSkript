@@ -1,15 +1,13 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Checks whether a living entity is currently swimming. This cannot be pre computed, since living entities may stop or
@@ -59,57 +57,54 @@ public class PsiIsSwimmingCondition extends PsiElement<Boolean> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiIsSwimmingCondition> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * A pattern for matching positive {@link PsiIsSwimmingCondition}s
          */
         @NotNull
-        private final Pattern positivePattern = Pattern.compile("(?<livingEntity>[\\s\\S]+) (?:is|are) swimming");
+        private final SkriptPattern positivePattern = SkriptPattern.parse("%living entities% (is|are) swimming");
 
         /**
          * A pattern for matching negative {@link PsiIsSwimmingCondition}s
          */
         @NotNull
-        private final Pattern negativePattern =
-            Pattern.compile("(?<livingEntity>[\\s\\S]+) (?:isn't|is not|aren't|are not) swimming");
+        private final SkriptPattern negativePattern =
+            SkriptPattern.parse("%living entities% (isn't|is not|aren't|are not) swimming");
 
         /**
-         * {@inheritDoc}
+         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         *
+         * @param livingEntity the living entity to check whether they are swimming
+         * @param lineNumber the line number
+         * @return the condition
+         * @since 0.1.0
          */
-        @Nullable
+        @NotNull
         @Contract(pure = true)
-        @Override
-        public PsiIsSwimmingCondition tryParse(@NotNull String text, int lineNumber) {
-            var skriptLoader = SkriptLoader.get();
+        @Pattern("positivePattern")
+        public PsiIsSwimmingCondition parsePositive(@NotNull PsiElement<?> livingEntity, int lineNumber) {
+            return create(livingEntity, true, lineNumber);
+        }
 
-            Matcher positiveMatcher = positivePattern.matcher(text);
-
-            if (positiveMatcher.matches()) {
-                String livingEntityGroup = positiveMatcher.group("livingEntity");
-
-                PsiElement<?> livingEntity = skriptLoader.forceParseElement(livingEntityGroup, lineNumber);
-
-                return create(livingEntity, true, lineNumber);
-            }
-
-            Matcher negativeMatcher = negativePattern.matcher(text);
-
-            if (negativeMatcher.matches()) {
-                String livingEntityGroup = negativeMatcher.group("livingEntity");
-
-                PsiElement<?> livingEntity = skriptLoader.forceParseElement(livingEntityGroup, lineNumber);
-
-                return create(livingEntity, false, lineNumber);
-            }
-
-            return null;
+        /**
+         * Parses the {@link #negativePattern} and invokes this method with its types if the match succeeds
+         *
+         * @param livingEntity the living entity to check whether they are swimming
+         * @param lineNumber the line number
+         * @return the condition
+         * @since 0.1.0
+         */
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("negativePattern")
+        public PsiIsSwimmingCondition parseNegative(@NotNull PsiElement<?> livingEntity, int lineNumber) {
+            return create(livingEntity, false, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters.
          *
          * @param livingEntity the living entity to check whether they are swimming
          * @param positive false if the result of the execution should be negated, true otherwise

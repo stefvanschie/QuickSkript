@@ -1,13 +1,25 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
+import com.github.stefvanschie.quickskript.core.pattern.group.RegexGroup;
+import com.github.stefvanschie.quickskript.core.pattern.group.SkriptPatternGroup;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.regex.Pattern;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Executes the specified code if the specified condition is true.
@@ -65,30 +77,35 @@ public class PsiDoIfEffect extends PsiElement<Void> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiDoIfEffect> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * The pattern to match {@link PsiDoIfEffect}s
          */
         @NotNull
-        private final Pattern pattern = Pattern.compile("(?<expression>.+) if (?<condition>.+)");
+        private final SkriptPattern pattern = SkriptPattern.parse("<.+> if <.+>");
 
         /**
-         * {@inheritDoc}
+         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         *
+         * @param result the match result
+         * @param lineNumber the line number
+         * @return the effect
+         * @since 0.1.0
          */
-        @Nullable
-        @Override
-        public PsiDoIfEffect tryParse(@NotNull String text, int lineNumber) {
-            var matcher = pattern.matcher(text);
-
-            if (!matcher.matches()) {
-                return null;
-            }
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("pattern")
+        public PsiDoIfEffect parse(@NotNull SkriptMatchResult result, int lineNumber) {
+            String[] regexGroups = result.getMatchedGroups().entrySet().stream()
+                .filter(entry -> entry.getKey() instanceof RegexGroup)
+                .map(Map.Entry::getValue)
+                .toArray(String[]::new);
 
             var skriptLoader = SkriptLoader.get();
 
-            PsiElement<?> expression = skriptLoader.forceParseElement(matcher.group("expression"), lineNumber);
-            PsiElement<?> condition = skriptLoader.forceParseElement(matcher.group("condition"), lineNumber);
+            PsiElement<?> expression = skriptLoader.forceParseElement(regexGroups[0], lineNumber);
+            PsiElement<?> condition = skriptLoader.forceParseElement(regexGroups[1], lineNumber);
 
             return new PsiDoIfEffect(expression, condition, lineNumber);
         }

@@ -6,6 +6,9 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Has to match a certain type of elements. This group is greedy: it will match as much as possible as long as the match
  * is still valid. Since patterns and the PSI are separated, this will assume that the most greedy match is a valid
@@ -13,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
  *
  * @since 0.1.0
  */
-public class TypeGroup extends SkriptPatternGroup {
+public class TypeGroup implements SkriptPatternGroup {
 
     /**
      * The constraint of this type
@@ -63,6 +66,16 @@ public class TypeGroup extends SkriptPatternGroup {
     @Contract(pure = true)
     public String getType() {
         return type;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @NotNull
+    @Contract(pure = true)
+    @Override
+    public List<SkriptPatternGroup> getChildren() {
+        return new ArrayList<>();
     }
 
     /**

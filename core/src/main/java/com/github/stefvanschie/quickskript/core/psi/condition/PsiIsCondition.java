@@ -1,14 +1,13 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.regex.Pattern;
 
 /**
  * Checks to see if values on both sides are or aren't equal. If this value is pre computed, we'll throw a warning to
@@ -76,64 +75,59 @@ public class PsiIsCondition extends PsiElement<Boolean> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiIsCondition> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * A pattern for matching positive elements
          */
         @NotNull
-        private static final Pattern POSITIVE_PATTERN = Pattern.compile(
-            "(?<leftSide>[\\s\\S]+) (?:(?:is)|(?:are)|(?:=)) (?:(?:equal to)|(?:the same as) )?(?<rightSide>[\\s\\S]+)"
-        );
+        private final SkriptPattern positivePattern =
+            SkriptPattern.parse("%objects% (is|are|=) [(equal to|the same as)] %objects%");
 
         /**
          * A pattern for matching negative elements
          */
         @NotNull
-        private static final Pattern NEGATIVE_PATTERN = Pattern.compile(
-            "(?<leftSide>[\\s\\S]+) (?:(?:(?:(?:is)|(?:are)) (?:(?:not)|(?:neither)))|(?:!=)|(?:isn't)|(?:aren't)) (?:(?:equal to)|(?:the same as) )?(?<rightSide>[\\s\\S]+)"
-        );
+        private final SkriptPattern negativePattern =
+            SkriptPattern.parse("%objects% ((is|are) (not|neither)|isn't|aren't|!=) [equal to] %objects%");
 
         /**
-         * {@inheritDoc}
+         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         *
+         * @param leftSide the left hand side element
+         * @param rightSide the right hand side element
+         * @param lineNumber the line number
+         * @return the condition
+         * @since 0.1.0
          */
-        @Nullable
+        @NotNull
         @Contract(pure = true)
-        @Override
-        public PsiIsCondition tryParse(@NotNull String text, int lineNumber) {
-            var skriptLoader = SkriptLoader.get();
+        @Pattern("positivePattern")
+        public PsiIsCondition parsePositive(@NotNull PsiElement<?> leftSide, @NotNull PsiElement<?> rightSide,
+                                            int lineNumber) {
+            return create(leftSide, rightSide, true, lineNumber);
+        }
 
-            var positiveMatcher = POSITIVE_PATTERN.matcher(text);
-
-            if (positiveMatcher.matches()) {
-                String leftSideGroup = positiveMatcher.group("leftSide");
-                String rightSideGroup = positiveMatcher.group("rightSide");
-
-                var leftSideElement = skriptLoader.forceParseElement(leftSideGroup, lineNumber);
-                var rightSideElement = skriptLoader.forceParseElement(rightSideGroup, lineNumber);
-
-                return create(leftSideElement, rightSideElement, true, lineNumber);
-            }
-
-            var negativeMatcher = NEGATIVE_PATTERN.matcher(text);
-
-            if (negativeMatcher.matches()) {
-                String leftSideGroup = negativeMatcher.group("leftSide");
-                String rightSideGroup = negativeMatcher.group("rightSide");
-
-                var leftSideElement = skriptLoader.forceParseElement(leftSideGroup, lineNumber);
-                var rightSideElement = skriptLoader.forceParseElement(rightSideGroup, lineNumber);
-
-                return create(leftSideElement, rightSideElement, false, lineNumber);
-            }
-
-            return null;
+        /**
+         * Parses the {@link #negativePattern} and invokes this method with its types if the match succeeds
+         *
+         * @param leftSide the left hand side element
+         * @param rightSide the right hand side element
+         * @param lineNumber the line number
+         * @return the condition
+         * @since 0.1.0
+         */
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("negativePattern")
+        public PsiIsCondition parseNegative(@NotNull PsiElement<?> leftSide, @NotNull PsiElement<?> rightSide,
+                                            int lineNumber) {
+            return create(leftSide, rightSide, false, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters.
          *
          * @param leftSide the left hand side element
          * @param rightSide the right hand side element

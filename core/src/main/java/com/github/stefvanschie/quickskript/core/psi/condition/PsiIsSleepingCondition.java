@@ -1,15 +1,13 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Checks whether a player is currently sleeping. This cannot be pre computed, since the player may enter or leave the
@@ -59,57 +57,54 @@ public class PsiIsSleepingCondition extends PsiElement<Boolean> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiIsSleepingCondition> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * The pattern for matching positive {@link PsiIsSleepingCondition}s
          */
         @NotNull
-        private final Pattern positivePattern = Pattern.compile("(?<player>[\\s\\S]+) (?:is|are) sleeping");
+        private final SkriptPattern positivePattern = SkriptPattern.parse("%players% (is|are) sleeping");
 
         /**
          * The pattern for matching negative {@link PsiIsSleepingCondition}s
          */
         @NotNull
-        private final Pattern negativePattern =
-            Pattern.compile("(?<player>[\\s\\S]+) (?:isn't|is not|aren't|are not) sleeping");
+        private final SkriptPattern negativePattern =
+            SkriptPattern.parse("%players% (isn't|is not|aren't|are not) sleeping");
 
         /**
-         * {@inheritDoc}
+         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         *
+         * @param player the player to check whether they are sleeping
+         * @param lineNumber the line number
+         * @return the condition
+         * @since 0.1.0
          */
-        @Nullable
+        @NotNull
         @Contract(pure = true)
-        @Override
-        public PsiIsSleepingCondition tryParse(@NotNull String text, int lineNumber) {
-            var skriptLoader = SkriptLoader.get();
+        @Pattern("positivePattern")
+        public PsiIsSleepingCondition parsePositive(@NotNull PsiElement<?> player, int lineNumber) {
+            return create(player, true, lineNumber);
+        }
 
-            Matcher positiveMatcher = positivePattern.matcher(text);
-
-            if (positiveMatcher.matches()) {
-                String playerGroup = positiveMatcher.group("player");
-
-                PsiElement<?> player = skriptLoader.forceParseElement(playerGroup, lineNumber);
-
-                return create(player, true, lineNumber);
-            }
-
-            Matcher negativeMatcher = negativePattern.matcher(text);
-
-            if (negativeMatcher.matches()) {
-                String playerGroup = negativeMatcher.group("player");
-
-                PsiElement<?> player = skriptLoader.forceParseElement(playerGroup, lineNumber);
-
-                return create(player, false, lineNumber);
-            }
-
-            return null;
+        /**
+         * Parses the {@link #negativePattern} and invokes this method with its types if the match succeeds
+         *
+         * @param player the player to check whether they are sleeping
+         * @param lineNumber the line number
+         * @return the condition
+         * @since 0.1.0
+         */
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("negativePattern")
+        public PsiIsSleepingCondition parseNegative(@NotNull PsiElement<?> player, int lineNumber) {
+            return create(player, false, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters.
          *
          * @param player the player to check whether they are sleeping
          * @param positive false if the result of the execution should be negated, true otherwise

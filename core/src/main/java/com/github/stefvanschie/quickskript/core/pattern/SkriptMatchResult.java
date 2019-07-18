@@ -145,6 +145,19 @@ public class SkriptMatchResult {
     }
 
     /**
+     * Gets the string that matched the specified group. Null will be returned if the specified group wasn't matched.
+     *
+     * @param group the group that was matched
+     * @return the string that matched this group
+     * @since 0.1.0
+     */
+    @Nullable
+    @Contract(pure = true)
+    public String getMatchedString(@NotNull SkriptPatternGroup group) {
+        return matchedGroups.get(group);
+    }
+
+    /**
      * Gets a map of the matched groups and the strings that were matched
      *
      * @return the matched groups

@@ -2,6 +2,7 @@ package com.github.stefvanschie.quickskript.core.psi.literal;
 
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.Literal;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -31,6 +32,7 @@ public class PsiBooleanLiteral extends PsiPrecomputedHolder<Boolean> {
      *
      * @since 0.1.0
      */
+    @Literal
     public static class Factory implements PsiElementFactory<PsiBooleanLiteral> {
 
         /**

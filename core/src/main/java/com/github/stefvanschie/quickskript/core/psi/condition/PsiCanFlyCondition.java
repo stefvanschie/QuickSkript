@@ -1,15 +1,13 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Checks if the specified player is able to fly. This cannot be pre computed, since this value may change during
@@ -59,53 +57,53 @@ public class PsiCanFlyCondition extends PsiElement<Boolean> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiCanFlyCondition> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * The pattern for matching positive can fly conditions
          */
         @NotNull
-        private final Pattern positivePattern = Pattern.compile("(?<player>[\\s\\S]+) can fly");
+        private final SkriptPattern positivePattern = SkriptPattern.parse("%players% can fly");
 
         /**
          * The pattern for matching negative can fly conditions
          */
         @NotNull
-        private final Pattern negativePattern = Pattern.compile("(?<player>[\\s\\S]+) (?:can't|cannot|can not) fly");
+        private final SkriptPattern negativePattern = SkriptPattern.parse("%players% (can't|cannot|can not) fly");
 
         /**
-         * {@inheritDoc}
+         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         *
+         * @param player the player to test flight for
+         * @param lineNumber the line number
+         * @return the condition
+         * @since 0.1.0
          */
-        @Nullable
+        @NotNull
         @Contract(pure = true)
-        @Override
-        public PsiCanFlyCondition tryParse(@NotNull String text, int lineNumber) {
-            var skriptLoader = SkriptLoader.get();
-            Matcher positiveMatcher = positivePattern.matcher(text);
+        @Pattern("positivePattern")
+        private PsiCanFlyCondition parsePositive(@NotNull PsiElement<?> player, int lineNumber) {
+            return create(player, true, lineNumber);
+        }
 
-            if (positiveMatcher.matches()) {
-                String playerGroup = positiveMatcher.group("player");
-                PsiElement<?> player = skriptLoader.forceParseElement(playerGroup, lineNumber);
-
-                return create(player, true, lineNumber);
-            }
-
-            Matcher negativeMatcher = negativePattern.matcher(text);
-
-            if (negativeMatcher.matches()) {
-                String playerGroup = negativeMatcher.group("player");
-                PsiElement<?> player = skriptLoader.forceParseElement(playerGroup, lineNumber);
-
-                return create(player, false, lineNumber);
-            }
-
-            return null;
+        /**
+         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         *
+         * @param player the player to test flight for
+         * @param lineNumber the line number
+         * @return the condition
+         * @since 0.1.0
+         */
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("negativePattern")
+        private PsiCanFlyCondition parseNegative(@NotNull PsiElement<?> player, int lineNumber) {
+            return create(player, false, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters.
          *
          * @param player the player to test for
          * @param positive false if the result of the execution should be negated, true otherwise
