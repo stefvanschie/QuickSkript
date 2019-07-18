@@ -77,6 +77,13 @@ public class PsiExplosionEffect extends PsiElement<Void> {
 
         /**
          * Parses the {@link #unsafePattern} and invokes this method with its types if the match succeeds
+         *
+         * @param force the amount of force behind this explosion
+         * @param directions currently unused
+         * @param locations currently unused
+         * @param lineNumber the line number
+         * @return the effect
+         * @since 0.1.0
          */
         @NotNull
         @Contract(pure = true)
@@ -88,6 +95,13 @@ public class PsiExplosionEffect extends PsiElement<Void> {
 
         /**
          * Parses the {@link #safePattern} and invokes this method with its types if the match succeeds
+         *
+         * @param force the amount of force behind this explosion
+         * @param directions currently unused
+         * @param locations currently unused
+         * @param lineNumber the line number
+         * @return the effect
+         * @since 0.1.0
          */
         @NotNull
         @Contract(pure = true)
