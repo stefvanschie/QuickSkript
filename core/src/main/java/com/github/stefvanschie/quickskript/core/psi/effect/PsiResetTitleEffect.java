@@ -1,18 +1,13 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Resets a player's title and subtitle
@@ -54,44 +49,35 @@ public class PsiResetTitleEffect extends PsiElement<Void> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiResetTitleEffect> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * The patterns to match this element with
          */
         @NotNull
-        private final Set<Pattern> patterns = Stream.of(
-            "reset(?: the)? titles?(?: of (?<player>.+))?",
-            "reset(?: the)? (?<player>.+)'s? titles?"
-        ).map(Pattern::compile).collect(Collectors.toUnmodifiableSet());
+        private final SkriptPattern[] patterns = SkriptPattern.parse(
+            "reset [the] title[s] [of %players%]",
+            "reset [the] %players%'[s] title[s]"
+        );
 
         /**
-         * {@inheritDoc}
+         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         *
+         * @param player the player to reset the title for
+         * @param lineNumber the line number
+         * @return the effect
+         * @since 0.1.0
          */
-        @Nullable
-        @Override
-        public PsiResetTitleEffect tryParse(@NotNull String text, int lineNumber) {
-            var optionalMatcher = patterns.stream()
-                .map(pattern -> pattern.matcher(text))
-                .filter(Matcher::matches)
-                .findAny();
-
-            if (optionalMatcher.isEmpty()) {
-                return null;
-            }
-
-            var skriptLoader = SkriptLoader.get();
-
-            String playerGroup = optionalMatcher.get().group("player");
-            PsiElement<?> player = playerGroup == null ? null : skriptLoader.forceParseElement(playerGroup, lineNumber);
-
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("patterns")
+        public PsiResetTitleEffect parse(@NotNull PsiElement<?> player, int lineNumber) {
             return create(player, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters.
          *
          * @param player the player to reset the title for
          * @param lineNumber the line number
