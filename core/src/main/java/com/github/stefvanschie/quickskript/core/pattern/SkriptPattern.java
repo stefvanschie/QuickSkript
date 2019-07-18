@@ -2,6 +2,7 @@ package com.github.stefvanschie.quickskript.core.pattern;
 
 import com.github.stefvanschie.quickskript.core.pattern.group.*;
 import com.github.stefvanschie.quickskript.core.util.Pair;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -10,6 +11,8 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Contains a fully parsed skript pattern
@@ -286,6 +289,20 @@ public class SkriptPattern {
     }
 
     /**
+     * Gets all groups. This will also return groups inside other groups.
+     *
+     * @return an immutable list of all groups in the order as they appear in the pattern
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public List<SkriptPatternGroup> getGroups() {
+        return groups.stream()
+            .flatMap(group -> Stream.concat(Stream.of(group), group.getChildren().stream()))
+            .collect(Collectors.toUnmodifiableList());
+    }
+
+    /**
      * Parses a skript pattern from the given input
      *
      * @param input the input to transform into a pattern
@@ -312,5 +329,23 @@ public class SkriptPattern {
         }
 
         return new SkriptPattern(groups);
+    }
+
+    /**
+     * Parses skript patterns from the given inputs
+     *
+     * @param input the input to transform into patterns
+     * @return the patterns
+     * @since 0.1.0
+     */
+    @NotNull
+    public static SkriptPattern[] parse(@NotNull String... input) {
+        SkriptPattern[] patterns = new SkriptPattern[input.length];
+
+        for (int i = 0; i < input.length; i++) {
+            patterns[i] = parse(input[i]);
+        }
+
+        return patterns;
     }
 }

@@ -2,6 +2,7 @@ package com.github.stefvanschie.quickskript.core.psi.literal;
 
 import com.github.stefvanschie.quickskript.core.psi.PsiConverter;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.Literal;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import org.jetbrains.annotations.Contract;
@@ -34,6 +35,7 @@ public class PsiStringLiteral extends PsiPrecomputedHolder<Text> {
      *
      * @since 0.1.0
      */
+    @Literal
     public static class Factory implements PsiElementFactory<PsiStringLiteral> {
 
         /**

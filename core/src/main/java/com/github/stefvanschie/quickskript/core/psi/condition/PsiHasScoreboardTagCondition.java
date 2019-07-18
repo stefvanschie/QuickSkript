@@ -1,15 +1,13 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Checks to see if the specified entity has a specific scoreboard tag. This cannot be pre computed, since this may
@@ -68,60 +66,59 @@ public class PsiHasScoreboardTagCondition extends PsiElement<Boolean> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiHasScoreboardTagCondition> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * The pattern for matching positive psi has scoreboard tags
          */
         @NotNull
-        private Pattern positivePattern = Pattern
-            .compile("(?<entity>[\\s\\S]+) (?:has|have)(?: the)? score ?board tags? (?<tag>[\\s\\S]+)");
+        private SkriptPattern positivePattern =
+            SkriptPattern.parse("%entities% (has|have) [the] score[ ]board tag[s] %texts%");
 
         /**
          * The pattern for matching negative psi has scoreboard tags
          */
         @NotNull
-        private Pattern negativePattern = Pattern
-            .compile("(?<entity>[\\s\\S]+) (?:doesn't|does not|do not|don't) have(?: the)? score ?board tags? (?<tag>[\\s\\S]+)");
+        private SkriptPattern negativePattern =
+            SkriptPattern.parse("%entities% (doesn't|does not|do not|don't) have [the] score[ ]board tag[s] %texts%");
 
         /**
-         * {@inheritDoc}
+         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         *
+         * @param entity the entity to check
+         * @param tag the tag that needs to be found
+         * @param lineNumber the line number
+         * @return the condition
+         * @since 0.1.0
          */
-        @Nullable
+        @NotNull
         @Contract(pure = true)
-        @Override
-        public PsiHasScoreboardTagCondition tryParse(@NotNull String text, int lineNumber) {
-            var skriptLoader = SkriptLoader.get();
+        @Pattern("positivePattern")
+        public PsiHasScoreboardTagCondition parsePositive(@NotNull PsiElement<?> entity, @NotNull PsiElement<?> tag,
+                                                          int lineNumber) {
+            return create(entity, tag, true, lineNumber);
+        }
 
-            Matcher positiveMatcher = positivePattern.matcher(text);
-
-            if (positiveMatcher.matches()) {
-                String entityGroup = positiveMatcher.group("entity");
-
-                PsiElement<?> entity = skriptLoader.forceParseElement(entityGroup, lineNumber);
-                PsiElement<?> tag = skriptLoader.forceParseElement(positiveMatcher.group("tag"), lineNumber);
-
-                return create(entity, tag, true, lineNumber);
-            }
-
-            Matcher negativeMatcher = negativePattern.matcher(text);
-
-            if (negativeMatcher.matches()) {
-                String entityGroup = negativeMatcher.group("entity");
-
-                PsiElement<?> entity = skriptLoader.forceParseElement(entityGroup, lineNumber);
-                PsiElement<?> tag = skriptLoader.forceParseElement(negativeMatcher.group("tag"), lineNumber);
-
-                return create(entity, tag, false, lineNumber);
-            }
-
-            return null;
+        /**
+         * Parses the {@link #negativePattern} and invokes this method with its types if the match succeeds
+         *
+         * @param entity the entity to check
+         * @param tag the tag that needs to be found
+         * @param lineNumber the line number
+         * @return the condition
+         * @since 0.1.0
+         */
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("negativePattern")
+        public PsiHasScoreboardTagCondition parseNegative(@NotNull PsiElement<?> entity, @NotNull PsiElement<?> tag,
+                                                          int lineNumber) {
+            return create(entity, tag, false, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters.
          *
          * @param entity the entity to check
          * @param tag the tag that needs to be found

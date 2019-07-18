@@ -1,15 +1,13 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Checks whether a player is online. This cannot be pre computed, since players can log in/log out during game play.
@@ -58,58 +56,55 @@ public class PsiIsOnlineCondition extends PsiElement<Boolean> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiIsOnlineCondition> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * The pattern for matching positive {@link PsiIsOnlineCondition}s
          */
         @NotNull
-        private final Pattern positivePattern =
-            Pattern.compile("(?<offlinePlayer>[\\s\\S]+) (?:(?:is|are) online|(?:isn't|is not|aren't|are not) offline)");
+        private final SkriptPattern positivePattern =
+            SkriptPattern.parse("%offline players% (is|are) (online|offline)");
 
         /**
          * The pattern for matching negative {@link PsiIsOnlineCondition}s
          */
         @NotNull
-        private final Pattern negativePattern =
-            Pattern.compile("(?<offlinePlayer>[\\s\\S]+) (?:(?:is|are) offline|(?:isn't|is not|aren't|are not) online)");
+        private final SkriptPattern negativePattern =
+            SkriptPattern.parse("%offline players% (isn't|is not|aren't|are not) (online|offline)");
 
         /**
-         * {@inheritDoc}
+         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         *
+         * @param offlinePlayer the offline player to check for
+         * @param lineNumber the line number
+         * @return the condition
+         * @since 0.1.0
          */
-        @Nullable
+        @NotNull
         @Contract(pure = true)
-        @Override
-        public PsiIsOnlineCondition tryParse(@NotNull String text, int lineNumber) {
-            var skriptLoader = SkriptLoader.get();
+        @Pattern("positivePattern")
+        public PsiIsOnlineCondition parsePositive(@NotNull PsiElement<?> offlinePlayer, int lineNumber) {
+            return create(offlinePlayer, true, lineNumber);
+        }
 
-            Matcher positiveMatcher = positivePattern.matcher(text);
-
-            if (positiveMatcher.matches()) {
-                String offlinePlayerGroup = positiveMatcher.group("offlinePlayer");
-
-                PsiElement<?> offlinePlayer = skriptLoader.forceParseElement(offlinePlayerGroup, lineNumber);
-
-                return create(offlinePlayer, true, lineNumber);
-            }
-
-            Matcher negativeMatcher = negativePattern.matcher(text);
-
-            if (negativeMatcher.matches()) {
-                String offlinePlayerGroup = negativeMatcher.group("offlinePlayer");
-
-                PsiElement<?> offlinePlayer = skriptLoader.forceParseElement(offlinePlayerGroup, lineNumber);
-
-                return create(offlinePlayer, false, lineNumber);
-            }
-
-            return null;
+        /**
+         * Parses the {@link #negativePattern} and invokes this method with its types if the match succeeds
+         *
+         * @param offlinePlayer the offline player to check for
+         * @param lineNumber the line number
+         * @return the condition
+         * @since 0.1.0
+         */
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("negativePattern")
+        public PsiIsOnlineCondition parseNegative(@NotNull PsiElement<?> offlinePlayer, int lineNumber) {
+            return create(offlinePlayer, false, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters.
          *
          * @param offlinePlayer the offline player to check for
          * @param positive false if the result of the execution should be negated, true otherwise

@@ -6,6 +6,8 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -14,7 +16,7 @@ import java.util.regex.Pattern;
  *
  * @since 0.1.0
  */
-public class RegexGroup extends SkriptPatternGroup {
+public class RegexGroup implements SkriptPatternGroup {
 
     /**
      * The pattern of this regex group
@@ -42,6 +44,16 @@ public class RegexGroup extends SkriptPatternGroup {
     @Contract(pure = true)
     public Pattern getPattern() {
         return pattern;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @NotNull
+    @Contract(pure = true)
+    @Override
+    public List<SkriptPatternGroup> getChildren() {
+        return new ArrayList<>();
     }
 
     /**

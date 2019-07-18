@@ -1,16 +1,17 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
+import com.github.stefvanschie.quickskript.core.pattern.group.OptionalGroup;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * A condition based around the chance of this resulting in true. This cannot be pre computed, since it is expected that
@@ -61,36 +62,38 @@ public class PsiChanceCondition extends PsiElement<Boolean> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiChanceCondition> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * The pattern for matching {@link PsiChanceCondition}s
          */
+        @SuppressWarnings("HardcodedFileSeparator")
         @NotNull
-        private final Pattern pattern = Pattern.compile("chance of (?<number>[\\s\\S]+?)(%)?$");
+        private final SkriptPattern pattern = SkriptPattern.parse("chance of %number%[\\%]");
 
         /**
-         * {@inheritDoc}
+         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         *
+         * @param result the match state
+         * @param chance the chance
+         * @param lineNumber the line number
+         * @return the condition
+         * @since 0.1.0
          */
-        @Nullable
+        @NotNull
         @Contract(pure = true)
-        @Override
-        public PsiChanceCondition tryParse(@NotNull String text, int lineNumber) {
-            Matcher matcher = pattern.matcher(text);
+        @Pattern("pattern")
+        private PsiChanceCondition parse(@NotNull SkriptMatchResult result, @NotNull PsiElement<?> chance,
+                                           int lineNumber) {
+            boolean asPercentage = result.getMatchedGroups().keySet().stream()
+                .anyMatch(group -> group instanceof OptionalGroup);
 
-            if (!matcher.matches()) {
-                return null;
-            }
-
-            PsiElement<?> number = SkriptLoader.get().forceParseElement(matcher.group("number"), lineNumber);
-
-            return create(number, matcher.groupCount() >= 2, lineNumber);
+            return create(chance, asPercentage, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters.
          *
          * @param number the number
          * @param asPercentage whether the number should be treated as a percentage

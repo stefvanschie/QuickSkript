@@ -1,15 +1,13 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Checks whether an offline player or ip is (ip) banned. This cannot be pre computed, since a ban may be set/revoked
@@ -66,57 +64,103 @@ public class PsiIsBannedCondition extends PsiElement<Boolean> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiIsBannedCondition> {
+    public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching positive is banned conditions
+         * The pattern for matching positive non-ip ban is banned conditions
+         */
+        @SuppressWarnings("HardcodedFileSeparator")
+        @NotNull
+        private final SkriptPattern positiveNonIPBanPattern =
+            SkriptPattern.parse("%offline players/texts% (is|are) banned");
+
+        /**
+         * The pattern for matching positive ip ban is banned conditions
+         */
+        @SuppressWarnings("HardcodedFileSeparator")
+        @NotNull
+        private final SkriptPattern positiveIPBanPattern =
+            SkriptPattern.parse("%players/texts% [(is|are) IP(-| )]banned");
+
+        /**
+         * The pattern for matching positive non-ip ban is banned conditions
+         */
+        @SuppressWarnings("HardcodedFileSeparator")
+        @NotNull
+        private final SkriptPattern negativeNonIPBanPattern =
+            SkriptPattern.parse("%offline players/texts% (isn't|is not|aren't|are not) banned");
+
+        /**
+         * The pattern for matching positive ip ban is banned conditions
+         */
+        @SuppressWarnings("HardcodedFileSeparator")
+        @NotNull
+        private final SkriptPattern negativeIPBanPattern =
+            SkriptPattern.parse("%players/texts% [(isn't|is not|aren't|are not) IP(-| )]banned");
+
+        /**
+         * Parses the {@link #positiveNonIPBanPattern} and invokes this method with its types if the match succeeds
+         *
+         * @param object the object to check the ban for
+         * @param lineNumber the line number
+         * @return the condition
+         * @since 0.1.0
          */
         @NotNull
-        private final Pattern positivePattern = Pattern.compile("(?<object>[\\s\\S]+) (?:is|are) (IP[ -])?banned");
-
-        /**
-         * The pattern for matching negative is banned conditions
-         */
-        @NotNull
-        private final Pattern negativePattern =
-            Pattern.compile("(?<object>[\\s\\S]+) (?:isn't|is not|aren't|are not) (IP[ -])?banned");
-
-        /**
-         * {@inheritDoc}
-         */
-        @Nullable
         @Contract(pure = true)
-        @Override
-        public PsiIsBannedCondition tryParse(@NotNull String text, int lineNumber) {
-            var skriptLoader = SkriptLoader.get();
+        @Pattern("positiveNonIPBanPattern")
+        public PsiIsBannedCondition parsePositiveNonIPBan(@NotNull PsiElement<?> object, int lineNumber) {
+            return create(object, true, false, lineNumber);
+        }
 
-            Matcher positiveMatcher = positivePattern.matcher(text);
+        /**
+         * Parses the {@link #positiveIPBanPattern} and invokes this method with its types if the match succeeds
+         *
+         * @param object the object to check the ban for
+         * @param lineNumber the line number
+         * @return the condition
+         * @since 0.1.0
+         */
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("positiveIPBanPattern")
+        public PsiIsBannedCondition parsePositiveIPBan(@NotNull PsiElement<?> object, int lineNumber) {
+            return create(object, true, true, lineNumber);
+        }
 
-            if (positiveMatcher.matches()) {
-                String objectGroup = positiveMatcher.group("object");
+        /**
+         * Parses the {@link #negativeNonIPBanPattern} and invokes this method with its types if the match succeeds
+         *
+         * @param object the object to check the ban for
+         * @param lineNumber the line number
+         * @return the condition
+         * @since 0.1.0
+         */
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("negativeNonIPBanPattern")
+        public PsiIsBannedCondition parseNegativeNonIPBan(@NotNull PsiElement<?> object, int lineNumber) {
+            return create(object, false, false, lineNumber);
+        }
 
-                PsiElement<?> object = skriptLoader.forceParseElement(objectGroup, lineNumber);
-
-                return create(object, true, positiveMatcher.groupCount() >= 2, lineNumber);
-            }
-
-            Matcher negativeMatcher = negativePattern.matcher(text);
-
-            if (negativeMatcher.matches()) {
-                String objectGroup = negativeMatcher.group("object");
-
-                PsiElement<?> object = skriptLoader.forceParseElement(objectGroup, lineNumber);
-
-                return create(object, false, negativeMatcher.groupCount() >= 2, lineNumber);
-            }
-
-            return null;
+        /**
+         * Parses the {@link #negativeIPBanPattern} and invokes this method with its types if the match succeeds
+         *
+         * @param object the object to check the ban for
+         * @param lineNumber the line number
+         * @return the condition
+         * @since 0.1.0
+         */
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("negativeIPBanPattern")
+        public PsiIsBannedCondition parseNegativeIPBan(@NotNull PsiElement<?> object, int lineNumber) {
+            return create(object, false, true, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters.
          *
          * @param object the object to check the ban for
          * @param positive false if the result of the execution should be negated, true otherwise

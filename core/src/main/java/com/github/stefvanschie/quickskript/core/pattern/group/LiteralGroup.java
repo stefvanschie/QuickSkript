@@ -5,13 +5,16 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A literal is a piece of text, without spaces, that should be directly and exactly matched, before matching is
  * successful.
  *
  * @since 0.1.0
  */
-public class LiteralGroup extends SkriptPatternGroup {
+public class LiteralGroup implements SkriptPatternGroup {
 
     /**
      * The text inside this literal
@@ -41,6 +44,16 @@ public class LiteralGroup extends SkriptPatternGroup {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @NotNull
+    @Contract(pure = true)
+    @Override
+    public List<SkriptPatternGroup> getChildren() {
+        return new ArrayList<>();
+    }
+
+    /**
      * Parses the group at the starting of the match, returning the correct group if it matches correctly. This will
      * only match if the match is at the start and continuous i.e. there are no gaps in the match.
      *
@@ -51,16 +64,18 @@ public class LiteralGroup extends SkriptPatternGroup {
     @Nullable
     public static Pair<LiteralGroup, String> parseStarting(@NotNull String input) {
         int index = 0;
+        char previousChar = '\0';
         char matchingChar = input.charAt(0);
 
-        while (matchingChar != ' ' && matchingChar != '%' && matchingChar != '[' && matchingChar != '('
-            && matchingChar != '<') {
+        while ((matchingChar != ' ' && matchingChar != '%' && matchingChar != '[' && matchingChar != '('
+            && matchingChar != '<') || previousChar == '\\') {
             index++;
 
             if (index >= input.length()) {
                 break;
             }
 
+            previousChar = matchingChar;
             matchingChar = input.charAt(index);
         }
 

@@ -1,15 +1,21 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
+import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
+import com.github.stefvanschie.quickskript.core.pattern.group.RegexGroup;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.psi.util.pointermovement.ExitSectionsPointerMovement;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -35,74 +41,84 @@ public class PsiExitEffect extends PsiPrecomputedHolder<ExitSectionsPointerMovem
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiExitEffect> {
+    public static class Factory implements PsiElementFactory {
+
+        /**
+         * A map mapping the parse marks as used in {@link #patternsInfinite} and {@link #patternsFinite} to the correct
+         * {@link ExitSectionsPointerMovement.Type}
+         */
+        @NotNull
+        private final Map<Integer, ExitSectionsPointerMovement.Type> exitTypesByParseMark = Map.of(
+            0, ExitSectionsPointerMovement.Type.EVERYTHING,
+            1, ExitSectionsPointerMovement.Type.LOOPS,
+            2, ExitSectionsPointerMovement.Type.CONDITIONALS
+        );
 
         /**
          * A set of patterns where the amount of sections is infinite
          */
         @NotNull
-        private final Set<Pattern> patternsInfinite = Set.of(
-            "(?:exit|stop)(?: trigger)?",
-            "(?:exit|stop) all (?<type>section|loop|conditional)s"
-        ).stream().map(Pattern::compile).collect(Collectors.toUnmodifiableSet());
+        private final SkriptPattern[] patternsInfinite = SkriptPattern.parse(
+            "(exit|stop) [trigger]",
+            "(exit|stop) all (0\u00A6section|1\u00A6loop|2\u00A6conditional)s"
+        );
 
         /**
          * A set of patterns where the amount of sections is finite
          */
         @NotNull
         @SuppressWarnings("HardcodedFileSeparator")
-        private final Set<Pattern> patternsFinite = Set.of(
-            "(?:exit|stop)(?: (?:1|a|the|this))? (?<type>section|loop|conditional)",
-            "(?:exit|stop) (?<amount>\\d+) (?<type>section|loop|conditional)s"
-        ).stream().map(Pattern::compile).collect(Collectors.toUnmodifiableSet());
+        private final SkriptPattern[] patternsFinite = SkriptPattern.parse(
+            "(exit|stop) [(1|a|the|this)] (0\u00A6section|1\u00A6loop|2\u00A6conditional)",
+            "(exit|stop) <\\d+> (0\u00A6section|1\u00A6loop|2\u00A6conditional)s"
+        );
 
         /**
-         * {@inheritDoc}
+         * Parses the {@link #patternsInfinite} and invokes this method with its types if the match succeeds
+         *
+         * @param result the match result
+         * @param lineNumber the line number
+         * @return the effect
+         * @since 0.1.0
          */
-        @Nullable
-        @Override
-        public PsiExitEffect tryParse(@NotNull String text, int lineNumber) {
-            var matcherInfinite = patternsInfinite.stream()
-                .map(pattern -> pattern.matcher(text))
-                .filter(Matcher::matches)
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("patternsInfinite")
+        public PsiExitEffect parseInfinite(@NotNull SkriptMatchResult result, int lineNumber) {
+            ExitSectionsPointerMovement.Type type = exitTypesByParseMark.get(result.getParseMark());
+
+            return new PsiExitEffect(new ExitSectionsPointerMovement(type), lineNumber);
+        }
+
+        /**
+         * Parses the {@link #patternsFinite} and invokes this method with its types if the match succeeds
+         *
+         * @param result the match result
+         * @param lineNumber the line number
+         * @return the effect
+         * @since 0.1.0
+         */
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("patternsFinite")
+        public PsiExitEffect parseFinite(@NotNull SkriptMatchResult result, int lineNumber) {
+            int amount;
+
+            String regexMatch = result.getMatchedGroups().entrySet().stream()
+                .filter(entry -> entry.getKey() instanceof RegexGroup)
+                .map(Map.Entry::getValue)
                 .findAny()
                 .orElse(null);
 
-            if (matcherInfinite != null) {
-                ExitSectionsPointerMovement.Type type = ExitSectionsPointerMovement.Type.EVERYTHING;
-
-                if (matcherInfinite.groupCount() != 0) {
-                    String typeGroup = matcherInfinite.group("type");
-                    type = ExitSectionsPointerMovement.Type.byName(typeGroup);
-
-                    if (type == null) {
-                        throw new ParseException("Illegal section type", lineNumber);
-                    }
-                }
-
-                return new PsiExitEffect(new ExitSectionsPointerMovement(type), lineNumber);
+            if (regexMatch == null) {
+                amount = 1;
+            } else {
+                amount = Integer.parseInt(regexMatch);
             }
 
-            var matcherFinite = patternsFinite.stream()
-                .map(pattern -> pattern.matcher(text))
-                .filter(Matcher::matches)
-                .findAny()
-                .orElse(null);
+            ExitSectionsPointerMovement.Type type = exitTypesByParseMark.get(result.getParseMark());
 
-            if (matcherFinite != null) {
-                String typeGroup = matcherFinite.group("type");
-                ExitSectionsPointerMovement.Type type = ExitSectionsPointerMovement.Type.byName(typeGroup);
-
-                if (type == null) {
-                    throw new ParseException("Illegal section type", lineNumber);
-                }
-
-                int amount = matcherFinite.groupCount() < 2 ? 1 : Integer.parseInt(matcherFinite.group("amount"));
-
-                return new PsiExitEffect(new ExitSectionsPointerMovement(type, amount), lineNumber);
-            }
-
-            return null;
+            return new PsiExitEffect(new ExitSectionsPointerMovement(type, amount), lineNumber);
         }
     }
 }

@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @since 0.1.0
  */
-public class ChoiceGroup extends SkriptPatternGroup {
+public class ChoiceGroup implements SkriptPatternGroup {
 
     /**
      * The different choices
@@ -39,6 +39,22 @@ public class ChoiceGroup extends SkriptPatternGroup {
     private ChoiceGroup(@NotNull SkriptPattern[] patterns, @NotNull int[] parseMarks) {
         this.patterns = patterns;
         this.parseMarks = parseMarks;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @NotNull
+    @Contract(pure = true)
+    @Override
+    public List<SkriptPatternGroup> getChildren() {
+        var groups = new ArrayList<SkriptPatternGroup>();
+
+        for (SkriptPattern pattern : getPatterns()) {
+            groups.addAll(pattern.getGroups());
+        }
+
+        return groups;
     }
 
     /**

@@ -1,14 +1,13 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * A condition to check whether or not the event has been cancelled. This cannot be pre computed, since it is dependent
@@ -50,34 +49,51 @@ public class PsiEventCancelledCondition extends PsiElement<Boolean> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiEventCancelledCondition> {
+    public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern used for matching {@link PsiEventCancelledCondition}s
+         * The pattern used for matching positive {@link PsiEventCancelledCondition}s
          */
         @NotNull
-        private Pattern pattern = Pattern.compile("(?:the )?event is( not|n't)? cancell?ed");
+        private final SkriptPattern positivePattern = SkriptPattern.parse("[the] event is cancel[l]ed");
 
         /**
-         * {@inheritDoc}
+         * The pattern used for matching negative{@link PsiEventCancelledCondition}s
          */
-        @Nullable
+        @NotNull
+        private final SkriptPattern negativePattern = SkriptPattern.parse("[the] event (is not|isn't) cancel[l]ed");
+
+        /**
+         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         *
+         * @param lineNumber the line number
+         * @return the condition
+         * @since 0.1.0
+         */
+        @NotNull
         @Contract(pure = true)
-        @Override
-        public PsiEventCancelledCondition tryParse(@NotNull String text, int lineNumber) {
-            Matcher matcher = pattern.matcher(text);
+        @Pattern("positivePattern")
+        public PsiEventCancelledCondition parsePositive(int lineNumber) {
+            return create(true, lineNumber);
+        }
 
-            if (!matcher.matches()) {
-                return null;
-            }
-
-            return create(matcher.groupCount() >= 1, lineNumber);
+        /**
+         * Parses the {@link #negativePattern} and invokes this method with its types if the match succeeds
+         *
+         * @param lineNumber the line number
+         * @return the condition
+         * @since 0.1.0
+         */
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("negativePattern")
+        public PsiEventCancelledCondition parseNegative(int lineNumber) {
+            return create(false, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters.
          *
          * @param positive false if the result should be negated
          * @param lineNumber the line number

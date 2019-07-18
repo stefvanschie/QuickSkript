@@ -1,15 +1,13 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Shows an action bar to a player.
@@ -19,16 +17,16 @@ import java.util.regex.Pattern;
 public class PsiActionBarEffect extends PsiElement<Void> {
 
     /**
-     * The player to send the action bar to
-     */
-    @NotNull
-    protected final PsiElement<?> player;
-
-    /**
      * The text for the action bar
      */
     @NotNull
     protected final PsiElement<?> text;
+
+    /**
+     * The player to send the action bar to
+     */
+    @NotNull
+    protected final PsiElement<?> player;
 
     /**
      * Creates a new element with the given line number
@@ -38,11 +36,11 @@ public class PsiActionBarEffect extends PsiElement<Void> {
      * @param lineNumber the line number this element is associated with
      * @since 0.1.0
      */
-    protected PsiActionBarEffect(@NotNull PsiElement<?> player, @NotNull PsiElement<?> text, int lineNumber) {
+    protected PsiActionBarEffect(@NotNull PsiElement<?> text, @NotNull PsiElement<?> player, int lineNumber) {
         super(lineNumber);
 
-        this.player = player;
         this.text = text;
+        this.player = player;
     }
 
     /**
@@ -59,51 +57,45 @@ public class PsiActionBarEffect extends PsiElement<Void> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiActionBarEffect> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * A pattern to match {@link PsiActionBarEffect}s
          */
         @NotNull
-        private final Pattern pattern =
-            Pattern.compile("send (?:the )?action bar (?:with text )?(?<text>[\\s\\S]+) to (?<player>[\\s\\S]+)");
+        private final SkriptPattern pattern =
+            SkriptPattern.parse("send [the] action bar [with text] %text% to %players%");
 
         /**
-         * {@inheritDoc}
-         */
-        @Nullable
-        @Contract(pure = true)
-        @Override
-        public PsiActionBarEffect tryParse(@NotNull String text, int lineNumber) {
-            Matcher matcher = pattern.matcher(text);
-
-            if (!matcher.matches()) {
-                return null;
-            }
-
-            var skriptLoader = SkriptLoader.get();
-
-            PsiElement<?> textElement = skriptLoader.forceParseElement(matcher.group("text"), lineNumber);
-            PsiElement<?> player = skriptLoader.forceParseElement(matcher.group("player"), lineNumber);
-
-            return create(player, textElement, lineNumber);
-        }
-
-        /**
-         * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
          *
-         * @param player the player to send the action bar to
          * @param text the text for the action bar
+         * @param player the player to send the action bar to
          * @param lineNumber the line number
          * @return the effect
          * @since 0.1.0
          */
         @NotNull
         @Contract(pure = true)
-        public PsiActionBarEffect create(@NotNull PsiElement<?> player, @NotNull PsiElement<?> text, int lineNumber) {
-            return new PsiActionBarEffect(player, text, lineNumber);
+        @Pattern("pattern")
+        public PsiActionBarEffect parse(@NotNull PsiElement<?> text, @NotNull PsiElement<?> player, int lineNumber) {
+            return create(player, text, lineNumber);
+        }
+
+        /**
+         * Provides a default way for creating the specified object for this factory with the given parameters as
+         * constructor parameters.
+         *
+         * @param text the text for the action bar
+         * @param player the player to send the action bar to
+         * @param lineNumber the line number
+         * @return the effect
+         * @since 0.1.0
+         */
+        @NotNull
+        @Contract(pure = true)
+        public PsiActionBarEffect create(@NotNull PsiElement<?> text, @NotNull PsiElement<?> player, int lineNumber) {
+            return new PsiActionBarEffect(text, player, lineNumber);
         }
     }
 }

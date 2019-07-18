@@ -1,15 +1,13 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Checks for a specific condition and returns its result. This cannot be pre computed, since there is no guarantee that
@@ -70,41 +68,61 @@ public class PsiHasPermissionCondition extends PsiElement<Boolean> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiHasPermissionCondition> {
+    public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern to match has permission conditions with
+         * The positive pattern to match has permission conditions with
+         */
+        @SuppressWarnings("HardcodedFileSeparator")
+        @NotNull
+        private final SkriptPattern positivePattern =
+            SkriptPattern.parse("%players/console% (has|have) [the] permission[s] %texts%");
+
+        /**
+         * The negative pattern to match has permission conditions with
+         */
+        @SuppressWarnings("HardcodedFileSeparator")
+        @NotNull
+        private final SkriptPattern negativePattern =
+            SkriptPattern.parse("%players/console% (doesn't|does not|do not|don't) have [the] permission[s] %texts%");
+
+        /**
+         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         *
+         * @param permissible the object to check the permission for
+         * @param permission the permission to check
+         * @param lineNumber the line number
+         * @return the condition
+         * @since 0.1.0
          */
         @NotNull
-        private final Pattern pattern = Pattern.compile(
-            "(?<permissible>[\\s\\S]+?) ((?:do(?:es)?n't|do(?:es)? not) )?ha(?:ve|s) (?:the )?permissions? (?<permission>[\\s\\S]+)"
-        );
+        @Contract(pure = true)
+        @Pattern("positivePattern")
+        public PsiHasPermissionCondition parsePositive(@NotNull PsiElement<?> permissible,
+                                                       @NotNull PsiElement<?> permission, int lineNumber) {
+            return create(permissible, permission, true, lineNumber);
+        }
 
         /**
-         * {@inheritDoc}
+         * Parses the {@link #negativePattern} and invokes this method with its types if the match succeeds
+         *
+         * @param permissible the object to check the permission for
+         * @param permission the permission to check
+         * @param lineNumber the line number
+         * @return the condition
+         * @since 0.1.0
          */
-        @Nullable
+        @NotNull
         @Contract(pure = true)
-        @Override
-        public PsiHasPermissionCondition tryParse(@NotNull String text, int lineNumber) {
-            var skriptLoader = SkriptLoader.get();
-
-            Matcher matcher = pattern.matcher(text);
-
-            if (!matcher.matches()) {
-                return null;
-            }
-
-            PsiElement<?> permissible = skriptLoader.forceParseElement(matcher.group("permissible"), lineNumber);
-            PsiElement<?> permission = skriptLoader.forceParseElement(matcher.group("permission"), lineNumber);
-
-            return create(permissible, permission, matcher.group(2) == null, lineNumber);
+        @Pattern("negativePattern")
+        public PsiHasPermissionCondition parseNegative(@NotNull PsiElement<?> permissible,
+                                                       @NotNull PsiElement<?> permission, int lineNumber) {
+            return create(permissible, permission, false, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters.
          *
          * @param permissible the object to check the permission for
          * @param permission the permission to check
