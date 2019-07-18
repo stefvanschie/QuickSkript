@@ -1,14 +1,13 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.regex.Pattern;
 
 /**
  * Enables or disables the ability to fly for a player
@@ -57,52 +56,55 @@ public class PsiToggleFlightEffect extends PsiElement<Void> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiToggleFlightEffect> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * The pattern for matching enable elements
          */
         @NotNull
-        private final Pattern enablePattern =
-            Pattern.compile("(?:allow|enable) (?:fly|flight) (?:for|to) (?<player>.+)");
+        private final SkriptPattern enablePattern =
+            SkriptPattern.parse("(allow|enable) (fly|flight) (for|to) %players%");
 
         /**
          * The pattern for matching disable elements
          */
         @NotNull
-        private final Pattern disablePattern =
-            Pattern.compile("(?:disallow|disable) (?:fly|flight) (?:for|to) (?<player>.+)");
+        private final SkriptPattern disablePattern =
+            SkriptPattern.parse("(disallow|disable) (fly|flight) (for|to) %players%");
 
         /**
-         * {@inheritDoc}
+         * Parses the {@link #enablePattern} and invokes this method with its types if the match succeeds
+         *
+         * @param player the player to allow flight for
+         * @param lineNumber the line number
+         * @return the effect
+         * @since 0.1.0
          */
-        @Nullable
-        @Override
-        public PsiToggleFlightEffect tryParse(@NotNull String text, int lineNumber) {
-            var skriptLoader = SkriptLoader.get();
-            var enableMatcher = enablePattern.matcher(text);
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("enablePattern")
+        public PsiToggleFlightEffect parseEnable(@NotNull PsiElement<?> player, int lineNumber) {
+            return create(player, true, lineNumber);
+        }
 
-            if (enableMatcher.matches()) {
-                PsiElement<?> player = skriptLoader.forceParseElement(enableMatcher.group("player"), lineNumber);
-
-                return create(player, true, lineNumber);
-            }
-
-            var disableMatcher = disablePattern.matcher(text);
-
-            if (disableMatcher.matches()) {
-                PsiElement<?> player = skriptLoader.forceParseElement(enableMatcher.group("player"), lineNumber);
-
-                return create(player, false, lineNumber);
-            }
-
-            return null;
+        /**
+         * Parses the {@link #disablePattern} and invokes this method with its types if the match succeeds
+         *
+         * @param player the player to disable flight for
+         * @param lineNumber the line number
+         * @return the effect
+         * @since 0.1.0
+         */
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("disablePattern")
+        public PsiToggleFlightEffect parseDisable(@NotNull PsiElement<?> player, int lineNumber) {
+            return create(player, false, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters.
          *
          * @param player the player to toggle flight for
          * @param enable true to enable flight, otherwise disable
