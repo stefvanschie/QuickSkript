@@ -1,19 +1,22 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
+import com.github.stefvanschie.quickskript.core.pattern.group.RegexGroup;
 import com.github.stefvanschie.quickskript.core.psi.PsiConverter;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Map;
 
 /**
- * Parses a given value to another type or skript pattern. This element is never pre computed.
+ * Parses a given value to another type or skript pattern.
  *
  * //TODO: add support for skript patterns
  *
@@ -79,44 +82,35 @@ public class PsiParseExpression extends PsiElement<Object> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiParseExpression> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * The pattern to match parse expressions with
          */
         @NotNull
-        private final Pattern pattern = Pattern.compile("(?<value>[\\s\\S]+) parsed as (?<converter>[\\s\\S]+)");
+        private final SkriptPattern pattern = SkriptPattern.parse("%text% parsed as <.+>");
 
         /**
          * {@inheritDoc}
          */
-        @Nullable
+        @NotNull
         @Contract(pure = true)
-        @Override
-        public PsiParseExpression tryParse(@NotNull String text, int lineNumber) {
-            Matcher matcher = pattern.matcher(text);
-
-            if (!matcher.matches()) {
-                return null;
-            }
-
-            var skriptLoader = SkriptLoader.get();
-
-            String valueString = matcher.group("value");
-
-            PsiElement<?> value = skriptLoader.forceParseElement(valueString, lineNumber);
-
-            String factoryString = matcher.group("converter");
-
-            PsiConverter<?> converter = skriptLoader.forceGetConverter(factoryString, lineNumber);
+        @Pattern("pattern")
+        public PsiParseExpression parse(@NotNull SkriptMatchResult result, @NotNull PsiElement<?> value,
+                                        int lineNumber) {
+            String converterText = result.getMatchedGroups().entrySet().stream()
+                .filter(entry -> entry.getKey() instanceof RegexGroup)
+                .map(Map.Entry::getValue)
+                .findAny()
+                .orElseThrow();
+            PsiConverter<?> converter = SkriptLoader.get().forceGetConverter(converterText, lineNumber);
 
             return create(value, converter, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters.
          *
          * @param value the value to be converted
          * @param converter the converter to convert the value
