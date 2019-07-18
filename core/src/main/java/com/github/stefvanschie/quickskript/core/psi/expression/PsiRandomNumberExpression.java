@@ -1,16 +1,15 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Returns random numbers within a specified range.
@@ -77,55 +76,59 @@ public class PsiRandomNumberExpression extends PsiElement<Number> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiRandomNumberExpression> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * The pattern for matching random number expressions with integer values
          */
         @NotNull
-        private final Pattern integerPattern =
-            Pattern.compile("(?:a )?random integer (?:from|between) (?<min>-?\\d+) (?:to|and) (?<max>-?\\d+)");
+        private final SkriptPattern integerPattern =
+            SkriptPattern.parse("[a] random integer (from|between) %number% (to|and) %number%");
 
         /**
          * The pattern for matching random number expressions with floating point values
          */
         @NotNull
-        private final Pattern numberPattern = Pattern.compile(
-            "(?:a )?random number (?:from|between) (?<min>-?\\d+(?:.\\d+)?) (?:to|and) (?<max>-?\\d+(?:.\\d+)?)"
-        );
+        private final SkriptPattern numberPattern =
+            SkriptPattern.parse("[a] random number (from|between) %number% (to|and) %number%");
 
         /**
-         * {@inheritDoc}
+         * Parses the {@link #integerPattern} and invokes this method with its types if the match succeeds
+         *
+         * @param min the minimum value of the random number
+         * @param max the maximum value of the random number
+         * @param lineNumber the line number
+         * @return the expression
+         * @since 0.1.0
          */
-        @Nullable
+        @NotNull
         @Contract(pure = true)
-        @Override
-        public PsiRandomNumberExpression tryParse(@NotNull String text, int lineNumber) {
-            Matcher matcher = integerPattern.matcher(text);
-            boolean integer = true;
+        @Pattern("integerPattern")
+        public PsiRandomNumberExpression parseInteger(@NotNull PsiElement<?> min, @NotNull PsiElement<?> max,
+                                                      int lineNumber) {
+            return create(true, min, max, lineNumber);
+        }
 
-            if (!matcher.matches()) {
-                matcher = numberPattern.matcher(text);
-
-                if (matcher.matches()) {
-                    integer = false;
-                } else {
-                    return null;
-                }
-            }
-
-            var skriptLoader = SkriptLoader.get();
-
-            PsiElement<?> min = skriptLoader.forceParseElement(matcher.group("min"), lineNumber);
-            PsiElement<?> max = skriptLoader.forceParseElement(matcher.group("max"), lineNumber);
-
-            return create(integer, min, max, lineNumber);
+        /**
+         * Parses the {@link #numberPattern} and invokes this method with its types if the match succeeds
+         *
+         * @param min the minimum value of the random number
+         * @param max the maximum value of the random number
+         * @param lineNumber the line number
+         * @return the expression
+         * @since 0.1.0
+         */
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("numberPattern")
+        public PsiRandomNumberExpression parseNumber(@NotNull PsiElement<?> min, @NotNull PsiElement<?> max,
+                                                      int lineNumber) {
+            return create(false, min, max, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters.
          *
          * @param integer whether the results should be integers or floating points
          * @param min the minimum value
