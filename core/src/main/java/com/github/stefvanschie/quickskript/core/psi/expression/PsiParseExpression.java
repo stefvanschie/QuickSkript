@@ -91,7 +91,13 @@ public class PsiParseExpression extends PsiElement<Object> {
         private final SkriptPattern pattern = SkriptPattern.parse("%text% parsed as <.+>");
 
         /**
-         * {@inheritDoc}
+         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         *
+         * @param result the match result
+         * @param value the value to parse
+         * @param lineNumber the line number
+         * @return the expression
+         * @since 0.1.0
          */
         @NotNull
         @Contract(pure = true)
