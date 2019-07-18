@@ -1,14 +1,13 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.regex.Pattern;
 
 /**
  * Kills the entity
@@ -50,33 +49,32 @@ public class PsiKillEffect extends PsiElement<Void> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiKillEffect> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * The pattern for matching {@link PsiKillEffect}s
          */
         @NotNull
-        private Pattern pattern = Pattern.compile("kill (?<entity>.+)");
+        private SkriptPattern pattern = SkriptPattern.parse("kill %entities%");
 
         /**
-         * {@inheritDoc}
+         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         *
+         * @param entity the entity to kill
+         * @param lineNumber the line number
+         * @return the effect
+         * @since 0.1.0
          */
-        @Nullable
-        @Override
-        public PsiKillEffect tryParse(@NotNull String text, int lineNumber) {
-            var matcher = pattern.matcher(text);
-
-            if (!matcher.matches()) {
-                return null;
-            }
-
-            return create(SkriptLoader.get().forceParseElement(matcher.group("entity"), lineNumber), lineNumber);
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("pattern")
+        public PsiKillEffect tryParse(@NotNull PsiElement<?> entity, int lineNumber) {
+            return create(entity, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters.
          *
          * @param entity the entity to kill
          * @param lineNumber the line number
