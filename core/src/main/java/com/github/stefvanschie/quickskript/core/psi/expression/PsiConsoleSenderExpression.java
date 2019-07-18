@@ -1,14 +1,13 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * A type that returns the global command sender object. This element is always pre computed.
@@ -41,34 +40,31 @@ public class PsiConsoleSenderExpression extends PsiElement<Object> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiConsoleSenderExpression> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * The pattern to parse console sender expressions with
          */
         @NotNull
-        private final Pattern pattern = Pattern.compile("(?:the )?(?:(?:console)|(?:server))");
+        private final SkriptPattern pattern = SkriptPattern.parse("[the] (console|server)");
 
         /**
-         * {@inheritDoc}
+         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         *
+         * @param lineNumber the line number
+         * @return the expression
+         * @since 0.1.0
          */
-        @Nullable
+        @NotNull
         @Contract(pure = true)
-        @Override
-        public PsiConsoleSenderExpression tryParse(@NotNull String text, int lineNumber) {
-            Matcher matcher = pattern.matcher(text);
-            
-            if (!matcher.matches()) {
-                return null;
-            }
-
+        @Pattern("pattern")
+        public PsiConsoleSenderExpression parse(int lineNumber) {
             return create(lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters.
          *
          * @param lineNumber the line number
          * @return the expression
