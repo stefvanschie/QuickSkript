@@ -1,18 +1,14 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Makes the player start/stop flying
@@ -61,44 +57,37 @@ public class PsiFlyEffect extends PsiElement<Void> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiFlyEffect> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * The patterns to match against
          */
         @NotNull
-        private final Set<Pattern> patterns = Stream.of(
-            "force (?<player>.+?) to(?: (?<enable>stop|start))? fly(?:ing)?",
-            "make (?<player>.+?)(?: (?<enable>stop|start))? fly(?:ing)?"
-        ).map(Pattern::compile).collect(Collectors.toUnmodifiableSet());
+        private final SkriptPattern[] patterns = SkriptPattern.parse(
+            "force %players% to [(0\u00A6start|1\u00A6stop)] fly[ing]",
+            "make %players% (0\u00A6start|1\u00A6stop) flying",
+            "make %players% fly"
+        );
 
         /**
-         * {@inheritDoc}
+         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         *
+         * @param result the match result
+         * @param player the player to start/stop flight for
+         * @param lineNumber the line number
+         * @return the effect
+         * @since 0.1.0
          */
-        @Nullable
-        @Override
-        public PsiFlyEffect tryParse(@NotNull String text, int lineNumber) {
-            var optionalMatcher = patterns.stream()
-                .map(pattern -> pattern.matcher(text))
-                .filter(Matcher::matches)
-                .findAny();
-
-            if (optionalMatcher.isEmpty()) {
-                return null;
-            }
-
-            var matcher = optionalMatcher.get();
-            String enable = matcher.group("enable");
-
-            PsiElement<?> player = SkriptLoader.get().forceParseElement(matcher.group("player"), lineNumber);
-
-            return create(player, enable == null || enable.equals("start"), lineNumber);
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("patterns")
+        public PsiFlyEffect parse(@NotNull SkriptMatchResult result, @NotNull PsiElement<?> player, int lineNumber) {
+            return create(player, result.getParseMark() == 0, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters.
          *
          * @param player the player to start/stop flight for
          * @param enable true if we start flight, otherwise stop flight
