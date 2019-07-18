@@ -1,18 +1,13 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Makes the player send a message in chat
@@ -62,45 +57,36 @@ public class PsiSayEffect extends PsiElement<Void> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiSayEffect> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * The patterns to match against
          */
         @NotNull
-        private final Set<Pattern> patterns = Stream.of(
-            "force (?<player>.+) to (?:say|send(?: the)? messages?) (?<text>.+)",
-            "make (?<player>.+) (?:say|send(?: the)? messages?) (?<text>.+)"
-        ).map(Pattern::compile).collect(Collectors.toUnmodifiableSet());
+        private final SkriptPattern[] patterns = SkriptPattern.parse(
+            "make %players% (say|send [the] message[s]) %texts%",
+            "force %players% to (say|send [the] message[s]) %texts%"
+        );
 
         /**
-         * {@inheritDoc}
+         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         *
+         * @param player the player to send the message for
+         * @param text the text to send
+         * @param lineNumber the line number
+         * @return the effect
+         * @since 0.1.0
          */
-        @Nullable
-        @Override
-        public PsiSayEffect tryParse(@NotNull String text, int lineNumber) {
-            var optionalMatcher = patterns.stream()
-                .map(pattern -> pattern.matcher(text))
-                .filter(Matcher::matches)
-                .findAny();
-
-            if (optionalMatcher.isEmpty()) {
-                return null;
-            }
-
-            var skriptLoader = SkriptLoader.get();
-            var matcher = optionalMatcher.get();
-
-            PsiElement<?> player = skriptLoader.forceParseElement(matcher.group("player"), lineNumber);
-            PsiElement<?> textElement = skriptLoader.forceParseElement(matcher.group("text"), lineNumber);
-
-            return create(player, textElement, lineNumber);
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("patterns")
+        public PsiSayEffect parse(@NotNull PsiElement<?> player, @NotNull PsiElement<?> text, int lineNumber) {
+            return create(player, text, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters.
          *
          * @param player the player to send the message for
          * @param text the text to send
