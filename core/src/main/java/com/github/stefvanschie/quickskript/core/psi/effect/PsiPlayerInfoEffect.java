@@ -1,13 +1,13 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.regex.Pattern;
 
 /**
  * Hides/Shows player info when pinging the server
@@ -48,49 +48,53 @@ public class PsiPlayerInfoEffect extends PsiElement<Void> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiPlayerInfoEffect> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * The pattern for matching effects that should show the information
          */
         @NotNull
-        private final Pattern showPattern = Pattern.compile(
-            "(?:show|reveal)(?: all)? player(?: related)? info(?:rmation)?(?: (?:in|to|on|from)(?: the)? server list)?"
-        );
+        private final SkriptPattern showPattern = SkriptPattern
+            .parse("(show|reveal) [all] player [related] info[rmation] [(in|to|on|from) [the] server list]");
 
         /**
          * The pattern for matching effects that should hide the information
          */
         @NotNull
-        private final Pattern hidePattern = Pattern
-            .compile("hide(?: all)? player(?: related)? info(?:rmation)?(?: (?:in|to|on|from)(?: the)? server list)?");
+        private final SkriptPattern hidePattern =
+            SkriptPattern.parse("hide [all] player [related] info[rmation] [(in|on|from) [the] server list]");
 
         /**
-         * {@inheritDoc}
+         * Parses the {@link #showPattern} and invokes this method with its types if the match succeeds
+         *
+         * @param lineNumber the line number
+         * @return the effect
+         * @since 0.1.0
          */
-        @Nullable
+        @NotNull
         @Contract(pure = true)
-        @Override
-        public PsiPlayerInfoEffect tryParse(@NotNull String text, int lineNumber) {
-            var showMatcher = showPattern.matcher(text);
+        @Pattern("showPattern")
+        public PsiPlayerInfoEffect parseShow(int lineNumber) {
+            return create(true, lineNumber);
+        }
 
-            if (showMatcher.matches()) {
-                return create(true, lineNumber);
-            }
-
-            var hideMatcher = hidePattern.matcher(text);
-
-            if (hideMatcher.matches()) {
-                return create(false, lineNumber);
-            }
-
-            return null;
+        /**
+         * Parses the {@link #hidePattern} and invokes this method with its types if the match succeeds
+         *
+         * @param lineNumber the line number
+         * @return the effect
+         * @since 0.1.0
+         */
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("hidePattern")
+        public PsiPlayerInfoEffect parseHide(int lineNumber) {
+            return create(false, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters.
          *
          * @param show true to show info, false to hide it
          * @param lineNumber the line number
