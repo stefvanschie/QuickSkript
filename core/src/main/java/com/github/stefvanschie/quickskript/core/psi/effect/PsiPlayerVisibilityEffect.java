@@ -1,14 +1,13 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.regex.Pattern;
 
 /**
  * Hides/Shows player to/from other players
@@ -66,62 +65,57 @@ public class PsiPlayerVisibilityEffect extends PsiElement<Void> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiPlayerVisibilityEffect> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * The pattern to match a showing element
          */
         @NotNull
-        private final Pattern showPattern =
-            Pattern.compile("reveal (?<player>.+?)(?: (?:to|for|from) (?<target>.+))?$");
+        private final SkriptPattern showPattern = SkriptPattern.parse("reveal %players% [(to|for|from) %players%]");
 
         /**
          * The pattern to match a hiding element
          */
         @NotNull
-        private final Pattern hidePattern = Pattern.compile("hide (?<player>.+?)(?: (?:for|from) (?<target>.+))?$");
+        private final SkriptPattern hidePattern = SkriptPattern.parse("hide %players% [(from|for) %players%]");
 
         /**
-         * {@inheritDoc}
+         * Parses the {@link #showPattern} and invokes this method with its types if the match succeeds
+         *
+         * @param player the player to show
+         * @param target the player to show {@link #player} for
+         * @param lineNumber the line number
+         * @return the effect
+         * @since 0.1.0
          */
-        @Nullable
-        @Override
-        public PsiPlayerVisibilityEffect tryParse(@NotNull String text, int lineNumber) {
-            var skriptLoader = SkriptLoader.get();
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("showPattern")
+        public PsiPlayerVisibilityEffect parseShow(@NotNull PsiElement<?> player, @Nullable PsiElement<?> target,
+                                                   int lineNumber) {
+            return create(player, target, true, lineNumber);
+        }
 
-            var showMatcher = showPattern.matcher(text);
-
-            if (showMatcher.matches()) {
-                String targetGroup = showMatcher.group("target");
-
-                PsiElement<?> player = skriptLoader.forceParseElement(showMatcher.group("player"), lineNumber);
-                PsiElement<?> target = targetGroup == null
-                    ? null
-                    : skriptLoader.forceParseElement(targetGroup, lineNumber);
-
-                return create(player, target, true, lineNumber);
-            }
-
-            var hideMatcher = hidePattern.matcher(text);
-
-            if (hideMatcher.matches()) {
-                String targetGroup = hideMatcher.group("target");
-
-                PsiElement<?> player = skriptLoader.forceParseElement(hideMatcher.group("player"), lineNumber);
-                PsiElement<?> target = targetGroup == null
-                    ? null
-                    : skriptLoader.forceParseElement(targetGroup, lineNumber);
-
-                return create(player, target, false, lineNumber);
-            }
-
-            return null;
+        /**
+         * Parses the {@link #hidePattern} and invokes this method with its types if the match succeeds
+         *
+         * @param player the player to hide
+         * @param target the player to hide {@link #player} for
+         * @param lineNumber the line number
+         * @return the effect
+         * @since 0.1.0
+         */
+        @NotNull
+        @Contract(pure = true)
+        @Pattern("hidePattern")
+        public PsiPlayerVisibilityEffect parseHide(@NotNull PsiElement<?> player, @Nullable PsiElement<?> target,
+                                                   int lineNumber) {
+            return create(player, target, false, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters.
          *
          * @param player the player to hide/show
          * @param target the player to hide/show {@link #player} for
