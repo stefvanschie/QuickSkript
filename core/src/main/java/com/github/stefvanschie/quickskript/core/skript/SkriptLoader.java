@@ -8,7 +8,9 @@ import com.github.stefvanschie.quickskript.core.pattern.group.TypeGroup;
 import com.github.stefvanschie.quickskript.core.psi.*;
 import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.core.psi.section.PsiIf;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Literal;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.exception.IllegalFallbackAnnotationAmount;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.PatternTypeOrder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.PatternTypeOrderHolder;
@@ -18,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -236,6 +239,33 @@ public abstract class SkriptLoader implements AutoCloseable {
                     }
                 } catch (NoSuchFieldException | IllegalAccessException | InvocationTargetException exception) {
                     exception.printStackTrace();
+                }
+            }
+
+            Set<Method> methods = Arrays.stream(factory.getClass().getDeclaredMethods())
+                .filter(method -> method.getAnnotation(Fallback.class) != null)
+                .collect(Collectors.toUnmodifiableSet());
+
+            int size = methods.size();
+
+            if (size > 1) {
+                throw new IllegalFallbackAnnotationAmount(
+                    "Illegal amount of fallback annotations detected. Maximum is 1, but there were '" + size + "'."
+                );
+            }
+
+            if (size == 1) {
+                //will only loop once
+                for (Method method : methods) {
+                    try {
+                        Object result = method.invoke(factory, input, lineNumber);
+
+                        if (result != null) {
+                            return (PsiElement<?>) result;
+                        }
+                    } catch (IllegalAccessException | InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
