@@ -19,6 +19,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -127,7 +128,20 @@ public abstract class SkriptLoader implements AutoCloseable {
                 }
 
                 try {
-                    var field = factory.getClass().getField(pattern.value());
+                    Class<?> searching = factory.getClass();
+                    Field field = null;
+
+                    do {
+                        try {
+                            field = searching.getDeclaredField(pattern.value());
+                        } catch (NoSuchFieldException ignore) {}
+
+                        searching = searching.getSuperclass();
+                    } while (searching != null);
+
+                    if (field == null) {
+                        continue;
+                    }
 
                     field.setAccessible(true);
 
@@ -237,7 +251,7 @@ public abstract class SkriptLoader implements AutoCloseable {
 
                         return (PsiElement<?>) method.invoke(factory, parameters);
                     }
-                } catch (NoSuchFieldException | IllegalAccessException | InvocationTargetException exception) {
+                } catch (IllegalAccessException | InvocationTargetException exception) {
                     exception.printStackTrace();
                 }
             }
