@@ -104,7 +104,7 @@ public abstract class SkriptLoader implements AutoCloseable {
      */
     @Nullable
     @Contract(pure = true)
-    public PsiElement<?> tryParseElement(@NotNull String input, @NotNull TypeGroup.Constraint constraint,
+    private PsiElement<?> tryParseElement(@NotNull String input, @NotNull TypeGroup.Constraint constraint,
                                          int lineNumber) {
         input = input.trim();
 
@@ -422,6 +422,22 @@ public abstract class SkriptLoader implements AutoCloseable {
         }
 
         instance = null;
+    }
+
+    /**
+     * Parses text into psi elements.
+     * Returns null if no element was found.
+     *
+     * @param input the text to be parsed
+     * @param lineNumber the line number of the element which will potentially be parsed
+     * @return the parsed psi element, or null if none were found
+     * @see #tryParseElement(String, TypeGroup.Constraint, int)
+     * @since 0.1.0
+     */
+    @Nullable
+    @Contract(pure = true)
+    public PsiElement<?> tryParseElement(@NotNull String input, int lineNumber) {
+        return tryParseElement(input, TypeGroup.Constraint.ALL, lineNumber);
     }
 
     /**
