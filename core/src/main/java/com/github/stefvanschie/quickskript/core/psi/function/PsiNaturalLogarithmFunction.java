@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.core.psi.function;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -55,7 +56,7 @@ public class PsiNaturalLogarithmFunction extends PsiElement<Double> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiNaturalLogarithmFunction> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * The pattern for matching cosine expressions
@@ -64,11 +65,16 @@ public class PsiNaturalLogarithmFunction extends PsiElement<Double> {
         private final Pattern pattern = Pattern.compile("ln\\((?<parameter>[\\s\\S]+)\\)");
 
         /**
-         * {@inheritDoc}
+         * This gets called upon parsing
+         *
+         * @param text the text to parse
+         * @param lineNumber the line number
+         * @return the function, or null to indicate failure
+         * @since 0.1.0
          */
         @Nullable
         @Contract(pure = true)
-        @Override
+        @Fallback
         public PsiNaturalLogarithmFunction tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
