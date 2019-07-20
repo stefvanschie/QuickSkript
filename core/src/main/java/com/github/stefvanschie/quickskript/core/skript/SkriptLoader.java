@@ -119,7 +119,7 @@ public abstract class SkriptLoader implements AutoCloseable {
                 continue;
             }
 
-            for (var method : factory.getClass().getDeclaredMethods()) {
+            for (var method : factory.getClass().getMethods()) {
                 Pattern pattern = method.getAnnotation(Pattern.class);
 
                 if (pattern == null) {
@@ -127,7 +127,7 @@ public abstract class SkriptLoader implements AutoCloseable {
                 }
 
                 try {
-                    var field = factory.getClass().getDeclaredField(pattern.value());
+                    var field = factory.getClass().getField(pattern.value());
 
                     field.setAccessible(true);
 
@@ -242,7 +242,7 @@ public abstract class SkriptLoader implements AutoCloseable {
                 }
             }
 
-            Set<Method> methods = Arrays.stream(factory.getClass().getDeclaredMethods())
+            Set<Method> methods = Arrays.stream(factory.getClass().getMethods())
                 .filter(method -> method.getAnnotation(Fallback.class) != null)
                 .collect(Collectors.toUnmodifiableSet());
 
