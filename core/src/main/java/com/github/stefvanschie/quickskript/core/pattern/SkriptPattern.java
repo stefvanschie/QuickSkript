@@ -146,6 +146,20 @@ public class SkriptPattern {
                     } else {
                         testInput.deleteCharAt(0);
                     }
+
+                    if (testInput.toString().isEmpty()) {
+                        SkriptMatchResult finalMatch = pattern.match(testInput.toString(), resting);
+
+                         if (finalMatch.isSuccessful()) {
+                             result.addMatchedGroup(group, input.substring(0, greedy ? inputIndex + 1 : input.length() - testInput.length()));
+                             finalMatch.getMatchedGroups().forEach(result::addMatchedGroup);
+                             result.addParseMark(finalMatch.getParseMark());
+
+                             result.success(null);
+
+                             return result;
+                         }
+                    }
                 }
 
                 if (success) {
@@ -222,6 +236,20 @@ public class SkriptPattern {
                         testInput.insert(0, input.charAt(inputIndex));
                     } else {
                         testInput.deleteCharAt(0);
+                    }
+
+                    if (testInput.toString().isEmpty()) {
+                        SkriptMatchResult finalMatch = skriptPattern.match(testInput.toString(), resting);
+
+                        if (finalMatch.isSuccessful()) {
+                            result.addMatchedGroup(group, input.substring(0, greedy ? inputIndex + 1 : input.length() - testInput.length()));
+                            finalMatch.getMatchedGroups().forEach(result::addMatchedGroup);
+                            result.addParseMark(finalMatch.getParseMark());
+
+                            result.success(null);
+
+                            return result;
+                        }
                     }
                 }
 
