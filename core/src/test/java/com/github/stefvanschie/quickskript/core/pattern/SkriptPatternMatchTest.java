@@ -233,8 +233,6 @@ class SkriptPatternMatchTest {
 
     @Test
     void testCorrectPatternMatching() {
-        long start = System.nanoTime();
-
         CORRECT_PATTERNS.forEach((pattern, correct) -> {
             for (String string : correct) {
                 SkriptMatchResult match = pattern.match(string);
@@ -247,8 +245,6 @@ class SkriptPatternMatchTest {
 
     @Test
     void testFailingPatternMatching() {
-        long start = System.nanoTime();
-
         INCORRECT_PATTERNS.forEach((pattern, correct) -> {
             for (String string : correct) {
                 SkriptMatchResult match = pattern.match(string);
@@ -260,8 +256,6 @@ class SkriptPatternMatchTest {
 
     @Test
     void testParseMarks() {
-        long start = System.nanoTime();
-
         PARSE_MARKS_PATTERNS.forEach((pattern, pair) -> {
             if (pair.getX() == null || pair.getY() == null) {
                 throw new NullPointerException();

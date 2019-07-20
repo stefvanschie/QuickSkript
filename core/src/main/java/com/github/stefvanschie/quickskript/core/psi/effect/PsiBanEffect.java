@@ -112,7 +112,7 @@ public class PsiBanEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("ipBanPattern")
+        @Pattern("ipBanPatterns")
         public PsiBanEffect parseIPBan(@NotNull PsiElement<?> object, @Nullable PsiElement<?> reason,
                                           int lineNumber) {
             return create(object, reason, true, lineNumber);

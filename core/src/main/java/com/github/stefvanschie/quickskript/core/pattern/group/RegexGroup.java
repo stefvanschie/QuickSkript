@@ -11,8 +11,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 /**
- * A group that matches according to a regular expression. This group is greedy: it will match as much as possible as
- * long as the match is still valid.
+ * A group that matches according to a regular expression.
  *
  * @since 0.1.0
  */

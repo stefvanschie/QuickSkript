@@ -111,6 +111,7 @@ public class SkriptMatchResult {
      * Marks this match as successful. This is a terminating operation. After invoking this method, this match can no
      * longer be changed.
      *
+     * @param restingString the string that was leftover and not part of the match
      * @throws IllegalStateException if this match was already terminated
      * @since 0.1.0
      */
