@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.core.psi.literal;
 import com.github.stefvanschie.quickskript.core.psi.PsiConverter;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Literal;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -35,7 +36,7 @@ public class PsiNumberLiteral extends PsiPrecomputedHolder<Double> {
      * @since 0.1.0
      */
     @Literal
-    public static class Factory implements PsiElementFactory<PsiNumberLiteral> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * The pattern for matching number literals
@@ -44,11 +45,16 @@ public class PsiNumberLiteral extends PsiPrecomputedHolder<Double> {
         private final Pattern pattern = Pattern.compile("-?\\d+(?:.\\d+)?");
 
         /**
-         * {@inheritDoc}
+         * This gets called upon parsing
+         *
+         * @param text the text to parse
+         * @param lineNumber the line number
+         * @return the function, or null to indicate failure
+         * @since 0.1.0
          */
         @Nullable
         @Contract(pure = true)
-        @Override
+        @Fallback
         public PsiNumberLiteral tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
