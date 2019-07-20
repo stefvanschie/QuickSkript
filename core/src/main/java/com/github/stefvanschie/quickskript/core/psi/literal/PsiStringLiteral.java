@@ -2,6 +2,7 @@ package com.github.stefvanschie.quickskript.core.psi.literal;
 
 import com.github.stefvanschie.quickskript.core.psi.PsiConverter;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Literal;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
@@ -36,7 +37,7 @@ public class PsiStringLiteral extends PsiPrecomputedHolder<Text> {
      * @since 0.1.0
      */
     @Literal
-    public static class Factory implements PsiElementFactory<PsiStringLiteral> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * A pattern for matching strings. Making the plus lazy is crucial to ensure this doesn't accidentally match
@@ -46,11 +47,16 @@ public class PsiStringLiteral extends PsiPrecomputedHolder<Text> {
         private final Pattern pattern = Pattern.compile("\"(?<text>[^\"]+)\"");
 
         /**
-         * {@inheritDoc}
+         * This gets called upon parsing
+         *
+         * @param text the text to parse
+         * @param lineNumber the line number
+         * @return the function, or null to indicate failure
+         * @since 0.1.0
          */
         @Nullable
         @Contract(pure = true)
-        @Override
+        @Fallback
         public PsiStringLiteral tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
