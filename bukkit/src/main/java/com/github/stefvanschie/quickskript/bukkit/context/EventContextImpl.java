@@ -35,6 +35,7 @@ public class EventContextImpl implements ContextImpl, EventContext {
     /**
      * Constructs a new event context
      *
+     * @param skript the skript file this context belongs to
      * @param event the event that was executed
      * @since 0.1.0
      */

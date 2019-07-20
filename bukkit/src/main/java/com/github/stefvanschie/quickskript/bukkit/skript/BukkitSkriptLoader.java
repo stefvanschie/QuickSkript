@@ -555,7 +555,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
      * @param minimumPlatform the minimum platform necessary
      * @since 0.1.0
      */
-    private void registerElement(@NotNull PsiElementFactory<?> factory, @NotNull Platform minimumPlatform) {
+    private void registerElement(@NotNull PsiElementFactory factory, @NotNull Platform minimumPlatform) {
         if (Platform.getPlatform().isAvailable(minimumPlatform)) {
             registerElement(factory);
         }

@@ -27,6 +27,14 @@ public class SkriptPattern {
     private final List<SkriptPatternGroup> groups;
 
     /**
+     * True if {@link TypeGroup} and {@link RegexGroup} should match as much as possible, false if they should match as
+     * little as possible. In both cases, a valid match has priority over this option: the groups mentioned will not
+     * match something if that means the match will become impossible, even though a match is possible if they'd capture
+     * more.
+     */
+    private boolean greedy = true;
+
+    /**
      * A set with functions that can parse groups
      */
     private static final Set<Function<String, Pair<? extends SkriptPatternGroup, String>>> GROUP_PARSERS = Set.of(
@@ -55,11 +63,12 @@ public class SkriptPattern {
      * input, it will not match somewhere in the middle of the string.
      *
      * @param input the input to match
+     * @param resting if their may be a resting string
      * @return the match result
      * @since 0.1.0
      */
     @NotNull
-    public SkriptMatchResult match(@NotNull String input) {
+    public SkriptMatchResult match(@NotNull String input, boolean resting) {
         SkriptMatchResult result = new SkriptMatchResult();
 
         //a space we may be able to skip because the next optional may not match as well
@@ -86,7 +95,7 @@ public class SkriptPattern {
 
                 for (int i = 0; i < patterns.length; i++) {
                     SkriptPattern pattern = patterns[i];
-                    SkriptMatchResult match = pattern.match(input);
+                    SkriptMatchResult match = pattern.match(input, true);
 
                     if (match.isSuccessful()) {
                         result.addMatchedGroup(group, match.getMatchedString());
@@ -116,22 +125,26 @@ public class SkriptPattern {
 
                 SkriptPattern pattern = new SkriptPattern(groups.subList(index + 1, groups.size()));
 
-                StringBuilder testInput = new StringBuilder();
+                StringBuilder testInput = new StringBuilder(greedy ? "" : input);
                 boolean success = false;
 
                 for (int inputIndex = input.length() - 1; inputIndex >= 0; inputIndex--) {
-                    testInput.insert(0, input.charAt(inputIndex));
-
-                    SkriptMatchResult match = pattern.match(testInput.toString());
+                    SkriptMatchResult match = pattern.match(testInput.toString(), resting);
 
                     if (match.isSuccessful()) {
-                        result.addMatchedGroup(group, input.substring(0, inputIndex));
+                        result.addMatchedGroup(group, input.substring(0, greedy ? inputIndex + 1 : input.length() - testInput.length()));
                         match.getMatchedGroups().forEach(result::addMatchedGroup);
                         result.addParseMark(match.getParseMark());
 
                         input = match.getRestingString();
                         success = true;
                         break;
+                    }
+
+                    if (greedy) {
+                        testInput.insert(0, input.charAt(inputIndex));
+                    } else {
+                        testInput.deleteCharAt(0);
                     }
                 }
 
@@ -158,12 +171,12 @@ public class SkriptPattern {
 
                             result.addMatchedGroup(group, match);
 
-                            String resting = input.substring(match.length());
+                            String restingText = input.substring(match.length());
 
-                            if (resting.isEmpty()) {
+                            if (restingText.isEmpty()) {
                                 result.success(null);
                             } else {
-                                result.success(resting);
+                                result.success(restingText);
                             }
                         }
                     }
@@ -177,18 +190,22 @@ public class SkriptPattern {
 
                 SkriptPattern skriptPattern = new SkriptPattern(groups.subList(index + 1, groups.size()));
 
-                StringBuilder testInput = new StringBuilder();
+                StringBuilder testInput = new StringBuilder(greedy ? "" : input);
                 boolean success = false;
 
                 for (int inputIndex = input.length() - 1; inputIndex >= 0; inputIndex--) {
-                    testInput.insert(0, input.charAt(inputIndex));
-
-                    SkriptMatchResult match = skriptPattern.match(testInput.toString());
+                    SkriptMatchResult match = skriptPattern.match(testInput.toString(), resting);
 
                     if (match.isSuccessful()) {
-                        var matcher = pattern.matcher(input.substring(0, inputIndex));
+                        var matcher = pattern.matcher(input.substring(0, greedy ? inputIndex + 1 : input.length() - testInput.length()));
 
                         if (!matcher.matches()) {
+                            if (greedy) {
+                                testInput.insert(0, input.charAt(inputIndex));
+                            } else {
+                                testInput.deleteCharAt(0);
+                            }
+
                             continue;
                         }
 
@@ -199,6 +216,12 @@ public class SkriptPattern {
                         input = match.getRestingString();
                         success = true;
                         break;
+                    }
+
+                    if (greedy) {
+                        testInput.insert(0, input.charAt(inputIndex));
+                    } else {
+                        testInput.deleteCharAt(0);
                     }
                 }
 
@@ -242,7 +265,7 @@ public class SkriptPattern {
 
                 for (int i = 0; i < patterns.length; i++) {
                     SkriptPattern pattern = patterns[i];
-                    SkriptMatchResult match = pattern.match(input);
+                    SkriptMatchResult match = pattern.match(input, true);
 
                     if (match.isSuccessful()) {
                         result.addMatchedGroup(group, match.getMatchedString());
@@ -281,25 +304,13 @@ public class SkriptPattern {
 
         if (input.isEmpty()) {
             result.success(null);
+        } else if (!resting) {
+            result.failure(null);
         } else {
             result.success(input);
         }
 
         return result;
-    }
-
-    /**
-     * Gets all groups. This will also return groups inside other groups.
-     *
-     * @return an immutable list of all groups in the order as they appear in the pattern
-     * @since 0.1.0
-     */
-    @NotNull
-    @Contract(pure = true)
-    public List<SkriptPatternGroup> getGroups() {
-        return groups.stream()
-            .flatMap(group -> Stream.concat(Stream.of(group), group.getChildren().stream()))
-            .collect(Collectors.toUnmodifiableList());
     }
 
     /**
@@ -347,5 +358,49 @@ public class SkriptPattern {
         }
 
         return patterns;
+    }
+
+    /**
+     * Gets all groups. This will also return groups inside other groups.
+     *
+     * @return an immutable list of all groups in the order as they appear in the pattern
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public List<SkriptPatternGroup> getGroups() {
+        return groups.stream()
+            .flatMap(group -> Stream.concat(Stream.of(group), group.getChildren().stream()))
+            .collect(Collectors.toUnmodifiableList());
+    }
+
+    /**
+     * Changes whether this pattern should be greedy or not.
+     *
+     * @param greedy true if this should be greedy, false if not
+     * @return this pattern
+     * @see #greedy
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public SkriptPattern greedy(boolean greedy) {
+        this.greedy = greedy;
+
+        return this;
+    }
+
+    /**
+     * Matches this pattern to the given text.
+     *
+     * @param input the text to match
+     * @return the match result
+     * @see #match(String, boolean)
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public SkriptMatchResult match(@NotNull String input) {
+        return match(input, false);
     }
 }

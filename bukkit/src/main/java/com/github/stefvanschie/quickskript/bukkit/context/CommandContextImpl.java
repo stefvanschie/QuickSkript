@@ -29,6 +29,7 @@ public class CommandContextImpl implements ContextImpl, CommandContext {
     /**
      * Constructs a new command context.
      *
+     * @param skript the skript file this context belongs to
      * @param sender the executor of the command
      * @since 0.1.0
      */

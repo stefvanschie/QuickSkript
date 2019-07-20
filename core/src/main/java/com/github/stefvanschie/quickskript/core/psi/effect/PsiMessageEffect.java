@@ -65,7 +65,7 @@ public class PsiMessageEffect extends PsiElement<Void> {
         @SuppressWarnings("HardcodedFileSeparator")
         @NotNull
         private final SkriptPattern pattern =
-            SkriptPattern.parse("(message|send [message[s]]) %texts% [to %players/console%]");
+            SkriptPattern.parse("(message|send [message[s]]) %texts% [to %players/console%]").greedy(false);
 
         /**
          * Parses the {@link #pattern} and invokes this method with its types if the match succeeds

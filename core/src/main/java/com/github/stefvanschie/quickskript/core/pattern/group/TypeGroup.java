@@ -10,9 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Has to match a certain type of elements. This group is greedy: it will match as much as possible as long as the match
- * is still valid. Since patterns and the PSI are separated, this will assume that the most greedy match is a valid
- * expression for the PSI.
+ * Has to match a certain type of elements. Since patterns and the PSI are separated, this will assume that the match is
+ * a valid expression for the PSI.
  *
  * @since 0.1.0
  */
