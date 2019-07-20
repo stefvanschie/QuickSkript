@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.core.psi.literal;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Literal;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -40,7 +41,7 @@ public class PsiPlayerLiteral extends PsiElement<Object> {
      * @since 0.1.0
      */
     @Literal
-    public static class Factory implements PsiElementFactory<PsiPlayerLiteral> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * The pattern to parse player literals with
@@ -49,11 +50,16 @@ public class PsiPlayerLiteral extends PsiElement<Object> {
         private final Pattern pattern = Pattern.compile("(?:the )?player");
 
         /**
-         * {@inheritDoc}
+         * This gets called upon parsing
+         *
+         * @param text the text to parse
+         * @param lineNumber the line number
+         * @return the function, or null to indicate failure
+         * @since 0.1.0
          */
         @Nullable
         @Contract(pure = true)
-        @Override
+        @Fallback
         public PsiPlayerLiteral tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
