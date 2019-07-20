@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.core.psi.function;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -77,7 +78,7 @@ public class PsiLocationFunction extends PsiElement<Object> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory<PsiLocationFunction> {
+    public static class Factory implements PsiElementFactory {
 
         /**
          * The pattern for matching location expressions
@@ -86,11 +87,16 @@ public class PsiLocationFunction extends PsiElement<Object> {
         private final Pattern pattern = Pattern.compile("location\\((?<parameters>(?:[\\s\\S]+,[ ]*)+[\\s\\S]+)\\)");
 
         /**
-         * {@inheritDoc}
+         * This gets called upon parsing
+         *
+         * @param text the text to parse
+         * @param lineNumber the line number
+         * @return the function, or null to indicate failure
+         * @since 0.1.0
          */
         @Nullable
         @Contract(pure = true)
-        @Override
+        @Fallback
         public PsiLocationFunction tryParse(@NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
