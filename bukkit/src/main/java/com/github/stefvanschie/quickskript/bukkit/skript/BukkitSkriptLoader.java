@@ -8,6 +8,7 @@ import com.github.stefvanschie.quickskript.bukkit.event.SimpleEventProxyFactory;
 import com.github.stefvanschie.quickskript.bukkit.psi.condition.*;
 import com.github.stefvanschie.quickskript.bukkit.psi.effect.*;
 import com.github.stefvanschie.quickskript.bukkit.psi.expression.PsiConsoleSenderExpressionImpl;
+import com.github.stefvanschie.quickskript.bukkit.psi.expression.PsiPermissionsExpressionImpl;
 import com.github.stefvanschie.quickskript.bukkit.psi.function.PsiLocationFunctionImpl;
 import com.github.stefvanschie.quickskript.bukkit.psi.function.PsiVectorFunctionImpl;
 import com.github.stefvanschie.quickskript.bukkit.psi.function.PsiWorldFunctionImpl;
@@ -196,6 +197,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
 
         //expressions
         registerElement(new PsiConsoleSenderExpressionImpl.Factory());
+        registerElement(new PsiPermissionsExpressionImpl.Factory());
         registerElement(new PsiRandomNumberExpression.Factory());
 
         //functions
