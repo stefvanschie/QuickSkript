@@ -30,8 +30,7 @@ public class TestClassBase {
 
     @NotNull
     protected static Collection<Skript> getSampleSkripts() {
-        return getSampleSkriptFiles().stream()
-                .parallel()
+        return getSampleSkriptFiles().parallelStream()
                 .map(file -> {
                     try {
                         return new Skript(SkriptFile.getName(file), SkriptFile.load(file));
