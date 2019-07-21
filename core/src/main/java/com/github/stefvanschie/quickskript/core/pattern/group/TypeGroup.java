@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -74,7 +75,7 @@ public class TypeGroup implements SkriptPatternGroup {
     @Contract(pure = true)
     @Override
     public List<SkriptPatternGroup> getChildren() {
-        return new ArrayList<>(0);
+        return Collections.emptyList();
     }
 
     /**
