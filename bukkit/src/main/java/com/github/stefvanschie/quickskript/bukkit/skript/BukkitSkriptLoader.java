@@ -21,6 +21,7 @@ import com.github.stefvanschie.quickskript.core.file.SkriptFileNode;
 import com.github.stefvanschie.quickskript.core.file.SkriptFileSection;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.condition.*;
+import com.github.stefvanschie.quickskript.core.psi.effect.PsiChangeEffect;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiContinueEffect;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiDoIfEffect;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiExitEffect;
@@ -137,6 +138,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiActionBarEffectImpl.Factory(), Platform.SPIGOT);
         registerElement(new PsiBanEffectImpl.Factory());
         registerElement(new PsiCancelEventEffectImpl.Factory());
+        registerElement(new PsiChangeEffect.Factory());
         registerElement(new PsiCloseInventoryEffectImpl.Factory());
         registerElement(new PsiCommandEffectImpl.Factory());
         registerElement(new PsiContinueEffect.Factory());
@@ -534,10 +536,8 @@ public class BukkitSkriptLoader extends SkriptLoader {
 
         for (SkriptFileLine line : lines) {
             if (line.getText().startsWith(key)) {
-
                 if (value != null) {
                     QuickSkript.getInstance().getLogger().warning(multipleMatchWarning);
-                    break;
                 }
 
                 value = line.getText().substring(key.length()).trim();
