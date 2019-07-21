@@ -26,6 +26,7 @@ import com.github.stefvanschie.quickskript.core.psi.effect.PsiChangeEffect;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiContinueEffect;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiDoIfEffect;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiExitEffect;
+import com.github.stefvanschie.quickskript.core.psi.expression.PsiAlphabeticalSortExpression;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiParseExpression;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiRandomNumberExpression;
 import com.github.stefvanschie.quickskript.core.psi.function.*;
@@ -196,6 +197,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiIsCondition.Factory());
 
         //expressions
+        registerElement(new PsiAlphabeticalSortExpression.Factory());
         registerElement(new PsiConsoleSenderExpressionImpl.Factory());
         registerElement(new PsiPermissionsExpressionImpl.Factory());
         registerElement(new PsiRandomNumberExpression.Factory());

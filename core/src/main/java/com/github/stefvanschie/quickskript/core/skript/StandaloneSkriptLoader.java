@@ -6,10 +6,7 @@ import com.github.stefvanschie.quickskript.core.file.SkriptFileSection;
 import com.github.stefvanschie.quickskript.core.psi.condition.*;
 import com.github.stefvanschie.quickskript.core.psi.effect.*;
 import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
-import com.github.stefvanschie.quickskript.core.psi.expression.PsiConsoleSenderExpression;
-import com.github.stefvanschie.quickskript.core.psi.expression.PsiParseExpression;
-import com.github.stefvanschie.quickskript.core.psi.expression.PsiPermissionsExpression;
-import com.github.stefvanschie.quickskript.core.psi.expression.PsiRandomNumberExpression;
+import com.github.stefvanschie.quickskript.core.psi.expression.*;
 import com.github.stefvanschie.quickskript.core.psi.function.*;
 import com.github.stefvanschie.quickskript.core.psi.literal.PsiBooleanLiteral;
 import com.github.stefvanschie.quickskript.core.psi.literal.PsiNumberLiteral;
@@ -115,6 +112,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiIsCondition.Factory());
 
         //expressions
+        registerElement(new PsiAlphabeticalSortExpression.Factory());
         registerElement(new PsiConsoleSenderExpression.Factory());
         registerElement(new PsiPermissionsExpression.Factory());
         registerElement(new PsiRandomNumberExpression.Factory());
