@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * A base class for each test in this project.
@@ -29,17 +30,16 @@ public class TestClassBase {
 
     @NotNull
     protected static Collection<Skript> getSampleSkripts() {
-        Collection<File> files = getSampleSkriptFiles();
-        Queue<Skript> result = new ArrayDeque<>(files.size());
-
-        try {
-            for (File file : files) {
-                result.add(new Skript(SkriptFile.getName(file), SkriptFile.load(file)));
-            }
-            return result;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return getSampleSkriptFiles().stream()
+                .parallel()
+                .map(file -> {
+                    try {
+                        return new Skript(SkriptFile.getName(file), SkriptFile.load(file));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .collect(Collectors.toList());
     }
 
     @BeforeAll

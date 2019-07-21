@@ -14,8 +14,9 @@ import org.jetbrains.annotations.Contract;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
+import java.util.*;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 /**
  * Main QuickSkript class
@@ -67,28 +68,27 @@ public class QuickSkript extends JavaPlugin {
                 return;
             }
 
-            for (File file : Objects.requireNonNull(skriptFolder.listFiles())) {
-                if (!file.isFile() || !file.getName().endsWith(".sk")) {
-                    continue;
-                }
+            List<Skript> skripts = Arrays.stream(Objects.requireNonNull(skriptFolder.listFiles()))
+                    .parallel()
+                    .filter(file -> file.isFile() && file.getName().endsWith(".sk"))
+                    .map(file -> {
+                        String skriptName = SkriptFile.getName(file);
+                        try {
+                            return new Skript(skriptName, SkriptFile.load(file));
+                        } catch (IOException e) {
+                            getLogger().log(Level.SEVERE, "Unable to load skript named " + skriptName, e);
+                            return null;
+                        }
+                    })
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
 
-                String skriptName = SkriptFile.getName(file);
-                SkriptFile skriptFile;
-
-                try {
-                    skriptFile = SkriptFile.load(file);
-                } catch (IOException e) {
-                    getLogger().log(Level.SEVERE, "Unable to load skript named " + skriptName, e);
-                    continue;
-                }
-
-                Skript skript = new Skript(skriptName, skriptFile);
-
+            for (Skript skript : skripts) {
                 try {
                     skript.registerCommands();
                     skript.registerEventExecutors();
                 } catch (ParseException e) {
-                    getLogger().log(Level.SEVERE, "Error while parsing:" + e.getExtraInfo(skriptName), e);
+                    getLogger().log(Level.SEVERE, "Error while parsing:" + e.getExtraInfo(skript.getName()), e);
                 }
             }
         }
