@@ -32,7 +32,7 @@ public class PsiIsPoisonedCondition extends PsiElement<Boolean> {
      * Creates a new element with the given line number
      *
      * @param livingEntity the living entity to check whether they are poisoned
-     * @param positive if false, the condition needs to be ivnerted
+     * @param positive if false, the condition needs to be inverted
      * @param lineNumber the line number this element is associated with
      * @since 0.1.0
      */

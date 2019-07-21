@@ -23,7 +23,7 @@ public class PsiFeedEffect extends PsiElement<Void> {
     protected PsiElement<?> player;
 
     /**
-     * The amount of hunger bars to restore, may be nulll
+     * The amount of hunger bars to restore, may be null
      */
     @Nullable
     protected PsiElement<?> amount;

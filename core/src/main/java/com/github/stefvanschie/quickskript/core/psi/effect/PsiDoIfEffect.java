@@ -4,7 +4,6 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.pattern.group.RegexGroup;
-import com.github.stefvanschie.quickskript.core.pattern.group.SkriptPatternGroup;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -13,13 +12,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Executes the specified code if the specified condition is true.
@@ -32,13 +25,13 @@ public class PsiDoIfEffect extends PsiElement<Void> {
      * The expression to execute
      */
     @NotNull
-    private PsiElement<?> expression;
+    private final PsiElement<?> expression;
 
     /**
      * The condition to check
      */
     @NotNull
-    private PsiElement<?> condition;
+    private final PsiElement<?> condition;
 
     /**
      * Creates a new element with the given line number
@@ -66,7 +59,7 @@ public class PsiDoIfEffect extends PsiElement<Void> {
     @Override
     protected Void executeImpl(@Nullable Context context) {
         if (condition.execute(context, Boolean.class)) {
-            this.expression.execute(context);
+            expression.execute(context);
         }
 
         return null;

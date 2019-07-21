@@ -40,13 +40,9 @@ public class PsiPlayerVisibilityEffectImpl extends PsiPlayerVisibilityEffect {
     @Nullable
     @Override
     protected Void executeImpl(@Nullable Context context) {
-        Collection<? extends Player> targets;
-
-        if (this.target == null) {
-            targets = Bukkit.getOnlinePlayers();
-        } else {
-            targets = Collections.singleton(this.target.execute(context, Player.class));
-        }
+        Collection<? extends Player> targets = target == null
+                ? Bukkit.getOnlinePlayers()
+                : Collections.singleton(target.execute(context, Player.class));
 
         Player player = this.player.execute(context, Player.class);
 

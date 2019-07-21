@@ -26,9 +26,9 @@ public class PsiCommandEffectImpl extends PsiCommandEffect {
      * @param lineNumber    the line number this element is associated with
      * @since 0.1.0
      */
-    private PsiCommandEffectImpl(@NotNull PsiElement<?> commandName, @Nullable PsiElement<?> commandSender,
-                                 int lineNumber) {
-        super(commandName, commandSender, lineNumber);
+    private PsiCommandEffectImpl(@Nullable PsiElement<?> commandSender, @NotNull PsiElement<?> commandName,
+            int lineNumber) {
+        super(commandSender, commandName, lineNumber);
     }
 
     /**
@@ -44,11 +44,11 @@ public class PsiCommandEffectImpl extends PsiCommandEffect {
             sender = commandSender.execute(context, CommandSender.class);
         }
 
-        if (commandSender == null && context != null) {
+        if (sender == null && context != null) {
             sender = ((ContextImpl) context).getCommandSender();
         }
 
-        if (commandSender == null) {
+        if (sender == null) {
             sender = Bukkit.getConsoleSender();
         }
 
@@ -70,9 +70,9 @@ public class PsiCommandEffectImpl extends PsiCommandEffect {
         @NotNull
         @Contract(pure = true)
         @Override
-        public PsiCommandEffect create(@NotNull PsiElement<?> commandName, @Nullable PsiElement<?> commandSender,
-                                       int lineNumber) {
-            return new PsiCommandEffectImpl(commandName, commandSender, lineNumber);
+        public PsiCommandEffect create(@Nullable PsiElement<?> commandSender, @NotNull PsiElement<?> commandName,
+                int lineNumber) {
+            return new PsiCommandEffectImpl(commandSender, commandName, lineNumber);
         }
     }
 }

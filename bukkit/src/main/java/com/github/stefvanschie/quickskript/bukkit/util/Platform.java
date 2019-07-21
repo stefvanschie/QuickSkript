@@ -26,14 +26,14 @@ public enum Platform {
      *
      * @since 0.1.0
      */
-    SPIGOT("Spigot", Platform.BUKKIT),
+    SPIGOT("Spigot", BUKKIT),
 
     /**
      * The Paper platform
      *
      * @since 0.1.0
      */
-    PAPER("Paper", Platform.SPIGOT, Platform.BUKKIT);
+    PAPER("Paper", SPIGOT, BUKKIT);
 
     /**
      * The name of the platform
@@ -79,17 +79,18 @@ public enum Platform {
     @NotNull
     @Contract(pure = true)
     public static Platform getPlatform() {
-        //the version may not be available in testing environments
         String version = Bukkit.getVersion();
 
+        //the version may not be available in testing environments
+        //noinspection ConstantConditions
         if (version == null) {
-            return Platform.getLowestPlatform();
+            return getLowestPlatform();
         }
 
-        Platform platform = Platform.fromName(version.substring(4).split("-")[0]);
+        Platform platform = fromName(version.substring(4).split("-")[0]);
 
         if (platform == null) {
-            return Platform.getLowestPlatform();
+            return getLowestPlatform();
         }
 
         return platform;
@@ -119,6 +120,6 @@ public enum Platform {
     @NotNull
     @Contract(pure = true)
     private static Platform getLowestPlatform() {
-        return Platform.BUKKIT;
+        return BUKKIT;
     }
 }

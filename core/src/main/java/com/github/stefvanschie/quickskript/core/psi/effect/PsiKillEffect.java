@@ -55,7 +55,7 @@ public class PsiKillEffect extends PsiElement<Void> {
          * The pattern for matching {@link PsiKillEffect}s
          */
         @NotNull
-        private SkriptPattern pattern = SkriptPattern.parse("kill %entities%");
+        private final SkriptPattern pattern = SkriptPattern.parse("kill %entities%");
 
         /**
          * Parses the {@link #pattern} and invokes this method with its types if the match succeeds

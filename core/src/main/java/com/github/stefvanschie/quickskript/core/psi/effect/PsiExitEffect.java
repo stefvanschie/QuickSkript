@@ -4,19 +4,13 @@ import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.pattern.group.RegexGroup;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.psi.util.pointermovement.ExitSectionsPointerMovement;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.stream.Collectors;
 
 /**
  * Exits from a certain amount and type of section
@@ -102,22 +96,15 @@ public class PsiExitEffect extends PsiPrecomputedHolder<ExitSectionsPointerMovem
         @Contract(pure = true)
         @Pattern("patternsFinite")
         public PsiExitEffect parseFinite(@NotNull SkriptMatchResult result, int lineNumber) {
-            int amount;
-
             String regexMatch = result.getMatchedGroups().entrySet().stream()
                 .filter(entry -> entry.getKey() instanceof RegexGroup)
                 .map(Map.Entry::getValue)
                 .findAny()
                 .orElse(null);
 
-            if (regexMatch == null) {
-                amount = 1;
-            } else {
-                amount = Integer.parseInt(regexMatch);
-            }
-
             ExitSectionsPointerMovement.Type type = exitTypesByParseMark.get(result.getParseMark());
 
+            int amount = regexMatch == null ? 1 : Integer.parseInt(regexMatch);
             return new PsiExitEffect(new ExitSectionsPointerMovement(type, amount), lineNumber);
         }
     }

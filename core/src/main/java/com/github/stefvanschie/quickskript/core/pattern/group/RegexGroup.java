@@ -21,7 +21,7 @@ public class RegexGroup implements SkriptPatternGroup {
      * The pattern of this regex group
      */
     @NotNull
-    private Pattern pattern;
+    private final Pattern pattern;
 
     /**
      * Creates a new regex group
@@ -52,7 +52,7 @@ public class RegexGroup implements SkriptPatternGroup {
     @Contract(pure = true)
     @Override
     public List<SkriptPatternGroup> getChildren() {
-        return new ArrayList<>();
+        return new ArrayList<>(0);
     }
 
     /**

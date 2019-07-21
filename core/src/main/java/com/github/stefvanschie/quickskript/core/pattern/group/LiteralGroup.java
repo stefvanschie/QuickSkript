@@ -20,7 +20,7 @@ public class LiteralGroup implements SkriptPatternGroup {
      * The text inside this literal
      */
     @NotNull
-    private String text;
+    private final String text;
 
     /**
      * Creates a new literal group
@@ -50,7 +50,7 @@ public class LiteralGroup implements SkriptPatternGroup {
     @Contract(pure = true)
     @Override
     public List<SkriptPatternGroup> getChildren() {
-        return new ArrayList<>();
+        return new ArrayList<>(0);
     }
 
     /**

@@ -196,7 +196,7 @@ public class SkriptMatchResult {
     /**
      * Whether this match was successful or not, true if it was, false otherwise
      *
-     * @return whether this match was succesful
+     * @return whether this match was successful
      * @since 0.1.0
      */
     @Contract(pure = true)

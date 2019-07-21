@@ -106,8 +106,6 @@ public class BukkitSkriptLoader extends SkriptLoader {
      * @since 0.1.0
      */
     public BukkitSkriptLoader() {
-        super();
-
         try {
             Constructor<PluginCommand> rawConstructor = PluginCommand.class.getDeclaredConstructor(String.class, Plugin.class);
             rawConstructor.setAccessible(true);

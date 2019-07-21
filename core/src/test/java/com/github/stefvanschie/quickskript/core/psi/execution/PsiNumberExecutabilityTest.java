@@ -56,7 +56,7 @@ class PsiNumberExecutabilityTest extends TestClassBase {
         double max;
         do {
             max = random.nextDouble(MIN_SOURCE_VALUE, MAX_SOURCE_VALUE);
-        } while (min == max);
+        } while (Double.compare(min, max) == 0);
 
         return randomConstructor.apply(min, max);
     };

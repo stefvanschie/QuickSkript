@@ -10,7 +10,7 @@ import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.core.psi.section.PsiIf;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Literal;
-import com.github.stefvanschie.quickskript.core.psi.util.parsing.exception.IllegalFallbackAnnotationAmount;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.exception.IllegalFallbackAnnotationAmountException;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.PatternTypeOrder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.PatternTypeOrderHolder;
@@ -79,7 +79,7 @@ public abstract class SkriptLoader implements AutoCloseable {
      *
      * @since 0.1.0
      */
-    public SkriptLoader() {
+    protected SkriptLoader() {
         if (instance != null) {
             throw new IllegalArgumentException("A SkriptLoader is already present, can't create another one.");
         }
@@ -263,7 +263,7 @@ public abstract class SkriptLoader implements AutoCloseable {
             int size = methods.size();
 
             if (size > 1) {
-                throw new IllegalFallbackAnnotationAmount(
+                throw new IllegalFallbackAnnotationAmountException(
                     "Illegal amount of fallback annotations detected. Maximum is 1, but there were '" + size + "'."
                 );
             }

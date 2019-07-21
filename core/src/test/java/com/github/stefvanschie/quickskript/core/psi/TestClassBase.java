@@ -36,11 +36,10 @@ public class TestClassBase {
             for (File file : files) {
                 result.add(new Skript(SkriptFile.getName(file), SkriptFile.load(file)));
             }
+            return result;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        return result;
     }
 
     @BeforeAll

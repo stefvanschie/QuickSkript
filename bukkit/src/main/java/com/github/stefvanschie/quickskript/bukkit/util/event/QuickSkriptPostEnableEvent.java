@@ -2,6 +2,7 @@ package com.github.stefvanschie.quickskript.bukkit.util.event;
 
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * This event is called when QuickSkript has been fully enabled, including all the scripts.
@@ -20,6 +21,7 @@ public class QuickSkriptPostEnableEvent extends Event {
      *
      * @since 0.1.0
      */
+    @NotNull
     @Override
     public HandlerList getHandlers() {
         return HANDLER_LIST;

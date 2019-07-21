@@ -6,7 +6,7 @@ import java.util.Set;
 
 class SkriptPatternParseTest {
 
-    private Set<String> patterns = Set.of(
+    private final Set<String> patterns = Set.of(
         "x",
         "x y",
         "x [y]",
@@ -46,6 +46,6 @@ class SkriptPatternParseTest {
 
         long end = System.nanoTime();
 
-        System.out.println(patterns.size() + " patterns parsed successfully in " + (end - start) / 1000000 + "ms - Avg: " + ((end - start) / 1000000) / patterns.size() + "ms");
+        System.out.println(patterns.size() + " patterns parsed successfully in " + (end - start) / 1000000 + "ms - Avg: " + (end - start) / 1000000 / patterns.size() + "ms");
     }
 }

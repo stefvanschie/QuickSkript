@@ -6,6 +6,7 @@ import org.bukkit.event.block.BlockExpEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.ExpBottleEvent;
 import org.bukkit.event.player.PlayerFishEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class ExperienceOrbSpawnEvent extends Event implements Cancellable {
 
@@ -44,6 +45,7 @@ public class ExperienceOrbSpawnEvent extends Event implements Cancellable {
      *
      * @since 0.1.0
      */
+    @NotNull
     @Override
     public HandlerList getHandlers() {
         return HANDLER_LIST;

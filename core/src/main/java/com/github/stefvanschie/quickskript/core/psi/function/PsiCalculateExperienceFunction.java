@@ -49,19 +49,17 @@ public class PsiCalculateExperienceFunction extends PsiElement<Long> {
     @Override
     protected Long executeImpl(@Nullable Context context) {
         long level = parameter.execute(context, Number.class).longValue();
-        long exp = 0;
-
-        if (level > 0) {
-            if (level <= 15) {
-                exp = level * level + 6 * level;
-            } else if (level <= 30) {
-                exp = (long) (2.5 * level * level - 40.5 * level - 360);
-            } else {
-                exp = (long) (4.5 * level * level - 162.5 * level - 2220);
-            }
+        if (level <= 0) {
+            return 0L;
         }
 
-        return exp;
+        if (level <= 15) {
+            return level * level + 6 * level;
+        } else if (level <= 30) {
+            return (long) (2.5 * level * level - 40.5 * level - 360);
+        } else {
+            return (long) (4.5 * level * level - 162.5 * level - 2220);
+        }
     }
 
     /**

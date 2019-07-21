@@ -60,7 +60,7 @@ public class PsiBanEffectImpl extends PsiBanEffect {
     }
 
     /**
-     * A factory for crerating {@link PsiBanEffectImpl}s
+     * A factory for creating {@link PsiBanEffectImpl}s
      *
      * @since 0.1.0
      */

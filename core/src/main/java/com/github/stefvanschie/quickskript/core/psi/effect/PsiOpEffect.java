@@ -62,13 +62,13 @@ public class PsiOpEffect extends PsiElement<Void> {
          * The pattern for opping the offline player
          */
         @NotNull
-        private SkriptPattern opPattern = SkriptPattern.parse("op %offline players%");
+        private final SkriptPattern opPattern = SkriptPattern.parse("op %offline players%");
 
         /**
          * The pattern for de-opping the offline player
          */
         @NotNull
-        private SkriptPattern deOpPattern = SkriptPattern.parse("de[-]op %offline players%");
+        private final SkriptPattern deOpPattern = SkriptPattern.parse("de[-]op %offline players%");
 
         /**
          * Parses the {@link #opPattern} and invokes this method with its types if the match succeeds
