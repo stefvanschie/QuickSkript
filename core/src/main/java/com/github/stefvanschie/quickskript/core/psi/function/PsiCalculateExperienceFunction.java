@@ -55,11 +55,13 @@ public class PsiCalculateExperienceFunction extends PsiElement<Long> {
 
         if (level <= 15) {
             return level * level + 6 * level;
-        } else if (level <= 30) {
-            return (long) (2.5 * level * level - 40.5 * level - 360);
-        } else {
-            return (long) (4.5 * level * level - 162.5 * level - 2220);
         }
+        
+        if (level <= 30) {
+            return (long) (2.5 * level * level - 40.5 * level - 360);
+        }
+        
+        return (long) (4.5 * level * level - 162.5 * level - 2220);
     }
 
     /**
