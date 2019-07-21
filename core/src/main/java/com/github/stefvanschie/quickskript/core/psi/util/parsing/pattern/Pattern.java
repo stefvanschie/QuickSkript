@@ -18,7 +18,7 @@ public @interface Pattern {
      * This points to a field which contains the patterns used for matching. This field may either be a single
      * {@link SkriptPattern} or an array of {@link SkriptPattern} in case multiple patterns may be used.
      *
-     * @return a string poiting to a field's name
+     * @return a string pointing to a field's name
      * @since 0.1.0
      */
     @NotNull

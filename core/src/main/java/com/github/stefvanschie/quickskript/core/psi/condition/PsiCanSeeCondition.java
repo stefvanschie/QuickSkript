@@ -65,21 +65,19 @@ public class PsiCanSeeCondition extends PsiElement<Boolean> {
          * A pattern for matching positive can see conditions
          */
         @NotNull
-        private final SkriptPattern[] positivePatterns = SkriptPattern.parse(new String[] {
-            "%players% (is|are) visible for %players%",
-            "%players% (is|are)(n't| not) invisible for %players%",
-            "%players% can see %players%"
-        });
+        private final SkriptPattern[] positivePatterns = SkriptPattern.parse(
+                "%players% (is|are) visible for %players%",
+                "%players% (is|are)(n't| not) invisible for %players%",
+                "%players% can see %players%");
 
         /**
          * A pattern for matching negative can see conditions
          */
         @NotNull
-        private final SkriptPattern[] negativePatterns = SkriptPattern.parse(new String[]{
-            "%players% (is|are) invisible for %players%",
-            "%players% (is|are)(n't| not) visible for %players%",
-            "%players% can('t| not) see %players%"
-        });
+        private final SkriptPattern[] negativePatterns = SkriptPattern.parse(
+                "%players% (is|are) invisible for %players%",
+                "%players% (is|are)(n't| not) visible for %players%",
+                "%players% can('t| not) see %players%");
 
         /**
          * Parses the {@link #positivePatterns} and invokes this method with its types if the match succeeds

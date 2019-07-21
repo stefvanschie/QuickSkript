@@ -5,7 +5,6 @@ import com.github.stefvanschie.quickskript.core.skript.Skript;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * A command context to indicate this code is being ran from a command and to provide information about said command.

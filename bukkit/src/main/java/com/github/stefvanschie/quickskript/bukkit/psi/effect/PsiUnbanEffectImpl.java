@@ -2,7 +2,6 @@ package com.github.stefvanschie.quickskript.bukkit.psi.effect;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
-import com.github.stefvanschie.quickskript.core.psi.effect.PsiBanEffect;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiUnbanEffect;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
@@ -58,7 +57,7 @@ public class PsiUnbanEffectImpl extends PsiUnbanEffect {
     }
 
     /**
-     * A factory for crerating {@link PsiUnbanEffectImpl}s
+     * A factory for creating {@link PsiUnbanEffectImpl}s
      *
      * @since 0.1.0
      */

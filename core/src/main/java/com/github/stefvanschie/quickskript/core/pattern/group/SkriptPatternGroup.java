@@ -13,7 +13,8 @@ import java.util.List;
 public interface SkriptPatternGroup {
 
     /**
-     * Gets all children of this group and all nested children
+     * Gets all children of this group and all nested children.
+     * The returned list is mutable and can grow in size.
      *
      * @return all children
      * @since 0.1.0

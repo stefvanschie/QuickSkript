@@ -25,7 +25,7 @@ public class PsiCollection<T> extends PsiElement<Collection<PsiElement<T>>> {
     /**
      * The stored elements.
      */
-    private Collection<PsiElement<T>> elements;
+    private final Collection<PsiElement<T>> elements;
 
     /**
      * Creates a new psi element which stores the specified {@link Collection}.

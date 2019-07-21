@@ -3,6 +3,8 @@ package com.github.stefvanschie.quickskript.core.util;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
+
 /**
  * Holds pairs of values
  *
@@ -69,23 +71,8 @@ public class Pair<X, Y> {
             return false;
         }
 
-        Pair otherPair = (Pair) obj;
-
-        boolean x = false, y = false;
-
-        if (getX() == null && otherPair.getX() == null) {
-            x = true;
-        } else if (getX() != null && otherPair.getX() != null) {
-            x = getX().equals(otherPair.getX());
-        }
-
-        if (getY() == null && otherPair.getY() == null) {
-            y = true;
-        } else if (getY() != null && otherPair.getY() != null) {
-            y = getY().equals(otherPair.getY());
-        }
-
-        return x && y;
+        Pair<?, ?> other = (Pair<?, ?>) obj;
+        return Objects.equals(getX(), other.getX()) && Objects.equals(getY(), other.getY());
     }
 
     /**

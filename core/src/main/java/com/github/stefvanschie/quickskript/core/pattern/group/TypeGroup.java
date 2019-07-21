@@ -23,13 +23,13 @@ public class TypeGroup implements SkriptPatternGroup {
      * @since 0.1.0
      */
     @NotNull
-    private Constraint constraint;
+    private final Constraint constraint;
 
     /**
      * The type this group should match
      */
     @NotNull
-    private String type;
+    private final String type;
 
     /**
      * Creates a new type group
@@ -74,7 +74,7 @@ public class TypeGroup implements SkriptPatternGroup {
     @Contract(pure = true)
     @Override
     public List<SkriptPatternGroup> getChildren() {
-        return new ArrayList<>();
+        return new ArrayList<>(0);
     }
 
     /**

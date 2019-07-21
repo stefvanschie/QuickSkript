@@ -15,7 +15,7 @@ public class ExitSectionsPointerMovement {
      * The type of section that should be exited
      */
     @NotNull
-    private Type type;
+    private final Type type;
 
     /**
      * The amount of sections that should be exited from
@@ -119,21 +119,19 @@ public class ExitSectionsPointerMovement {
         @Nullable
         @Contract(pure = true)
         public static Type byName(@NotNull String name) {
-            Type type = null;
-
             if (name.equalsIgnoreCase("section")) {
-                type = Type.EVERYTHING;
+                return EVERYTHING;
             }
 
             if (name.equalsIgnoreCase("loop")) {
-                type = Type.LOOPS;
+                return LOOPS;
             }
 
             if (name.equalsIgnoreCase("conditional")) {
-                type = Type.CONDITIONALS;
+                return CONDITIONALS;
             }
 
-            return type;
+            return null;
         }
     }
 }

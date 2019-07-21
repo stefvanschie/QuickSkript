@@ -93,7 +93,7 @@ public class PsiAbsoluteValueFunction extends PsiElement<Double> {
          * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
          * method.
          *
-         * @param element the elment to compute
+         * @param element the element to compute
          * @param lineNumber the lien number
          * @return the function
          * @since 0.1.0

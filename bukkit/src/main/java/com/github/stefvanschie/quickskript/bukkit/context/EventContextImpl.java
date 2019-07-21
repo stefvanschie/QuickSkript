@@ -78,6 +78,9 @@ public class EventContextImpl implements ContextImpl, EventContext {
             return ((BlockCanBuildEvent) getEvent()).getPlayer();
         }
 
+        //TODO there are still missing events, eg. VehicleEnterEvent
+        //TODO is the right value returned? eg. AreaEffectCloudApplyEvent returns the cloud entity, not the affected entities
+        //TODO reflection-based approach maybe? and eg. prioritize player instances over other entities
         return null;
     }
 

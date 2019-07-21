@@ -57,8 +57,8 @@ public class SkriptPattern {
     }
 
     /**
-     * Tries to match the given input to this pattern. Returns a {@link SkriptMatchResult} detailing information about
-     * the successfulness of this match. This is successful even if not the entire string was matched. The string that
+     * Tries to match the given input to this pattern. Returns a {@link SkriptMatchResult} detailing information
+     * about the success of this match. This is successful even if not the entire string was matched. The string that
      * wasn't matched can be found inside the {@link SkriptMatchResult}. The match has to start at the start of the
      * input, it will not match somewhere in the middle of the string.
      *
@@ -104,7 +104,6 @@ public class SkriptPattern {
                         match.getMatchedGroups().forEach(result::addMatchedGroup);
 
                         String restingString = match.getRestingString();
-
                         input = restingString == null ? "" : restingString;
                         matched = true;
                         break;
@@ -136,7 +135,8 @@ public class SkriptPattern {
                         match.getMatchedGroups().forEach(result::addMatchedGroup);
                         result.addParseMark(match.getParseMark());
 
-                        input = match.getRestingString();
+                        String restingString = match.getRestingString();
+                        input = restingString == null ? "" : restingString;
                         success = true;
                         break;
                     }
@@ -163,7 +163,7 @@ public class SkriptPattern {
                 }
 
                 if (success) {
-                    if (input == null || input.isEmpty()) {
+                    if (input.isEmpty()) {
                         result.success(null);
                     } else {
                         result.success(input);
@@ -227,7 +227,8 @@ public class SkriptPattern {
                         match.getMatchedGroups().forEach(result::addMatchedGroup);
                         result.addParseMark(match.getParseMark());
 
-                        input = match.getRestingString();
+                        String restingString = match.getRestingString();
+                        input = restingString == null ? "" : restingString;
                         success = true;
                         break;
                     }
@@ -254,7 +255,7 @@ public class SkriptPattern {
                 }
 
                 if (success) {
-                    if (input == null || input.isEmpty()) {
+                    if (input.isEmpty()) {
                         result.success(null);
                     } else {
                         result.success(input);
@@ -302,7 +303,6 @@ public class SkriptPattern {
                         match.getMatchedGroups().forEach(result::addMatchedGroup);
 
                         String restingString = match.getRestingString();
-
                         input = restingString == null ? "" : restingString;
                         matched = true;
                         break;
@@ -352,7 +352,7 @@ public class SkriptPattern {
     public static SkriptPattern parse(@NotNull String input) {
         List<SkriptPatternGroup> groups = new ArrayList<>();
 
-        while (input.length() != 0) {
+        while (!input.isEmpty()) {
             for (Function<String, Pair<? extends SkriptPatternGroup, String>> parser : GROUP_PARSERS) {
                 Pair<? extends SkriptPatternGroup, String> pair = parser.apply(input);
 

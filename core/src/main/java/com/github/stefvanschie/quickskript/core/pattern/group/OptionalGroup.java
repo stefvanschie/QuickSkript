@@ -22,13 +22,13 @@ public class OptionalGroup implements SkriptPatternGroup {
      * The different choices
      */
     @NotNull
-    private SkriptPattern[] patterns;
+    private final SkriptPattern[] patterns;
 
     /**
      * The parse marks assigned to each individual choice. 0 if no parse mark was explicitly assigned.
      */
     @NotNull
-    private int[] parseMarks;
+    private final int[] parseMarks;
 
     /**
      * Creates an optional group
@@ -147,7 +147,7 @@ public class OptionalGroup implements SkriptPatternGroup {
                 } else if (character == '\u00A6') { //broken bar character
                     String parseMarkString = input.substring(groupStartIndex, index);
 
-                    if (!parseMarkString.matches("-?\\d+")) {
+                    if (!parseMarkString.matches("-?\\d+")) { //TODO pre-compile pattern
                         throw new SkriptPatternParseException(
                             "Parse mark needs to be an integer, but '" + parseMarkString + "' does not adhere to this"
                         );

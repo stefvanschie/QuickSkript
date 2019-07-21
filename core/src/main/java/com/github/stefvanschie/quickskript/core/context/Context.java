@@ -21,5 +21,4 @@ public interface Context {
     @NotNull
     @Contract(pure = true)
     Skript getSkript();
-
 }

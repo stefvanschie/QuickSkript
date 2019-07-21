@@ -2,13 +2,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.condition;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
-import com.github.stefvanschie.quickskript.core.psi.condition.PsiIsBannedCondition;
 import com.github.stefvanschie.quickskript.core.psi.condition.PsiIsBlockingCondition;
-import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
-import org.bukkit.BanList;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;

@@ -22,7 +22,7 @@ public class SpaceGroup implements SkriptPatternGroup {
     @Contract(pure = true)
     @Override
     public List<SkriptPatternGroup> getChildren() {
-        return new ArrayList<>();
+        return new ArrayList<>(0);
     }
 
     /**

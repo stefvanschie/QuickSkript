@@ -7,12 +7,12 @@ import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
  *
  * @since 0.1.0
  */
-public class IllegalFallbackAnnotationAmount extends RuntimeException {
+public class IllegalFallbackAnnotationAmountException extends RuntimeException {
 
     /**
      * {@inheritDoc}
      */
-    public IllegalFallbackAnnotationAmount(String message) {
+    public IllegalFallbackAnnotationAmountException(String message) {
         super(message);
     }
 }

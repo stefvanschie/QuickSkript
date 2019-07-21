@@ -75,7 +75,7 @@ public class SkriptFile {
 
         //remove trailing spaces and replace \t with four spaces
         for (int i = 0; i < lines.size(); i++) {
-            lines.set(i, lines.get(i).replaceAll("\\s+$", "").replace("\t", "    "));
+            lines.set(i, lines.get(i).replaceAll("\\s+$", "").replace("\t", "    ")); //TODO pre-compile pattern
         }
 
         SkriptFileSection section = new SkriptFileSection("", 0);

@@ -6,7 +6,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiSection;
 import com.github.stefvanschie.quickskript.core.psi.PsiSectionFactory;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.util.pointermovement.ExitSectionsPointerMovement;
-import com.github.stefvanschie.quickskript.core.psi.util.pointermovement.SimpleInstructionPointerMovement;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;

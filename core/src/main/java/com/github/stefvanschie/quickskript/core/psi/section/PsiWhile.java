@@ -26,7 +26,7 @@ public class PsiWhile extends PsiSection {
     /**
      * The condition of the continuing execution.
      */
-    private PsiElement<?> condition;
+    private final PsiElement<?> condition;
 
     /**
      * Creates a new psi while section.
@@ -124,7 +124,7 @@ public class PsiWhile extends PsiSection {
          * constructor parameters. This should be overridden by impl, instead of the
          * {@link #tryParse(String, Supplier, int)} method.
          *
-         * @param elements the elements for thiks section
+         * @param elements the elements for this section
          * @param condition the condition
          * @param lineNumber the line number
          * @return the section

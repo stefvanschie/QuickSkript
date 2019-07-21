@@ -66,13 +66,13 @@ public class PsiExistsCondition extends PsiElement<Boolean> {
          * The pattern for matching positive {@link PsiExistsCondition}s
          */
         @NotNull
-        private SkriptPattern positivePattern = SkriptPattern.parse("%~objects% (exist[s]|(is|are) set)");
+        private final SkriptPattern positivePattern = SkriptPattern.parse("%~objects% (exist[s]|(is|are) set)");
 
         /**
          * The pattern for matching negative {@link PsiExistsCondition}s
          */
         @NotNull
-        private SkriptPattern negativePattern =
+        private final SkriptPattern negativePattern =
             SkriptPattern.parse("%~objects% (do[es](n't| not) exist|(is|are)(n't| not) set)");
 
         /**
