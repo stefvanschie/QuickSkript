@@ -13,11 +13,10 @@
 
     <name>QuickSkript-bukkit</name>
     <artifactId>bukkit</artifactId>
-    <version>0.1.0</version>
+    <version>${parent.version}</version>
+    <url>https://github.com/stefvanschie/QuickSkript</url>
 
     <properties>
-        <url>https://github.com/stefvanschie/QuickSkript</url>
-        <package>${project.groupId}.${project.artifactId}</package>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -40,12 +39,14 @@
         <dependency>
             <groupId>com.github.stefvanschie.quickskript</groupId>
             <artifactId>core</artifactId>
-            <version>0.1.0</version>
+            <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
 
     <build>
+        <finalName>${project.name}-${project.version}</finalName>
+
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -67,51 +68,21 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>3.2.1</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
                         <goals>
                             <goal>shade</goal>
                         </goals>
-                        <configuration>
-                            <relocations>
-                                <relocation>
-                                    <pattern>org.intellij</pattern>
-                                    <shadedPattern>${package}.shaded.org.intellij</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.jetbrains</pattern>
-                                    <shadedPattern>${package}.shaded.org.jetbrains</shadedPattern>
-                                </relocation>
-                            </relocations>
-                        </configuration>
                     </execution>
                 </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.ow2.asm</groupId>
-                        <artifactId>asm</artifactId>
-                        <version>7.0</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.ow2.asm</groupId>
-                        <artifactId>asm-commons</artifactId>
-                        <version>7.0</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.1</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.0.1</version>
+                <version>3.1.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -124,7 +95,7 @@
 
             <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.0.1</version>
+                <version>3.1.1</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
