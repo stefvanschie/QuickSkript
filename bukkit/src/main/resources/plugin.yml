@@ -1,6 +1,6 @@
-main: ${package}.QuickSkript
+main: ${project.groupId}.${project.artifactId}.QuickSkript
 name: QuickSkript
 version: ${project.version}
 
-website: ${url}
+website: ${project.url}
 api-version: 1.13
