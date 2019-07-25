@@ -26,10 +26,7 @@ import com.github.stefvanschie.quickskript.core.psi.effect.PsiChangeEffect;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiContinueEffect;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiDoIfEffect;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiExitEffect;
-import com.github.stefvanschie.quickskript.core.psi.expression.PsiAlphabeticalSortExpression;
-import com.github.stefvanschie.quickskript.core.psi.expression.PsiAmountExpression;
-import com.github.stefvanschie.quickskript.core.psi.expression.PsiParseExpression;
-import com.github.stefvanschie.quickskript.core.psi.expression.PsiRandomNumberExpression;
+import com.github.stefvanschie.quickskript.core.psi.expression.*;
 import com.github.stefvanschie.quickskript.core.psi.function.*;
 import com.github.stefvanschie.quickskript.core.psi.literal.PsiBooleanLiteral;
 import com.github.stefvanschie.quickskript.core.psi.literal.PsiNumberLiteral;
@@ -197,9 +194,15 @@ public class BukkitSkriptLoader extends SkriptLoader {
 
         registerElement(new PsiIsCondition.Factory());
 
+        //literals
+        registerElement(new PsiBooleanLiteral.Factory());
+        registerElement(new PsiNumberLiteral.Factory());
+        registerElement(new PsiPlayerLiteralImpl.Factory());
+
         //expressions
         registerElement(new PsiAlphabeticalSortExpression.Factory());
         registerElement(new PsiAmountExpression.Factory());
+        registerElement(new PsiArithmeticExpression.Factory());
         registerElement(new PsiConsoleSenderExpressionImpl.Factory());
         registerElement(new PsiPermissionsExpressionImpl.Factory());
         registerElement(new PsiRandomNumberExpression.Factory());
@@ -230,11 +233,6 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiTangentFunction.Factory());
         registerElement(new PsiVectorFunctionImpl.Factory());
         registerElement(new PsiWorldFunctionImpl.Factory());
-
-        //literals
-        registerElement(new PsiBooleanLiteral.Factory());
-        registerElement(new PsiNumberLiteral.Factory());
-        registerElement(new PsiPlayerLiteralImpl.Factory());
     }
 
     /**

@@ -23,8 +23,7 @@ public class PsiAmountExpression extends PsiElement<Number> {
     /**
      * The collection or array to get the size/length from
      */
-    @NotNull
-    private final PsiElement<?> collection;
+    private PsiElement<?> collection;
 
     /**
      * Creates a new element with the given line number
@@ -37,6 +36,12 @@ public class PsiAmountExpression extends PsiElement<Number> {
         super(lineNumber);
 
         this.collection = collection;
+
+        if (collection.isPreComputed()) {
+            preComputed = executeImpl(null);
+
+            this.collection = null;
+        }
     }
 
     /**

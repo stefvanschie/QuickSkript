@@ -24,7 +24,6 @@ public class PsiAlphabeticalSortExpression extends PsiElement<Text[]> {
     /**
      * A single text element or a collection of text elements
      */
-    @NotNull
     private PsiElement<?> texts;
 
     /**
@@ -38,6 +37,12 @@ public class PsiAlphabeticalSortExpression extends PsiElement<Text[]> {
         super(lineNumber);
 
         this.texts = texts;
+
+        if (texts.isPreComputed()) {
+            preComputed = executeImpl(null);
+
+            this.texts = null;
+        }
     }
 
     /**

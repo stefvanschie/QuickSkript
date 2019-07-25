@@ -111,9 +111,15 @@ public class StandaloneSkriptLoader extends SkriptLoader {
 
         registerElement(new PsiIsCondition.Factory());
 
+        //literals
+        registerElement(new PsiBooleanLiteral.Factory());
+        registerElement(new PsiNumberLiteral.Factory());
+        registerElement(new PsiPlayerLiteral.Factory());
+
         //expressions
         registerElement(new PsiAlphabeticalSortExpression.Factory());
         registerElement(new PsiAmountExpression.Factory());
+        registerElement(new PsiArithmeticExpression.Factory());
         registerElement(new PsiConsoleSenderExpression.Factory());
         registerElement(new PsiPermissionsExpression.Factory());
         registerElement(new PsiRandomNumberExpression.Factory());
@@ -144,11 +150,6 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiTangentFunction.Factory());
         registerElement(new PsiVectorFunction.Factory());
         registerElement(new PsiWorldFunction.Factory());
-
-        //literals
-        registerElement(new PsiBooleanLiteral.Factory());
-        registerElement(new PsiNumberLiteral.Factory());
-        registerElement(new PsiPlayerLiteral.Factory());
     }
 
     /**
