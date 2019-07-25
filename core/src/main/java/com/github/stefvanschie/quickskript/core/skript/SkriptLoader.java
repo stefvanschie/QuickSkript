@@ -159,6 +159,7 @@ public abstract class SkriptLoader implements AutoCloseable {
                         continue;
                     }
 
+                    patterns:
                     for (int skriptPatternIndex = 0; skriptPatternIndex < skriptPatterns.length; skriptPatternIndex++) {
                         PatternTypeOrderHolder holder = method.getAnnotation(PatternTypeOrderHolder.class);
                         PatternTypeOrder patternTypeOrder = null;
@@ -227,7 +228,12 @@ public abstract class SkriptLoader implements AutoCloseable {
 
                             String matchedTypeText = matchedTypeTexts.get(i);
 
-                            elements[elementIndex] = forceParseElement(matchedTypeText, groupConstraint, lineNumber);
+                            elements[elementIndex] = tryParseElement(matchedTypeText, groupConstraint, lineNumber);
+
+                            //recursive retry
+                            if (elements[elementIndex] == null) {
+                                continue patterns;
+                            }
                         }
 
                         method.setAccessible(true);
