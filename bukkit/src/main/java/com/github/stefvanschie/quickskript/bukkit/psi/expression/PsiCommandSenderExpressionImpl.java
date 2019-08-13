@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +29,12 @@ public class PsiCommandSenderExpressionImpl extends PsiCommandSenderExpression {
      * reflection too often.
      */
     private static final Map<Class<? extends Event>, Method> CACHED_METHODS = new HashMap<>();
+
+    /**
+     * A method that acts as a flag in {@link #CACHED_METHODS}: it indicates that
+     * searching for a valid method is pointless, there are none.
+     */
+    private static final Method NO_VALID_METHOD_FLAG = PsiCommandSenderExpressionImpl.class.getMethods()[0];
 
     /**
      * Creates a new element with the given line number
@@ -54,25 +61,21 @@ public class PsiCommandSenderExpressionImpl extends PsiCommandSenderExpression {
         Class<? extends Event> eventClass = event.getClass();
         Method cached = CACHED_METHODS.get(eventClass);
 
-        if (cached != null) {
+        if (cached == null) {
+            cached = Arrays.stream(eventClass.getMethods())
+                    .filter(method -> method.getParameterCount() == 0 &&
+                            CommandSender.class.isAssignableFrom(method.getReturnType()))
+                    .findFirst()
+                    .orElse(NO_VALID_METHOD_FLAG);
+
+            CACHED_METHODS.put(eventClass, cached);
+        }
+
+        if (cached != NO_VALID_METHOD_FLAG) {
             try {
                 return cached.invoke(event);
             } catch (IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
-            }
-        }
-
-        for (Method method : eventClass.getMethods()) {
-            if (method.getParameterCount() != 0 || !CommandSender.class.isAssignableFrom(method.getReturnType())) {
-                continue;
-            }
-
-            CACHED_METHODS.put(eventClass, method);
-
-            try {
-                return method.invoke(event);
-            } catch (IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
+                throw new AssertionError("Error while invoking CommandSender getter:", e);
             }
         }
 

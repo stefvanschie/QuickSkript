@@ -5,6 +5,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.context.EventContext;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiAttackerExpression;
+import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -16,8 +17,9 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.Set;
+import java.util.IdentityHashMap;
+import java.util.Map;
+import java.util.function.Function;
 
 /**
  * The entity that attacked something in events where an entity is being damaged.
@@ -27,14 +29,34 @@ import java.util.Set;
 public class PsiAttackerExpressionImpl extends PsiAttackerExpression {
 
     /**
-     * A set of valid event classes
+     * A collection of valid event classes and attacker extractor pairs
      */
-    private static final Collection<Class<? extends Event>> VALID_EVENT_CLASSES = Set.of(
-        EntityDamageByEntityEvent.class,
-        EntityDeathEvent.class,
-        VehicleDamageEvent.class,
-        VehicleDestroyEvent.class
-    );
+    private static final Map<Class<? extends Event>, Function<? extends Event, Entity>> ATTACKER_EXTRACTORS = new IdentityHashMap<>();
+
+    /**
+     * Registers an event and e function responsible for extracting the attacker from said event.
+     *
+     * @param clazz the class of the event to register, parameter is necessary due to type erasure
+     * @param extractor the function that gets the attacker from an event instance
+     * @param <T> the type of the event
+     */
+    private static <T extends Event> void registerExtractor(@NotNull Class<T> clazz,
+            @NotNull Function<T, Entity> extractor) {
+        Validate.isTrue(ATTACKER_EXTRACTORS.put(clazz, extractor) == null, "An event can only be registered once");
+    }
+
+    static {
+        registerExtractor(EntityDamageByEntityEvent.class, EntityDamageByEntityEvent::getDamager);
+        registerExtractor(VehicleDamageEvent.class, VehicleDamageEvent::getAttacker);
+        registerExtractor(VehicleDestroyEvent.class, VehicleDestroyEvent::getAttacker);
+
+        registerExtractor(EntityDeathEvent.class, event -> {
+            EntityDamageEvent lastDamageCause = event.getEntity().getLastDamageCause();
+            return !(lastDamageCause instanceof EntityDamageByEntityEvent)
+                    ? null
+                    : ((EntityDamageByEntityEvent) lastDamageCause).getDamager();
+        });
+    }
 
     /**
      * Creates a new element with the given line number
@@ -60,46 +82,13 @@ public class PsiAttackerExpressionImpl extends PsiAttackerExpression {
         EventContextImpl eventContext = (EventContextImpl) context;
         Event event = eventContext.getEvent();
 
-        if (VALID_EVENT_CLASSES.stream().noneMatch(clazz -> clazz.isInstance(event))) {
-            throw new ExecutionException("The attacker can only be gotten from damage events", lineNumber);
-        }
-
-        return getDamager(event);
-    }
-
-    /**
-     * Gets the damager from a specific event
-     *
-     * @param event the event to get the damager from
-     * @return the damager
-     * @since 0.1.0
-     */
-    @Nullable
-    @Contract(pure = true)
-    private Entity getDamager(@NotNull Event event) {
-        if (event instanceof EntityDamageByEntityEvent) {
-            return ((EntityDamageByEntityEvent) event).getDamager();
-        }
-
-        if (event instanceof EntityDeathEvent) {
-            EntityDamageEvent lastDamageCause = ((EntityDeathEvent) event).getEntity().getLastDamageCause();
-
-            if (lastDamageCause == null) {
-                return null;
+        for (Map.Entry<Class<? extends Event>, Function<? extends Event, Entity>> entry : ATTACKER_EXTRACTORS.entrySet()) {
+            if (entry.getClass().isInstance(event)) {
+                return ((Function<Event, Entity>) entry.getValue()).apply(event);
             }
-
-            return getDamager(lastDamageCause);
         }
 
-        if (event instanceof VehicleDamageEvent) {
-            return ((VehicleDamageEvent) event).getAttacker();
-        }
-
-        if (event instanceof VehicleDestroyEvent) {
-            return ((VehicleDestroyEvent) event).getAttacker();
-        }
-
-        return null;
+        throw new ExecutionException("The attacker can only be gotten from damage events", lineNumber);
     }
 
     /**
