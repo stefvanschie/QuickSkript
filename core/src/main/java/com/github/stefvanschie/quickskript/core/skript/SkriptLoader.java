@@ -214,7 +214,10 @@ public abstract class SkriptLoader implements AutoCloseable {
 
                         for (int i = 0; i < elements.length && i < groups.size(); i++) {
                             TypeGroup.Constraint groupConstraint = groups.get(i).getConstraint();
-                            int elementIndex = i;
+                            int elementIndex = skriptPattern.getGroups().stream()
+                                .filter(group -> group instanceof TypeGroup)
+                                .collect(Collectors.toUnmodifiableList())
+                                .indexOf(groups.get(i));
 
                             if (patternTypeOrder != null && !Arrays.equals(patternTypeOrder.typeOrder(), new int[]{})) {
                                 elementIndex = patternTypeOrder.typeOrder()[i];
