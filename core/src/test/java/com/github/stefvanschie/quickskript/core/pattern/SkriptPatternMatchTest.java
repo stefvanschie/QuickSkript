@@ -125,6 +125,9 @@ class SkriptPatternMatchTest {
         CORRECT_PATTERNS.put(SkriptPattern.parse("%x% [y]"), new String[] {
             "x y", "x", "y"
         });
+        CORRECT_PATTERNS.put(SkriptPattern.parse("x [y] z"), new String[] {
+            "x y z", "x z"
+        });
 
         //incorrect
         INCORRECT_PATTERNS.put(SkriptPattern.parse("x"), new String[] {

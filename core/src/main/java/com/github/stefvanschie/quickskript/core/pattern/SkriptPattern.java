@@ -320,7 +320,7 @@ public class SkriptPattern {
                 } else {
                     if ((index - 1 < 0 || groups.get(index - 1) instanceof SpaceGroup)
                         && (index + 1 >= groups.size() || groups.get(index + 1) instanceof SpaceGroup)) {
-                        if (index - 1 < 0) {
+                        if (index - 1 < 0 || temporarilySkipped == null) {
                             index++; //skip next space
                         } else {
                             temporarilySkipped = null;
