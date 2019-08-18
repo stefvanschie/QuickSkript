@@ -1,0 +1,11 @@
+on command:
+        message "test" to the console
+        true
+        if true:
+          message "test" to the console
+          if true:
+            false
+        message "test" to the console
+        while false:
+                 true
+                 message "test" to the console

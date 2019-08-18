@@ -116,21 +116,32 @@ public class SkriptFileSection extends SkriptFileNode {
                 continue;
             }
 
+            //amount of leading spaces may be anywhere between 1 and inf. and this calculates the indentation of the section
+            StringBuilder indentationBuilder = new StringBuilder();
+            int whitespaceIndex = 0;
+
+            do {
+                indentationBuilder.append(' ');
+                whitespaceIndex++;
+            } while (Character.isWhitespace(nodes.get(index + 1).charAt(whitespaceIndex)));
+
+            String indentation = indentationBuilder.toString();
+
             int i = index;
             do {
                 if (++i == nodes.size())
                     break;
-            } while (nodes.get(i).startsWith("    ") && i != nodes.size() - 1);
+            } while (nodes.get(i).startsWith(indentation) && i != nodes.size() - 1);
 
             if (i == nodes.size()) {
                 continue;
             }
 
             List<String> strings = new ArrayList<>(nodes).subList(index + 1,
-                    i == nodes.size() - 1 && nodes.get(i).startsWith("    ") ? i + 1 : i);
+                    i == nodes.size() - 1 && nodes.get(i).startsWith(indentation) ? i + 1 : i);
 
             for (int j = 0; j < strings.size(); j++) {
-                strings.set(j, strings.get(j).substring(4));
+                strings.set(j, strings.get(j).substring(indentation.length()));
             }
 
             String header = nodes.get(index);
