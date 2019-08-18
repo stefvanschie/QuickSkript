@@ -19,6 +19,8 @@ import java.util.regex.Pattern;
  * A section which only executes the contained elements if its condition is met.
  * A section which gets executed when the condition is not met can be attached.
  *
+ * This cannot be pre computed, since the elements inside of this statement may not be executed on startup.
+ *
  * @since 0.1.0
  */
 public class PsiIf extends PsiSection {
@@ -48,8 +50,6 @@ public class PsiIf extends PsiSection {
 
         if (condition.isPreComputed()) {
             //TODO warning
-            preComputed = executeImpl(null);
-            this.condition = null;
         }
     }
 
