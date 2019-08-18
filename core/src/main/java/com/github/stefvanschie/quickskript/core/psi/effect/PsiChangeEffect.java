@@ -62,17 +62,17 @@ public class PsiChangeEffect extends PsiElement<Void> {
     @Override
     protected Void executeImpl(@Nullable Context context) {
         if (changeMode == ChangeMode.ADD && changee instanceof Addable) {
-            ((Addable) changee).add(Objects.requireNonNull(objects));
+            ((Addable) changee).add(context, Objects.requireNonNull(objects));
         } else if (changeMode == ChangeMode.SET && changee instanceof Settable) {
-            ((Settable) changee).set(Objects.requireNonNull(objects));
+            ((Settable) changee).set(context, Objects.requireNonNull(objects));
         } else if (changeMode == ChangeMode.REMOVE_ALL && changee instanceof RemoveAllable) {
-            ((RemoveAllable) changee).removeAll(Objects.requireNonNull(objects));
+            ((RemoveAllable) changee).removeAll(context, Objects.requireNonNull(objects));
         } else if (changeMode == ChangeMode.REMOVE && changee instanceof Removable) {
-            ((Removable) changee).remove(Objects.requireNonNull(objects));
+            ((Removable) changee).remove(context, Objects.requireNonNull(objects));
         } else if (changeMode == ChangeMode.DELETE && changee instanceof Deletable) {
-            ((Deletable) changee).delete();
+            ((Deletable) changee).delete(context);
         } else if (changeMode == ChangeMode.RESET && changee instanceof Resettable) {
-            ((Resettable) changee).reset();
+            ((Resettable) changee).reset(context);
         } else {
             throw new ExecutionException("Specified change cannot be applied on the given expression", lineNumber);
         }
