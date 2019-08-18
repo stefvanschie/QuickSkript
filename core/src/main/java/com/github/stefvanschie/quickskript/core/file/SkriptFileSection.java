@@ -123,7 +123,7 @@ public class SkriptFileSection extends SkriptFileNode {
             do {
                 indentationBuilder.append(' ');
                 whitespaceIndex++;
-            } while (Character.isWhitespace(nodes.get(index + 1).charAt(whitespaceIndex)));
+            } while (nodes.get(index + 1).charAt(whitespaceIndex) == ' ');
 
             String indentation = indentationBuilder.toString();
 
