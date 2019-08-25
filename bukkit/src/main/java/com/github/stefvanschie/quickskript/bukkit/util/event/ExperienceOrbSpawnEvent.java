@@ -6,9 +6,20 @@ import org.bukkit.event.block.BlockExpEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.ExpBottleEvent;
 import org.bukkit.event.player.PlayerFishEvent;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * An event called just before an experience orb is spawned
+ *
+ * @since 0.1.0
+ */
 public class ExperienceOrbSpawnEvent extends Event implements Cancellable {
+
+    /**
+     * The amount of experience that will be spawned
+     */
+    private int xp;
 
     /**
      * Whether this event has been cancelled or not
@@ -16,11 +27,33 @@ public class ExperienceOrbSpawnEvent extends Event implements Cancellable {
     private boolean cancelled;
 
     /**
+     * Creates a new {@link ExperienceOrbSpawnEvent}
+     *
+     * @param xp the amount of experience that will be spawned
+     * @since 0.1.0
+     */
+    private ExperienceOrbSpawnEvent(int xp) {
+        this.xp = xp;
+    }
+
+    /**
+     * Gets the amount of experience that will be spawned
+     *
+     * @return the amount of experience
+     * @since 0.1.0
+     */
+    @Contract(pure = true)
+    public int getXp() {
+        return xp;
+    }
+
+    /**
      * {@inheritDoc}
      *
      * @since 0.1.0
      */
     @Override
+    @Contract(pure = true)
     public boolean isCancelled() {
         return cancelled;
     }
@@ -48,6 +81,7 @@ public class ExperienceOrbSpawnEvent extends Event implements Cancellable {
     /**
      * A HandlerList to please Bukkit
      */
+    @NotNull
     private static final HandlerList HANDLER_LIST = new HandlerList();
 
     /**
@@ -56,6 +90,7 @@ public class ExperienceOrbSpawnEvent extends Event implements Cancellable {
      * @since 0.1.0
      */
     @NotNull
+    @Contract(pure = true)
     @Override
     public HandlerList getHandlers() {
         return HANDLER_LIST;
@@ -66,6 +101,8 @@ public class ExperienceOrbSpawnEvent extends Event implements Cancellable {
      *
      * @return {@link #HANDLER_LIST}
      */
+    @NotNull
+    @Contract(pure = true)
     public static HandlerList getHandlerList() {
         return HANDLER_LIST;
     }
@@ -78,8 +115,8 @@ public class ExperienceOrbSpawnEvent extends Event implements Cancellable {
     public static class Listener implements org.bukkit.event.Listener {
 
         @EventHandler
-        public void onBlockExp(BlockExpEvent event) {
-            ExperienceOrbSpawnEvent experienceOrbSpawnEvent = new ExperienceOrbSpawnEvent();
+        public void onBlockExp(@NotNull BlockExpEvent event) {
+            ExperienceOrbSpawnEvent experienceOrbSpawnEvent = new ExperienceOrbSpawnEvent(event.getExpToDrop());
 
             Bukkit.getPluginManager().callEvent(experienceOrbSpawnEvent);
 
@@ -91,8 +128,8 @@ public class ExperienceOrbSpawnEvent extends Event implements Cancellable {
         }
 
         @EventHandler
-        public void onEntityDeath(EntityDeathEvent event) {
-            ExperienceOrbSpawnEvent experienceOrbSpawnEvent = new ExperienceOrbSpawnEvent();
+        public void onEntityDeath(@NotNull EntityDeathEvent event) {
+            ExperienceOrbSpawnEvent experienceOrbSpawnEvent = new ExperienceOrbSpawnEvent(event.getDroppedExp());
 
             Bukkit.getPluginManager().callEvent(experienceOrbSpawnEvent);
 
@@ -104,8 +141,8 @@ public class ExperienceOrbSpawnEvent extends Event implements Cancellable {
         }
 
         @EventHandler
-        public void onExpBottle(ExpBottleEvent event) {
-            ExperienceOrbSpawnEvent experienceOrbSpawnEvent = new ExperienceOrbSpawnEvent();
+        public void onExpBottle(@NotNull ExpBottleEvent event) {
+            ExperienceOrbSpawnEvent experienceOrbSpawnEvent = new ExperienceOrbSpawnEvent(event.getExperience());
 
             Bukkit.getPluginManager().callEvent(experienceOrbSpawnEvent);
 
@@ -117,8 +154,8 @@ public class ExperienceOrbSpawnEvent extends Event implements Cancellable {
         }
 
         @EventHandler
-        public void onPlayerFish(PlayerFishEvent event) {
-            ExperienceOrbSpawnEvent experienceOrbSpawnEvent = new ExperienceOrbSpawnEvent();
+        public void onPlayerFish(@NotNull PlayerFishEvent event) {
+            ExperienceOrbSpawnEvent experienceOrbSpawnEvent = new ExperienceOrbSpawnEvent(event.getExpToDrop());
 
             Bukkit.getPluginManager().callEvent(experienceOrbSpawnEvent);
 
