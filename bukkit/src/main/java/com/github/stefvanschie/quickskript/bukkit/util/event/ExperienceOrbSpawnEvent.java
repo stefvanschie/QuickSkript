@@ -36,6 +36,16 @@ public class ExperienceOrbSpawnEvent extends Event implements Cancellable {
     }
 
     /**
+     * Sets the amount of experience that should be dropped
+     *
+     * @param xp the amount of experience
+     * @since 0.1.0
+     */
+    public void setXp(int xp) {
+        this.xp = xp;
+    }
+
+    /**
      * A HandlerList to please Bukkit
      */
     private static final HandlerList HANDLER_LIST = new HandlerList();
@@ -73,6 +83,8 @@ public class ExperienceOrbSpawnEvent extends Event implements Cancellable {
 
             Bukkit.getPluginManager().callEvent(experienceOrbSpawnEvent);
 
+            event.setExpToDrop(experienceOrbSpawnEvent.getXp());
+
             if (experienceOrbSpawnEvent.isCancelled()) {
                 event.setExpToDrop(0);
             }
@@ -83,6 +95,8 @@ public class ExperienceOrbSpawnEvent extends Event implements Cancellable {
             ExperienceOrbSpawnEvent experienceOrbSpawnEvent = new ExperienceOrbSpawnEvent();
 
             Bukkit.getPluginManager().callEvent(experienceOrbSpawnEvent);
+
+            event.setDroppedExp(experienceOrbSpawnEvent.getXp());
 
             if (experienceOrbSpawnEvent.isCancelled()) {
                 event.setDroppedExp(0);
@@ -95,6 +109,8 @@ public class ExperienceOrbSpawnEvent extends Event implements Cancellable {
 
             Bukkit.getPluginManager().callEvent(experienceOrbSpawnEvent);
 
+            event.setExperience(experienceOrbSpawnEvent.getXp());
+
             if (experienceOrbSpawnEvent.isCancelled()) {
                 event.setExperience(0);
             }
@@ -105,6 +121,8 @@ public class ExperienceOrbSpawnEvent extends Event implements Cancellable {
             ExperienceOrbSpawnEvent experienceOrbSpawnEvent = new ExperienceOrbSpawnEvent();
 
             Bukkit.getPluginManager().callEvent(experienceOrbSpawnEvent);
+
+            event.setExpToDrop(experienceOrbSpawnEvent.getXp());
 
             if (experienceOrbSpawnEvent.isCancelled()) {
                 event.setExpToDrop(0);
