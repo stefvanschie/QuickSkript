@@ -258,7 +258,13 @@ public abstract class SkriptLoader implements AutoCloseable {
 
                         parameters[parameters.length - 1] = lineNumber;
 
-                        return (PsiElement<?>) method.invoke(factory, parameters);
+                        PsiElement<?> element = (PsiElement<?>) method.invoke(factory, parameters);
+
+                        for (PsiElement<?> child : elements) {
+                            child.setParent(element);
+                        }
+
+                        return element;
                     }
                 } catch (IllegalAccessException | InvocationTargetException exception) {
                     exception.printStackTrace();

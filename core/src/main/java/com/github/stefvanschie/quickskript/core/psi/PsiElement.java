@@ -26,6 +26,12 @@ public abstract class PsiElement<T> {
     protected final int lineNumber;
 
     /**
+     * The parent of this element, or null if this element is the top-level element
+     */
+    @Nullable
+    protected PsiElement<?> parent;
+
+    /**
      * Creates a new element with the given line number
      *
      * @param lineNumber the line number this element is associated with
@@ -81,6 +87,16 @@ public abstract class PsiElement<T> {
     protected abstract T executeImpl(@Nullable Context context);
 
     /**
+     * Sets the parent of this element
+     *
+     * @param parent this element's parent
+     * @since 0.1.0
+     */
+    public void setParent(@NotNull PsiElement<?> parent) {
+        this.parent = parent;
+    }
+
+    /**
      * Gets whether this element was pre computed when loading
      *
      * @return true hen the value was computed when loading, false otherwise
@@ -89,5 +105,17 @@ public abstract class PsiElement<T> {
     @Contract(pure = true)
     public boolean isPreComputed() {
         return preComputed != null;
+    }
+
+    /**
+     * Gets the parent of this element, or null if this element is the top-level element
+     *
+     * @return the parent
+     * @since 0.1.0
+     */
+    @Nullable
+    @Contract(pure = true)
+    public PsiElement<?> getParent() {
+        return parent;
     }
 }
