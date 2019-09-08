@@ -161,9 +161,6 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiToggleFlightEffectImpl.Factory());
         registerElement(new PsiUnbanEffectImpl.Factory());
 
-        //this one is here, because it has special identifiers around it
-        registerElement(new PsiStringLiteral.Factory());
-
         registerElement(new PsiParseExpression.Factory());
 
         //conditions
@@ -211,6 +208,8 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiElementOfExpression.Factory());
         registerElement(new PsiExhaustionExpressionImpl.Factory());
         registerElement(new PsiExperienceExpressionImpl.Factory());
+        registerElement(new PsiFilterExpression.Factory());
+        registerElement(new PsiFilterInputExpression.Factory());
         registerElement(new PsiPermissionsExpressionImpl.Factory());
         registerElement(new PsiRandomNumberExpression.Factory());
 
@@ -240,6 +239,9 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiTangentFunction.Factory());
         registerElement(new PsiVectorFunctionImpl.Factory());
         registerElement(new PsiWorldFunctionImpl.Factory());
+
+        //this one is here, because it has special identifiers around it
+        registerElement(new PsiStringLiteral.Factory());
     }
 
     /**

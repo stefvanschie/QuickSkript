@@ -79,9 +79,6 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiToggleFlightEffect.Factory());
         registerElement(new PsiUnbanEffect.Factory());
 
-        //this one is here, because it has special identifiers around it
-        registerElement(new PsiStringLiteral.Factory());
-
         registerElement(new PsiParseExpression.Factory());
 
         //conditions
@@ -129,6 +126,8 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiElementOfExpression.Factory());
         registerElement(new PsiExhaustionExpression.Factory());
         registerElement(new PsiExperienceExpression.Factory());
+        registerElement(new PsiFilterExpression.Factory());
+        registerElement(new PsiFilterInputExpression.Factory());
         registerElement(new PsiPermissionsExpression.Factory());
         registerElement(new PsiRandomNumberExpression.Factory());
 
@@ -158,6 +157,9 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiTangentFunction.Factory());
         registerElement(new PsiVectorFunction.Factory());
         registerElement(new PsiWorldFunction.Factory());
+
+        //this one is here, because it has special identifiers around it
+        registerElement(new PsiStringLiteral.Factory());
     }
 
     /**
