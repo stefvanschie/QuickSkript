@@ -262,7 +262,9 @@ public abstract class SkriptLoader implements AutoCloseable {
                             PsiElement<?> element = (PsiElement<?>) method.invoke(factory, parameters);
 
                             for (PsiElement<?> child : elements) {
-                                child.setParent(element);
+                                if (child != null) {
+                                    child.setParent(element);
+                                }
                             }
 
                             return element;
