@@ -8,11 +8,10 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.util.Pair;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Map;
 
 /**
  * Executes the specified code if the specified condition is true.
@@ -90,9 +89,9 @@ public class PsiDoIfEffect extends PsiElement<Void> {
         @Contract(pure = true)
         @Pattern("pattern")
         public PsiDoIfEffect parse(@NotNull SkriptMatchResult result, int lineNumber) {
-            String[] regexGroups = result.getMatchedGroups().entrySet().stream()
-                .filter(entry -> entry.getKey() instanceof RegexGroup)
-                .map(Map.Entry::getValue)
+            String[] regexGroups = result.getMatchedGroups().stream()
+                .filter(entry -> entry.getX() instanceof RegexGroup)
+                .map(Pair::getY)
                 .toArray(String[]::new);
 
             var skriptLoader = SkriptLoader.get();

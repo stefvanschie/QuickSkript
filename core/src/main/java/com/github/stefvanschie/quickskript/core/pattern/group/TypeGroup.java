@@ -1,5 +1,6 @@
 package com.github.stefvanschie.quickskript.core.pattern.group;
 
+import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
 import com.github.stefvanschie.quickskript.core.pattern.exception.SkriptPatternParseException;
 import com.github.stefvanschie.quickskript.core.util.Pair;
 import org.jetbrains.annotations.Contract;
@@ -7,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -42,6 +44,44 @@ public class TypeGroup implements SkriptPatternGroup {
     private TypeGroup(@NotNull String type, @NotNull Constraint constraint) {
         this.type = type;
         this.constraint = constraint;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @NotNull
+    @Contract(pure = true)
+    @Override
+    public List<SkriptMatchResult> match(@NotNull SkriptPatternGroup[] followingGroups, @NotNull String input) {
+        List<SkriptMatchResult> results = new ArrayList<>();
+        StringBuilder builder = new StringBuilder(input);
+
+        do {
+            String subInput = builder.toString();
+            int length = builder.length();
+
+            if (followingGroups.length == 0) {
+                SkriptMatchResult result = new SkriptMatchResult();
+                result.addMatchedGroup(this, subInput, 0);
+                result.setRestingString(input.substring(length));
+
+                results.add(result);
+            } else {
+                SkriptPatternGroup[] newArray = Arrays.copyOfRange(followingGroups, 1, followingGroups.length);
+                List<SkriptMatchResult> calleeResults = followingGroups[0].match(newArray, input.substring(length));
+
+                calleeResults.forEach(result -> result.addMatchedGroup(this, subInput, 0));
+
+                results.addAll(calleeResults);
+            }
+
+            //in case we get an empty string passed
+            if (builder.length() > 0) {
+                builder.deleteCharAt(length - 1);
+            }
+        } while (builder.length() > 0);
+
+        return results;
     }
 
     /**

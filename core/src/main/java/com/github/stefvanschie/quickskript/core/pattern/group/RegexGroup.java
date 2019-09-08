@@ -1,5 +1,6 @@
 package com.github.stefvanschie.quickskript.core.pattern.group;
 
+import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
 import com.github.stefvanschie.quickskript.core.pattern.exception.SkriptPatternParseException;
 import com.github.stefvanschie.quickskript.core.util.Pair;
 import org.jetbrains.annotations.Contract;
@@ -7,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -32,6 +34,54 @@ public class RegexGroup implements SkriptPatternGroup {
      */
     private RegexGroup(@NotNull String pattern) {
         this.pattern = Pattern.compile(pattern);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @NotNull
+    @Contract(pure = true)
+    @Override
+    public List<SkriptMatchResult> match(@NotNull SkriptPatternGroup[] followingGroups, @NotNull String input) {
+        List<SkriptMatchResult> results = new ArrayList<>();
+        StringBuilder builder = new StringBuilder(input);
+
+        do {
+            String subInput = builder.toString();
+            var matcher = pattern.matcher(subInput);
+
+            matcher.results().forEach(matchResult -> {
+                if (matcher.start() != 0) {
+                    return;
+                }
+
+                String match = matcher.group();
+                int subIndex = Math.min(matcher.end(), builder.length());
+
+                if (followingGroups.length == 0) {
+                    SkriptMatchResult result = new SkriptMatchResult();
+                    result.addMatchedGroup(this, match, 0);
+                    result.setRestingString(input.substring(subIndex));
+
+                    results.add(result);
+                    return;
+                }
+
+                SkriptPatternGroup[] newArray = Arrays.copyOfRange(followingGroups, 1, followingGroups.length);
+                List<SkriptMatchResult> calleeResults = followingGroups[0].match(newArray, input.substring(subIndex));
+
+                calleeResults.forEach(result -> result.addMatchedGroup(this, match, 0));
+
+                results.addAll(calleeResults);
+            });
+
+            //in case we got passed an empty input
+            if (builder.length() > 0) {
+                builder.deleteCharAt(builder.length() - 1);
+            }
+        } while (builder.length() > 0);
+
+        return results;
     }
 
     /**

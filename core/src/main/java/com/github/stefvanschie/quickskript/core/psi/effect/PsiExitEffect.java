@@ -7,6 +7,7 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.psi.util.pointermovement.ExitSectionsPointerMovement;
+import com.github.stefvanschie.quickskript.core.util.Pair;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -96,9 +97,9 @@ public class PsiExitEffect extends PsiPrecomputedHolder<ExitSectionsPointerMovem
         @Contract(pure = true)
         @Pattern("patternsFinite")
         public PsiExitEffect parseFinite(@NotNull SkriptMatchResult result, int lineNumber) {
-            String regexMatch = result.getMatchedGroups().entrySet().stream()
-                .filter(entry -> entry.getKey() instanceof RegexGroup)
-                .map(Map.Entry::getValue)
+            String regexMatch = result.getMatchedGroups().stream()
+                .filter(entry -> entry.getX() instanceof RegexGroup)
+                .map(Pair::getY)
                 .findAny()
                 .orElse(null);
 

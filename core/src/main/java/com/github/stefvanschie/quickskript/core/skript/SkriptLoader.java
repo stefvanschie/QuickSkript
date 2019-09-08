@@ -15,6 +15,7 @@ import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.PatternTypeOrder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.PatternTypeOrderHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.exception.ParsingAnnotationInvalidValueException;
+import com.github.stefvanschie.quickskript.core.util.Pair;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -159,7 +160,6 @@ public abstract class SkriptLoader implements AutoCloseable {
                         continue;
                     }
 
-                    patterns:
                     for (int skriptPatternIndex = 0; skriptPatternIndex < skriptPatterns.length; skriptPatternIndex++) {
                         PatternTypeOrderHolder holder = method.getAnnotation(PatternTypeOrderHolder.class);
                         PatternTypeOrder patternTypeOrder = null;
@@ -192,79 +192,81 @@ public abstract class SkriptLoader implements AutoCloseable {
                                 (typeGroupAmount + 1) + " parameters");
                         }
 
-                        SkriptMatchResult result = skriptPattern.match(input);
+                        results:
+                        for (SkriptMatchResult result : skriptPattern.match(input)) {
+                            if (result.hasUnmatchedParts()) {
+                                continue;
+                            }
 
-                        if (!result.isSuccessful() || result.getRestingString() != null) {
-                            continue;
-                        }
+                            Collection<Pair<SkriptPatternGroup, String>> matchedGroups = result.getMatchedGroups();
 
-                        Map<SkriptPatternGroup, String> matchedGroups = result.getMatchedGroups();
-
-                        List<TypeGroup> groups = matchedGroups.keySet().stream()
-                            .filter(group -> group instanceof TypeGroup)
-                            .map(group -> (TypeGroup) group)
-                            .collect(Collectors.toUnmodifiableList());
-
-                        List<String> matchedTypeTexts = matchedGroups.entrySet().stream()
-                            .filter(entry -> entry.getKey() instanceof TypeGroup)
-                            .map(Map.Entry::getValue)
-                            .collect(Collectors.toUnmodifiableList());
-
-                        PsiElement[] elements = new PsiElement[typeGroupAmount];
-
-                        for (int i = 0; i < elements.length && i < groups.size(); i++) {
-                            TypeGroup.Constraint groupConstraint = groups.get(i).getConstraint();
-                            int elementIndex = skriptPattern.getGroups().stream()
+                            List<TypeGroup> groups = matchedGroups.stream()
+                                .map(Pair::getX)
                                 .filter(group -> group instanceof TypeGroup)
-                                .collect(Collectors.toUnmodifiableList())
-                                .indexOf(groups.get(i));
+                                .map(group -> (TypeGroup) group)
+                                .collect(Collectors.toUnmodifiableList());
 
-                            if (patternTypeOrder != null && !Arrays.equals(patternTypeOrder.typeOrder(), new int[]{})) {
-                                elementIndex = patternTypeOrder.typeOrder()[i];
+                            List<String> matchedTypeTexts = matchedGroups.stream()
+                                .filter(entry -> entry.getX() instanceof TypeGroup)
+                                .map(Pair::getY)
+                                .collect(Collectors.toUnmodifiableList());
 
-                                if (elements[elementIndex] != null) {
-                                    throw new ParsingAnnotationInvalidValueException(
-                                        "Type order of PatternMetadata contains duplicate number '" + elementIndex + "'"
-                                    );
+                            PsiElement[] elements = new PsiElement[typeGroupAmount];
+
+                            for (int i = 0; i < elements.length && i < groups.size(); i++) {
+                                TypeGroup.Constraint groupConstraint = groups.get(i).getConstraint();
+                                int elementIndex = skriptPattern.getGroups().stream()
+                                    .filter(group -> group instanceof TypeGroup)
+                                    .collect(Collectors.toUnmodifiableList())
+                                    .indexOf(groups.get(i));
+
+                                if (patternTypeOrder != null && !Arrays.equals(patternTypeOrder.typeOrder(), new int[]{})) {
+                                    elementIndex = patternTypeOrder.typeOrder()[i];
+
+                                    if (elements[elementIndex] != null) {
+                                        throw new ParsingAnnotationInvalidValueException(
+                                            "Type order of PatternMetadata contains duplicate number '" + elementIndex + "'"
+                                        );
+                                    }
+                                }
+
+                                String matchedTypeText = matchedTypeTexts.get(i);
+
+                                elements[elementIndex] = tryParseElement(matchedTypeText, groupConstraint, lineNumber);
+
+                                //recursive retry
+                                if (elements[elementIndex] == null) {
+                                    continue results;
                                 }
                             }
 
-                            String matchedTypeText = matchedTypeTexts.get(i);
+                            method.setAccessible(true);
 
-                            elements[elementIndex] = tryParseElement(matchedTypeText, groupConstraint, lineNumber);
+                            Object[] parameters;
 
-                            //recursive retry
-                            if (elements[elementIndex] == null) {
-                                continue patterns;
+                            //allow an optional SkriptMatchResult in front
+                            if (method.getParameterTypes()[0] == SkriptMatchResult.class) {
+                                parameters = new Object[elements.length + 2];
+
+                                parameters[0] = result;
+
+                                System.arraycopy(elements, 0, parameters, 1, parameters.length - 2);
+                            } else {
+                                parameters = new Object[elements.length + 1];
+
+                                System.arraycopy(elements, 0, parameters, 0, parameters.length - 1);
                             }
+
+                            parameters[parameters.length - 1] = lineNumber;
+
+                            PsiElement<?> element = (PsiElement<?>) method.invoke(factory, parameters);
+
+                            for (PsiElement<?> child : elements) {
+                                child.setParent(element);
+                            }
+
+                            return element;
                         }
-
-                        method.setAccessible(true);
-
-                        Object[] parameters;
-
-                        //allow an optional SkriptMatchResult in front
-                        if (method.getParameterTypes()[0] == SkriptMatchResult.class) {
-                            parameters = new Object[elements.length + 2];
-
-                            parameters[0] = result;
-
-                            System.arraycopy(elements, 0, parameters, 1, parameters.length - 2);
-                        } else {
-                            parameters = new Object[elements.length + 1];
-
-                            System.arraycopy(elements, 0, parameters, 0, parameters.length - 1);
-                        }
-
-                        parameters[parameters.length - 1] = lineNumber;
-
-                        PsiElement<?> element = (PsiElement<?>) method.invoke(factory, parameters);
-
-                        for (PsiElement<?> child : elements) {
-                            child.setParent(element);
-                        }
-
-                        return element;
                     }
                 } catch (IllegalAccessException | InvocationTargetException exception) {
                     exception.printStackTrace();

@@ -1,7 +1,7 @@
 package com.github.stefvanschie.quickskript.core.util;
 
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -17,13 +17,13 @@ public class Pair<X, Y> {
     /**
      * The first value
      */
-    @Nullable
+    @NotNull
     private final X x;
 
     /**
      * The second value
      */
-    @Nullable
+    @NotNull
     private final Y y;
 
     /**
@@ -33,7 +33,7 @@ public class Pair<X, Y> {
      * @param y the y value
      * @since 0.1.0
      */
-    public Pair(@Nullable X x, @Nullable Y y) {
+    public Pair(@NotNull X x, @NotNull Y y) {
         this.x = x;
         this.y = y;
     }
@@ -44,7 +44,7 @@ public class Pair<X, Y> {
      * @return the first value
      * @since 0.1.0
      */
-    @Nullable
+    @NotNull
     @Contract(pure = true)
     public X getX() {
         return x;
@@ -56,7 +56,7 @@ public class Pair<X, Y> {
      * @return the second value
      * @since 0.1.0
      */
-    @Nullable
+    @NotNull
     @Contract(pure = true)
     public Y getY() {
         return y;
@@ -83,8 +83,8 @@ public class Pair<X, Y> {
         int prime = 31;
         int result = 1;
 
-        result = prime * result + ((getX() == null) ? 0 : getX().hashCode());
-        result = prime * result + ((getY() == null) ? 0 : getY().hashCode());
+        result = prime * result + getX().hashCode();
+        result = prime * result + getY().hashCode();
 
         return result;
     }

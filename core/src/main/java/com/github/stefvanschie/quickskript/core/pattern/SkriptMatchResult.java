@@ -3,12 +3,12 @@ package com.github.stefvanschie.quickskript.core.pattern;
 import com.github.stefvanschie.quickskript.core.pattern.group.ChoiceGroup;
 import com.github.stefvanschie.quickskript.core.pattern.group.OptionalGroup;
 import com.github.stefvanschie.quickskript.core.pattern.group.SkriptPatternGroup;
+import com.github.stefvanschie.quickskript.core.util.Pair;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * A class holding information about an attempted match
@@ -21,23 +21,12 @@ public class SkriptMatchResult {
      * An ordered list of all groups that were matched and the exact part that matched
      */
     @NotNull
-    private final Map<SkriptPatternGroup, String> matchedGroups = new LinkedHashMap<>();
+    private final List<Pair<SkriptPatternGroup, String>> matchedGroups = new ArrayList<>();
 
     /**
      * The final parse mark of the match
      */
     private int parseMark;
-
-    /**
-     * True if this match was successful, otherwise false
-     */
-    private boolean success;
-
-    /**
-     * The group that failed to match
-     */
-    @Nullable
-    private SkriptPatternGroup failingGroup;
 
     /**
      * The resting string
@@ -53,12 +42,8 @@ public class SkriptMatchResult {
      * @throws IllegalStateException if this match was already terminated
      * @since 0.1.0
      */
-    public void addMatchedGroup(@NotNull SkriptPatternGroup group, @NotNull String text) {
-        if (success || failingGroup != null) {
-            throw new IllegalStateException("Match was already terminated, cannot change it anymore");
-        }
-
-        matchedGroups.put(group, text);
+    public void addMatchedGroup(@NotNull SkriptPatternGroup group, @NotNull String text, int index) {
+        matchedGroups.add(index, new Pair<>(group, text));
     }
 
     /**
@@ -69,10 +54,6 @@ public class SkriptMatchResult {
      * @since 0.1.0
      */
     public void removeMatchedGroup(@NotNull SkriptPatternGroup group) {
-        if (success || failingGroup != null) {
-            throw new IllegalStateException("Match was already terminated, cannot change it anymore");
-        }
-
         matchedGroups.remove(group);
     }
 
@@ -84,44 +65,7 @@ public class SkriptMatchResult {
      * @since 0.1.0
      */
     public void addParseMark(int parseMark) {
-        if (success || failingGroup != null) {
-            throw new IllegalStateException("Match was already terminated, cannot change it anymore");
-        }
-
         this.parseMark ^= parseMark;
-    }
-
-    /**
-     * Marks this match as failed and sets the group that caused this failure. This is a terminating operation. After
-     * invoking this method, this match can no longer be changed.
-     *
-     * @param failingGroup the group that failed to match
-     * @throws IllegalStateException if this match was already terminated
-     * @since 0.1.0
-     */
-    public void failure(SkriptPatternGroup failingGroup) {
-        if (success || this.failingGroup != null) {
-            throw new IllegalStateException("Match was already terminated, cannot change it anymore");
-        }
-
-        this.failingGroup = failingGroup;
-    }
-
-    /**
-     * Marks this match as successful. This is a terminating operation. After invoking this method, this match can no
-     * longer be changed.
-     *
-     * @param restingString the string that was leftover and not part of the match
-     * @throws IllegalStateException if this match was already terminated
-     * @since 0.1.0
-     */
-    public void success(@Nullable String restingString) {
-        if (success || failingGroup != null) {
-            throw new IllegalStateException("Match was already terminated, cannot change it anymore");
-        }
-
-        success = true;
-        this.restingString = restingString;
     }
 
     /**
@@ -134,15 +78,34 @@ public class SkriptMatchResult {
     public String getMatchedString() {
         StringBuilder builder = new StringBuilder();
 
-        matchedGroups.forEach((skriptPatternGroup, text) -> {
+        matchedGroups.forEach(pair -> {
+            SkriptPatternGroup skriptPatternGroup = pair.getX();
+
             if (skriptPatternGroup instanceof ChoiceGroup || skriptPatternGroup instanceof OptionalGroup) {
                 return;
             }
 
-            builder.append(text);
+            builder.append(pair.getY());
         });
 
         return builder.toString();
+    }
+
+    /**
+     * Produces a shallow copy of this SkriptMatchResult.
+     *
+     * @return a copy of this
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public SkriptMatchResult shallowCopy() {
+        SkriptMatchResult result = new SkriptMatchResult();
+        result.matchedGroups.addAll(new ArrayList<>(matchedGroups));
+        result.restingString = restingString;
+        result.parseMark = parseMark;
+
+        return result;
     }
 
     /**
@@ -155,19 +118,45 @@ public class SkriptMatchResult {
     @Nullable
     @Contract(pure = true)
     public String getMatchedString(@NotNull SkriptPatternGroup group) {
-        return matchedGroups.get(group);
+        return matchedGroups.stream()
+            .filter(pair -> pair.getX().equals(group))
+            .map(Pair::getY)
+            .findAny()
+            .orElse(null);
     }
 
     /**
-     * Gets a map of the matched groups and the strings that were matched
+     * Checks whether this matched has unmatched parts left. If so, this method returns true, if not this returns false.
+     *
+     * @return whether this math has unmatched parts
+     * @since 0.1.0
+     */
+    @Contract(pure = true)
+    public boolean hasUnmatchedParts() {
+        return restingString != null && !restingString.isEmpty();
+    }
+
+    /**
+     * Gets a list of the matched groups and the strings that were matched. This is a copy of the original list and is
+     * immutable.
      *
      * @return the matched groups
      * @since 0.1.0
      */
     @NotNull
     @Contract(pure = true)
-    public Map<SkriptPatternGroup, String> getMatchedGroups() {
-        return matchedGroups;
+    public List<Pair<SkriptPatternGroup, String>> getMatchedGroups() {
+        return Collections.unmodifiableList(matchedGroups);
+    }
+
+    /**
+     * Sets the resting string of this match
+     *
+     * @param restingString the resting string
+     * @since 0.1.0
+     */
+    public void setRestingString(@NotNull String restingString) {
+        this.restingString = restingString;
     }
 
     /**
@@ -191,16 +180,5 @@ public class SkriptMatchResult {
     @Contract(pure = true)
     public int getParseMark() {
         return parseMark;
-    }
-
-    /**
-     * Whether this match was successful or not, true if it was, false otherwise
-     *
-     * @return whether this match was successful
-     * @since 0.1.0
-     */
-    @Contract(pure = true)
-    public boolean isSuccessful() {
-        return success;
     }
 }

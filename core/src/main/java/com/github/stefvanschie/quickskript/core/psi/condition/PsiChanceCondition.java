@@ -7,6 +7,7 @@ import com.github.stefvanschie.quickskript.core.pattern.group.OptionalGroup;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.util.Pair;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -85,7 +86,8 @@ public class PsiChanceCondition extends PsiElement<Boolean> {
         @Pattern("pattern")
         private PsiChanceCondition parse(@NotNull SkriptMatchResult result, @NotNull PsiElement<?> chance,
                                            int lineNumber) {
-            boolean asPercentage = result.getMatchedGroups().keySet().stream()
+            boolean asPercentage = result.getMatchedGroups().stream()
+                .map(Pair::getX)
                 .anyMatch(group -> group instanceof OptionalGroup);
 
             return create(chance, asPercentage, lineNumber);

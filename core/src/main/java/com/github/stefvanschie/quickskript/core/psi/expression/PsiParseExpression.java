@@ -9,11 +9,10 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.util.Pair;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Map;
 
 /**
  * Parses a given value to another type or skript pattern.
@@ -104,9 +103,9 @@ public class PsiParseExpression extends PsiElement<Object> {
         @Pattern("pattern")
         public PsiParseExpression parse(@NotNull SkriptMatchResult result, @NotNull PsiElement<?> value,
                                         int lineNumber) {
-            String converterText = result.getMatchedGroups().entrySet().stream()
-                .filter(entry -> entry.getKey() instanceof RegexGroup)
-                .map(Map.Entry::getValue)
+            String converterText = result.getMatchedGroups().stream()
+                .filter(entry -> entry.getX() instanceof RegexGroup)
+                .map(Pair::getY)
                 .findAny()
                 .orElseThrow();
             PsiConverter<?> converter = SkriptLoader.get().forceGetConverter(converterText, lineNumber);

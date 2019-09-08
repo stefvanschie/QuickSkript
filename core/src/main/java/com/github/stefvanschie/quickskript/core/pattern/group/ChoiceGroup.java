@@ -1,5 +1,6 @@
 package com.github.stefvanschie.quickskript.core.pattern.group;
 
+import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.pattern.exception.SkriptPatternParseException;
 import com.github.stefvanschie.quickskript.core.util.Pair;
@@ -8,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -40,6 +42,57 @@ public class ChoiceGroup implements SkriptPatternGroup {
     private ChoiceGroup(@NotNull SkriptPattern[] patterns, @NotNull int[] parseMarks) {
         this.patterns = patterns;
         this.parseMarks = parseMarks;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @NotNull
+    @Contract(pure = true)
+    @Override
+    public List<SkriptMatchResult> match(@NotNull SkriptPatternGroup[] followingGroups, @NotNull String input) {
+        List<SkriptMatchResult> results = new ArrayList<>();
+
+        for (int i = 0; i < patterns.length; i++) {
+            SkriptPattern pattern = patterns[i];
+            List<SkriptMatchResult> patternResults = pattern.match(input);
+
+            for (SkriptMatchResult patternResult : patternResults) {
+                patternResult.addParseMark(parseMarks[i]);
+            }
+
+            if (followingGroups.length == 0) {
+                patternResults.forEach(result ->
+                    result.addMatchedGroup(this, result.getMatchedString(), 0));
+
+                results.addAll(patternResults);
+                continue;
+            }
+
+            SkriptPatternGroup[] newArray = Arrays.copyOfRange(followingGroups, 1, followingGroups.length);
+
+            patternResults.forEach(result -> {
+                List<SkriptMatchResult> calleeResults = followingGroups[0].match(newArray, result.getRestingString());
+
+                List<Pair<SkriptPatternGroup, String>> matchedGroups = new ArrayList<>(result.getMatchedGroups());
+
+                Collections.reverse(matchedGroups);
+
+                calleeResults.forEach(res -> {
+                    SkriptMatchResult copy = result.shallowCopy();
+
+                    copy.addMatchedGroup(this, copy.getMatchedString(), 0);
+                    res.getMatchedGroups().forEach(pair ->
+                        copy.addMatchedGroup(pair.getX(), pair.getY(), copy.getMatchedGroups().size()));
+                    copy.setRestingString(res.getRestingString());
+                    copy.addParseMark(res.getParseMark());
+
+                    results.add(copy);
+                });
+            });
+        }
+
+        return results;
     }
 
     /**
