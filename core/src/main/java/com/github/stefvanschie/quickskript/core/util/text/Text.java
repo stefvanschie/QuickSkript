@@ -47,6 +47,23 @@ public final class Text {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Contract(pure = true)
+    @Override
+    public boolean equals(@NotNull Object obj) {
+        if (obj == this) {
+            return true;
+        }
+
+        if (!(obj instanceof Text)) {
+            return false;
+        }
+
+        return obj.toString().equals(toString());
+    }
+
+    /**
      * Parses a text message from the given string
      *
      * @param text the text to parse
