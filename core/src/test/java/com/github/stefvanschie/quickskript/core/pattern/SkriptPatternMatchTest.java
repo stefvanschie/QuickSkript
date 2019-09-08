@@ -29,7 +29,7 @@ class SkriptPatternMatchTest {
     @BeforeAll
     static void init() {
         //correct
-        /*CORRECT_PATTERNS.put(SkriptPattern.parse("x"), new String[] {
+        CORRECT_PATTERNS.put(SkriptPattern.parse("x"), new String[] {
             "x"
         });
         CORRECT_PATTERNS.put(SkriptPattern.parse("x y"), new String[] {
@@ -131,7 +131,7 @@ class SkriptPatternMatchTest {
         //noinspection HardcodedFileSeparator
         CORRECT_PATTERNS.put(SkriptPattern.parse("%w% (x|y) \\[<.+>\\]"), new String[] {
             "w x [z]", "w y [z]"
-        });*/
+        });
         CORRECT_PATTERNS.put(SkriptPattern.parse("[%*type%] input"), new String[] {
             "input"
         });
