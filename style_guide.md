@@ -13,17 +13,6 @@ Wildcard imports, static or otherwise, *may* be used.
 3.3.3 ([original](https://google.github.io/styleguide/javaguide.html#s3.3.3-import-ordering-and-spacing)):  
 The import statements do not have to be in ASCII sort order, but import statements starting with the same main package name should be grouped.
 
-4.1.3 ([original](https://google.github.io/styleguide/javaguide.html#s4.1.3-braces-empty-blocks)):  
-An empty block is immediately opened and closed on the same line as the block construct. This is correct:
-```java
-void doNothing() {}
-```
-while this isn't:
-```java
-void doNothingElse() {
-}
-```
-
 4.2 ([original](https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation)):  
 Indentation uses 4 spaces or one tab.
 
