@@ -76,12 +76,12 @@ public class SkriptFile {
 
         //remove trailing spaces and replace \t with four spaces
         for (int i = 0; i < lines.size(); i++) {
-            Matcher matcher = Pattern.compile("^\\s+").matcher(lines.get(i));
-            lines.set(i, matcher.replaceAll(result -> " ".repeat(result.group().length())));
-
             lines.set(i, lines.get(i)
                 .replace("\t", "    ") //replace tabs with four spaces (U+0020)
                 .replaceAll("\\s+$", "")); //remove trailing spaces
+
+            Matcher matcher = Pattern.compile("^\\s+").matcher(lines.get(i));
+            lines.set(i, matcher.replaceAll(result -> " ".repeat(result.group().length())));
             //TODO pre-compile patterns
         }
 
