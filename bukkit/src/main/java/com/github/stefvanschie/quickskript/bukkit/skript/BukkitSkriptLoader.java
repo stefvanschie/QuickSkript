@@ -219,6 +219,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiGravityExpressionImpl.Factory());
         registerElement(new PsiHashExpression.Factory());
         registerElement(new PsiHealthExpressionImpl.Factory());
+        registerElement(new PsiHiddenPlayersExpressionImpl.Factory());
         registerElement(new PsiPermissionsExpressionImpl.Factory());
         registerElement(new PsiRandomNumberExpression.Factory());
 
