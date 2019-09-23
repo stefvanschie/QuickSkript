@@ -75,4 +75,17 @@ public final class Text {
     public static Text parse(@NotNull String text) {
         return new Text(new TextString(text));
     }
+
+    /**
+     * Parses a string as text, without applying any kind of formats to it
+     *
+     * @param text the text to parse
+     * @return the parsed text message
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract("null -> fail")
+    public static Text parseLiteral(@NotNull String text) {
+        return new Text(new TextString(text));
+    }
 }
