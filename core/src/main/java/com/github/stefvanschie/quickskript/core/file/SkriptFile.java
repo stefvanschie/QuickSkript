@@ -85,9 +85,7 @@ public class SkriptFile {
             //TODO pre-compile patterns
         }
 
-        SkriptFileSection section = new SkriptFileSection("", 0);
-        section.parse(lines, 1);
-        return new SkriptFile(section);
+        return new SkriptFile(new SkriptFileSection("", 0, lines));
     }
 
     /**
@@ -121,7 +119,7 @@ public class SkriptFile {
     }
 
     /**
-     * Returns a list of nodes
+     * Returns an immutable list of nodes
      *
      * @return the nodes
      * @since 0.1.0

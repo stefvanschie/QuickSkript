@@ -1,8 +1,6 @@
 package com.github.stefvanschie.quickskript.bukkit.psi.expression;
 
-import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
 import com.github.stefvanschie.quickskript.bukkit.context.EventContextImpl;
-import com.github.stefvanschie.quickskript.bukkit.util.Platform;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.context.EventContext;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
@@ -12,6 +10,7 @@ import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.server.ServerListPingEvent;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -55,8 +54,8 @@ public class PsiIPExpressionImpl extends PsiIPExpression {
 
             if (event instanceof PlayerLoginEvent) {
                 inetAddress = ((PlayerLoginEvent) event).getAddress();
-            } else if (Platform.getPlatform().isAvailable(Platform.PAPER)) {
-                inetAddress = Helper.executeImplHelper(context, lineNumber);
+            } else if (event instanceof ServerListPingEvent) {
+                inetAddress = ((ServerListPingEvent) event).getAddress();
             } else {
                 throw new ExecutionException("You need Paper to execute this expression from a ping event", lineNumber);
             }
@@ -71,39 +70,6 @@ public class PsiIPExpressionImpl extends PsiIPExpression {
         }
 
         return Text.parseLiteral(inetAddress.getHostAddress());
-    }
-
-    /**
-     * A helper class that ensures Paper specific classes are only loaded on Paper (at least I hope so, class loader
-     * resolving is kinda weird).
-     *
-     * @since 0.1.0
-     */
-    private static class Helper {
-
-        /**
-         * A helper method that ensures Paper specific classes are only loaded on Paper
-         *
-         * @param context the context
-         * @return the address
-         * @since 0.1.0
-         */
-        @NotNull
-        @Contract(pure = true)
-        private static InetAddress executeImplHelper(@Nullable Context context, int lineNumber) {
-            if (!(context instanceof EventContext)) {
-                throw new ExecutionException("This expression can only be executed from an event", lineNumber);
-            }
-
-            Event event = ((EventContextImpl) context).getEvent();
-
-            if (event instanceof PaperServerListPingEvent) {
-                //TODO isn't ServerListPingEvent enough? that way it's not Paper-specific
-                return ((PaperServerListPingEvent) event).getAddress();
-            }
-
-            throw new ExecutionException("This expression can only be used in login and ping events", lineNumber);
-        }
     }
 
     /**
