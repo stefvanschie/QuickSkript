@@ -21,6 +21,11 @@ public final class Text {
     private final List<TextPart> parts;
 
     /**
+     * The compiled text: all {@link TextPart}s appended after each other
+     */
+    private final String compiled;
+
+    /**
      * Creates a new text message with the specified {@link TextPart}s
      *
      * @param parts the parts to initialize this message with
@@ -28,6 +33,9 @@ public final class Text {
      */
     public Text(Collection<TextPart> parts) {
         this.parts = List.copyOf(parts);
+        StringBuilder builder = new StringBuilder();
+        parts.forEach(part -> part.append(builder));
+        compiled = builder.toString();
     }
 
     /**
@@ -37,7 +45,7 @@ public final class Text {
      * @since 0.1.0
      */
     private Text(TextPart part) {
-        parts = Collections.singletonList(part);
+        this(Collections.singletonList(part));
     }
 
     /**
@@ -46,7 +54,7 @@ public final class Text {
      * @since 0.1.0
      */
     private Text() {
-        parts = Collections.emptyList();
+        this(Collections.emptyList());
     }
 
     /**
@@ -72,12 +80,7 @@ public final class Text {
     @Contract(pure = true)
     @Override
     public String toString() {
-        //TODO this can't be cached because TextParts are mutable, shouldn't it be immutable?
-        StringBuilder message = new StringBuilder();
-
-        parts.forEach(part -> part.append(message));
-
-        return message.toString();
+        return compiled;
     }
 
     /**
@@ -86,7 +89,7 @@ public final class Text {
     @Contract(pure = true)
     @Override
     public int hashCode() {
-        return toString().hashCode() ^ getClass().hashCode();
+        return compiled.hashCode() ^ getClass().hashCode();
     }
 
     /**
