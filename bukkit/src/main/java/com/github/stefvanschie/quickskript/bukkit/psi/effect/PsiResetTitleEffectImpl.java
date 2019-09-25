@@ -5,6 +5,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiResetTitleEffect;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -41,7 +42,7 @@ public class PsiResetTitleEffectImpl extends PsiResetTitleEffect {
                 throw new ExecutionException("Cannot reset title without context", lineNumber);
             }
 
-            var commandSender = ((ContextImpl) context).getCommandSender();
+            CommandSender commandSender = ((ContextImpl) context).getCommandSender();
 
             if (commandSender instanceof Player) {
                 player = (Player) commandSender;

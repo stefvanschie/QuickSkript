@@ -59,7 +59,7 @@ public class PsiAlphabeticalSortExpression extends PsiElement<Text[]> {
         if (result instanceof Iterable) {
             List<Text> textsList = new ArrayList<>();
 
-            for (Object obj : ((Iterable<?>) result)) {
+            for (Object obj : (Iterable<?>) result) {
                 textsList.add((Text) obj);
             }
 
@@ -71,7 +71,7 @@ public class PsiAlphabeticalSortExpression extends PsiElement<Text[]> {
             for (int i = 0; i < objects.length; i++) {
                 texts[i] = (Text) objects[i];
             }
-        } else if (result.getClass().isArray()) {
+        } else if (result != null && result.getClass().isArray()) {
             int length = Array.getLength(result);
             texts = new Text[length];
 

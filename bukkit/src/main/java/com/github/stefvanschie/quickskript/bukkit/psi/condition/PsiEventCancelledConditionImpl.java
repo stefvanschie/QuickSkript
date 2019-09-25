@@ -44,11 +44,7 @@ public class PsiEventCancelledConditionImpl extends PsiEventCancelledCondition {
 
         Event event = ((EventContextImpl) context).getEvent();
 
-        if (!(event instanceof Cancellable)) {
-            return false;
-        }
-
-        return positive == ((Cancellable) event).isCancelled();
+        return event instanceof Cancellable && positive == ((Cancellable) event).isCancelled();
     }
 
     /**

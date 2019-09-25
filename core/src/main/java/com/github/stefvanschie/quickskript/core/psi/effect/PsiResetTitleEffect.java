@@ -20,7 +20,7 @@ public class PsiResetTitleEffect extends PsiElement<Void> {
      * The player to reset the title and subtitle for
      */
     @Nullable
-    protected PsiElement<?> player;
+    protected final PsiElement<?> player;
 
     /**
      * Creates a new element with the given line number

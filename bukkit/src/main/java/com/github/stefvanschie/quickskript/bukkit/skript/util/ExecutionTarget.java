@@ -73,7 +73,7 @@ public enum ExecutionTarget {
      * @since 0.1.0
      */
     @Nullable
-    @Contract(value = "null -> null", pure = true)
+    @Contract(pure = true)
     public static ExecutionTarget parse(@NotNull String input) {
         input = input.toLowerCase();
 

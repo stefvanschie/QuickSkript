@@ -20,7 +20,7 @@ public class PsiLoadServerIconEffect extends PsiElement<Void> {
      * The path to the server icon
      */
     @NotNull
-    protected PsiElement<?> path;
+    protected final PsiElement<?> path;
 
     /**
      * Creates a new element with the given line number

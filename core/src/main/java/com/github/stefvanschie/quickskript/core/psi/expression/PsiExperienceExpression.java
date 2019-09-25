@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
  *
  * @since 0.1.0
  */
-public class PsiExperienceExpression extends PsiElement<Integer> implements Addable, Removable, RemoveAllable,
+public class PsiExperienceExpression extends PsiElement<Integer> implements Addable, RemoveAllable,
     Settable {
 
     /**

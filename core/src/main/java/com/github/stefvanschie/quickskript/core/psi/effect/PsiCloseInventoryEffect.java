@@ -20,7 +20,7 @@ public class PsiCloseInventoryEffect extends PsiElement<Void> {
      * The human entity to close the inventory for
      */
     @NotNull
-    protected PsiElement<?> humanEntity;
+    protected final PsiElement<?> humanEntity;
 
     /**
      * Creates a new element with the given line number

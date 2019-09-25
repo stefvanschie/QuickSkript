@@ -35,7 +35,7 @@ public class PsiLanguageExpressionImpl extends PsiLanguageExpression {
     @Contract(pure = true)
     @Override
     protected Text executeImpl(@Nullable Context context) {
-        return Text.parseLiteral(this.player.execute(context, Player.class).getLocale());
+        return Text.parseLiteral(player.execute(context, Player.class).getLocale());
     }
 
     /**

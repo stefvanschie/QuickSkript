@@ -42,7 +42,7 @@ public class SkriptFileSection extends SkriptFileNode {
     @NotNull
     @Contract(pure = true)
     public List<SkriptFileNode> getNodes() {
-        return nodes;
+        return nodes; //TODO this is mutable, is that on purpose?
     }
 
     /**

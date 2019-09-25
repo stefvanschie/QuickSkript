@@ -32,14 +32,14 @@ public class PsiFeedEffectImpl extends PsiFeedEffect {
     @Nullable
     @Override
     protected Void executeImpl(@Nullable Context context) {
-        var player = this.player.execute(context, Player.class);
+        Player player = this.player.execute(context, Player.class);
 
         if (amount == null) {
             player.setFoodLevel(20);
             return null;
         }
 
-        var amount = this.amount.execute(context, Number.class);
+        Number amount = this.amount.execute(context, Number.class);
 
         player.setFoodLevel(player.getFoodLevel() + (int) amount.doubleValue());
         return null;

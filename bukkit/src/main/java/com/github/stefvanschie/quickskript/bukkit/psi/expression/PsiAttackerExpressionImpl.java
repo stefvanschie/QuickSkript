@@ -52,9 +52,9 @@ public class PsiAttackerExpressionImpl extends PsiAttackerExpression {
 
         registerExtractor(EntityDeathEvent.class, event -> {
             EntityDamageEvent lastDamageCause = event.getEntity().getLastDamageCause();
-            return !(lastDamageCause instanceof EntityDamageByEntityEvent)
-                    ? null
-                    : ((EntityDamageByEntityEvent) lastDamageCause).getDamager();
+            return lastDamageCause instanceof EntityDamageByEntityEvent
+                    ? ((EntityDamageByEntityEvent) lastDamageCause).getDamager()
+                    : null;
         });
     }
 

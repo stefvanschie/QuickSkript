@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -48,7 +49,7 @@ public class RegexGroup implements SkriptPatternGroup {
 
         do {
             String subInput = builder.toString();
-            var matcher = pattern.matcher(subInput);
+            Matcher matcher = pattern.matcher(subInput);
 
             matcher.results().forEach(matchResult -> {
                 if (matcher.start() != 0) {

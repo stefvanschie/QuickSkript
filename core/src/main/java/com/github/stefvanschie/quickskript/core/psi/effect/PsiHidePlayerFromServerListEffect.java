@@ -20,7 +20,7 @@ public class PsiHidePlayerFromServerListEffect extends PsiElement<Void> {
      * The player toh ide from the server list
      */
     @NotNull
-    protected PsiElement<?> player;
+    protected final PsiElement<?> player;
 
     /**
      * Creates a new element with the given line number

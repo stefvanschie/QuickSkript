@@ -20,12 +20,12 @@ public class PsiOpEffect extends PsiElement<Void> {
      * The player to op/de-op
      */
     @NotNull
-    protected PsiElement<?> offlinePlayer;
+    protected final PsiElement<?> offlinePlayer;
 
     /**
      * True if this effect will op the player, false if it will de-op them
      */
-    protected boolean op;
+    protected final boolean op;
 
     /**
      * Creates a new element with the given line number
