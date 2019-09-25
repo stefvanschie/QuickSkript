@@ -4,6 +4,8 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -20,6 +22,16 @@ public final class Text {
     private final List<TextPart> parts = new ArrayList<>();
 
     /**
+     * Creates a new text message with the specified {@link TextPart}s
+     *
+     * @param parts the parts to initialize this message with
+     * @since 0.1.0
+     */
+    public Text(Collection<TextPart> parts) {
+        this.parts.addAll(parts);
+    }
+
+    /**
      * Creates a new text message with one {@link TextPart}
      *
      * @param part the part to initialize this message with
@@ -27,6 +39,26 @@ public final class Text {
      */
     private Text(TextPart part) {
         parts.add(part);
+    }
+
+    /**
+     * Creates a new text message that is completely empty
+     *
+     * @since 0.1.0
+     */
+    private Text() {}
+
+    /**
+     * Gets the parts this piece of text is made of. This {@link List} retains the order of the parts as they would
+     * appear when printed: a part at index 0 comes before an element at index 1. The returned {@link List} is immutable.
+     *
+     * @return the parts of this text
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public List<TextPart> getParts() {
+        return Collections.unmodifiableList(parts);
     }
 
     /**
@@ -87,5 +119,17 @@ public final class Text {
     @Contract("null -> fail")
     public static Text parseLiteral(@NotNull String text) {
         return new Text(new TextString(text));
+    }
+
+    /**
+     * Gets a new instance of an empty {@link Text}
+     *
+     * @return an empty text
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public static Text empty() {
+        return new Text();
     }
 }

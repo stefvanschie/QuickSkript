@@ -5,7 +5,7 @@ package com.github.stefvanschie.quickskript.core.util.text;
  *
  * @since 0.1.0
  */
-interface TextPart {
+public interface TextPart {
 
     /**
      * Adds this {@link TextPart} instance to the end of
