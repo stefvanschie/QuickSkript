@@ -56,7 +56,7 @@ public class SkriptFileSection extends SkriptFileNode {
     @Contract(pure = true)
     public PsiElement<?>[] parseNodes() {
         Deque<PsiElement<?>> result = new ArrayDeque<>(nodes.size());
-        SkriptLoader loader = SkriptLoader.get();
+        var loader = SkriptLoader.get();
 
         PsiIf latestValidIf = null;
 

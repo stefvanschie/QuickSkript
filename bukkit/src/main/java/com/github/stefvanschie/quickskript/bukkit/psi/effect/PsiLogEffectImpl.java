@@ -42,7 +42,7 @@ public class PsiLogEffectImpl extends PsiLogEffect {
     @Nullable
     @Override
     protected Void executeImpl(@Nullable Context context) {
-        QuickSkript instance = QuickSkript.getInstance();
+        var instance = QuickSkript.getInstance();
         String text = this.text.execute(context, Text.class).toString();
 
         if (fileName == null) {

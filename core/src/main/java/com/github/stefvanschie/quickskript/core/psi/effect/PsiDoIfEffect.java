@@ -94,7 +94,7 @@ public class PsiDoIfEffect extends PsiElement<Void> {
                 .map(Pair::getY)
                 .toArray(String[]::new);
 
-            SkriptLoader skriptLoader = SkriptLoader.get();
+            var skriptLoader = SkriptLoader.get();
 
             PsiElement<?> expression = skriptLoader.forceParseElement(regexGroups[0], lineNumber);
             PsiElement<?> condition = skriptLoader.forceParseElement(regexGroups[1], lineNumber);
