@@ -21,12 +21,12 @@ public class PsiFlyEffect extends PsiElement<Void> {
      * The player to start/stop flight for
      */
     @NotNull
-    protected PsiElement<?> player;
+    protected final PsiElement<?> player;
 
     /**
      * If true, the {@link #player} will start flying, otherwise they'll stop
      */
-    protected boolean enable;
+    protected final boolean enable;
 
     /**
      * Creates a new element with the given line number

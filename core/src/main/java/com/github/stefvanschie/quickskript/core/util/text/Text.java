@@ -3,7 +3,6 @@ package com.github.stefvanschie.quickskript.core.util.text;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -16,10 +15,10 @@ import java.util.List;
 public final class Text {
 
     /**
-     * A list of all the message parts
+     * An immutable list of all the message parts
      */
     @NotNull
-    private final List<TextPart> parts = new ArrayList<>();
+    private final List<TextPart> parts;
 
     /**
      * Creates a new text message with the specified {@link TextPart}s
@@ -28,7 +27,7 @@ public final class Text {
      * @since 0.1.0
      */
     public Text(Collection<TextPart> parts) {
-        this.parts.addAll(parts);
+        this.parts = List.copyOf(parts);
     }
 
     /**
@@ -38,7 +37,7 @@ public final class Text {
      * @since 0.1.0
      */
     private Text(TextPart part) {
-        parts.add(part);
+        parts = Collections.singletonList(part);
     }
 
     /**
@@ -46,7 +45,9 @@ public final class Text {
      *
      * @since 0.1.0
      */
-    private Text() {}
+    private Text() {
+        parts = Collections.emptyList();
+    }
 
     /**
      * Gets the parts this piece of text is made of. This {@link List} retains the order of the parts as they would
@@ -58,7 +59,7 @@ public final class Text {
     @NotNull
     @Contract(pure = true)
     public List<TextPart> getParts() {
-        return Collections.unmodifiableList(parts);
+        return parts;
     }
 
     /**
@@ -71,6 +72,7 @@ public final class Text {
     @Contract(pure = true)
     @Override
     public String toString() {
+        //TODO this can't be cached because TextParts are mutable, shouldn't it be immutable?
         StringBuilder message = new StringBuilder();
 
         parts.forEach(part -> part.append(message));
@@ -83,16 +85,21 @@ public final class Text {
      */
     @Contract(pure = true)
     @Override
+    public int hashCode() {
+        return toString().hashCode() ^ getClass().hashCode();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Contract(pure = true)
+    @Override
     public boolean equals(@NotNull Object obj) {
         if (obj == this) {
             return true;
         }
 
-        if (!(obj instanceof Text)) {
-            return false;
-        }
-
-        return obj.toString().equals(toString());
+        return obj instanceof Text && obj.toString().equals(toString());
     }
 
     /**

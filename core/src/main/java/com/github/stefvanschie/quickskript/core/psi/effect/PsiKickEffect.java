@@ -20,13 +20,13 @@ public class PsiKickEffect extends PsiElement<Void> {
      * The player to kick
      */
     @NotNull
-    protected PsiElement<?> player;
+    protected final PsiElement<?> player;
 
     /**
      * The reason for kicking the {@link #player}, or null
      */
     @Nullable
-    protected PsiElement<?> reason;
+    protected final PsiElement<?> reason;
 
     /**
      * Creates a new element with the given line number

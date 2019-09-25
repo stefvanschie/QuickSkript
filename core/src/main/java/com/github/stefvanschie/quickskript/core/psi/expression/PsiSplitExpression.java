@@ -56,8 +56,8 @@ public class PsiSplitExpression extends PsiElement<Text[]> {
     @Contract(pure = true)
     @Override
     protected Text[] executeImpl(@Nullable Context context) {
-        String splitPattern = java.util.regex.Pattern.quote(this.delimiter.execute(context, Text.class).toString());
-        String[] splits = this.text.execute(context, Text.class).toString().split(splitPattern);
+        String splitPattern = java.util.regex.Pattern.quote(delimiter.execute(context, Text.class).toString());
+        String[] splits = text.execute(context, Text.class).toString().split(splitPattern);
         Text[] texts = new Text[splits.length];
 
         for (int i = 0; i < splits.length; i++) {

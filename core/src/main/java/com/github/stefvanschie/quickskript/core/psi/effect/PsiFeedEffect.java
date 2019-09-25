@@ -20,13 +20,13 @@ public class PsiFeedEffect extends PsiElement<Void> {
      * The player whose hunger should be restored
      */
     @NotNull
-    protected PsiElement<?> player;
+    protected final PsiElement<?> player;
 
     /**
      * The amount of hunger bars to restore, may be null
      */
     @Nullable
-    protected PsiElement<?> amount;
+    protected final PsiElement<?> amount;
 
     /**
      * Creates a new element with the given line number

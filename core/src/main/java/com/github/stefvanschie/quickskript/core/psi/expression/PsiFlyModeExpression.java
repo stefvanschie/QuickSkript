@@ -22,7 +22,7 @@ public class PsiFlyModeExpression extends PsiElement<Boolean> implements Resetta
     /**
      * The player to get the fly mode from
      */
-    protected PsiElement<?> player;
+    protected final PsiElement<?> player;
 
     /**
      * Creates a new element with the given line number

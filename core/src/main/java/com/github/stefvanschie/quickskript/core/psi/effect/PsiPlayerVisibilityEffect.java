@@ -20,18 +20,18 @@ public class PsiPlayerVisibilityEffect extends PsiElement<Void> {
      * The player to hide/show
      */
     @NotNull
-    protected PsiElement<?> player;
+    protected final PsiElement<?> player;
 
     /**
      * The player to hide/show {@link #player} to/for, or all online players if null
      */
     @Nullable
-    protected PsiElement<?> target;
+    protected final PsiElement<?> target;
 
     /**
      * True if the {@link #player} will be shown, otherwise the {@link #player} will be hidden
      */
-    protected boolean show;
+    protected final boolean show;
 
     /**
      * Creates a new element with the given line number

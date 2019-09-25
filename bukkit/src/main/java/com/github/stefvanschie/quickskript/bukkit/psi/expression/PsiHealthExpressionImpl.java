@@ -45,7 +45,7 @@ public class PsiHealthExpressionImpl extends PsiHealthExpression {
      */
     @Override
     public void add(@Nullable Context context, @NotNull PsiElement<?> object) {
-        var damageable = this.damageable.execute(context, Damageable.class);
+        Damageable damageable = this.damageable.execute(context, Damageable.class);
 
         damageable.setHealth(damageable.getHealth() + object.execute(context, Number.class).doubleValue() * 2.0);
     }
@@ -55,7 +55,7 @@ public class PsiHealthExpressionImpl extends PsiHealthExpression {
      */
     @Override
     public void delete(@Nullable Context context) {
-        this.damageable.execute(context, Damageable.class).setHealth(0);
+        damageable.execute(context, Damageable.class).setHealth(0);
     }
 
     /**
@@ -63,7 +63,7 @@ public class PsiHealthExpressionImpl extends PsiHealthExpression {
      */
     @Override
     public void remove(@Nullable Context context, @NotNull PsiElement<?> object) {
-        var damageable = this.damageable.execute(context, Damageable.class);
+        Damageable damageable = this.damageable.execute(context, Damageable.class);
 
         damageable.setHealth(damageable.getHealth() - object.execute(context, Number.class).doubleValue() * 2.0);
     }
@@ -73,7 +73,7 @@ public class PsiHealthExpressionImpl extends PsiHealthExpression {
      */
     @Override
     public void reset(@Nullable Context context) {
-        var object = this.damageable.execute(context);
+        Object object = damageable.execute(context);
 
         if (!(object instanceof Attributable) || !(object instanceof Damageable)) {
             throw new ExecutionException("Object must be both an Attributable and a Damageable", lineNumber);
@@ -95,7 +95,7 @@ public class PsiHealthExpressionImpl extends PsiHealthExpression {
     public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
         double health = object.execute(context, Number.class).doubleValue();
 
-        this.damageable.execute(context, Damageable.class).setHealth(health * 2.0);
+        damageable.execute(context, Damageable.class).setHealth(health * 2.0);
     }
 
     /**

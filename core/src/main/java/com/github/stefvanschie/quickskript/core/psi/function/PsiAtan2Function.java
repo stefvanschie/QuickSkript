@@ -84,7 +84,7 @@ public class PsiAtan2Function extends PsiElement<Double> {
                 return null;
             }
 
-            var skriptLoader = SkriptLoader.get();
+            SkriptLoader skriptLoader = SkriptLoader.get();
 
             String xExpression = matcher.group("x");
             PsiElement<?> xElement = skriptLoader.forceParseElement(xExpression, lineNumber);

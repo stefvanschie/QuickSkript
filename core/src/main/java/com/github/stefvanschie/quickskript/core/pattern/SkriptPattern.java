@@ -85,7 +85,7 @@ public class SkriptPattern {
      * Tries to match the given input to this pattern. Returns a {@link SkriptMatchResult} detailing information
      * about the success of this match. This is successful even if not the entire string was matched. The string that
      * wasn't matched can be found inside the {@link SkriptMatchResult}. The match has to start at the start of the
-     * input, it will not match somewhere in the middle of the string.
+     * input, it will not match somewhere in the middle of the string. The list containing these results is mutable.
      *
      * @param input the input to match
      * @return the match result
@@ -94,7 +94,7 @@ public class SkriptPattern {
     @NotNull
     @Contract(pure = true)
     public List<SkriptMatchResult> match(@NotNull String input) {
-        if (groups.size() == 0) {
+        if (groups.isEmpty()) {
             return new ArrayList<>(0);
         }
 

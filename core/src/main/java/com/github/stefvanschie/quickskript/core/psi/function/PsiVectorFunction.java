@@ -92,7 +92,7 @@ public class PsiVectorFunction extends PsiElement<Object> {
             if (values.length != 3)
                 return null;
 
-            var skriptLoader = SkriptLoader.get();
+            SkriptLoader skriptLoader = SkriptLoader.get();
 
             PsiElement<?> x = skriptLoader.forceParseElement(values[0], lineNumber);
             PsiElement<?> y = skriptLoader.forceParseElement(values[1], lineNumber);

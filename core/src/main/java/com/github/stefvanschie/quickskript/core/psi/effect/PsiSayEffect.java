@@ -20,13 +20,13 @@ public class PsiSayEffect extends PsiElement<Void> {
      * The player to send the message for
      */
     @NotNull
-    protected PsiElement<?> player;
+    protected final PsiElement<?> player;
 
     /**
      * The message to send
      */
     @NotNull
-    protected PsiElement<?> text;
+    protected final PsiElement<?> text;
 
     /**
      * Creates a new element with the given line number

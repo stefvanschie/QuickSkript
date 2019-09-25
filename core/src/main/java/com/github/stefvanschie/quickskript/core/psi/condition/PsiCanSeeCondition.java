@@ -25,7 +25,7 @@ public class PsiCanSeeCondition extends PsiElement<Boolean> {
     /**
      * If false, the result of this execution should be negated.
      */
-    protected boolean positive;
+    protected final boolean positive;
 
     /**
      * Creates a new element with the given line number

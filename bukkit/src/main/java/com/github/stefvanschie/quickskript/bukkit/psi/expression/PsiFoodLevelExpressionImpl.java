@@ -5,6 +5,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiFoodLevelExpression;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -44,7 +45,7 @@ public class PsiFoodLevelExpressionImpl extends PsiFoodLevelExpression {
      */
     @Override
     public void add(@Nullable Context context, @NotNull PsiElement<?> object) {
-        var player = forceGetPlayer(context);
+        Player player = forceGetPlayer(context);
 
         player.setFoodLevel(player.getFoodLevel() + (int) (object.execute(context, Number.class).doubleValue() * 2));
     }
@@ -62,7 +63,7 @@ public class PsiFoodLevelExpressionImpl extends PsiFoodLevelExpression {
      */
     @Override
     public void remove(@Nullable Context context, @NotNull PsiElement<?> object) {
-        var player = forceGetPlayer(context);
+        Player player = forceGetPlayer(context);
 
         player.setFoodLevel(player.getFoodLevel() - (int) (object.execute(context, Number.class).doubleValue() * 2));
     }
@@ -97,7 +98,7 @@ public class PsiFoodLevelExpressionImpl extends PsiFoodLevelExpression {
         Player player = null;
 
         if (this.player == null && context != null) {
-            var commandSender = ((ContextImpl) context).getCommandSender();
+            CommandSender commandSender = ((ContextImpl) context).getCommandSender();
 
             if (commandSender instanceof Player) {
                 player = (Player) commandSender;

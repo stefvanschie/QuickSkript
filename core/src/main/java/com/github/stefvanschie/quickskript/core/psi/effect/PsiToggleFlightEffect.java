@@ -20,12 +20,12 @@ public class PsiToggleFlightEffect extends PsiElement<Void> {
      * The player to toggle the flight state for
      */
     @NotNull
-    protected PsiElement<?> player;
+    protected final PsiElement<?> player;
 
     /**
      * True if flight is allowed, otherwise it will be denied
      */
-    protected boolean enabled;
+    protected final boolean enabled;
 
     /**
      * Creates a new element with the given line number

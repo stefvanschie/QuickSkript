@@ -22,7 +22,7 @@ public class PsiGlidingStateExpression extends PsiElement<Boolean> implements Re
      * The living entity to get the gliding state from
      */
     @NotNull
-    protected PsiElement<?> livingEntity;
+    protected final PsiElement<?> livingEntity;
 
     /**
      * Creates a new element with the given line number

@@ -20,18 +20,18 @@ public class PsiBanEffect extends PsiElement<Void> {
      * The object to issue the (IP) ban for
      */
     @NotNull
-    protected PsiElement<?> object;
+    protected final PsiElement<?> object;
 
     /**
      * The reason for the ban
      */
     @Nullable
-    protected PsiElement<?> reason;
+    protected final PsiElement<?> reason;
 
     /**
      * True if this ban is an IP ban, false otherwise
      */
-    protected boolean ipBan;
+    protected final boolean ipBan;
 
     /**
      * Creates a new element with the given line number

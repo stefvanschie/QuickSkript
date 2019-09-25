@@ -15,6 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -65,20 +66,22 @@ public class PsiJoinExpression extends PsiElement<Text> {
     protected Text executeImpl(@Nullable Context context) {
         Object object = texts.execute(context);
 
-        List<Text> texts = new ArrayList<>();
+        List<Text> texts;
 
         if (object instanceof Iterable) {
+            texts = new ArrayList<>();
             for (Text text : (Iterable<Text>) object) {
                 texts.add(text);
             }
         } else if (object instanceof Text[]) {
             texts = Arrays.asList((Text[]) object);
         } else if (object != null && object.getClass().isArray()) {
+            texts = new ArrayList<>(Array.getLength(object));
             for (int index = 0; index < Array.getLength(object); index++) {
                 texts.add((Text) Array.get(object, index));
             }
         } else if (object instanceof Text) {
-            texts.add((Text) object);
+            texts = Collections.singletonList((Text) object);
         } else {
             throw new ExecutionException("Can only join text(s)", lineNumber);
         }
@@ -87,14 +90,7 @@ public class PsiJoinExpression extends PsiElement<Text> {
             return Text.empty();
         }
 
-        Text delimiter;
-
-        if (this.delimiter == null) {
-            delimiter = Text.parseLiteral(", ");
-        } else {
-            delimiter = this.delimiter.execute(context, Text.class);
-        }
-
+        Text delimiter = this.delimiter == null ? Text.parseLiteral(", ") : this.delimiter.execute(context, Text.class);
         List<TextPart> parts = new ArrayList<>(texts.get(0).getParts());
 
         for (int index = 1; index < texts.size(); index++) {

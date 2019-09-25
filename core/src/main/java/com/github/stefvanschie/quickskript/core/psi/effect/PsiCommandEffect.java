@@ -21,13 +21,13 @@ public class PsiCommandEffect extends PsiElement<Void> {
      * The command sender to execute the command
      */
     @Nullable
-    protected PsiElement<?> commandSender;
+    protected final PsiElement<?> commandSender;
 
     /**
      * The name of the command to execute
      */
     @NotNull
-    protected PsiElement<?> commandName;
+    protected final PsiElement<?> commandName;
 
     /**
      * Creates a new element with the given line number

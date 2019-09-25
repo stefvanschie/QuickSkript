@@ -20,7 +20,7 @@ public class PsiKillEffect extends PsiElement<Void> {
      * The entity to kill
      */
     @NotNull
-    protected PsiElement<?> entity;
+    protected final PsiElement<?> entity;
 
     /**
      * Creates a new element with the given line number

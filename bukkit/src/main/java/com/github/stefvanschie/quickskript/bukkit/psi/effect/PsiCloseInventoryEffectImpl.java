@@ -34,7 +34,7 @@ public class PsiCloseInventoryEffectImpl extends PsiCloseInventoryEffect {
     @Nullable
     @Override
     protected Void executeImpl(@Nullable Context context) {
-        var humanEntity = this.humanEntity.execute(context, HumanEntity.class);
+        HumanEntity humanEntity = this.humanEntity.execute(context, HumanEntity.class);
 
         if (Platform.getPlatform().isAvailable(Platform.PAPER)) {
             humanEntity.closeInventory(InventoryCloseEvent.Reason.PLUGIN);

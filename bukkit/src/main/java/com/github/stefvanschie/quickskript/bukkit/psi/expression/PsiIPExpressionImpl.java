@@ -46,7 +46,7 @@ public class PsiIPExpressionImpl extends PsiIPExpression {
     protected Text executeImpl(@Nullable Context context) {
         InetAddress inetAddress;
 
-        if (this.player == null) {
+        if (player == null) {
             if (!(context instanceof EventContext)) {
                 throw new ExecutionException("This expression can only be executed from an event", lineNumber);
             }
@@ -98,6 +98,7 @@ public class PsiIPExpressionImpl extends PsiIPExpression {
             Event event = ((EventContextImpl) context).getEvent();
 
             if (event instanceof PaperServerListPingEvent) {
+                //TODO isn't ServerListPingEvent enough? that way it's not Paper-specific
                 return ((PaperServerListPingEvent) event).getAddress();
             }
 

@@ -26,12 +26,12 @@ public class PsiFilterExpression extends PsiElement<Object> {
     /**
      * The collection to test against
      */
-    private PsiElement<?> collection;
+    private final PsiElement<?> collection;
 
     /**
      * The predicate to match all elements from {@link #collection} against
      */
-    private PsiElement<?> predicate;
+    private final PsiElement<?> predicate;
 
     /**
      * The element that is currently being checked
@@ -63,17 +63,17 @@ public class PsiFilterExpression extends PsiElement<Object> {
     @Contract(pure = true)
     @Override
     protected Object executeImpl(@Nullable Context context) {
-        Object object = this.collection.execute(context);
+        Object object = collection.execute(context);
 
         List<Object> list = new ArrayList<>();
 
         if (object instanceof Iterable) {
-            for (Object obj : ((Iterable<?>) object)) {
+            for (Object obj : (Iterable<?>) object) {
                 list.add(obj);
             }
         } else if (object instanceof Object[]) {
-            list.addAll(Arrays.asList(((Object[]) object)));
-        } else if (object.getClass().isArray()) {
+            list.addAll(Arrays.asList((Object[]) object));
+        } else if (object != null && object.getClass().isArray()) {
             for (int i = 0; i < Array.getLength(object); ++i) {
                 list.add(Array.get(object, i));
             }
