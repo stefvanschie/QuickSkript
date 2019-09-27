@@ -3,16 +3,14 @@ package com.github.stefvanschie.quickskript.core.psi.parsing;
 import com.github.stefvanschie.quickskript.core.psi.TestClassBase;
 import com.github.stefvanschie.quickskript.core.file.SkriptFileNode;
 import com.github.stefvanschie.quickskript.core.file.SkriptFileSection;
+import com.github.stefvanschie.quickskript.core.util.TriFunction;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
 
 /**
  * Tests whether the {@link SkriptFileSection}
@@ -23,25 +21,14 @@ class SkriptFileSectionParseTest extends TestClassBase {
 
     private static final String INDENTATION = "    ";
 
-    private final BiFunction<String, Integer, SkriptFileSection> sectionConstructor;
-    private final BiConsumer<SkriptFileSection, Object[]> sectionParser;
+    private final TriFunction<String, Integer, List<String>, SkriptFileSection> sectionConstructor;
 
     SkriptFileSectionParseTest() throws ReflectiveOperationException {
-        Constructor<SkriptFileSection> constructor = SkriptFileSection.class.getDeclaredConstructor(String.class, int.class);
+        Constructor<SkriptFileSection> constructor = SkriptFileSection.class.getDeclaredConstructor(String.class, int.class, List.class);
         constructor.setAccessible(true);
-        sectionConstructor = (text, lineNumber) -> {
+        sectionConstructor = (text, lineNumber, nodes) -> {
             try {
-                return constructor.newInstance(text, lineNumber);
-            } catch (ReflectiveOperationException e) {
-                throw new RuntimeException(e);
-            }
-        };
-
-        Method parser = SkriptFileSection.class.getDeclaredMethod("parse", List.class, int.class);
-        parser.setAccessible(true);
-        sectionParser = (section, parameters) -> {
-            try {
-                parser.invoke(section, parameters);
+                return constructor.newInstance(text, lineNumber, nodes);
             } catch (ReflectiveOperationException e) {
                 throw new RuntimeException(e);
             }
@@ -61,14 +48,13 @@ class SkriptFileSectionParseTest extends TestClassBase {
             "        call" +
             "call";
 
-        SkriptFileSection root = sectionConstructor.apply("", 1);
-        sectionParser.accept(root, new Object[]{Arrays.asList(text.split("\n")), 1});
+        SkriptFileSection root = sectionConstructor.apply("", 1, Arrays.asList(text.split("\n")));
 
         StringBuilder builder = new StringBuilder();
         appendSection(builder, root, 0);
 
         String result = builder.toString();
-        result = result.substring(0, result.length() - 1); //trailing newline
+        result = result.substring(0, Math.max(result.length() - 1, 0)); //trailing newline
         Assertions.assertEquals(text, result);
     }
 
