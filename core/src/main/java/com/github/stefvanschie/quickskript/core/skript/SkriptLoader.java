@@ -121,7 +121,7 @@ public abstract class SkriptLoader implements AutoCloseable {
                 continue;
             }
 
-            for (var method : factory.getClass().getMethods()) {
+            for (Method method : factory.getClass().getMethods()) {
                 Pattern pattern = method.getAnnotation(Pattern.class);
 
                 if (pattern == null) {

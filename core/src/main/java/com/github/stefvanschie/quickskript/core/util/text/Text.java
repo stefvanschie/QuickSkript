@@ -3,7 +3,6 @@ package com.github.stefvanschie.quickskript.core.util.text;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -16,10 +15,15 @@ import java.util.List;
 public final class Text {
 
     /**
-     * A list of all the message parts
+     * An immutable list of all the message parts
      */
     @NotNull
-    private final List<TextPart> parts = new ArrayList<>();
+    private final List<TextPart> parts;
+
+    /**
+     * The compiled text: all {@link TextPart}s appended after each other
+     */
+    private final String compiled;
 
     /**
      * Creates a new text message with the specified {@link TextPart}s
@@ -28,7 +32,10 @@ public final class Text {
      * @since 0.1.0
      */
     public Text(Collection<TextPart> parts) {
-        this.parts.addAll(parts);
+        this.parts = List.copyOf(parts);
+        StringBuilder builder = new StringBuilder();
+        parts.forEach(part -> part.append(builder));
+        compiled = builder.toString();
     }
 
     /**
@@ -38,7 +45,7 @@ public final class Text {
      * @since 0.1.0
      */
     private Text(TextPart part) {
-        parts.add(part);
+        this(Collections.singletonList(part));
     }
 
     /**
@@ -46,7 +53,9 @@ public final class Text {
      *
      * @since 0.1.0
      */
-    private Text() {}
+    private Text() {
+        this(Collections.emptyList());
+    }
 
     /**
      * Gets the parts this piece of text is made of. This {@link List} retains the order of the parts as they would
@@ -58,7 +67,7 @@ public final class Text {
     @NotNull
     @Contract(pure = true)
     public List<TextPart> getParts() {
-        return Collections.unmodifiableList(parts);
+        return parts;
     }
 
     /**
@@ -71,11 +80,16 @@ public final class Text {
     @Contract(pure = true)
     @Override
     public String toString() {
-        StringBuilder message = new StringBuilder();
+        return compiled;
+    }
 
-        parts.forEach(part -> part.append(message));
-
-        return message.toString();
+    /**
+     * {@inheritDoc}
+     */
+    @Contract(pure = true)
+    @Override
+    public int hashCode() {
+        return compiled.hashCode() ^ getClass().hashCode();
     }
 
     /**
@@ -88,11 +102,7 @@ public final class Text {
             return true;
         }
 
-        if (!(obj instanceof Text)) {
-            return false;
-        }
-
-        return obj.toString().equals(toString());
+        return obj instanceof Text && obj.toString().equals(toString());
     }
 
     /**

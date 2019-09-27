@@ -7,6 +7,7 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiHidePlayerFromServerListEffect;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -41,7 +42,7 @@ public class PsiHidePlayerFromServerListEffectImpl extends PsiHidePlayerFromServ
             throw new ExecutionException("Code needs to be run from an event trigger", lineNumber);
         }
 
-        var event = ((EventContextImpl) context).getEvent();
+        Event event = ((EventContextImpl) context).getEvent();
 
         if (!(event instanceof ServerListPingEvent)) {
             throw new ExecutionException("Code needs to be run from a server list ping trigger", lineNumber);

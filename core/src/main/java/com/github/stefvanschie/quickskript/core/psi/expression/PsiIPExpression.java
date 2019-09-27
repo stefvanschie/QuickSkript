@@ -21,7 +21,7 @@ public class PsiIPExpression extends PsiElement<Text> {
      * The player to get the IP from
      */
     @Nullable
-    protected PsiElement<?> player;
+    protected final PsiElement<?> player;
 
     /**
      * Creates a new element with the given line number

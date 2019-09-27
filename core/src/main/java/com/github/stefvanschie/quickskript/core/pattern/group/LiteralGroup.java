@@ -124,7 +124,7 @@ public class LiteralGroup implements SkriptPatternGroup {
 
         //remove escape characters
         input = input.substring(0, index).replaceAll("\\\\([\\[\\]<>%()])", "$1") +
-            input.substring(index);
+            input.substring(index); //TODO pre-compile pattern
 
         LiteralGroup literalGroup = new LiteralGroup(input.substring(0, index - escapesHit));
 

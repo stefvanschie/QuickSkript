@@ -58,7 +58,7 @@ public class PsiHiddenPlayersExpression extends PsiElement<Collection<?>> {
          * The patterns for parsing {@link PsiHiddenPlayersExpression}s
          */
         @NotNull
-        private SkriptPattern[] patterns = SkriptPattern.parse(
+        private final SkriptPattern[] patterns = SkriptPattern.parse(
             "[(all [[of] the]|the)] hidden players (of|for) %players%",
             "[(all [[of] the]|the)] players hidden (from|for|by) %players%"
         );

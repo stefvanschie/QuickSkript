@@ -20,12 +20,12 @@ public class PsiUnbanEffect extends PsiElement<Void> {
      * The object to undo the (IP) ban for
      */
     @NotNull
-    protected PsiElement<?> object;
+    protected final PsiElement<?> object;
 
     /**
      * True if this ban is an IP ban, false otherwise
      */
-    protected boolean ipBan;
+    protected final boolean ipBan;
 
     /**
      * Creates a new element with the given line number

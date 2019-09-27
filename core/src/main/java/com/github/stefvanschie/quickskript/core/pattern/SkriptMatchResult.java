@@ -54,7 +54,7 @@ public class SkriptMatchResult {
      * @since 0.1.0
      */
     public void removeMatchedGroup(@NotNull SkriptPatternGroup group) {
-        matchedGroups.remove(group);
+        matchedGroups.remove(group); //TODO List<Pair<...>> won't contain SkriptPatternGroup
     }
 
     /**
@@ -101,7 +101,7 @@ public class SkriptMatchResult {
     @Contract(pure = true)
     public SkriptMatchResult shallowCopy() {
         SkriptMatchResult result = new SkriptMatchResult();
-        result.matchedGroups.addAll(new ArrayList<>(matchedGroups));
+        result.matchedGroups.addAll(matchedGroups);
         result.restingString = restingString;
         result.parseMark = parseMark;
 

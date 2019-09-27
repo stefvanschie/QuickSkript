@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Array;
+import java.util.stream.IntStream;
 
 /**
  * Returns an array of the indices of a collection
@@ -54,7 +55,7 @@ public class PsiIndicesExpression extends PsiElement<int[]> {
         int size = 0;
 
         if (object instanceof Iterable) {
-            for (Object ignored : (Iterable) object) {
+            for (Object ignored : (Iterable<?>) object) {
                 size++;
             }
         } else if (object instanceof Object[]) {
@@ -65,13 +66,7 @@ public class PsiIndicesExpression extends PsiElement<int[]> {
             throw new ExecutionException("Can only get the indices from a collection", lineNumber);
         }
 
-        int[] indices = new int[size];
-
-        for (int i = 0; i < indices.length; i++) {
-            indices[i] = i + 1;
-        }
-
-        return indices;
+        return IntStream.rangeClosed(1, size).toArray();
     }
 
     /**

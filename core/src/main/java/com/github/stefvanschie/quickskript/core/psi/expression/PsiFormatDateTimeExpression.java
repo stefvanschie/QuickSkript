@@ -57,15 +57,9 @@ public class PsiFormatDateTimeExpression extends PsiElement<String> {
     @Nullable
     @Override
     protected String executeImpl(@Nullable Context context) {
-        String pattern;
+        String pattern = this.format == null ? "yyyy-MM-dd HH:mm:ss z" : format.execute(context, String.class);
 
-        if (this.format == null) {
-            pattern = "yyyy-MM-dd HH:mm:ss z";
-        } else {
-            pattern = format.execute(context, String.class);
-        }
-
-        var dateTimeFormatter = DateTimeFormatter.ofPattern(pattern).withZone(ZoneId.systemDefault());
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(pattern).withZone(ZoneId.systemDefault());
 
         return dateTime.execute(context, LocalDateTime.class).format(dateTimeFormatter);
     }

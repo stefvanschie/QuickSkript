@@ -30,7 +30,7 @@ public interface SkriptPatternGroup {
      *
      * This method returns a {@link SkriptMatchResult} if a successful match has been found. If this returns null, this,
      * or any called groups, were unable to match the given input, while satisfying their group's respective
-     * restrictions.
+     * restrictions. The list containing these results is mutable.
      *
      * Once this method has found a way to consume the input, it should call this method on the next appropriate group
      * from followingGroups by itself. The passed in followingGroups should be the same, however the first element

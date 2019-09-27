@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
  *
  * @since 0.1.0
  */
-public class PsiExhaustionExpression extends PsiElement<Float> implements Addable, Deletable, Removable, RemoveAllable,
+public class PsiExhaustionExpression extends PsiElement<Float> implements Addable, Deletable, RemoveAllable,
     Resettable, Settable {
 
     /**

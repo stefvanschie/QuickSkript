@@ -264,8 +264,7 @@ class SkriptPatternMatchTest {
 
     @Test
     void testParseMarks() {
-        PARSE_MARKS_PATTERNS.forEach((pattern, pair) -> {
-            assertTrue(pattern.match(pair.getX()).stream().anyMatch(match -> match.getParseMark() == pair.getY()));
-        });
+        PARSE_MARKS_PATTERNS.forEach((pattern, pair) -> assertTrue(pattern.match(pair.getX())
+                .stream().anyMatch(match -> match.getParseMark() == pair.getY())));
     }
 }

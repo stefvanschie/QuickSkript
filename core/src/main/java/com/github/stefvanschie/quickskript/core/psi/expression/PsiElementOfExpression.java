@@ -69,8 +69,7 @@ public class PsiElementOfExpression extends PsiElement<Object> {
         }
 
         if (object instanceof Iterable) {
-            //noinspection unchecked
-            ((Iterable) object).forEach(elements::add);
+            ((Iterable<?>) object).forEach(elements::add);
         } else if (object instanceof Object[]) {
             elements.addAll(Arrays.asList((Object[]) object));
         } else if (object.getClass().isArray()) {

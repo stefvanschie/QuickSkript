@@ -19,7 +19,7 @@ public class PsiPlayerInfoEffect extends PsiElement<Void> {
     /**
      * If true, the information will be shown, otherwise the information will be hidden
      */
-    protected boolean show;
+    protected final boolean show;
 
     /**
      * Creates a new element with the given line number

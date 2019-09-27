@@ -8,10 +8,7 @@ import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.List;
+import java.util.*;
 
 /**
  * Represents a section of skript lines
@@ -21,20 +18,26 @@ import java.util.List;
 public class SkriptFileSection extends SkriptFileNode {
 
     /**
-     * The underlying nodes in this section
+     * An immutable list of the underlying nodes in this section
      */
     @NotNull
-    private final List<SkriptFileNode> nodes = new ArrayList<>();
+    private final List<SkriptFileNode> nodes;
 
     /**
-     * {@inheritDoc}
+     * Creates a new section with the specified text
+     *
+     * @param text the text
+     * @param lineNumber the line number of the text this node represents
+     * @param nodes the nodes to parse
+     * @since 0.1.0
      */
-    SkriptFileSection(@NotNull String text, int lineNumber) {
+    SkriptFileSection(@NotNull String text, int lineNumber, @NotNull List<String> nodes) {
         super(text, lineNumber);
+        this.nodes = Collections.unmodifiableList(parse(nodes));
     }
 
     /**
-     * Returns a list of nodes
+     * Returns an immutable list of the underlying nodes in this section
      *
      * @return the nodes
      * @since 0.1.0
@@ -56,7 +59,7 @@ public class SkriptFileSection extends SkriptFileNode {
     @Contract(pure = true)
     public PsiElement<?>[] parseNodes() {
         Deque<PsiElement<?>> result = new ArrayDeque<>(nodes.size());
-        SkriptLoader loader = SkriptLoader.get();
+        var loader = SkriptLoader.get();
 
         PsiIf latestValidIf = null;
 
@@ -96,23 +99,25 @@ public class SkriptFileSection extends SkriptFileNode {
      * Parses a section from the given header and strings
      *
      * @param nodes the underlying nodes
-     * @param lineNumberOffset the offset of the line number from the starting node. This value represents the line
-     * number of the first node in the list.
+     * @return a mutable list of parsed nodes
      * @since 0.1.0
      */
-    void parse(@NotNull List<String> nodes, int lineNumberOffset) {
+    private List<SkriptFileNode> parse(@NotNull List<String> nodes) {
+        int lineNumberOffset = getLineNumber();
+        List<SkriptFileNode> outputNodes = new ArrayList<>();
+
         for (int index = 0; index < nodes.size(); index++) {
+            lineNumberOffset++;
+
             String node = nodes.get(index);
 
             if (node.isEmpty()) {
                 continue;
             }
 
-            int newLineNumberOffset = lineNumberOffset + index;
-
             //isn't a section
             if (!node.endsWith(":")) {
-                getNodes().add(new SkriptFileLine(node, newLineNumberOffset));
+                outputNodes.add(new SkriptFileLine(node, lineNumberOffset));
                 continue;
             }
 
@@ -145,15 +150,13 @@ public class SkriptFileSection extends SkriptFileNode {
             }
 
             String header = nodes.get(index);
+            header = header.substring(0, header.length() - 1);
 
-            SkriptFileSection skriptFileSection =
-                    new SkriptFileSection(header.substring(0, header.length() - 1), newLineNumberOffset);
-
-            skriptFileSection.parse(strings, newLineNumberOffset + 1);
-
-            getNodes().add(skriptFileSection);
+            outputNodes.add(new SkriptFileSection(header, lineNumberOffset, strings));
 
             index += strings.size();
         }
+
+        return outputNodes;
     }
 }

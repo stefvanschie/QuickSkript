@@ -20,12 +20,12 @@ public class PsiShearEffect extends PsiElement<Void> {
      * The sheep to shear or grow back wool on
      */
     @NotNull
-    protected PsiElement<?> sheep;
+    protected final PsiElement<?> sheep;
 
     /**
      * True if the {@link #sheep} will be sheared, otherwise the sheep will grow back wool
      */
-    protected boolean shear;
+    protected final boolean shear;
 
     /**
      * Creates a new element with the given line number

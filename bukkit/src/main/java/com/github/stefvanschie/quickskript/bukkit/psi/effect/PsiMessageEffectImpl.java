@@ -52,11 +52,11 @@ public class PsiMessageEffectImpl extends PsiMessageEffect {
         Object object = Objects.requireNonNull(message.execute(context));
 
         if (object instanceof Iterable) {
-            for (Object obj : ((Iterable<?>) object)) {
+            for (Object obj : (Iterable<?>) object) {
                 receiver.sendMessage(obj.toString());
             }
         } else if (object instanceof Object[]) {
-            for (Object obj : ((Object[]) object)) {
+            for (Object obj : (Object[]) object) {
                 receiver.sendMessage(obj.toString());
             }
         } else if (object.getClass().isArray()) {

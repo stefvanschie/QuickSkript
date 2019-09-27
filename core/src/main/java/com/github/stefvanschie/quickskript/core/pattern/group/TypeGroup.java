@@ -142,7 +142,7 @@ public class TypeGroup implements SkriptPatternGroup {
             );
         }
 
-        var constraint = Constraint.ALL;
+        Constraint constraint = Constraint.ALL;
 
         switch (input.charAt(1)) {
             case '*':

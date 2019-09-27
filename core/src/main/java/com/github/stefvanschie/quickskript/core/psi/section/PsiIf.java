@@ -28,7 +28,7 @@ public class PsiIf extends PsiSection {
     /**
      * The condition of the execution.
      */
-    private PsiElement<?> condition;
+    private final PsiElement<?> condition;
 
     /**
      * The section which should get executed if the condition is not met, if any.

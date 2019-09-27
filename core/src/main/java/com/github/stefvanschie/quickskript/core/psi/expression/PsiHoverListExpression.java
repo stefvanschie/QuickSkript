@@ -91,7 +91,7 @@ public class PsiHoverListExpression extends PsiElement<Collection<Text>> impleme
          * The patterns for matching {@link PsiHoverListExpression}s
          */
         @NotNull
-        private SkriptPattern[] patterns = SkriptPattern.parse(
+        private final SkriptPattern[] patterns = SkriptPattern.parse(
             "[the] [custom] [(player|server)] (hover|sample) ([message] list|message)",
             "[the] [custom] player [(hover|sample)] list"
         );

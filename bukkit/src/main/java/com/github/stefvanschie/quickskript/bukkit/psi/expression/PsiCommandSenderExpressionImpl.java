@@ -13,7 +13,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,11 +61,13 @@ public class PsiCommandSenderExpressionImpl extends PsiCommandSenderExpression {
         Method cached = CACHED_METHODS.get(eventClass);
 
         if (cached == null) {
-            cached = Arrays.stream(eventClass.getMethods())
-                    .filter(method -> method.getParameterCount() == 0 &&
-                            CommandSender.class.isAssignableFrom(method.getReturnType()))
-                    .findFirst()
-                    .orElse(NO_VALID_METHOD_FLAG);
+            cached = NO_VALID_METHOD_FLAG;
+            for (Method method : eventClass.getMethods()) {
+                if (method.getParameterCount() == 0 && CommandSender.class.isAssignableFrom(method.getReturnType())) {
+                    cached = method;
+                    break;
+                }
+            }
 
             CACHED_METHODS.put(eventClass, cached);
         }
