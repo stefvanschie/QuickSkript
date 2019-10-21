@@ -1,7 +1,7 @@
 package com.github.stefvanschie.quickskript.bukkit.skript;
 
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
-import com.github.stefvanschie.quickskript.bukkit.QuickSkript;
+import com.github.stefvanschie.quickskript.bukkit.plugin.QuickSkript;
 import com.github.stefvanschie.quickskript.bukkit.event.ComplexEventProxyFactory;
 import com.github.stefvanschie.quickskript.bukkit.event.EventProxyFactory;
 import com.github.stefvanschie.quickskript.bukkit.event.SimpleEventProxyFactory;
@@ -13,6 +13,7 @@ import com.github.stefvanschie.quickskript.bukkit.psi.function.PsiVectorFunction
 import com.github.stefvanschie.quickskript.bukkit.psi.function.PsiWorldFunctionImpl;
 import com.github.stefvanschie.quickskript.bukkit.psi.literal.PsiPlayerLiteralImpl;
 import com.github.stefvanschie.quickskript.bukkit.skript.util.ExecutionTarget;
+import com.github.stefvanschie.quickskript.bukkit.util.CommandMapWrapper;
 import com.github.stefvanschie.quickskript.bukkit.util.Platform;
 import com.github.stefvanschie.quickskript.bukkit.util.event.ExperienceOrbSpawnEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.QuickSkriptPostEnableEvent;
@@ -36,10 +37,8 @@ import com.github.stefvanschie.quickskript.core.skript.Skript;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Enderman;
 import org.bukkit.entity.Sheep;
@@ -56,20 +55,14 @@ import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.event.vehicle.*;
 import org.bukkit.event.weather.LightningStrikeEvent;
 import org.bukkit.event.world.*;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.SimplePluginManager;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -89,43 +82,17 @@ public class BukkitSkriptLoader extends SkriptLoader {
     private List<EventProxyFactory> events;
 
     /**
-     * The constructor of {@link PluginCommand} wrapped into a {@link Function}.
+     * The wrapper that allows the creation and registration of commands.
      */
     @NotNull
-    private final Function<String, PluginCommand> commandConstructor;
-
-    /**
-     * The internally used instance of the {@link CommandMap}.
-     */
-    @NotNull
-    private final CommandMap commandMap;
+    private final CommandMapWrapper commandMapWrapper = new CommandMapWrapper();
 
     /**
      * Create a new instance, initializing it with all default (non-addon) data.
      *
      * @since 0.1.0
      */
-    public BukkitSkriptLoader() {
-        try {
-            Constructor<PluginCommand> rawConstructor = PluginCommand.class.getDeclaredConstructor(String.class, Plugin.class);
-            rawConstructor.setAccessible(true);
-
-            commandConstructor = name -> {
-                try {
-                    return rawConstructor.newInstance(name, QuickSkript.getInstance());
-                } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-                    throw new AssertionError("Error while constructing a PluginCommand instance:", e);
-                }
-            };
-
-            Field commandMapField = SimplePluginManager.class.getDeclaredField("commandMap");
-            commandMapField.setAccessible(true);
-            commandMap = (CommandMap) commandMapField.get(Bukkit.getPluginManager());
-
-        } catch (NoSuchMethodException | NoSuchFieldException | IllegalAccessException e) {
-            throw new AssertionError("Error while getting the CommandMap:", e);
-        }
-    }
+    public BukkitSkriptLoader() {}
 
     /**
      * {@inheritDoc}
@@ -477,7 +444,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
     public void tryRegisterCommand(Skript skript, SkriptFileSection section) {
         String commandName = section.getText().substring("command /".length());
 
-        PluginCommand command = commandConstructor.apply(commandName);
+        PluginCommand command = commandMapWrapper.create(commandName);
 
         List<SkriptFileLine> lines = section.getNodes().stream()
             .filter(node -> node instanceof SkriptFileLine)
@@ -541,7 +508,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
 
         command.setExecutor(new SkriptCommandExecutor(skript, trigger, target));
 
-        commandMap.register("quickskript", command);
+        commandMapWrapper.register(command);
     }
 
     /**

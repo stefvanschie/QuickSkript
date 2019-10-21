@@ -12,7 +12,7 @@ import java.util.Collections;
  *
  * @since 0.1.0
  */
-public class EmptySkriptProfiler extends SkriptProfiler {
+public class NoOpSkriptProfiler extends SkriptProfiler<Object> {
 
     /**
      * {@inheritDoc}
@@ -25,7 +25,7 @@ public class EmptySkriptProfiler extends SkriptProfiler {
      */
     @Nullable
     @Override
-    public TimingEntry getTimingEntry(@NotNull Class<? extends Context> contextType, @NotNull Identifier identifier) {
+    public Object getEntry(@NotNull Class<? extends Context> contextType, @NotNull Identifier identifier) {
         return null;
     }
 
@@ -34,7 +34,7 @@ public class EmptySkriptProfiler extends SkriptProfiler {
      */
     @NotNull
     @Override
-    public Collection<Identifier> getTimingEntryIdentifiers(@NotNull Class<? extends Context> contextType) {
+    public Collection<Identifier> getEntryIdentifiers(@NotNull Class<? extends Context> contextType) {
         return Collections.emptySet();
     }
 }

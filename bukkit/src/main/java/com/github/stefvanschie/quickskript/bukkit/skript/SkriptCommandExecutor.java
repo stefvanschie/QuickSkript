@@ -1,6 +1,6 @@
 package com.github.stefvanschie.quickskript.bukkit.skript;
 
-import com.github.stefvanschie.quickskript.bukkit.QuickSkript;
+import com.github.stefvanschie.quickskript.bukkit.plugin.QuickSkript;
 import com.github.stefvanschie.quickskript.bukkit.context.CommandContextImpl;
 import com.github.stefvanschie.quickskript.bukkit.skript.util.ExecutionTarget;
 import com.github.stefvanschie.quickskript.core.context.CommandContext;

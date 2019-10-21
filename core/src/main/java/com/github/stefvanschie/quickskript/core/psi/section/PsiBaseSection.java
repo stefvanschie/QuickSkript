@@ -95,7 +95,7 @@ public class PsiBaseSection extends PsiSection {
             }
         }
 
-        skript.getSkriptProfiler().onTimeMeasured(contextType, profilerIdentifier,
+        SkriptProfiler.getActive().onTimeMeasured(contextType, profilerIdentifier,
             System.nanoTime() - startTime);
         return null;
     }

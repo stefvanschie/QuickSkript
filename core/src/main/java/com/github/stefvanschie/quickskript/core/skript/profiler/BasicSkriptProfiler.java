@@ -7,17 +7,16 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 /**
- * A simple profiler: it just implements the interface.
- * Should be good enough in most cases.
+ * A simple profiler: only stores the call counts and the total elapsed times
  *
  * @since 0.1.0
  */
-public class SimpleSkriptProfiler extends SkriptProfiler {
+public class BasicSkriptProfiler extends SkriptProfiler<BasicSkriptProfiler.Entry> {
 
     /**
      * The storage of the profiler entries
      */
-    private final Map<Class<? extends Context>, Map<Identifier, SimpleEntry>> storage = new IdentityHashMap<>();
+    private final Map<Class<? extends Context>, Map<Identifier, Entry>> storage = new IdentityHashMap<>();
 
     /**
      * {@inheritDoc}
@@ -25,7 +24,7 @@ public class SimpleSkriptProfiler extends SkriptProfiler {
     @Override
     public void onTimeMeasured(@NotNull Class<? extends Context> contextType, @NotNull Identifier identifier, long elapsedTime) {
         storage.computeIfAbsent(contextType, type -> new HashMap<>())
-                .computeIfAbsent(identifier, id -> new SimpleEntry())
+                .computeIfAbsent(identifier, id -> new Entry())
                 .add(elapsedTime);
     }
 
@@ -34,8 +33,8 @@ public class SimpleSkriptProfiler extends SkriptProfiler {
      */
     @Nullable
     @Override
-    public TimingEntry getTimingEntry(@NotNull Class<? extends Context> contextType, @NotNull Identifier identifier) {
-        Map<Identifier, SimpleEntry> entries = storage.get(contextType);
+    public BasicSkriptProfiler.Entry getEntry(@NotNull Class<? extends Context> contextType, @NotNull Identifier identifier) {
+        Map<Identifier, Entry> entries = storage.get(contextType);
         return entries == null ? null : entries.get(identifier);
     }
 
@@ -44,16 +43,15 @@ public class SimpleSkriptProfiler extends SkriptProfiler {
      */
     @NotNull
     @Override
-    public Collection<Identifier> getTimingEntryIdentifiers(@NotNull Class<? extends Context> contextType) {
-        Map<Identifier, SimpleEntry> entries = storage.get(contextType);
+    public Collection<Identifier> getEntryIdentifiers(@NotNull Class<? extends Context> contextType) {
+        Map<Identifier, Entry> entries = storage.get(contextType);
         return entries == null ? Collections.emptySet() : entries.keySet();
     }
 
-
     /**
-     * A simple implementation of a profiler entry.
+     * The entry {@link BasicSkriptProfiler} uses.
      */
-    private static class SimpleEntry implements TimingEntry {
+    public static class Entry {
 
         /**
          * The number of times the elapsed time was recorded
@@ -61,14 +59,14 @@ public class SimpleSkriptProfiler extends SkriptProfiler {
         private int count;
 
         /**
-         * The sum of the elapsed times
+         * The sum of the elapsed times, in nanoseconds
          */
         private long totalTime;
 
         /**
          * Stores one more execution of the entry point associated with this entry.
          *
-         * @param elapsedTime the time which elapsed during execution this time
+         * @param elapsedTime the time in nanoseconds which elapsed during execution this time
          */
         void add(long elapsedTime) {
             count++;
@@ -76,17 +74,21 @@ public class SimpleSkriptProfiler extends SkriptProfiler {
         }
 
         /**
-         * {@inheritDoc}
+         * Gets the number of times the elapsed time was recorded.
+         *
+         * @return the number of times the elapsed time was recorded
+         * @since 0.1.0
          */
-        @Override
         public int getCalledCount() {
             return count;
         }
 
         /**
-         * {@inheritDoc}
+         * Gets the sum of all recorded elapsed times in nanoseconds.
+         *
+         * @return the elapsed time sum in nanoseconds
+         * @since 0.1.0
          */
-        @Override
         public long getTotalElapsedTime() {
             return totalTime;
         }

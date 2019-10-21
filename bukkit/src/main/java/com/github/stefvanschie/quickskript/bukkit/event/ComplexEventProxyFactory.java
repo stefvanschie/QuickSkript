@@ -1,6 +1,6 @@
 package com.github.stefvanschie.quickskript.bukkit.event;
 
-import com.github.stefvanschie.quickskript.bukkit.QuickSkript;
+import com.github.stefvanschie.quickskript.bukkit.plugin.QuickSkript;
 import com.github.stefvanschie.quickskript.bukkit.skript.SkriptEventExecutor;
 import com.github.stefvanschie.quickskript.bukkit.util.Platform;
 import org.bukkit.Bukkit;
