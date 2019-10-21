@@ -2,6 +2,7 @@ package com.github.stefvanschie.quickskript.core.skript.profiler;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.Skript;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -11,9 +12,36 @@ import java.util.Objects;
 /**
  * A profiler capable of measuring the execution times of each Skript entry-point.
  *
+ * @param <T> the type of entries this profiler holds
  * @since 0.1.0
  */
-public abstract class SkriptProfiler {
+public abstract class SkriptProfiler<T> {
+
+    /**
+     * A {@link SkriptProfiler} to be used by all skripts
+     */
+    @NotNull
+    private static SkriptProfiler<?> active = new NoOpSkriptProfiler();
+
+    /**
+     * Gets the current profiler instance.
+     *
+     * @return the profiler instance that is to be used
+     */
+    @NotNull
+    @Contract(pure = true)
+    public static SkriptProfiler<?> getActive() {
+        return active;
+    }
+
+    /**
+     * Sets the current profiler instance.
+     *
+     * @param active the new profiler instance
+     */
+    public static void setActive(@NotNull SkriptProfiler<?> active) {
+        SkriptProfiler.active = active;
+    }
 
     /**
      * Called whenever the code inside an entry point was (successfully) executed.
@@ -34,7 +62,7 @@ public abstract class SkriptProfiler {
      * @since 0.1.0
      */
     @Nullable
-    public abstract TimingEntry getTimingEntry(@NotNull Class<? extends Context> contextType, @NotNull Identifier identifier);
+    public abstract T getEntry(@NotNull Class<? extends Context> contextType, @NotNull Identifier identifier);
 
     /**
      * Gets all entry identifiers which have entries associated with them.
@@ -44,32 +72,7 @@ public abstract class SkriptProfiler {
      * @since 0.1.0
      */
     @NotNull
-    public abstract Collection<Identifier> getTimingEntryIdentifiers(@NotNull Class<? extends Context> contextType);
-
-
-    /**
-     * A profiler empty which stores the timings associated with an entry point.
-     *
-     * @since 0.1.0
-     */
-    public interface TimingEntry {
-
-        /**
-         * Gets the number of times the elapsed time was recorded.
-         *
-         * @return the number of times the elapsed time was recorded
-         * @since 0.1.0
-         */
-        int getCalledCount();
-
-        /**
-         * Gets the sum of all recorded elapsed times in nanoseconds.
-         *
-         * @return the elapsed time sum in nanoseconds
-         * @since 0.1.0
-         */
-        long getTotalElapsedTime();
-    }
+    public abstract Collection<Identifier> getEntryIdentifiers(@NotNull Class<? extends Context> contextType);
 
     /**
      * An identifier which is given to each Skript code entry point.

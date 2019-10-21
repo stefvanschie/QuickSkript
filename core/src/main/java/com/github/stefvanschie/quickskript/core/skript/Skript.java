@@ -2,8 +2,6 @@ package com.github.stefvanschie.quickskript.core.skript;
 
 import com.github.stefvanschie.quickskript.core.file.SkriptFile;
 import com.github.stefvanschie.quickskript.core.file.SkriptFileSection;
-import com.github.stefvanschie.quickskript.core.skript.profiler.SimpleSkriptProfiler;
-import com.github.stefvanschie.quickskript.core.skript.profiler.SkriptProfiler;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -22,12 +20,6 @@ public class Skript {
      */
     @NotNull
     private final SkriptFile file;
-
-    /**
-     * A {@link SkriptProfiler} to be used by all skripts
-     */
-    @NotNull
-    private static final SkriptProfiler PROFILER = new SimpleSkriptProfiler();
 
     /**
      * Constructs a new skript object
@@ -75,15 +67,6 @@ public class Skript {
                 .filter(node -> node.getText().startsWith("command")
                         && node instanceof SkriptFileSection)
                 .forEach(node -> registerCommand((SkriptFileSection) node));
-    }
-
-    /**
-     * Gets the global {@link SkriptProfiler}
-     *
-     * @return the profiler
-     */
-    public SkriptProfiler getSkriptProfiler() {
-        return PROFILER;
     }
 
     /**

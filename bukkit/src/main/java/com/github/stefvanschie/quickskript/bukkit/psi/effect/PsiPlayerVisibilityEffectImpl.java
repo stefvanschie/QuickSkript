@@ -1,6 +1,6 @@
 package com.github.stefvanschie.quickskript.bukkit.psi.effect;
 
-import com.github.stefvanschie.quickskript.bukkit.QuickSkript;
+import com.github.stefvanschie.quickskript.bukkit.plugin.QuickSkript;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiPlayerVisibilityEffect;

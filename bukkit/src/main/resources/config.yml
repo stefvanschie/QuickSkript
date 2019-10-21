@@ -1,0 +1,13 @@
+# TODO Some cool header
+
+# Sets the global skript execution profiler implementation
+# The choices are:
+#  - noop: doesn't do anything
+#  - basic: saves the call counts and the total elapsed times
+#  - whole: saves the individual elapsed times of each call
+profiler-implementation: basic
+
+# Whether the /skexec command should be enabled
+# Description: Allows the execution of single line Skripts from the chat
+# Permission: quickskript.exec
+enable-execute-command: true
