@@ -116,7 +116,7 @@ public class PsiCommandExpression extends PsiElement<String> {
          * constructor parameters.
          *
          * @param part the part of the command we want to get
-         * @param lineNumber the line numnber
+         * @param lineNumber the line number
          * @return the expression
          * @since 0.1.0
          */

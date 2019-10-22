@@ -40,6 +40,6 @@ public interface TriFunction<T, U, V, R> {
     @Contract(pure = true)
     default <W> TriFunction<T, U, V, W> andThen(@NotNull Function<? super R, ? extends W> after) {
         Objects.requireNonNull(after);
-        return (T t, U u, V v) -> after.apply(apply(t, u, v));
+        return (t, u, v) -> after.apply(apply(t, u, v));
     }
 }

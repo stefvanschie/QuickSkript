@@ -1,5 +1,7 @@
 package com.github.stefvanschie.quickskript.core.file;
 
+import com.github.stefvanschie.quickskript.core.skript.Skript;
+import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,11 +19,24 @@ import java.util.regex.Pattern;
  *
  * @since 0.1.0
  */
-public class SkriptFile {
+public class FileSkript implements Skript {
+
+    /**
+     * The name of this Skript. In case of real Skript files,
+     * ths is the file name without the extension.
+     */
+    private final String name;
+
+    /**
+     * The section which stores all information of this file
+     */
+    @NotNull
+    private final SkriptFileSection section;
 
     /**
      * Loads a skript file from a given file
      *
+     * @param name the name of the Skript
      * @param file the actual file
      * @return the skript file
      * @throws IOException if an error occurs while reading the file
@@ -29,37 +44,39 @@ public class SkriptFile {
      */
     @NotNull
     @Contract(pure = true)
-    public static SkriptFile load(@NotNull File file) throws IOException {
+    public static FileSkript load(@NotNull String name, @NotNull File file) throws IOException {
         if (!file.isFile() || !file.canRead()) {
             throw new IllegalArgumentException("The file must be a valid, readable, existing file.");
         }
 
-        return loadInternal(Files.readAllLines(file.toPath()));
+        return loadInternal(name, Files.readAllLines(file.toPath()));
     }
 
     /**
      * Loads a skript file from the given lines
      *
+     * @param name the name of the Skript
      * @param lines the lines to load (will be cloned - won't be modified)
      * @return the skript file
      * @since 0.1.0
      */
     @NotNull
     @Contract(pure = true)
-    public static SkriptFile load(@NotNull List<String> lines) {
-        return loadInternal(new ArrayList<>(lines));
+    public static FileSkript load(@NotNull String name, @NotNull List<String> lines) {
+        return loadInternal(name, new ArrayList<>(lines));
     }
 
     /**
      * Loads a skript file from the given lines.
      * This method mutates its parameter, therefore should only be used internally.
      *
+     * @param name the name of the Skript
      * @param lines the lines to load
      * @return the skript file
      * @since 0.1.0
      */
     @NotNull
-    private static SkriptFile loadInternal(@NotNull List<String> lines) {
+    private static FileSkript loadInternal(@NotNull String name, @NotNull List<String> lines) {
         //remove comments
         for (int i = 0; i < lines.size(); i++) {
             String line = lines.get(i);
@@ -77,15 +94,15 @@ public class SkriptFile {
         //remove trailing spaces and replace \t with four spaces
         for (int i = 0; i < lines.size(); i++) {
             lines.set(i, lines.get(i)
-                .replace("\t", "    ") //replace tabs with four spaces (U+0020)
-                .replaceAll("\\s+$", "")); //remove trailing spaces
+                    .replace("\t", "    ") //replace tabs with four spaces (U+0020)
+                    .replaceAll("\\s+$", "")); //remove trailing spaces
 
             Matcher matcher = Pattern.compile("^\\s+").matcher(lines.get(i));
             lines.set(i, matcher.replaceAll(result -> " ".repeat(result.group().length())));
             //TODO pre-compile patterns
         }
 
-        return new SkriptFile(new SkriptFileSection("", 0, lines));
+        return new FileSkript(name, new SkriptFileSection("", 0, lines));
     }
 
     /**
@@ -104,18 +121,23 @@ public class SkriptFile {
     }
 
     /**
-     * The section which stores all information of this file
-     */
-    @NotNull
-    private final SkriptFileSection section;
-
-    /**
      * Creates a new instance backed by the specified section
      *
+     * @param name the name of the Skript
      * @param section the backing section of this file
      */
-    private SkriptFile(@NotNull SkriptFileSection section) {
+    private FileSkript(@NotNull String name, @NotNull SkriptFileSection section) {
+        this.name = name;
         this.section = section;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @NotNull
+    @Override
+    public String getName() {
+        return name;
     }
 
     /**
@@ -128,5 +150,49 @@ public class SkriptFile {
     @Contract(pure = true)
     public List<SkriptFileNode> getNodes() {
         return section.getNodes();
+    }
+
+    /**
+     * Registers all events in this skript
+     *
+     * @since 0.1.0
+     */
+    public void registerEventExecutors() {
+        getNodes().stream()
+                .filter(node -> node instanceof SkriptFileSection)
+                .map(node -> (SkriptFileSection) node)
+                .forEach(this::registerEvent);
+    }
+
+    /**
+     * Registers all commands in this skript
+     *
+     * @since 0.1.0
+     */
+    public void registerCommands() {
+        getNodes().stream()
+                .filter(node -> node.getText().startsWith("command")
+                        && node instanceof SkriptFileSection)
+                .forEach(node -> registerCommand((SkriptFileSection) node));
+    }
+
+    /**
+     * Registers an individual command from the given section
+     *
+     * @param section the command section which starts with 'command'
+     * @since 0.1.0
+     */
+    private void registerCommand(@NotNull SkriptFileSection section) {
+        SkriptLoader.get().tryRegisterCommand(this, section);
+    }
+
+    /**
+     * Registers an individual event from the given section
+     *
+     * @param section the command section which starts with 'on'
+     * @since 0.1.0
+     */
+    private void registerEvent(@NotNull SkriptFileSection section) {
+        SkriptLoader.get().tryRegisterEvent(this, section);
     }
 }

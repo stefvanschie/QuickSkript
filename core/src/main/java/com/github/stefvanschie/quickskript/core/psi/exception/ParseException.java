@@ -1,6 +1,6 @@
 package com.github.stefvanschie.quickskript.core.psi.exception;
 
-import com.github.stefvanschie.quickskript.core.file.SkriptFile;
+import com.github.stefvanschie.quickskript.core.skript.Skript;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -39,14 +39,13 @@ public class ParseException extends RuntimeException {
      * A line separator is inserted at the start for convenience.
      * This method should always be used when the exception gets handled.
      *
-     * @param fileName the name of the {@link SkriptFile}
-     * in which the code which caused this exception is
+     * @param skript the Skript in which the code which caused this exception is
      * @return extra information regarding this exception
      * @since 0.1.0
      */
     @NotNull
     @Contract(pure = true)
-    public String getExtraInfo(@NotNull String fileName) {
-        return System.lineSeparator() + "Skript file: " + fileName + " | Line number: " + lineNumber;
+    public String getExtraInfo(@NotNull Skript skript) {
+        return System.lineSeparator() + "Skript name: " + skript.getName() + " | Line number: " + lineNumber;
     }
 }

@@ -1,7 +1,6 @@
 package com.github.stefvanschie.quickskript.core.psi;
 
-import com.github.stefvanschie.quickskript.core.file.SkriptFile;
-import com.github.stefvanschie.quickskript.core.skript.Skript;
+import com.github.stefvanschie.quickskript.core.file.FileSkript;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.skript.StandaloneSkriptLoader;
 import org.jetbrains.annotations.NotNull;
@@ -29,11 +28,11 @@ public class TestClassBase {
     }
 
     @NotNull
-    protected static Collection<Skript> getSampleSkripts() {
+    protected static Collection<FileSkript> getSampleSkripts() {
         return getSampleSkriptFiles().parallelStream()
                 .map(file -> {
                     try {
-                        return new Skript(SkriptFile.getName(file), SkriptFile.load(file));
+                        return FileSkript.load(FileSkript.getName(file), file);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }

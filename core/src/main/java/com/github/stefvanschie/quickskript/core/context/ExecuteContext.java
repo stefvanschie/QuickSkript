@@ -1,15 +1,10 @@
 package com.github.stefvanschie.quickskript.core.context;
 
-import com.github.stefvanschie.quickskript.core.file.FileSkript;
+import com.github.stefvanschie.quickskript.core.skript.SingleLineSkript;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * An event context to indicate the code is being ran from an event.
- *
- * @since 0.1.0
- */
-public interface EventContext extends Context {
+public interface ExecuteContext extends Context {
 
     /**
      * {@inheritDoc}
@@ -17,5 +12,5 @@ public interface EventContext extends Context {
     @NotNull
     @Contract(pure = true)
     @Override
-    FileSkript getSkript();
+    SingleLineSkript getSkript();
 }

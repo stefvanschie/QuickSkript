@@ -3,9 +3,8 @@ package com.github.stefvanschie.quickskript.bukkit.plugin;
 import com.github.stefvanschie.quickskript.bukkit.skript.BukkitSkriptLoader;
 import com.github.stefvanschie.quickskript.bukkit.util.event.ExperienceOrbSpawnEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.QuickSkriptPostEnableEvent;
-import com.github.stefvanschie.quickskript.core.file.SkriptFile;
+import com.github.stefvanschie.quickskript.core.file.FileSkript;
 import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
-import com.github.stefvanschie.quickskript.core.skript.Skript;
 import com.github.stefvanschie.quickskript.core.skript.profiler.BasicSkriptProfiler;
 import com.github.stefvanschie.quickskript.core.skript.profiler.NoOpSkriptProfiler;
 import com.github.stefvanschie.quickskript.core.skript.profiler.SkriptProfiler;
@@ -109,13 +108,13 @@ public class QuickSkript extends JavaPlugin {
             return;
         }
 
-        List<Skript> skripts = Arrays.stream(Objects.requireNonNull(skriptFolder.listFiles()))
+        List<FileSkript> skripts = Arrays.stream(Objects.requireNonNull(skriptFolder.listFiles()))
                 .parallel()
                 .filter(file -> file.isFile() && file.getName().endsWith(".sk"))
                 .map(file -> {
-                    String skriptName = SkriptFile.getName(file);
+                    String skriptName = FileSkript.getName(file);
                     try {
-                        return new Skript(skriptName, SkriptFile.load(file));
+                        return FileSkript.load(skriptName, file);
                     } catch (IOException e) {
                         getLogger().log(Level.SEVERE, "Unable to load skript named " + skriptName, e);
                         return null;
@@ -124,12 +123,12 @@ public class QuickSkript extends JavaPlugin {
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
 
-        for (Skript skript : skripts) {
+        for (FileSkript skript : skripts) {
             try {
                 skript.registerCommands();
                 skript.registerEventExecutors();
             } catch (ParseException e) {
-                getLogger().log(Level.SEVERE, "Error while parsing:" + e.getExtraInfo(skript.getName()), e);
+                getLogger().log(Level.SEVERE, "Error while parsing:" + e.getExtraInfo(skript), e);
             }
         }
     }
