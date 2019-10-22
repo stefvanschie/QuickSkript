@@ -2,6 +2,7 @@ package com.github.stefvanschie.quickskript.bukkit.context;
 
 import com.github.stefvanschie.quickskript.core.context.CommandContext;
 import com.github.stefvanschie.quickskript.core.file.FileSkript;
+import com.github.stefvanschie.quickskript.core.skript.Skript;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +18,7 @@ public class CommandContextImpl implements ContextImpl, CommandContext {
      * The skript that is executing this code
      */
     @NotNull
-    private final FileSkript skript;
+    private final Skript skript;
 
     /**
      * The executor of the command
@@ -32,7 +33,7 @@ public class CommandContextImpl implements ContextImpl, CommandContext {
      * @param sender the executor of the command
      * @since 0.1.0
      */
-    public CommandContextImpl(@NotNull FileSkript skript, @NotNull CommandSender sender) {
+    public CommandContextImpl(@NotNull Skript skript, @NotNull CommandSender sender) {
         this.skript = skript;
         this.sender = sender;
     }
@@ -53,7 +54,7 @@ public class CommandContextImpl implements ContextImpl, CommandContext {
     @NotNull
     @Contract(pure = true)
     @Override
-    public FileSkript getSkript() {
+    public Skript getSkript() {
         return skript;
     }
 }
