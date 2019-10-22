@@ -28,9 +28,6 @@ public class PsiIsOnGroundConditionImpl extends PsiIsOnGroundCondition {
         super(entity, positive, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -45,9 +42,6 @@ public class PsiIsOnGroundConditionImpl extends PsiIsOnGroundCondition {
      */
     public static class Factory extends PsiIsOnGroundCondition.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

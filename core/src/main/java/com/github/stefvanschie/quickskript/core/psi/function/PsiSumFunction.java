@@ -46,9 +46,6 @@ public class PsiSumFunction extends PsiElement<Double> {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Override
     protected Double executeImpl(@Nullable Context context) {

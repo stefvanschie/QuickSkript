@@ -27,9 +27,6 @@ public class PsiOpEffectImpl extends PsiOpEffect {
         super(offlinePlayer, op, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Contract(pure = true)
     @Override
@@ -46,9 +43,6 @@ public class PsiOpEffectImpl extends PsiOpEffect {
      */
     public static class Factory extends PsiOpEffect.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

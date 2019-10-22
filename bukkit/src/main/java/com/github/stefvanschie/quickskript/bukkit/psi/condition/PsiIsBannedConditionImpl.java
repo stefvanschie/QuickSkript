@@ -33,9 +33,6 @@ public class PsiIsBannedConditionImpl extends PsiIsBannedCondition {
         super(object, positive, ipBan, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Contract(pure = true)
     @Override
@@ -67,9 +64,6 @@ public class PsiIsBannedConditionImpl extends PsiIsBannedCondition {
      */
     public static class Factory extends PsiIsBannedCondition.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

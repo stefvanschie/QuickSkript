@@ -16,9 +16,6 @@ import org.jetbrains.annotations.Nullable;
  */
 public class PsiCancelEventEffect extends PsiElement<Void> {
 
-    /**
-     * {@inheritDoc}
-     */
     protected PsiCancelEventEffect(int lineNumber) {
         super(lineNumber);
     }

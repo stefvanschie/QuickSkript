@@ -26,9 +26,6 @@ public class PsiGlidingStateExpressionImpl extends PsiGlidingStateExpression {
         super(livingEntity, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -36,17 +33,11 @@ public class PsiGlidingStateExpressionImpl extends PsiGlidingStateExpression {
         return livingEntity.execute(context, LivingEntity.class).isGliding();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void reset(@Nullable Context context) {
         livingEntity.execute(context, LivingEntity.class).setGliding(false);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
         livingEntity.execute(context, LivingEntity.class).setGliding(object.execute(context, Boolean.class));
@@ -59,9 +50,6 @@ public class PsiGlidingStateExpressionImpl extends PsiGlidingStateExpression {
      */
     public static class Factory extends PsiGlidingStateExpression.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

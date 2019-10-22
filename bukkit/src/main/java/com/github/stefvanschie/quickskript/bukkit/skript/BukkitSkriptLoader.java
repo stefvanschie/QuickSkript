@@ -94,9 +94,6 @@ public class BukkitSkriptLoader extends SkriptLoader {
      */
     public BukkitSkriptLoader() {}
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void registerDefaultElements() {
         //effects
@@ -239,27 +236,18 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiStringLiteral.Factory());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void registerDefaultSections() {
         registerSection(new PsiIf.Factory());
         registerSection(new PsiWhile.Factory());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void registerDefaultConverters() {
         registerConverter("number", new PsiNumberLiteral.Converter());
         registerConverter("text", new PsiStringLiteral.Converter());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     @SuppressWarnings("HardcodedFileSeparator")
     public void registerDefaultEvents() {
@@ -437,9 +425,6 @@ public class BukkitSkriptLoader extends SkriptLoader {
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @SuppressWarnings("HardcodedFileSeparator")
     @Override
     public void tryRegisterCommand(Skript skript, SkriptFileSection section) {
@@ -512,9 +497,6 @@ public class BukkitSkriptLoader extends SkriptLoader {
         commandMapWrapper.register(command);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void tryRegisterEvent(Skript skript, SkriptFileSection section) {
         String input = section.getText();

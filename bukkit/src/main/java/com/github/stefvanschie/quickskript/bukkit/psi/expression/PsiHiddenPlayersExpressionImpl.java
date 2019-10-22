@@ -29,9 +29,6 @@ public class PsiHiddenPlayersExpressionImpl extends PsiHiddenPlayersExpression {
         super(player, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -46,9 +43,6 @@ public class PsiHiddenPlayersExpressionImpl extends PsiHiddenPlayersExpression {
      */
     public static class Factory extends PsiHiddenPlayersExpression.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

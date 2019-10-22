@@ -29,9 +29,6 @@ public class PsiDamageExpressionImpl extends PsiDamageExpression {
         super(lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -58,9 +55,6 @@ public class PsiDamageExpressionImpl extends PsiDamageExpression {
      */
     public static class Factory extends PsiDamageExpression.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

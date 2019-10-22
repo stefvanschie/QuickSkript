@@ -54,9 +54,6 @@ public class PsiElementOfExpression extends PsiElement<Object> {
         this.elements = elements;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Contract(pure = true)
     @Override

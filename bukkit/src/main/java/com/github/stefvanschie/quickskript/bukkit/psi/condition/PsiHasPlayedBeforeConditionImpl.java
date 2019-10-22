@@ -16,16 +16,10 @@ import org.jetbrains.annotations.Nullable;
  */
 public class PsiHasPlayedBeforeConditionImpl extends PsiHasPlayedBeforeCondition {
 
-    /**
-     * {@inheritDoc}
-     */
     private PsiHasPlayedBeforeConditionImpl(@NotNull PsiElement<?> player, boolean positive, int lineNumber) {
         super(player, positive, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -40,9 +34,6 @@ public class PsiHasPlayedBeforeConditionImpl extends PsiHasPlayedBeforeCondition
      */
     public static class Factory extends PsiHasPlayedBeforeCondition.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

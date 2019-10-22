@@ -53,9 +53,6 @@ public class PsiIndexOfExpression extends PsiElement<Integer> {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override

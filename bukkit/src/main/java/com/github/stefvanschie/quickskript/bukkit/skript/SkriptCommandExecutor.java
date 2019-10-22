@@ -56,9 +56,6 @@ public class SkriptCommandExecutor implements CommandExecutor {
         elements = new PsiBaseSection(skript, section, CommandContext.class);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (executionTarget != null && !executionTarget.matches(sender)) {

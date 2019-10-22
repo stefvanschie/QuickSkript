@@ -28,9 +28,6 @@ public class PsiLanguageExpressionImpl extends PsiLanguageExpression {
         super(player, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -45,9 +42,6 @@ public class PsiLanguageExpressionImpl extends PsiLanguageExpression {
      */
     public static class Factory extends PsiLanguageExpression.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

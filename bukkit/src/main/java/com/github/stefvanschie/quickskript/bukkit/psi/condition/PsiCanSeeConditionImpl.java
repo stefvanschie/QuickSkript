@@ -29,9 +29,6 @@ public class PsiCanSeeConditionImpl extends PsiCanSeeCondition {
         super(player, targetPlayer, positive, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Contract(pure = true)
     @Override
@@ -46,9 +43,6 @@ public class PsiCanSeeConditionImpl extends PsiCanSeeCondition {
      */
     public static class Factory extends PsiCanSeeCondition.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

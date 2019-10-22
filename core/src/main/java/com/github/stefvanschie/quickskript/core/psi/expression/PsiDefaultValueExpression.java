@@ -47,9 +47,6 @@ public class PsiDefaultValueExpression extends PsiElement<Object> {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Contract(pure = true)
     @Override

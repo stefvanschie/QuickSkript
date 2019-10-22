@@ -45,9 +45,6 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         //TODO: Add all events
     );
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void registerDefaultElements() {
         //effects
@@ -190,18 +187,12 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiStringLiteral.Factory());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void registerDefaultSections() {
         registerSection(new PsiIf.Factory());
         registerSection(new PsiWhile.Factory());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void registerDefaultConverters() {
         registerConverter("number", new PsiNumberLiteral.Converter());

@@ -28,9 +28,6 @@ public class PsiIsSneakingConditionImpl extends PsiIsSneakingCondition {
         super(player, positive, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -45,9 +42,6 @@ public class PsiIsSneakingConditionImpl extends PsiIsSneakingCondition {
      */
     public static class Factory extends PsiIsSneakingCondition.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

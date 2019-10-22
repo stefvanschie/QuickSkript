@@ -42,9 +42,6 @@ public class PsiInverseCosineFunction extends PsiElement<Double> {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Override
     protected Double executeImpl(@Nullable Context context) {

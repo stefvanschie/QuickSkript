@@ -89,9 +89,6 @@ public class PsiNumberLiteral extends PsiPrecomputedHolder<Double> {
      */
     public static class Converter implements PsiConverter<PsiNumberLiteral> {
 
-        /**
-         * {@inheritDoc}
-         */
         @Nullable
         @Contract(pure = true)
         @Override

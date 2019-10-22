@@ -28,9 +28,6 @@ public class PsiIsBurningConditionImpl extends PsiIsBurningCondition {
         super(entity, positive, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -45,9 +42,6 @@ public class PsiIsBurningConditionImpl extends PsiIsBurningCondition {
      */
     public static class Factory extends PsiIsBurningCondition.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

@@ -26,9 +26,6 @@ public class PsiKillEffectImpl extends PsiKillEffect {
         super(entity, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Override
     protected Void executeImpl(@Nullable Context context) {
@@ -44,9 +41,6 @@ public class PsiKillEffectImpl extends PsiKillEffect {
      */
     public static class Factory extends PsiKillEffect.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

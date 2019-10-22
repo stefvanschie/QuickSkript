@@ -68,9 +68,6 @@ public class PsiAttackerExpressionImpl extends PsiAttackerExpression {
         super(lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Contract(pure = true)
     @Override
@@ -98,9 +95,6 @@ public class PsiAttackerExpressionImpl extends PsiAttackerExpression {
      */
     public static class Factory extends PsiAttackerExpression.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

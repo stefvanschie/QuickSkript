@@ -27,9 +27,6 @@ public class PsiWorldFunctionImpl extends PsiWorldFunction {
         super(parameter, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Override
     public World executeImpl(@Nullable Context context) {
@@ -43,9 +40,6 @@ public class PsiWorldFunctionImpl extends PsiWorldFunction {
      */
     public static class Factory extends PsiWorldFunction.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Override
         public PsiWorldFunctionImpl create(@NotNull PsiElement<?> parameter, int lineNumber) {

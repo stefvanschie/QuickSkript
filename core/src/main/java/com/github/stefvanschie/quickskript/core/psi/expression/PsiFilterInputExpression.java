@@ -35,9 +35,6 @@ public class PsiFilterInputExpression extends PsiElement<Object> {
         this.type = type;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Override
     protected Object executeImpl(@Nullable Context context) {

@@ -44,9 +44,6 @@ public class PsiAtan2Function extends PsiElement<Double> {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Override
     protected Double executeImpl(@Nullable Context context) {

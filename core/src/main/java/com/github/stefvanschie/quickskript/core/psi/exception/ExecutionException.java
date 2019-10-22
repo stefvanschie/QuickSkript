@@ -10,16 +10,10 @@ package com.github.stefvanschie.quickskript.core.psi.exception;
  */
 public class ExecutionException extends ParseException {
 
-    /**
-     * {@inheritDoc}
-     */
     public ExecutionException(String message, int lineNumber) {
         super(message, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public ExecutionException(Throwable cause, int lineNumber) {
         super(cause, lineNumber);
     }

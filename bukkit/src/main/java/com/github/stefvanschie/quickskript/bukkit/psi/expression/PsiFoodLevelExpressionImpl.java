@@ -30,9 +30,6 @@ public class PsiFoodLevelExpressionImpl extends PsiFoodLevelExpression {
         super(player, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -40,9 +37,6 @@ public class PsiFoodLevelExpressionImpl extends PsiFoodLevelExpression {
         return forceGetPlayer(context).getFoodLevel() / 2.0;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void add(@Nullable Context context, @NotNull PsiElement<?> object) {
         Player player = forceGetPlayer(context);
@@ -50,17 +44,11 @@ public class PsiFoodLevelExpressionImpl extends PsiFoodLevelExpression {
         player.setFoodLevel(player.getFoodLevel() + (int) (object.execute(context, Number.class).doubleValue() * 2));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void delete(@Nullable Context context) {
         forceGetPlayer(context).setFoodLevel(0);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void remove(@Nullable Context context, @NotNull PsiElement<?> object) {
         Player player = forceGetPlayer(context);
@@ -68,17 +56,11 @@ public class PsiFoodLevelExpressionImpl extends PsiFoodLevelExpression {
         player.setFoodLevel(player.getFoodLevel() - (int) (object.execute(context, Number.class).doubleValue() * 2));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void reset(@Nullable Context context) {
         forceGetPlayer(context).setFoodLevel(20);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
         forceGetPlayer(context).setFoodLevel((int) (object.execute(context, Number.class).doubleValue() * 2));
@@ -121,9 +103,6 @@ public class PsiFoodLevelExpressionImpl extends PsiFoodLevelExpression {
      */
     public static class Factory extends PsiFoodLevelExpression.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Override
         public PsiFoodLevelExpression create(@Nullable PsiElement<?> player, int lineNumber) {

@@ -51,9 +51,6 @@ public class PsiArithmeticExpression extends PsiElement<Number> {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override

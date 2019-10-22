@@ -38,9 +38,6 @@ public class PsiHoverListExpressionImpl extends PsiHoverListExpression {
         super(lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -63,9 +60,6 @@ public class PsiHoverListExpressionImpl extends PsiHoverListExpression {
             }).collect(Collectors.toList());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void add(@Nullable Context context, @NotNull PsiElement<?> object) {
         if (!(context instanceof EventContext)) {
@@ -81,9 +75,6 @@ public class PsiHoverListExpressionImpl extends PsiHoverListExpression {
         ((PaperServerListPingEvent) event).getPlayerSample().add(forceGetProfile(context, object));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void delete(@Nullable Context context) {
         if (!(context instanceof EventContext)) {
@@ -99,9 +90,6 @@ public class PsiHoverListExpressionImpl extends PsiHoverListExpression {
         ((PaperServerListPingEvent) event).getPlayerSample().clear();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void remove(@Nullable Context context, @NotNull PsiElement<?> object) {
         if (!(context instanceof EventContext)) {
@@ -117,17 +105,11 @@ public class PsiHoverListExpressionImpl extends PsiHoverListExpression {
         ((PaperServerListPingEvent) event).getPlayerSample().remove(forceGetProfile(context, object));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void reset(@Nullable Context context) {
         delete(context);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
         if (!(context instanceof EventContext)) {
@@ -184,9 +166,6 @@ public class PsiHoverListExpressionImpl extends PsiHoverListExpression {
      */
     public static class Factory extends PsiHoverListExpression.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

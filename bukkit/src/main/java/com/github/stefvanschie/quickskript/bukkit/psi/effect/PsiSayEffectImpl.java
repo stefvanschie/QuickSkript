@@ -28,9 +28,6 @@ public class PsiSayEffectImpl extends PsiSayEffect {
         super(player, text, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Override
     protected Void executeImpl(@Nullable Context context) {
@@ -46,9 +43,6 @@ public class PsiSayEffectImpl extends PsiSayEffect {
      */
     public static class Factory extends PsiSayEffect.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

@@ -25,9 +25,6 @@ public class TextString implements TextPart {
         this.text = text;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void append(@NotNull StringBuilder builder) {
         builder.append(text);

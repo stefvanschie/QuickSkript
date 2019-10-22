@@ -28,9 +28,6 @@ public class PsiIsAliveConditionImpl extends PsiIsAliveCondition {
         super(livingEntity, positive, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -45,9 +42,6 @@ public class PsiIsAliveConditionImpl extends PsiIsAliveCondition {
      */
     public static class Factory extends PsiIsAliveCondition.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

@@ -9,9 +9,6 @@ import org.jetbrains.annotations.NotNull;
  */
 public class ParsingAnnotationInvalidValueException extends RuntimeException {
 
-    /**
-     * {@inheritDoc}
-     */
     public ParsingAnnotationInvalidValueException(@NotNull String message) {
         super(message);
     }

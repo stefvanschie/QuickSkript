@@ -16,16 +16,10 @@ import org.jetbrains.annotations.Nullable;
  */
 public class PsiPlayerLiteralImpl extends PsiPlayerLiteral {
 
-    /**
-     * {@inheritDoc}
-     */
     private PsiPlayerLiteralImpl(int lineNumber) {
         super(lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Override
     protected Player executeImpl(@Nullable Context context) {
@@ -49,9 +43,6 @@ public class PsiPlayerLiteralImpl extends PsiPlayerLiteral {
      */
     public static class Factory extends PsiPlayerLiteral.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Override
         public PsiPlayerLiteralImpl create(int lineNumber) {

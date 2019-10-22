@@ -58,9 +58,6 @@ public class PsiEndsWithCondition extends PsiElement<Boolean> {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Contract(pure = true)
     @Override

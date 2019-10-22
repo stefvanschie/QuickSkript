@@ -51,9 +51,6 @@ public class PsiFormatDateTimeExpression extends PsiElement<String> {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Override
     protected String executeImpl(@Nullable Context context) {

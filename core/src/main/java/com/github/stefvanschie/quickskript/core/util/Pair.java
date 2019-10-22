@@ -62,9 +62,6 @@ public class Pair<X, Y> {
         return y;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Pair)) {
@@ -75,9 +72,6 @@ public class Pair<X, Y> {
         return Objects.equals(getX(), other.getX()) && Objects.equals(getY(), other.getY());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int hashCode() {
         int prime = 31;

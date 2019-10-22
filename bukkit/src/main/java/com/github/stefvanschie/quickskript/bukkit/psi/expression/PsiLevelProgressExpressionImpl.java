@@ -27,9 +27,6 @@ public class PsiLevelProgressExpressionImpl extends PsiLevelProgressExpression {
         super(player, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -37,9 +34,6 @@ public class PsiLevelProgressExpressionImpl extends PsiLevelProgressExpression {
         return player.execute(context, Player.class).getExp();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void add(@Nullable Context context, @NotNull PsiElement<?> object) {
         Player player = this.player.execute(context, Player.class);
@@ -49,17 +43,11 @@ public class PsiLevelProgressExpressionImpl extends PsiLevelProgressExpression {
         player.setExp(player.getExp() + exp % 1);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void delete(@Nullable Context context) {
         this.player.execute(context, Player.class).setExp(0);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void remove(@Nullable Context context, @NotNull PsiElement<?> object) {
         Player player = this.player.execute(context, Player.class);
@@ -69,17 +57,11 @@ public class PsiLevelProgressExpressionImpl extends PsiLevelProgressExpression {
         player.setExp(player.getExp() + exp % 1);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void reset(@Nullable Context context) {
         delete(context);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
         Player player = this.player.execute(context, Player.class);
@@ -96,9 +78,6 @@ public class PsiLevelProgressExpressionImpl extends PsiLevelProgressExpression {
      */
     public static class Factory extends PsiLevelProgressExpression.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

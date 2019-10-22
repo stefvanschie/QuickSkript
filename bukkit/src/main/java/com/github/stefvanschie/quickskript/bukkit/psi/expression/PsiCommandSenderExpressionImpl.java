@@ -45,9 +45,6 @@ public class PsiCommandSenderExpressionImpl extends PsiCommandSenderExpression {
         super(lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Contract(pure = true)
     @Override
@@ -90,9 +87,6 @@ public class PsiCommandSenderExpressionImpl extends PsiCommandSenderExpression {
      */
     public static class Factory extends PsiCommandSenderExpression.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

@@ -31,9 +31,6 @@ public class PsiFakeMaxPlayersExpressionImpl extends PsiFakeMaxPlayersExpression
         super(lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -41,9 +38,6 @@ public class PsiFakeMaxPlayersExpressionImpl extends PsiFakeMaxPlayersExpression
         return forceGetServerListPingEvent(context).getMaxPlayers();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void add(@Nullable Context context, @NotNull PsiElement<?> object) {
         ServerListPingEvent serverListPingEvent = forceGetServerListPingEvent(context);
@@ -52,17 +46,11 @@ public class PsiFakeMaxPlayersExpressionImpl extends PsiFakeMaxPlayersExpression
         serverListPingEvent.setMaxPlayers(newMaxPlayers);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void delete(@Nullable Context context) {
         forceGetServerListPingEvent(context).setMaxPlayers(Bukkit.getMaxPlayers());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void remove(@Nullable Context context, @NotNull PsiElement<?> object) {
         ServerListPingEvent serverListPingEvent = forceGetServerListPingEvent(context);
@@ -71,17 +59,11 @@ public class PsiFakeMaxPlayersExpressionImpl extends PsiFakeMaxPlayersExpression
         serverListPingEvent.setMaxPlayers(newMaxPlayers);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void reset(@Nullable Context context) {
         delete(context);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
         forceGetServerListPingEvent(context).setMaxPlayers(object.execute(context, Number.class).intValue());
@@ -118,9 +100,6 @@ public class PsiFakeMaxPlayersExpressionImpl extends PsiFakeMaxPlayersExpression
      */
     public static class Factory extends PsiFakeMaxPlayersExpression.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

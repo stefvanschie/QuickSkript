@@ -72,9 +72,6 @@ public class PsiCollection<T> extends PsiElement<Collection<PsiElement<T>>> {
         this(Arrays.asList(elements), lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override

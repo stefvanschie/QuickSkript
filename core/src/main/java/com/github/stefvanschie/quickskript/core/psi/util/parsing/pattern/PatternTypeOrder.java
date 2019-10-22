@@ -22,8 +22,7 @@ public @interface PatternTypeOrder {
      * however this should likely be overridden to specify an exact pattern index in case needed. Note that it may be
      * easier to move the types as defined in your method's parameters than adding this annotation.
      *
-     * There may not be multiple {@link PatternTypeOrder} annotations on the same method which reference the same
-     * pattern.
+     * There may not be multiple of these annotations on the same method which reference the same pattern.
      *
      * @return the patterns as ordered by the referencing {@link Pattern#value()} annotation. If this references a
      * {@link SkriptPattern[]}, the order is as specified there. If this references a {@link SkriptPattern}, the order
@@ -42,7 +41,7 @@ public @interface PatternTypeOrder {
      * To, for example, reverse the order in which the types are passed to the method's parameter, you'd specify n,
      * n - 1, n - 2, ..., 2, 1, 0. The amount of numbers specified here must be the same as the amount of types in the
      * representing pattern and a number may not be referenced twice in this order. In case you have multiple patterns
-     * with different custom orders, multiple {@link PatternTypeOrder} annotations should be specified in the
+     * with different custom orders, multiple of these annotations should be specified in the
      * {@link Pattern} annotation, since the order specified here will be applied to all patterns as referenced in
      * {@link #patterns}.
      *

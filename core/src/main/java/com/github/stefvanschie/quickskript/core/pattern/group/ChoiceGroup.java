@@ -44,9 +44,6 @@ public class ChoiceGroup implements SkriptPatternGroup {
         this.parseMarks = parseMarks;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -95,9 +92,6 @@ public class ChoiceGroup implements SkriptPatternGroup {
         return results;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override

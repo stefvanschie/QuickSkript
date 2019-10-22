@@ -28,9 +28,6 @@ public class PsiIsBlockingConditionImpl extends PsiIsBlockingCondition {
         super(player, positive, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Contract(pure = true)
     @Override
@@ -45,9 +42,6 @@ public class PsiIsBlockingConditionImpl extends PsiIsBlockingCondition {
      */
     public static class Factory extends PsiIsBlockingCondition.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

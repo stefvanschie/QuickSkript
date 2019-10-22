@@ -24,7 +24,7 @@ public class ExitSectionsPointerMovement {
     private Integer amount;
 
     /**
-     * Creates a new {@link ExitSectionsPointerMovement} which will exit everything
+     * Creates a new instance which will exit everything
      *
      * @since 0.1.0
      */
@@ -33,7 +33,7 @@ public class ExitSectionsPointerMovement {
     }
 
     /**
-     * Creates a new {@link ExitSectionsPointerMovement} which will exit the specified section type(s)
+     * Creates a new instance which will exit the specified section type(s)
      *
      * @param type the type of section to stop, see {@link #type}
      * @since 0.1.0
@@ -43,7 +43,7 @@ public class ExitSectionsPointerMovement {
     }
 
     /**
-     * Creates a new {@link ExitSectionsPointerMovement} which will exit the specified section type(s) for the amount of
+     * Creates a new instance which will exit the specified section type(s) for the amount of
      * layers specified
      *
      * @param type the type of section(s) to exit from

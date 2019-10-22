@@ -27,9 +27,6 @@ public class PsiFlyModeExpressionImpl extends PsiFlyModeExpression {
         super(player, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -37,17 +34,11 @@ public class PsiFlyModeExpressionImpl extends PsiFlyModeExpression {
         return player.execute(context, Player.class).getAllowFlight();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void reset(@Nullable Context context) {
         player.execute(context, Player.class).setAllowFlight(false);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
         player.execute(context, Player.class).setAllowFlight(object.execute(context, Boolean.class));
@@ -60,9 +51,6 @@ public class PsiFlyModeExpressionImpl extends PsiFlyModeExpression {
      */
     public static class Factory extends PsiFlyModeExpression.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

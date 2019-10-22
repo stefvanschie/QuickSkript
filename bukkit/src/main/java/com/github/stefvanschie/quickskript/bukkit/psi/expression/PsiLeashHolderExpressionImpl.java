@@ -28,9 +28,6 @@ public class PsiLeashHolderExpressionImpl extends PsiLeashHolderExpression {
         super(entity, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Contract(pure = true)
     @Override
@@ -47,9 +44,6 @@ public class PsiLeashHolderExpressionImpl extends PsiLeashHolderExpression {
      */
     public static class Factory extends PsiLeashHolderExpression.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

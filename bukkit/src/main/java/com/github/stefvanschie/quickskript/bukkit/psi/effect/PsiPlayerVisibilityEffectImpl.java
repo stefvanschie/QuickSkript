@@ -34,9 +34,6 @@ public class PsiPlayerVisibilityEffectImpl extends PsiPlayerVisibilityEffect {
         super(player, target, show, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Override
     protected Void executeImpl(@Nullable Context context) {
@@ -64,9 +61,6 @@ public class PsiPlayerVisibilityEffectImpl extends PsiPlayerVisibilityEffect {
      */
     public static class Factory extends PsiPlayerVisibilityEffect.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

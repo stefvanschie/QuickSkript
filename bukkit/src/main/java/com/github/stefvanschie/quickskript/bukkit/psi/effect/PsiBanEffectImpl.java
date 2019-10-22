@@ -33,9 +33,6 @@ public class PsiBanEffectImpl extends PsiBanEffect {
         super(object, reason, ipBan, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Contract(value = "_ -> null", pure = true)
     @Override
@@ -66,9 +63,6 @@ public class PsiBanEffectImpl extends PsiBanEffect {
      */
     public static class Factory extends PsiBanEffect.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

@@ -28,9 +28,6 @@ public class PsiIsSleepingConditionImpl extends PsiIsSleepingCondition {
         super(player, positive, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -45,9 +42,6 @@ public class PsiIsSleepingConditionImpl extends PsiIsSleepingCondition {
      */
     public static class Factory extends PsiIsSleepingCondition.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

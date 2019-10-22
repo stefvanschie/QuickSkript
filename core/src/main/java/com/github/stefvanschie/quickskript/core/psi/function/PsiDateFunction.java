@@ -69,9 +69,6 @@ public class PsiDateFunction extends PsiElement<LocalDateTime> {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Override
     protected LocalDateTime executeImpl(@Nullable Context context) {

@@ -42,9 +42,6 @@ public class PsiRoundFunction extends PsiElement<Long> {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Override
     protected Long executeImpl(@Nullable Context context) {

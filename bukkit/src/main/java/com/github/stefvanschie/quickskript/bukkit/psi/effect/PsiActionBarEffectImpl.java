@@ -31,9 +31,6 @@ public class PsiActionBarEffectImpl extends PsiActionBarEffect {
         super(player, text, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Contract(value = "_ -> null", pure = true)
     @SuppressWarnings("deprecation")
@@ -59,9 +56,6 @@ public class PsiActionBarEffectImpl extends PsiActionBarEffect {
      */
     public static class Factory extends PsiActionBarEffect.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

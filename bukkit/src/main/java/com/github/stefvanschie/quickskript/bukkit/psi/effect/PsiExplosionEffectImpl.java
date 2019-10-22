@@ -31,9 +31,6 @@ public class PsiExplosionEffectImpl extends PsiExplosionEffect {
         super(force, safe, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Override
     protected Void executeImpl(@Nullable Context context) {
@@ -67,9 +64,6 @@ public class PsiExplosionEffectImpl extends PsiExplosionEffect {
      */
     public static class Factory extends PsiExplosionEffect.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Override
         public PsiExplosionEffect create(@NotNull PsiElement<?> force, boolean safe, int lineNumber) {

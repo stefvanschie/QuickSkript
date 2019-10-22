@@ -28,9 +28,6 @@ public class PsiCloseInventoryEffectImpl extends PsiCloseInventoryEffect {
         super(humanEntity, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Override
     protected Void executeImpl(@Nullable Context context) {
@@ -52,9 +49,6 @@ public class PsiCloseInventoryEffectImpl extends PsiCloseInventoryEffect {
      */
     public static class Factory extends PsiCloseInventoryEffect.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

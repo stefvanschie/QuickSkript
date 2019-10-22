@@ -16,17 +16,11 @@ import org.jetbrains.annotations.Nullable;
  */
 public class PsiHasPermissionConditionImpl extends PsiHasPermissionCondition {
 
-    /**
-     * {@inheritDoc}
-     */
     private PsiHasPermissionConditionImpl(PsiElement<?> permissible, PsiElement<?> permission, boolean positive,
                                       int lineNumber) {
         super(permissible, permission, positive, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Override
     protected Boolean executeImpl(@Nullable Context context) {
@@ -41,9 +35,6 @@ public class PsiHasPermissionConditionImpl extends PsiHasPermissionCondition {
      */
     public static class Factory extends PsiHasPermissionCondition.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Override
         public PsiHasPermissionConditionImpl create(@NotNull PsiElement<?> permissible,

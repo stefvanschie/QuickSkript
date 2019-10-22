@@ -28,9 +28,6 @@ public class PsiHasClientWeatherConditionImpl extends PsiHasClientWeatherConditi
         super(player, positive, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -45,9 +42,6 @@ public class PsiHasClientWeatherConditionImpl extends PsiHasClientWeatherConditi
      */
     public static class Factory extends PsiHasClientWeatherCondition.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

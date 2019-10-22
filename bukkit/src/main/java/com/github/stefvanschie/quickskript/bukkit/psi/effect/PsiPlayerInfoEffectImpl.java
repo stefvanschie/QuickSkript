@@ -29,9 +29,6 @@ public class PsiPlayerInfoEffectImpl extends PsiPlayerInfoEffect {
         super(show, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Override
     protected Void executeImpl(@Nullable Context context) {
@@ -58,9 +55,6 @@ public class PsiPlayerInfoEffectImpl extends PsiPlayerInfoEffect {
      */
     public static class Factory extends PsiPlayerInfoEffect.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

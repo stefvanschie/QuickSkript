@@ -9,9 +9,6 @@ import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
  */
 public class IllegalFallbackAnnotationAmountException extends RuntimeException {
 
-    /**
-     * {@inheritDoc}
-     */
     public IllegalFallbackAnnotationAmountException(String message) {
         super(message);
     }

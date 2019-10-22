@@ -31,9 +31,6 @@ public class PsiHasScoreboardTagConditionImpl extends PsiHasScoreboardTagConditi
         super(entity, tag, positive, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -50,9 +47,6 @@ public class PsiHasScoreboardTagConditionImpl extends PsiHasScoreboardTagConditi
      */
     public static class Factory extends PsiHasScoreboardTagCondition.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

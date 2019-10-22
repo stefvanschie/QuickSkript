@@ -31,9 +31,6 @@ public class PsiDisplayedMOTDExpressionImpl extends PsiDisplayedMOTDExpression {
         super(lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -51,9 +48,6 @@ public class PsiDisplayedMOTDExpressionImpl extends PsiDisplayedMOTDExpression {
         return Text.parse(((ServerListPingEvent) event).getMotd());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void delete(@Nullable Context context) {
         if (!(context instanceof EventContext)) {
@@ -69,9 +63,6 @@ public class PsiDisplayedMOTDExpressionImpl extends PsiDisplayedMOTDExpression {
         ((ServerListPingEvent) event).setMotd("");
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void reset(@Nullable Context context) {
         if (!(context instanceof EventContext)) {
@@ -87,9 +78,6 @@ public class PsiDisplayedMOTDExpressionImpl extends PsiDisplayedMOTDExpression {
         ((ServerListPingEvent) event).setMotd(Bukkit.getMotd());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
         if (!(context instanceof EventContext)) {
@@ -112,9 +100,6 @@ public class PsiDisplayedMOTDExpressionImpl extends PsiDisplayedMOTDExpression {
      */
     public static class Factory extends PsiDisplayedMOTDExpression.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

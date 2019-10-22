@@ -42,9 +42,6 @@ public class PsiCalculateExperienceFunction extends PsiElement<Long> {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Override
     protected Long executeImpl(@Nullable Context context) {

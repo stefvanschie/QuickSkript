@@ -68,9 +68,6 @@ public class PsiIf extends PsiSection {
         this.elseSection = elseSection;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Override
     protected ExitSectionsPointerMovement executeImpl(@Nullable Context context) {
@@ -129,9 +126,6 @@ public class PsiIf extends PsiSection {
         @NotNull
         private final Pattern pattern = Pattern.compile("if (?<statement>[\\s\\S]+)");
 
-        /**
-         * {@inheritDoc}
-         */
         @Nullable
         @Contract(pure = true)
         @Override

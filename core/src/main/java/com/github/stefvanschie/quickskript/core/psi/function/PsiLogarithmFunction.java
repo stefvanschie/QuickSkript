@@ -50,9 +50,6 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Override
     protected Double executeImpl(@Nullable Context context) {
