@@ -30,9 +30,6 @@ public class PsiMaxHealthExpressionImpl extends PsiMaxHealthExpression {
         super(livingEntity, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -47,9 +44,6 @@ public class PsiMaxHealthExpressionImpl extends PsiMaxHealthExpression {
         return attribute.getValue() / 2.0;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void add(@Nullable Context context, @NotNull PsiElement<?> object) {
         Attributable attributable = livingEntity.execute(context, Attributable.class);
@@ -62,9 +56,6 @@ public class PsiMaxHealthExpressionImpl extends PsiMaxHealthExpression {
         attribute.setBaseValue(attribute.getBaseValue() + object.execute(context, Number.class).doubleValue() * 2);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void remove(@Nullable Context context, @NotNull PsiElement<?> object) {
         Attributable attributable = livingEntity.execute(context, Attributable.class);
@@ -77,9 +68,6 @@ public class PsiMaxHealthExpressionImpl extends PsiMaxHealthExpression {
         attribute.setBaseValue(attribute.getBaseValue() - object.execute(context, Number.class).doubleValue() * 2);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void reset(@Nullable Context context) {
         Attributable attributable = livingEntity.execute(context, Attributable.class);
@@ -92,9 +80,6 @@ public class PsiMaxHealthExpressionImpl extends PsiMaxHealthExpression {
         attribute.setBaseValue(attribute.getDefaultValue());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
         Attributable attributable = livingEntity.execute(context, Attributable.class);
@@ -114,9 +99,6 @@ public class PsiMaxHealthExpressionImpl extends PsiMaxHealthExpression {
      */
     public static class Factory extends PsiMaxHealthExpression.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

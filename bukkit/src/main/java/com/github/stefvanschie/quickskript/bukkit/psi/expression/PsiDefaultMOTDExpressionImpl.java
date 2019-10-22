@@ -44,9 +44,6 @@ public class PsiDefaultMOTDExpressionImpl extends PsiDefaultMOTDExpression {
      */
     public static class Factory extends PsiDefaultMOTDExpression.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

@@ -76,9 +76,6 @@ public class SimpleEventProxyFactory extends EventProxyFactory {
     @NotNull
     private final List<Map.Entry<Class<? extends Event>, Pattern>> eventPatterns = new ArrayList<>();
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean tryRegister(@NotNull String text, @NotNull Supplier<SkriptEventExecutor> toRegisterSupplier) {
         for (Map.Entry<Class<? extends Event>, Pattern> eventPattern : eventPatterns) {

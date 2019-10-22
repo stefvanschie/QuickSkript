@@ -30,9 +30,6 @@ public class PsiCommandExpressionImpl extends PsiCommandExpression {
         super(part, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Override
     protected String executeImpl(@Nullable Context context) {
@@ -76,9 +73,6 @@ public class PsiCommandExpressionImpl extends PsiCommandExpression {
      */
     public static class Factory extends PsiCommandExpression.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

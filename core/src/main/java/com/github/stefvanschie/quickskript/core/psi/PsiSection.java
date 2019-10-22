@@ -40,9 +40,6 @@ public abstract class PsiSection extends PsiElement<ExitSectionsPointerMovement>
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Override
     protected ExitSectionsPointerMovement executeImpl(@Nullable Context context) {

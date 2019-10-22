@@ -27,9 +27,6 @@ public class PsiGravityExpressionImpl extends PsiGravityExpression {
         super(entity, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -37,17 +34,11 @@ public class PsiGravityExpressionImpl extends PsiGravityExpression {
         return entity.execute(context, Entity.class).hasGravity();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void reset(@Nullable Context context) {
         entity.execute(context, Entity.class).setGravity(true);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
         entity.execute(context, Entity.class).setGravity(object.execute(context, Boolean.class));
@@ -60,9 +51,6 @@ public class PsiGravityExpressionImpl extends PsiGravityExpression {
      */
     public static class Factory extends PsiGravityExpression.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

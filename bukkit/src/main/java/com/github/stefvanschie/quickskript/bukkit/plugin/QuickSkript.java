@@ -49,9 +49,6 @@ public class QuickSkript extends JavaPlugin {
         return instance;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void onEnable() {
         instance = this;
@@ -76,9 +73,6 @@ public class QuickSkript extends JavaPlugin {
         pluginManager.callEvent(new QuickSkriptPostEnableEvent());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void onDisable() {
         instance = null;

@@ -29,9 +29,6 @@ public class PsiMessageEffectImpl extends PsiMessageEffect {
         super(message, receiver, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Override
     protected Void executeImpl(@Nullable Context context) {
@@ -77,9 +74,6 @@ public class PsiMessageEffectImpl extends PsiMessageEffect {
      */
     public static class Factory extends PsiMessageEffect.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Override
         public PsiMessageEffectImpl create(@NotNull PsiElement<?> message, @Nullable PsiElement<?> receiver,

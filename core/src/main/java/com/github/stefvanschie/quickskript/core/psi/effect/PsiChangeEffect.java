@@ -55,9 +55,6 @@ public class PsiChangeEffect extends PsiElement<Void> {
         this.changeMode = changeMode;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Override
     protected Void executeImpl(@Nullable Context context) {

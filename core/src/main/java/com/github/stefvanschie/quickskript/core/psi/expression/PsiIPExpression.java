@@ -36,9 +36,6 @@ public class PsiIPExpression extends PsiElement<Text> {
         this.player = player;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Override
     protected Text executeImpl(@Nullable Context context) {

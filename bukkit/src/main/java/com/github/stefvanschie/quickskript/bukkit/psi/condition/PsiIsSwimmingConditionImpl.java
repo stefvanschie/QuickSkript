@@ -28,9 +28,6 @@ public class PsiIsSwimmingConditionImpl extends PsiIsSwimmingCondition {
         super(livingEntity, positive, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -45,9 +42,6 @@ public class PsiIsSwimmingConditionImpl extends PsiIsSwimmingCondition {
      */
     public static class Factory extends PsiIsSwimmingCondition.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

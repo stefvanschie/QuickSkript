@@ -44,9 +44,6 @@ public class PsiIndicesExpression extends PsiElement<int[]> {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override

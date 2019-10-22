@@ -37,9 +37,6 @@ public class RegexGroup implements SkriptPatternGroup {
         this.pattern = Pattern.compile(pattern);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -97,9 +94,6 @@ public class RegexGroup implements SkriptPatternGroup {
         return pattern;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override

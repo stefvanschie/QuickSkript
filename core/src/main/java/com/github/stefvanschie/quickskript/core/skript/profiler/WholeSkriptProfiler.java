@@ -18,9 +18,6 @@ public class WholeSkriptProfiler extends SkriptProfiler<WholeSkriptProfiler.Entr
      */
     private final Map<Class<? extends Context>, Map<Identifier, Entry>> storage = new IdentityHashMap<>();
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void onTimeMeasured(@NotNull Class<? extends Context> contextType, @NotNull Identifier identifier, long elapsedTime) {
         storage.computeIfAbsent(contextType, type -> new HashMap<>())
@@ -28,9 +25,6 @@ public class WholeSkriptProfiler extends SkriptProfiler<WholeSkriptProfiler.Entr
                 .add(elapsedTime);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Override
     public Entry getEntry(@NotNull Class<? extends Context> contextType, @NotNull Identifier identifier) {
@@ -38,9 +32,6 @@ public class WholeSkriptProfiler extends SkriptProfiler<WholeSkriptProfiler.Entr
         return entries == null ? null : entries.get(identifier);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Override
     public Collection<Identifier> getEntryIdentifiers(@NotNull Class<? extends Context> contextType) {

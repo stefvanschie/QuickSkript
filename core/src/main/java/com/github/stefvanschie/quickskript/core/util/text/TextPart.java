@@ -9,8 +9,7 @@ package com.github.stefvanschie.quickskript.core.util.text;
 public interface TextPart {
 
     /**
-     * Adds this {@link TextPart} instance to the end of
-     * the specified {@link StringBuilder}.
+     * Adds this instance to the end of the specified {@link StringBuilder}.
      *
      * @param builder the builder to append to
      * @since 0.1.0

@@ -27,9 +27,6 @@ public class PsiPermissionsExpressionImpl extends PsiPermissionsExpression {
         super(player, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -46,9 +43,6 @@ public class PsiPermissionsExpressionImpl extends PsiPermissionsExpression {
      */
     public static class Factory extends PsiPermissionsExpression.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

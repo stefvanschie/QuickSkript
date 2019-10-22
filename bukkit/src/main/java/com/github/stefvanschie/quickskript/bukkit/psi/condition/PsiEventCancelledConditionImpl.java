@@ -30,9 +30,6 @@ public class PsiEventCancelledConditionImpl extends PsiEventCancelledCondition {
         super(positive, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -54,9 +51,6 @@ public class PsiEventCancelledConditionImpl extends PsiEventCancelledCondition {
      */
     public static class Factory extends PsiEventCancelledCondition.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

@@ -26,9 +26,6 @@ public class PsiFlyEffectImpl extends PsiFlyEffect {
         super(player, enable, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Override
     protected Void executeImpl(@Nullable Context context) {
@@ -47,9 +44,6 @@ public class PsiFlyEffectImpl extends PsiFlyEffect {
      */
     public static class Factory extends PsiFlyEffect.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Override
         public PsiFlyEffect create(@NotNull PsiElement<?> player, boolean enable, int lineNumber) {

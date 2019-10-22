@@ -56,9 +56,6 @@ public class PsiFilterExpression extends PsiElement<Object> {
         predicate.setParent(this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override

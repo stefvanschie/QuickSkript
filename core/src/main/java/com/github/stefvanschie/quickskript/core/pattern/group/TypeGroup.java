@@ -46,9 +46,6 @@ public class TypeGroup implements SkriptPatternGroup {
         this.constraint = constraint;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -108,9 +105,6 @@ public class TypeGroup implements SkriptPatternGroup {
         return type;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override

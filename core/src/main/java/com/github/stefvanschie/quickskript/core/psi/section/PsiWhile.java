@@ -46,9 +46,6 @@ public class PsiWhile extends PsiSection {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Override
     protected ExitSectionsPointerMovement executeImpl(@Nullable Context context) {
@@ -104,9 +101,6 @@ public class PsiWhile extends PsiSection {
         @NotNull
         private final Pattern pattern = Pattern.compile("while (?<statement>[\\s\\S]+)");
 
-        /**
-         * {@inheritDoc}
-         */
         @Nullable
         @Contract(pure = true)
         @Override

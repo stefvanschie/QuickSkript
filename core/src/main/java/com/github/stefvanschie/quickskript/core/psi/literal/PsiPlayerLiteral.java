@@ -19,9 +19,6 @@ import java.util.regex.Pattern;
  */
 public class PsiPlayerLiteral extends PsiElement<Object> {
 
-    /**
-     * {@inheritDoc}
-     */
     protected PsiPlayerLiteral(int lineNumber) {
         super(lineNumber);
     }

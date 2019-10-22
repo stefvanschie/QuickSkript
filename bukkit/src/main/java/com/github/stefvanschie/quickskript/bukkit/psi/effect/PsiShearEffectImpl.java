@@ -27,9 +27,6 @@ public class PsiShearEffectImpl extends PsiShearEffect {
         super(sheep, shear, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Override
     protected Void executeImpl(@Nullable Context context) {
@@ -45,9 +42,6 @@ public class PsiShearEffectImpl extends PsiShearEffect {
      */
     public static class Factory extends PsiShearEffect.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Override
         public PsiShearEffect create(@NotNull PsiElement<?> sheep, boolean shear, int lineNumber) {

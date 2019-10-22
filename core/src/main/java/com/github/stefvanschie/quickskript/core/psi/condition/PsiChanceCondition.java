@@ -48,9 +48,6 @@ public class PsiChanceCondition extends PsiElement<Boolean> {
         this.asPercentage = asPercentage;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Contract(pure = true)
     @Override

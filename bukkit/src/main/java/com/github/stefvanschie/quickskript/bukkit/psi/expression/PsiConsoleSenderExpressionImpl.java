@@ -29,9 +29,6 @@ public class PsiConsoleSenderExpressionImpl extends PsiConsoleSenderExpression {
      */
     public static class Factory extends PsiConsoleSenderExpression.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Override
         public PsiConsoleSenderExpressionImpl create(int lineNumber) {

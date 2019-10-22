@@ -28,9 +28,6 @@ public class PsiCanFlyConditionImpl extends PsiCanFlyCondition {
         super(player, positive, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -45,9 +42,6 @@ public class PsiCanFlyConditionImpl extends PsiCanFlyCondition {
      */
     public static class Factory extends PsiCanFlyCondition.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

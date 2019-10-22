@@ -7,9 +7,6 @@ package com.github.stefvanschie.quickskript.core.file;
  */
 public class SkriptFileLine extends SkriptFileNode {
 
-    /**
-     * {@inheritDoc}
-     */
     SkriptFileLine(String text, int lineNumber) {
         super(text, lineNumber);
     }

@@ -7,9 +7,6 @@ package com.github.stefvanschie.quickskript.core.pattern.exception;
  */
 public class SkriptPatternParseException extends RuntimeException {
 
-    /**
-     * {@inheritDoc}
-     */
     public SkriptPatternParseException(String message) {
         super(message);
     }

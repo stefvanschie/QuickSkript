@@ -36,9 +36,6 @@ public class PsiIPExpressionImpl extends PsiIPExpression {
         super(player, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -79,9 +76,6 @@ public class PsiIPExpressionImpl extends PsiIPExpression {
      */
     public static class Factory extends PsiIPExpression.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

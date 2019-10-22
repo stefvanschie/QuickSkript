@@ -107,9 +107,6 @@ public abstract class SkriptProfiler<T> {
         }
 
 
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public boolean equals(Object other) {
             if (other == this) {
@@ -124,17 +121,11 @@ public abstract class SkriptProfiler<T> {
             return id.skript == skript && id.lineNumber == lineNumber;
         }
 
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public int hashCode() {
             return Objects.hash(skript, lineNumber);
         }
 
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public String toString() {
             return skript.getName() + ":" + lineNumber;

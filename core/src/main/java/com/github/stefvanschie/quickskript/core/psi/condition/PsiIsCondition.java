@@ -52,9 +52,6 @@ public class PsiIsCondition extends PsiElement<Boolean> {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Override
     protected Boolean executeImpl(@Nullable Context context) {

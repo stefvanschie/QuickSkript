@@ -27,9 +27,6 @@ public class PsiIsOnlineConditionImpl extends PsiIsOnlineCondition {
         super(offlinePlayer, positive, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -44,9 +41,6 @@ public class PsiIsOnlineConditionImpl extends PsiIsOnlineCondition {
      */
     public static class Factory extends PsiIsOnlineCondition.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

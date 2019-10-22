@@ -30,9 +30,6 @@ public class PsiLoadServerIconEffectImpl extends PsiLoadServerIconEffect {
         super(path, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Override
     protected Void executeImpl(@Nullable Context context) {
@@ -54,9 +51,6 @@ public class PsiLoadServerIconEffectImpl extends PsiLoadServerIconEffect {
      */
     public static class Factory extends PsiLoadServerIconEffect.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Override
         public PsiLoadServerIconEffect create(@NotNull PsiElement<?> path, int lineNumber) {

@@ -26,9 +26,6 @@ public class PsiVectorFunctionImpl extends PsiVectorFunction {
         super(x, y, z, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Override
     protected Vector executeImpl(@Nullable Context context) {
@@ -46,9 +43,6 @@ public class PsiVectorFunctionImpl extends PsiVectorFunction {
      */
     public static class Factory extends PsiVectorFunction.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Override
         public PsiVectorFunctionImpl create(@NotNull PsiElement<?> x, @NotNull PsiElement<?> y,

@@ -31,9 +31,6 @@ public class PsiCommandEffectImpl extends PsiCommandEffect {
         super(commandSender, commandName, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Contract(value = "_ -> null", pure = true)
     @Override
@@ -64,9 +61,6 @@ public class PsiCommandEffectImpl extends PsiCommandEffect {
      */
     public static class Factory extends PsiCommandEffect.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

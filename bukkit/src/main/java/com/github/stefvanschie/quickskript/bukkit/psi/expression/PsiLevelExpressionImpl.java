@@ -26,9 +26,6 @@ public class PsiLevelExpressionImpl extends PsiLevelExpression {
         super(player, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -36,9 +33,6 @@ public class PsiLevelExpressionImpl extends PsiLevelExpression {
         return this.player.execute(context, Player.class).getLevel();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void add(@Nullable Context context, @NotNull PsiElement<?> object) {
         Player player = this.player.execute(context, Player.class);
@@ -46,17 +40,11 @@ public class PsiLevelExpressionImpl extends PsiLevelExpression {
         player.setLevel(player.getLevel() + object.execute(context, Integer.class));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void delete(@Nullable Context context) {
         this.player.execute(context, Player.class).setLevel(0);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void remove(@Nullable Context context, @NotNull PsiElement<?> object) {
         Player player = this.player.execute(context, Player.class);
@@ -64,17 +52,11 @@ public class PsiLevelExpressionImpl extends PsiLevelExpression {
         player.setLevel(player.getLevel() - object.execute(context, Integer.class));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void reset(@Nullable Context context) {
         delete(null);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
         this.player.execute(context, Player.class).setLevel(object.execute(context, Integer.class));
@@ -87,9 +69,6 @@ public class PsiLevelExpressionImpl extends PsiLevelExpression {
      */
     public static class Factory extends PsiLevelExpression.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

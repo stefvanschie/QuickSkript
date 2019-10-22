@@ -49,9 +49,6 @@ public class PsiSplitExpression extends PsiElement<Text[]> {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override

@@ -46,9 +46,6 @@ public class PsiAlphabeticalSortExpression extends PsiElement<Text[]> {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override

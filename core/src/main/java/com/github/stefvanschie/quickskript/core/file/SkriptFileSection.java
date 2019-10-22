@@ -50,7 +50,7 @@ public class SkriptFileSection extends SkriptFileNode {
 
     /**
      * Parses all of the nodes, including the ones inside nested
-     * {@link SkriptFileSection}s into a psi structure
+     * sections into a psi structure
      *
      * @return the nodes parsed into a psi structure
      * @since 0.1.0

@@ -21,9 +21,6 @@ public class PsiGlowingExpressionImpl extends PsiGlowingExpression {
         super(entity, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -31,17 +28,11 @@ public class PsiGlowingExpressionImpl extends PsiGlowingExpression {
         return entity.execute(context, Entity.class).isGlowing();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void reset(@Nullable Context context) {
         entity.execute(context, Entity.class).setGlowing(false);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
         entity.execute(context, Entity.class).setGlowing(object.execute(context, Boolean.class));
@@ -54,9 +45,6 @@ public class PsiGlowingExpressionImpl extends PsiGlowingExpression {
      */
     public static class Factory extends PsiGlowingExpression.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

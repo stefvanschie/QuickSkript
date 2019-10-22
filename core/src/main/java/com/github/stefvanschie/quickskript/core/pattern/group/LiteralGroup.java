@@ -34,9 +34,6 @@ public class LiteralGroup implements SkriptPatternGroup {
         this.text = text;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -73,9 +70,6 @@ public class LiteralGroup implements SkriptPatternGroup {
         return text;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override

@@ -29,9 +29,6 @@ public class PsiResetTitleEffectImpl extends PsiResetTitleEffect {
         super(player, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Override
     protected Void executeImpl(@Nullable Context context) {
@@ -65,9 +62,6 @@ public class PsiResetTitleEffectImpl extends PsiResetTitleEffect {
      */
     public static class Factory extends PsiResetTitleEffect.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

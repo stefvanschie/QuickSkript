@@ -83,18 +83,12 @@ public final class Text {
         return compiled;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Contract(pure = true)
     @Override
     public int hashCode() {
         return compiled.hashCode() ^ getClass().hashCode();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Contract(pure = true)
     @Override
     public boolean equals(@NotNull Object obj) {
@@ -132,7 +126,7 @@ public final class Text {
     }
 
     /**
-     * Gets a new instance of an empty {@link Text}
+     * Gets a new, empty instance
      *
      * @return an empty text
      * @since 0.1.0

@@ -31,9 +31,6 @@ public class PsiUnbanEffectImpl extends PsiUnbanEffect {
         super(object, ipBan, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Contract(value = "_ -> null", pure = true)
     @Override
@@ -63,9 +60,6 @@ public class PsiUnbanEffectImpl extends PsiUnbanEffect {
      */
     public static class Factory extends PsiUnbanEffect.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

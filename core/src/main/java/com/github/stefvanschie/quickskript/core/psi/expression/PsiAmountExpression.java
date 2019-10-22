@@ -44,9 +44,6 @@ public class PsiAmountExpression extends PsiElement<Number> {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override

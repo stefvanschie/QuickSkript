@@ -50,9 +50,6 @@ public class PsiRandomNumberExpression extends PsiElement<Number> {
         this.max = max;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Override
     protected Number executeImpl(@Nullable Context context) {

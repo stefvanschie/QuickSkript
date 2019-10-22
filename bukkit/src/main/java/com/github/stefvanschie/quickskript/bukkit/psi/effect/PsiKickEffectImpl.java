@@ -27,9 +27,6 @@ public class PsiKickEffectImpl extends PsiKickEffect {
         super(player, reason, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Override
     protected Void executeImpl(@Nullable Context context) {
@@ -47,9 +44,6 @@ public class PsiKickEffectImpl extends PsiKickEffect {
      */
     public static class Factory extends PsiKickEffect.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Override
         public PsiKickEffect create(@NotNull PsiElement<?> player, @Nullable PsiElement<?> reason, int lineNumber) {

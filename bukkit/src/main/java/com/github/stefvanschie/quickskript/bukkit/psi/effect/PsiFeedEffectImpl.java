@@ -26,9 +26,6 @@ public class PsiFeedEffectImpl extends PsiFeedEffect {
         super(player, amount, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Override
     protected Void executeImpl(@Nullable Context context) {
@@ -52,9 +49,6 @@ public class PsiFeedEffectImpl extends PsiFeedEffect {
      */
     public static class Factory extends PsiFeedEffect.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Override
         public PsiFeedEffect create(@NotNull PsiElement<?> player, @Nullable PsiElement<?> amount, int lineNumber) {

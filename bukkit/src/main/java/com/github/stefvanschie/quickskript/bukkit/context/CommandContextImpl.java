@@ -1,7 +1,6 @@
 package com.github.stefvanschie.quickskript.bukkit.context;
 
 import com.github.stefvanschie.quickskript.core.context.CommandContext;
-import com.github.stefvanschie.quickskript.core.file.FileSkript;
 import com.github.stefvanschie.quickskript.core.skript.Skript;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.Contract;
@@ -38,9 +37,6 @@ public class CommandContextImpl implements ContextImpl, CommandContext {
         this.sender = sender;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -48,9 +44,6 @@ public class CommandContextImpl implements ContextImpl, CommandContext {
         return sender;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override

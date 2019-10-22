@@ -36,9 +36,6 @@ public class PsiLogEffectImpl extends PsiLogEffect {
         super(text, fileName, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Override
     protected Void executeImpl(@Nullable Context context) {
@@ -46,7 +43,7 @@ public class PsiLogEffectImpl extends PsiLogEffect {
         String text = this.text.execute(context, Text.class).toString();
 
         if (fileName == null) {
-            String prefix = context == null ? "" : '[' + context.getSkript().getName() + ".sk] ";
+            String prefix = context == null ? "" : '[' + context.getSkript().getName() + "] ";
 
             instance.getLogger().info(prefix + text);
         } else {
@@ -92,9 +89,6 @@ public class PsiLogEffectImpl extends PsiLogEffect {
      */
     public static class Factory extends PsiLogEffect.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

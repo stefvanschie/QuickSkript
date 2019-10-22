@@ -53,9 +53,6 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
     @NotNull
     private final List<EventPattern> eventPatterns = new ArrayList<>();
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean tryRegister(@NotNull String text, @NotNull Supplier<SkriptEventExecutor> toRegisterSupplier) {
         for (EventPattern eventPattern : eventPatterns) {

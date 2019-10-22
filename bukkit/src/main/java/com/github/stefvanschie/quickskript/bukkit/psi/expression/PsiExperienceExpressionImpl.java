@@ -29,9 +29,6 @@ public class PsiExperienceExpressionImpl extends PsiExperienceExpression {
         super(lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -52,9 +49,6 @@ public class PsiExperienceExpressionImpl extends PsiExperienceExpression {
         return ((ExperienceOrbSpawnEvent) event).getXp();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void add(@Nullable Context context, @NotNull PsiElement<?> object) {
         if (!(context instanceof EventContext)) {
@@ -76,9 +70,6 @@ public class PsiExperienceExpressionImpl extends PsiExperienceExpression {
         experienceOrbSpawnEvent.setXp(Math.max(0, newXp));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void remove(@Nullable Context context, @NotNull PsiElement<?> object) {
         if (!(context instanceof EventContext)) {
@@ -100,17 +91,11 @@ public class PsiExperienceExpressionImpl extends PsiExperienceExpression {
         experienceOrbSpawnEvent.setXp(Math.max(0, newXp));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void removeAll(@Nullable Context context, @NotNull PsiElement<?> object) {
         remove(context, object);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
         if (!(context instanceof EventContext)) {
@@ -138,9 +123,6 @@ public class PsiExperienceExpressionImpl extends PsiExperienceExpression {
      */
     public static class Factory extends PsiExperienceExpression.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

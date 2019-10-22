@@ -20,9 +20,6 @@ import java.util.List;
  */
 public class SpaceGroup implements SkriptPatternGroup {
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -71,9 +68,6 @@ public class SpaceGroup implements SkriptPatternGroup {
         return results;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override

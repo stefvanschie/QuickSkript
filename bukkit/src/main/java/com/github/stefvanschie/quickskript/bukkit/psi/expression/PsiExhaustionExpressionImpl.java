@@ -26,9 +26,6 @@ public class PsiExhaustionExpressionImpl extends PsiExhaustionExpression {
         super(player, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -36,9 +33,6 @@ public class PsiExhaustionExpressionImpl extends PsiExhaustionExpression {
         return player.execute(context, Player.class).getExhaustion();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void add(@Nullable Context context, @NotNull PsiElement<?> object) {
         Player player = this.player.execute(context, Player.class);
@@ -46,17 +40,11 @@ public class PsiExhaustionExpressionImpl extends PsiExhaustionExpression {
         player.setExhaustion(player.getExhaustion() + object.execute(context, Number.class).floatValue());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void delete(@Nullable Context context) {
         player.execute(context, Player.class).setExhaustion(0);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void remove(@Nullable Context context, @NotNull PsiElement<?> object) {
         Player player = this.player.execute(context, Player.class);
@@ -64,25 +52,16 @@ public class PsiExhaustionExpressionImpl extends PsiExhaustionExpression {
         player.setExhaustion(player.getExhaustion() - object.execute(context, Number.class).floatValue());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void removeAll(@Nullable Context context, @NotNull PsiElement<?> object) {
         player.execute(context, Player.class).setExhaustion(0);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void reset(@Nullable Context context) {
         player.execute(context, Player.class).setExhaustion(0);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
         player.execute(context, Player.class).setExhaustion(object.execute(context, Number.class).floatValue());
@@ -95,9 +74,6 @@ public class PsiExhaustionExpressionImpl extends PsiExhaustionExpression {
      */
     public static class Factory extends PsiExhaustionExpression.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

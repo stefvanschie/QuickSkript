@@ -28,9 +28,6 @@ public class PsiIsSprintingConditionImpl extends PsiIsSprintingCondition {
         super(player, positive, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -45,9 +42,6 @@ public class PsiIsSprintingConditionImpl extends PsiIsSprintingCondition {
      */
     public static class Factory extends PsiIsSprintingCondition.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

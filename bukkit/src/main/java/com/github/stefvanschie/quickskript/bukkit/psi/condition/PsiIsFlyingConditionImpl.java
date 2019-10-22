@@ -28,9 +28,6 @@ public class PsiIsFlyingConditionImpl extends PsiIsFlyingCondition {
         super(player, positive, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -45,9 +42,6 @@ public class PsiIsFlyingConditionImpl extends PsiIsFlyingCondition {
      */
     public static class Factory extends PsiIsFlyingCondition.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

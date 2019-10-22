@@ -26,9 +26,6 @@ public class PsiPrecomputedHolder<T> extends PsiElement<T> {
         preComputed = value;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     @Contract("_ -> fail")
     protected final T executeImpl(@Nullable Context context) {

@@ -32,9 +32,6 @@ public class PsiHidePlayerFromServerListEffectImpl extends PsiHidePlayerFromServ
         super(player, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Override
     protected Void executeImpl(@Nullable Context context) {
@@ -70,9 +67,6 @@ public class PsiHidePlayerFromServerListEffectImpl extends PsiHidePlayerFromServ
      */
     public static class Factory extends PsiHidePlayerFromServerListEffect.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Override
         public PsiHidePlayerFromServerListEffect create(@NotNull PsiElement<?> player, int lineNumber) {

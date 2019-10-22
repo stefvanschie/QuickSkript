@@ -131,9 +131,6 @@ public class FileSkript implements Skript {
         this.section = section;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Override
     public String getName() {

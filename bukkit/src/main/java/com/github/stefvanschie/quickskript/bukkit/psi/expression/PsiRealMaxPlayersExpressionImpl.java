@@ -25,9 +25,6 @@ public class PsiRealMaxPlayersExpressionImpl extends PsiRealMaxPlayersExpression
         super(lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     @Contract(pure = true)
     @NotNull
@@ -42,9 +39,6 @@ public class PsiRealMaxPlayersExpressionImpl extends PsiRealMaxPlayersExpression
      */
     public static class Factory extends PsiRealMaxPlayersExpression.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

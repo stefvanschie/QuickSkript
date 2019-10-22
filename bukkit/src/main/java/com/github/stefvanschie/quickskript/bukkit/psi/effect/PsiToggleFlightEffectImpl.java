@@ -26,9 +26,6 @@ public class PsiToggleFlightEffectImpl extends PsiToggleFlightEffect {
         super(player, enabled, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Override
     protected Void executeImpl(@Nullable Context context) {
@@ -44,9 +41,6 @@ public class PsiToggleFlightEffectImpl extends PsiToggleFlightEffect {
      */
     public static class Factory extends PsiToggleFlightEffect.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Override
         public PsiToggleFlightEffect create(@NotNull PsiElement<?> player, boolean enable, int lineNumber) {

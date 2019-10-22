@@ -14,24 +14,15 @@ import java.util.Collections;
  */
 public class NoOpSkriptProfiler extends SkriptProfiler<Object> {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void onTimeMeasured(@NotNull Class<? extends Context> contextType, @NotNull Identifier identifier, long elapsedTime) {}
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Override
     public Object getEntry(@NotNull Class<? extends Context> contextType, @NotNull Identifier identifier) {
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Override
     public Collection<Identifier> getEntryIdentifiers(@NotNull Class<? extends Context> contextType) {

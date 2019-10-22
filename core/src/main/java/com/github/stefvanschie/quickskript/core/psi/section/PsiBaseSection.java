@@ -56,9 +56,6 @@ public class PsiBaseSection extends PsiSection {
         profilerIdentifier = new SkriptProfiler.Identifier(skript, section.getLineNumber());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Override
     protected ExitSectionsPointerMovement executeImpl(@Nullable Context context) {

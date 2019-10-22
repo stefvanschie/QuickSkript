@@ -30,9 +30,6 @@ public class PsiHealthExpressionImpl extends PsiHealthExpression {
         super(damageable, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -40,9 +37,6 @@ public class PsiHealthExpressionImpl extends PsiHealthExpression {
         return damageable.execute(context, Damageable.class).getHealth() / 2.0;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void add(@Nullable Context context, @NotNull PsiElement<?> object) {
         Damageable damageable = this.damageable.execute(context, Damageable.class);
@@ -50,17 +44,11 @@ public class PsiHealthExpressionImpl extends PsiHealthExpression {
         damageable.setHealth(damageable.getHealth() + object.execute(context, Number.class).doubleValue() * 2.0);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void delete(@Nullable Context context) {
         damageable.execute(context, Damageable.class).setHealth(0);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void remove(@Nullable Context context, @NotNull PsiElement<?> object) {
         Damageable damageable = this.damageable.execute(context, Damageable.class);
@@ -68,9 +56,6 @@ public class PsiHealthExpressionImpl extends PsiHealthExpression {
         damageable.setHealth(damageable.getHealth() - object.execute(context, Number.class).doubleValue() * 2.0);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void reset(@Nullable Context context) {
         Object object = damageable.execute(context);
@@ -88,9 +73,6 @@ public class PsiHealthExpressionImpl extends PsiHealthExpression {
         ((Damageable) object).setHealth(attribute.getBaseValue());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
         double health = object.execute(context, Number.class).doubleValue();
@@ -105,9 +87,6 @@ public class PsiHealthExpressionImpl extends PsiHealthExpression {
      */
     public static class Factory extends PsiHealthExpression.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

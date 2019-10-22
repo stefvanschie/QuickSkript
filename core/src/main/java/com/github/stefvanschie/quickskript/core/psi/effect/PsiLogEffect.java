@@ -52,16 +52,13 @@ public class PsiLogEffect extends PsiElement<Void> {
         this.fileName = fileName;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Override
     protected Void executeImpl(@Nullable Context context) {
         String text = this.text.execute(context, Text.class).toString();
 
         if (fileName == null) {
-            String prefix = context == null ? "" : '[' + context.getSkript().getName() + ".sk] ";
+            String prefix = context == null ? "" : '[' + context.getSkript().getName() + "] ";
 
             System.out.println(prefix + text);
         } else {

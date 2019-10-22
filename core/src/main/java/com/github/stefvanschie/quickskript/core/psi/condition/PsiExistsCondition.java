@@ -45,9 +45,6 @@ public class PsiExistsCondition extends PsiElement<Boolean> {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Contract(pure = true)
     @Override

@@ -45,9 +45,6 @@ public class OptionalGroup implements SkriptPatternGroup {
         this.parseMarks = parseMarks;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override
@@ -112,9 +109,6 @@ public class OptionalGroup implements SkriptPatternGroup {
         return results;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override

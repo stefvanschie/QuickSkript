@@ -16,18 +16,12 @@ public class ParseException extends RuntimeException {
      */
     private final int lineNumber;
 
-    /**
-     * {@inheritDoc}
-     */
     public ParseException(String message, int lineNumber) {
         super(message);
 
         this.lineNumber = lineNumber;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public ParseException(Throwable cause, int lineNumber) {
         super(cause);
 

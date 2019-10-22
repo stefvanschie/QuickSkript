@@ -1,7 +1,6 @@
 package com.github.stefvanschie.quickskript.bukkit.context;
 
 import com.github.stefvanschie.quickskript.core.context.EventContext;
-import com.github.stefvanschie.quickskript.core.file.FileSkript;
 import com.github.stefvanschie.quickskript.core.skript.Skript;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.Contract;
@@ -56,9 +55,6 @@ public class EventContextImpl implements ContextImpl, EventContext {
         return event;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Contract(pure = true)
     @Override
@@ -85,9 +81,6 @@ public class EventContextImpl implements ContextImpl, EventContext {
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Contract(pure = true)
     @Override

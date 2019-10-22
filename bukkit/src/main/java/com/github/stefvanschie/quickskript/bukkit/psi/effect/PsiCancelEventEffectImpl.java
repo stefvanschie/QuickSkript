@@ -16,16 +16,10 @@ import org.jetbrains.annotations.Nullable;
  */
 public class PsiCancelEventEffectImpl extends PsiCancelEventEffect {
 
-    /**
-     * {@inheritDoc}
-     */
     private PsiCancelEventEffectImpl(int lineNumber) {
         super(lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Override
     protected Void executeImpl(@Nullable Context context) {
@@ -52,9 +46,6 @@ public class PsiCancelEventEffectImpl extends PsiCancelEventEffect {
      */
     public static class Factory extends PsiCancelEventEffect.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Override
         public PsiCancelEventEffectImpl create(int lineNumber) {

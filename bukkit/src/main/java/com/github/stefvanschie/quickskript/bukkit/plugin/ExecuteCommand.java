@@ -11,11 +11,16 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * A command that lets {@link CommandSender}s execute single-line Skript code from the chat/console.
+ */
 public class ExecuteCommand implements CommandExecutor {
 
-    private ExecuteCommand() {
-    }
+    private ExecuteCommand() {}
 
+    /**
+     * Registers this {@link CommandExecutor} into Bukkit's command system.
+     */
     public static void register() {
         var wrapper = new CommandMapWrapper();
         PluginCommand command = wrapper.create("skexec");

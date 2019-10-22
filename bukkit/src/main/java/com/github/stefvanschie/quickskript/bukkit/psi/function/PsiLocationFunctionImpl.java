@@ -32,9 +32,6 @@ public class PsiLocationFunctionImpl extends PsiLocationFunction {
         super(world, x, y, z, yaw, pitch, lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     @Override
     public Location executeImpl(@Nullable Context context) {
@@ -55,9 +52,6 @@ public class PsiLocationFunctionImpl extends PsiLocationFunction {
      */
     public static class Factory extends PsiLocationFunction.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Override
         public PsiLocationFunctionImpl create(@NotNull PsiElement<?> world, @NotNull PsiElement<?> x,

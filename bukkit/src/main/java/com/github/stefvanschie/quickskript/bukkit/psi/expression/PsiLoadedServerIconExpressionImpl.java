@@ -26,9 +26,6 @@ public class PsiLoadedServerIconExpressionImpl extends PsiLoadedServerIconExpres
         super(lineNumber);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Contract(pure = true)
     @Override
@@ -43,9 +40,6 @@ public class PsiLoadedServerIconExpressionImpl extends PsiLoadedServerIconExpres
      */
     public static class Factory extends PsiLoadedServerIconExpression.Factory {
 
-        /**
-         * {@inheritDoc}
-         */
         @NotNull
         @Contract(pure = true)
         @Override

@@ -54,9 +54,6 @@ public class PsiParseExpression extends PsiElement<Object> {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Nullable
     @Override
     protected Object executeImpl(@Nullable Context context) {

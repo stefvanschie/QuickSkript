@@ -17,7 +17,7 @@ public class QuickSkriptPostEnableEvent extends Event {
     private static final HandlerList HANDLER_LIST = new HandlerList();
 
     /**
-     * {@inheritDoc}
+     *
      *
      * @since 0.1.0
      */

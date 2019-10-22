@@ -27,7 +27,7 @@ public class ExperienceOrbSpawnEvent extends Event implements Cancellable {
     private boolean cancelled;
 
     /**
-     * Creates a new {@link ExperienceOrbSpawnEvent}
+     * Creates a new instance
      *
      * @param xp the amount of experience that will be spawned
      * @since 0.1.0
@@ -48,7 +48,7 @@ public class ExperienceOrbSpawnEvent extends Event implements Cancellable {
     }
 
     /**
-     * {@inheritDoc}
+     *
      *
      * @since 0.1.0
      */
@@ -59,7 +59,7 @@ public class ExperienceOrbSpawnEvent extends Event implements Cancellable {
     }
 
     /**
-     * {@inheritDoc}
+     *
      *
      * @since 0.1.0
      */
@@ -85,7 +85,7 @@ public class ExperienceOrbSpawnEvent extends Event implements Cancellable {
     private static final HandlerList HANDLER_LIST = new HandlerList();
 
     /**
-     * {@inheritDoc}
+     *
      *
      * @since 0.1.0
      */
