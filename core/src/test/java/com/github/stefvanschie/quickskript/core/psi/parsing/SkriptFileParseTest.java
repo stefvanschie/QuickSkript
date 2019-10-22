@@ -1,11 +1,10 @@
 package com.github.stefvanschie.quickskript.core.psi.parsing;
 
-import com.github.stefvanschie.quickskript.core.file.SkriptFile;
+import com.github.stefvanschie.quickskript.core.file.FileSkript;
 import com.github.stefvanschie.quickskript.core.file.SkriptFileLine;
 import com.github.stefvanschie.quickskript.core.file.SkriptFileNode;
 import com.github.stefvanschie.quickskript.core.psi.TestClassBase;
 import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
-import com.github.stefvanschie.quickskript.core.skript.Skript;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -20,13 +19,13 @@ class SkriptFileParseTest extends TestClassBase {
 
     @Test
     void test() {
-        for (Skript skript : getSampleSkripts()) {
+        for (FileSkript skript : getSampleSkripts()) {
             try {
                 skript.registerCommands();
                 skript.registerEventExecutors();
                 System.out.println("Successfully parsed: " + skript.getName());
             } catch (ParseException e) {
-                throw new AssertionError("Error while parsing:" + e.getExtraInfo(skript.getName()), e);
+                throw new AssertionError("Error while parsing:" + e.getExtraInfo(skript), e);
             }
         }
     }
@@ -35,7 +34,7 @@ class SkriptFileParseTest extends TestClassBase {
     void testTabCharacterHandling() {
         String tabReplacement = "    ";
 
-        List<SkriptFileNode> nodes = SkriptFile.load(Arrays.asList(
+        List<SkriptFileNode> nodes = FileSkript.load("name", Arrays.asList(
             "\tmessage \"Hello, world!\" to the console",
             "\tmessage \"1532793000\" to the console"
         )).getNodes();

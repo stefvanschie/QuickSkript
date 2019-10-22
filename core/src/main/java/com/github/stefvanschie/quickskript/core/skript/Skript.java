@@ -1,38 +1,11 @@
 package com.github.stefvanschie.quickskript.core.skript;
 
-import com.github.stefvanschie.quickskript.core.file.SkriptFile;
-import com.github.stefvanschie.quickskript.core.file.SkriptFileSection;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * A class for loading and containing skript files
+ * A class for storing skript code
  */
-public class Skript {
-
-    /**
-     * The name of the skript
-     */
-    @NotNull
-    private final String name;
-
-    /**
-     * The internal skript file
-     */
-    @NotNull
-    private final SkriptFile file;
-
-    /**
-     * Constructs a new skript object
-     *
-     * @param name the name of the skript,
-     * eg. the name of the file without the .sk extension
-     * @param file the file this skript belongs to
-     * @since 0.1.0
-     */
-    public Skript(@NotNull String name, @NotNull SkriptFile file) {
-        this.name = name;
-        this.file = file;
-    }
+public interface Skript {
 
     /**
      * Returns the name of this skript.
@@ -41,51 +14,5 @@ public class Skript {
      * @since 0.1.0
      */
     @NotNull
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Registers all events in this skript
-     *
-     * @since 0.1.0
-     */
-    public void registerEventExecutors() {
-        file.getNodes().stream()
-                .filter(node -> node instanceof SkriptFileSection)
-                .map(node -> (SkriptFileSection) node)
-                .forEach(this::registerEvent);
-    }
-
-    /**
-     * Registers all commands in this skript
-     *
-     * @since 0.1.0
-     */
-    public void registerCommands() {
-        file.getNodes().stream()
-                .filter(node -> node.getText().startsWith("command")
-                        && node instanceof SkriptFileSection)
-                .forEach(node -> registerCommand((SkriptFileSection) node));
-    }
-
-    /**
-     * Registers an individual command from the given section
-     *
-     * @param section the command section which starts with 'command'
-     * @since 0.1.0
-     */
-    private void registerCommand(@NotNull SkriptFileSection section) {
-        SkriptLoader.get().tryRegisterCommand(this, section);
-    }
-
-    /**
-     * Registers an individual event from the given section
-     *
-     * @param section the command section which starts with 'on'
-     * @since 0.1.0
-     */
-    private void registerEvent(@NotNull SkriptFileSection section) {
-        SkriptLoader.get().tryRegisterEvent(this, section);
-    }
+    String getName();
 }

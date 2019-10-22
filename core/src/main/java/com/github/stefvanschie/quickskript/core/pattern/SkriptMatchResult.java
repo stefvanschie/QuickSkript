@@ -47,17 +47,6 @@ public class SkriptMatchResult {
     }
 
     /**
-     * Removes a group from the successful matches. This is useful when doing forward tracking when matching patterns
-     * and you need to remove a group that was possibly correct, but appears not to be.
-     *
-     * @param group the group to remove
-     * @since 0.1.0
-     */
-    public void removeMatchedGroup(@NotNull SkriptPatternGroup group) {
-        matchedGroups.remove(group); //TODO List<Pair<...>> won't contain SkriptPatternGroup
-    }
-
-    /**
      * Adds a parse mark to the final parse mark
      *
      * @param parseMark the parse mark

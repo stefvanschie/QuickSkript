@@ -1,8 +1,8 @@
 package com.github.stefvanschie.quickskript.bukkit.plugin;
 
+import com.github.stefvanschie.quickskript.bukkit.context.ExecuteContextImpl;
 import com.github.stefvanschie.quickskript.bukkit.util.CommandMapWrapper;
-import com.github.stefvanschie.quickskript.core.psi.PsiElement;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.skript.SingleLineSkript;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -13,10 +13,11 @@ import org.jetbrains.annotations.NotNull;
 
 public class ExecuteCommand implements CommandExecutor {
 
-    private ExecuteCommand() {}
+    private ExecuteCommand() {
+    }
 
     public static void register() {
-        CommandMapWrapper wrapper = new CommandMapWrapper();
+        var wrapper = new CommandMapWrapper();
         PluginCommand command = wrapper.create("skexec");
         command.setPermission("quickskript.exec");
         command.setDescription("Allows the execution of single line Skripts from the chat.");
@@ -30,11 +31,13 @@ public class ExecuteCommand implements CommandExecutor {
         String input = StringUtils.join(args, ' ');
 
         long startTime = System.nanoTime();
-        PsiElement<?> element = SkriptLoader.get().tryParseElement(input, 1);
-        Object result = element == null ? null : element.execute(null);
+        var skript = new SingleLineSkript(input);
+        Object result = skript.getParsedElement() == null
+                ? null
+                : skript.execute(new ExecuteContextImpl(skript, sender));
         long deltaMillis = (System.nanoTime() - startTime) / 1000000;
 
-        String output = element == null
+        String output = skript.getParsedElement() == null
                 ? ChatColor.RED + "ERROR: Parsing failed."
                 : ChatColor.WHITE + String.valueOf(result);
 

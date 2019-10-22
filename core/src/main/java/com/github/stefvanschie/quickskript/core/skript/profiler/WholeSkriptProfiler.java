@@ -33,7 +33,7 @@ public class WholeSkriptProfiler extends SkriptProfiler<WholeSkriptProfiler.Entr
      */
     @Nullable
     @Override
-    public Entry getEntry(@NotNull Class contextType, @NotNull Identifier identifier) {
+    public Entry getEntry(@NotNull Class<? extends Context> contextType, @NotNull Identifier identifier) {
         Map<Identifier, Entry> entries = storage.get(contextType);
         return entries == null ? null : entries.get(identifier);
     }
@@ -43,7 +43,7 @@ public class WholeSkriptProfiler extends SkriptProfiler<WholeSkriptProfiler.Entr
      */
     @NotNull
     @Override
-    public Collection<Identifier> getEntryIdentifiers(@NotNull Class contextType) {
+    public Collection<Identifier> getEntryIdentifiers(@NotNull Class<? extends Context> contextType) {
         Map<Identifier, Entry> entries = storage.get(contextType);
         return entries == null ? Collections.emptySet() : entries.keySet();
     }
@@ -56,7 +56,7 @@ public class WholeSkriptProfiler extends SkriptProfiler<WholeSkriptProfiler.Entr
         /**
          * The elapsed times.
          */
-        private List<Long> times = new ArrayList<>();
+        private final List<Long> times = new ArrayList<>();
 
         /**
          * Stores one more execution of the entry point associated with this entry.
