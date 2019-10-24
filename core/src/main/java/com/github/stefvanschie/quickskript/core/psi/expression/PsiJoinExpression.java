@@ -5,6 +5,7 @@ import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
+import com.github.stefvanschie.quickskript.core.psi.util.PsiCollection;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import com.github.stefvanschie.quickskript.core.util.text.TextPart;
@@ -12,10 +13,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -63,25 +61,13 @@ public class PsiJoinExpression extends PsiElement<Text> {
     protected Text executeImpl(@Nullable Context context) {
         Object object = texts.execute(context);
 
-        List<Text> texts;
-
-        if (object instanceof Iterable) {
-            texts = new ArrayList<>();
-            for (Text text : (Iterable<Text>) object) {
-                texts.add(text);
+        List<Text> texts = new ArrayList<>();
+        PsiCollection.forEach(object, e -> {
+            if (!(e instanceof Text)) {
+                throw new ExecutionException("Can only join text(s)", lineNumber);
             }
-        } else if (object instanceof Text[]) {
-            texts = Arrays.asList((Text[]) object);
-        } else if (object != null && object.getClass().isArray()) {
-            texts = new ArrayList<>(Array.getLength(object));
-            for (int index = 0; index < Array.getLength(object); index++) {
-                texts.add((Text) Array.get(object, index));
-            }
-        } else if (object instanceof Text) {
-            texts = Collections.singletonList((Text) object);
-        } else {
-            throw new ExecutionException("Can only join text(s)", lineNumber);
-        }
+            texts.add((Text) e);
+        }, null);
 
         if (texts.isEmpty()) {
             return Text.empty();

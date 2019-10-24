@@ -165,7 +165,7 @@ class PsiNumberExecutabilityTest extends TestClassBase {
 
         clazz -= biFunctions.size();
         return (PsiElement<Number>) collectionFunctions.get(clazz)
-            .newInstance(new PsiCollection<>(-1, parameters), -1);
+            .newInstance(new PsiCollection<>(parameters, -1), -1);
     }
 
 

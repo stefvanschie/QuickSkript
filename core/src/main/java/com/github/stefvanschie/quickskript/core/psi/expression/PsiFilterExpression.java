@@ -6,6 +6,7 @@ import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.pattern.group.RegexGroup;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
+import com.github.stefvanschie.quickskript.core.psi.util.PsiCollection;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.util.Pair;
@@ -13,7 +14,6 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -63,33 +63,14 @@ public class PsiFilterExpression extends PsiElement<Object> {
         Object object = collection.execute(context);
 
         List<Object> list = new ArrayList<>();
-
-        if (object instanceof Iterable) {
-            for (Object obj : (Iterable<?>) object) {
-                list.add(obj);
+        PsiCollection.forEach(object, e -> {
+            currentLoopingElement = e;
+            if (predicate.execute(context, Boolean.class)) {
+                list.add(e);
             }
-        } else if (object instanceof Object[]) {
-            list.addAll(Arrays.asList((Object[]) object));
-        } else if (object != null && object.getClass().isArray()) {
-            for (int i = 0; i < Array.getLength(object); ++i) {
-                list.add(Array.get(object, i));
-            }
-        } else {
-            list.add(object);
-        }
-
-        Iterator<Object> iterator = list.iterator();
-
-        while (iterator.hasNext()) {
-            currentLoopingElement = iterator.next();
-
-            if (!predicate.execute(context, Boolean.class)) {
-                iterator.remove();
-            }
-        }
+        }, null);
 
         currentLoopingElement = null;
-
         return list;
     }
 

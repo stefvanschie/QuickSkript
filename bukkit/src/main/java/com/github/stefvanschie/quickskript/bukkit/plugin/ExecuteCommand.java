@@ -3,6 +3,9 @@ package com.github.stefvanschie.quickskript.bukkit.plugin;
 import com.github.stefvanschie.quickskript.bukkit.context.ExecuteContextImpl;
 import com.github.stefvanschie.quickskript.bukkit.util.CommandMapWrapper;
 import com.github.stefvanschie.quickskript.core.skript.SingleLineSkript;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -16,7 +19,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public class ExecuteCommand implements CommandExecutor {
 
-    private ExecuteCommand() {}
+    private ExecuteCommand() {
+    }
 
     /**
      * Registers this {@link CommandExecutor} into Bukkit's command system.
@@ -42,14 +46,17 @@ public class ExecuteCommand implements CommandExecutor {
                 : skript.execute(new ExecuteContextImpl(skript, sender));
         long deltaMillis = (System.nanoTime() - startTime) / 1000000;
 
-        String output = skript.getParsedElement() == null
+        String output = ChatColor.YELLOW + "Output: " + (skript.getParsedElement() == null
                 ? ChatColor.RED + "ERROR: Parsing failed."
-                : ChatColor.WHITE + String.valueOf(result);
+                : ChatColor.WHITE + String.valueOf(result));
 
-        sender.sendMessage(ChatColor.YELLOW + "Input: " + ChatColor.WHITE + input);
-        sender.sendMessage(ChatColor.YELLOW + "Evaluation took: " + ChatColor.WHITE
-                + deltaMillis + ChatColor.GRAY + " ms");
-        sender.sendMessage(ChatColor.YELLOW + "Output: " + output);
+        TextComponent text = new TextComponent(output);
+        text.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("")
+                .append(ChatColor.YELLOW + "Input: " + ChatColor.WHITE + input)
+                .append(ChatColor.YELLOW + "Evaluation took: " + ChatColor.WHITE
+                        + deltaMillis + ChatColor.GRAY + " ms")
+                .create()));
+        sender.sendMessage(text);
         return true;
     }
 }

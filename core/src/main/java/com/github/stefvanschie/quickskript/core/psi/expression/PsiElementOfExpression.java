@@ -7,12 +7,12 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
+import com.github.stefvanschie.quickskript.core.psi.util.PsiCollection;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.BiFunction;
@@ -28,7 +28,8 @@ public class PsiElementOfExpression extends PsiElement<Object> {
     /**
      * Gives the index of the element we should retrieve, based on the size of the collection
      */
-    @NotNull
+    @NotNull //TODO a PsiElement (that can be a PsiPrecomputedHolder or a PsiLambdaHolder) instead of this
+    //that way the result can be precomputed when it could be
     private final BiFunction<@NotNull Integer, @Nullable Context, @NotNull Integer> indexFunction;
 
     /**
@@ -46,8 +47,8 @@ public class PsiElementOfExpression extends PsiElement<Object> {
      * @since 0.1.0
      */
     private PsiElementOfExpression(
-        @NotNull BiFunction<@NotNull Integer, @Nullable Context, @NotNull Integer> indexFunction,
-        @NotNull PsiElement<?> elements, int lineNumber) {
+            @NotNull BiFunction<@NotNull Integer, @Nullable Context, @NotNull Integer> indexFunction,
+            @NotNull PsiElement<?> elements, int lineNumber) {
         super(lineNumber);
 
         this.indexFunction = indexFunction;
@@ -59,23 +60,15 @@ public class PsiElementOfExpression extends PsiElement<Object> {
     @Override
     protected Object executeImpl(@Nullable Context context) {
         Object object = this.elements.execute(context);
-        List<Object> elements = new ArrayList<>();
 
         if (object == null) {
             throw new ExecutionException("Can't get element from nothing", lineNumber);
         }
 
-        if (object instanceof Iterable) {
-            ((Iterable<?>) object).forEach(elements::add);
-        } else if (object instanceof Object[]) {
-            elements.addAll(Arrays.asList((Object[]) object));
-        } else if (object.getClass().isArray()) {
-            for (int i = 0; i < Array.getLength(object); i++) {
-                elements.add(Array.get(object, i));
-            }
-        } else {
+        List<Object> elements = new ArrayList<>();
+        PsiCollection.forEach(object, elements::add, e -> {
             throw new ExecutionException("Can't get element from non-collection", lineNumber);
-        }
+        });
 
         int index = indexFunction.apply(elements.size(), context);
 
@@ -98,7 +91,7 @@ public class PsiElementOfExpression extends PsiElement<Object> {
          */
         @NotNull
         private final SkriptPattern pattern = SkriptPattern.parse(
-            "(0\u00A6[the] first|1\u00A6[the] last|2\u00A6[a] random|3\u00A6%number%(st|nd|rd|th)) element [out] of %objects%"
+                "(0\u00A6[the] first|1\u00A6[the] last|2\u00A6[a] random|3\u00A6%number%(st|nd|rd|th)) element [out] of %objects%"
         );
 
         /**
@@ -114,7 +107,7 @@ public class PsiElementOfExpression extends PsiElement<Object> {
         @Contract(pure = true)
         @Pattern("pattern")
         public PsiElementOfExpression parse(@NotNull SkriptMatchResult result, @Nullable PsiElement<?> index,
-            @NotNull PsiElement<?> elements, int lineNumber) {
+                @NotNull PsiElement<?> elements, int lineNumber) {
             int parseMark = result.getParseMark();
             BiFunction<@NotNull Integer, @Nullable Context, @Nullable Integer> indexFunction;
 
@@ -126,7 +119,7 @@ public class PsiElementOfExpression extends PsiElement<Object> {
                 indexFunction = (size, context) -> ThreadLocalRandom.current().nextInt(size);
             } else if (parseMark == 3) {
                 indexFunction = (size, context) ->
-                    Objects.requireNonNull(index).execute(context, Number.class).intValue();
+                        Objects.requireNonNull(index).execute(context, Number.class).intValue();
             } else {
                 throw new ParseException("Unknown parse mark found while parsing", lineNumber);
             }
@@ -147,8 +140,8 @@ public class PsiElementOfExpression extends PsiElement<Object> {
         @NotNull
         @Contract(pure = true)
         public PsiElementOfExpression create(
-            @NotNull BiFunction<@NotNull Integer, @Nullable Context, @NotNull Integer> indexFunction,
-            @NotNull PsiElement<?> elements, int lineNumber) {
+                @NotNull BiFunction<@NotNull Integer, @Nullable Context, @NotNull Integer> indexFunction,
+                @NotNull PsiElement<?> elements, int lineNumber) {
             return new PsiElementOfExpression(indexFunction, elements, lineNumber);
         }
     }

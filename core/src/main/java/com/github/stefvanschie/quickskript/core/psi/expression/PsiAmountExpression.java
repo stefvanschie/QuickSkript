@@ -5,13 +5,11 @@ import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
+import com.github.stefvanschie.quickskript.core.psi.util.PsiCollection;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.lang.reflect.Array;
-import java.util.Collection;
 
 /**
  * The size of a collection or the length of an array
@@ -54,19 +52,12 @@ public class PsiAmountExpression extends PsiElement<Number> {
             throw new ExecutionException("Object is null", lineNumber);
         }
 
-        if (object instanceof Collection) {
-            return ((Collection<?>) object).size();
+        int amount = PsiCollection.getSize(object, -1);
+        if (amount == -1) {
+            throw new ExecutionException("Element was not a collection or array", lineNumber);
         }
 
-        if (object instanceof Object[]) {
-            return ((Object[]) object).length;
-        }
-
-        if (object.getClass().isArray()) {
-            return Array.getLength(object);
-        }
-
-        throw new ExecutionException("Element was not a collection or array", lineNumber);
+        return amount;
     }
 
     /**

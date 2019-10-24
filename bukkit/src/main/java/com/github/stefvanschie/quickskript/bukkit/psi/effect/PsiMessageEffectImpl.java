@@ -5,11 +5,11 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiMessageEffect;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
+import com.github.stefvanschie.quickskript.core.psi.util.PsiCollection;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Array;
 import java.util.Objects;
 
 /**
@@ -47,23 +47,8 @@ public class PsiMessageEffectImpl extends PsiMessageEffect {
         }
 
         Object object = Objects.requireNonNull(message.execute(context));
-
-        if (object instanceof Iterable) {
-            for (Object obj : (Iterable<?>) object) {
-                receiver.sendMessage(obj.toString());
-            }
-        } else if (object instanceof Object[]) {
-            for (Object obj : (Object[]) object) {
-                receiver.sendMessage(obj.toString());
-            }
-        } else if (object.getClass().isArray()) {
-            for (int i = 0; i < Array.getLength(object); ++i) {
-                receiver.sendMessage(Array.get(object, i).toString());
-            }
-        } else {
-            receiver.sendMessage(object.toString());
-        }
-
+        CommandSender finalReceiver = receiver;
+        PsiCollection.forEach(object, e -> finalReceiver.sendMessage(String.valueOf(e)), null);
         return null;
     }
 

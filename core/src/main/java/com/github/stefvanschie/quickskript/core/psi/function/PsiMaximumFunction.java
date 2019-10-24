@@ -1,10 +1,10 @@
 package com.github.stefvanschie.quickskript.core.psi.function;
 
-import com.github.stefvanschie.quickskript.core.psi.util.PsiCollection;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
+import com.github.stefvanschie.quickskript.core.psi.util.PsiCollection;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import org.jetbrains.annotations.Contract;
@@ -12,9 +12,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * Returns the highest value from a given collection of numbers
@@ -49,23 +49,16 @@ public class PsiMaximumFunction extends PsiElement<Double> {
     @NotNull
     @Override
     protected Double executeImpl(@Nullable Context context) {
-        Collection<?> collection = element.execute(context, Collection.class);
+        Object object = element.execute(context);
 
-        double max = -Double.MAX_VALUE; //negative double max value is the actual smallest value, double min value is still positive
-
-        for (Object object : collection) {
-            if (!(object instanceof PsiElement<?>)) {
-                throw new ExecutionException("Collection should only contain psi elements, but it didn't", lineNumber);
-            }
-
-            double value = ((PsiElement<?>) object).execute(context, Number.class).doubleValue();
-
-            if (max < value) {
-                max = value;
-            }
+        Stream<Object> stream = PsiCollection.toStreamStrict(object);
+        if (stream == null) {
+            throw new ExecutionException("Element was not a collection or array", lineNumber);
         }
 
-        return max;
+        return stream.mapToDouble(e -> ((Number) e).doubleValue())
+                .max()
+                .orElseThrow(() -> new ExecutionException("The collection or array was empty", lineNumber));
     }
 
     /**
@@ -110,7 +103,7 @@ public class PsiMaximumFunction extends PsiElement<Double> {
             }
 
             return create(new PsiCollection<>(Arrays.stream(values)
-                .map(string -> SkriptLoader.get().forceParseElement(string, lineNumber)), lineNumber), lineNumber);
+                    .map(string -> SkriptLoader.get().forceParseElement(string, lineNumber)), lineNumber), lineNumber);
         }
 
         /**
