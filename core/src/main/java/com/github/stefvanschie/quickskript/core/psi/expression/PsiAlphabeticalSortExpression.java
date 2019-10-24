@@ -4,16 +4,12 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
+import com.github.stefvanschie.quickskript.core.psi.util.PsiCollection;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Sorts the given texts in alphabetical order.
@@ -50,38 +46,11 @@ public class PsiAlphabeticalSortExpression extends PsiElement<Text[]> {
     @Contract(pure = true)
     @Override
     protected Text[] executeImpl(@Nullable Context context) {
-        Text[] texts;
         Object result = this.texts.execute(context);
-
-        if (result instanceof Iterable) {
-            List<Text> textsList = new ArrayList<>();
-
-            for (Object obj : (Iterable<?>) result) {
-                textsList.add((Text) obj);
-            }
-
-            texts = textsList.toArray(Text[]::new);
-        } else if (result instanceof Object[]) {
-            Object[] objects = (Object[]) result;
-            texts = new Text[objects.length];
-
-            for (int i = 0; i < objects.length; i++) {
-                texts[i] = (Text) objects[i];
-            }
-        } else if (result != null && result.getClass().isArray()) {
-            int length = Array.getLength(result);
-            texts = new Text[length];
-
-            for (int i = 0; i < length; ++i) {
-                texts[i] = (Text) Array.get(result, i);
-            }
-        } else {
-            texts = new Text[] {(Text) result};
-        }
-
-        Arrays.sort(texts);
-
-        return texts;
+        return PsiCollection.toStreamForgiving(result)
+                .map(e -> (Text) e)
+                .sorted()
+                .toArray(Text[]::new);
     }
 
     /**
