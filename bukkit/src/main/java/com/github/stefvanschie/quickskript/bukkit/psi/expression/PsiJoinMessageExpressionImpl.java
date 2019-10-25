@@ -46,7 +46,7 @@ public class PsiJoinMessageExpressionImpl extends PsiJoinMessageExpression {
 
         String joinMessage = ((PlayerJoinEvent) event).getJoinMessage();
 
-        return Text.parse(joinMessage == null ? "" : joinMessage);
+        return joinMessage == null ? Text.empty() : Text.parse(joinMessage);
     }
 
     @Override

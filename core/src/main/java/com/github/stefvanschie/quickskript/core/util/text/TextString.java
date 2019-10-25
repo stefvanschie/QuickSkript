@@ -16,12 +16,14 @@ public class TextString implements TextPart {
     private final String text;
 
     /**
-     * Creates a new literal string text part from the given string
+     * Creates a new literal string text part from the given {@link String}.
+     * The {@link String} must not be empty.
      *
      * @param text the text this object will represent
      * @since 0.1.0
      */
     public TextString(@NotNull String text) {
+        if (text.isEmpty()) throw new IllegalArgumentException("The text mustn't be empty.");
         this.text = text;
     }
 

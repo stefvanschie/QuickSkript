@@ -28,31 +28,36 @@ public class PsiElementOfExpression extends PsiElement<Object> {
     /**
      * Gives the index of the element we should retrieve, based on the size of the collection
      */
-    @NotNull //TODO a PsiElement (that can be a PsiPrecomputedHolder or a PsiLambdaHolder) instead of this
-    //that way the result can be precomputed when it could be
-    private final BiFunction<@NotNull Integer, @Nullable Context, @NotNull Integer> indexFunction;
+    private BiFunction<@NotNull Integer, @Nullable Context, @NotNull Integer> indexFunction;
 
     /**
      * The elements to choose from
      */
-    @NotNull
-    private final PsiElement<?> elements;
+    private PsiElement<?> elements;
 
     /**
      * Creates a new element with the given line number
      *
      * @param indexFunction supplies the index based on the collection's size
+     * @param indexPreComputed whether the indexFunction's value is precomputed
      * @param elements the elements to pick from
      * @param lineNumber the line number this element is associated with
      * @since 0.1.0
      */
     private PsiElementOfExpression(
             @NotNull BiFunction<@NotNull Integer, @Nullable Context, @NotNull Integer> indexFunction,
+            boolean indexPreComputed,
             @NotNull PsiElement<?> elements, int lineNumber) {
         super(lineNumber);
 
         this.indexFunction = indexFunction;
         this.elements = elements;
+
+        if (indexPreComputed && elements.isPreComputed()) {
+            preComputed = executeImpl(null);
+            this.indexFunction = null;
+            this.elements = null;
+        }
     }
 
     @Nullable
@@ -112,19 +117,18 @@ public class PsiElementOfExpression extends PsiElement<Object> {
             BiFunction<@NotNull Integer, @Nullable Context, @Nullable Integer> indexFunction;
 
             if (parseMark == 0) {
-                indexFunction = (size, context) -> 0;
+                return create((size, context) -> 0, true, elements, lineNumber);
             } else if (parseMark == 1) {
-                indexFunction = (size, context) -> size - 1;
+                return create((size, context) -> size - 1, true, elements, lineNumber);
             } else if (parseMark == 2) {
-                indexFunction = (size, context) -> ThreadLocalRandom.current().nextInt(size);
+                return create((size, context) -> ThreadLocalRandom.current().nextInt(size), false, elements, lineNumber);
             } else if (parseMark == 3) {
-                indexFunction = (size, context) ->
-                        Objects.requireNonNull(index).execute(context, Number.class).intValue();
+                Objects.requireNonNull(index);
+                return create((size, context) -> index.execute(context, Number.class).intValue(),
+                        index.isPreComputed(), elements, lineNumber);
             } else {
                 throw new ParseException("Unknown parse mark found while parsing", lineNumber);
             }
-
-            return create(indexFunction, elements, lineNumber);
         }
 
         /**
@@ -132,6 +136,7 @@ public class PsiElementOfExpression extends PsiElement<Object> {
          * constructor parameters.
          *
          * @param indexFunction a {@link BiFunction} for generating the wanted index
+         * @param indexPreComputed whether the indexFunction's value is precomputed
          * @param elements the elements tog et an element from
          * @param lineNumber the line number
          * @return the expression
@@ -141,8 +146,9 @@ public class PsiElementOfExpression extends PsiElement<Object> {
         @Contract(pure = true)
         public PsiElementOfExpression create(
                 @NotNull BiFunction<@NotNull Integer, @Nullable Context, @NotNull Integer> indexFunction,
+                boolean indexPreComputed,
                 @NotNull PsiElement<?> elements, int lineNumber) {
-            return new PsiElementOfExpression(indexFunction, elements, lineNumber);
+            return new PsiElementOfExpression(indexFunction, indexPreComputed, elements, lineNumber);
         }
     }
 }
