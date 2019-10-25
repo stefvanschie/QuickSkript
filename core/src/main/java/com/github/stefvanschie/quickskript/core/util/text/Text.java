@@ -109,7 +109,8 @@ public final class Text {
     @NotNull
     @Contract("null -> fail")
     public static Text parse(@NotNull String text) {
-        return new Text(new TextString(text));
+        //TODO this is WIP
+        return text.isEmpty() ? new Text() : new Text(new TextString(text));
     }
 
     /**
@@ -122,7 +123,7 @@ public final class Text {
     @NotNull
     @Contract("null -> fail")
     public static Text parseLiteral(@NotNull String text) {
-        return new Text(new TextString(text));
+        return text.isEmpty() ? new Text() : new Text(new TextString(text));
     }
 
     /**
