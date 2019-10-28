@@ -157,6 +157,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiMeExpression.Factory());
         registerElement(new PsiNowExpression.Factory());
         registerElement(new PsiNumbersExpression.Factory());
+        registerElement(new PsiOfflinePlayersExpression.Factory());
         registerElement(new PsiPermissionsExpression.Factory());
         registerElement(new PsiRandomNumberExpression.Factory());
         registerElement(new PsiRealMaxPlayersExpression.Factory());
