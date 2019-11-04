@@ -10,27 +10,38 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
+
 /**
- * Gets the fake player count shown in ping events
+ * Gets the passengers of an entity
  *
  * @since 0.1.0
  */
-public class PsiFakeOnlinePlayerCountExpression extends PsiElement<Integer> implements Addable, Deletable, Removable,
-    Resettable, Settable {
+public class PsiPassengersExpression extends PsiElement<List<?>> implements Addable, Deletable, Removable,
+    RemoveAllable, Resettable, Settable {
+
+    /**
+     * The entity to get the passengers of
+     */
+    @NotNull
+    protected PsiElement<?> entity;
 
     /**
      * Creates a new element with the given line number
      *
+     * @param entity the entity to get the passengers of
      * @param lineNumber the line number this element is associated with
      * @since 0.1.0
      */
-    protected PsiFakeOnlinePlayerCountExpression(int lineNumber) {
+    protected PsiPassengersExpression(@NotNull PsiElement<?> entity, int lineNumber) {
         super(lineNumber);
+
+        this.entity = entity;
     }
 
     @Nullable
     @Override
-    protected Integer executeImpl(@Nullable Context context) {
+    protected List<?> executeImpl(@Nullable Context context) {
         throw new UnsupportedOperationException("Cannot execute expression without implementation.");
     }
 
@@ -41,6 +52,11 @@ public class PsiFakeOnlinePlayerCountExpression extends PsiElement<Integer> impl
 
     @Override
     public void delete(@Nullable Context context) {
+        throw new UnsupportedOperationException("Cannot execute expression without implementation.");
+    }
+
+    @Override
+    public void removeAll(@Nullable Context context, @NotNull PsiElement<?> object) {
         throw new UnsupportedOperationException("Cannot execute expression without implementation.");
     }
 
@@ -60,24 +76,25 @@ public class PsiFakeOnlinePlayerCountExpression extends PsiElement<Integer> impl
     }
 
     /**
-     * A factory for creating {@link PsiFakeOnlinePlayerCountExpression}s
+     * A factory for creating {@link PsiPassengersExpression}s
      *
      * @since 0.1.0
      */
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiFakeOnlinePlayerCountExpression}s
+         * The pattern for matching {@link PsiPassengersExpression}s
          */
         @NotNull
         private SkriptPattern[] patterns = SkriptPattern.parse(
-            "[the] (fake|shown|displayed) [online] player (count|amount|number)",
-            "[the] (fake|shown|displayed) (count|amount|number|size) of online players"
+            "[the] passenger[s] of %entities%",
+            "%entities%'[s] passenger[s]"
         );
 
         /**
          * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
          *
+         * @param entity the entity to get the passengers of
          * @param lineNumber the line number
          * @return the expression
          * @since 0.1.0
@@ -85,22 +102,23 @@ public class PsiFakeOnlinePlayerCountExpression extends PsiElement<Integer> impl
         @NotNull
         @Contract(pure = true)
         @Pattern("patterns")
-        public PsiFakeOnlinePlayerCountExpression parse(int lineNumber) {
-            return create(lineNumber);
+        public PsiPassengersExpression parse(@NotNull PsiElement<?> entity, int lineNumber) {
+            return create(entity, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
          * constructor parameters.
          *
+         * @param entity the entity to get the passengers of
          * @param lineNumber the line number
          * @return the expression
          * @since 0.1.0
          */
         @NotNull
         @Contract(pure = true)
-        public PsiFakeOnlinePlayerCountExpression create(int lineNumber) {
-            return new PsiFakeOnlinePlayerCountExpression(lineNumber);
+        public PsiPassengersExpression create(@NotNull PsiElement<?> entity, int lineNumber) {
+            return new PsiPassengersExpression(entity, lineNumber);
         }
     }
 }

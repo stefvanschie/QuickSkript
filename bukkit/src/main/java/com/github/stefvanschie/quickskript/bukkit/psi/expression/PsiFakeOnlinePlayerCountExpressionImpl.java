@@ -21,8 +21,7 @@ import org.jetbrains.annotations.Nullable;
  *
  * @since 0.1.0
  */
-public class PsiFakeOnlinePlayerCountExpressionImpl extends PsiFakeOnlinePlayerCountExpression implements Addable,
-    Deletable, Removable, Resettable, Settable {
+public class PsiFakeOnlinePlayerCountExpressionImpl extends PsiFakeOnlinePlayerCountExpression {
 
     /**
      * Creates a new element with the given line number
