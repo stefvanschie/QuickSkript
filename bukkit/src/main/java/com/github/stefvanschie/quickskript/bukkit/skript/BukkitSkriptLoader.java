@@ -219,6 +219,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiRealMaxPlayersExpressionImpl.Factory());
         registerElement(new PsiRealOnlinePlayerCountExpressionImpl.Factory());
         registerElement(new PsiRoundExpression.Factory());
+        registerElement(new PsiSaturationExpressionImpl.Factory());
         registerElement(new PsiSplitExpression.Factory());
 
         //functions
