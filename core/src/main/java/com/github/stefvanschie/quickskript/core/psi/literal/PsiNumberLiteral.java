@@ -4,7 +4,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiConverter;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
-import com.github.stefvanschie.quickskript.core.psi.util.parsing.Literal;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -35,7 +34,6 @@ public class PsiNumberLiteral extends PsiPrecomputedHolder<Double> {
      *
      * @since 0.1.0
      */
-    @Literal
     public static class Factory implements PsiElementFactory {
 
         /**

@@ -128,17 +128,9 @@ public class TypeGroup implements SkriptPatternGroup {
 
         input = input.substring(1);
 
-        int endCharacter = input.indexOf('%');
-
-        if (endCharacter == -1) {
-            throw new SkriptPatternParseException(
-                "Expected an ending type group character '%' at index " + input.length() + " but wasn't found"
-            );
-        }
-
         Constraint constraint = Constraint.ALL;
 
-        switch (input.charAt(1)) {
+        switch (input.charAt(0)) {
             case '*':
                 constraint = Constraint.LITERAL;
                 input = input.substring(1);
@@ -155,6 +147,14 @@ public class TypeGroup implements SkriptPatternGroup {
                 constraint = Constraint.NULL_IF_ABSENT;
                 input = input.substring(1);
                 break;
+        }
+
+        int endCharacter = input.indexOf('%');
+
+        if (endCharacter == -1) {
+            throw new SkriptPatternParseException(
+                "Expected an ending type group character '%' at index " + input.length() + " but wasn't found"
+            );
         }
 
         return new Pair<>(new TypeGroup(input.substring(0, endCharacter), constraint), input.substring(endCharacter + 1));

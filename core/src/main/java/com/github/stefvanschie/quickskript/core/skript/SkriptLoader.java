@@ -9,7 +9,6 @@ import com.github.stefvanschie.quickskript.core.psi.*;
 import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.core.psi.section.PsiIf;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
-import com.github.stefvanschie.quickskript.core.psi.util.parsing.Literal;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.exception.IllegalFallbackAnnotationAmountException;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.PatternTypeOrder;
@@ -99,28 +98,16 @@ public abstract class SkriptLoader implements AutoCloseable {
      * Returns null if no element was found.
      *
      * @param input the text to be parsed
-     * @param constraint a constraint on the type of value to parse
      * @param lineNumber the line number of the element which will potentially be parsed
      * @return the parsed psi element, or null if none were found
      * @since 0.1.0
      */
     @Nullable
     @Contract(pure = true)
-    private PsiElement<?> tryParseElement(@NotNull String input, @NotNull TypeGroup.Constraint constraint,
-                                         int lineNumber) {
+    public PsiElement<?> tryParseElement(@NotNull String input, int lineNumber) {
         input = input.trim();
 
         for (PsiElementFactory factory : elements) {
-            boolean isLiteral = factory.getClass().getAnnotation(Literal.class) != null;
-
-            if (isLiteral && constraint == TypeGroup.Constraint.NOT_LITERAL) {
-                continue;
-            }
-
-            if (!isLiteral && constraint == TypeGroup.Constraint.LITERAL) {
-                continue;
-            }
-
             for (Method method : factory.getClass().getMethods()) {
                 Pattern pattern = method.getAnnotation(Pattern.class);
 
@@ -211,10 +198,9 @@ public abstract class SkriptLoader implements AutoCloseable {
                                 .map(Pair::getY)
                                 .collect(Collectors.toUnmodifiableList());
 
-                            PsiElement[] elements = new PsiElement[typeGroupAmount];
+                            Object[] elements = new Object[typeGroupAmount];
 
                             for (int i = 0; i < elements.length && i < groups.size(); i++) {
-                                TypeGroup.Constraint groupConstraint = groups.get(i).getConstraint();
                                 int elementIndex = skriptPattern.getGroups().stream()
                                     .filter(group -> group instanceof TypeGroup)
                                     .collect(Collectors.toUnmodifiableList())
@@ -232,7 +218,11 @@ public abstract class SkriptLoader implements AutoCloseable {
 
                                 String matchedTypeText = matchedTypeTexts.get(i);
 
-                                elements[elementIndex] = tryParseElement(matchedTypeText, groupConstraint, lineNumber);
+                                if (groups.get(i).getConstraint() == TypeGroup.Constraint.LITERAL) {
+                                    elements[elementIndex] = matchedTypeText;
+                                } else {
+                                    elements[elementIndex] = tryParseElement(matchedTypeText, lineNumber);
+                                }
 
                                 //recursive retry
                                 if (elements[elementIndex] == null) {
@@ -261,9 +251,9 @@ public abstract class SkriptLoader implements AutoCloseable {
 
                             PsiElement<?> element = (PsiElement<?>) method.invoke(factory, parameters);
 
-                            for (PsiElement<?> child : elements) {
-                                if (child != null) {
-                                    child.setParent(element);
+                            for (Object child : elements) {
+                                if (child instanceof PsiElement<?>) {
+                                    ((PsiElement<?>) child).setParent(element);
                                 }
                             }
 
@@ -311,16 +301,14 @@ public abstract class SkriptLoader implements AutoCloseable {
      * Throws a {@link ParseException} if no element was found.
      *
      * @param input the text to be parsed
-     * @param constraint a constraint on the type of value to parse
      * @param lineNumber the line number of the element that will be parsed
      * @return the parsed psi element
      * @since 0.1.0
      */
     @NotNull
     @Contract(pure = true)
-    public PsiElement<?> forceParseElement(@NotNull String input, @NotNull TypeGroup.Constraint constraint,
-                                           int lineNumber) {
-        PsiElement<?> result = tryParseElement(input, constraint, lineNumber);
+    public PsiElement<?> forceParseElement(@NotNull String input, int lineNumber) {
+        PsiElement<?> result = tryParseElement(input, lineNumber);
 
         if (result != null) {
             return result;
@@ -357,22 +345,6 @@ public abstract class SkriptLoader implements AutoCloseable {
         //try to parse the condition before all elements inside the section
         return new PsiIf(elementsSupplier.get(), condition, lineNumber);
     }
-
-    /**
-     * Parses text into psi elements.
-     * Throws a {@link ParseException} if no element was found.
-     *
-     * @param input the text to be parsed
-     * @param lineNumber the line number of the element that will be parsed
-     * @return the parsed psi element
-     * @since 0.1.0
-     */
-    @NotNull
-    @Contract(pure = true)
-    public PsiElement<?> forceParseElement(@NotNull String input, int lineNumber) {
-        return forceParseElement(input, TypeGroup.Constraint.ALL, lineNumber);
-    }
-
 
     /**
      * Returns a converter based on the specified name.
@@ -455,22 +427,6 @@ public abstract class SkriptLoader implements AutoCloseable {
         }
 
         instance = null;
-    }
-
-    /**
-     * Parses text into psi elements.
-     * Returns null if no element was found.
-     *
-     * @param input the text to be parsed
-     * @param lineNumber the line number of the element which will potentially be parsed
-     * @return the parsed psi element, or null if none were found
-     * @see #tryParseElement(String, TypeGroup.Constraint, int)
-     * @since 0.1.0
-     */
-    @Nullable
-    @Contract(pure = true)
-    public PsiElement<?> tryParseElement(@NotNull String input, int lineNumber) {
-        return tryParseElement(input, TypeGroup.Constraint.ALL, lineNumber);
     }
 
     /**
