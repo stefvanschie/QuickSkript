@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @since 0.1.0
  */
-public final class Text {
+public final class Text implements Comparable<Text> {
 
     /**
      * An immutable list of all the message parts
@@ -124,6 +124,12 @@ public final class Text {
     @Contract("null -> fail")
     public static Text parseLiteral(@NotNull String text) {
         return text.isEmpty() ? new Text() : new Text(new TextString(text));
+    }
+
+    @Contract(pure = true)
+    @Override
+    public int compareTo(@NotNull Text text) {
+        return toString().compareTo(text.toString());
     }
 
     /**
