@@ -1,13 +1,11 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
-import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Enables or disables the ability to fly for a player
@@ -40,15 +38,6 @@ public class PsiToggleFlightEffect extends PsiElement<Void> {
 
         this.player = player;
         this.enabled = enabled;
-    }
-
-    /**
-     * @throws UnsupportedOperationException implementation is required for this functionality
-     */
-    @Nullable
-    @Override
-    protected Void executeImpl(@Nullable Context context) {
-        throw new UnsupportedOperationException("Cannot execute expression without implementation.");
     }
 
     /**

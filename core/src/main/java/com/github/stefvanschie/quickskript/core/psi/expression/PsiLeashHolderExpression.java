@@ -1,13 +1,11 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Gets the entity who's currently leashing the entity. This cannot be pre-computed, since this may change during
@@ -34,15 +32,6 @@ public class PsiLeashHolderExpression extends PsiElement<Object> {
         super(lineNumber);
 
         this.entity = entity;
-    }
-
-    /**
-     * @throws UnsupportedOperationException implementation is required for this functionality
-     */
-    @Nullable
-    @Override
-    protected Object executeImpl(@Nullable Context context) {
-        throw new UnsupportedOperationException("Cannot execute expression without implementation.");
     }
 
     /**

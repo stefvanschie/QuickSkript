@@ -8,7 +8,6 @@ import com.github.stefvanschie.quickskript.core.context.EventContext;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiFakeOnlinePlayerCountExpression;
-import com.github.stefvanschie.quickskript.core.psi.expression.util.*;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.server.ServerListPingEvent;

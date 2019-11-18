@@ -15,9 +15,11 @@ public interface Addable {
     /**
      * Adds the specified element to this expression
      *
-     * @param context the context in which this method is called
+     * @param context the context this code is being executed in, or null during pre computation
      * @param object the object to add
      * @since 0.1.0
      */
-    void add(@Nullable Context context, @NotNull PsiElement<?> object);
+    default void add(@Nullable Context context, @NotNull PsiElement<?> object) {
+        throw new UnsupportedOperationException("Cannot change expression without implementation.");
+    }
 }

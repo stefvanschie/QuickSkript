@@ -27,12 +27,6 @@ public class ${NAME} extends PsiElement<${TYPE}> {
         super(lineNumber);
     }
 
-    @Nullable
-    @Override
-    protected ${TYPE} executeImpl(@Nullable Context context) {
-        throw new UnsupportedOperationException("Cannot execute expression without implementation.");
-    }
-
     /**
      * A factory for creating {@link ${NAME}}s
      *

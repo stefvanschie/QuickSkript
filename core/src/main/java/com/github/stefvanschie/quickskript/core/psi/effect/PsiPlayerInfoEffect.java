@@ -1,13 +1,11 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
-import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Hides/Shows player info when pinging the server
@@ -32,15 +30,6 @@ public class PsiPlayerInfoEffect extends PsiElement<Void> {
         super(lineNumber);
 
         this.show = show;
-    }
-
-    /**
-     * @throws UnsupportedOperationException implementation is required for this functionality
-     */
-    @Nullable
-    @Override
-    protected Void executeImpl(@Nullable Context context) {
-        throw new UnsupportedOperationException("Cannot execute expression without implementation.");
     }
 
     /**

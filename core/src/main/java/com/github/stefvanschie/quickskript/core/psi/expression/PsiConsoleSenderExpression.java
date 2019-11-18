@@ -1,13 +1,11 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * A type that returns the global command sender object. This element is always pre computed.
@@ -24,15 +22,6 @@ public class PsiConsoleSenderExpression extends PsiElement<Object> {
      */
     protected PsiConsoleSenderExpression(int lineNumber) {
         super(lineNumber);
-    }
-
-    /**
-     * @throws UnsupportedOperationException implementation is required for this functionality
-     */
-    @Nullable
-    @Override
-    protected Object executeImpl(@Nullable Context context) {
-        throw new UnsupportedOperationException("Cannot execute expression without implementation.");
     }
 
     /**

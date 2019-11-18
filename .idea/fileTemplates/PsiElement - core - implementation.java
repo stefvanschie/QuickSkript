@@ -1,20 +1,22 @@
-package com.github.stefvanschie.quickskript.core.psi.expression;
+package ${PACKAGE_NAME};
 
+import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.psi.expression.util.Settable;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * Gets the join message in a join event
+ * TODO documentation here
+ * TODO StandaloneSkriptLoader: registerElement(new ${NAME}.Factory());
+ * TODO BukkitSkriptLoader: registerElement(new ${NAME}.Factory());
  *
  * @since 0.1.0
  */
-public class PsiJoinMessageExpression extends PsiElement<Text> implements Settable {
+public class ${NAME} extends PsiElement<${TYPE}> {
 
     /**
      * Creates a new element with the given line number
@@ -22,22 +24,28 @@ public class PsiJoinMessageExpression extends PsiElement<Text> implements Settab
      * @param lineNumber the line number this element is associated with
      * @since 0.1.0
      */
-    protected PsiJoinMessageExpression(int lineNumber) {
+    protected ${NAME}(#if($PARAMETERS_DECLARATION != "") ${PARAMETERS_DECLARATION}, #end int lineNumber) {
         super(lineNumber);
     }
 
+    @Nullable
+    @Override
+    protected ${TYPE} executeImpl(@Nullable Context context) {
+        //TODO implementation
+    }
+
     /**
-     * A factory for creating {@link PsiJoinMessageExpression}s
+     * A factory for creating {@link ${NAME}}s
      *
      * @since 0.1.0
      */
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiJoinMessageExpression}s
+         * The pattern for matching {@link ${NAME}}s
          */
         @NotNull
-        private final SkriptPattern pattern = SkriptPattern.parse("[the] (join|log[ ]in)( |-)message");
+        private SkriptPattern pattern = SkriptPattern.parse("${PATTERN}");
 
         /**
          * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
@@ -49,8 +57,8 @@ public class PsiJoinMessageExpression extends PsiElement<Text> implements Settab
         @NotNull
         @Contract(pure = true)
         @Pattern("pattern")
-        public PsiJoinMessageExpression parse(int lineNumber) {
-            return create(lineNumber);
+        public ${NAME} parse(#if($PARAMETERS_DECLARATION != "") ${PARAMETERS_DECLARATION}, #end int lineNumber) {
+            return create(#if($PARAMETERS_VARS != "") ${PARAMETERS_VARS}, #end lineNumber);
         }
 
         /**
@@ -63,8 +71,8 @@ public class PsiJoinMessageExpression extends PsiElement<Text> implements Settab
          */
         @NotNull
         @Contract(pure = true)
-        public PsiJoinMessageExpression create(int lineNumber) {
-            return new PsiJoinMessageExpression(lineNumber);
+        public ${NAME} create(#if($PARAMETERS_DECLARATION != "") ${PARAMETERS_DECLARATION}, #end int lineNumber) {
+            return new ${NAME}(#if($PARAMETERS_VARS != "") ${PARAMETERS_VARS}, #end lineNumber);
         }
     }
 }

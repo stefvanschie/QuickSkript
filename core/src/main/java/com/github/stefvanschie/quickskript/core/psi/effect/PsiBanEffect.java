@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
-import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
@@ -49,15 +48,6 @@ public class PsiBanEffect extends PsiElement<Void> {
         this.object = object;
         this.reason = reason;
         this.ipBan = ipBan;
-    }
-
-    /**
-     * @throws UnsupportedOperationException implementation is required for this functionality
-     */
-    @Nullable
-    @Override
-    protected Void executeImpl(@Nullable Context context) {
-        throw new UnsupportedOperationException("Cannot execute expression without implementation.");
     }
 
     /**

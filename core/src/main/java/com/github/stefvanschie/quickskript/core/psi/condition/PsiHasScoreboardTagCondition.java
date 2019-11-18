@@ -1,13 +1,11 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Checks to see if the specified entity has a specific scoreboard tag. This cannot be pre computed, since this may
@@ -50,15 +48,6 @@ public class PsiHasScoreboardTagCondition extends PsiElement<Boolean> {
         this.entity = entity;
         this.tag = tag;
         this.positive = positive;
-    }
-
-    /**
-     * @throws UnsupportedOperationException implementation is required for this functionality
-     */
-    @Nullable
-    @Override
-    protected Boolean executeImpl(@Nullable Context context) {
-        throw new UnsupportedOperationException("Cannot execute expression without implementation.");
     }
 
     /**

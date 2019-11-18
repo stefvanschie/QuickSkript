@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
@@ -8,7 +7,6 @@ import com.github.stefvanschie.quickskript.core.psi.expression.util.*;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Gets the progress towards the next level from a player. This cannot be pre-computed, since this may change during
@@ -36,55 +34,6 @@ public class PsiLevelProgressExpression extends PsiElement<Float> implements Add
         super(lineNumber);
 
         this.player = player;
-    }
-
-    /**
-     * @throws UnsupportedOperationException implementation is required for this functionality
-     */
-    @Nullable
-    @Override
-    protected Float executeImpl(@Nullable Context context) {
-        throw new UnsupportedOperationException("Cannot execute expression without implementation.");
-    }
-
-    /**
-     * @throws UnsupportedOperationException implementation is required for this functionality
-     */
-    @Override
-    public void add(@Nullable Context context, @NotNull PsiElement<?> object) {
-        throw new UnsupportedOperationException("Cannot execute expression without implementation.");
-    }
-
-    /**
-     * @throws UnsupportedOperationException implementation is required for this functionality
-     */
-    @Override
-    public void delete(@Nullable Context context) {
-        throw new UnsupportedOperationException("Cannot execute expression without implementation.");
-    }
-
-    /**
-     * @throws UnsupportedOperationException implementation is required for this functionality
-     */
-    @Override
-    public void remove(@Nullable Context context, @NotNull PsiElement<?> object) {
-        throw new UnsupportedOperationException("Cannot execute expression without implementation.");
-    }
-
-    /**
-     * @throws UnsupportedOperationException implementation is required for this functionality
-     */
-    @Override
-    public void reset(@Nullable Context context) {
-        throw new UnsupportedOperationException("Cannot execute expression without implementation.");
-    }
-
-    /**
-     * @throws UnsupportedOperationException implementation is required for this functionality
-     */
-    @Override
-    public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
-        throw new UnsupportedOperationException("Cannot execute expression without implementation.");
     }
 
     /**
