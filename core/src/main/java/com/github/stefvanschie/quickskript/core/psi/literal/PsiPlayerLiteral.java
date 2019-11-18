@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.literal;
 
-import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
@@ -20,15 +19,6 @@ public class PsiPlayerLiteral extends PsiElement<Object> {
 
     protected PsiPlayerLiteral(int lineNumber) {
         super(lineNumber);
-    }
-
-    /**
-     * @throws UnsupportedOperationException implementation is required for this functionality
-     */
-    @NotNull
-    @Override
-    protected Object executeImpl(@Nullable Context context) {
-        throw new UnsupportedOperationException("Cannot execute expression without implementation.");
     }
 
     /**

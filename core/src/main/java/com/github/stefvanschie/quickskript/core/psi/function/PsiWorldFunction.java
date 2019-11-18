@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.function;
 
-import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
@@ -36,15 +35,6 @@ public class PsiWorldFunction extends PsiElement<Object> {
         super(lineNumber);
 
         this.parameter = parameter;
-    }
-
-    /**
-     * @throws UnsupportedOperationException implementation is required for this functionality
-     */
-    @Nullable
-    @Override
-    public Object executeImpl(@Nullable Context context) {
-        throw new UnsupportedOperationException("Cannot execute expression without implementation.");
     }
 
     /**

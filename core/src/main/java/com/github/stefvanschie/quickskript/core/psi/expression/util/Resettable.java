@@ -13,8 +13,10 @@ public interface Resettable {
     /**
      * Resets the expression's result
      *
-     * @param context the context in which this method is called
+     * @param context the context this code is being executed in, or null during pre computation
      * @since 0.1.0
      */
-    void reset(@Nullable Context context);
+    default void reset(@Nullable Context context) {
+        throw new UnsupportedOperationException("Cannot change expression without implementation.");
+    }
 }

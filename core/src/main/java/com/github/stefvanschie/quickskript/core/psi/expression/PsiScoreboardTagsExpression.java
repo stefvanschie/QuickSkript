@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
@@ -9,7 +8,6 @@ import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
@@ -38,37 +36,6 @@ public class PsiScoreboardTagsExpression extends PsiElement<Set<Text>> implement
         super(lineNumber);
 
         this.entity = entity;
-    }
-
-    @Nullable
-    @Override
-    protected Set<Text> executeImpl(@Nullable Context context) {
-        throw new UnsupportedOperationException("Cannot execute expression without implementation.");
-    }
-
-    @Override
-    public void add(@Nullable Context context, @NotNull PsiElement<?> object) {
-        throw new UnsupportedOperationException("Cannot execute expression without implementation.");
-    }
-
-    @Override
-    public void delete(@Nullable Context context) {
-        throw new UnsupportedOperationException("Cannot execute expression without implementation.");
-    }
-
-    @Override
-    public void remove(@Nullable Context context, @NotNull PsiElement<?> object) {
-        throw new UnsupportedOperationException("Cannot execute expression without implementation.");
-    }
-
-    @Override
-    public void reset(@Nullable Context context) {
-        throw new UnsupportedOperationException("Cannot execute expression without implementation.");
-    }
-
-    @Override
-    public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
-        throw new UnsupportedOperationException("Cannot execute expression without implementation.");
     }
 
     /**

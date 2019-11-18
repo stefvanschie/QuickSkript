@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
@@ -8,7 +7,6 @@ import com.github.stefvanschie.quickskript.core.psi.expression.util.Settable;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Gets the protocol version from a ping event. This cannot be pre-computed, since this may change during gameplay.
@@ -25,17 +23,6 @@ public class PsiProtocolVersionExpression extends PsiElement<Integer> implements
      */
     protected PsiProtocolVersionExpression(int lineNumber) {
         super(lineNumber);
-    }
-
-    @Nullable
-    @Override
-    protected Integer executeImpl(@Nullable Context context) {
-        throw new UnsupportedOperationException("Cannot execute expression without implementation.");
-    }
-
-    @Override
-    public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
-        throw new UnsupportedOperationException("Cannot execute expression without implementation.");
     }
 
     /**

@@ -15,10 +15,12 @@ public interface Removable {
     /**
      * Removes the result of the element from this expression
      *
-     * @param context the context in which this method is called
+     * @param context the context this code is being executed in, or null during pre computation
      * @param object the object to remove
      * @since 0.1.0
      */
-    void remove(@Nullable Context context, @NotNull PsiElement<?> object);
+    default void remove(@Nullable Context context, @NotNull PsiElement<?> object) {
+        throw new UnsupportedOperationException("Cannot change expression without implementation.");
+    }
 
 }

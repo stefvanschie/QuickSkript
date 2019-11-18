@@ -79,12 +79,14 @@ public abstract class PsiElement<T> {
     /**
      * Executes this element
      *
-     * @param context the context this code is being executed in, may be null if the code is expected to be pre computed
-     * @return the computed value which is null if the computation returned null
+     * @param context the context this code is being executed in, or null during pre computation
+     * @return the computed value
      * @since 0.1.0
      */
     @Nullable
-    protected abstract T executeImpl(@Nullable Context context);
+    protected T executeImpl(@Nullable Context context) {
+        throw new UnsupportedOperationException("Cannot execute expression without implementation.");
+    }
 
     /**
      * Sets the parent of this element

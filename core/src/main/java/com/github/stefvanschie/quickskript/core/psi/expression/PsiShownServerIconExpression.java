@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
@@ -9,7 +8,6 @@ import com.github.stefvanschie.quickskript.core.psi.expression.util.Settable;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Gets the server icon shown in a ping event
@@ -26,22 +24,6 @@ public class PsiShownServerIconExpression extends PsiElement<Object> implements 
      */
     protected PsiShownServerIconExpression(int lineNumber) {
         super(lineNumber);
-    }
-
-    @Nullable
-    @Override
-    protected Object executeImpl(@Nullable Context context) {
-        throw new UnsupportedOperationException("Cannot execute expression without implementation.");
-    }
-
-    @Override
-    public void reset(@Nullable Context context) {
-        throw new UnsupportedOperationException("Cannot execute expression without implementation.");
-    }
-
-    @Override
-    public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
-        throw new UnsupportedOperationException("Cannot execute expression without implementation.");
     }
 
     /**

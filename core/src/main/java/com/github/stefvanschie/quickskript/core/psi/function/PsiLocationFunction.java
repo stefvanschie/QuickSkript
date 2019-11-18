@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.function;
 
-import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
@@ -62,15 +61,6 @@ public class PsiLocationFunction extends PsiElement<Object> {
         this.z = z;
         this.yaw = yaw;
         this.pitch = pitch;
-    }
-
-    /**
-     * @throws UnsupportedOperationException implementation is required for this functionality
-     */
-    @NotNull
-    @Override
-    public Object executeImpl(@Nullable Context context) {
-        throw new UnsupportedOperationException("Cannot execute expression without implementation.");
     }
 
     /**

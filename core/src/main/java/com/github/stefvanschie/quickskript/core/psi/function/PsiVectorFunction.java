@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.function;
 
-import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
@@ -45,15 +44,6 @@ public class PsiVectorFunction extends PsiElement<Object> {
             preComputed = executeImpl(null);
             this.x = this.y = this.z = null;
         }
-    }
-
-    /**
-     * @throws UnsupportedOperationException implementation is required for this functionality
-     */
-    @NotNull
-    @Override
-    protected Object executeImpl(@Nullable Context context) {
-        throw new UnsupportedOperationException("Cannot execute expression without implementation.");
     }
 
     /**
