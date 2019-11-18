@@ -31,9 +31,7 @@ public class PsiPlayerListHeaderExpressionImpl extends PsiPlayerListHeaderExpres
     @Contract(pure = true)
     @Override
     protected Text executeImpl(@Nullable Context context) {
-        String header = player.execute(context, Player.class).getPlayerListHeader();
-
-        return header == null ? Text.empty() : Text.parse(header);
+        return Text.parseNullable(player.execute(context, Player.class).getPlayerListHeader());
     }
 
     @Override

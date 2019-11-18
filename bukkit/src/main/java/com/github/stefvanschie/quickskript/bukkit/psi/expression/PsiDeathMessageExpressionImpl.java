@@ -45,9 +45,7 @@ public class PsiDeathMessageExpressionImpl extends PsiDeathMessageExpression {
                 lineNumber);
         }
 
-        String deathMessage = ((PlayerDeathEvent) event).getDeathMessage();
-
-        return Text.parse(deathMessage == null ? "" : deathMessage);
+        return Text.parseNullable(((PlayerDeathEvent) event).getDeathMessage());
     }
 
     @Override

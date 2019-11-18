@@ -2,6 +2,7 @@ package com.github.stefvanschie.quickskript.core.util.text;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -114,6 +115,19 @@ public final class Text implements Comparable<Text> {
     }
 
     /**
+     * Parses a text message from the given string.
+     * Same as {@link #parse(String)}, except this method parses null values into {@link #empty()}.
+     *
+     * @param text the text to parse
+     * @return the parsed text message
+     * @since 0.1.0
+     */
+    @NotNull
+    public static Text parseNullable(@Nullable String text) {
+        return text == null ? Text.empty() : parse(text);
+    }
+
+    /**
      * Parses a string as text, without applying any kind of formats to it
      *
      * @param text the text to parse
@@ -124,6 +138,19 @@ public final class Text implements Comparable<Text> {
     @Contract("null -> fail")
     public static Text parseLiteral(@NotNull String text) {
         return text.isEmpty() ? new Text() : new Text(new TextString(text));
+    }
+
+    /**
+     * Parses a string as text, without applying any kind of formats to it.
+     * Same as {@link #parse(String)}, except this method parses null values into {@link #empty()}.
+     *
+     * @param text the text to parse
+     * @return the parsed text message
+     * @since 0.1.0
+     */
+    @NotNull
+    public static Text parseLiteralNullable(@Nullable String text) {
+        return text == null ? Text.empty() : parseLiteral(text);
     }
 
     @Contract(pure = true)

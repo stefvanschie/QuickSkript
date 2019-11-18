@@ -45,9 +45,7 @@ public class PsiLeaveMessageExpressionImpl extends PsiLeaveMessageExpression {
                 lineNumber);
         }
 
-        String quitMessage = ((PlayerQuitEvent) event).getQuitMessage();
-
-        return quitMessage == null ? Text.empty() : Text.parse(quitMessage);
+        return Text.parseNullable(((PlayerQuitEvent) event).getQuitMessage());
     }
 
     @Override

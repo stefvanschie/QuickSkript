@@ -44,9 +44,7 @@ public class PsiJoinMessageExpressionImpl extends PsiJoinMessageExpression {
             throw new ExecutionException("Join message can only be retrieved from a join event", lineNumber);
         }
 
-        String joinMessage = ((PlayerJoinEvent) event).getJoinMessage();
-
-        return joinMessage == null ? Text.empty() : Text.parse(joinMessage);
+        return Text.parseNullable(((PlayerJoinEvent) event).getJoinMessage());
     }
 
     @Override
