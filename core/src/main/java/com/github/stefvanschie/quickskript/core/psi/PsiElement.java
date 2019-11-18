@@ -29,7 +29,7 @@ public abstract class PsiElement<T> {
      * The parent of this element, or null if this element is the top-level element
      */
     @Nullable
-    protected PsiElement<?> parent;
+    private PsiElement<?> parent;
 
     /**
      * Creates a new element with the given line number
@@ -95,6 +95,8 @@ public abstract class PsiElement<T> {
      * @since 0.1.0
      */
     public void setParent(@NotNull PsiElement<?> parent) {
+        if (this.parent != null)
+            throw new AssertionError("This element's parent has already been set, its line number: " + parent.lineNumber);
         this.parent = parent;
     }
 
