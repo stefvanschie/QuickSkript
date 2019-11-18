@@ -31,9 +31,7 @@ public class PsiPlayerListFooterExpressionImpl extends PsiPlayerListFooterExpres
     @Contract(pure = true)
     @Override
     protected Text executeImpl(@Nullable Context context) {
-        String footer = player.execute(context, Player.class).getPlayerListFooter();
-
-        return footer == null ? Text.empty() : Text.parse(footer);
+        return Text.parseNullable(player.execute(context, Player.class).getPlayerListFooter());
     }
 
     @Override
