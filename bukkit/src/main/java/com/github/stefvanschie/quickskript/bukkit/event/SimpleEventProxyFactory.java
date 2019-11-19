@@ -26,13 +26,13 @@ public class SimpleEventProxyFactory extends EventProxyFactory {
      * The storage of registered event handlers.
      */
     @NotNull
-    private static final Map<Class<? extends Event>, List<SkriptEventExecutor>> REGISTERED_HANDLERS = new HashMap<>();
+    private final Map<Class<? extends Event>, List<SkriptEventExecutor>> REGISTERED_HANDLERS = new HashMap<>();
 
     /**
      * The executor which handles the execution of all event handlers in the storage.
      */
     @NotNull
-    private static final EventExecutor HANDLER_EXECUTOR = (listener, event) -> {
+    private final EventExecutor HANDLER_EXECUTOR = (listener, event) -> {
         /*
         Paper has a custom implementation of the PaperServerListPingEvent which will be returned in here, so we need to
         accommodate for that.

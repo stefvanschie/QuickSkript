@@ -87,13 +87,6 @@ public class BukkitSkriptLoader extends SkriptLoader {
     @NotNull
     private final CommandMapWrapper commandMapWrapper = new CommandMapWrapper();
 
-    /**
-     * Create a new instance, initializing it with all default (non-addon) data.
-     *
-     * @since 0.1.0
-     */
-    public BukkitSkriptLoader() {}
-
     @Override
     public void registerDefaultElements() {
         //effects
