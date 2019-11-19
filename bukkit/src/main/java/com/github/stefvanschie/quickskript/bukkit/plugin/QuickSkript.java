@@ -76,6 +76,9 @@ public class QuickSkript extends JavaPlugin {
     @Override
     public void onDisable() {
         instance = null;
+
+        var skriptLoader = BukkitSkriptLoader.get();
+        if (skriptLoader != null) skriptLoader.close();
     }
 
     private void setProfilerImplementation() {

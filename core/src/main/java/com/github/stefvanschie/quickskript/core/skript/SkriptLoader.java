@@ -19,6 +19,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.Closeable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -36,7 +37,7 @@ import java.util.stream.Stream;
  *
  * @since 0.1.0
  */
-public abstract class SkriptLoader implements AutoCloseable {
+public abstract class SkriptLoader implements Closeable {
 
     /**
      * The current loader instance or null if there is none present.
@@ -81,7 +82,7 @@ public abstract class SkriptLoader implements AutoCloseable {
      */
     protected SkriptLoader() {
         if (instance != null) {
-            throw new IllegalArgumentException("A SkriptLoader is already present, can't create another one.");
+            throw new IllegalStateException("A SkriptLoader is already present, can't create another one.");
         }
 
         registerDefaultElements();
@@ -423,7 +424,7 @@ public abstract class SkriptLoader implements AutoCloseable {
     @Override
     public void close() {
         if (instance == null) {
-            throw new NullPointerException("No SkriptLoader is present, can't close it.");
+            throw new IllegalStateException("No SkriptLoader is present, can't close it.");
         }
 
         instance = null;

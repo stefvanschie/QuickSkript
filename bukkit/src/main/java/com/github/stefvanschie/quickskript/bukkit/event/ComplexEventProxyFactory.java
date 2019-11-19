@@ -29,14 +29,14 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
      * The storage of registered event handlers.
      */
     @NotNull
-    private static final Map<Class<? extends Event>, List<Map.Entry<SkriptEventExecutor,
+    private final Map<Class<? extends Event>, List<Map.Entry<SkriptEventExecutor,
             Predicate<Event>>>> REGISTERED_HANDLERS = new HashMap<>();
 
     /**
      * The executor which handles the execution of all event handlers in the storage.
      */
     @NotNull
-    private static final EventExecutor HANDLER_EXECUTOR = (listener, event) -> {
+    private final EventExecutor HANDLER_EXECUTOR = (listener, event) -> {
         List<Map.Entry<SkriptEventExecutor, Predicate<Event>>> handlers = REGISTERED_HANDLERS.get(event.getClass());
 
         //yes this can be null, thank Bukkit for that
