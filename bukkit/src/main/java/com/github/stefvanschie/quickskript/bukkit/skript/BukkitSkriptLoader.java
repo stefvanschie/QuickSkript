@@ -185,9 +185,10 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiHealthExpressionImpl.Factory());
         registerElement(new PsiHiddenPlayersExpressionImpl.Factory(), Platform.SPIGOT);
         registerElement(new PsiHoverListExpressionImpl.Factory(), Platform.PAPER);
-        registerElement(new PsiIPExpressionImpl.Factory());
         registerElement(new PsiIndexOfExpression.Factory());
         registerElement(new PsiIndicesExpression.Factory());
+        registerElement(new PsiInfinityExpression.Factory());
+        registerElement(new PsiIPExpressionImpl.Factory());
         registerElement(new PsiJoinExpression.Factory());
         registerElement(new PsiJoinMessageExpressionImpl.Factory());
         registerElement(new PsiLanguageExpressionImpl.Factory());
