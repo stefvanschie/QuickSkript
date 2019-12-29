@@ -225,6 +225,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiSplitExpression.Factory());
         registerElement(new PsiSubstringExpression.Factory());
         registerElement(new PsiTamerExpressionImpl.Factory());
+        registerElement(new PsiTernaryExpression.Factory());
         registerElement(new PsiTPSExpressionImpl.Factory(), Platform.PAPER);
 
         //functions

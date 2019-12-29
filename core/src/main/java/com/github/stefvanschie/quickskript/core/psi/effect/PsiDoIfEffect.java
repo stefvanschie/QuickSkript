@@ -6,7 +6,7 @@ import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.pattern.group.RegexGroup;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.util.Pair;
 import org.jetbrains.annotations.Contract;
@@ -77,26 +77,38 @@ public class PsiDoIfEffect extends PsiElement<Void> {
         /**
          * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
          *
-         * @param result the match result
+         * @param input the input to match against
          * @param lineNumber the line number
          * @return the effect
          * @since 0.1.0
          */
-        @NotNull
+        @Nullable
         @Contract(pure = true)
-        @Pattern("pattern")
-        public PsiDoIfEffect parse(@NotNull SkriptMatchResult result, int lineNumber) {
-            String[] regexGroups = result.getMatchedGroups().stream()
-                .filter(entry -> entry.getX() instanceof RegexGroup)
-                .map(Pair::getY)
-                .toArray(String[]::new);
+        @Fallback
+        public PsiDoIfEffect parse(@NotNull String input, int lineNumber) {
+            for (SkriptMatchResult result : pattern.match(input)) {
+                if (result.hasUnmatchedParts()) {
+                    continue;
+                }
 
-            var skriptLoader = SkriptLoader.get();
+                String[] regexGroups = result.getMatchedGroups().stream()
+                    .filter(entry -> entry.getX() instanceof RegexGroup)
+                    .map(Pair::getY)
+                    .toArray(String[]::new);
 
-            PsiElement<?> expression = skriptLoader.forceParseElement(regexGroups[0], lineNumber);
-            PsiElement<?> condition = skriptLoader.forceParseElement(regexGroups[1], lineNumber);
+                var skriptLoader = SkriptLoader.get();
 
-            return new PsiDoIfEffect(expression, condition, lineNumber);
+                PsiElement<?> expression = skriptLoader.tryParseElement(regexGroups[0], lineNumber);
+                PsiElement<?> condition = skriptLoader.tryParseElement(regexGroups[1], lineNumber);
+
+                if (expression == null || condition == null) {
+                    continue;
+                }
+
+                return new PsiDoIfEffect(expression, condition, lineNumber);
+            }
+
+            return null;
         }
     }
 }
