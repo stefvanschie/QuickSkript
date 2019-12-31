@@ -227,6 +227,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiTamerExpressionImpl.Factory());
         registerElement(new PsiTernaryExpression.Factory());
         registerElement(new PsiTPSExpressionImpl.Factory(), Platform.PAPER);
+        registerElement(new PsiUnixTimestampExpression.Factory());
 
         //functions
         registerElement(new PsiAbsoluteValueFunction.Factory());
