@@ -57,7 +57,7 @@ public class PsiCapitalizationTextExpression extends PsiElement<Text> {
     protected Text executeImpl(@Nullable Context context) {
         String text = this.text.execute(context, Text.class).toString();
         Locale locale = Locale.getDefault();
-        StringBuilder newText = new StringBuilder();
+        StringBuilder newText = new StringBuilder(text.length());
 
         if (capitalization == Capitalization.LOWER) {
             newText.append(text.toLowerCase(locale));
@@ -73,7 +73,7 @@ public class PsiCapitalizationTextExpression extends PsiElement<Text> {
                     .append(' ');
             }
 
-            newText.deleteCharAt(newText.length() - 1);
+            newText.setLength(newText.length() - 1);
         }
 
         return Text.parse(newText.toString());
