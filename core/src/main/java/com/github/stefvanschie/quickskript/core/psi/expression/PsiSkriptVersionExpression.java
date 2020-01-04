@@ -4,7 +4,9 @@ import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
+import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.util.ApplicationInfo;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +19,7 @@ import java.util.Properties;
  *
  * @since 0.1.0
  */
-public class PsiSkriptVersionExpression extends PsiElement<Text> {
+public class PsiSkriptVersionExpression extends PsiPrecomputedHolder<Text> {
 
     /**
      * Creates a new element with the given line number
@@ -26,17 +28,7 @@ public class PsiSkriptVersionExpression extends PsiElement<Text> {
      * @since 0.1.0
      */
     private PsiSkriptVersionExpression(int lineNumber) {
-        super(lineNumber);
-
-        Properties properties = new Properties();
-
-        try {
-            properties.load(getClass().getResourceAsStream("/app.properties"));
-        } catch (IOException exception) {
-            throw new ParseException(exception, lineNumber);
-        }
-
-        preComputed = Text.parseLiteral(properties.getProperty("version"));
+        super(Text.parseLiteral(ApplicationInfo.getVersion()), lineNumber);
     }
 
     /**
