@@ -191,6 +191,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiTPSExpression.Factory());
         registerElement(new PsiUnixTimestampExpression.Factory());
         registerElement(new PsiVehicleExpression.Factory());
+        registerElement(new PsiVersionStringExpression.Factory());
 
         //functions
         registerElement(new PsiAbsoluteValueFunction.Factory());
