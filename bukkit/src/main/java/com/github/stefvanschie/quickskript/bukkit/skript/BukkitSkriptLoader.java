@@ -201,6 +201,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiLoadedServerIconExpressionImpl.Factory());
         registerElement(new PsiMaxHealthExpressionImpl.Factory());
         registerElement(new PsiMeExpressionImpl.Factory());
+        registerElement(new PsiMinecraftVersionExpressionImpl.Factory());
         registerElement(new PsiNaNExpression.Factory());
         registerElement(new PsiNowExpression.Factory());
         registerElement(new PsiNumbersExpression.Factory());
