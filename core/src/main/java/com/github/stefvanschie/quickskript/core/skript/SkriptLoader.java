@@ -14,6 +14,7 @@ import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.PatternTypeOrder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.PatternTypeOrderHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.exception.ParsingAnnotationInvalidValueException;
+import com.github.stefvanschie.quickskript.core.util.BiomeRegistry;
 import com.github.stefvanschie.quickskript.core.util.Pair;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -74,6 +75,12 @@ public abstract class SkriptLoader implements Closeable {
      */
     @NotNull
     private final Map<String, PsiConverter<?>> converters = new HashMap<>();
+
+    /**
+     * A biome registry for working with biomes
+     */
+    @NotNull
+    private final BiomeRegistry biomeRegistry = new BiomeRegistry();
 
     /**
      * Create a new instance, initializing it with all default (non-addon) data.
@@ -428,6 +435,18 @@ public abstract class SkriptLoader implements Closeable {
         }
 
         instance = null;
+    }
+
+    /**
+     * Gets the biome registry attached to this skript loader
+     *
+     * @return the biome registry
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public BiomeRegistry getBiomeRegistry() {
+        return biomeRegistry;
     }
 
     /**

@@ -8,10 +8,7 @@ import com.github.stefvanschie.quickskript.core.psi.effect.*;
 import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.core.psi.expression.*;
 import com.github.stefvanschie.quickskript.core.psi.function.*;
-import com.github.stefvanschie.quickskript.core.psi.literal.PsiBooleanLiteral;
-import com.github.stefvanschie.quickskript.core.psi.literal.PsiNumberLiteral;
-import com.github.stefvanschie.quickskript.core.psi.literal.PsiPlayerLiteral;
-import com.github.stefvanschie.quickskript.core.psi.literal.PsiStringLiteral;
+import com.github.stefvanschie.quickskript.core.psi.literal.*;
 import com.github.stefvanschie.quickskript.core.psi.section.PsiBaseSection;
 import com.github.stefvanschie.quickskript.core.psi.section.PsiIf;
 import com.github.stefvanschie.quickskript.core.psi.section.PsiWhile;
@@ -106,6 +103,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiIsCondition.Factory());
 
         //literals
+        registerElement(new PsiBiomeLiteral.Factory());
         registerElement(new PsiBooleanLiteral.Factory());
         registerElement(new PsiNumberLiteral.Factory());
         registerElement(new PsiPlayerLiteral.Factory());
