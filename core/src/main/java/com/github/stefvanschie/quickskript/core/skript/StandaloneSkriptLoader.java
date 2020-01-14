@@ -105,6 +105,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         //literals
         registerElement(new PsiBiomeLiteral.Factory());
         registerElement(new PsiBooleanLiteral.Factory());
+        registerElement(new PsiCatTypeLiteral.Factory());
         registerElement(new PsiNumberLiteral.Factory());
         registerElement(new PsiPlayerLiteral.Factory());
 

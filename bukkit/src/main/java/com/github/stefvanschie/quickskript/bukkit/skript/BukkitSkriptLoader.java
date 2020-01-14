@@ -28,10 +28,7 @@ import com.github.stefvanschie.quickskript.core.psi.effect.PsiDoIfEffect;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiExitEffect;
 import com.github.stefvanschie.quickskript.core.psi.expression.*;
 import com.github.stefvanschie.quickskript.core.psi.function.*;
-import com.github.stefvanschie.quickskript.core.psi.literal.PsiBiomeLiteral;
-import com.github.stefvanschie.quickskript.core.psi.literal.PsiBooleanLiteral;
-import com.github.stefvanschie.quickskript.core.psi.literal.PsiNumberLiteral;
-import com.github.stefvanschie.quickskript.core.psi.literal.PsiStringLiteral;
+import com.github.stefvanschie.quickskript.core.psi.literal.*;
 import com.github.stefvanschie.quickskript.core.psi.section.PsiIf;
 import com.github.stefvanschie.quickskript.core.psi.section.PsiWhile;
 import com.github.stefvanschie.quickskript.core.skript.Skript;
@@ -151,6 +148,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         //literals
         registerElement(new PsiBiomeLiteral.Factory());
         registerElement(new PsiBooleanLiteral.Factory());
+        registerElement(new PsiCatTypeLiteral.Factory());
         registerElement(new PsiNumberLiteral.Factory());
         registerElement(new PsiPlayerLiteralImpl.Factory());
 
