@@ -1,4 +1,4 @@
-package com.github.stefvanschie.quickskript.core.util;
+package com.github.stefvanschie.quickskript.core.util.type;
 
 /**
  * An enum for all cat types
