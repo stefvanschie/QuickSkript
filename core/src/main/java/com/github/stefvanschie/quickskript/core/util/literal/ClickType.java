@@ -1,4 +1,4 @@
-package com.github.stefvanschie.quickskript.core.util.type;
+package com.github.stefvanschie.quickskript.core.util.literal;
 
 /**
  * An enum representing possible ways to click

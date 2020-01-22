@@ -150,6 +150,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiBooleanLiteral.Factory());
         registerElement(new PsiCatTypeLiteral.Factory());
         registerElement(new PsiClickTypeLiteral.Factory());
+        registerElement(new PsiColorLiteral.Factory());
         registerElement(new PsiNumberLiteral.Factory());
         registerElement(new PsiPlayerLiteralImpl.Factory());
 
