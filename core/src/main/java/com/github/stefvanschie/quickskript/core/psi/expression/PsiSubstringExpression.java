@@ -88,7 +88,7 @@ public class PsiSubstringExpression extends PsiElement<Text> {
          */
         @NotNull
         private SkriptPattern pattern = SkriptPattern.parse(
-            "[the] [(part|sub[ ](text|string)) of %texts% (between|from) (ind(ex|ices)|character[s])] %number% [(and|to) (index|character)] %number%"
+            "[the] (part|sub[ ](text|string)) of %texts% (between|from) (ind(ex|ices)|character[s]) %number% [(and|to) (index|character)] %number%"
         );
 
         /**

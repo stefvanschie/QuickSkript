@@ -8,6 +8,8 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Locale;
+
 /**
  * Gets an enchantment
  *
@@ -45,28 +47,48 @@ public class PsiEnchantmentLiteral extends PsiPrecomputedHolder<Enchantment> {
         @Contract(pure = true)
         @Fallback
         public PsiEnchantmentLiteral parse(@NotNull String text, int lineNumber) {
-            for (Enchantment enchantment : Enchantment.values()) {
-                if (enchantment.name().replace('_', ' ').equalsIgnoreCase(text)) {
-                    return create(enchantment, lineNumber);
+            text = text.toUpperCase(Locale.getDefault());
+            Enchantment.Type enchantment = null;
+
+            for (Enchantment.Type type : Enchantment.Type.values()) {
+                String name = type.name().replace('_', ' ').toUpperCase(Locale.getDefault());
+
+                if (text.startsWith(name)) {
+                    text = text.substring(name.length());
+                    enchantment = type;
+                    break;
                 }
             }
 
-            return null;
+            if (enchantment == null) {
+                return null;
+            }
+
+            if (text.isBlank()) {
+                return create(enchantment, null, lineNumber);
+            }
+
+            try {
+                return create(enchantment, Integer.parseUnsignedInt(text.trim()), lineNumber);
+            } catch (NumberFormatException ignored) {
+                return null;
+            }
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
          * constructor parameters.
          *
-         * @param enchantment the enchantment
+         * @param type the enchantment type
+         * @param level the level or null if there's no level
          * @param lineNumber the line number
          * @return the expression
          * @since 0.1.0
          */
         @NotNull
         @Contract(pure = true)
-        public PsiEnchantmentLiteral create(@NotNull Enchantment enchantment, int lineNumber) {
-            return new PsiEnchantmentLiteral(enchantment, lineNumber);
+        public PsiEnchantmentLiteral create(@NotNull Enchantment.Type type, @Nullable Integer level, int lineNumber) {
+            return new PsiEnchantmentLiteral(new Enchantment(type, level), lineNumber);
         }
     }
 }
