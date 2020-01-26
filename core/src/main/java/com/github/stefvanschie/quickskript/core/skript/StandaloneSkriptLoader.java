@@ -112,6 +112,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiEnchantmentLiteral.Factory());
         registerElement(new PsiEntityTypeLiteral.Factory());
         registerElement(new PsiExperienceLiteral.Factory());
+        registerElement(new PsiFireworkTypeLiteral.Factory());
         registerElement(new PsiNumberLiteral.Factory());
         registerElement(new PsiPlayerLiteral.Factory());
 
