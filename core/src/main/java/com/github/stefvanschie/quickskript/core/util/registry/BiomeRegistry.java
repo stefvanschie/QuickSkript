@@ -1,4 +1,4 @@
-package com.github.stefvanschie.quickskript.core.util;
+package com.github.stefvanschie.quickskript.core.util.registry;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;

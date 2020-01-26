@@ -4,36 +4,33 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
-import com.github.stefvanschie.quickskript.core.util.registry.BiomeRegistry;
+import com.github.stefvanschie.quickskript.core.util.registry.EntityTypeRegistry;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
+
 /**
- * Gets a biome by a specific name. This is always pre-computed.
+ * Gets an entity type
  *
  * @since 0.1.0
  */
-public class PsiBiomeLiteral extends PsiPrecomputedHolder<BiomeRegistry.Entry> {
-
-    /**
-     * The name of the biome to get the biome from
-     */
-    protected BiomeRegistry.Entry biome;
+public class PsiEntityTypeLiteral extends PsiPrecomputedHolder<EntityTypeRegistry.Entry> {
 
     /**
      * Creates a new element with the given line number
      *
-     * @param biome the biome
+     * @param entityType the entity type
      * @param lineNumber the line number this element is associated with
      * @since 0.1.0
      */
-    private PsiBiomeLiteral(@NotNull BiomeRegistry.Entry biome, int lineNumber) {
-        super(biome, lineNumber);
+    private PsiEntityTypeLiteral(@NotNull EntityTypeRegistry.Entry entityType, int lineNumber) {
+        super(entityType, lineNumber);
     }
 
     /**
-     * A factory for creating {@link PsiBiomeLiteral}s
+     * A factory for creating {@link PsiEntityTypeLiteral}s
      *
      * @since 0.1.0
      */
@@ -50,33 +47,33 @@ public class PsiBiomeLiteral extends PsiPrecomputedHolder<BiomeRegistry.Entry> {
         @Nullable
         @Contract(pure = true)
         @Fallback
-        public PsiBiomeLiteral tryParse(@NotNull String text, int lineNumber) {
-            BiomeRegistry.Entry biome = SkriptLoader.get().getBiomeRegistry().getEntries().stream()
-                .filter(entry -> entry.getName().equalsIgnoreCase(text))
-                .findAny()
-                .orElse(null);
+        public PsiEntityTypeLiteral parse(@NotNull String text, int lineNumber) {
+            var skriptLoader = SkriptLoader.get();
 
-            if (biome == null) {
+            Optional<EntityTypeRegistry.Entry> entityType = skriptLoader.getEntityTypeRegistry().getEntries().stream()
+                .filter(entry -> entry.getName().equalsIgnoreCase(text))
+                .findAny();
+
+            if (entityType.isEmpty()) {
                 return null;
             }
 
-            return create(biome, lineNumber);
+            return create(entityType.get(), lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters.
          *
-         * @param biome the value of the literal
+         * @param entityType the entity type
          * @param lineNumber the line number
-         * @return the literal
+         * @return the expression
          * @since 0.1.0
          */
         @NotNull
         @Contract(pure = true)
-        protected PsiBiomeLiteral create(BiomeRegistry.Entry biome, int lineNumber) {
-            return new PsiBiomeLiteral(biome, lineNumber);
+        public PsiEntityTypeLiteral create(@NotNull EntityTypeRegistry.Entry entityType, int lineNumber) {
+            return new PsiEntityTypeLiteral(entityType, lineNumber);
         }
     }
 }

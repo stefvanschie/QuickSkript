@@ -14,8 +14,9 @@ import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.PatternTypeOrder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.PatternTypeOrderHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.exception.ParsingAnnotationInvalidValueException;
-import com.github.stefvanschie.quickskript.core.util.BiomeRegistry;
+import com.github.stefvanschie.quickskript.core.util.registry.BiomeRegistry;
 import com.github.stefvanschie.quickskript.core.util.Pair;
+import com.github.stefvanschie.quickskript.core.util.registry.EntityTypeRegistry;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -81,6 +82,12 @@ public abstract class SkriptLoader implements Closeable {
      */
     @NotNull
     private final BiomeRegistry biomeRegistry = new BiomeRegistry();
+
+    /**
+     * An entity type registry for working with entity types
+     */
+    @NotNull
+    private final EntityTypeRegistry entityTypeRegistry = new EntityTypeRegistry();
 
     /**
      * Create a new instance, initializing it with all default (non-addon) data.
@@ -447,6 +454,18 @@ public abstract class SkriptLoader implements Closeable {
     @Contract(pure = true)
     public BiomeRegistry getBiomeRegistry() {
         return biomeRegistry;
+    }
+
+    /**
+     * Gets the entity type registry attached to this skript loader
+     *
+     * @return the entity type registry
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public EntityTypeRegistry getEntityTypeRegistry() {
+        return entityTypeRegistry;
     }
 
     /**
