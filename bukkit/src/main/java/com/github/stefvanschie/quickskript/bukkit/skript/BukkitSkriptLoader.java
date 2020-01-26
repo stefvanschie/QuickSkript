@@ -154,6 +154,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiDamageCauseLiteral.Factory());
         registerElement(new PsiEnchantmentLiteral.Factory());
         registerElement(new PsiEntityTypeLiteral.Factory());
+        registerElement(new PsiExperienceLiteral.Factory());
         registerElement(new PsiNumberLiteral.Factory());
         registerElement(new PsiPlayerLiteralImpl.Factory());
 
