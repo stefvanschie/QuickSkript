@@ -158,6 +158,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiFireworkTypeLiteral.Factory());
         registerElement(new PsiGameModeLiteral.Factory());
         registerElement(new PsiGeneLiteral.Factory());
+        registerElement(new PsiInventoryActionLiteral.Factory());
         registerElement(new PsiNumberLiteral.Factory());
         registerElement(new PsiPlayerLiteralImpl.Factory());
 
