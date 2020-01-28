@@ -3,6 +3,8 @@ package com.github.stefvanschie.quickskript.core.util.registry;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,15 +40,15 @@ public class BiomeRegistry {
     }
 
     /**
-     * Gets all the biome entries currently in this registry
+     * Gets all the biome entries currently in this registry. The returned collection is unmodifiable.
      *
      * @return all biome entries
      * @since 0.1.0
      */
     @NotNull
     @Contract(pure = true)
-    public Set<Entry> getEntries() {
-        return entries;
+    public Collection<Entry> getEntries() {
+        return Collections.unmodifiableSet(entries);
     }
 
     /**

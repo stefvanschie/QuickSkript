@@ -3,6 +3,8 @@ package com.github.stefvanschie.quickskript.core.util.registry;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,16 +28,6 @@ public class EntityTypeRegistry {
     public EntityTypeRegistry() {
         addDefaultEntityTypes();
     }
-    
-    /**
-     * Gets all the entries currently in this registry
-     *
-     * @return the entries
-     * @since 0.1.0
-     */
-    public Set<Entry> getEntries() {
-        return entries;
-    }
 
     /**
      * Adds the specified entry to this registry
@@ -45,6 +37,18 @@ public class EntityTypeRegistry {
      */
     public void addEntry(@NotNull Entry entry) {
         entries.add(entry);
+    }
+
+    /**
+     * Gets all the entries currently in this registry. The returned collection is unmodifiable.
+     *
+     * @return the entries
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public Collection<Entry> getEntries() {
+        return Collections.unmodifiableSet(entries);
     }
 
     /**
@@ -159,6 +163,11 @@ public class EntityTypeRegistry {
         addEntry(new Entry("zombie villager"));
     }
 
+    /**
+     * An entry for the entity type registry
+     *
+     * @since 0.1.0
+     */
     public static class Entry {
 
         /**

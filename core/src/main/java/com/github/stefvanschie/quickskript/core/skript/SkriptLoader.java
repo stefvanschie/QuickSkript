@@ -17,6 +17,7 @@ import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.excepti
 import com.github.stefvanschie.quickskript.core.util.registry.BiomeRegistry;
 import com.github.stefvanschie.quickskript.core.util.Pair;
 import com.github.stefvanschie.quickskript.core.util.registry.EntityTypeRegistry;
+import com.github.stefvanschie.quickskript.core.util.registry.InventoryTypeRegistry;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -88,6 +89,12 @@ public abstract class SkriptLoader implements Closeable {
      */
     @NotNull
     private final EntityTypeRegistry entityTypeRegistry = new EntityTypeRegistry();
+
+    /**
+     * An inventory type registry for working with inventory types
+     */
+    @NotNull
+    private final InventoryTypeRegistry inventoryTypeRegistry = new InventoryTypeRegistry();
 
     /**
      * Create a new instance, initializing it with all default (non-addon) data.
@@ -466,6 +473,18 @@ public abstract class SkriptLoader implements Closeable {
     @Contract(pure = true)
     public EntityTypeRegistry getEntityTypeRegistry() {
         return entityTypeRegistry;
+    }
+
+    /**
+     * Gets the inventory type registry attached to this skript loader
+     *
+     * @return the inventory type registry
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public InventoryTypeRegistry getInventoryTypeRegistry() {
+        return inventoryTypeRegistry;
     }
 
     /**
