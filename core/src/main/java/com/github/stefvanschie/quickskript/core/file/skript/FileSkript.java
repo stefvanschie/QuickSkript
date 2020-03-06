@@ -1,4 +1,4 @@
-package com.github.stefvanschie.quickskript.core.file;
+package com.github.stefvanschie.quickskript.core.file.skript;
 
 import com.github.stefvanschie.quickskript.core.skript.Skript;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;

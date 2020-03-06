@@ -1,8 +1,8 @@
 package com.github.stefvanschie.quickskript.core.psi.parsing;
 
-import com.github.stefvanschie.quickskript.core.file.FileSkript;
-import com.github.stefvanschie.quickskript.core.file.SkriptFileLine;
-import com.github.stefvanschie.quickskript.core.file.SkriptFileNode;
+import com.github.stefvanschie.quickskript.core.file.skript.FileSkript;
+import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileLine;
+import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileNode;
 import com.github.stefvanschie.quickskript.core.psi.TestClassBase;
 import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
 import org.junit.jupiter.api.Assertions;

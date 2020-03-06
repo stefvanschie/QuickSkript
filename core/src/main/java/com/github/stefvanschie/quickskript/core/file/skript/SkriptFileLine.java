@@ -1,4 +1,4 @@
-package com.github.stefvanschie.quickskript.core.file;
+package com.github.stefvanschie.quickskript.core.file.skript;
 
 /**
  * Represents an individual line of skript code

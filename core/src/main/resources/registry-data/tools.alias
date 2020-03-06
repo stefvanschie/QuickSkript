@@ -1,0 +1,32 @@
+wood[en] pickaxe[s]
+wood[en] axe[s]
+wood[en] shovel[s]
+wood[en] hoe[s]
+
+stone pickaxe[s]
+stone axe[s]
+stone shovel[s]
+stone hoe[s]
+
+gold[en] pickaxe[s]
+gold[en] axe[s]
+gold[en] shovel[s]
+gold[en] hoe[s]
+
+iron pickaxe[s]
+iron axe[s]
+iron shovel[s]
+iron hoe[s]
+
+diamond pickaxe[s]
+diamond axe[s]
+diamond shovel[s]
+diamond hoe[s]
+
+compass[es]
+[gold[en]] clock[s]
+fishing rod[s]
+flint and steel[s]
+shear[s]
+(lead[s]|leash[es])
+name[ ]tag[s]

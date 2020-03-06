@@ -3,7 +3,7 @@ package com.github.stefvanschie.quickskript.bukkit.plugin;
 import com.github.stefvanschie.quickskript.bukkit.skript.BukkitSkriptLoader;
 import com.github.stefvanschie.quickskript.bukkit.util.event.ExperienceOrbSpawnEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.QuickSkriptPostEnableEvent;
-import com.github.stefvanschie.quickskript.core.file.FileSkript;
+import com.github.stefvanschie.quickskript.core.file.skript.FileSkript;
 import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.core.skript.profiler.BasicSkriptProfiler;
 import com.github.stefvanschie.quickskript.core.skript.profiler.NoOpSkriptProfiler;

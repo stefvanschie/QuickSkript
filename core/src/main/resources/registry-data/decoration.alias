@@ -1,0 +1,228 @@
+:use util/global.alias
+
+[decayable] = {decayable, (persistent|permanent)}
+[jukebox state] = {without record, with record}
+[end portal eye] = {unfilled, filled}
+[bed part] = {foot, head}
+[bed occupied] = {unoccupied, occupied}
+[rotatable] = {south(ward| rotated), south-southwest(ward| rotated), southwest(ward| rotated),
+               west-southwest(ward| rotated), west(ward| rotated), west-northwest(ward| rotated),
+               northwest(ward| rotated), north-northwest(ward| rotated), north(ward| rotated),
+               north-northeast(ward| rotated), northeast(ward| rotated), east-northeast(ward| rotated),
+               east(ward| rotated), east-southeast(ward| rotated), southeast(ward| rotated),
+               south-southeast(ward| rotated)}
+[scaffold bottom] = {bottomless, bottom}
+[grindstone face] = {floor, wall, ceiling}
+[bell attachment] = {floor, single wall, double wall, ceiling}
+[lantern hanging] = {(floor|not hanging), (hanging|ceiling)}
+[pickle count] = {(one|singular), (pair of|[bundle of] two), (trio of|[bundle of] three), [bundle of] four}
+[honey level] = {(empty|level 0), level 1, level 2, level 3, level 4, (full|filled|level 5)}
+
+brown mushroom[s]
+red mushroom[s]
+{orientable} end[er] rod[s]
+(workbench[es]|crafting table[s])
+(soil|farmland) [block[s]]
+cactus[es]
+[huge] brown mushroom block[s]
+[huge] red mushroom block[s]
+vine[s]
+enchant(ment|ing)
+painting [item[s]]
+item frame [item[s]]
+armor stand [item[s]]
+
+{wood type} sapling[s]
+{decayable} {wood type} lea(f|ves)
+
+[cob]web[s]
+jukebox[es] {jukebox state}
+
+dead (grass|bush)[es]
+short grass[es]
+fern[s]
+
+kelp plant[s]
+non-growing kelp [plant[s]]
+
+(dandelion|yellow flower)[s]
+(popp(y|ies)|red flower[s])
+blue orchid[s]
+allium[s]
+azure bluet[s]
+red tulip[s]
+orange tulip[s]
+white tulip[s]
+pink tulip[s]
+oxeye dais(y|ies)
+
+{half} sunflower[s]
+{half} lilac[s]
+{half} [double] (tall|long|height) grass
+{half} (long large) fern
+{half} rose bush[es]
+{half} peon(y|ies)
+
+{waterloggable} {wood type} fence[s]
+{waterloggable} nether brick fence[s]
+
+(infested|silverfish) stone [block[s]]
+(infested|silverfish) cobblestone [block[s]]
+(infested|silverfish) stone brick [block[s]]
+(infested|silverfish) mossy stone brick [block[s]]
+(infested|silverfish) cracked stone brick [block[s]]
+(infested|silverfish) chiseled stone brick [block[s]]
+
+[huge] mushroom stem[s]
+
+{directional} {end portal eye} end portal frame [block[s]]
+end portal frame item[s]
+
+{waterloggable} cobblestone wall[s]
+{waterloggable} mossy cobblestone wall[s]
+
+{colored} carpet[s]
+{colored} [stained] glass pane[s]
+{directional} {colored} glazed terracotta [block[s]]
+
+{directional} {bed occupied} {colored} bed {bed part}
+
+[empty] flower pot[s]
+(potted|flower pot with) (dandelion|yellow flower)
+(potted|flower pot with) (poppy|red flower)
+(potted|flower pot with) [blue] orchid
+(potted|flower pot with) allium
+(potted|flower pot with) azure bluet
+(potted|flower pot with) red tulip
+(potted|flower pot with) orange tulip
+(potted|flower pot with) white tulip
+(potted|flower pot with) pink tulip
+(potted|flower pot with) oxeye daisy
+(potted|flower pot with) oak [wood[en]] sapling
+(potted|flower pot with) spruce [wood[en]] sapling
+(potted|flower pot with) birch [wood[en]] sapling
+(potted|flower pot with) jungle [wood[en]] sapling
+(potted|flower pot with) acacia [wood[en]] sapling
+(potted|flower pot with) dark oak [wood[en]] sapling
+(potted|flower pot with) red mushroom
+(potted|flower pot with) brown mushroom
+(potted|flower pot with) cactus
+(potted|flower pot with) dead bush
+(potted|flower pot with) fern
+
+[floor] torch[es]
+{directional} wall torch[es]
+(wet|moist|hydrated) farmland
+{directional} {lightable} furnace[s]
+
+snow layer[s]
+one thick snow layer
+two thick snow layer
+three tick snow layer
+four thick snow layer
+five thick snow layer
+six thick snow layer
+seven thick snow layer
+eight thick snow layer
+
+{waterloggable} iron bar[s]
+{waterloggable} [plain] glass pane[s]
+(water[ ]lil(y|ies)|lily pad[s])
+slime block[s]
+
+dead chorus flower[s]
+{waterloggable} {directional} chest[s]
+{waterloggable} {directional} trapped chest[s]
+{waterloggable} {directional} ladder[s]
+{waterloggable} {directional} ender chest[s]
+{directional} [unbroken|regular] anvil[s]
+{directional} chipped anvil[s]
+{directional} damaged anvil[s]
+
+(potted|flower pot with) bamboo
+(potted|flower pot with) cornflower
+(potted|flower pot with) lily of the valley
+(potted|flower pot with) wither rose
+bamboo sapling
+
+{waterloggable} {directional} {wood type} wall sign[s]
+{waterloggable} {rotatable} {wood type} [floor] sign[s]
+cornflower[s]
+lily of the valley
+wither[ed] rose[s]
+
+{waterloggable} brick wall[s]
+{waterloggable} prismarine wall[s]
+{waterloggable} sandstone wall[s]
+{waterloggable} red sandstone wall[s]
+{waterloggable} stone brick wall[s]
+{waterloggable} mossy stone brick wall[s]
+{waterloggable} granite wall[s]
+{waterloggable} diorite wall[s]
+{waterloggable} andesite wall[s]
+{waterloggable} nether brick wall[s]
+{waterloggable} red nether brick wall[s]
+{waterloggable} end stone brick wall[s]
+
+{waterloggable} {scaffold bottom} scaffolding
+
+{directional} loom[s]
+{orientable} {openable} barrel[s]
+{directional} {lightable} smoker[s]
+{directional} {lightable} blast furnace[s]
+{directional} stone[ ]cutter[s]
+cartography table[s]
+
+{directional} {grindstone face} grindstone[s]
+
+fletching table[s]
+smithing table[s]
+
+{directional} {bell attachment} bell[s]
+{lantern hanging} lantern
+
+{waterloggable} {lightable} campfire[s]
+{waterloggable} {lightable} signal[ing] campfire
+
+chorus (plant|stem)[s]
+chorus flower[s]
+grass path [block[s]]
+end[er] crystal [item[s]]
+
+{orientable} [normal] shulker box[es]
+{orientable} {colored} shulker box[es]
+
+seagrass[es]
+{half} tall seagrass[es]
+
+({waterloggable} {pickle count}|{pickle count} {waterloggable}) [sea] pickle[s]
+
+skeleton (skull|head) item[s]
+wither skeleton (skull|head) item[s]
+zombie (head|skull) item[s]
+player (head|skull) item[s]
+creeper (head|skull) item[s]
+[ender[ ]]dragon (head|skull) item[s]
+
+{directional} skeleton wall[-mounted] (skull|head)[s]
+{directional} wither skeleton wall[-mounted] (skull|head)[s]
+{directional} zombie wall[-mounted] (skull|head)[s]
+{directional} player wall[-mounted] (skull|head)[s]
+{directional} creeper wall[-mounted] (skull|head)[s]
+{directional} [ender[ ]]dragon wall[-mounted] (skull|head)[s]
+
+{rotatable} skeleton (skull|head)[s]
+{rotatable} wither skeleton (skull|head)[s]
+{rotatable} zombie (skull|head)[s]
+{rotatable} player (skull|head)[s]
+{rotatable} creeper (skull|head)[s]
+{rotatable} [ender[ ]]dragon (skull|head)[s]
+
+{directional} {colored} wall banner[s]
+{rotatable} {colored} (standing|floor) banner[s]
+
+{directional} {honey level} beehive[s]
+{directional} {honey level} bee nest[s]
+
+honey block[s]
+honeycomb block[s]

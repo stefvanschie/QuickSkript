@@ -1,4 +1,4 @@
-package com.github.stefvanschie.quickskript.core.file;
+package com.github.stefvanschie.quickskript.core.file.skript;
 
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiSection;

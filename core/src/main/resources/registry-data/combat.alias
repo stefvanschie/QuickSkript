@@ -1,0 +1,62 @@
+tipped arrow type = {night vision, (long|extended) night vision, invisibility, (long|extended) invisibility, leaping,
+                       (long|extended) leaping, (strong|upgraded|level 2) leaping, fire resistance, (long|extended)
+                       fire resistance, (swiftness|speed), (long|extended) (swiftness|speed), (strong|upgraded|level 2)
+                       (swiftness|speed), slowness, (long|extended) slowness, (strong|upgraded|level 2) slowness,
+                       water breathing, (long|extended) water breathing, (healing|instant health),
+                       (strong|upgraded|level 2) (healing|instant health), [instant] (harming|damage),
+                       (strong|upgraded|level 2) [instant] (harming|damage), poison, (long|extended) poison,
+                       (strong|upgraded|level 2) poison, regen[eration], (long|extended) regen[eration],
+                       (strong|upgraded|level 2) regen[eration], strength, (long|extended) strength,
+                       (strong|upgraded|level 2) strength, weakness, (long|extended) weakness, luck, turtle master,
+                       (long|extended) turtle master, (strong|upgraded|level 2) turtle master, slow fall[ing],
+                       (long|extended) slow fall[ing]}
+
+shield[s]
+
+spectral arrow[s]
+{tipped arrow type} tipped arrow[s]
+tipped arrow[s] of {tipped arrow type}
+
+leather (cap|helmet)[s]
+leather (tunic|chest(piece|plate))[s]
+leather (pants|leggings)
+leather boots
+
+iron (cap|helmet)[s]
+iron chest(piece|plate)[s]
+iron (pants|leggings)
+iron boots
+
+gold[en] (cap|helmet)[s]
+gold[en] chest(piece|plate)[s]
+gold[en] (pants|leggings)
+gold[en] boots
+
+diamond (cap|helmet)[s]
+diamond chest(piece|plate)[s]
+diamond (pants|leggings)
+diamond boots
+
+chain[mail] (cap|helmet)[s]
+chain[mail] chest(piece|plate)[s]
+chain[mail] (pants|leggings)
+chain[mail] boots
+
+wood[en] sword[s]
+stone sword[s]
+gold[en] sword[s]
+iron sword[s]
+diamond sword[s]
+
+bow[s]
+arrow[s]
+
+iron (horse armo[u]r|barding)
+gold[en] (horse armo[u]r|barding)
+diamond (horse armo[u]r|barding)
+
+leather (horse armo[u]r|barding)
+totem[s] of undying
+crossbow[s]
+turtle [shell] helmet
+trident[s]

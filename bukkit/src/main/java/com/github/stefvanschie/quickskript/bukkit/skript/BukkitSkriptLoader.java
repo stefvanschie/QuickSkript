@@ -17,9 +17,9 @@ import com.github.stefvanschie.quickskript.bukkit.util.CommandMapWrapper;
 import com.github.stefvanschie.quickskript.bukkit.util.Platform;
 import com.github.stefvanschie.quickskript.bukkit.util.event.ExperienceOrbSpawnEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.QuickSkriptPostEnableEvent;
-import com.github.stefvanschie.quickskript.core.file.SkriptFileLine;
-import com.github.stefvanschie.quickskript.core.file.SkriptFileNode;
-import com.github.stefvanschie.quickskript.core.file.SkriptFileSection;
+import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileLine;
+import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileNode;
+import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileSection;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.condition.*;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiChangeEffect;
@@ -160,6 +160,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiGeneLiteral.Factory());
         registerElement(new PsiInventoryActionLiteral.Factory());
         registerElement(new PsiInventoryTypeLiteral.Factory());
+        registerElement(new PsiItemLiteral.Factory());
         registerElement(new PsiNumberLiteral.Factory());
         registerElement(new PsiPlayerLiteralImpl.Factory());
 

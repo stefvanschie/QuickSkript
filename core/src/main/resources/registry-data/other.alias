@@ -1,0 +1,60 @@
+:use util/global.alias
+
+[conditional] = {unconditional, conditional}
+[structure block mode] = {save [mode], load [mode], corner [mode], data [mode]}
+[crop growth stage] = {freshly planted, stage (2|two), stage (3|three), stage (4|four), stage (5|five), stage (6|six),
+                        stage (7|seven), (ripe|fully grown|stage (8|eight))}
+[three stage growth] = {(freshly planted| stage (1|one)), stage (2|two), stage (3|three),
+                        (ripe|fully grown|stage (4|four))}
+[column direction] = {(upward|pushing), (downward[s]|whirlpool|dragging)}
+[fluid state] = {stationary, flowing, flowing stage (1|one), flowing stage (2|two), flowing stage (3|three),
+                 flowing stage (4|four), flowing stage (5|five), flowing stage (6|six), flowing stage (7|seven),
+                 falling, falling stage (1|one), falling stage (2|two), falling stage (3|three), falling stage (4|four),
+                 falling stage (5|five), falling stage (6|six), falling stage (7|seven), falling stage (8|eight)}
+
+end[er] portal [block[s]]
+fire
+tripwire [string|line]
+air
+barrier [block[s]]
+dragon egg[s]
+
+suspicious stew[s]
+{orientable} jigsaw block[s]
+
+frosted ice
+end[er] gateway
+
+structure void[s]
+
+knowledge book[s]
+
+[nether] portal [block[s]]
+[mob|monster] spawner[s]
+
+{orientable} {conditional} [impusle] command block[s]
+{orientable} {conditional} chain command block[s]
+{orientable} {conditional} repeating command block[s]
+
+{structure block mode} structure block[s]
+
+{directional} attached melon stem
+{directional} attached pumpkin stem
+
+{crop growth stage} potato plant
+{crop growth stage} carrot plant
+{crop growth stage} wheat plant
+{crop growth stage} pumpkin stem
+{crop growth stage} melon stem
+{three stage growth} beet[root] plant
+{thee stage growth} nether wart plant
+
+debug stick[s]
+
+cave air
+void air
+
+{column direction} bubble column
+
+{fluid state} water
+{fluid state} lava
