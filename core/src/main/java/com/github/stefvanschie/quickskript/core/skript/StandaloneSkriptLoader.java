@@ -2,7 +2,7 @@ package com.github.stefvanschie.quickskript.core.skript;
 
 import com.github.stefvanschie.quickskript.core.context.CommandContext;
 import com.github.stefvanschie.quickskript.core.context.EventContext;
-import com.github.stefvanschie.quickskript.core.file.SkriptFileSection;
+import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileSection;
 import com.github.stefvanschie.quickskript.core.psi.condition.*;
 import com.github.stefvanschie.quickskript.core.psi.effect.*;
 import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
@@ -117,6 +117,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiGeneLiteral.Factory());
         registerElement(new PsiInventoryActionLiteral.Factory());
         registerElement(new PsiInventoryTypeLiteral.Factory());
+        registerElement(new PsiItemLiteral.Factory());
         registerElement(new PsiNumberLiteral.Factory());
         registerElement(new PsiPlayerLiteral.Factory());
 

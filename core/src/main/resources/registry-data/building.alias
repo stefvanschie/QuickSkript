@@ -1,0 +1,142 @@
+:use util/global.alias
+
+[snowable] = {(non-snowy|snowless), snowy}
+[axised] = {(vertical|z-aligned), (east-west|west-east|x-aligned), (north-south|south-north|z-aligned)}
+[slab] = {top, bottom, double}
+[stairs] = {top, bottom}
+[stairs shape] = {straight, inner-left, inner-right, outer-left, outer-right}
+
+stone [block[s]]
+
+cobble[stone] [block[s]]
+moss[y] cobble[stone] [block[s]]
+
+dirt [block[s]]
+sand [block[s]]
+gravel [block[s]]
+clay block[s]
+
+gold ore[s]
+iron ore[s]
+coal ore[s]
+lapis [lazuli] ore[s]
+diamond ore[s]
+emerald ore[s]
+
+obsidian [block[s]]
+bedrock [block[s]]
+
+(gold block[s]|block[s] of gold)
+(iron block[s]|block[s] of iron)
+(coal block[s]|block[s] of coal)
+(lapis [lazuli] block[s]|block[s] of lapis [lazuli])
+(diamond block[s]|block[s] of diamond)
+(redstone block[s]|block[s] of redstone)
+(emerald block[s]|block[s] of emerald)
+([nether] quartz block[s]|block[s] of [nether] quartz)
+
+sponge[s]
+
+[plain|unstained] glass [block[s]]
+book[ ]shel(f|ves)
+
+netherrack [block[s]]
+soul sand [block[s]]
+glowstone [block[s]]
+
+ice [block[s]]
+packed ice [block[s]]
+end[ ]stone [block[s]]
+
+[raw] granite[s]
+(smooth|polished) granite[s]
+
+[raw] diorite[s]
+(smooth|polished) diorite[s]
+
+[raw] andesite[s]
+(smooth|polished) andesite[s]
+
+{snowable} grass [block[s]]
+{snowable} podzol [block[s]]
+{snowable} mycelium [block[s]]
+coarse dirt [block[s]]
+[nether] quartz ore[s]
+{lightable} redstone ore[s]
+
+{wood type} plank[s]
+{axised} {wood type} log[s]
+{axised} {wood type} bark [block[s]]
+
+red sand [block[s]]
+[normal] sandstone [block[s]]
+chiseled sandstone [block[s]]
+cut sandstone [block[s]]
+
+[normal] red sandstone [block[s]]
+red chiseled sandstone [block[s]]
+cut red sandstone [block[s]]
+
+{colored} [stained] glass [block[s]]
+{colored} wool [block[s]]
+{colored} [stained] ([hard[ened]] clay|terracotta)
+[un(dyed|stained)] (hard[ened] clay|terracotta) [block[s]]
+
+{colored} concrete
+{colored} concrete powder
+
+{waterloggable} {slab} {wood type} slab[s]
+{waterloggable} {slab} stone slab[s]
+{waterloggable} {slab} sandstone slab[s]
+{waterloggable} {slab} (petrified|stone) oak [wood[en]] slab[s]
+{waterloggable} {slab} cobble[stone] slab[s]
+{waterloggable} {slab} brick slab[s]
+{waterloggable} {slab} stone[ ]brick slab[s]
+{waterloggable} {slab} nether brick slab[s]
+{waterloggable} {slab} [nether] quartz slab[s]
+{waterloggable} {slab} red sandstone slab[s]
+{waterloggable} {slab} purpur slab[s]
+{waterloggable} {slab} [raw] prismarine slab[s]
+{waterloggable} {slab} prismarine brick slab[s]
+{waterloggable} {slab} dark prismarine slab[s]
+
+{waterloggable} {stairs} {stairs shape} {directional} {wood type} stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} cobble[stone] stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} [red] brick stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} stone brick stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} nether brick stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} [nether] quartz stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} purpur stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} sandstone stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} red sandstone stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} prismarine stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} prismarine brick stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} dark prismarine stair[s]
+
+([nether] quartz block[s]|block[s] of [nether] quartz)
+chiseled [nether] quartz [block[s]]
+{axised} [nether] quartz pillar[s]
+
+[raw] prismarine [block[s]]
+prismarine brick[s]
+dark prismarine [block[s]]
+sea lantern[s]
+wet sponge[s]
+
+stone brick[s]
+moss[y] stone brick[s]
+cracked stone brick[s]
+chiseled stone brick[s]
+
+magma [block[s]]
+nether brick [block[s]]
+red nether brick[s]
+
+pumpkin[s]
+{directional} (unlit|carved) pumpkin[s]
+{directional} (lit pumpkin|jack(-| )o['](-| )lantern)[s]
+melon [block[s]]
+[red] brick block[s]
+{axised} hay [(bale|block)[s]]
+snow block[s]
+{axis-aligned} purpur pillar[s]

@@ -1,0 +1,11 @@
+colored = {white, orange, magenta, light blue, yellow, (lime|light green), pink, [dark] gray, light gray, cyan, purple,
+            blue, brown, [dark] green, red, black}
+[directional] = {north(ward| facing), south(ward| facing), west(ward| facing), east(ward| facing)}
+[half] = {(bottom|lower)[-half], (top|upper)[-half]}
+[lightable] = {lit, unlit}
+[openable] = {open, closed}
+[orientable] = {down(ward| facing), up(ward| facing), north(ward| facing), south(ward| facing), west(ward| facing),
+               east(ward| facing)}
+[powerable] = {powered, unpowered}
+[waterloggable] = {dry, waterlogged}
+wood type = {oak [wood], spruce [wood], birch [wood], jungle [wood], acacia [wood], dark oak [wood]}

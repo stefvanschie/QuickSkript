@@ -1,0 +1,35 @@
+potion type = {water, thick, mundane, awkward, night vision, (extended|long) night vision, invisibility,
+               (extended|long) invisibility, (leaping|jumping), (extended|long) (leaping|jumping),
+               (strong|upgraded|level 2) (leaping|jumping), fire resistance, (extended|long) fire resistance,
+               (speed|swiftness), (extended|long) (speed|swiftness), (strong|upgraded|level 2) (speed|swiftness),
+               slow[ness], (extended|long) slow[ness], (strong|upgraded|level 2) slow[ness], turtle master,
+               (extended|long) turtle master, (strong|upgraded|level 2) turtle master, water breathing,
+               (extended|long) water breathing, heal(th|ing), (strong|upgraded|level 2) heal(th|ing), harming,
+               (strong|upgraded|level 2) harming, poison[ing], (extended|long) poison[ing],
+               (strong|upgraded|level 2) poison[ing], regen[eration], (extended|long) regen[eration],
+               (strong|upgraded|level 2) regen[eration], strength, (extended|long) strength,
+               (strong|upgraded|level 2) strength, weak(ness|ening), (extended|long) weak(ness|ening), slow fall[ing],
+               (extended|long) slow fall[ing], luck}
+[cauldron level] = {empty, one-third filled, two-thirds filled, (filled|full)}
+
+[glass|empty] bottle[s]
+(bottle[s] of water|water bottle[s])
+
+(potion[s] of {potion type}|{potion type} potion[s])
+(splash potion[s] of {potion type}|{potion type} splash potion[s])
+(lingering potion[s] of {potion type}|{potion type} lingering potion[s])
+potion
+
+{cauldron level} cauldron[s]
+dragon['s] breath
+
+ghast tear[s]
+fermented spider eye[s]
+blaze powder[s]
+magma cream[s]
+gold[en] carrot[s]
+rabbit['s] (foot|feet)
+
+(glistering|gold[en]) melon [slice[s]]
+
+phantom membrane[s]

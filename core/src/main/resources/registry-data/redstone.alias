@@ -1,0 +1,58 @@
+:use util/global.alias
+
+[comparator mode] = {(comparison|compare mode), (subtraction|subtract mode)}
+[attached] = {floor, wall, ceiling}
+[trapdoor position] = {(bottom|lower)[-half], (top|upper)[-half]}
+[instrumental] = {xylophone, chime, guitar, bell, flute, bass, hat, snare, basedrum, harp}
+[hopper direction] = {down(ward| facing), north(ward| facing), south(ward| facing), west(ward| facing),
+                      east(ward| facing)}
+[enableable] = {enabled, disabled}
+[extendable] = {(unextended|retracted), extended}
+
+redstone (wire|dust block)[s]
+redstone [(dust|item)[s]]
+
+stone pressure plate[s]
+(gold[en]|light weighted) pressure plate[s]
+(iron|heavy weighted) pressure plate[s]
+
+(tripwire|placed string)[s]
+
+{orientable} dispenser[s]
+{orientable} dropper[s]
+
+tnt [block[s]]
+
+{powerable} {directional} {wood type} {attached} button[s]
+{powerable} {directional} {attached} stone button[s]
+
+{powerable} {wood type} pressure plate[s]
+
+{waterloggable} {openable} {trapdoor position} {directional} iron trapdoor[s]
+{waterloggable} {openable} {trapdoor position} {directional} {wood type} trapdoor[s]
+
+{powerable} {openable} {directional} {wood type} [fence] gate[s]
+
+{powerable} {openable} {half} {directional} {wood type} door[s]
+{powerable} {openable} {half} {directional} iron door[s]
+
+{lightable} redstone [floor] torch[es]
+{directional} {lightable} redstone wall torch[es]
+
+{lightable} redstone lamp[s]
+{powerable} {instrumental} note block[s]
+{hopper direction} {enableable} hopper[s]
+
+{orientable} {extendable} [normal|non-sticky] piston[s]
+{orientable} {extendable} sticky piston[s]
+{orientable} piston head[s]
+
+{directional} {powerable} tripwire hook[s]
+[normal|uninverted] daylight (detector|sensor)[s]
+inverted daylight (detector|sensor)[s]
+{powerable} {directional} {attached} [redstone] lever[s]
+
+stable tnt [block[s]]
+unstable tnt [block[s]]
+
+{powerable} {orientable} [redstone] observer[s]

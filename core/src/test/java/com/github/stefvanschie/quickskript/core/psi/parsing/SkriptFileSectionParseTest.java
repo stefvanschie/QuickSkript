@@ -1,8 +1,8 @@
 package com.github.stefvanschie.quickskript.core.psi.parsing;
 
 import com.github.stefvanschie.quickskript.core.psi.TestClassBase;
-import com.github.stefvanschie.quickskript.core.file.SkriptFileNode;
-import com.github.stefvanschie.quickskript.core.file.SkriptFileSection;
+import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileNode;
+import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileSection;
 import com.github.stefvanschie.quickskript.core.util.TriFunction;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;

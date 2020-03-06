@@ -1,6 +1,6 @@
 package com.github.stefvanschie.quickskript.core.skript;
 
-import com.github.stefvanschie.quickskript.core.file.SkriptFileSection;
+import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileSection;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.pattern.group.SkriptPatternGroup;
@@ -18,6 +18,7 @@ import com.github.stefvanschie.quickskript.core.util.registry.BiomeRegistry;
 import com.github.stefvanschie.quickskript.core.util.Pair;
 import com.github.stefvanschie.quickskript.core.util.registry.EntityTypeRegistry;
 import com.github.stefvanschie.quickskript.core.util.registry.InventoryTypeRegistry;
+import com.github.stefvanschie.quickskript.core.util.registry.ItemTypeRegistry;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -95,6 +96,12 @@ public abstract class SkriptLoader implements Closeable {
      */
     @NotNull
     private final InventoryTypeRegistry inventoryTypeRegistry = new InventoryTypeRegistry();
+
+    /**
+     * An item type registry for working with item types
+     */
+    @NotNull
+    private final ItemTypeRegistry itemTypeRegistry = new ItemTypeRegistry();
 
     /**
      * Create a new instance, initializing it with all default (non-addon) data.
@@ -272,6 +279,10 @@ public abstract class SkriptLoader implements Closeable {
                             parameters[parameters.length - 1] = lineNumber;
 
                             PsiElement<?> element = (PsiElement<?>) method.invoke(factory, parameters);
+
+                            if (element == null) {
+                                continue;
+                            }
 
                             for (Object child : elements) {
                                 if (child instanceof PsiElement<?>) {
@@ -485,6 +496,18 @@ public abstract class SkriptLoader implements Closeable {
     @Contract(pure = true)
     public InventoryTypeRegistry getInventoryTypeRegistry() {
         return inventoryTypeRegistry;
+    }
+
+    /**
+     * Gets the item type registry attached to this skript loader
+     *
+     * @return the item type registry
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public ItemTypeRegistry getItemTypeRegistry() {
+        return itemTypeRegistry;
     }
 
     /**
