@@ -74,7 +74,7 @@ public class AliasFile {
      *
      * @param pattern the pattern to replace the variations in
      * @param variations the variations to replace in the pattern
-     * @return alll possible combinations of variations
+     * @return all possible combinations of variations
      * @since 0.1.0
      */
     @NotNull
@@ -83,14 +83,16 @@ public class AliasFile {
         @NotNull List<AliasFileVariation> variations) {
         Collection<String> patterns = new HashSet<>();
 
+        if (!Pattern.compile("\\{.+}").matcher(pattern).find()) {
+            patterns.add(pattern);
+            return patterns;
+        }
+
         variations.forEach(variation -> {
             String name = variation.getName();
             String quote = Pattern.quote('{' + name + '}');
 
-            if (!pattern.contains('{' + name + '}') && variation.isOptional()) {
-                patterns.add(pattern.replaceFirst(' ' + quote + '|' + quote + " ?", ""));
-                return;
-            } else if (!pattern.contains('{' + name + '}')) {
+            if (!pattern.contains('{' + name + '}')) {
                 return;
             }
 
@@ -99,6 +101,12 @@ public class AliasFile {
 
                 patterns.addAll(variationCombinations(replaced, variations));
             });
+
+            if (pattern.contains('{' + name + '}') && variation.isOptional()) {
+                String replaced = pattern.replaceFirst(' ' + quote + '|' + quote + " ?", "");
+
+                patterns.addAll(variationCombinations(replaced, variations));
+            }
         });
 
         return patterns;
