@@ -88,31 +88,31 @@ public class ItemTypeRegistry {
     public static class Entry {
 
         /**
-         * The patterns for this entry. This collection is unmodifiable.
+         * The pattern for this entry.
          */
         @NotNull
-        private Collection<SkriptPattern> patterns;
+        private SkriptPattern pattern;
 
         /**
-         * Creates a new entry with the specified patterns
+         * Creates a new entry with the specified pattern
          *
-         * @param patterns the patterns for the entry
+         * @param pattern the pattern for the entry
          * @since 0.1.0
          */
-        public Entry(@NotNull Collection<SkriptPattern> patterns) {
-            this.patterns = Collections.unmodifiableCollection(patterns);
+        public Entry(@NotNull SkriptPattern pattern) {
+            this.pattern = pattern;
         }
 
         /**
-         * Gets the patterns for the entry. The returned collection is unmodifiable.
+         * Get the pattern for the entry.
          *
-         * @return the patterns
+         * @return the pattern
          * @since 0.1.0
          */
         @NotNull
         @Contract(pure = true)
-        public Collection<SkriptPattern> getPatterns() {
-            return patterns;
+        public SkriptPattern getPattern() {
+            return pattern;
         }
     }
 }

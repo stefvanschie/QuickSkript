@@ -114,8 +114,7 @@ public class PsiItemLiteral extends PsiElement<Item> {
                 .getY();
 
             Optional<ItemTypeRegistry.Entry> itemType = SkriptLoader.get().getItemTypeRegistry().getEntries().stream()
-                .filter(entry -> entry.getPatterns().stream()
-                    .flatMap(pattern -> pattern.match(itemName).stream())
+                .filter(entry -> entry.getPattern().match(itemName).stream()
                     .anyMatch(match -> !match.hasUnmatchedParts()))
                 .findAny();
 
