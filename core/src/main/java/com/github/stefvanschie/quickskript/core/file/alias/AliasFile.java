@@ -62,9 +62,8 @@ public class AliasFile {
         variations.addAll(this.variations);
 
         return entries.stream()
-            .map(entry -> new ItemTypeRegistry.Entry(variationCombinations(entry.getEntry(), variations).stream()
-                .map(SkriptPattern::parse)
-                .collect(Collectors.toUnmodifiableSet())))
+            .flatMap(entry -> variationCombinations(entry.getEntry(), variations).stream())
+            .map(entry -> new ItemTypeRegistry.Entry(SkriptPattern.parse(entry)))
             .collect(Collectors.toUnmodifiableSet());
     }
 
