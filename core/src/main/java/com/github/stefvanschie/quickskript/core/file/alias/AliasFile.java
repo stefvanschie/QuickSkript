@@ -101,7 +101,7 @@ public class AliasFile {
                 patterns.addAll(variationCombinations(replaced, variations));
             });
 
-            if (pattern.contains('{' + name + '}') && variation.isOptional()) {
+            if (variation.isOptional()) {
                 String replaced = pattern.replaceFirst(' ' + quote + '|' + quote + " ?", "");
 
                 patterns.addAll(variationCombinations(replaced, variations));
