@@ -37,6 +37,12 @@ public class AliasFile {
     private Set<AliasFileEntry> entries = new HashSet<>();
 
     /**
+     * A pattern that matches against a variation
+     */
+    @NotNull
+    private static final Pattern VARIATION_PATTERN = Pattern.compile("\\{.+}");
+
+    /**
      * Resolves all possible item types from this file. This means that each possible item type that differ from each
      * other will be a separate entry. The entries are represented by patterns - each pattern permutation is the same
      * item type. The alias file manager should have loaded all alias files that this file depends on via a {@code :use}
@@ -82,7 +88,7 @@ public class AliasFile {
         @NotNull List<AliasFileVariation> variations) {
         Collection<String> patterns = new HashSet<>();
 
-        if (!Pattern.compile("\\{.+}").matcher(pattern).find()) {
+        if (!VARIATION_PATTERN.matcher(pattern).find()) {
             patterns.add(pattern);
             return patterns;
         }
