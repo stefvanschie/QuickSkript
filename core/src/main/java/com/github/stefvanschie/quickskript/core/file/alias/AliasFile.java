@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 /**
  * An alias file. This alias file contains parsed data about its contents.
@@ -24,17 +23,17 @@ public class AliasFile {
     /**
      * All the directives in this file
      */
-    private Set<AliasFileUseDirective> directives = new HashSet<>();
+    private final Set<AliasFileUseDirective> directives = new HashSet<>();
 
     /**
      * All the variations in this file
      */
-    private Set<AliasFileVariation> variations = new HashSet<>();
+    private final Set<AliasFileVariation> variations = new HashSet<>();
 
     /**
      * All the entries in this file
      */
-    private Set<AliasFileEntry> entries = new HashSet<>();
+    private final Set<AliasFileEntry> entries = new HashSet<>();
 
     /**
      * A pattern that matches against a variation
@@ -55,7 +54,9 @@ public class AliasFile {
     @NotNull
     @Contract(pure = true)
     public Collection<ItemTypeRegistry.Entry> resolveAllItemTypes(@NotNull AliasFileManager manager) {
-        List<AliasFileVariation> variations = directives.stream().flatMap(directive -> {
+        List<AliasFileVariation> variations = new ArrayList<>();
+
+        for (AliasFileUseDirective directive : directives) {
             String filePath = directive.getFilePath();
             AliasFile file = manager.getFile(filePath);
 
@@ -63,14 +64,20 @@ public class AliasFile {
                 throw new AliasFileResolveException("Unable to find specified file named " + filePath);
             }
 
-            return file.variations.stream();
-        }).collect(Collectors.toList());
+            variations.addAll(file.variations);
+        }
+
         variations.addAll(this.variations);
 
-        return entries.stream()
-            .flatMap(entry -> variationCombinations(entry.getEntry(), variations).stream())
-            .map(entry -> new ItemTypeRegistry.Entry(SkriptPattern.parse(entry)))
-            .collect(Collectors.toUnmodifiableSet());
+        Set<ItemTypeRegistry.Entry> itemTypes = new HashSet<>();
+
+        for (AliasFileEntry entry : entries) {
+            for (String combination : variationCombinations(entry.getEntry(), variations)) {
+                itemTypes.add(new ItemTypeRegistry.Entry(SkriptPattern.parse(combination)));
+            }
+        }
+
+        return Collections.unmodifiableSet(itemTypes);
     }
 
     /**
@@ -93,26 +100,28 @@ public class AliasFile {
             return patterns;
         }
 
-        variations.forEach(variation -> {
+        for (AliasFileVariation variation : variations) {
             String name = variation.getName();
             String quote = Pattern.quote('{' + name + '}');
+            int variationIndex = pattern.indexOf('{' + name + '}');
 
-            if (!pattern.contains('{' + name + '}')) {
-                return;
+            if (variationIndex == -1) {
+                continue;
             }
 
-            variation.getEntries().forEach(entry -> {
-                String replaced = pattern.replaceFirst(quote, entry);
+            for (String entry : variation.getEntries()) {
+                String firstSubstring = pattern.substring(0, variationIndex);
+                String secondSubstring = pattern.substring(variationIndex + ('{' + name + '}').length());
 
-                patterns.addAll(variationCombinations(replaced, variations));
-            });
+                patterns.addAll(variationCombinations(firstSubstring + entry + secondSubstring, variations));
+            }
 
             if (variation.isOptional()) {
                 String replaced = pattern.replaceFirst(' ' + quote + '|' + quote + " ?", "");
 
                 patterns.addAll(variationCombinations(replaced, variations));
             }
-        });
+        }
 
         return patterns;
     }

@@ -9,7 +9,6 @@ import org.jetbrains.annotations.Nullable;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Manages the alias files.
@@ -45,9 +44,13 @@ public class AliasFileManager {
     @NotNull
     @Contract(pure = true)
     public Collection<ItemTypeRegistry.Entry> resolveAll() {
-        return files.values().stream()
-            .flatMap(file -> file.resolveAllItemTypes(this).stream())
-            .collect(Collectors.toUnmodifiableSet());
+        Set<ItemTypeRegistry.Entry> itemTypes = new HashSet<>();
+
+        for (AliasFile file : files.values()) {
+            itemTypes.addAll(file.resolveAllItemTypes(this));
+        }
+
+        return Collections.unmodifiableSet(itemTypes);
     }
 
     /**
