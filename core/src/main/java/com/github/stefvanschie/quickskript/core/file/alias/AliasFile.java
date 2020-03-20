@@ -47,7 +47,7 @@ public class AliasFile {
     @NotNull
     @Contract(pure = true)
     public Collection<ItemTypeRegistry.Entry> resolveAllItemTypes(@NotNull AliasFileManager manager) {
-        List<AliasFileVariation> variations = new ArrayList<>();
+        Set<AliasFileVariation> variations = new HashSet<>();
 
         for (AliasFileUseDirective directive : directives) {
             String filePath = directive.getFilePath();
@@ -85,7 +85,7 @@ public class AliasFile {
     @NotNull
     @Contract(pure = true)
     private Collection<String> variationCombinations(@NotNull String pattern,
-        @NotNull List<AliasFileVariation> variations) {
+        @NotNull Collection<AliasFileVariation> variations) {
         Collection<String> patterns = new HashSet<>();
 
         int openIndex = pattern.indexOf('{');
