@@ -28,6 +28,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.concurrent.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -82,26 +83,22 @@ public abstract class SkriptLoader implements Closeable {
     /**
      * A biome registry for working with biomes
      */
-    @NotNull
-    private final BiomeRegistry biomeRegistry = new BiomeRegistry();
+    private BiomeRegistry biomeRegistry;
 
     /**
      * An entity type registry for working with entity types
      */
-    @NotNull
-    private final EntityTypeRegistry entityTypeRegistry = new EntityTypeRegistry();
+    private EntityTypeRegistry entityTypeRegistry;
 
     /**
      * An inventory type registry for working with inventory types
      */
-    @NotNull
-    private final InventoryTypeRegistry inventoryTypeRegistry = new InventoryTypeRegistry();
+    private InventoryTypeRegistry inventoryTypeRegistry;
 
     /**
      * An item type registry for working with item types
      */
-    @NotNull
-    private final ItemTypeRegistry itemTypeRegistry = new ItemTypeRegistry();
+    private ItemTypeRegistry itemTypeRegistry;
 
     /**
      * Create a new instance, initializing it with all default (non-addon) data.
@@ -113,10 +110,18 @@ public abstract class SkriptLoader implements Closeable {
             throw new IllegalStateException("A SkriptLoader is already present, can't create another one.");
         }
 
-        registerDefaultElements();
-        registerDefaultSections();
-        registerDefaultConverters();
-        registerDefaultEvents();
+        CompletableFuture.allOf(CompletableFuture.runAsync(() -> {
+            biomeRegistry = new BiomeRegistry();
+            entityTypeRegistry = new EntityTypeRegistry();
+            inventoryTypeRegistry = new InventoryTypeRegistry();
+
+            registerDefaultElements();
+            registerDefaultSections();
+            registerDefaultConverters();
+            registerDefaultEvents();
+        }), CompletableFuture.runAsync(() ->
+            itemTypeRegistry = new ItemTypeRegistry()
+        )).join();
 
         instance = this;
     }
