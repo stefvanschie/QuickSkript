@@ -151,7 +151,7 @@ public class AliasFile {
             String line = lines[i];
 
             if (line.startsWith(":use ")) {
-                file.directives.add(new AliasFileUseDirective(line.substring(":use".length()).trim()));
+                file.directives.add(new AliasFileUseDirective(line.substring(":use ".length()).trim()));
                 continue;
             }
 
@@ -160,11 +160,13 @@ public class AliasFile {
             if (equalsIndex != -1) {
                 boolean optional = false;
                 String variationName = line.substring(0, equalsIndex).trim();
+                int variationNameLength = variationName.length();
 
-                if (variationName.startsWith("[") && variationName.endsWith("]")) {
+                if (variationNameLength > 0 && variationName.charAt(0) == '[' &&
+                    variationName.charAt(variationNameLength - 1) == ']') {
                     optional = true;
 
-                    variationName = variationName.substring(1, variationName.length() - 1);
+                    variationName = variationName.substring(1, variationNameLength - 1);
                 }
 
                 StringBuilder variation = new StringBuilder(line.substring(equalsIndex + 1).trim());
