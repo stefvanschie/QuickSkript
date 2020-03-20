@@ -11,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
-import java.util.regex.Pattern;
 
 /**
  * An alias file. This alias file contains parsed data about its contents.
@@ -34,12 +33,6 @@ public class AliasFile {
      * All the entries in this file
      */
     private final Set<AliasFileEntry> entries = new HashSet<>();
-
-    /**
-     * A pattern that matches against a variation
-     */
-    @NotNull
-    private static final Pattern VARIATION_PATTERN = Pattern.compile("\\{.+}");
 
     /**
      * Resolves all possible item types from this file. This means that each possible item type that differ from each
@@ -95,29 +88,42 @@ public class AliasFile {
         @NotNull List<AliasFileVariation> variations) {
         Collection<String> patterns = new HashSet<>();
 
-        if (!VARIATION_PATTERN.matcher(pattern).find()) {
+        int openIndex = pattern.indexOf('{');
+        int closeIndex = pattern.indexOf('}');
+
+        if (openIndex == -1 || closeIndex == -1 || openIndex + 1 > pattern.indexOf('}')) {
             patterns.add(pattern);
             return patterns;
         }
 
         for (AliasFileVariation variation : variations) {
             String name = variation.getName();
-            String quote = Pattern.quote('{' + name + '}');
-            int variationIndex = pattern.indexOf('{' + name + '}');
+            String fullName = '{' + name + '}';
+            int variationIndex = pattern.indexOf(fullName);
 
             if (variationIndex == -1) {
                 continue;
             }
 
-            for (String entry : variation.getEntries()) {
-                String firstSubstring = pattern.substring(0, variationIndex);
-                String secondSubstring = pattern.substring(variationIndex + ('{' + name + '}').length());
+            String secondSubstring = pattern.substring(variationIndex + fullName.length());
+            String firstSubstring = pattern.substring(0, variationIndex);
 
+            for (String entry : variation.getEntries()) {
                 patterns.addAll(variationCombinations(firstSubstring + entry + secondSubstring, variations));
             }
 
             if (variation.isOptional()) {
-                String replaced = pattern.replaceFirst(' ' + quote + '|' + quote + " ?", "");
+                String replaced;
+
+                if (variationIndex - 1 >= 0 && pattern.charAt(variationIndex - 1) == ' ') {
+                    replaced = pattern.substring(0, variationIndex - 1) + secondSubstring;
+                } else {
+                    replaced = firstSubstring + (
+                        secondSubstring.length() > 0 && secondSubstring.charAt(0) == ' '
+                            ? secondSubstring.substring(1)
+                            : secondSubstring
+                    );
+                }
 
                 patterns.addAll(variationCombinations(replaced, variations));
             }
