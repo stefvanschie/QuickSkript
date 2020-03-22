@@ -194,10 +194,16 @@ public class ChoiceGroup implements SkriptPatternGroup {
                 } else if (character == '\u00A6') { //broken bar character
                     String parseMarkString = input.substring(groupStartIndex, index);
 
-                    if (!parseMarkString.matches("-?\\d+")) { //TODO pre-compile pattern
-                        throw new SkriptPatternParseException(
-                            "Parse mark needs to be an integer, but '" + parseMarkString + "' does not adhere to this"
-                        );
+                    for (int i = 0; i < parseMarkString.length(); i++) {
+                        if (parseMarkString.charAt(i) == '-' && i == 0) {
+                            continue;
+                        }
+
+                        if (parseMarkString.charAt(i) < 48 || parseMarkString.charAt(i) > 57) { //range for 0-9
+                            throw new SkriptPatternParseException(
+                                "Parse mark needs to be an integer, but '" + parseMarkString + "' does not adhere to this"
+                            );
+                        }
                     }
 
                     currentParseMark = Integer.parseInt(parseMarkString);
@@ -206,8 +212,13 @@ public class ChoiceGroup implements SkriptPatternGroup {
             }
         }
 
-        int[] parseMarkArray = parseMarks.stream().mapToInt(x -> x).toArray();
-        ChoiceGroup choiceGroup = new ChoiceGroup(patterns.toArray(new SkriptPattern[0]), parseMarkArray);
+        int[] parseMarkArray = new int[parseMarks.size()];
+
+        for (int i = 0; i < parseMarks.size(); i++) {
+            parseMarkArray[i] = parseMarks.get(i);
+        }
+
+        ChoiceGroup choiceGroup = new ChoiceGroup(patterns.toArray(SkriptPattern[]::new), parseMarkArray);
 
         return new Pair<>(choiceGroup, input.substring(lastIndex + 1));
     }
