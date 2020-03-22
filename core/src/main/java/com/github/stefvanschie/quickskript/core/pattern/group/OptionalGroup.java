@@ -61,8 +61,9 @@ public class OptionalGroup implements SkriptPatternGroup {
             }
 
             if (groupLength == 0) {
-                patternResults.forEach(result ->
-                    result.addMatchedGroup(this, result.getMatchedString(), 0));
+                for (SkriptMatchResult result : patternResults) {
+                    result.addMatchedGroup(this, result.getMatchedString(), 0);
+                }
 
                 results.addAll(patternResults);
                 continue;
@@ -70,14 +71,14 @@ public class OptionalGroup implements SkriptPatternGroup {
 
             SkriptPatternGroup[] newArray = Arrays.copyOfRange(followingGroups, 1, groupLength);
 
-            patternResults.forEach(result -> {
+            for (SkriptMatchResult result : patternResults) {
                 List<SkriptMatchResult> calleeResults = followingGroups[0].match(newArray, result.getRestingString());
 
                 List<Pair<SkriptPatternGroup, String>> matchedGroups = new ArrayList<>(result.getMatchedGroups());
 
                 Collections.reverse(matchedGroups);
 
-                calleeResults.forEach(res -> {
+                for (SkriptMatchResult res : calleeResults) {
                     SkriptMatchResult copy = result.shallowCopy();
 
                     copy.addMatchedGroup(this, copy.getMatchedString(), 0);
@@ -87,8 +88,8 @@ public class OptionalGroup implements SkriptPatternGroup {
                     copy.addParseMark(res.getParseMark());
 
                     results.add(copy);
-                });
-            });
+                }
+            }
         }
 
         if (groupLength == 0) {
