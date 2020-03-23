@@ -2,6 +2,7 @@ package com.github.stefvanschie.quickskript.core.file.alias;
 
 import com.github.stefvanschie.quickskript.core.file.alias.exception.AliasFileFormatException;
 import com.github.stefvanschie.quickskript.core.file.alias.exception.AliasFileResolveException;
+import com.github.stefvanschie.quickskript.core.file.alias.exception.UndefinedAliasFileVariation;
 import com.github.stefvanschie.quickskript.core.file.alias.manager.AliasFileManager;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.util.registry.ItemTypeRegistry;
@@ -25,9 +26,9 @@ public class AliasFile {
     private final Set<AliasFileUseDirective> directives = new HashSet<>();
 
     /**
-     * All the variations in this file
+     * All the variations in this file and the names of these variations
      */
-    private final Set<AliasFileVariation> variations = new HashSet<>();
+    private final Map<String, AliasFileVariation> variations = new HashMap<>();
 
     /**
      * All the entries in this file
@@ -47,7 +48,7 @@ public class AliasFile {
     @NotNull
     @Contract(pure = true)
     public Collection<ItemTypeRegistry.Entry> resolveAllItemTypes(@NotNull AliasFileManager manager) {
-        Set<AliasFileVariation> variations = new HashSet<>();
+        Map<String, AliasFileVariation> variations = new HashMap<>();
 
         for (AliasFileUseDirective directive : directives) {
             String filePath = directive.getFilePath();
@@ -57,10 +58,10 @@ public class AliasFile {
                 throw new AliasFileResolveException("Unable to find specified file named " + filePath);
             }
 
-            variations.addAll(file.variations);
+            variations.putAll(file.variations);
         }
 
-        variations.addAll(this.variations);
+        variations.putAll(this.variations);
 
         Set<ItemTypeRegistry.Entry> itemTypes = new HashSet<>();
 
@@ -85,7 +86,7 @@ public class AliasFile {
     @NotNull
     @Contract(pure = true)
     private Collection<String> variationCombinations(@NotNull String pattern,
-        @NotNull Collection<AliasFileVariation> variations) {
+        @NotNull Map<String, AliasFileVariation> variations) {
         Collection<String> patterns = new HashSet<>();
 
         int openIndex = pattern.indexOf('{');
@@ -96,37 +97,37 @@ public class AliasFile {
             return patterns;
         }
 
-        for (AliasFileVariation variation : variations) {
-            String name = variation.getName();
-            String fullName = '{' + name + '}';
-            int variationIndex = pattern.indexOf(fullName);
+        String name = pattern.substring(openIndex + 1, closeIndex);
+        AliasFileVariation variation = variations.get(name);
 
-            if (variationIndex == -1) {
-                continue;
+        if (variation == null) {
+            throw new UndefinedAliasFileVariation("The variation '" + name + "' is undefined");
+        }
+
+        String fullName = '{' + name + '}';
+        int variationIndex = pattern.indexOf(fullName);
+
+        String firstSubstring = pattern.substring(0, variationIndex);
+        String secondSubstring = pattern.substring(variationIndex + fullName.length());
+
+        for (String entry : variation.getEntries()) {
+            patterns.addAll(variationCombinations(firstSubstring + entry + secondSubstring, variations));
+        }
+
+        if (variation.isOptional()) {
+            String replaced;
+
+            if (variationIndex - 1 >= 0 && pattern.charAt(variationIndex - 1) == ' ') {
+                replaced = pattern.substring(0, variationIndex - 1) + secondSubstring;
+            } else {
+                replaced = firstSubstring + (
+                    secondSubstring.length() > 0 && secondSubstring.charAt(0) == ' '
+                        ? secondSubstring.substring(1)
+                        : secondSubstring
+                );
             }
 
-            String secondSubstring = pattern.substring(variationIndex + fullName.length());
-            String firstSubstring = pattern.substring(0, variationIndex);
-
-            for (String entry : variation.getEntries()) {
-                patterns.addAll(variationCombinations(firstSubstring + entry + secondSubstring, variations));
-            }
-
-            if (variation.isOptional()) {
-                String replaced;
-
-                if (variationIndex - 1 >= 0 && pattern.charAt(variationIndex - 1) == ' ') {
-                    replaced = pattern.substring(0, variationIndex - 1) + secondSubstring;
-                } else {
-                    replaced = firstSubstring + (
-                        secondSubstring.length() > 0 && secondSubstring.charAt(0) == ' '
-                            ? secondSubstring.substring(1)
-                            : secondSubstring
-                    );
-                }
-
-                patterns.addAll(variationCombinations(replaced, variations));
-            }
+            patterns.addAll(variationCombinations(replaced, variations));
         }
 
         return patterns;
@@ -180,7 +181,7 @@ public class AliasFile {
                 variation.deleteCharAt(0);
 
                 while (!lines[i].contains("}")) {
-                    variation.append(lines[i++]);
+                    variation.append(lines[++i]);
                 }
 
                 variation.deleteCharAt(variation.length() - 1);
@@ -191,7 +192,7 @@ public class AliasFile {
                     entries.add(entry.trim());
                 }
 
-                file.variations.add(new AliasFileVariation(entries, variationName, optional));
+                file.variations.put(variationName, new AliasFileVariation(entries, variationName, optional));
                 continue;
             }
 

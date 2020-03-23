@@ -32,7 +32,7 @@ knowledge book[s]
 [nether] portal [block[s]]
 [mob|monster] spawner[s]
 
-{orientable} {conditional} [impusle] command block[s]
+{orientable} {conditional} [impulse] command block[s]
 {orientable} {conditional} chain command block[s]
 {orientable} {conditional} repeating command block[s]
 
@@ -47,7 +47,7 @@ knowledge book[s]
 {crop growth stage} pumpkin stem
 {crop growth stage} melon stem
 {three stage growth} beet[root] plant
-{thee stage growth} nether wart plant
+{three stage growth} nether wart plant
 
 debug stick[s]
 
