@@ -117,8 +117,20 @@ public class LiteralGroup implements SkriptPatternGroup {
         }
 
         //remove escape characters
-        input = input.substring(0, index).replaceAll("\\\\([\\[\\]<>%()])", "$1") +
-            input.substring(index); //TODO pre-compile pattern
+        StringBuilder builder = new StringBuilder(input.substring(0, index));
+        int escapeIndex = builder.indexOf("\\");
+
+        while (escapeIndex != -1 && escapeIndex != builder.length() - 1) {
+            char escapedChar = builder.charAt(escapeIndex + 1);
+
+            if (escapedChar == '[' || escapedChar == ']' || escapedChar == '<' || escapedChar == '>' || escapedChar == '%' || escapedChar == '(' || escapedChar == ')') {
+                builder.deleteCharAt(escapeIndex);
+            }
+
+            escapeIndex = builder.indexOf("\\", escapeIndex);
+        }
+
+        input = builder.toString() + input.substring(index);
 
         LiteralGroup literalGroup = new LiteralGroup(input.substring(0, index - escapesHit));
 

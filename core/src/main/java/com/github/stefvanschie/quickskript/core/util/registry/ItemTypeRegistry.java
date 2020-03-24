@@ -18,7 +18,7 @@ public class ItemTypeRegistry {
     /**
      * The entries of this registry
      */
-    private Set<Entry> entries = new HashSet<>();
+    private final Set<Entry> entries = new HashSet<>();
 
     /**
      * Creates a new item type registry and adds the default item types to it
