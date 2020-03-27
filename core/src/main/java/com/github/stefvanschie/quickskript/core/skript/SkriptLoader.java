@@ -30,8 +30,6 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Instances of this class contain everything necessary for loading Skript files.
@@ -186,26 +184,37 @@ public abstract class SkriptLoader implements Closeable {
                         PatternTypeOrder patternTypeOrder = null;
 
                         if (holder != null) {
-                            final int finalSkriptPatternIndex = skriptPatternIndex;
+                            int amount = 0;
+                            PatternTypeOrder order = null;
 
-                            Stream<PatternTypeOrder> patternMetadataStream = Arrays.stream(holder.value())
-                                .filter(pm -> Arrays.stream(pm.patterns())
-                                    .anyMatch(patternIndex -> patternIndex == finalSkriptPatternIndex));
+                            for (PatternTypeOrder typeOrder : holder.value()) {
+                                for (int patternIndex : typeOrder.patterns()) {
+                                    if (patternIndex != skriptPatternIndex) {
+                                        continue;
+                                    }
 
-                            if (patternMetadataStream.count() > 1) {
+                                    amount++;
+                                    order = typeOrder;
+                                }
+                            }
+
+                            if (amount > 1) {
                                 throw new ParsingAnnotationInvalidValueException(
                                     "Multiple PatternMetadata on the same method specify the same pattern"
                                 );
                             }
 
-                            patternTypeOrder = patternMetadataStream.findAny().orElse(null);
+                            patternTypeOrder = order;
                         }
 
                         SkriptPattern skriptPattern = skriptPatterns[skriptPatternIndex];
+                        int typeGroupAmount = 0;
 
-                        int typeGroupAmount = (int) skriptPattern.getGroups().stream()
-                            .filter(group -> group instanceof TypeGroup)
-                            .count();
+                        for (SkriptPatternGroup group : skriptPattern.getGroups()) {
+                            if (group instanceof TypeGroup) {
+                                typeGroupAmount++;
+                            }
+                        }
 
                         if (method.getParameterCount() < typeGroupAmount + 1) {
                             throw new IllegalStateException("Method '" + method.getName() + "' has "
@@ -221,24 +230,36 @@ public abstract class SkriptLoader implements Closeable {
 
                             Collection<Pair<SkriptPatternGroup, String>> matchedGroups = result.getMatchedGroups();
 
-                            List<TypeGroup> groups = matchedGroups.stream()
-                                .map(Pair::getX)
-                                .filter(group -> group instanceof TypeGroup)
-                                .map(group -> (TypeGroup) group)
-                                .collect(Collectors.toUnmodifiableList());
+                            List<TypeGroup> groups = new ArrayList<>();
 
-                            List<String> matchedTypeTexts = matchedGroups.stream()
-                                .filter(entry -> entry.getX() instanceof TypeGroup)
-                                .map(Pair::getY)
-                                .collect(Collectors.toUnmodifiableList());
+                            for (Pair<SkriptPatternGroup, String> matchedGroup : matchedGroups) {
+                                SkriptPatternGroup group = matchedGroup.getX();
+
+                                if (group instanceof TypeGroup) {
+                                    groups.add((TypeGroup) group);
+                                }
+                            }
+
+                            List<String> matchedTypeTexts = new ArrayList<>();
+
+                            for (Pair<SkriptPatternGroup, String> matchedGroup : matchedGroups) {
+                                if (matchedGroup.getX() instanceof TypeGroup) {
+                                    matchedTypeTexts.add(matchedGroup.getY());
+                                }
+                            }
 
                             Object[] elements = new Object[typeGroupAmount];
 
                             for (int i = 0; i < elements.length && i < groups.size(); i++) {
-                                int elementIndex = skriptPattern.getGroups().stream()
-                                    .filter(group -> group instanceof TypeGroup)
-                                    .collect(Collectors.toUnmodifiableList())
-                                    .indexOf(groups.get(i));
+                                List<TypeGroup> typeGroups = new ArrayList<>();
+
+                                for (SkriptPatternGroup group : skriptPattern.getGroups()) {
+                                    if (group instanceof TypeGroup) {
+                                        typeGroups.add((TypeGroup) group);
+                                    }
+                                }
+
+                                int elementIndex = typeGroups.indexOf(groups.get(i));
 
                                 if (patternTypeOrder != null && !Arrays.equals(patternTypeOrder.typeOrder(), new int[]{})) {
                                     elementIndex = patternTypeOrder.typeOrder()[i];
@@ -303,9 +324,13 @@ public abstract class SkriptLoader implements Closeable {
                 }
             }
 
-            Set<Method> methods = Arrays.stream(factory.getClass().getMethods())
-                .filter(method -> method.getAnnotation(Fallback.class) != null)
-                .collect(Collectors.toUnmodifiableSet());
+            Set<Method> methods = new HashSet<>();
+
+            for (Method method : factory.getClass().getMethods()) {
+                if (method.getAnnotation(Fallback.class) != null) {
+                    methods.add(method);
+                }
+            }
 
             int size = methods.size();
 
