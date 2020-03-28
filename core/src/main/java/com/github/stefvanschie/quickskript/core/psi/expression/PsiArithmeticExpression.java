@@ -85,34 +85,32 @@ public class PsiArithmeticExpression extends PsiElement<Number> {
          * The pattern to match addition {@link PsiArithmeticExpression}s
          */
         @NotNull
-        private final SkriptPattern additionPattern = SkriptPattern.parse("%number%[ ]+[ ]%number%").greedy(false);
+        private final SkriptPattern additionPattern = SkriptPattern.parse("%number%[ ]+[ ]%number%");
 
         /**
          * The pattern to match subtraction {@link PsiArithmeticExpression}s
          */
         @NotNull
-        private final SkriptPattern subtractionPattern = SkriptPattern.parse("%number%[ ]-[ ]%number%").greedy(false);
+        private final SkriptPattern subtractionPattern = SkriptPattern.parse("%number%[ ]-[ ]%number%");
 
         /**
          * The pattern to match multiplication {@link PsiArithmeticExpression}s
          */
         @NotNull
-        private final SkriptPattern multiplicationPattern = SkriptPattern.parse("%number%[ ]*[ ]%number%")
-            .greedy(false);
+        private final SkriptPattern multiplicationPattern = SkriptPattern.parse("%number%[ ]*[ ]%number%");
 
         /**
          * The pattern to match division {@link PsiArithmeticExpression}s
          */
         @SuppressWarnings("HardcodedFileSeparator")
         @NotNull
-        private final SkriptPattern divisionPattern = SkriptPattern.parse("%number%[ ]/[ ]%number%").greedy(false);
+        private final SkriptPattern divisionPattern = SkriptPattern.parse("%number%[ ]/[ ]%number%");
 
         /**
          * The pattern to match exponentiation {@link PsiArithmeticExpression}s
          */
         @NotNull
-        private final SkriptPattern exponentiationPattern = SkriptPattern.parse("%number%[ ]^[ ]%number%")
-            .greedy(false);
+        private final SkriptPattern exponentiationPattern = SkriptPattern.parse("%number%[ ]^[ ]%number%");
 
         /**
          * This gets called upon parsing addition expressions
