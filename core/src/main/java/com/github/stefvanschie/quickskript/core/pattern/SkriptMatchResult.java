@@ -31,8 +31,8 @@ public class SkriptMatchResult {
     /**
      * The resting string
      */
-    @Nullable
-    private String restingString;
+    @NotNull
+    private String restingString = "";
 
     /**
      * Adds a group that was successfully matched
@@ -41,6 +41,7 @@ public class SkriptMatchResult {
      * @param text the text that made the group match
      * @throws IllegalStateException if this match was already terminated
      * @since 0.1.0
+     * @see #addMatchedGroup(SkriptPatternGroup, String)
      */
     public void addMatchedGroup(@NotNull SkriptPatternGroup group, @NotNull String text, int index) {
         matchedGroups.add(index, new Pair<>(group, text));
@@ -115,6 +116,18 @@ public class SkriptMatchResult {
     }
 
     /**
+     * Appends the given group and text to the end of the collection of matched groups.
+     *
+     * @param group the group to add
+     * @param text the text to add
+     * @since 0.1.0
+     * @see #addMatchedGroup(SkriptPatternGroup, String, int)
+     */
+    public void addMatchedGroup(@NotNull SkriptPatternGroup group, @NotNull String text) {
+        addMatchedGroup(group, text, matchedGroups.size());
+    }
+
+    /**
      * Checks whether this matched has unmatched parts left. If so, this method returns true, if not this returns false.
      *
      * @return whether this math has unmatched parts
@@ -122,7 +135,7 @@ public class SkriptMatchResult {
      */
     @Contract(pure = true)
     public boolean hasUnmatchedParts() {
-        return restingString != null && !restingString.isEmpty();
+        return !restingString.isEmpty();
     }
 
     /**
@@ -149,12 +162,12 @@ public class SkriptMatchResult {
     }
 
     /**
-     * Gets the resting string, or null if none is present
+     * Gets the resting string
      *
      * @return the resting string
      * @since 0.1.0
      */
-    @Nullable
+    @NotNull
     @Contract(pure = true)
     public String getRestingString() {
         return restingString;

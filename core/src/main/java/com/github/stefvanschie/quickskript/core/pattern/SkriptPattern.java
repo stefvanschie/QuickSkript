@@ -98,6 +98,17 @@ public class SkriptPattern {
             return new ArrayList<>(0);
         }
 
+        //exit early if matching will absolutely fail
+        for (SkriptPatternGroup group : groups) {
+            if (!(group instanceof LiteralGroup)) {
+                continue;
+            }
+
+            if (!input.contains(((LiteralGroup) group).getText())) {
+                return new ArrayList<>(0);
+            }
+        }
+
         return groups.get(0).match(groups.subList(1, groups.size()).toArray(SkriptPatternGroup[]::new), input);
     }
 
