@@ -130,10 +130,10 @@ public class LiteralGroup implements SkriptPatternGroup {
             escapeIndex = builder.indexOf("\\", escapeIndex);
         }
 
-        input = builder.toString() + input.substring(index);
+        builder.append(input.substring(index));
 
-        LiteralGroup literalGroup = new LiteralGroup(input.substring(0, index - escapesHit));
+        LiteralGroup literalGroup = new LiteralGroup(builder.substring(0, index - escapesHit));
 
-        return new Pair<>(literalGroup, input.substring(index - escapesHit));
+        return new Pair<>(literalGroup, builder.substring(index - escapesHit));
     }
 }
