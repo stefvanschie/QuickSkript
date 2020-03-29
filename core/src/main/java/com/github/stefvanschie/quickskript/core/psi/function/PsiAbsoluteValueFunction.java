@@ -1,16 +1,13 @@
 package com.github.stefvanschie.quickskript.core.psi.function;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Calculates the absolute value of a given number
@@ -59,35 +56,26 @@ public class PsiAbsoluteValueFunction extends PsiElement<Double> {
          * The pattern for matching absolute value functions
          */
         @NotNull
-        private final Pattern pattern = Pattern.compile("abs\\((?<parameter>[\\s\\S]+)\\)");
+        private final SkriptPattern pattern = SkriptPattern.parse("abs\\(%number%\\)");
 
         /**
          * This gets called upon parsing
          *
-         * @param text the text to parse
+         * @param number the number
          * @param lineNumber the line number
          * @return the function, or null to indicate failure
          * @since 0.1.0
          */
         @Nullable
         @Contract(pure = true)
-        @Fallback
-        public PsiAbsoluteValueFunction tryParse(@NotNull String text, int lineNumber) {
-            Matcher matcher = pattern.matcher(text);
-
-            if (!matcher.matches()) {
-                return null;
-            }
-
-            String expression = matcher.group("parameter");
-            PsiElement<?> element = SkriptLoader.get().forceParseElement(expression, lineNumber);
-
-            return create(element, lineNumber);
+        @Pattern("pattern")
+        public PsiAbsoluteValueFunction tryParse(@NotNull PsiElement<?> number, int lineNumber) {
+            return create(number, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
+         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(PsiElement, int)}
          * method.
          *
          * @param element the element to compute
