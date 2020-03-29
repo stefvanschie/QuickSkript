@@ -67,6 +67,13 @@ public abstract class SkriptLoader implements Closeable {
     private final List<PsiElementFactory> elements = new ArrayList<>();
 
     /**
+     * A cache for a factory and a list of methods with their patterns. This is gradually built up for element factories
+     * that are being tested and can be used in the future to avoid having to do lookups.
+     */
+    @NotNull
+    private final Map<PsiElementFactory, Map<Method, SkriptPattern[]>> elementsCached = new HashMap<>();
+
+    /**
      * A list of all psi section factories.
      */
     @NotNull
@@ -140,14 +147,19 @@ public abstract class SkriptLoader implements Closeable {
         input = input.trim();
 
         for (PsiElementFactory factory : elements) {
-            for (Method method : factory.getClass().getMethods()) {
-                Pattern pattern = method.getAnnotation(Pattern.class);
+            Map<Method, SkriptPattern[]> methods = elementsCached.get(factory);
 
-                if (pattern == null) {
-                    continue;
-                }
+            if (methods == null) {
+                methods = new HashMap<>();
+                List<Method> newMethods = new ArrayList<>(Arrays.asList(factory.getClass().getMethods()));
 
-                try {
+                for (Method method : newMethods) {
+                    Pattern pattern = method.getAnnotation(Pattern.class);
+
+                    if (pattern == null) {
+                        continue;
+                    }
+
                     Class<?> searching = factory.getClass();
                     Field field = null;
 
@@ -169,16 +181,32 @@ public abstract class SkriptLoader implements Closeable {
 
                     SkriptPattern[] skriptPatterns;
 
-                    if (type == SkriptPattern.class) {
-                        skriptPatterns = new SkriptPattern[] {
-                            (SkriptPattern) field.get(factory)
-                        };
-                    } else if (type == SkriptPattern[].class) {
-                        skriptPatterns = (SkriptPattern[]) field.get(factory);
-                    } else {
+                    try {
+                        if (type == SkriptPattern.class) {
+                            skriptPatterns = new SkriptPattern[]{
+                                (SkriptPattern) field.get(factory)
+                            };
+                        } else if (type == SkriptPattern[].class) {
+                            skriptPatterns = (SkriptPattern[]) field.get(factory);
+                        } else {
+                            continue;
+                        }
+                    } catch (IllegalAccessException exception) {
+                        exception.printStackTrace();
                         continue;
                     }
 
+                    methods.put(method, skriptPatterns);
+                }
+
+                elementsCached.put(factory, methods);
+            }
+
+            for (Map.Entry<Method, SkriptPattern[]> entry : methods.entrySet()) {
+                Method method = entry.getKey();
+                SkriptPattern[] skriptPatterns = entry.getValue();
+
+                try {
                     for (int skriptPatternIndex = 0; skriptPatternIndex < skriptPatterns.length; skriptPatternIndex++) {
                         PatternTypeOrderHolder holder = method.getAnnotation(PatternTypeOrderHolder.class);
                         PatternTypeOrder patternTypeOrder = null;
@@ -324,15 +352,15 @@ public abstract class SkriptLoader implements Closeable {
                 }
             }
 
-            Set<Method> methods = new HashSet<>();
+            Set<Method> fallbackMethods = new HashSet<>();
 
             for (Method method : factory.getClass().getMethods()) {
                 if (method.getAnnotation(Fallback.class) != null) {
-                    methods.add(method);
+                    fallbackMethods.add(method);
                 }
             }
 
-            int size = methods.size();
+            int size = fallbackMethods.size();
 
             if (size > 1) {
                 throw new IllegalFallbackAnnotationAmountException(
@@ -342,7 +370,7 @@ public abstract class SkriptLoader implements Closeable {
 
             if (size == 1) {
                 //will only loop once
-                for (Method method : methods) {
+                for (Method method : fallbackMethods) {
                     try {
                         Object result = method.invoke(factory, input, lineNumber);
 
