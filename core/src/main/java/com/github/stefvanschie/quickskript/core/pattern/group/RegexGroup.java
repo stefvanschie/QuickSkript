@@ -110,12 +110,12 @@ public class RegexGroup implements SkriptPatternGroup {
      *         unsuccessful.
      */
     @Nullable
-    public static Pair<RegexGroup, String> parseStarting(@NotNull String input) {
-        if (!input.startsWith("<")) {
+    public static Pair<RegexGroup, StringBuilder> parseStarting(@NotNull StringBuilder input) {
+        if (input.charAt(0) != '<') {
             return null;
         }
 
-        int endCharacter = input.indexOf('>');
+        int endCharacter = input.indexOf(">");
 
         if (endCharacter == -1) {
             throw new SkriptPatternParseException(
@@ -123,6 +123,6 @@ public class RegexGroup implements SkriptPatternGroup {
             );
         }
 
-        return new Pair<>(new RegexGroup(input.substring(1, endCharacter)), input.substring(endCharacter + 1));
+        return new Pair<>(new RegexGroup(input.substring(1, endCharacter)), input.delete(0, endCharacter + 1));
     }
 }

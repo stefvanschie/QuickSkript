@@ -156,12 +156,12 @@ public class OptionalGroup implements SkriptPatternGroup {
      *         unsuccessful.
      */
     @Nullable
-    public static Pair<OptionalGroup, String> parseStarting(@NotNull String input) {
+    public static Pair<OptionalGroup, StringBuilder> parseStarting(@NotNull StringBuilder input) {
         if (input.charAt(0) != '[') {
             return null;
         }
 
-        input = input.substring(1);
+        input.deleteCharAt(0);
 
         int openingOptionals = 1;
         int openingChoices = 0;
@@ -227,6 +227,6 @@ public class OptionalGroup implements SkriptPatternGroup {
         int[] parseMarkArray = parseMarks.stream().mapToInt(x -> x).toArray();
         OptionalGroup optionalGroup = new OptionalGroup(patterns.toArray(new SkriptPattern[0]), parseMarkArray);
 
-        return new Pair<>(optionalGroup, input.substring(lastIndex + 1));
+        return new Pair<>(optionalGroup, input.delete(0, lastIndex + 1));
     }
 }

@@ -25,7 +25,8 @@ public class SkriptPattern {
     /**
      * A set with functions that can parse groups
      */
-    private static final Set<Function<String, Pair<? extends SkriptPatternGroup, String>>> GROUP_PARSERS = Set.of(
+    private static final Set<Function<StringBuilder, Pair<? extends SkriptPatternGroup, StringBuilder>>>
+        GROUP_PARSERS = Set.of(
         ChoiceGroup::parseStarting,
         LiteralGroup::parseStarting,
         OptionalGroup::parseStarting,
@@ -53,11 +54,12 @@ public class SkriptPattern {
      */
     @NotNull
     public static SkriptPattern parse(@NotNull String input) {
+        StringBuilder text = new StringBuilder(input);
         List<SkriptPatternGroup> groups = new ArrayList<>();
 
-        while (!input.isEmpty()) {
-            for (Function<String, Pair<? extends SkriptPatternGroup, String>> parser : GROUP_PARSERS) {
-                Pair<? extends SkriptPatternGroup, String> pair = parser.apply(input);
+        while (text.length() > 0) {
+            for (Function<StringBuilder, Pair<? extends SkriptPatternGroup, StringBuilder>> parser : GROUP_PARSERS) {
+                Pair<? extends SkriptPatternGroup, StringBuilder> pair = parser.apply(text);
 
                 if (pair == null) {
                     continue;
@@ -65,7 +67,7 @@ public class SkriptPattern {
 
                 groups.add(pair.getX());
 
-                input = pair.getY();
+                text = pair.getY();
                 break;
             }
         }
