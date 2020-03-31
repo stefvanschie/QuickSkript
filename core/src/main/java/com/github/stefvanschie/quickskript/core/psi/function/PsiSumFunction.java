@@ -12,9 +12,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 /**
  * Returns the sum of a given collection of numbers
@@ -51,13 +51,18 @@ public class PsiSumFunction extends PsiElement<Double> {
     protected Double executeImpl(@Nullable Context context) {
         Object object = element.execute(context);
 
-        Stream<Object> stream = PsiCollection.toStreamStrict(object);
-        if (stream == null) {
+        double sum = 0;
+        Collection<Object> objects = PsiCollection.toCollection(object);
+
+        if (objects == null) {
             throw new ExecutionException("Element was not a collection or array", lineNumber);
         }
 
-        return stream.mapToDouble(e -> ((Number) e).doubleValue())
-                .sum();
+        for (Object obj : objects) {
+            sum += ((Number) obj).doubleValue();
+        }
+
+        return sum;
     }
 
     /**
