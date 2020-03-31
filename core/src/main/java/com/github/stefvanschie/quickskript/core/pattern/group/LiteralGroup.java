@@ -86,7 +86,7 @@ public class LiteralGroup implements SkriptPatternGroup {
      *         unsuccessful.
      */
     @Nullable
-    public static Pair<LiteralGroup, String> parseStarting(@NotNull String input) {
+    public static Pair<LiteralGroup, StringBuilder> parseStarting(@NotNull StringBuilder input) {
         int index = 0;
         int escapesHit = 0;
         char previousChar = '\0';
@@ -134,6 +134,6 @@ public class LiteralGroup implements SkriptPatternGroup {
 
         LiteralGroup literalGroup = new LiteralGroup(builder.substring(0, index - escapesHit));
 
-        return new Pair<>(literalGroup, builder.substring(index - escapesHit));
+        return new Pair<>(literalGroup, builder.delete(0, index - escapesHit));
     }
 }

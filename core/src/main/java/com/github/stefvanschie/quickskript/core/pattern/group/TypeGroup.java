@@ -121,35 +121,35 @@ public class TypeGroup implements SkriptPatternGroup {
      *         unsuccessful.
      */
     @Nullable
-    public static Pair<TypeGroup, String> parseStarting(@NotNull String input) {
+    public static Pair<TypeGroup, StringBuilder> parseStarting(@NotNull StringBuilder input) {
         if (input.charAt(0) != '%') {
             return null;
         }
 
-        input = input.substring(1);
+        input.deleteCharAt(0);
 
         Constraint constraint = Constraint.ALL;
 
         switch (input.charAt(0)) {
             case '*':
                 constraint = Constraint.LITERAL;
-                input = input.substring(1);
+                input.deleteCharAt(0);
                 break;
             case '~':
                 constraint = Constraint.NOT_LITERAL;
-                input = input.substring(1);
+                input.deleteCharAt(0);
                 break;
             case '^':
                 constraint = Constraint.VARIABLE;
-                input = input.substring(1);
+                input.deleteCharAt(0);
                 break;
             case '-':
                 constraint = Constraint.NULL_IF_ABSENT;
-                input = input.substring(1);
+                input.deleteCharAt(0);
                 break;
         }
 
-        int endCharacter = input.indexOf('%');
+        int endCharacter = input.indexOf("%");
 
         if (endCharacter == -1) {
             throw new SkriptPatternParseException(
@@ -157,7 +157,7 @@ public class TypeGroup implements SkriptPatternGroup {
             );
         }
 
-        return new Pair<>(new TypeGroup(input.substring(0, endCharacter), constraint), input.substring(endCharacter + 1));
+        return new Pair<>(new TypeGroup(input.substring(0, endCharacter), constraint), input.delete(0, endCharacter + 1));
     }
 
     /**

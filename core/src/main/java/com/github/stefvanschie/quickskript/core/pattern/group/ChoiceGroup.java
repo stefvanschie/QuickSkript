@@ -138,12 +138,12 @@ public class ChoiceGroup implements SkriptPatternGroup {
      *         unsuccessful.
      */
     @Nullable
-    public static Pair<ChoiceGroup, String> parseStarting(@NotNull String input) {
+    public static Pair<ChoiceGroup, StringBuilder> parseStarting(@NotNull StringBuilder input) {
         if (input.charAt(0) != '(') {
             return null;
         }
 
-        input = input.substring(1);
+        input.deleteCharAt(0);
 
         int openingOptionals = 0;
         int openingChoices = 1;
@@ -220,6 +220,6 @@ public class ChoiceGroup implements SkriptPatternGroup {
 
         ChoiceGroup choiceGroup = new ChoiceGroup(patterns.toArray(SkriptPattern[]::new), parseMarkArray);
 
-        return new Pair<>(choiceGroup, input.substring(lastIndex + 1));
+        return new Pair<>(choiceGroup, input.delete(0, lastIndex + 1));
     }
 }

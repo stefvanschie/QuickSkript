@@ -85,9 +85,9 @@ public class SpaceGroup implements SkriptPatternGroup {
      * @since 0.1.0
      */
     @Nullable
-    public static Pair<SpaceGroup, String> parseStarting(@NotNull String input) {
+    public static Pair<SpaceGroup, StringBuilder> parseStarting(@NotNull StringBuilder input) {
         if (input.charAt(0) == ' ') {
-            return new Pair<>(new SpaceGroup(), input.substring(1));
+            return new Pair<>(new SpaceGroup(), input.deleteCharAt(0));
         }
 
         return null;
