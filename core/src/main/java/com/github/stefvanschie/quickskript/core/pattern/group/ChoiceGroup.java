@@ -199,7 +199,7 @@ public class ChoiceGroup implements SkriptPatternGroup {
                             continue;
                         }
 
-                        if (parseMarkString.charAt(i) < 48 || parseMarkString.charAt(i) > 57) { //range for 0-9
+                        if (parseMarkString.charAt(i) < '0' || parseMarkString.charAt(i) > '9') {
                             throw new SkriptPatternParseException(
                                 "Parse mark needs to be an integer, but '" + parseMarkString + "' does not adhere to this"
                             );

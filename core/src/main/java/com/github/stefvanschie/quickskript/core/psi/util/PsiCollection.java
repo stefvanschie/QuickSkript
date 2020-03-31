@@ -7,8 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -117,6 +116,40 @@ public final class PsiCollection<T> extends PsiElement<Collection<T>> {
                     : notCollectionAction)
                     .accept(value);
         }
+    }
+
+    /**
+     * Generates a {@link Collection} from the given object by checking the type of the object and converting it to a
+     * {@link Collection} in a proper manner. If the provided object can not be properly converted to a collection, this
+     * will return null. The returned collection - if not null - is unmodifiable, but not safe for concurrent access.
+     *
+     * @param value the value to convert to a collection
+     * @return the generated collection
+     * @since 0.1.0
+     */
+    @Nullable
+    @Contract(pure = true)
+    public static Collection<Object> toCollection(@Nullable Object value) {
+        Collection<Object> collection = new HashSet<>();
+
+        if (value instanceof Iterable<?>) {
+            for (Object obj : ((Iterable<Object>) value)) {
+                collection.add(obj);
+            }
+
+            return Collections.unmodifiableCollection(collection);
+        }
+
+        if (value != null && value.getClass().isArray()) {
+            Object[] array = new Object[Array.getLength(value)];
+            Arrays.setAll(array, i -> Array.get(value, i));
+
+            collection.addAll(Arrays.asList(array));
+
+            return Collections.unmodifiableCollection(collection);
+        }
+
+        return null;
     }
 
     @NotNull
