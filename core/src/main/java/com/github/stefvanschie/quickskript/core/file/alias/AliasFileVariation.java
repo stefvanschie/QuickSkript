@@ -28,6 +28,13 @@ public class AliasFileVariation {
     private String name;
 
     /**
+     * The full name of this variation. This is the same as {@link #name}, but with a '{' added to the start and a '}'
+     * added to the end of the name.
+     */
+    @NotNull
+    private String fullName;
+
+    /**
      * This will be true if this variation is optional and false otherwise.
      */
     private boolean optional;
@@ -44,6 +51,7 @@ public class AliasFileVariation {
         this.entries = entries;
         this.name = name;
         this.optional = optional;
+        this.fullName = '{' + name + '}';
     }
 
     /**
@@ -56,6 +64,18 @@ public class AliasFileVariation {
     @Contract(pure = true)
     public List<String> getEntries() {
         return entries;
+    }
+
+    /**
+     * Gets the full name of this variation
+     *
+     * @return the full name
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public String getFullName() {
+        return fullName;
     }
 
     /**

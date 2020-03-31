@@ -104,7 +104,7 @@ public class AliasFile {
             throw new UndefinedAliasFileVariation("The variation '" + name + "' is undefined");
         }
 
-        String fullName = '{' + name + '}';
+        String fullName = variation.getFullName();
         int variationIndex = pattern.indexOf(fullName);
 
         String firstSubstring = pattern.substring(0, variationIndex);
