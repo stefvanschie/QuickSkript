@@ -10,8 +10,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * A function for creating locations
@@ -71,12 +69,6 @@ public class PsiLocationFunction extends PsiElement<Object> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching location expressions
-         */
-        @NotNull
-        private final Pattern pattern = Pattern.compile("location\\((?<parameters>(?:[\\s\\S]+,[ ]*)+[\\s\\S]+)\\)");
-
-        /**
          * This gets called upon parsing
          *
          * @param text the text to parse
@@ -88,13 +80,11 @@ public class PsiLocationFunction extends PsiElement<Object> {
         @Contract(pure = true)
         @Fallback
         public PsiLocationFunction tryParse(@NotNull String text, int lineNumber) {
-            Matcher matcher = pattern.matcher(text);
-
-            if (!matcher.matches()) {
+            if (!text.startsWith("location(") || text.charAt(text.length() - 1) != ')') {
                 return null;
             }
 
-            String[] values = matcher.group("parameters").replace(" ", "").split(",");
+            String[] values = text.substring(9, text.length() - 1).replace(" ", "").split(",");
 
             if (values.length < 4 || values.length > 6) {
                 return null;
