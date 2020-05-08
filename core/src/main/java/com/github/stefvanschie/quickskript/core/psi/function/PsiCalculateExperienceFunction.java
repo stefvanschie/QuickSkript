@@ -4,7 +4,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.skript.loader.SkriptLoader;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -77,6 +77,7 @@ public class PsiCalculateExperienceFunction extends PsiElement<Long> {
         /**
          * This gets called upon parsing
          *
+         * @param skriptLoader the active skript loader instance
          * @param text the text to parse
          * @param lineNumber the line number
          * @return the function, or null to indicate failure
@@ -85,7 +86,7 @@ public class PsiCalculateExperienceFunction extends PsiElement<Long> {
         @Nullable
         @Contract(pure = true)
         @Fallback
-        public PsiCalculateExperienceFunction tryParse(@NotNull String text, int lineNumber) {
+        public PsiCalculateExperienceFunction tryParse(@NotNull SkriptLoader skriptLoader, @NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches()) {
@@ -93,7 +94,7 @@ public class PsiCalculateExperienceFunction extends PsiElement<Long> {
             }
 
             String expression = matcher.group("parameter");
-            PsiElement<?> element = SkriptLoader.get().forceParseElement(expression, lineNumber);
+            PsiElement<?> element = skriptLoader.forceParseElement(expression, lineNumber);
 
             return create(element, lineNumber);
         }

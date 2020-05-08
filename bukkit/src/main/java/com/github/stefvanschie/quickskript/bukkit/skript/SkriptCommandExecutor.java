@@ -8,6 +8,7 @@ import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileSection;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.section.PsiBaseSection;
 import com.github.stefvanschie.quickskript.core.skript.Skript;
+import com.github.stefvanschie.quickskript.core.skript.loader.SkriptLoader;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -45,19 +46,22 @@ public class SkriptCommandExecutor implements CommandExecutor {
      * Constructs a new skript command from the given file section. The file section should match with the 'trigger'
      * part in a skript file.
      *
+     * @param skriptLoader the active skript loader instance
      * @param skript the source of this command executor code
      * @param section the file section to load the elements from
      * @param executionTarget the group which can execute this command
      * @since 0.1.0
      */
-    SkriptCommandExecutor(@NotNull Skript skript, @NotNull SkriptFileSection section, @Nullable ExecutionTarget executionTarget) {
+    SkriptCommandExecutor(@NotNull SkriptLoader skriptLoader, @NotNull Skript skript,
+            @NotNull SkriptFileSection section, @Nullable ExecutionTarget executionTarget) {
         this.skript = skript;
         this.executionTarget = executionTarget;
-        elements = new PsiBaseSection(skript, section, CommandContext.class);
+        elements = new PsiBaseSection(skriptLoader, skript, section, CommandContext.class);
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
+            @NotNull String label, @NotNull String[] args) {
         if (executionTarget != null && !executionTarget.matches(sender)) {
             return false;
         }

@@ -13,6 +13,7 @@ import java.lang.annotation.Target;
  * that we want to match and the line number of the element. A fallback method does not necessarily imply that the
  * factory is able to consume all text: if the method wants to indicate that it can't parse this text, it can do so by
  * returning {@literal null}.
+ * TODO update docks: optional parameters (don't list them, only say that they are the same as in Pattern)
  *
  * There may not be two methods with a {@link Fallback} annotation as to avoid conflicts as well as random behaviour in
  * terms of which method will be chosen as fallback.

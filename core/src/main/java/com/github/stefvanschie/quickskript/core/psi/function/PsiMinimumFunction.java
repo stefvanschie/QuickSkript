@@ -6,7 +6,7 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiCollection;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.skript.loader.SkriptLoader;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -77,6 +77,7 @@ public class PsiMinimumFunction extends PsiElement<Double> {
         /**
          * This gets called upon parsing
          *
+         * @param skriptLoader the active skript loader instance
          * @param text the text to parse
          * @param lineNumber the line number
          * @return the function, or null to indicate failure
@@ -85,7 +86,7 @@ public class PsiMinimumFunction extends PsiElement<Double> {
         @Nullable
         @Contract(pure = true)
         @Fallback
-        public PsiMinimumFunction tryParse(@NotNull String text, int lineNumber) {
+        public PsiMinimumFunction tryParse(@NotNull SkriptLoader skriptLoader, @NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches()) {
@@ -95,7 +96,7 @@ public class PsiMinimumFunction extends PsiElement<Double> {
             String[] values = matcher.group("elements").replace(" ", "").split(",");
 
             if (values.length == 1) {
-                PsiElement<?> collection = SkriptLoader.get().tryParseElement(values[0], lineNumber);
+                PsiElement<?> collection = skriptLoader.tryParseElement(values[0], lineNumber);
 
                 if (collection != null) {
                     return create(collection, lineNumber);
@@ -103,7 +104,7 @@ public class PsiMinimumFunction extends PsiElement<Double> {
             }
 
             return create(new PsiCollection<>(Arrays.stream(values)
-                .map(string -> SkriptLoader.get().forceParseElement(string, lineNumber)), lineNumber), lineNumber);
+                .map(string -> skriptLoader.forceParseElement(string, lineNumber)), lineNumber), lineNumber);
         }
 
         /**

@@ -4,7 +4,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.skript.loader.SkriptLoader;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -66,6 +66,7 @@ public class PsiAtan2Function extends PsiElement<Double> {
         /**
          * This gets called upon parsing
          *
+         * @param skriptLoader the active skript loader instance
          * @param text the text to parse
          * @param lineNumber the line number
          * @return the function, or null to indicate failure
@@ -74,14 +75,12 @@ public class PsiAtan2Function extends PsiElement<Double> {
         @Nullable
         @Contract(pure = true)
         @Fallback
-        public PsiAtan2Function tryParse(@NotNull String text, int lineNumber) {
+        public PsiAtan2Function tryParse(@NotNull SkriptLoader skriptLoader, @NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches()) {
                 return null;
             }
-
-            var skriptLoader = SkriptLoader.get();
 
             String xExpression = matcher.group("x");
             PsiElement<?> xElement = skriptLoader.forceParseElement(xExpression, lineNumber);
@@ -94,7 +93,7 @@ public class PsiAtan2Function extends PsiElement<Double> {
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
+         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(SkriptLoader, String, int)}
          * method.
          *
          * @param xElement the x element

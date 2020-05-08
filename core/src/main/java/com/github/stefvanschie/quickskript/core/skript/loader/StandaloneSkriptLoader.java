@@ -1,4 +1,4 @@
-package com.github.stefvanschie.quickskript.core.skript;
+package com.github.stefvanschie.quickskript.core.skript.loader;
 
 import com.github.stefvanschie.quickskript.core.context.CommandContext;
 import com.github.stefvanschie.quickskript.core.context.EventContext;
@@ -12,6 +12,8 @@ import com.github.stefvanschie.quickskript.core.psi.literal.*;
 import com.github.stefvanschie.quickskript.core.psi.section.PsiBaseSection;
 import com.github.stefvanschie.quickskript.core.psi.section.PsiIf;
 import com.github.stefvanschie.quickskript.core.psi.section.PsiWhile;
+import com.github.stefvanschie.quickskript.core.skript.Skript;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -254,7 +256,8 @@ public class StandaloneSkriptLoader extends SkriptLoader {
 
     @SuppressWarnings("HardcodedFileSeparator")
     @Override
-    public void tryRegisterCommand(Skript skript, SkriptFileSection section) {
+    public void tryRegisterCommand(@NotNull SkriptLoader skriptLoader,
+            @NotNull Skript skript, @NotNull SkriptFileSection section) {
         if (!section.getText().startsWith("command /")) {
             return;
         }
@@ -271,17 +274,18 @@ public class StandaloneSkriptLoader extends SkriptLoader {
             throw new ParseException("Unable to find a trigger for the command", section.getLineNumber());
         }
 
-        PsiBaseSection baseSection = new PsiBaseSection(skript, trigger, CommandContext.class);
+        PsiBaseSection baseSection = new PsiBaseSection(skriptLoader, skript, trigger, CommandContext.class);
 
         commands.put(command, baseSection);
     }
 
     @Override
-    public void tryRegisterEvent(Skript skript, SkriptFileSection section) {
+    public void tryRegisterEvent(@NotNull SkriptLoader skriptLoader,
+            @NotNull Skript skript, @NotNull SkriptFileSection section) {
         String event = section.getText();
 
         if (registeredEvents.stream().anyMatch(pattern -> pattern.matcher(event).matches())) {
-            events.put(event, new PsiBaseSection(skript, section, EventContext.class));
+            events.put(event, new PsiBaseSection(skriptLoader, skript, section, EventContext.class));
         }
     }
 }

@@ -8,7 +8,7 @@ import com.github.stefvanschie.quickskript.core.psi.PsiConverter;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.skript.loader.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.util.Pair;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -89,6 +89,7 @@ public class PsiParseExpression extends PsiElement<Object> {
         /**
          * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
          *
+         * @param skriptLoader the active skript loader instance
          * @param result the match result
          * @param value the value to parse
          * @param lineNumber the line number
@@ -98,14 +99,14 @@ public class PsiParseExpression extends PsiElement<Object> {
         @NotNull
         @Contract(pure = true)
         @Pattern("pattern")
-        public PsiParseExpression parse(@NotNull SkriptMatchResult result, @NotNull PsiElement<?> value,
-                                        int lineNumber) {
+        public PsiParseExpression parse(@NotNull SkriptLoader skriptLoader, @NotNull SkriptMatchResult result,
+                @NotNull PsiElement<?> value, int lineNumber) {
             String converterText = result.getMatchedGroups().stream()
                 .filter(entry -> entry.getX() instanceof RegexGroup)
                 .map(Pair::getY)
                 .findAny()
                 .orElseThrow();
-            PsiConverter<?> converter = SkriptLoader.get().forceGetConverter(converterText, lineNumber);
+            PsiConverter<?> converter = skriptLoader.forceGetConverter(converterText, lineNumber);
 
             return create(value, converter, lineNumber);
         }

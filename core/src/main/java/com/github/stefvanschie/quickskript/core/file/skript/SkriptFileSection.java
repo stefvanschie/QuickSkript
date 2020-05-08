@@ -4,7 +4,7 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiSection;
 import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.core.psi.section.PsiIf;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.skript.loader.SkriptLoader;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -31,9 +31,10 @@ public class SkriptFileSection extends SkriptFileNode {
      * @param nodes the nodes to parse
      * @since 0.1.0
      */
-    SkriptFileSection(@NotNull String text, int lineNumber, @NotNull List<String> nodes) {
+    SkriptFileSection(@NotNull SkriptLoader skriptLoader, @NotNull String text,
+            int lineNumber, @NotNull List<String> nodes) {
         super(text, lineNumber);
-        this.nodes = Collections.unmodifiableList(parse(nodes));
+        this.nodes = Collections.unmodifiableList(parse(skriptLoader, nodes));
     }
 
     /**
@@ -52,20 +53,20 @@ public class SkriptFileSection extends SkriptFileNode {
      * Parses all of the nodes, including the ones inside nested
      * sections into a psi structure
      *
+     * @param skriptLoader the active skript loader instance
      * @return the nodes parsed into a psi structure
      * @since 0.1.0
      */
     @NotNull
     @Contract(pure = true)
-    public PsiElement<?>[] parseNodes() {
+    public PsiElement<?>[] parseNodes(@NotNull SkriptLoader skriptLoader) {
         Deque<PsiElement<?>> result = new ArrayDeque<>(nodes.size());
-        var loader = SkriptLoader.get();
 
         PsiIf latestValidIf = null;
 
         for (SkriptFileNode node : nodes) {
             if (!(node instanceof SkriptFileSection)) {
-                result.add(loader.forceParseElement(node.getText(), node.getLineNumber()));
+                result.add(skriptLoader.forceParseElement(node.getText(), node.getLineNumber()));
                 continue;
             }
 
@@ -80,8 +81,8 @@ public class SkriptFileSection extends SkriptFileNode {
                 text = node.getText().substring("else ".length());
             }
 
-            PsiSection section = loader.forceParseSection(text,
-                    ((SkriptFileSection) node)::parseNodes, node.getLineNumber());
+            PsiSection section = skriptLoader.forceParseSection(text,
+                    () -> ((SkriptFileSection) node).parseNodes(skriptLoader), node.getLineNumber());
 
             if (elseSection) {
                 latestValidIf.setElseSection(section);
@@ -98,11 +99,12 @@ public class SkriptFileSection extends SkriptFileNode {
     /**
      * Parses a section from the given header and strings
      *
+     * @param skriptLoader the active skript loader instance
      * @param nodes the underlying nodes
      * @return a mutable list of parsed nodes
      * @since 0.1.0
      */
-    private List<SkriptFileNode> parse(@NotNull List<String> nodes) {
+    private List<SkriptFileNode> parse(@NotNull SkriptLoader skriptLoader, @NotNull List<String> nodes) {
         int lineNumberOffset = getLineNumber();
         List<SkriptFileNode> outputNodes = new ArrayList<>();
 
@@ -152,7 +154,7 @@ public class SkriptFileSection extends SkriptFileNode {
             String header = nodes.get(index);
             header = header.substring(0, header.length() - 1);
 
-            outputNodes.add(new SkriptFileSection(header, lineNumberOffset, strings));
+            outputNodes.add(new SkriptFileSection(skriptLoader, header, lineNumberOffset, strings));
 
             index += strings.size();
         }

@@ -2,6 +2,7 @@ package com.github.stefvanschie.quickskript.core.skript;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
+import com.github.stefvanschie.quickskript.core.skript.loader.SkriptLoader;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,10 +20,11 @@ public class SingleLineSkript implements Skript {
     /**
      * Creates and attempts to parse a new single line Skript instance
      *
+     * @param skriptLoader the active skript loader instance
      * @param input the Skript line to parse
      */
-    public SingleLineSkript(@NotNull String input) {
-        element = SkriptLoader.get().tryParseElement(input, 1);
+    public SingleLineSkript(@NotNull SkriptLoader skriptLoader, @NotNull String input) {
+        element = skriptLoader.tryParseElement(input, 1);
     }
 
     @NotNull

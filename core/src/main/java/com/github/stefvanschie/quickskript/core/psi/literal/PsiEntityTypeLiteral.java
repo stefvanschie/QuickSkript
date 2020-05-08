@@ -3,7 +3,7 @@ package com.github.stefvanschie.quickskript.core.psi.literal;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.skript.loader.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.util.registry.EntityTypeRegistry;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -39,6 +39,7 @@ public class PsiEntityTypeLiteral extends PsiPrecomputedHolder<EntityTypeRegistr
         /**
          * This gets called upon parsing
          *
+         * @param skriptLoader the active skript loader instance
          * @param text the text to parse
          * @param lineNumber the line number
          * @return the literal, or null to indicate failure
@@ -47,9 +48,7 @@ public class PsiEntityTypeLiteral extends PsiPrecomputedHolder<EntityTypeRegistr
         @Nullable
         @Contract(pure = true)
         @Fallback
-        public PsiEntityTypeLiteral parse(@NotNull String text, int lineNumber) {
-            var skriptLoader = SkriptLoader.get();
-
+        public PsiEntityTypeLiteral parse(@NotNull SkriptLoader skriptLoader, @NotNull String text, int lineNumber) {
             Optional<EntityTypeRegistry.Entry> entityType = skriptLoader.getEntityTypeRegistry().getEntries().stream()
                 .filter(entry -> entry.getName().equalsIgnoreCase(text))
                 .findAny();

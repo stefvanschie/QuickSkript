@@ -1,7 +1,7 @@
 package com.github.stefvanschie.quickskript.core.file.skript;
 
 import com.github.stefvanschie.quickskript.core.skript.Skript;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.skript.loader.SkriptLoader;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -36,6 +36,7 @@ public class FileSkript implements Skript {
     /**
      * Loads a skript file from a given file
      *
+     * @param skriptLoader the active skript loader instance
      * @param name the name of the Skript
      * @param file the actual file
      * @return the skript file
@@ -44,17 +45,19 @@ public class FileSkript implements Skript {
      */
     @NotNull
     @Contract(pure = true)
-    public static FileSkript load(@NotNull String name, @NotNull File file) throws IOException {
+    public static FileSkript load(@NotNull SkriptLoader skriptLoader,
+            @NotNull String name, @NotNull File file) throws IOException {
         if (!file.isFile() || !file.canRead()) {
             throw new IllegalArgumentException("The file must be a valid, readable, existing file.");
         }
 
-        return loadInternal(name, Files.readAllLines(file.toPath()));
+        return loadInternal(skriptLoader, name, Files.readAllLines(file.toPath()));
     }
 
     /**
      * Loads a skript file from the given lines
      *
+     * @param skriptLoader the active skript loader instance
      * @param name the name of the Skript
      * @param lines the lines to load (will be cloned - won't be modified)
      * @return the skript file
@@ -62,21 +65,24 @@ public class FileSkript implements Skript {
      */
     @NotNull
     @Contract(pure = true)
-    public static FileSkript load(@NotNull String name, @NotNull List<String> lines) {
-        return loadInternal(name, new ArrayList<>(lines));
+    public static FileSkript load(@NotNull SkriptLoader skriptLoader,
+            @NotNull String name, @NotNull List<String> lines) {
+        return loadInternal(skriptLoader, name, new ArrayList<>(lines));
     }
 
     /**
      * Loads a skript file from the given lines.
      * This method mutates its parameter, therefore should only be used internally.
      *
+     * @param skriptLoader the active skript loader instance
      * @param name the name of the Skript
      * @param lines the lines to load
      * @return the skript file
      * @since 0.1.0
      */
     @NotNull
-    private static FileSkript loadInternal(@NotNull String name, @NotNull List<String> lines) {
+    private static FileSkript loadInternal(@NotNull SkriptLoader skriptLoader,
+            @NotNull String name, @NotNull List<String> lines) {
         //remove comments
         for (int i = 0; i < lines.size(); i++) {
             String line = lines.get(i);
@@ -102,7 +108,7 @@ public class FileSkript implements Skript {
             //TODO pre-compile patterns
         }
 
-        return new FileSkript(name, new SkriptFileSection("", 0, lines));
+        return new FileSkript(name, new SkriptFileSection(skriptLoader, "", 0, lines));
     }
 
     /**
@@ -152,44 +158,48 @@ public class FileSkript implements Skript {
     /**
      * Registers all events in this skript
      *
+     * @param skriptLoader the active skript loader instance
      * @since 0.1.0
      */
-    public void registerEventExecutors() {
+    public void registerEventExecutors(@NotNull SkriptLoader skriptLoader) {
         getNodes().stream()
                 .filter(node -> node instanceof SkriptFileSection)
                 .map(node -> (SkriptFileSection) node)
-                .forEach(this::registerEvent);
+                .forEach(node -> registerEvent(skriptLoader, node));
     }
 
     /**
      * Registers all commands in this skript
      *
+     * @param skriptLoader the active skript loader instance
      * @since 0.1.0
      */
-    public void registerCommands() {
+    public void registerCommands(@NotNull SkriptLoader skriptLoader) {
         getNodes().stream()
                 .filter(node -> node.getText().startsWith("command")
                         && node instanceof SkriptFileSection)
-                .forEach(node -> registerCommand((SkriptFileSection) node));
+                .forEach(node -> registerCommand(skriptLoader, (SkriptFileSection) node));
     }
 
     /**
      * Registers an individual command from the given section
      *
+     * @param skriptLoader the active skript loader instance
      * @param section the command section which starts with 'command'
      * @since 0.1.0
      */
-    private void registerCommand(@NotNull SkriptFileSection section) {
-        SkriptLoader.get().tryRegisterCommand(this, section);
+    private void registerCommand(@NotNull SkriptLoader skriptLoader, @NotNull SkriptFileSection section) {
+        skriptLoader.tryRegisterCommand(skriptLoader, this, section);
     }
 
     /**
      * Registers an individual event from the given section
      *
+     * @param skriptLoader the active skript loader instance
      * @param section the command section which starts with 'on'
      * @since 0.1.0
      */
-    private void registerEvent(@NotNull SkriptFileSection section) {
-        SkriptLoader.get().tryRegisterEvent(this, section);
+    private void registerEvent(@NotNull SkriptLoader skriptLoader, @NotNull SkriptFileSection section) {
+        skriptLoader.tryRegisterEvent(skriptLoader, this, section);
     }
 }

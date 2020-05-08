@@ -7,7 +7,7 @@ import com.github.stefvanschie.quickskript.core.psi.PsiSectionFactory;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.util.pointermovement.ExitSectionsPointerMovement;
 import com.github.stefvanschie.quickskript.core.psi.util.pointermovement.SimpleInstructionPointerMovement;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.skript.loader.SkriptLoader;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -104,11 +104,11 @@ public class PsiWhile extends PsiSection {
         @Nullable
         @Contract(pure = true)
         @Override
-        public PsiWhile tryParse(@NotNull String text, @NotNull Supplier<PsiElement<?>[]> elementsSupplier,
-                                 int lineNumber) {
+        public PsiWhile tryParse(@NotNull SkriptLoader skriptLoader, @NotNull String text,
+                @NotNull Supplier<PsiElement<?>[]> elementsSupplier, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
             return matcher.matches()
-                    ? create(elementsSupplier.get(), SkriptLoader.get()
+                    ? create(elementsSupplier.get(), skriptLoader
                     .forceParseElement(matcher.group("statement"), lineNumber), lineNumber)
                     : null;
         }
@@ -116,7 +116,7 @@ public class PsiWhile extends PsiSection {
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
          * constructor parameters. This should be overridden by impl, instead of the
-         * {@link #tryParse(String, Supplier, int)} method.
+         * {@link #tryParse(SkriptLoader, String, Supplier, int)} method.
          *
          * @param elements the elements for this section
          * @param condition the condition

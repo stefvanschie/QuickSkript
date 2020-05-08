@@ -7,7 +7,7 @@ import com.github.stefvanschie.quickskript.core.pattern.group.RegexGroup;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.skript.loader.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.util.literal.Enchantment;
 import com.github.stefvanschie.quickskript.core.util.literal.Item;
 import com.github.stefvanschie.quickskript.core.util.registry.ItemTypeRegistry;
@@ -95,6 +95,7 @@ public class PsiItemLiteral extends PsiElement<Item> {
         /**
          * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
          *
+         * @param skriptLoader the active skript loader instance
          * @param result the result of the pattern match
          * @param amount the amount of items or null if not specified
          * @param enchantment the enchantment on the item or null if not specified
@@ -105,15 +106,15 @@ public class PsiItemLiteral extends PsiElement<Item> {
         @Nullable
         @Contract(pure = true)
         @Pattern("pattern")
-        public PsiItemLiteral parse(@NotNull SkriptMatchResult result, @Nullable PsiElement<?> amount,
-            @Nullable PsiElement<?> enchantment, int lineNumber) {
+        public PsiItemLiteral parse(@NotNull SkriptLoader skriptLoader, @NotNull SkriptMatchResult result,
+                @Nullable PsiElement<?> amount, @Nullable PsiElement<?> enchantment, int lineNumber) {
             String itemName = result.getMatchedGroups().stream()
                 .filter(pair -> pair.getX() instanceof RegexGroup)
                 .findFirst()
                 .orElseThrow()
                 .getY();
 
-            Optional<ItemTypeRegistry.Entry> itemType = SkriptLoader.get().getItemTypeRegistry().getEntries().stream()
+            Optional<ItemTypeRegistry.Entry> itemType = skriptLoader.getItemTypeRegistry().getEntries().stream()
                 .filter(entry -> entry.getPattern().match(itemName).stream()
                     .anyMatch(match -> !match.hasUnmatchedParts()))
                 .findAny();

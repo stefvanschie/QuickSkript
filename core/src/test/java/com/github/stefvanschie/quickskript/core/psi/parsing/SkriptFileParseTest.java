@@ -21,8 +21,8 @@ class SkriptFileParseTest extends TestClassBase {
     void test() {
         for (FileSkript skript : getSampleSkripts()) {
             try {
-                skript.registerCommands();
-                skript.registerEventExecutors();
+                skript.registerCommands(getSkriptLoader());
+                skript.registerEventExecutors(getSkriptLoader());
                 System.out.println("Successfully parsed: " + skript.getName());
             } catch (ParseException e) {
                 throw new AssertionError("Error while parsing:" + e.getExtraInfo(skript), e);
@@ -34,7 +34,7 @@ class SkriptFileParseTest extends TestClassBase {
     void testTabCharacterHandling() {
         String tabReplacement = "    ";
 
-        List<SkriptFileNode> nodes = FileSkript.load("name", Arrays.asList(
+        List<SkriptFileNode> nodes = FileSkript.load(getSkriptLoader(), "name", Arrays.asList(
             "\tmessage \"Hello, world!\" to the console",
             "\tmessage \"1532793000\" to the console"
         )).getNodes();

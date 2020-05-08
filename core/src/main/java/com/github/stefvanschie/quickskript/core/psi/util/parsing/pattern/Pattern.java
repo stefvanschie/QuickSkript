@@ -7,6 +7,7 @@ import java.lang.annotation.*;
 
 /**
  * Indicates the skript pattern used for matching against this method
+ * TODO what can the method's parameters be? optional ones, required ones, etc.
  *
  * @since 0.1.0
  */

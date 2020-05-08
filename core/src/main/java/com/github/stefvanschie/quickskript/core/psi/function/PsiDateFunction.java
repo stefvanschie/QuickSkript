@@ -4,7 +4,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.skript.loader.SkriptLoader;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -99,6 +99,7 @@ public class PsiDateFunction extends PsiElement<LocalDateTime> {
         /**
          * This gets called upon parsing
          *
+         * @param skriptLoader the active skript loader instance
          * @param text the text to parse
          * @param lineNumber the line number
          * @return the function, or null to indicate failure
@@ -107,7 +108,7 @@ public class PsiDateFunction extends PsiElement<LocalDateTime> {
         @Nullable
         @Contract(pure = true)
         @Fallback
-        public PsiDateFunction tryParse(@NotNull String text, int lineNumber) {
+        public PsiDateFunction tryParse(@NotNull SkriptLoader skriptLoader, @NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches()) {
@@ -123,7 +124,7 @@ public class PsiDateFunction extends PsiElement<LocalDateTime> {
             List<PsiElement<?>> elements = new ArrayList<>(Math.min(values.length, 7));
 
             for (int i = 0; i < values.length; i++) {
-                elements.add(i, SkriptLoader.get().forceParseElement(values[i], lineNumber));
+                elements.add(i, skriptLoader.forceParseElement(values[i], lineNumber));
             }
 
             return create(

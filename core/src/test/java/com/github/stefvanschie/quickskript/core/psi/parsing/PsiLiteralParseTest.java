@@ -4,7 +4,6 @@ import com.github.stefvanschie.quickskript.core.psi.TestClassBase;
 import com.github.stefvanschie.quickskript.core.psi.literal.PsiNumberLiteral;
 import com.github.stefvanschie.quickskript.core.psi.literal.PsiStringLiteral;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -55,11 +54,9 @@ class PsiLiteralParseTest extends TestClassBase {
 
     @Test
     void test() {
-        var loader = SkriptLoader.get();
-
         inputHolders.forEach((clazz, cases) -> {
-            cases.getSuccess().forEach(input -> assertTrue(clazz.isInstance(loader.forceParseElement(input, -1))));
-            cases.getFailure().forEach(input -> assertNull(loader.tryParseElement(input, -1)));
+            cases.getSuccess().forEach(input -> assertTrue(clazz.isInstance(getSkriptLoader().forceParseElement(input, -1))));
+            cases.getFailure().forEach(input -> assertNull(getSkriptLoader().tryParseElement(input, -1)));
         });
     }
 

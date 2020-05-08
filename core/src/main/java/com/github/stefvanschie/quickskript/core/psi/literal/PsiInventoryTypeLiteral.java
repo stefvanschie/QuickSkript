@@ -3,7 +3,7 @@ package com.github.stefvanschie.quickskript.core.psi.literal;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.skript.loader.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.util.registry.InventoryTypeRegistry;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -39,6 +39,7 @@ public class PsiInventoryTypeLiteral extends PsiPrecomputedHolder<InventoryTypeR
         /**
          * This gets called upon parsing
          *
+         * @param skriptLoader the active skript loader instance
          * @param text the text to parse
          * @param lineNumber the line number
          * @return the literal, or null to indicate failure
@@ -47,8 +48,8 @@ public class PsiInventoryTypeLiteral extends PsiPrecomputedHolder<InventoryTypeR
         @Nullable
         @Contract(pure = true)
         @Fallback
-        public PsiInventoryTypeLiteral parse(@NotNull String text, int lineNumber) {
-            InventoryTypeRegistry inventoryTypeRegistry = SkriptLoader.get().getInventoryTypeRegistry();
+        public PsiInventoryTypeLiteral parse(@NotNull SkriptLoader skriptLoader, @NotNull String text, int lineNumber) {
+            InventoryTypeRegistry inventoryTypeRegistry = skriptLoader.getInventoryTypeRegistry();
             Optional<InventoryTypeRegistry.Entry> inventoryType = inventoryTypeRegistry.getEntries().stream()
                 .filter(entry -> entry.getName().equalsIgnoreCase(text))
                 .findAny();

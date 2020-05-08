@@ -7,6 +7,7 @@ import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileSection;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.section.PsiBaseSection;
 import com.github.stefvanschie.quickskript.core.skript.Skript;
+import com.github.stefvanschie.quickskript.core.skript.loader.SkriptLoader;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
@@ -34,13 +35,14 @@ public class SkriptEventExecutor {
     /**
      * Constructs a new skript event.
      *
+     * @param skriptLoader the active skript loader instance
      * @param skript the source of this event handler code
      * @param section the file section to load the elements from
      * @since 0.1.0
      */
-    SkriptEventExecutor(@NotNull Skript skript, @NotNull SkriptFileSection section) {
+    SkriptEventExecutor(@NotNull SkriptLoader skriptLoader, @NotNull Skript skript, @NotNull SkriptFileSection section) {
         this.skript = skript;
-        elements = new PsiBaseSection(skript, section, EventContext.class);
+        elements = new PsiBaseSection(skriptLoader, skript, section, EventContext.class);
     }
 
     /**

@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.core.psi.parsing;
 import com.github.stefvanschie.quickskript.core.psi.TestClassBase;
 import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileNode;
 import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileSection;
+import com.github.stefvanschie.quickskript.core.skript.loader.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.util.TriFunction;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
@@ -24,11 +25,11 @@ class SkriptFileSectionParseTest extends TestClassBase {
     private final TriFunction<String, Integer, List<String>, SkriptFileSection> sectionConstructor;
 
     SkriptFileSectionParseTest() throws ReflectiveOperationException {
-        Constructor<SkriptFileSection> constructor = SkriptFileSection.class.getDeclaredConstructor(String.class, int.class, List.class);
+        Constructor<SkriptFileSection> constructor = SkriptFileSection.class.getDeclaredConstructor(SkriptLoader.class, String.class, int.class, List.class);
         constructor.setAccessible(true);
         sectionConstructor = (text, lineNumber, nodes) -> {
             try {
-                return constructor.newInstance(text, lineNumber, nodes);
+                return constructor.newInstance(getSkriptLoader(), text, lineNumber, nodes);
             } catch (ReflectiveOperationException e) {
                 throw new RuntimeException(e);
             }

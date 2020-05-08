@@ -9,7 +9,7 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.skript.loader.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.util.Pair;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -98,6 +98,7 @@ public class PsiTernaryExpression extends PsiElement<Object> {
         /**
          * Tries to parse a ternary expression.
          *
+         * @param skriptLoader the active skript loader instance
          * @param input the input to match against
          * @param lineNumber the line number
          * @return the expression
@@ -106,7 +107,7 @@ public class PsiTernaryExpression extends PsiElement<Object> {
         @Nullable
         @Contract(pure = true)
         @Fallback
-        public PsiTernaryExpression parse(@NotNull String input, int lineNumber) {
+        public PsiTernaryExpression parse(@NotNull SkriptLoader skriptLoader, @NotNull String input, int lineNumber) {
             for (SkriptMatchResult match : pattern.match(input)) {
                 if (match.hasUnmatchedParts()) {
                     continue;
@@ -122,9 +123,9 @@ public class PsiTernaryExpression extends PsiElement<Object> {
                     .map(Pair::getY)
                     .toArray(String[]::new);
 
-                PsiElement<?> condition = SkriptLoader.get().tryParseElement(conditionString, lineNumber);
-                PsiElement<?> ifCode = SkriptLoader.get().tryParseElement(typeGroups[0], lineNumber);
-                PsiElement<?> elseCode = SkriptLoader.get().tryParseElement(typeGroups[1], lineNumber);
+                PsiElement<?> condition = skriptLoader.tryParseElement(conditionString, lineNumber);
+                PsiElement<?> ifCode = skriptLoader.tryParseElement(typeGroups[0], lineNumber);
+                PsiElement<?> elseCode = skriptLoader.tryParseElement(typeGroups[1], lineNumber);
 
                 if (condition == null || ifCode == null || elseCode == null) {
                     continue;

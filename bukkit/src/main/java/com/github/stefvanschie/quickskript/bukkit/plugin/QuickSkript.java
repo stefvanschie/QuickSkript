@@ -13,6 +13,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -62,12 +63,10 @@ public class QuickSkript extends JavaPlugin {
         pluginManager.registerEvents(new ExperienceOrbSpawnEvent.Listener(), this);
 
         var skriptLoader = new BukkitSkriptLoader();
-        loadScripts();
+        loadScripts(skriptLoader);
 
         if (getConfig().getBoolean("enable-execute-command")) {
-            ExecuteCommand.register();
-        } else {
-            skriptLoader.close();
+            ExecuteCommand.register(skriptLoader);
         }
 
         pluginManager.callEvent(new QuickSkriptPostEnableEvent());
@@ -76,12 +75,10 @@ public class QuickSkript extends JavaPlugin {
     @Override
     public void onDisable() {
         instance = null;
-
-        var skriptLoader = BukkitSkriptLoader.get();
-        if (skriptLoader != null) skriptLoader.close();
     }
 
     private void setProfilerImplementation() {
+        //noinspection ConstantConditions
         switch (getConfig().getString("profiler-implementation").toLowerCase()) {
             case "noop":
                 SkriptProfiler.setActive(new NoOpSkriptProfiler());
@@ -98,7 +95,7 @@ public class QuickSkript extends JavaPlugin {
         }
     }
 
-    private void loadScripts() {
+    private void loadScripts(@NotNull BukkitSkriptLoader skriptLoader) {
         File skriptFolder = new File(getDataFolder(), "skripts");
         if (!skriptFolder.exists() && !skriptFolder.mkdirs()) {
             getLogger().severe("Unable to create skripts folder.");
@@ -111,7 +108,7 @@ public class QuickSkript extends JavaPlugin {
                 .map(file -> {
                     String skriptName = FileSkript.getName(file);
                     try {
-                        return FileSkript.load(skriptName, file);
+                        return FileSkript.load(skriptLoader, skriptName, file);
                     } catch (IOException e) {
                         getLogger().log(Level.SEVERE, "Unable to load skript named " + skriptName, e);
                         return null;
@@ -122,8 +119,8 @@ public class QuickSkript extends JavaPlugin {
 
         for (FileSkript skript : skripts) {
             try {
-                skript.registerCommands();
-                skript.registerEventExecutors();
+                skript.registerCommands(skriptLoader);
+                skript.registerEventExecutors(skriptLoader);
             } catch (ParseException e) {
                 getLogger().log(Level.SEVERE, "Error while parsing:" + e.getExtraInfo(skript), e);
             }

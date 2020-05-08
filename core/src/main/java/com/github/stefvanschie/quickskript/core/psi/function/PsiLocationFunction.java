@@ -3,7 +3,7 @@ package com.github.stefvanschie.quickskript.core.psi.function;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.skript.loader.SkriptLoader;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -71,6 +71,7 @@ public class PsiLocationFunction extends PsiElement<Object> {
         /**
          * This gets called upon parsing
          *
+         * @param skriptLoader the active skript loader instance
          * @param text the text to parse
          * @param lineNumber the line number
          * @return the function, or null to indicate failure
@@ -79,7 +80,7 @@ public class PsiLocationFunction extends PsiElement<Object> {
         @Nullable
         @Contract(pure = true)
         @Fallback
-        public PsiLocationFunction tryParse(@NotNull String text, int lineNumber) {
+        public PsiLocationFunction tryParse(@NotNull SkriptLoader skriptLoader, @NotNull String text, int lineNumber) {
             if (!text.startsWith("location(") || text.charAt(text.length() - 1) != ')') {
                 return null;
             }
@@ -90,12 +91,12 @@ public class PsiLocationFunction extends PsiElement<Object> {
                 return null;
             }
 
-            PsiElement<?> world = SkriptLoader.get().forceParseElement(values[0], lineNumber);
+            PsiElement<?> world = skriptLoader.forceParseElement(values[0], lineNumber);
 
             List<PsiElement<?>> elements = new ArrayList<>(Math.min(values.length, 5));
 
             for (int i = 1; i < values.length; i++) {
-                elements.add(i - 1, SkriptLoader.get().forceParseElement(values[i], lineNumber));
+                elements.add(i - 1, skriptLoader.forceParseElement(values[i], lineNumber));
             }
 
             return create(

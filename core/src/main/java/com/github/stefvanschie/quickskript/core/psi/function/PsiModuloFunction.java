@@ -4,7 +4,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.skript.loader.SkriptLoader;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -66,6 +66,7 @@ public class PsiModuloFunction extends PsiElement<Double> {
         /**
          * This gets called upon parsing
          *
+         * @param skriptLoader the active skript loader instance
          * @param text the text to parse
          * @param lineNumber the line number
          * @return the function, or null to indicate failure
@@ -74,7 +75,7 @@ public class PsiModuloFunction extends PsiElement<Double> {
         @Nullable
         @Contract(pure = true)
         @Fallback
-        public PsiModuloFunction tryParse(@NotNull String text, int lineNumber) {
+        public PsiModuloFunction tryParse(@NotNull SkriptLoader skriptLoader, @NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches()) {
@@ -87,8 +88,8 @@ public class PsiModuloFunction extends PsiElement<Double> {
                 return null;
             }
 
-            PsiElement<?> a = SkriptLoader.get().forceParseElement(values[0], lineNumber);
-            PsiElement<?> b = SkriptLoader.get().forceParseElement(values[1], lineNumber);
+            PsiElement<?> a = skriptLoader.forceParseElement(values[0], lineNumber);
+            PsiElement<?> b = skriptLoader.forceParseElement(values[1], lineNumber);
 
             return create(a, b, lineNumber);
         }
