@@ -1,6 +1,6 @@
 package com.github.stefvanschie.quickskript.core.psi.parsing;
 
-import com.github.stefvanschie.quickskript.core.psi.TestClassBase;
+import com.github.stefvanschie.quickskript.core.TestClassBase;
 import com.github.stefvanschie.quickskript.core.psi.literal.PsiNumberLiteral;
 import com.github.stefvanschie.quickskript.core.psi.literal.PsiStringLiteral;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;

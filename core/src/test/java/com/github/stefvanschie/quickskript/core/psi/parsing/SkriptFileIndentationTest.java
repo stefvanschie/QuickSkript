@@ -3,7 +3,7 @@ package com.github.stefvanschie.quickskript.core.psi.parsing;
 import com.github.stefvanschie.quickskript.core.file.skript.FileSkript;
 import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileNode;
 import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileSection;
-import com.github.stefvanschie.quickskript.core.psi.TestClassBase;
+import com.github.stefvanschie.quickskript.core.TestClassBase;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,18 +18,16 @@ class SkriptFileIndentationTest extends TestClassBase {
 
     @Test
     void test() throws NoSuchFieldException, IllegalAccessException {
-        FileSkript skript = getSampleSkripts().stream()
-            .filter(sk -> sk.getName().equals("Dynamic-indentation"))
-            .findAny()
-            .orElseThrow();
+        FileSkript skript = getSkriptResource("Dynamic-indentation");
 
         Field sectionField = FileSkript.class.getDeclaredField("section");
         sectionField.setAccessible(true);
         SkriptFileSection section = (SkriptFileSection) sectionField.get(skript);
 
-        assertSection(section, 1, "on command");
+        assertSection(section, 1, "command /test");
 
         SkriptFileSection nodesIndentation1 = (SkriptFileSection) skript.getNodes().get(0);
+        nodesIndentation1 = (SkriptFileSection) nodesIndentation1.getNodes().get(0);
 
         assertSection(nodesIndentation1, 5,
             "message \"test\" to the console",

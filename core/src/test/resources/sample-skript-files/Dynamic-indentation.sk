@@ -1,4 +1,5 @@
-on command:
+command /test:
+  trigger:
         message "test" to the console
         true
         if true:

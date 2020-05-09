@@ -1,0 +1,2 @@
+on bananas: #TODO this doesn't throw a ParseException -> this file isn't used yet
+    message "The bananas event mustn't exist" to the console
