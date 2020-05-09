@@ -469,7 +469,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
 
     @SuppressWarnings("HardcodedFileSeparator")
     @Override
-    public void tryRegisterCommand(Skript skript, SkriptFileSection section) {
+    public void tryRegisterCommand(@NotNull Skript skript, @NotNull SkriptFileSection section) {
         String commandName = section.getText().substring("command /".length());
 
         PluginCommand command = commandMapWrapper.create(commandName);
@@ -534,19 +534,19 @@ public class BukkitSkriptLoader extends SkriptLoader {
             return;
         }
 
-        command.setExecutor(new SkriptCommandExecutor(skript, trigger, target));
+        command.setExecutor(new SkriptCommandExecutor(this, skript, trigger, target));
 
         commandMapWrapper.register(command);
     }
 
     @Override
-    public void tryRegisterEvent(Skript skript, SkriptFileSection section) {
+    public void tryRegisterEvent(@NotNull Skript skript, @NotNull SkriptFileSection section) {
         String input = section.getText();
 
         input = input.trim();
 
         for (EventProxyFactory factory : events) {
-            if (factory.tryRegister(input, () -> new SkriptEventExecutor(skript, section))) {
+            if (factory.tryRegister(input, () -> new SkriptEventExecutor(this, skript, section))) {
                 return;
             }
         }

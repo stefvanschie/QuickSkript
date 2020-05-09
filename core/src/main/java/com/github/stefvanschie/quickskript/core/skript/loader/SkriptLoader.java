@@ -307,23 +307,19 @@ public abstract class SkriptLoader {
      * Tries to register the command in the given section. If this is not a command, or if it could not be registered
      * for some reason, this will do nothing.
      *
-     * @param skriptLoader the active skript loader instance
      * @param skript the skript this command belongs to
      * @param section the section to parse
      * @since 0.1.0
      */
-    public abstract void tryRegisterCommand(@NotNull SkriptLoader skriptLoader,
-            @NotNull Skript skript, @NotNull SkriptFileSection section);
+    public abstract void tryRegisterCommand(@NotNull Skript skript, @NotNull SkriptFileSection section);
 
     /**
      * Tries to register the event in the given section. If this is not an event, or if it could not be registered
      * for some reason, this will do nothing.
      *
-     * @param skriptLoader the active skript loader instance
      * @param skript the skript this command belongs to
      * @param section the section to parse
      * @since 0.1.0
      */
-    public abstract void tryRegisterEvent(@NotNull SkriptLoader skriptLoader,
-            @NotNull Skript skript, @NotNull SkriptFileSection section);
+    public abstract void tryRegisterEvent(@NotNull Skript skript, @NotNull SkriptFileSection section);
 }

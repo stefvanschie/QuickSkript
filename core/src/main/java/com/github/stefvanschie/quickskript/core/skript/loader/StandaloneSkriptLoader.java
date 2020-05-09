@@ -256,8 +256,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
 
     @SuppressWarnings("HardcodedFileSeparator")
     @Override
-    public void tryRegisterCommand(@NotNull SkriptLoader skriptLoader,
-            @NotNull Skript skript, @NotNull SkriptFileSection section) {
+    public void tryRegisterCommand(@NotNull Skript skript, @NotNull SkriptFileSection section) {
         if (!section.getText().startsWith("command /")) {
             return;
         }
@@ -274,18 +273,17 @@ public class StandaloneSkriptLoader extends SkriptLoader {
             throw new ParseException("Unable to find a trigger for the command", section.getLineNumber());
         }
 
-        PsiBaseSection baseSection = new PsiBaseSection(skriptLoader, skript, trigger, CommandContext.class);
+        PsiBaseSection baseSection = new PsiBaseSection(this, skript, trigger, CommandContext.class);
 
         commands.put(command, baseSection);
     }
 
     @Override
-    public void tryRegisterEvent(@NotNull SkriptLoader skriptLoader,
-            @NotNull Skript skript, @NotNull SkriptFileSection section) {
+    public void tryRegisterEvent(@NotNull Skript skript, @NotNull SkriptFileSection section) {
         String event = section.getText();
 
         if (registeredEvents.stream().anyMatch(pattern -> pattern.matcher(event).matches())) {
-            events.put(event, new PsiBaseSection(skriptLoader, skript, section, EventContext.class));
+            events.put(event, new PsiBaseSection(this, skript, section, EventContext.class));
         }
     }
 }

@@ -189,7 +189,7 @@ public class FileSkript implements Skript {
      * @since 0.1.0
      */
     private void registerCommand(@NotNull SkriptLoader skriptLoader, @NotNull SkriptFileSection section) {
-        skriptLoader.tryRegisterCommand(skriptLoader, this, section);
+        skriptLoader.tryRegisterCommand(this, section);
     }
 
     /**
@@ -200,6 +200,6 @@ public class FileSkript implements Skript {
      * @since 0.1.0
      */
     private void registerEvent(@NotNull SkriptLoader skriptLoader, @NotNull SkriptFileSection section) {
-        skriptLoader.tryRegisterEvent(skriptLoader, this, section);
+        skriptLoader.tryRegisterEvent(this, section);
     }
 }
