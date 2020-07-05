@@ -160,8 +160,6 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiGeneLiteral.Factory());
         registerElement(new PsiInventoryActionLiteral.Factory());
         registerElement(new PsiInventoryTypeLiteral.Factory());
-        registerElement(new PsiItemCategoryLiteral.Factory());
-        registerElement(new PsiItemLiteral.Factory());
         registerElement(new PsiNumberLiteral.Factory());
         registerElement(new PsiPlayerLiteralImpl.Factory());
 
@@ -277,6 +275,10 @@ public class BukkitSkriptLoader extends SkriptLoader {
 
         //this one is here, because it has special identifiers around it
         registerElement(new PsiStringLiteral.Factory());
+
+        //these are slow and match a lot, therefore at the bottom
+        registerElement(new PsiItemCategoryLiteral.Factory());
+        registerElement(new PsiItemLiteral.Factory());
     }
 
     @Override
