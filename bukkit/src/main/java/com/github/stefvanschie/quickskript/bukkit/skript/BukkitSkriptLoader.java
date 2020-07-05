@@ -570,6 +570,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
             if (line.getText().startsWith(key)) {
                 if (value != null) {
                     QuickSkript.getInstance().getLogger().warning(multipleMatchWarning);
+                    //TODO does it say which Skript?
                 }
 
                 value = line.getText().substring(key.length()).trim();

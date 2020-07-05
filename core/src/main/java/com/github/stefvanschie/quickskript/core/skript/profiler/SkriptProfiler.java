@@ -15,7 +15,7 @@ import java.util.Objects;
  * @param <T> the type of entries this profiler holds
  * @since 0.1.0
  */
-public abstract class SkriptProfiler<T> { //TODO integration to Paper timings?
+public abstract class SkriptProfiler<T> {
 
     /**
      * A {@link SkriptProfiler} to be used by all skripts

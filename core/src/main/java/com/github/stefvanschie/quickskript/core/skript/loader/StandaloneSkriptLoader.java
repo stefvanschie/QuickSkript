@@ -271,6 +271,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
 
         if (trigger == null) {
             throw new ParseException("Unable to find a trigger for the command", section.getLineNumber());
+            //TODO JavaDocs say that method will do nothing if stuff is incorrect -> log instead?
         }
 
         PsiBaseSection baseSection = new PsiBaseSection(this, skript, trigger, CommandContext.class);

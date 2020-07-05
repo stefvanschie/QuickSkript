@@ -309,9 +309,10 @@ public abstract class SkriptLoader {
      *
      * @param skript the skript this command belongs to
      * @param section the section to parse
+     * @return whether the command was TODO finish + tryRegisterEvent (in tests: assert that some code got registered)
      * @since 0.1.0
      */
-    public abstract void tryRegisterCommand(@NotNull Skript skript, @NotNull SkriptFileSection section);
+    public abstract boolean tryRegisterCommand(@NotNull Skript skript, @NotNull SkriptFileSection section);
 
     /**
      * Tries to register the event in the given section. If this is not an event, or if it could not be registered
@@ -321,5 +322,5 @@ public abstract class SkriptLoader {
      * @param section the section to parse
      * @since 0.1.0
      */
-    public abstract void tryRegisterEvent(@NotNull Skript skript, @NotNull SkriptFileSection section);
+    public abstract boolean tryRegisterEvent(@NotNull Skript skript, @NotNull SkriptFileSection section);
 }
