@@ -36,7 +36,7 @@ knowledge book[s]
 {orientable} {conditional} chain command block[s]
 {orientable} {conditional} repeating command block[s]
 
-{structure block mode} structure block[s]
+{structure block mode} structure block[s] : [any] structure block[s]
 
 {directional} attached melon stem
 {directional} attached pumpkin stem

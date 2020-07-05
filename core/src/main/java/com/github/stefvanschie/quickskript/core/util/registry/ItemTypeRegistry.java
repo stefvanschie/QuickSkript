@@ -91,7 +91,13 @@ public class ItemTypeRegistry {
          * The pattern for this entry.
          */
         @NotNull
-        private SkriptPattern pattern;
+        private final SkriptPattern pattern;
+
+        /**
+         * The categories this item type belongs to
+         */
+        @NotNull
+        private final Collection<SkriptPattern> categories = new HashSet<>();
 
         /**
          * Creates a new entry with the specified pattern
@@ -101,6 +107,30 @@ public class ItemTypeRegistry {
          */
         public Entry(@NotNull SkriptPattern pattern) {
             this.pattern = pattern;
+        }
+
+        /**
+         * Adds the specified category to the collection of categories
+         *
+         * @param category the category to add
+         * @since 0.1.0
+         */
+        public void addCategory(@NotNull SkriptPattern category) {
+            this.categories.add(category);
+        }
+
+        /**
+         * Gets all categories that this item type belongs to. The returned collection is unmodifiable, for mutating the
+         * categories, see {@link #addCategory(SkriptPattern)}. The returned collection is not safe for concurrent
+         * access.
+         *
+         * @return all categories of this item type
+         * @since 0.1.0
+         */
+        @NotNull
+        @Contract(pure = true)
+        public Collection<SkriptPattern> getCategories() {
+            return Collections.unmodifiableCollection(categories);
         }
 
         /**

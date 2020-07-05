@@ -1,9 +1,9 @@
 :use util/global.alias
 
-[rail straight] = {[flat|straight] (north-south|south-north), [flat|straight] (east=west|west-east),
+[rail straight] = {[flat|straight] (north-south|south-north), [flat|straight] (east-west|west-east),
                    (ascending north|descending south), (ascending south|descending north),
                    (ascending east|descending west), (ascending west|ascending east)}
-[rail shape] = {[flat|straight] (north-south|south-north), [flat|straight] (east=west|west-east),
+[rail shape] = {[flat|straight] (north-south|south-north), [flat|straight] (east-west|west-east),
                 (ascending north|descending south), (ascending south|descending north),
                 (ascending east|descending west), (ascending west|ascending east), [curved] (north-east|east-north),
                 [curved] (north-west|west-north), [curved] (south-east|east-south), [curved] (south-west|west-south)}
@@ -12,20 +12,20 @@ elytra[s]
 saddle[s]
 carrot[s] on [a] stick[s]
 
-oak boat[s]
-spruce boat[s]
-birch boat[s]
-jungle boat[s]
-acacia boat[s]
-dark oak boat[s]
+oak boat[s] : [any] boat[s]
+spruce boat[s] : [any] boat[s]
+birch boat[s] : [any] boat[s]
+jungle boat[s] : [any] boat[s]
+acacia boat[s] : [any] boat[s]
+dark oak boat[s] : [any] boat[s]
 
-[normal] minecart[s]
-minecart[s] with chest[s]
-minecart[s] with furnace[s]
+[normal] minecart[s] : any minecart[s]
+minecart[s] with chest[s] : storage minecart[s], any minecart[s]
+minecart[s] with furnace[s] : powered minecart[s], any minecart[s]
 
-minecart[s] with tnt[s]
-minecart[s] with hopper[s]
-minecart[s] with command block[s]
+minecart[s] with tnt[s] : any minecart[s]
+minecart[s] with hopper[s] : any minecart[s]
+minecart[s] with command block[s] : any minecart[s]
 
 {powerable} {rail straight} (golden|powered) [minecart] (rail|track)[s]
 (golden|powered) [minecart] (rail|track) item[s]
@@ -36,5 +36,15 @@ detector [minecart] (rail|track) item[s]
 {powerable} {rail straight} activator [minecart] (rail|track)[s]
 activator [minecart] (rail|track) item[s]
 
-{rail shape} [normal] [minecart] (rail|track) [block[s]]
+[flat|straight] (north-south|south-north) [normal] [minecart] (rail|track) [block[s]] : (ascending|descending|inclined) [normal] [minecart] (rail|track) [block[s]]
+[flat|straight] (east-west|west-east) [normal] [minecart] (rail|track) [block[s]] : (ascending|descending|inclined) [normal] [minecart] (rail|track) [block[s]]
+(ascending north|descending south) [normal] [minecart] (rail|track) [block[s]] : (ascending|descending|inclined) [normal] [minecart] (rail|track) [block[s]]
+(ascending south|descending north) [normal] [minecart] (rail|track) [block[s]] : (ascending|descending|inclined) [normal] [minecart] (rail|track) [block[s]]
+(ascending east|descending west) [normal] [minecart] (rail|track) [block[s]] : (ascending|descending|inclined) [normal] [minecart] (rail|track) [block[s]]
+(ascending west|ascending east) [normal] [minecart] (rail|track) [block[s]] : (ascending|descending|inclined) [normal] [minecart] (rail|track) [block[s]]
+[curved] (north-east|east-north) [normal] [minecart] (rail|track) [block[s]] : curved [normal] [minecart] (rail|track) [block[s]]
+[curved] (north-west|west-north) [normal] [minecart] (rail|track) [block[s]] : curved [normal] [minecart] (rail|track) [block[s]]
+[curved] (south-east|east-south) [normal] [minecart] (rail|track) [block[s]] : curved [normal] [minecart] (rail|track) [block[s]]
+[curved] (south-west|west-south) [normal] [minecart] (rail|track) [block[s]] : curved [normal] [minecart] (rail|track) [block[s]]
+
 [minecart] (rail|track) item[s]

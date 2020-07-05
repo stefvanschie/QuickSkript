@@ -9,12 +9,12 @@
 [enableable] = {enabled, disabled}
 [extendable] = {(unextended|retracted), extended}
 
-redstone (wire|dust block)[s]
-redstone [(dust|item)[s]]
+redstone (wire|dust block)[s] : any redstone item
+redstone [(dust|item)[s]] : any redstone item
 
-stone pressure plate[s]
-(gold[en]|light weighted) pressure plate[s]
-(iron|heavy weighted) pressure plate[s]
+stone pressure plate[s] : [any] pressure plate[s]
+(gold[en]|light weighted) pressure plate[s] : [any] pressure plate[s]
+(iron|heavy weighted) pressure plate[s] : [any] pressure plate[s]
 
 (tripwire|placed string)[s]
 
@@ -23,23 +23,25 @@ stone pressure plate[s]
 
 tnt [block[s]]
 
-{powerable} {directional} {wood type} {attached} button[s]
-{powerable} {directional} {attached} stone button[s]
+{powerable} {directional} {wood type} {attached} button[s] : [any] wood[en] button[s], [any] button[s]
+{powerable} {directional} {attached} stone button[s] : [any] button[s]
 
-{powerable} {wood type} pressure plate[s]
+{powerable} {wood type} pressure plate[s] : [any] wood[en] pressure plate[s], [any] pressure plate[s]
 
-{waterloggable} {openable} {trapdoor position} {directional} iron trapdoor[s]
-{waterloggable} {openable} {trapdoor position} {directional} {wood type} trapdoor[s]
+{waterloggable} {openable} {trapdoor position} {directional} iron trapdoor[s] : [any] trapdoor[s]
+{waterloggable} {openable} {trapdoor position} {directional} {wood type} trapdoor[s] : [any] wood[en] trapdoor[s], [any] trapdoor[s]
 
-{powerable} {openable} {directional} {wood type} [fence] gate[s]
+{powerable} {openable} {directional} {wood type} [fence] gate[s] : [any] [fence] gate[s], [any] fence part
 
-{powerable} {openable} {half} {directional} {wood type} door[s]
-{powerable} {openable} {half} {directional} iron door[s]
+{powerable} {openable} {half} {directional} {wood type} door[s] : [any] wood[en] door[s], [any] door[s]
+{powerable} {openable} {half} {directional} iron door[s] : [any] door[s]
 
-{lightable} redstone [floor] torch[es]
-{directional} {lightable} redstone wall torch[es]
+lit redstone [floor] torch[es] : [any] redstone floor torch[es], [any] lit redstone torch[es], any redstone torch
+unlit redstone [floor] torch[es] : [any] redstone floor torch[es], [any] unlit redstone torch[es], any redstone torch
+{directional} lit redstone wall torch[es] : [any] redstone wall torch[es], [any] lit redstone torch[es], any redstone torch
+{directional} unlit redstone wall torch[es] : [any] redstone wall torch[es], [any] unlit redstone torch[es], any redstone torch
 
-{lightable} redstone lamp[s]
+{lightable} redstone lamp[s] : [any] redstone lamp[s]
 {powerable} {instrumental} note block[s]
 {hopper direction} {enableable} hopper[s]
 
@@ -48,8 +50,8 @@ tnt [block[s]]
 {orientable} piston head[s]
 
 {directional} {powerable} tripwire hook[s]
-[normal|uninverted] daylight (detector|sensor)[s]
-inverted daylight (detector|sensor)[s]
+[normal|uninverted] daylight (detector|sensor)[s] : [any] daylight (detector|sensor)[s]
+inverted daylight (detector|sensor)[s] : [any] daylight (detector|sensor)[s]
 {powerable} {directional} {attached} [redstone] lever[s]
 
 stable tnt [block[s]]

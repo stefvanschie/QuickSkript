@@ -15,10 +15,10 @@ potion type = {water, thick, mundane, awkward, night vision, (extended|long) nig
 [glass|empty] bottle[s]
 (bottle[s] of water|water bottle[s])
 
-(potion[s] of {potion type}|{potion type} potion[s])
-(splash potion[s] of {potion type}|{potion type} splash potion[s])
-(lingering potion[s] of {potion type}|{potion type} lingering potion[s])
-potion
+(potion[s] of {potion type}|{potion type} potion[s]) : any potion
+(splash potion[s] of {potion type}|{potion type} splash potion[s]) : any potion
+(lingering potion[s] of {potion type}|{potion type} lingering potion[s]) : any potion
+potion : any potion
 
 {cauldron level} cauldron[s]
 dragon['s] breath
