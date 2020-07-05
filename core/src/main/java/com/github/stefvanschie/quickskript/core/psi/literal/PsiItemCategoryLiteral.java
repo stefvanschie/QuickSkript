@@ -128,6 +128,7 @@ public class PsiItemCategoryLiteral extends PsiElement<ItemCategory> {
             var itemTypes = new HashSet<ItemTypeRegistry.Entry>();
 
             for (ItemTypeRegistry.Entry entry : SkriptLoader.get().getItemTypeRegistry().getEntries()) {
+                outer:
                 for (SkriptPattern category : entry.getCategories()) {
                     List<SkriptMatchResult> matches = category.match(pattern);
 
@@ -137,6 +138,7 @@ public class PsiItemCategoryLiteral extends PsiElement<ItemCategory> {
                         }
 
                         itemTypes.add(entry);
+                        break outer;
                     }
                 }
             }

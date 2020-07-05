@@ -4,18 +4,19 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.pattern.group.RegexGroup;
+import com.github.stefvanschie.quickskript.core.pattern.group.SkriptPatternGroup;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
+import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.util.Pair;
 import com.github.stefvanschie.quickskript.core.util.literal.Enchantment;
 import com.github.stefvanschie.quickskript.core.util.literal.Item;
 import com.github.stefvanschie.quickskript.core.util.registry.ItemTypeRegistry;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Optional;
 
 /**
  * Gets an item
@@ -107,22 +108,25 @@ public class PsiItemLiteral extends PsiElement<Item> {
         @Pattern("pattern")
         public PsiItemLiteral parse(@NotNull SkriptMatchResult result, @Nullable PsiElement<?> amount,
             @Nullable PsiElement<?> enchantment, int lineNumber) {
-            String itemName = result.getMatchedGroups().stream()
-                .filter(pair -> pair.getX() instanceof RegexGroup)
-                .findFirst()
-                .orElseThrow()
-                .getY();
+            for (Pair<SkriptPatternGroup, String> pair : result.getMatchedGroups()) {
+                if (!(pair.getX() instanceof RegexGroup)) {
+                    continue;
+                }
 
-            Optional<ItemTypeRegistry.Entry> itemType = SkriptLoader.get().getItemTypeRegistry().getEntries().stream()
-                .filter(entry -> entry.getPattern().match(itemName).stream()
-                    .anyMatch(match -> !match.hasUnmatchedParts()))
-                .findAny();
+                for (ItemTypeRegistry.Entry entry : SkriptLoader.get().getItemTypeRegistry().getEntries()) {
+                    for (SkriptMatchResult match : entry.getPattern().match(pair.getY())) {
+                        if (match.hasUnmatchedParts()) {
+                            continue;
+                        }
 
-            if (itemType.isEmpty()) {
+                        return create(entry, amount, enchantment, lineNumber);
+                    }
+                }
+
                 return null;
             }
 
-            return create(itemType.get(), amount, enchantment, lineNumber);
+            throw new ParseException("Unable to find item name", lineNumber);
         }
 
         /**
