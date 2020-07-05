@@ -1,46 +1,45 @@
-apple[s]
-baked potato[es]
-beetroot[s]
-beetroot (stew|soup)[s]
-[loa(f|ves) of] bread
-carrot[s]
-chorus fruit[s]
-(cooked beef|steak[s])
-cooked chicken[s]
-cooked mutton[s]
-cooked pork[chop[s]]
-cooked rabbit[s]
-cookie[s]
+apple[s] : any apple, [any] fruit[s], [any] food
+baked potato[es] : any potato[es], [any] cooked food[s], [any] food
+beetroot[s] : [any] root vegetable[s], [any] food
+beetroot (stew|soup)[s] : [any] (soup|stew)[s], [any] food
+[loa(f|ves) of] bread : [any] food
+carrot[s] : [any] root vegetable[s], [any] food
+chorus fruit[s] : [any] fruit[s], [any] food
+(cooked beef|steak[s]) : [any] cooked meat[s], [any] meat[s], [any] cooked food[s], [any] food
+cooked chicken[s] : [any] cooked meat[s], [any] meat[s], [any] cooked food[s], [any] food
+cooked mutton[s] : [any] cooked meat[s], [any] meat[s], [any] cooked food[s], [any] food
+cooked pork[chop[s]] : [any] cooked meat[s], [any] meat[s], [any] cooked food[s], [any] food
+cooked rabbit[s] : [any] cooked meat[s], [any] meat[s], [any] cooked food[s], [any] food
+cookie[s] : [any] dessert[s], [any] food
 golden carrot[s]
-mushroom (stew|soup)[s]
-poisonous potato[es]
-potato[es]
-pumpkin pie[s]
-rabbit (stew|soup)[s]
-[raw] beef
-[raw] chicken[s]
-[raw] mutton[s]
-[raw] pork[chop[s]]
-[raw] rabbit[s]
-rotten flesh
-spider eye[s]
+mushroom (stew|soup)[s] : [any] (soup|stew)[s], [any] food
+poisonous potato[es] : [any] food
+potato[es] : any potato[es], [any] root vegetable[s], [any] food
+pumpkin pie[s] : [any] dessert[s], [any] food
+rabbit (stew|soup)[s] : [any] (soup|stew)[s], [any] food
+[raw] beef : [any] raw meat[s], [any] meat[s], [any] food
+[raw] chicken[s] : [any] raw meat[s], [any] meat[s], [any] food
+[raw] mutton[s] : [any] raw meat[s], [any] meat[s], [any] food
+[raw] pork[chop[s]] : [any] raw meat[s], [any] meat[s], [any] food
+[raw] rabbit[s] : [any] raw meat[s], [any] meat[s], [any] food
+rotten flesh : [any] monster (food|meat[s]), [any] food
+spider eye[s] : [any] monster (food|meat[s]), [any] food
 
-dried kelp
-sweet berr(y|ies)
+dried kelp[s] : [any] food
+sweet berr(y|ies) : [any] fruit[s], [any] food
 
-honey bottle[s]
+honey bottle[s] : [any] food
 
-[raw] cod [fillet[s]]
-cooked cod [fillet[s]]
-[raw] salmon [fillet[s]]
-cooked salmon [fillet[s]]
-pufferfish[es]
-tropical fish[es]
+[raw] cod [fillet[s]] : any cod [fillet[s]], any raw fish[es], any fish, [any] food
+cooked cod [fillet[s]] : any cod [fillet[s]], any cooked (fish[es]|fish fillet[s]), [any] cooked food[s], any fish, [any] food
+[raw] salmon [fillet[s]] : any raw fish[es], any fish, [any] food
+cooked salmon [fillet[s]] : any cooked (fish[es]|fish fillet[s]), [any] cooked food[s], any fish, [any] food
+pufferfish[es] : any raw fish[es], any fish, [any] food
+tropical fish[es] : any raw fish[es], any fish, [any] food
 
-[normal] golden apple
-(enchanted golden|notch) apple
+[normal] golden apple : any golden apple, any apple, [any] fruit[s], [any] food
+(enchanted golden|notch) apple : any golden apple, any apple, [any] fruit[s], [any] food
 
-melon slice[s]
-dried kelp[s]
+melon slice[s] : [any] fruit[s], [any] food
 
-cake[s]
+cake[s] : [any] dessert[s], [any] food

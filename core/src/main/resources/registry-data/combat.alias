@@ -11,52 +11,52 @@ tipped arrow type = {night vision, (long|extended) night vision, invisibility, (
                        (long|extended) turtle master, (strong|upgraded|level 2) turtle master, slow fall[ing],
                        (long|extended) slow fall[ing]}
 
-shield[s]
+shield[s] : [any] equipment
 
 spectral arrow[s]
 {tipped arrow type} tipped arrow[s]
 tipped arrow[s] of {tipped arrow type}
 
-leather (cap|helmet)[s]
-leather (tunic|chest(piece|plate))[s]
-leather (pants|leggings)
-leather boots
+leather (cap|helmet)[s] : [any] equipment, [any] armo[u]r, [any] (cap|helmet)[s], [any] leather armo[u]r
+leather (tunic|chest(piece|plate))[s] : [any] equipment, [any] armo[u]r, [any] chest(piece|plate)[s], [any] leather armo[u]r
+leather (pants|leggings) : [any] equipment, [any] armo[u]r, [any] (pants|leggings), [any] leather armo[u]r
+leather boots : [any] equipment, [any] armo[u]r, [any] boots, [any] leather armo[u]r
 
-iron (cap|helmet)[s]
-iron chest(piece|plate)[s]
-iron (pants|leggings)
-iron boots
+iron (cap|helmet)[s] : [any] equipment, [any] armo[u]r, [any] (cap|helmet)[s], [any] iron armo[u]r
+iron chest(piece|plate)[s] : [any] equipment, [any] armo[u]r, [any] chest(piece|plate)[s], [any] iron armo[u]r
+iron (pants|leggings) : [any] equipment, [any] armo[u]r, [any] (pants|leggings), [any] iron armo[u]r
+iron boots : [any] equipment, [any] armo[u]r, [any] boots, [any] iron armo[u]r
 
-gold[en] (cap|helmet)[s]
-gold[en] chest(piece|plate)[s]
-gold[en] (pants|leggings)
-gold[en] boots
+gold[en] (cap|helmet)[s] : [any] equipment, [any] armo[u]r, [any] (cap|helmet)[s], [any] gold[en] armo[u]r
+gold[en] chest(piece|plate)[s] : [any] equipment, [any] armo[u]r, [any] chest(piece|plate)[s], [any] gold[en] armo[u]r
+gold[en] (pants|leggings) : [any] equipment, [any] armo[u]r, [any] (pants|leggings), [any] gold[en] armo[u]r
+gold[en] boots : [any] equipment, [any] armo[u]r, [any] boots, [any] gold[en] armo[u]r
 
-diamond (cap|helmet)[s]
-diamond chest(piece|plate)[s]
-diamond (pants|leggings)
-diamond boots
+diamond (cap|helmet)[s] : [any] equipment, [any] armo[u]r, [any] (cap|helmet)[s], [any] diamond armo[u]r
+diamond chest(piece|plate)[s] : [any] equipment, [any] armo[u]r, [any] chest(piece|plate)[s], [any] diamond armo[u]r
+diamond (pants|leggings) : [any] equipment, [any] armo[u]r, [any] (pants|leggings), [any] diamond armo[u]r
+diamond boots : [any] equipment, [any] armo[u]r, [any] boots, [any] diamond armo[u]r
 
-chain[mail] (cap|helmet)[s]
-chain[mail] chest(piece|plate)[s]
-chain[mail] (pants|leggings)
-chain[mail] boots
+chain[mail] (cap|helmet)[s] : [any] equipment, [any] armo[u]r, [any] (cap|helmet)[s], [any] chain[mail] armo[u]r
+chain[mail] chest(piece|plate)[s] : [any] equipment, [any] armo[u]r, [any] chest(piece|plate)[s], [any] chain[mail] armo[u]r
+chain[mail] (pants|leggings) : [any] equipment, [any] armo[u]r, [any] (pants|leggings), [any] chain[mail] armo[u]r
+chain[mail] boots : [any] equipment, [any] armo[u]r, [any] boots, [any] chain[mail] armo[u]r
 
-wood[en] sword[s]
-stone sword[s]
-gold[en] sword[s]
-iron sword[s]
-diamond sword[s]
+wood[en] sword[s] : [any] equipment, [any] weapon[s], [any] sword[s]
+stone sword[s] : [any] equipment, [any] weapon[s] [any] sword[s]
+gold[en] sword[s] : [any] equipment, [any] weapon[s], [any] sword[s]
+iron sword[s] : [any] equipment, [any] weapon[s], [any] sword[s]
+diamond sword[s] : [any] equipment, [any] weapon[s], [any] sword[s]
 
-bow[s]
+bow[s] : [any] weapon[s]
 arrow[s]
 
-iron (horse armo[u]r|barding)
-gold[en] (horse armo[u]r|barding)
-diamond (horse armo[u]r|barding)
+iron (horse armo[u]r|barding) : [any] (horse armo[u]r|barding)
+gold[en] (horse armo[u]r|barding) : [any] (horse armo[u]r|barding)
+diamond (horse armo[u]r|barding) : [any] (horse armo[u]r|barding)
+leather (horse armo[u]r|barding) : [any] (horse armo[u]r|barding)
 
-leather (horse armo[u]r|barding)
 totem[s] of undying
-crossbow[s]
-turtle [shell] helmet
-trident[s]
+crossbow[s] : [any] weapon[s]
+turtle [shell] helmet : [any] (cap|helmet)[s]
+trident[s] : [any] weapon[s]

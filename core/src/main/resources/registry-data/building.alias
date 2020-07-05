@@ -6,22 +6,22 @@
 [stairs] = {top, bottom}
 [stairs shape] = {straight, inner-left, inner-right, outer-left, outer-right}
 
-stone [block[s]]
+stone [block[s]] : any [natural] stone[s]
 
-cobble[stone] [block[s]]
-moss[y] cobble[stone] [block[s]]
+cobble[stone] [block[s]] : any cobble[stone] [block[s]]
+moss[y] cobble[stone] [block[s]] : any cobble[stone] [block[s]]
 
 dirt [block[s]]
 sand [block[s]]
 gravel [block[s]]
 clay block[s]
 
-gold ore[s]
-iron ore[s]
-coal ore[s]
-lapis [lazuli] ore[s]
-diamond ore[s]
-emerald ore[s]
+gold ore[s] : [any] ore
+iron ore[s] : [any] ore
+coal ore[s] : [any] ore
+lapis [lazuli] ore[s] : [any] ore
+diamond ore[s] : [any] ore
+emerald ore[s] : [any] ore
 
 obsidian [block[s]]
 bedrock [block[s]]
@@ -44,82 +44,184 @@ netherrack [block[s]]
 soul sand [block[s]]
 glowstone [block[s]]
 
-ice [block[s]]
-packed ice [block[s]]
+ice [block[s]] : any ice [block[s]]
+packed ice [block[s]] : any ice [block[s]]
+blue ice [block[s]] : any ice [block[s]]
+
 end[ ]stone [block[s]]
+end[ ]stone brick[s]
 
-[raw] granite[s]
-(smooth|polished) granite[s]
+[raw] granite[s] : any granite[s], any [natural] stone[s]
+(smooth|polished) granite[s] : any granite[s], any [natural] stone[s]
 
-[raw] diorite[s]
-(smooth|polished) diorite[s]
+[raw] diorite[s] : any diorite[s], any [natural] stone[s]
+(smooth|polished) diorite[s] : any diorite[s], any [natural] stone[s]
 
-[raw] andesite[s]
-(smooth|polished) andesite[s]
+[raw] andesite[s] : any andesite[s], any [natural] stone[s]
+(smooth|polished) andesite[s] : any andesite[s], any [natural] stone[s]
 
 {snowable} grass [block[s]]
 {snowable} podzol [block[s]]
 {snowable} mycelium [block[s]]
 coarse dirt [block[s]]
-[nether] quartz ore[s]
-{lightable} redstone ore[s]
+[nether] quartz ore[s] : [any] ore
+{lightable} redstone ore[s] : [any] ore
 
-{wood type} plank[s]
-{axised} {wood type} log[s]
-{axised} {wood type} bark [block[s]]
+{wood type} plank[s] : [any] plank[s]
+
+{axised} oak [wood] log[s] : [any] log[s], [any] normal log, any oak log
+{axised} spruce [wood] log[s] : [any] log[s], [any] normal log, any spruce log
+{axised} birch [wood] log[s] : [any] log[s], [any] normal log, any birch log
+{axised} jungle [wood] log[s] : [any] log[s], [any] normal log, any jungle log
+{axised} acacia [wood] log[s] : [any] log[s], [any] normal log, any acacia log
+{axised} dark oak [wood] log[s] : [any] log[s], [any] normal log, any dark oak log
+
+{axised} oak [wood] bark [block[s]] : [any] log[s], [any] normal log, [any] bark [block[s]], any oak log
+{axised} spruce [wood] bark [block[s]] : [any] log[s], [any] normal log, [any] bark [block[s]], any spruce log
+{axised} birch [wood] bark [block[s]] : [any] log[s], [any] normal log, [any] bark [block[s]], any birch log
+{axised} jungle [wood] bark [block[s]] : [any] log[s], [any] normal log, [any] bark [block[s]], any jungle log
+{axised} acacia [wood] bark [block[s]] : [any] log[s], [any] normal log, [any] bark [block[s]], any acacia log
+{axised} dark oak [wood] bark [block[s]] : [any] log[s], [any] normal log, [any] bark [block[s]], any dark oak log
+
+{axised} stripped oak log[s] : [any] log[s], [any] stripped log [block[s]]
+{axised} stripped spruce log[s] : [any] log[s], [any] stripped log [block[s]]
+{axised} stripped birch log[s] : [any] log[s], [any] stripped log [block[s]]
+{axised} stripped jungle log[s] : [any] log[s], [any] stripped log [block[s]]
+{axised} stripped acacia log[s] : [any] log[s], [any] stripped log [block[s]]
+{axised} stripped dark oak log[s] : [any] log[s], [any] stripped log [block[s]]
+
+{axised} stripped oak (bark|wood) [block[s]] : [any] log[s], [any] stripped bark [block[s]]
+{axised} stripped spruce (bark|wood) [block[s]] : [any] log[s], [any] stripped bark [block[s]]
+{axised} stripped birch (bark|wood) [block[s]] : [any] log[s], [any] stripped bark [block[s]]
+{axised} stripped jungle (bark|wood) [block[s]] : [any] log[s], [any] stripped bark [block[s]]
+{axised} stripped acacia (bark|wood) [block[s]] : [any] log[s], [any] stripped bark [block[s]]
+{axised} stripped dark oak (bark|wood) [block[s]] : [any] log[s], [any] stripped bark [block[s]]
 
 red sand [block[s]]
-[normal] sandstone [block[s]]
-chiseled sandstone [block[s]]
-cut sandstone [block[s]]
+[normal] sandstone [block[s]] : any sandstone [block[s]]
+chiseled sandstone [block[s]] : any sandstone [block[s]]
+cut sandstone [block[s]] : any sandstone [block[s]]
 
-[normal] red sandstone [block[s]]
-red chiseled sandstone [block[s]]
-cut red sandstone [block[s]]
+[normal] red sandstone [block[s]] : any red sandstone [block[s]]
+red chiseled sandstone [block[s]] : any red sandstone [block[s]]
+cut red sandstone [block[s]] : any red sandstone [block[s]]
 
-{colored} [stained] glass [block[s]]
-{colored} wool [block[s]]
-{colored} [stained] ([hard[ened]] clay|terracotta)
-[un(dyed|stained)] (hard[ened] clay|terracotta) [block[s]]
+{colored} [stained] glass [block[s]] : [any] stained glass block[s]
+{colored} wool [block[s]] : [any] wool [block[s]]
+{colored} [stained] ([hard[ened]] clay|terracotta) : any stained ([hard[ened]] clay|terracotta), any (hard[ened] clay|terracotta) [block[s]]
+[un(dyed|stained)] (hard[ened] clay|terracotta) [block[s]] : any (hard[ened] clay|terracotta) [block[s]]
 
-{colored} concrete
-{colored} concrete powder
+{colored} concrete : [any] concrete [block[s]]
+{colored} concrete powder : [any] concrete powder [block[s]]
 
-{waterloggable} {slab} {wood type} slab[s]
-{waterloggable} {slab} stone slab[s]
-{waterloggable} {slab} sandstone slab[s]
-{waterloggable} {slab} (petrified|stone) oak [wood[en]] slab[s]
-{waterloggable} {slab} cobble[stone] slab[s]
-{waterloggable} {slab} brick slab[s]
-{waterloggable} {slab} stone[ ]brick slab[s]
-{waterloggable} {slab} nether brick slab[s]
-{waterloggable} {slab} [nether] quartz slab[s]
-{waterloggable} {slab} red sandstone slab[s]
-{waterloggable} {slab} purpur slab[s]
-{waterloggable} {slab} [raw] prismarine slab[s]
-{waterloggable} {slab} prismarine brick slab[s]
-{waterloggable} {slab} dark prismarine slab[s]
+{waterloggable} {slab} {wood type} slab[s] : [any] wood[en] slab[s], [any] slab[s]
+{waterloggable} {slab} stone slab[s] : [any] slab[s]
+{waterloggable} {slab} sandstone slab[s] : [any] slab[s]
+{waterloggable} {slab} (petrified|stone) oak [wood[en]] slab[s] : [any] slab[s]
+{waterloggable} {slab} cobble[stone] slab[s] : [any] slab[s]
+{waterloggable} {slab} brick slab[s] : [any] slab[s]
+{waterloggable} {slab} stone[ ]brick slab[s] : [any] slab[s]
+{waterloggable} {slab} nether brick slab[s] : [any] slab[s]
+{waterloggable} {slab} [nether] quartz slab[s] : [any] slab[s]
+{waterloggable} {slab} red sandstone slab[s] : [any] slab[s]
+{waterloggable} {slab} purpur slab[s] : [any] slab[s]
+{waterloggable} {slab} [raw] prismarine slab[s] : [any] slab[s]
+{waterloggable} {slab} prismarine brick slab[s] : [any] slab[s]
+{waterloggable} {slab} dark prismarine slab[s] : [any] slab[s]
+{waterloggable} {slab} stone slab[s] : [any] slab[s], [any] stone slab[s]
+{waterloggable} {slab} smooth stone slab[s] : [any] slab[s], [any] stone slab[s]
+{waterloggable} {slab} granite slab[s] : [any] slab[s], [any] stone slab[s]
+{waterloggable} {slab} diorite slab[s] : [any] slab[s], [any] stone slab[s]
+{waterloggable} {slab} andesite slab[s] : [any] slab[s], [any] stone slab[s]
+{waterloggable} {slab} polished granite slab[s] : [any] slab[s], [any] stone slab[s]
+{waterloggable} {slab} polished diorite slab[s] : [any] slab[s], [any] stone slab[s]
+{waterloggable} {slab} polished andesite slab[s] : [any] slab[s], [any] stone slab[s]
+{waterloggable} {slab} mossy stone brick slab[s] : [any] slab[s], [any] stone slab[s]
+{waterloggable} {slab} mossy cobble[stone] slab[s] : [any] slab[s], [any] stone slab[s]
+{waterloggable} {slab} smooth sandstone slab[s] : [any] slab[s], [any] sandstone slab[s]
+{waterloggable} {slab} smooth red sandstone slab : [any] slab[s], [any] sandstone slab[s]
+{waterloggable} {slab} cut sandstone slab[s] : [any] slab[s], [any] sandstone slab[s]
+{waterloggable} {slab} cut red sandstone slab[s] : [any] slab[s], [any] sandstone slab[s]
 
-{waterloggable} {stairs} {stairs shape} {directional} {wood type} stair[s]
-{waterloggable} {stairs} {stairs shape} {directional} cobble[stone] stair[s]
-{waterloggable} {stairs} {stairs shape} {directional} [red] brick stair[s]
-{waterloggable} {stairs} {stairs shape} {directional} stone brick stair[s]
-{waterloggable} {stairs} {stairs shape} {directional} nether brick stair[s]
-{waterloggable} {stairs} {stairs shape} {directional} [nether] quartz stair[s]
-{waterloggable} {stairs} {stairs shape} {directional} purpur stair[s]
-{waterloggable} {stairs} {stairs shape} {directional} sandstone stair[s]
-{waterloggable} {stairs} {stairs shape} {directional} red sandstone stair[s]
-{waterloggable} {stairs} {stairs shape} {directional} prismarine stair[s]
-{waterloggable} {stairs} {stairs shape} {directional} prismarine brick stair[s]
-{waterloggable} {stairs} {stairs shape} {directional} dark prismarine stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} {wood type} stair[s] : [any] stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} cobble[stone] stair[s] : [any] stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} [red] brick stair[s] : [any] stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} stone brick stair[s] : [any] stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} nether brick stair[s] : [any] stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} [nether] quartz stair[s] : [any] stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} purpur stair[s] : [any] stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} sandstone stair[s] : [any] stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} red sandstone stair[s] : [any] stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} prismarine stair[s] : [any] stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} prismarine brick stair[s] : [any] stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} dark prismarine stair[s] : [any] stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} stone stair[s] : [any] stair[s], [any] stone stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} granite stair[s] : [any] stair[s], [any] stone stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} diorite stair[s] : [any] stair[s], [any] stone stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} andesite stair[s] : [any] stair[s], [any] stone stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} polished granite stair[s] : [any] stair[s], [any] stone stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} polished diorite stair[s] : [any] stair[s], [any] stone stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} polished andesite stair[s] : [any] stair[s], [any] stone stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} mossy stone brick stair[s] : [any] stair[s], [any] stone stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} mossy cobble[stone] stair[s] : [any] stair[s], [any] stone stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} smooth sandstone stair[s] : [any] stair[s], [any] sandstone stair[s]
+{waterloggable} {stairs} {stairs shape} {directional} smooth red sandstone stair[s] : [any] stair[s], [any] sandstone stair[s]
 
-([nether] quartz block[s]|block[s] of [nether] quartz)
-chiseled [nether] quartz [block[s]]
-{axised} [nether] quartz pillar[s]
+dead (tube|blue) coral block[s] : [any] coral, [any] coral block[s], [any] dead coral, [any] dead coral block[s], [any] (tube|blue) coral, [any] (tube|blue) coral block[s]
+dead (brain|pink) coral block[s] : [any] coral, [any] coral block[s], [any] dead coral, [any] dead coral block[s], [any] (brain|pink) coral, [any] (brain|pink) coral block[s]
+dead (bubble|magenta) coral block[s] : [any] coral, [any] coral block[s], [any] dead coral, [any] dead coral block[s], [any] (bubble|magenta) coral, [any] (bubble|magenta) coral block[s]
+dead (fire|red) coral block[s] : [any] coral, [any] coral block[s], [any] dead coral, [any] dead coral block[s], [any] (fire|red) coral, [any] (fire|red) coral block[s]
+dead (horn|yellow) coral block[s] : [any] coral, [any] coral block[s], [any] dead coral, [any] dead coral block[s], [any] (horn|yellow) coral, [any] (horn|yellow) coral block[s]
 
-[raw] prismarine [block[s]]
-prismarine brick[s]
-dark prismarine [block[s]]
+living (tube|blue) coral block[s] : [any] coral, [any] coral block[s], [any] living coral, [any] living coral block[s], [any] (tube|blue) coral, [any] (tube|blue) coral block[s]
+living (brain|pink) coral block[s] : [any] coral, [any] coral block[s], [any] living coral, [any] living coral block[s], [any] (brain|pink) coral, [any] (brain|pink) coral block[s]
+living (bubble|magenta) coral block[s] : [any] coral, [any] coral block[s], [any] living coral, [any] living coral block[s], [any] (bubble|magenta) coral, [any] (bubble|magenta) coral block[s]
+living (fire|red) coral block[s] : [any] coral, [any] coral block[s], [any] living coral, [any] living coral block[s], [any] (fire|red) coral, [any] (fire|red) coral block[s]
+living (horn|yellow) coral block[s] : [any] coral, [any] coral block[s], [any] living coral, [any] living coral block[s], [any] (horn|yellow) coral, [any] (horn|yellow) coral block[s]
+
+{waterloggable} dead (tube|blue) coral plant[s] : [any] coral, [any] coral plant[s], [any] dead coral, [any] dead coral plant[s], [any] (tube|blue) coral, [any] (tube|blue) coral plant[s]
+{waterloggable} dead (brain|pink) coral plant[s] : [any] coral, [any] coral plant[s], [any] dead coral, [any] dead coral plant[s], [any] (brain|pink) coral, [any] (brain|pink) coral plant[s]
+{waterloggable} dead (bubble|magenta) coral plant[s] : [any] coral, [any] coral plant[s], [any] dead coral, [any] dead coral plant[s], [any] (bubble|magenta) coral, [any] (bubble|magenta) coral plant[s]
+{waterloggable} dead (fire|red) coral plant[s] : [any] coral, [any] coral plant[s], [any] dead coral, [any] dead coral plant[s], [any] (fire|red) coral, [any] (fire|red) coral plant[s]
+{waterloggable} dead (horn|yellow) coral plant[s] : [any] coral, [any] coral plant[s], [any] dead coral, [any] dead coral plant[s], [any] (horn|yellow) coral, [any] (horn|yellow) coral plant[s]
+
+{waterloggable} living (tube|blue) coral plant[s] : [any] coral, [any] coral plant[s], [any] living coral, [any] living coral plant[s], [any] (tube|blue) coral, [any] (tube|blue) coral plant[s]
+{waterloggable} living (brain|pink) coral plant[s] : [any] coral, [any] coral plant[s], [any] living coral, [any] living coral plant[s], [any] (brain|pink) coral, [any] (brain|pink) coral plant[s]
+{waterloggable} living (bubble|magenta) coral plant[s] : [any] coral, [any] coral plant[s], [any] living coral, [any] living coral plant[s], [any] (bubble|magenta) coral, [any] (bubble|magenta) coral plant[s]
+{waterloggable} living (fire|red) coral plant[s] : [any] coral, [any] coral plant[s], [any] living coral, [any] living coral plant[s], [any] (fire|red) coral, [any] (fire|red) coral plant[s]
+{waterloggable} living (horn|yellow) coral plant[s] : [any] coral, [any] coral plant[s], [any] living coral, [any] living coral plant[s], [any] (horn|yellow) coral, [any] (horn|yellow) coral plant[s]
+
+{waterloggable} dead (tube|blue) coral fan[s] : [any] coral, [any] coral fan[s], [any] dead coral, [any] dead coral fan[s], [any] (tube|blue) coral, [any] (tube|blue) coral fan[s]
+{waterloggable} dead (brain|pink) coral fan[s] : [any] coral, [any] coral fan[s], [any] dead coral, [any] dead coral fan[s], [any] (brain|pink) coral, [any] (brain|pink) coral fan[s]
+{waterloggable} dead (bubble|magenta) coral fan[s] : [any] coral, [any] coral fan[s], [any] dead coral, [any] dead coral fan[s], [any] (bubble|magenta) coral, [any] (bubble|magenta) coral fan[s]
+{waterloggable} dead (fire|red) coral fan[s] : [any] coral, [any] coral fan[s], [any] dead coral, [any] dead coral fan[s], [any] (fire|red) coral, [any] (fire|red) coral fan[s]
+{waterloggable} dead (horn|yellow) coral fan[s] : [any] coral, [any] coral fan[s], [any] dead coral, [any] dead coral fan[s], [any] (horn|yellow) coral, [any] (horn|yellow) coral fan[s]
+
+{waterloggable} living (tube|blue) coral fan[s] : [any] coral, [any] coral fan[s], [any] living coral, [any] living coral fan[s], [any] (tube|blue) coral, [any] (tube|blue) coral fan[s]
+{waterloggable} living (brain|pink) coral fan[s] : [any] coral, [any] coral fan[s], [any] living coral, [any] living coral fan[s], [any] (brain|pink) coral, [any] (brain|pink) coral fan[s]
+{waterloggable} living (bubble|magenta) coral fan[s] : [any] coral, [any] coral fan[s], [any] living coral, [any] living coral fan[s], [any] (bubble|magenta) coral, [any] (bubble|magenta) coral fan[s]
+{waterloggable} living (fire|red) coral fan[s] : [any] coral, [any] coral fan[s], [any] living coral, [any] living coral fan[s], [any] (fire|red) coral, [any] (fire|red) coral fan[s]
+{waterloggable} living (horn|yellow) coral fan[s] : [any] coral, [any] coral fan[s], [any] living coral, [any] living coral fan[s], [any] (horn|yellow) coral, [any] (horn|yellow) coral fan[s]
+
+{waterloggable} {directional} dead (tube|blue) coral wall fan[s] : [any] coral, [any] coral fan[s], [any] dead coral, [any] dead coral fan[s], [any] (tube|blue) coral, [any] (tube|blue) coral fan[s]
+{waterloggable} {directional} dead (brain|pink) coral wall fan[s] : [any] coral, [any] coral fan[s], [any] dead coral, [any] dead coral fan[s], [any] (brain|pink) coral, [any] (brain|pink) coral fan[s]
+{waterloggable} {directional} dead (bubble|magenta) coral wall fan[s] : [any] coral, [any] coral fan[s], [any] dead coral, [any] dead coral fan[s], [any] (bubble|magenta) coral, [any] (bubble|magenta) coral fan[s]
+{waterloggable} {directional} dead (fire|red) coral wall fan[s] : [any] coral, [any] coral fan[s], [any] dead coral, [any] dead coral fan[s], [any] (fire|red) coral, [any] (fire|red) coral fan[s]
+{waterloggable} {directional} dead (horn|yellow) coral wall fan[s] : [any] coral, [any] coral fan[s], [any] dead coral, [any] dead coral fan[s], [any] (horn|yellow) coral, [any] (horn|yellow) coral fan[s]
+
+{waterloggable} {directional} living (tube|blue) coral wall fan[s] : [any] coral, [any] coral fan[s], [any] living coral, [any] living coral fan[s], [any] (tube|blue) coral, [any] (tube|blue) coral fan[s]
+{waterloggable} {directional} living (brain|pink) coral wall fan[s] : [any] coral, [any] coral fan[s], [any] living coral, [any] living coral fan[s], [any] (brain|pink) coral, [any] (brain|pink) coral fan[s]
+{waterloggable} {directional} living (bubble|magenta) coral wall fan[s] : [any] coral, [any] coral fan[s], [any] living coral, [any] living coral fan[s], [any] (bubble|magenta) coral, [any] (bubble|magenta) coral fan[s]
+{waterloggable} {directional} living (fire|red) coral wall fan[s] : [any] coral, [any] coral fan[s], [any] living coral, [any] living coral fan[s], [any] (fire|red) coral, [any] (fire|red) coral fan[s]
+{waterloggable} {directional} living (horn|yellow) coral wall fan[s] : [any] coral, [any] coral fan[s], [any] living coral, [any] living coral fan[s], [any] (horn|yellow) coral, [any] (horn|yellow) coral fan[s]
+
+([nether] quartz block[s]|block[s] of [nether] quartz) : any [nether] quartz
+chiseled [nether] quartz [block[s]] : any [nether] quartz
+{axised} [nether] quartz pillar[s] : any [nether] quartz
+
+[raw] prismarine [block[s]] : any prismarine [block[s]]
+prismarine brick[s] : any prismarine [block[s]]
+dark prismarine [block[s]] : any prismarine [block[s]]
 sea lantern[s]
 wet sponge[s]
 
@@ -132,11 +234,13 @@ magma [block[s]]
 nether brick [block[s]]
 red nether brick[s]
 
+dried kelp block[s]
+
 pumpkin[s]
 {directional} (unlit|carved) pumpkin[s]
 {directional} (lit pumpkin|jack(-| )o['](-| )lantern)[s]
 melon [block[s]]
 [red] brick block[s]
-{axised} hay [(bale|block)[s]]
+{axised} hay [(bale|block)[s]] : [any] hay [(bale|block)[s]]
 snow block[s]
 {axised} purpur pillar[s]

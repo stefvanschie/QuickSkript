@@ -5,6 +5,7 @@ import com.github.stefvanschie.quickskript.core.file.alias.exception.AliasFileRe
 import com.github.stefvanschie.quickskript.core.file.alias.exception.UndefinedAliasFileVariation;
 import com.github.stefvanschie.quickskript.core.file.alias.manager.AliasFileManager;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
+import com.github.stefvanschie.quickskript.core.pattern.exception.SkriptPatternParseException;
 import com.github.stefvanschie.quickskript.core.util.registry.ItemTypeRegistry;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -67,7 +68,13 @@ public class AliasFile {
 
         for (AliasFileEntry entry : entries) {
             for (String combination : variationCombinations(entry.getEntry(), variations)) {
-                itemTypes.add(new ItemTypeRegistry.Entry(SkriptPattern.parse(combination)));
+                ItemTypeRegistry.Entry itemType = new ItemTypeRegistry.Entry(SkriptPattern.parse(combination));
+
+                for (String category : entry.getCategories()) {
+                    itemType.addCategory(SkriptPattern.parse(category));
+                }
+
+                itemTypes.add(itemType);
             }
         }
 
@@ -158,7 +165,34 @@ public class AliasFile {
 
             int equalsIndex = line.indexOf('=');
 
-            if (equalsIndex != -1) {
+            if (equalsIndex == -1) {
+                int colonIndex = line.indexOf(':');
+                AliasFileEntry entry;
+
+                if (colonIndex == -1) {
+                    entry = new AliasFileEntry(line.trim());
+                } else {
+                    entry = new AliasFileEntry(line.substring(0, colonIndex).trim());
+
+                    int lastCommaIndex = 0;
+                    String categories = line.substring(colonIndex + 1);
+
+                    for (int index = 0; index < categories.length(); index++) {
+                        char character = categories.charAt(index);
+
+                        if (character != ',') {
+                            continue;
+                        }
+
+                        entry.addCategory(categories.substring(lastCommaIndex, index).trim());
+                        lastCommaIndex = index;
+                    }
+
+                    entry.addCategory(categories.substring(lastCommaIndex).trim());
+                }
+
+                file.entries.add(entry);
+            } else {
                 boolean optional = false;
                 String variationName = line.substring(0, equalsIndex).trim();
                 int variationNameLength = variationName.length();
@@ -193,10 +227,7 @@ public class AliasFile {
                 }
 
                 file.variations.put(variationName, new AliasFileVariation(entries, variationName, optional));
-                continue;
             }
-
-            file.entries.add(new AliasFileEntry(line.trim()));
         }
 
         return file;

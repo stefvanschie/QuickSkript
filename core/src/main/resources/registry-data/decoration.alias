@@ -18,8 +18,8 @@
 [pickle count] = {(one|singular), (pair of|[bundle of] two), (trio of|[bundle of] three), [bundle of] four}
 [honey level] = {(empty|level 0), level 1, level 2, level 3, level 4, (full|filled|level 5)}
 
-brown mushroom[s]
-red mushroom[s]
+brown mushroom[s] : [any] [small] mushroom
+red mushroom[s] : [any] [small] mushroom
 {orientable} end[er] rod[s]
 (workbench[es]|crafting table[s])
 (soil|farmland) [block[s]]
@@ -32,8 +32,8 @@ painting [item[s]]
 item frame [item[s]]
 armor stand [item[s]]
 
-{wood type} sapling[s]
-{decayable} {wood type} lea(f|ves)
+{wood type} sapling[s] : [any] sapling[s]
+{decayable} {wood type} lea(f|ves) : [any] lea(f|ves)
 
 [cob]web[s]
 jukebox[es] {jukebox state}
@@ -45,47 +45,47 @@ fern[s]
 kelp plant[s]
 non-growing kelp [plant[s]]
 
-(dandelion|yellow flower)[s]
-(popp(y|ies)|red flower[s])
-blue orchid[s]
-allium[s]
-azure bluet[s]
-red tulip[s]
-orange tulip[s]
-white tulip[s]
-pink tulip[s]
-oxeye dais(y|ies)
+(dandelion|yellow flower)[s] : [any] small flower, [any] flower[s]
+(popp(y|ies)|red flower[s]) : [any] small flower, [any] flower[s]
+blue orchid[s] : [any] small flower, [any] flower[s]
+allium[s] : [any] small flower, [any] flower[s]
+azure bluet[s] : [any] small flower, [any] flower[s]
+red tulip[s] : [any] tulip[s], [any] small flower, [any] flower[s]
+orange tulip[s] : [any] tulip[s], [any] small flower, [any] flower[s]
+white tulip[s] : [any] tulip[s], [any] small flower, [any] flower[s]
+pink tulip[s] : [any] tulip[s], [any] small flower, [any] flower[s]
+oxeye dais(y|ies) : [any] small flower, [any] flower[s]
 
-{half} sunflower[s]
-{half} lilac[s]
+{half} sunflower[s] : [any] (large|tall|double height) flower, [any] flower[s]
+{half} lilac[s] : [any] (large|tall|double height) flower, [any] flower[s]
 {half} [double] (tall|long|height) grass
 {half} (long large) fern
-{half} rose bush[es]
-{half} peon(y|ies)
+{half} rose bush[es] : [any] (large|tall|double height) flower, [any] flower[s]
+{half} peon(y|ies) : [any] (large|tall|double height) flower, [any] flower[s]
 
-{waterloggable} {wood type} fence[s]
-{waterloggable} nether brick fence[s]
+{waterloggable} {wood type} fence[s] : [any] fence[s], [any] fence part
+{waterloggable} nether brick fence[s] : [any] fence[s], [any] fence part
 
-(infested|silverfish) stone [block[s]]
-(infested|silverfish) cobblestone [block[s]]
-(infested|silverfish) stone brick [block[s]]
-(infested|silverfish) mossy stone brick [block[s]]
-(infested|silverfish) cracked stone brick [block[s]]
-(infested|silverfish) chiseled stone brick [block[s]]
+(infested|silverfish) stone [block[s]] : [any] (infested|silverfish) block[s]
+(infested|silverfish) cobblestone [block[s]] : [any] (infested|silverfish) block[s]
+(infested|silverfish) stone brick [block[s]] : [any] (infested|silverfish) block[s]
+(infested|silverfish) mossy stone brick [block[s]] : [any] (infested|silverfish) block[s]
+(infested|silverfish) cracked stone brick [block[s]] : [any] (infested|silverfish) block[s]
+(infested|silverfish) chiseled stone brick [block[s]] : [any] (infested|silverfish) block[s]
 
 [huge] mushroom stem[s]
 
 {directional} {end portal eye} end portal frame [block[s]]
 end portal frame item[s]
 
-{waterloggable} cobblestone wall[s]
-{waterloggable} mossy cobblestone wall[s]
+{waterloggable} cobblestone wall[s] : any cobblestone wall
+{waterloggable} mossy cobblestone wall[s] : any cobblestone wall
 
-{colored} carpet[s]
-{colored} [stained] glass pane[s]
-{directional} {colored} glazed terracotta [block[s]]
+{colored} carpet[s] : [any] carpet[s]
+{colored} [stained] glass pane[s] : [any] stained glass pane[s]
+{directional} {colored} glazed terracotta [block[s]] : any glazed terracotta
 
-{directional} {bed occupied} {colored} bed {bed part}
+{directional} {bed occupied} {colored} bed {bed part} : any bed
 
 [empty] flower pot[s]
 (potted|flower pot with) (dandelion|yellow flower)
@@ -110,10 +110,10 @@ end portal frame item[s]
 (potted|flower pot with) dead bush
 (potted|flower pot with) fern
 
-[floor] torch[es]
-{directional} wall torch[es]
+[floor] torch[es] : any torch
+{directional} wall torch[es] : any torch
 (wet|moist|hydrated) farmland
-{directional} {lightable} furnace[s]
+{directional} {lightable} furnace[s] : [any] furnace[s]
 
 snow layer[s]
 one thick snow layer
@@ -131,13 +131,13 @@ eight thick snow layer
 slime block[s]
 
 dead chorus flower[s]
-{waterloggable} {directional} chest[s]
-{waterloggable} {directional} trapped chest[s]
+{waterloggable} {directional} chest[s] : any chest[s]
+{waterloggable} {directional} trapped chest[s] : any chest[s]
 {waterloggable} {directional} ladder[s]
-{waterloggable} {directional} ender chest[s]
-{directional} [unbroken|regular] anvil[s]
-{directional} chipped anvil[s]
-{directional} damaged anvil[s]
+{waterloggable} {directional} ender chest[s] : any chest[s]
+{directional} [unbroken|regular] anvil[s] : any anvil[s]
+{directional} chipped anvil[s] : any anvil[s]
+{directional} damaged anvil[s] : any anvil[s]
 
 (potted|flower pot with) bamboo
 (potted|flower pot with) cornflower
@@ -145,11 +145,11 @@ dead chorus flower[s]
 (potted|flower pot with) wither rose
 bamboo sapling
 
-{waterloggable} {directional} {wood type} wall sign[s]
-{waterloggable} {rotatable} {wood type} [floor] sign[s]
-cornflower[s]
-lily of the valley
-wither[ed] rose[s]
+{waterloggable} {directional} {wood type} wall sign[s] : [any] wall sign[s], [any] sign[s]
+{waterloggable} {rotatable} {wood type} [floor] sign[s] : [any] floor sign[s], [any] sign[s]
+cornflower[s] : [any] small flower, [any] flower[s]
+lily of the : [any] small flower, [any] flower[s]
+wither[ed] rose[s] : [any] small flower, [any] flower[s]
 
 {waterloggable} brick wall[s]
 {waterloggable} prismarine wall[s]
@@ -189,20 +189,20 @@ chorus flower[s]
 grass path [block[s]]
 end[er] crystal [item[s]]
 
-{orientable} [normal] shulker box[es]
-{orientable} {colored} shulker box[es]
+{orientable} [normal] shulker box[es] : any shulker box[es]
+{orientable} {colored} shulker box[es] : any shulker box[es]
 
 seagrass[es]
 {half} tall seagrass[es]
 
 ({waterloggable} {pickle count}|{pickle count} {waterloggable}) [sea] pickle[s]
 
-skeleton (skull|head) item[s]
-wither skeleton (skull|head) item[s]
-zombie (head|skull) item[s]
-player (head|skull) item[s]
-creeper (head|skull) item[s]
-[ender[ ]]dragon (head|skull) item[s]
+skeleton (skull|head) item[s] : [any] (head|skull) item[s]
+wither skeleton (skull|head) item[s] : [any] (head|skull) item[s]
+zombie (head|skull) item[s] : [any] (head|skull) item[s]
+player (head|skull) item[s] : [any] (head|skull) item[s]
+creeper (head|skull) item[s] : [any] (head|skull) item[s]
+[ender[ ]]dragon (head|skull) item[s] : [any] (head|skull) item[s]
 
 {directional} skeleton wall[-mounted] (skull|head)[s]
 {directional} wither skeleton wall[-mounted] (skull|head)[s]
@@ -218,8 +218,8 @@ creeper (head|skull) item[s]
 {rotatable} creeper (skull|head)[s]
 {rotatable} [ender[ ]]dragon (skull|head)[s]
 
-{directional} {colored} wall banner[s]
-{rotatable} {colored} (standing|floor) banner[s]
+{directional} {colored} wall banner[s] : [any] wall banner[s], [any] banner[s]
+{rotatable} {colored} (standing|floor) banner[s] : [any] (standing|floor) banner[s], [any] banner[s]
 
 {directional} {honey level} beehive[s]
 {directional} {honey level} bee nest[s]

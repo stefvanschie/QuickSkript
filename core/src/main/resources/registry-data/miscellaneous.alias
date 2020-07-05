@@ -12,14 +12,14 @@
 
 coal
 diamond[s]
-iron ingot[s]
-gold[en] ingot[s]
-gold[en] nugget[s]
+iron ingot[s] : any ingot[s]
+gold[en] ingot[s] : any ingot[s]
+gold[en] nugget[s] : any nugget[s]
 emerald[s]
 flint[s]
 
 shulker shell[s]
-iron nugget[s]
+iron nugget[s] : any nugget[s]
 
 charcoal
 sugar cane[s]
@@ -65,136 +65,136 @@ enchanted book[s]
 
 nether wart [item[s]]
 
-book[s]
-(book and quill|writable book)[s]
-written book[s]
+book[s] : any book[s]
+(book and quill|writable book)[s] : book with text, any book[s]
+written book[s] : book with text, any book[s]
 book with text
 enchanted book
 
 [(flight|duration|flight duration)] {firework duration} firework [rocket[s]]
 
-pumpkin seed[s]
-melon seed[s]
-[wheat] seed[s]
+pumpkin seed[s] : any seed[s]
+melon seed[s] : any seed[s]
+[wheat] seed[s] : any seed[s]
 beetroot seed[s]
 
 wheat [item[s]]
 chorus fruit[s]
 
-[empty] bucket[s]
-water bucket[s]
-lava bucket[s]
-milk [bucket[s]]
+[empty] bucket[s] : any bucket
+water bucket[s] : any bucket
+lava bucket[s] : any bucket
+milk [bucket[s]] : any bucket
 
-tropical fish bucket[s]
-cod bucket[s]
-pufferfish bucket[s]
-salmon bucket[s]
+tropical fish bucket[s] : any fish bucket, any bucket
+cod bucket[s] : any fish bucket, any bucket
+pufferfish bucket[s] : any fish bucket, any bucket
+salmon bucket[s] : any fish bucket, any bucket
 
-[music] (disc|record) 11
-[music] (disc|record) 13
-[music] (disc|record) blocks
-[music] (disc|record) cat
-[music] (disc|record) chirp
-[music] (disc|record) far
-[music] (disc|record) mall
-[music] (disc|record) stal
-[music] (disc|record) strad
-[music] (disc|record) wait
-[music] (disc|record) ward
+[music] (disc|record) 11 : [any] [music] (disc|record)
+[music] (disc|record) 13 : [any] [music] (disc|record)
+[music] (disc|record) blocks : [any] [music] (disc|record)
+[music] (disc|record) cat : [any] [music] (disc|record)
+[music] (disc|record) chirp : [any] [music] (disc|record)
+[music] (disc|record) far : [any] [music] (disc|record)
+[music] (disc|record) mall : [any] [music] (disc|record)
+[music] (disc|record) stal : [any] [music] (disc|record)
+[music] (disc|record) strad : [any] [music] (disc|record)
+[music] (disc|record) wait : [any] [music] (disc|record)
+[music] (disc|record) ward : [any] [music] (disc|record)
 
-purple dye[s]
-cyan dye[s]
-light gr(a|e)y dye[s]
-gr(a|e)y dye[s]
-pink dye[s]
-(lime|light green) dye[s]
-light blue dye[s]
-magenta dye[s]
-orange dye[s]
+purple dye[s] : [any] dye
+cyan dye[s] : [any] dye
+light gr(a|e)y dye[s] : [any] dye
+gr(a|e)y dye[s] : [any] dye
+pink dye[s] : [any] dye
+(lime|light green) dye[s] : [any] dye
+light blue dye[s] : [any] dye
+magenta dye[s] : [any] dye
+orange dye[s] : [any] dye
 
-black dye[s]
-brown dye[s]
-blue dye[s]
-white dye[s]
-red dye[s]
-green dye[s]
-yellow dye[s]
+black dye[s] : [any] dye
+brown dye[s] : [any] dye
+blue dye[s] : [any] dye
+white dye[s] : [any] dye
+red dye[s] : [any] dye
+green dye[s] : [any] dye
+yellow dye[s] : [any] dye
 
 bone[ ]meal[s]
 lapis [lazuli[s]]
 ink sac[s]
 cocoa bean[s]
 
-(bat [spawn] egg|spawn bat)[s]
-(blaze [spawn] egg|spawn blaze)[s]
-(cave spider [spawn] egg|spawn cave spider)[s]
-(chicken [spawn] egg|spawn chicken)[s]
-(cod [spawn] egg|spawn cod)[s]
-(cow [spawn] egg|spawn cow)[s]
-(creeper [spawn] egg|spawn creeper)[s]
-(dolphin [spawn] egg|spawn dolphin)[s]
-(donkey [spawn] egg|spawn donkey)[s]
-(drowned [spawn] egg|spawn drowned)[s]
-(elder guardian [spawn] egg|spawn elder guardian)[s]
-(enderman [spawn] egg|spawn enderman)[s]
-(endermite [spawn] egg|spawn endermite)[s]
-(evoker [spawn] egg|spawn evoker)[s]
-(ghast [spawn] egg|spawn ghast)[s]
-(guardian [spawn] egg|spawn guardian)[s]
-(horse [spawn] egg|spawn horse)[s]
-(husk [spawn] egg|spawn husk)[s]
-(llama [spawn] egg|spawn llama)[s]
-(magma cube [spawn] egg|spawn magma cube)[s]
-((mooshroom|mushroom cow) [spawn] egg|spawn (mooshroom|mushroom cow))[s]
-(mule [spawn] egg|spawn mule)[s]
-(ocelot [spawn] egg|spawn ocelot)[s]
-(parrot [spawn] egg|spawn parrot)[s]
-(phantom [spawn] egg|spawn phantom)[s]
-(pig [spawn] egg|spawn pig)[s]
-(polar bear [spawn] egg|spawn polar bear)[s]
-(pufferfish [spawn] egg|spawn pufferfish)[s]
-(rabbit [spawn] egg|spawn rabbit)[s]
-(salmon [spawn] egg|spawn salmon)[s]
-(sheep [spawn] egg|spawn sheep)[s]
-(shulker [spawn] egg|spawn shulker)[s]
-(silverfish [spawn] egg|spawn silverfish)[s]
-(skeleton [spawn] egg|spawn skeleton)[s]
-(skelet(on|al) horse [spawn] egg|spawn skelet(on|al) horse)[s]
-(slime [spawn] egg|spawn slime)[s]
-(spider [spawn] egg|spawn spider)[s]
-(squid [spawn] egg|spawn squid)[s]
-(stray [spawn] egg|spawn stray)[s]
-(tropical fish [spawn] egg|spawn tropical fish)[s]
-(turtle spawn egg|spawn turtle)[s]
-(vex [spawn] egg|spawn vex)[s]
-(villager [spawn] egg|spawn villager)[s]
-(vindicator [spawn] egg|spawn vindicator)[s]
-(witch [spawn] egg|spawn witches)[s]
-(wither skeleton [spawn] egg|spawn wither skeleton)[s]
-((wolf|dog) [spawn] egg|spawn (wolf|dog))[s]
-(zombie [spawn] egg|spawn zombie)[s]
-(zombie horse [spawn] egg|spawn zombie horse)[s]
-(zombie pig[man] [spawn] egg|spawn zombie pig[man])[s]
-(zombie villager [spawn] egg|spawn zombie villager)[s]
+(bat [spawn] egg|spawn bat)[s] : [any] spawn egg[s]
+(blaze [spawn] egg|spawn blaze)[s] : [any] spawn egg[s]
+(cave spider [spawn] egg|spawn cave spider)[s] : [any] spawn egg[s]
+(chicken [spawn] egg|spawn chicken)[s] : [any] spawn egg[s]
+(cod [spawn] egg|spawn cod)[s] : [any] spawn egg[s]
+(cow [spawn] egg|spawn cow)[s] : [any] spawn egg[s]
+(creeper [spawn] egg|spawn creeper)[s] : [any] spawn egg[s]
+(dolphin [spawn] egg|spawn dolphin)[s] : [any] spawn egg[s]
+(donkey [spawn] egg|spawn donkey)[s] : [any] spawn egg[s]
+(drowned [spawn] egg|spawn drowned)[s] : [any] spawn egg[s]
+(elder guardian [spawn] egg|spawn elder guardian)[s] : [any] spawn egg[s]
+(enderman [spawn] egg|spawn enderman)[s] : [any] spawn egg[s]
+(endermite [spawn] egg|spawn endermite)[s] : [any] spawn egg[s]
+(evoker [spawn] egg|spawn evoker)[s] : [any] spawn egg[s]
+(ghast [spawn] egg|spawn ghast)[s] : [any] spawn egg[s]
+(guardian [spawn] egg|spawn guardian)[s] : [any] spawn egg[s]
+(horse [spawn] egg|spawn horse)[s] : [any] spawn egg[s]
+(husk [spawn] egg|spawn husk)[s] : [any] spawn egg[s]
+(llama [spawn] egg|spawn llama)[s] : [any] spawn egg[s]
+(magma cube [spawn] egg|spawn magma cube)[s] : [any] spawn egg[s]
+((mooshroom|mushroom cow) [spawn] egg|spawn (mooshroom|mushroom cow))[s] : [any] spawn egg[s]
+(mule [spawn] egg|spawn mule)[s] : [any] spawn egg[s]
+(ocelot [spawn] egg|spawn ocelot)[s] : [any] spawn egg[s]
+(parrot [spawn] egg|spawn parrot)[s] : [any] spawn egg[s]
+(phantom [spawn] egg|spawn phantom)[s] : [any] spawn egg[s]
+(pig [spawn] egg|spawn pig)[s] : [any] spawn egg[s]
+(polar bear [spawn] egg|spawn polar bear)[s] : [any] spawn egg[s]
+(pufferfish [spawn] egg|spawn pufferfish)[s] : [any] spawn egg[s]
+(rabbit [spawn] egg|spawn rabbit)[s] : [any] spawn egg[s]
+(salmon [spawn] egg|spawn salmon)[s] : [any] spawn egg[s]
+(sheep [spawn] egg|spawn sheep)[s] : [any] spawn egg[s]
+(shulker [spawn] egg|spawn shulker)[s] : [any] spawn egg[s]
+(silverfish [spawn] egg|spawn silverfish)[s] : [any] spawn egg[s]
+(skeleton [spawn] egg|spawn skeleton)[s] : [any] spawn egg[s]
+(skelet(on|al) horse [spawn] egg|spawn skelet(on|al) horse)[s] : [any] spawn egg[s]
+(slime [spawn] egg|spawn slime)[s] : [any] spawn egg[s]
+(spider [spawn] egg|spawn spider)[s] : [any] spawn egg[s]
+(squid [spawn] egg|spawn squid)[s] : [any] spawn egg[s]
+(stray [spawn] egg|spawn stray)[s] : [any] spawn egg[s]
+(tropical fish [spawn] egg|spawn tropical fish)[s] : [any] spawn egg[s]
+(turtle spawn egg|spawn turtle)[s] : [any] spawn egg[s]
+(vex [spawn] egg|spawn vex)[s] : [any] spawn egg[s]
+(villager [spawn] egg|spawn villager)[s] : [any] spawn egg[s]
+(vindicator [spawn] egg|spawn vindicator)[s] : [any] spawn egg[s]
+(witch [spawn] egg|spawn witches)[s] : [any] spawn egg[s]
+(wither skeleton [spawn] egg|spawn wither skeleton)[s] : [any] spawn egg[s]
+((wolf|dog) [spawn] egg|spawn (wolf|dog))[s] : [any] spawn egg[s]
+(zombie [spawn] egg|spawn zombie)[s] : [any] spawn egg[s]
+(zombie horse [spawn] egg|spawn zombie horse)[s] : [any] spawn egg[s]
+(zombie pig[man] [spawn] egg|spawn zombie pig[man])[s] : [any] spawn egg[s]
+(zombie villager [spawn] egg|spawn zombie villager)[s] : [any] spawn egg[s]
 
-(pillager [spawn] egg|spawn pillager)[s]
-(ravager [spawn] egg|spawn ravager)[s]
-(wandering trader [spawn] egg|spawn wandering trader)[s]
-(trader llama [spawn] egg|spawn trader llama)[s]
-(cat [spawn] egg|spawn cat)[s]
-(fox [spawn] egg|spawn fox)[s]
-(panda [spawn] egg|spawn panda)[s]
+(pillager [spawn] egg|spawn pillager)[s] : [any] spawn egg[s]
+(ravager [spawn] egg|spawn ravager)[s] : [any] spawn egg[s]
+(wandering trader [spawn] egg|spawn wandering trader)[s] : [any] spawn egg[s]
+(trader llama [spawn] egg|spawn trader llama)[s] : [any] spawn egg[s]
+(cat [spawn] egg|spawn cat)[s] : [any] spawn egg[s]
+(fox [spawn] egg|spawn fox)[s] : [any] spawn egg[s]
+(panda [spawn] egg|spawn panda)[s] : [any] spawn egg[s]
 
-(bee [spawn] egg|spawn bee)[s]
+(bee [spawn] egg|spawn bee)[s] : [any] spawn egg[s]
 {composter stage} composter[s]
 {bamboo age} {bamboo leaves} {bamboo stage} bamboo [plant]
 {berry age} sweet berry bush [plant]
 
-flower charge banner pattern[s]
-creeper charge banner pattern[s]
-skull charge banner pattern[s]
-(mojang|thing) banner pattern[s]
-globe banner pattern[s]
+flower charge banner pattern[s] : [any] banner pattern[s]
+creeper charge banner pattern[s] : [any] banner pattern[s]
+skull charge banner pattern[s] : [any] banner pattern[s]
+(mojang|thing) banner pattern[s] : [any] banner pattern[s]
+globe banner pattern[s] : [any] banner pattern[s]
 
 honeycomb[s]
