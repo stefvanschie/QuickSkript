@@ -37,8 +37,8 @@ cooked salmon [fillet[s]] : any cooked (fish[es]|fish fillet[s]), [any] cooked f
 pufferfish[es] : any raw fish[es], any fish, [any] food
 tropical fish[es] : any raw fish[es], any fish, [any] food
 
-[normal] golden apple : any golden apple, any apple, [any] fruit[s], [any] food
-(enchanted golden|notch) apple : any golden apple, any apple, [any] fruit[s], [any] food
+[normal] golden apple[s] : any golden apple, any apple, [any] fruit[s], [any] food
+(enchanted golden|notch) apple[s] : any golden apple, any apple, [any] fruit[s], [any] food
 
 melon slice[s] : [any] fruit[s], [any] food
 

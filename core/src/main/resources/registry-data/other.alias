@@ -11,6 +11,8 @@
                  flowing stage (4|four), flowing stage (5|five), flowing stage (6|six), flowing stage (7|seven),
                  falling, falling stage (1|one), falling stage (2|two), falling stage (3|three), falling stage (4|four),
                  falling stage (5|five), falling stage (6|six), falling stage (7|seven), falling stage (8|eight)}
+[jigsaw orientation] = {down-east, down-north, down-south, down-west, up-east, up-north, up-south, up-west, east-up,
+                        west-up, north-up, south-up}
 
 end[er] portal [block[s]]
 fire
@@ -20,7 +22,7 @@ barrier [block[s]]
 dragon egg[s]
 
 suspicious stew[s]
-{orientable} jigsaw block[s]
+{jigsaw orientation} jigsaw block[s]
 
 frosted ice
 end[er] gateway
@@ -58,3 +60,5 @@ void air
 
 {fluid state} water
 {fluid state} lava
+
+soul fire

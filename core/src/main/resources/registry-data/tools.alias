@@ -23,6 +23,11 @@ diamond axe[s] : [any] diamond tool[s], [any] axe[s], any tool[s]
 diamond shovel[s] : [any] diamond tool[s], [any] shovel[s], any tool[s]
 diamond hoe[s] : [any] diamond tool[s], [any] hoe[s], any tool[s]
 
+netherite pickaxe[s] : [any] netherite tool[s], [any] pickaxe[s], any tool[s]
+netherite axe[s] : [any] netherite tool[s], [any] axe[s], any tool[s]
+netherite shovel[s] : [any] netherite tool[s], [any] shovel[s], any tool[s]
+netherite hoe[s] : [any] netherite tool[s], [any] hoe[s], any tool[s]
+
 compass[es]
 [gold[en]] clock[s]
 fishing rod[s]

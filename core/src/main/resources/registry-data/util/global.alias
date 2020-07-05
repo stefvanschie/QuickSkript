@@ -8,4 +8,6 @@ colored = {white, orange, magenta, light blue, yellow, (lime|light green), pink,
                east(ward| facing)}
 [powerable] = {powered, unpowered}
 [waterloggable] = {dry, waterlogged}
-wood type = {oak [wood], spruce [wood], birch [wood], jungle [wood], acacia [wood], dark oak [wood]}
+wood type = {oak [wood], spruce [wood], birch [wood], jungle [wood], acacia [wood], dark oak [wood], crimson, warped}
+nether block = {crimson, warped}
+tree type = {oak, spruce, birch, jungle, acacia, dark oak}

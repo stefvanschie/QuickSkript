@@ -58,3 +58,7 @@ stable tnt [block[s]]
 unstable tnt [block[s]]
 
 {powerable} {orientable} [redstone] observer[s]
+
+(archery|redstone|hay|bullseye) target [block][s]
+{powerable} polished blackstone pressure plate[s] : [any] pressure plate[s]
+{powerable} {directional} {attached} polished blackstone button[s]

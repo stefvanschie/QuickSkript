@@ -175,7 +175,6 @@ cocoa bean[s]
 ((wolf|dog) [spawn] egg|spawn (wolf|dog))[s] : [any] spawn egg[s]
 (zombie [spawn] egg|spawn zombie)[s] : [any] spawn egg[s]
 (zombie horse [spawn] egg|spawn zombie horse)[s] : [any] spawn egg[s]
-(zombie pig[man] [spawn] egg|spawn zombie pig[man])[s] : [any] spawn egg[s]
 (zombie villager [spawn] egg|spawn zombie villager)[s] : [any] spawn egg[s]
 
 (pillager [spawn] egg|spawn pillager)[s] : [any] spawn egg[s]
@@ -198,3 +197,14 @@ skull charge banner pattern[s] : [any] banner pattern[s]
 globe banner pattern[s] : [any] banner pattern[s]
 
 honeycomb[s]
+
+netherite ingot[s]
+netherite scrap[s]
+(hoglin [spawn] egg|spawn hoglin)[s] : [any] spawn egg[s]
+((zombified piglin|zombie pigman) [spawn] egg|spawn (zombified piglin|zombie pigman))[s] : [any] spawn egg[s]
+zoglin [spawn] egg|spawn zoglin)[s] : [any] spawn egg[s]
+(strider [spawn] egg|spawn strider)[s] : [any] spawn egg[s]
+
+[music] (disc|record) pigstep : [any] [music] (disc|record)
+
+(snout|piglin) banner pattern[s] : [any] banner pattern[s]

@@ -42,11 +42,17 @@ chain[mail] chest(piece|plate)[s] : [any] equipment, [any] armo[u]r, [any] chest
 chain[mail] (pants|leggings) : [any] equipment, [any] armo[u]r, [any] (pants|leggings), [any] chain[mail] armo[u]r
 chain[mail] boots : [any] equipment, [any] armo[u]r, [any] boots, [any] chain[mail] armo[u]r
 
+netherite (cap|helmet)[s] : [any] equipment, [any] armo[u]r, [any] netherite armo[u]r, [any] (cap|helmet)[s]
+netherite chest(piece|plate)[s] : [any] equipment, [any] armo[u]r, [any] netherite armo[u]r, [any] chest(piece|plate)[s]
+netherite (pants|leggings) : [any] equipment, [any] armo[u]r, [any] netherite armo[u]r, [any] (pants|leggings)
+netherite boots : [any] equipment, [any] armo[u]r, [any] netherite armo[u]r, [any] boots
+
 wood[en] sword[s] : [any] equipment, [any] weapon[s], [any] sword[s]
 stone sword[s] : [any] equipment, [any] weapon[s] [any] sword[s]
 gold[en] sword[s] : [any] equipment, [any] weapon[s], [any] sword[s]
 iron sword[s] : [any] equipment, [any] weapon[s], [any] sword[s]
 diamond sword[s] : [any] equipment, [any] weapon[s], [any] sword[s]
+netherite sword[s] : [any] equipment, [any] weapon[s], [any] sword[s]
 
 bow[s] : [any] weapon[s]
 arrow[s]

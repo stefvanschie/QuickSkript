@@ -17,6 +17,7 @@
 [lantern hanging] = {(floor|not hanging), (hanging|ceiling)}
 [pickle count] = {(one|singular), (pair of|[bundle of] two), (trio of|[bundle of] three), [bundle of] four}
 [honey level] = {(empty|level 0), level 1, level 2, level 3, level 4, (full|filled|level 5)}
+[charges] = {(empty|level 0), level 1, level 2, level 3, (full[y charged]|level 4)}
 
 brown mushroom[s] : [any] [small] mushroom
 red mushroom[s] : [any] [small] mushroom
@@ -32,8 +33,8 @@ painting [item[s]]
 item frame [item[s]]
 armor stand [item[s]]
 
-{wood type} sapling[s] : [any] sapling[s]
-{decayable} {wood type} lea(f|ves) : [any] lea(f|ves)
+{tree type} sapling[s] : [any] sapling[s]
+{decayable} {tree type} lea(f|ves) : [any] lea(f|ves)
 
 [cob]web[s]
 jukebox[es] {jukebox state}
@@ -179,10 +180,10 @@ fletching table[s]
 smithing table[s]
 
 {directional} {bell attachment} bell[s]
-{lantern hanging} lantern
+{lantern hanging} lantern : any lantern
 
-{waterloggable} {lightable} campfire[s]
-{waterloggable} {lightable} signal[ing] campfire
+{waterloggable} {directional} {lightable} campfire[s] : any campfire
+{waterloggable} {directional} {lightable} signal[ing] campfire
 
 chorus (plant|stem)[s]
 chorus flower[s]
@@ -226,3 +227,32 @@ creeper (head|skull) item[s] : [any] (head|skull) item[s]
 
 honey block[s]
 honeycomb block[s]
+
+shroomlight[s]
+[floor] soul torch[es]
+{directional} soul wall torch[es]
+weeping vine[s]
+weeping vine (block|plants)[s]
+twisting vine[s]
+twisting vine (block|plant)[s]
+nether sprout[s]
+{waterloggable} chain[s]
+lodestone[s]
+
+{nether block} nether fung(us|i) : [any] fung(us|i)
+{nether block} nether root[s] : [any] root[s]
+
+(potted|flower pot with) crimson fungus
+(potted|flower pot with) crimson roots
+(potted|flower pot with) warped fungus
+(potted|flower pot with) warped roots
+
+{waterloggable} [polished] blackstone wall[s]
+{waterloggable} polished blackstone brick wall[s]
+
+{charges} respawn anchor[s]
+
+{waterloggable} {lightable} soul campfire[s] : any campfire
+{waterloggable} {lightable} signal[ing] soul campfire
+
+{lantern hanging} soul lantern[s] : any lantern
