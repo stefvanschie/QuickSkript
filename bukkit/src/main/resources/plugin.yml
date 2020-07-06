@@ -4,3 +4,5 @@ version: ${project.version}
 
 website: ${project.url}
 api-version: 1.13
+
+softdepend: [Vault]

@@ -11,6 +11,7 @@ import com.github.stefvanschie.quickskript.bukkit.psi.expression.*;
 import com.github.stefvanschie.quickskript.bukkit.psi.function.PsiLocationFunctionImpl;
 import com.github.stefvanschie.quickskript.bukkit.psi.function.PsiVectorFunctionImpl;
 import com.github.stefvanschie.quickskript.bukkit.psi.function.PsiWorldFunctionImpl;
+import com.github.stefvanschie.quickskript.bukkit.psi.literal.PsiMoneyLiteralImpl;
 import com.github.stefvanschie.quickskript.bukkit.psi.literal.PsiPlayerLiteralImpl;
 import com.github.stefvanschie.quickskript.bukkit.skript.util.ExecutionTarget;
 import com.github.stefvanschie.quickskript.bukkit.util.CommandMapWrapper;
@@ -279,6 +280,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         //these are slow and match a lot, therefore at the bottom
         registerElement(new PsiItemCategoryLiteral.Factory());
         registerElement(new PsiItemLiteral.Factory());
+        registerElement(new PsiMoneyLiteralImpl.Factory());
     }
 
     @Override

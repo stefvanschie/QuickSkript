@@ -236,6 +236,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         //these are slow and match a lot, therefore at the bottom
         registerElement(new PsiItemCategoryLiteral.Factory());
         registerElement(new PsiItemLiteral.Factory());
+        registerElement(new PsiMoneyLiteral.Factory());
     }
 
     @Override

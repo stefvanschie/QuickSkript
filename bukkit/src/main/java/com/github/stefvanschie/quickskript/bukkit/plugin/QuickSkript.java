@@ -1,5 +1,6 @@
 package com.github.stefvanschie.quickskript.bukkit.plugin;
 
+import com.github.stefvanschie.quickskript.bukkit.integration.VaultIntegration;
 import com.github.stefvanschie.quickskript.bukkit.skript.BukkitSkriptLoader;
 import com.github.stefvanschie.quickskript.bukkit.util.event.ExperienceOrbSpawnEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.QuickSkriptPostEnableEvent;
@@ -13,6 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,6 +33,11 @@ public class QuickSkript extends JavaPlugin {
      * The current instance of this plugin or null if the plugin is not enabled.
      */
     private static QuickSkript instance;
+
+    /**
+     * Integration with vault
+     */
+    private VaultIntegration vault;
 
     public static void main(String[] args) {
         new QuickSkript().onEnable(); //fake entry point for code analyzers
@@ -60,6 +67,16 @@ public class QuickSkript extends JavaPlugin {
 
         //load custom events
         pluginManager.registerEvents(new ExperienceOrbSpawnEvent.Listener(), this);
+
+        if (pluginManager.isPluginEnabled("Vault")) {
+            vault = new VaultIntegration();
+
+            if (!vault.isEnabled()) {
+                vault = null;
+            }
+        }
+
+        printIntegrations();
 
         var skriptLoader = new BukkitSkriptLoader();
         loadScripts();
@@ -128,5 +145,28 @@ public class QuickSkript extends JavaPlugin {
                 getLogger().log(Level.SEVERE, "Error while parsing:" + e.getExtraInfo(skript), e);
             }
         }
+    }
+
+    /**
+     * Prints the status of integrations with the plugin.
+     *
+     * @since 0.1.0
+     */
+    private void printIntegrations() {
+        if (vault == null) {
+            getLogger().warning("Vault has not been detected, certain functionality may be unavailable");
+        }
+    }
+
+    /**
+     * Gets the integration with vault. This is null if vault is not available.
+     *
+     * @return vault integration or null if vault doesn't exist
+     * @since 0.1.0
+     */
+    @Nullable
+    @Contract(pure = true)
+    public VaultIntegration getVaultIntegration() {
+        return vault;
     }
 }

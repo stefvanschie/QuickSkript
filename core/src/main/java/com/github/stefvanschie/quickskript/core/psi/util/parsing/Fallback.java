@@ -2,10 +2,7 @@ package com.github.stefvanschie.quickskript.core.psi.util.parsing;
 
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * Indicates that, when parsing, this method should be tried when all other methods annotated by {@link Pattern} failed.

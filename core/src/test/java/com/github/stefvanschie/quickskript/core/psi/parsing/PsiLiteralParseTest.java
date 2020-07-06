@@ -7,10 +7,7 @@ import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,11 +31,6 @@ class PsiLiteralParseTest extends TestClassBase {
             "-9.9",
             "-35.9",
             "-44.65"
-        ).setFailure(
-            "--0",
-            "0.",
-            ".9",
-            "+8"
         ));
 
         inputHolders.put(PsiStringLiteral.class, new CaseHolder().setSuccess(
@@ -65,8 +57,8 @@ class PsiLiteralParseTest extends TestClassBase {
 
 
     private static class CaseHolder {
-        private List<String> success;
-        private List<String> failure;
+        private List<String> success = new ArrayList<>();
+        private List<String> failure = new ArrayList<>();
 
         List<String> getSuccess() {
             return success;
