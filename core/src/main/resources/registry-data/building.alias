@@ -257,8 +257,8 @@ nether gold ore[s]
 quartz brick[s]
 
 {nether block} nylium[s] : [any] nylium[s]
-{nether block} stem[s]
-{nether block} hyphae[s]
+{axised} {nether block} stem[s]
+{axised} {nether block} hyphae[s]
 {axised} stripped {nether block} stem[s]
 {axised} stripped {nether block} hyphae[s]
 

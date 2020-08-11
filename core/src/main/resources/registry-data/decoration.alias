@@ -169,8 +169,8 @@ wither[ed] rose[s] : [any] small flower, [any] flower[s]
 
 {directional} loom[s]
 {orientable} {openable} barrel[s]
-{directional} {lightable} smoker[s]
-{directional} {lightable} blast furnace[s]
+{directional} {lightable} smoker[s] : [any] furnace[s]
+{directional} {lightable} blast furnace[s] : [any] furnace[s]
 {directional} stone[ ]cutter[s]
 cartography table[s]
 
