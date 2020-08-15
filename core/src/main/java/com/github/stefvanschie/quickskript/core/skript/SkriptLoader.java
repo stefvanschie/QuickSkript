@@ -14,11 +14,8 @@ import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.PatternTypeOrder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.PatternTypeOrderHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.exception.ParsingAnnotationInvalidValueException;
-import com.github.stefvanschie.quickskript.core.util.registry.BiomeRegistry;
+import com.github.stefvanschie.quickskript.core.util.registry.*;
 import com.github.stefvanschie.quickskript.core.util.Pair;
-import com.github.stefvanschie.quickskript.core.util.registry.EntityTypeRegistry;
-import com.github.stefvanschie.quickskript.core.util.registry.InventoryTypeRegistry;
-import com.github.stefvanschie.quickskript.core.util.registry.ItemTypeRegistry;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -106,6 +103,11 @@ public abstract class SkriptLoader implements Closeable {
     private ItemTypeRegistry itemTypeRegistry;
 
     /**
+     * A region registry for working with regions
+     */
+    private RegionRegistry regionRegistry;
+
+    /**
      * Create a new instance, initializing it with all default (non-addon) data.
      *
      * @since 0.1.0
@@ -119,6 +121,7 @@ public abstract class SkriptLoader implements Closeable {
             biomeRegistry = new BiomeRegistry();
             entityTypeRegistry = new EntityTypeRegistry();
             inventoryTypeRegistry = new InventoryTypeRegistry();
+            regionRegistry = new RegionRegistry();
 
             registerDefaultElements();
             registerDefaultSections();
@@ -566,6 +569,18 @@ public abstract class SkriptLoader implements Closeable {
     @Contract(pure = true)
     public ItemTypeRegistry getItemTypeRegistry() {
         return itemTypeRegistry;
+    }
+
+    /**
+     * Gets the region registry attached to this skript loader
+     *
+     * @return the region registry
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public RegionRegistry getRegionRegistry() {
+        return regionRegistry;
     }
 
     /**

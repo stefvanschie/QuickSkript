@@ -1,6 +1,8 @@
 package com.github.stefvanschie.quickskript.bukkit.skript;
 
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
+import com.github.stefvanschie.quickskript.bukkit.integration.region.RegionIntegration;
+import com.github.stefvanschie.quickskript.bukkit.integration.region.WorldGuardIntegration;
 import com.github.stefvanschie.quickskript.bukkit.plugin.QuickSkript;
 import com.github.stefvanschie.quickskript.bukkit.event.ComplexEventProxyFactory;
 import com.github.stefvanschie.quickskript.bukkit.event.EventProxyFactory;
@@ -86,6 +88,19 @@ public class BukkitSkriptLoader extends SkriptLoader {
     @NotNull
     private final CommandMapWrapper commandMapWrapper = new CommandMapWrapper();
 
+    /**
+     * Creates a new Bukkit skript loader.
+     *
+     * @since 0.1.0
+     */
+    public BukkitSkriptLoader() {
+        RegionIntegration regionIntegration = QuickSkript.getInstance().getRegionIntegration();
+
+        if (regionIntegration != null) {
+            getRegionRegistry().addRegions(regionIntegration.getRegions());
+        }
+    }
+
     @Override
     public void registerDefaultElements() {
         //effects
@@ -164,6 +179,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiNumberLiteral.Factory());
         registerElement(new PsiPlayerLiteralImpl.Factory());
         registerElement(new PsiStatusEffectTypeLiteral.Factory());
+        registerElement(new PsiRegionLiteral.Factory());
 
         //expressions
         registerElement(new PsiAlphabeticalSortExpression.Factory());

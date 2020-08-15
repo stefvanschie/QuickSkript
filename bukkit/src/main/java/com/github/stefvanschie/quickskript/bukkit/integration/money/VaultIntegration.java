@@ -1,4 +1,4 @@
-package com.github.stefvanschie.quickskript.bukkit.integration;
+package com.github.stefvanschie.quickskript.bukkit.integration.money;
 
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;

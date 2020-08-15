@@ -1,6 +1,8 @@
 package com.github.stefvanschie.quickskript.bukkit.plugin;
 
-import com.github.stefvanschie.quickskript.bukkit.integration.VaultIntegration;
+import com.github.stefvanschie.quickskript.bukkit.integration.money.VaultIntegration;
+import com.github.stefvanschie.quickskript.bukkit.integration.region.RegionIntegration;
+import com.github.stefvanschie.quickskript.bukkit.integration.region.WorldGuardIntegration;
 import com.github.stefvanschie.quickskript.bukkit.skript.BukkitSkriptLoader;
 import com.github.stefvanschie.quickskript.bukkit.util.event.ExperienceOrbSpawnEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.QuickSkriptPostEnableEvent;
@@ -39,6 +41,11 @@ public class QuickSkript extends JavaPlugin {
      */
     private VaultIntegration vault;
 
+    /**
+     * Integration with world guard
+     */
+    private RegionIntegration regions;
+
     public static void main(String[] args) {
         new QuickSkript().onEnable(); //fake entry point for code analyzers
         throw new AssertionError("Plugins shouldn't be used as entry points!");
@@ -74,6 +81,12 @@ public class QuickSkript extends JavaPlugin {
             if (!vault.isEnabled()) {
                 vault = null;
             }
+        }
+
+        regions = new RegionIntegration();
+
+        if (!regions.hasRegionIntegration()) {
+            regions = null;
         }
 
         printIntegrations();
@@ -156,6 +169,10 @@ public class QuickSkript extends JavaPlugin {
         if (vault == null) {
             getLogger().warning("Vault has not been detected, certain functionality may be unavailable");
         }
+
+        if (regions == null) {
+            getLogger().warning("No region plugin has been detected, certain functionality may be unavailable");
+        }
     }
 
     /**
@@ -168,5 +185,17 @@ public class QuickSkript extends JavaPlugin {
     @Contract(pure = true)
     public VaultIntegration getVaultIntegration() {
         return vault;
+    }
+
+    /**
+     * Gets the integration with region plugins. This is null if no region plugin is available.
+     *
+     * @return region integration or null if no region plugin exists
+     * @since 0.1.0
+     */
+    @Nullable
+    @Contract(pure = true)
+    public RegionIntegration getRegionIntegration() {
+        return regions;
     }
 }
