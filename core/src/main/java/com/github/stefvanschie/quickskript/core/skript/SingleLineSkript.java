@@ -19,10 +19,11 @@ public class SingleLineSkript implements Skript {
     /**
      * Creates and attempts to parse a new single line Skript instance
      *
+     * @param skriptLoader the skript loader
      * @param input the Skript line to parse
      */
-    public SingleLineSkript(@NotNull String input) {
-        element = SkriptLoader.get().tryParseElement(input, 1);
+    public SingleLineSkript(@NotNull SkriptLoader skriptLoader, @NotNull String input) {
+        element = skriptLoader.tryParseElement(input, 1);
     }
 
     @NotNull

@@ -77,6 +77,7 @@ public class PsiDoIfEffect extends PsiElement<Void> {
         /**
          * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
          *
+         * @param skriptLoader the skript loader
          * @param input the input to match against
          * @param lineNumber the line number
          * @return the effect
@@ -85,7 +86,7 @@ public class PsiDoIfEffect extends PsiElement<Void> {
         @Nullable
         @Contract(pure = true)
         @Fallback
-        public PsiDoIfEffect parse(@NotNull String input, int lineNumber) {
+        public PsiDoIfEffect parse(@NotNull SkriptLoader skriptLoader, @NotNull String input, int lineNumber) {
             for (SkriptMatchResult result : pattern.match(input)) {
                 if (result.hasUnmatchedParts()) {
                     continue;
@@ -95,8 +96,6 @@ public class PsiDoIfEffect extends PsiElement<Void> {
                     .filter(entry -> entry.getX() instanceof RegexGroup)
                     .map(Pair::getY)
                     .toArray(String[]::new);
-
-                var skriptLoader = SkriptLoader.get();
 
                 PsiElement<?> expression = skriptLoader.tryParseElement(regexGroups[0], lineNumber);
                 PsiElement<?> condition = skriptLoader.tryParseElement(regexGroups[1], lineNumber);

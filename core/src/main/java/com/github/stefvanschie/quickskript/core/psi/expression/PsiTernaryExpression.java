@@ -106,7 +106,7 @@ public class PsiTernaryExpression extends PsiElement<Object> {
         @Nullable
         @Contract(pure = true)
         @Fallback
-        public PsiTernaryExpression parse(@NotNull String input, int lineNumber) {
+        public PsiTernaryExpression parse(@NotNull SkriptLoader skriptLoader, @NotNull String input, int lineNumber) {
             for (SkriptMatchResult match : pattern.match(input)) {
                 if (match.hasUnmatchedParts()) {
                     continue;
@@ -122,9 +122,9 @@ public class PsiTernaryExpression extends PsiElement<Object> {
                     .map(Pair::getY)
                     .toArray(String[]::new);
 
-                PsiElement<?> condition = SkriptLoader.get().tryParseElement(conditionString, lineNumber);
-                PsiElement<?> ifCode = SkriptLoader.get().tryParseElement(typeGroups[0], lineNumber);
-                PsiElement<?> elseCode = SkriptLoader.get().tryParseElement(typeGroups[1], lineNumber);
+                PsiElement<?> condition = skriptLoader.tryParseElement(conditionString, lineNumber);
+                PsiElement<?> ifCode = skriptLoader.tryParseElement(typeGroups[0], lineNumber);
+                PsiElement<?> elseCode = skriptLoader.tryParseElement(typeGroups[1], lineNumber);
 
                 if (condition == null || ifCode == null || elseCode == null) {
                     continue;

@@ -39,8 +39,6 @@ public class PsiMoneyLiteralImpl extends PsiMoneyLiteral {
         @Fallback
         @Override
         public PsiMoneyLiteral parse(@NotNull String text, int lineNumber) {
-            System.out.println("Parse");
-
             VaultIntegration vaultIntegration = QuickSkript.getInstance().getVaultIntegration();
 
             if (vaultIntegration == null) {

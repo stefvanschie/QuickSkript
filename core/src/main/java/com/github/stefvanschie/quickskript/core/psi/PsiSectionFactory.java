@@ -1,5 +1,6 @@
 package com.github.stefvanschie.quickskript.core.psi;
 
+import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,6 +17,7 @@ public interface PsiSectionFactory<T extends PsiSection> {
     /**
      * Tries to parse the given text for this specified factory.
      *
+     * @param skriptLoader the skript loader to parse with
      * @param text the text to be parsed
      * @param elementsSupplier the action which parses the contained elements on demand
      * @param lineNumber the line number of the element we're currently parsing
@@ -23,5 +25,6 @@ public interface PsiSectionFactory<T extends PsiSection> {
      * @since 0.1.0
      */
     @Nullable
-    T tryParse(@NotNull String text, @NotNull Supplier<PsiElement<?>[]> elementsSupplier, int lineNumber);
+    T tryParse(@NotNull SkriptLoader skriptLoader, @NotNull String text,
+        @NotNull Supplier<PsiElement<?>[]> elementsSupplier, int lineNumber);
 }

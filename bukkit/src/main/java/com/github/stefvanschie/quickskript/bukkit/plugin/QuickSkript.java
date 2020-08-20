@@ -8,6 +8,7 @@ import com.github.stefvanschie.quickskript.bukkit.util.event.ExperienceOrbSpawnE
 import com.github.stefvanschie.quickskript.bukkit.util.event.QuickSkriptPostEnableEvent;
 import com.github.stefvanschie.quickskript.core.file.skript.FileSkript;
 import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
+import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.skript.profiler.BasicSkriptProfiler;
 import com.github.stefvanschie.quickskript.core.skript.profiler.NoOpSkriptProfiler;
 import com.github.stefvanschie.quickskript.core.skript.profiler.SkriptProfiler;
@@ -16,6 +17,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -92,12 +94,10 @@ public class QuickSkript extends JavaPlugin {
         printIntegrations();
 
         var skriptLoader = new BukkitSkriptLoader();
-        loadScripts();
+        loadScripts(skriptLoader);
 
         if (getConfig().getBoolean("enable-execute-command")) {
-            ExecuteCommand.register();
-        } else {
-            skriptLoader.close();
+            ExecuteCommand.register(skriptLoader);
         }
 
         pluginManager.callEvent(new QuickSkriptPostEnableEvent());
@@ -106,9 +106,6 @@ public class QuickSkript extends JavaPlugin {
     @Override
     public void onDisable() {
         instance = null;
-
-        var skriptLoader = BukkitSkriptLoader.get();
-        if (skriptLoader != null) skriptLoader.close();
     }
 
     private void setProfilerImplementation() {
@@ -128,7 +125,13 @@ public class QuickSkript extends JavaPlugin {
         }
     }
 
-    private void loadScripts() {
+    /**
+     * Loads all available scripts
+     *
+     * @param skriptLoader the skript loader to parse with
+     * @since 0.1.0
+     */
+    private void loadScripts(@NotNull SkriptLoader skriptLoader) {
         File skriptFolder = new File(getDataFolder(), "skripts");
         if (!skriptFolder.exists() && !skriptFolder.mkdirs()) {
             getLogger().severe("Unable to create skripts folder.");
@@ -152,8 +155,8 @@ public class QuickSkript extends JavaPlugin {
 
         for (FileSkript skript : skripts) {
             try {
-                skript.registerCommands();
-                skript.registerEventExecutors();
+                skript.registerCommands(skriptLoader);
+                skript.registerEventExecutors(skriptLoader);
             } catch (ParseException e) {
                 getLogger().log(Level.SEVERE, "Error while parsing:" + e.getExtraInfo(skript), e);
             }

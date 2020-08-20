@@ -76,6 +76,7 @@ public class PsiProductFunction extends PsiElement<Double> {
         /**
          * This gets called upon parsing
          *
+         * @param skriptLoader the skript loader to parse with
          * @param text the text to parse
          * @param lineNumber the line number
          * @return the function, or null to indicate failure
@@ -84,7 +85,7 @@ public class PsiProductFunction extends PsiElement<Double> {
         @Nullable
         @Contract(pure = true)
         @Fallback
-        public PsiProductFunction tryParse(@NotNull String text, int lineNumber) {
+        public PsiProductFunction tryParse(@NotNull SkriptLoader skriptLoader, @NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches()) {
@@ -94,7 +95,7 @@ public class PsiProductFunction extends PsiElement<Double> {
             String[] values = matcher.group("parameters").replace(" ", "").split(",");
 
             if (values.length == 1) {
-                PsiElement<?> collection = SkriptLoader.get().tryParseElement(values[0], lineNumber);
+                PsiElement<?> collection = skriptLoader.tryParseElement(values[0], lineNumber);
 
                 if (collection != null) {
                     return create(collection, lineNumber);
@@ -102,13 +103,13 @@ public class PsiProductFunction extends PsiElement<Double> {
             }
 
             return create(new PsiCollection<>(Arrays.stream(values)
-                .map(string -> SkriptLoader.get().forceParseElement(string, lineNumber)), lineNumber), lineNumber);
+                .map(string -> skriptLoader.forceParseElement(string, lineNumber)), lineNumber), lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters. This should be overridden by impl, instead of the
+         * {@link #tryParse(SkriptLoader, String, int)} method.
          *
          * @param elements the elements to compute
          * @param lineNumber the line number

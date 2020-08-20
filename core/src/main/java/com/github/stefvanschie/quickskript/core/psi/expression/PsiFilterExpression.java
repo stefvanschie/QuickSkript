@@ -106,6 +106,7 @@ public class PsiFilterExpression extends PsiElement<Object> {
         /**
          * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
          *
+         * @param skriptLoader the skript loader to parse with
          * @param result the pattern match result
          * @param objects the objects to filter
          * @param lineNumber the line number
@@ -115,9 +116,9 @@ public class PsiFilterExpression extends PsiElement<Object> {
         @NotNull
         @Contract(pure = true)
         @Pattern("pattern")
-        public PsiFilterExpression parse(@NotNull SkriptMatchResult result, @NotNull PsiElement<?> objects,
-            int lineNumber) {
-            PsiElement<?> predicate = SkriptLoader.get().forceParseElement(result.getMatchedGroups().stream()
+        public PsiFilterExpression parse(@NotNull SkriptLoader skriptLoader, @NotNull SkriptMatchResult result,
+            @NotNull PsiElement<?> objects, int lineNumber) {
+            PsiElement<?> predicate = skriptLoader.forceParseElement(result.getMatchedGroups().stream()
                 .filter(entry -> entry.getX() instanceof RegexGroup)
                 .map(Pair::getY)
                 .findAny()

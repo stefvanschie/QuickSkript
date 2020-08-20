@@ -129,19 +129,19 @@ public class PsiIf extends PsiSection {
         @Nullable
         @Contract(pure = true)
         @Override
-        public PsiIf tryParse(@NotNull String text, @NotNull Supplier<PsiElement<?>[]> elementsSupplier,
-                              int lineNumber) {
+        public PsiIf tryParse(@NotNull SkriptLoader skriptLoader, @NotNull String text,
+            @NotNull Supplier<PsiElement<?>[]> elementsSupplier, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
             return matcher.matches()
-                    ? create(elementsSupplier.get(), SkriptLoader.get()
+                ? create(elementsSupplier.get(), skriptLoader
                     .forceParseElement(matcher.group("statement"), lineNumber), lineNumber)
-                    : null;
+                : null;
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
          * constructor parameters. This should be overridden by impl, instead of the
-         * {@link #tryParse(String, Supplier, int)} method.
+         * {@link #tryParse(SkriptLoader, String, Supplier, int)} method.
          *
          * @param elements the elements for the section
          * @param condition the condition

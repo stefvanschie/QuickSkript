@@ -78,6 +78,7 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
         /**
          * This gets called upon parsing
          *
+         * @param skriptLoader the skript loader to parse with
          * @param text the text to parse
          * @param lineNumber the line number
          * @return the function, or null to indicate failure
@@ -86,7 +87,7 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
         @Nullable
         @Contract(pure = true)
         @Fallback
-        public PsiLogarithmFunction tryParse(@NotNull String text, int lineNumber) {
+        public PsiLogarithmFunction tryParse(@NotNull SkriptLoader skriptLoader, @NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches()) {
@@ -99,12 +100,12 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
                 return null;
             }
 
-            PsiElement<?> value = SkriptLoader.get().forceParseElement(values[0], lineNumber);
+            PsiElement<?> value = skriptLoader.forceParseElement(values[0], lineNumber);
 
             PsiElement<?> base = null;
 
             if (values.length == 2) {
-                base = SkriptLoader.get().forceParseElement(values[1], lineNumber);
+                base = skriptLoader.forceParseElement(values[1], lineNumber);
             }
 
             return create(value, base, lineNumber);
@@ -112,8 +113,8 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters. This should be overridden by impl, instead of the
+         * {@link #tryParse(SkriptLoader, String, int)} method.
          *
          * @param value the value of the logarithm
          * @param base the base of the logarithm

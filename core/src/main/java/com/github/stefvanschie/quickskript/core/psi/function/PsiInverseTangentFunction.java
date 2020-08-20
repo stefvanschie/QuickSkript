@@ -64,6 +64,7 @@ public class PsiInverseTangentFunction extends PsiElement<Double> {
         /**
          * This gets called upon parsing
          *
+         * @param skriptLoader the skript loader
          * @param text the text to parse
          * @param lineNumber the line number
          * @return the function, or null to indicate failure
@@ -72,7 +73,8 @@ public class PsiInverseTangentFunction extends PsiElement<Double> {
         @Nullable
         @Contract(pure = true)
         @Fallback
-        public PsiInverseTangentFunction tryParse(@NotNull String text, int lineNumber) {
+        public PsiInverseTangentFunction tryParse(@NotNull SkriptLoader skriptLoader, @NotNull String text,
+            int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches()) {
@@ -80,15 +82,15 @@ public class PsiInverseTangentFunction extends PsiElement<Double> {
             }
 
             String expression = matcher.group("parameter");
-            PsiElement<?> element = SkriptLoader.get().forceParseElement(expression, lineNumber);
+            PsiElement<?> element = skriptLoader.forceParseElement(expression, lineNumber);
 
             return create(element, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters. This should be overridden by impl, instead of the
+         * {@link #tryParse(SkriptLoader, String, int)} method.
          *
          * @param element the element to compute
          * @param lineNumber the line number

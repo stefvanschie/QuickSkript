@@ -8,6 +8,7 @@ import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileSection;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.section.PsiBaseSection;
 import com.github.stefvanschie.quickskript.core.skript.Skript;
+import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -50,10 +51,11 @@ public class SkriptCommandExecutor implements CommandExecutor {
      * @param executionTarget the group which can execute this command
      * @since 0.1.0
      */
-    SkriptCommandExecutor(@NotNull Skript skript, @NotNull SkriptFileSection section, @Nullable ExecutionTarget executionTarget) {
+    SkriptCommandExecutor(@NotNull SkriptLoader skriptLoader, @NotNull Skript skript,
+        @NotNull SkriptFileSection section, @Nullable ExecutionTarget executionTarget) {
         this.skript = skript;
         this.executionTarget = executionTarget;
-        elements = new PsiBaseSection(skript, section, CommandContext.class);
+        elements = new PsiBaseSection(skriptLoader, skript, section, CommandContext.class);
     }
 
     @Override

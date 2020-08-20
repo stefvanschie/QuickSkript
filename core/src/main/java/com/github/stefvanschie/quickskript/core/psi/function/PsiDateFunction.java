@@ -99,6 +99,7 @@ public class PsiDateFunction extends PsiElement<LocalDateTime> {
         /**
          * This gets called upon parsing
          *
+         * @param skriptLoader the skript loader
          * @param text the text to parse
          * @param lineNumber the line number
          * @return the function, or null to indicate failure
@@ -107,7 +108,7 @@ public class PsiDateFunction extends PsiElement<LocalDateTime> {
         @Nullable
         @Contract(pure = true)
         @Fallback
-        public PsiDateFunction tryParse(@NotNull String text, int lineNumber) {
+        public PsiDateFunction tryParse(@NotNull SkriptLoader skriptLoader, @NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches()) {
@@ -123,7 +124,7 @@ public class PsiDateFunction extends PsiElement<LocalDateTime> {
             List<PsiElement<?>> elements = new ArrayList<>(Math.min(values.length, 7));
 
             for (int i = 0; i < values.length; i++) {
-                elements.add(i, SkriptLoader.get().forceParseElement(values[i], lineNumber));
+                elements.add(i, skriptLoader.forceParseElement(values[i], lineNumber));
             }
 
             return create(
@@ -140,8 +141,8 @@ public class PsiDateFunction extends PsiElement<LocalDateTime> {
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters. This should be overridden by impl, instead of the
+         * {@link #tryParse(SkriptLoader, String, int)} method.
          *
          * @param year the year of the date
          * @param month the month of the date

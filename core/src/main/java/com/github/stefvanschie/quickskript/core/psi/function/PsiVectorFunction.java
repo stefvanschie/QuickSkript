@@ -62,6 +62,7 @@ public class PsiVectorFunction extends PsiElement<Object> {
         /**
          * This gets called upon parsing
          *
+         * @param skriptLoader the skript loader
          * @param text the text to parse
          * @param lineNumber the line number
          * @return the function, or null to indicate failure
@@ -70,7 +71,7 @@ public class PsiVectorFunction extends PsiElement<Object> {
         @Nullable
         @Contract(pure = true)
         @Fallback
-        public PsiVectorFunction tryParse(@NotNull String text, int lineNumber) {
+        public PsiVectorFunction tryParse(@NotNull SkriptLoader skriptLoader, @NotNull String text, int lineNumber) {
             Matcher matcher = pattern.matcher(text);
 
             if (!matcher.matches()) {
@@ -82,8 +83,6 @@ public class PsiVectorFunction extends PsiElement<Object> {
             if (values.length != 3)
                 return null;
 
-            var skriptLoader = SkriptLoader.get();
-
             PsiElement<?> x = skriptLoader.forceParseElement(values[0], lineNumber);
             PsiElement<?> y = skriptLoader.forceParseElement(values[1], lineNumber);
             PsiElement<?> z = skriptLoader.forceParseElement(values[2], lineNumber);
@@ -93,8 +92,8 @@ public class PsiVectorFunction extends PsiElement<Object> {
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters. This should be overridden by impl, instead of the
+         * {@link #tryParse(SkriptLoader, String, int)} method.
          *
          * @param x the x component of the vector
          * @param y the y component of the vector

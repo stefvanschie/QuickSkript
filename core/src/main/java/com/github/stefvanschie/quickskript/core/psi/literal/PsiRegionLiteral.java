@@ -51,6 +51,8 @@ public class PsiRegionLiteral extends PsiPrecomputedHolder<Region> {
         /**
          * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
          *
+         * @param skriptLoader the skript loader to parse with
+         * @param result the pattern match result
          * @param lineNumber the line number
          * @return the expression
          * @since 0.1.0
@@ -58,13 +60,14 @@ public class PsiRegionLiteral extends PsiPrecomputedHolder<Region> {
         @Nullable
         @Contract(pure = true)
         @Pattern("pattern")
-        public PsiRegionLiteral parse(@NotNull SkriptMatchResult result, int lineNumber) {
+        public PsiRegionLiteral parse(@NotNull SkriptLoader skriptLoader, @NotNull SkriptMatchResult result,
+            int lineNumber) {
             for (Pair<SkriptPatternGroup, String> matchedGroup : result.getMatchedGroups()) {
                 if (!(matchedGroup.getX() instanceof RegexGroup)) {
                     continue;
                 }
 
-                RegionRegistry regionRegistry = SkriptLoader.get().getRegionRegistry();
+                RegionRegistry regionRegistry = skriptLoader.getRegionRegistry();
                 Collection<? extends Region> regions = regionRegistry.getRegions(matchedGroup.getY());
 
                 if (regions.size() == 0) {

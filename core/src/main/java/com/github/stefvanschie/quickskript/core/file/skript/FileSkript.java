@@ -152,44 +152,48 @@ public class FileSkript implements Skript {
     /**
      * Registers all events in this skript
      *
+     * @param skriptLoader the skript loader to parse with
      * @since 0.1.0
      */
-    public void registerEventExecutors() {
+    public void registerEventExecutors(@NotNull SkriptLoader skriptLoader) {
         getNodes().stream()
                 .filter(node -> node instanceof SkriptFileSection)
                 .map(node -> (SkriptFileSection) node)
-                .forEach(this::registerEvent);
+                .forEach(node -> registerEvent(skriptLoader, node));
     }
 
     /**
      * Registers all commands in this skript
      *
+     * @param skriptLoader the skript loader to parse with
      * @since 0.1.0
      */
-    public void registerCommands() {
+    public void registerCommands(@NotNull SkriptLoader skriptLoader) {
         getNodes().stream()
                 .filter(node -> node.getText().startsWith("command")
                         && node instanceof SkriptFileSection)
-                .forEach(node -> registerCommand((SkriptFileSection) node));
+                .forEach(node -> registerCommand(skriptLoader, (SkriptFileSection) node));
     }
 
     /**
      * Registers an individual command from the given section
      *
+     * @param skriptLoader the skript loader to parse with
      * @param section the command section which starts with 'command'
      * @since 0.1.0
      */
-    private void registerCommand(@NotNull SkriptFileSection section) {
-        SkriptLoader.get().tryRegisterCommand(this, section);
+    private void registerCommand(@NotNull SkriptLoader skriptLoader, @NotNull SkriptFileSection section) {
+        skriptLoader.tryRegisterCommand(this, section);
     }
 
     /**
      * Registers an individual event from the given section
      *
+     * @param skriptLoader the skript loader to parse with
      * @param section the command section which starts with 'on'
      * @since 0.1.0
      */
-    private void registerEvent(@NotNull SkriptFileSection section) {
-        SkriptLoader.get().tryRegisterEvent(this, section);
+    private void registerEvent(@NotNull SkriptLoader skriptLoader, @NotNull SkriptFileSection section) {
+        skriptLoader.tryRegisterEvent(this, section);
     }
 }

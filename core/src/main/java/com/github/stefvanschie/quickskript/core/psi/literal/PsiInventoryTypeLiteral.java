@@ -39,6 +39,7 @@ public class PsiInventoryTypeLiteral extends PsiPrecomputedHolder<InventoryTypeR
         /**
          * This gets called upon parsing
          *
+         * @param skriptLoader the skript loader
          * @param text the text to parse
          * @param lineNumber the line number
          * @return the literal, or null to indicate failure
@@ -47,8 +48,8 @@ public class PsiInventoryTypeLiteral extends PsiPrecomputedHolder<InventoryTypeR
         @Nullable
         @Contract(pure = true)
         @Fallback
-        public PsiInventoryTypeLiteral parse(@NotNull String text, int lineNumber) {
-            InventoryTypeRegistry inventoryTypeRegistry = SkriptLoader.get().getInventoryTypeRegistry();
+        public PsiInventoryTypeLiteral parse(@NotNull SkriptLoader skriptLoader, @NotNull String text, int lineNumber) {
+            InventoryTypeRegistry inventoryTypeRegistry = skriptLoader.getInventoryTypeRegistry();
             Optional<InventoryTypeRegistry.Entry> inventoryType = inventoryTypeRegistry.getEntries().stream()
                 .filter(entry -> entry.getName().equalsIgnoreCase(text))
                 .findAny();

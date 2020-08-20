@@ -20,6 +20,8 @@ import java.util.stream.Collectors;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TestClassBase {
 
+    protected SkriptLoader skriptLoader;
+
     @NotNull
     private static Collection<File> getSampleSkriptFiles() {
         URL resource = TestClassBase.class.getClassLoader().getResource("sample-skript-files");
@@ -43,11 +45,6 @@ public class TestClassBase {
 
     @BeforeAll
     void initialize() {
-        new StandaloneSkriptLoader();
-    }
-
-    @AfterAll
-    void deinitialize() {
-        SkriptLoader.get().close();
+        skriptLoader = new StandaloneSkriptLoader();
     }
 }

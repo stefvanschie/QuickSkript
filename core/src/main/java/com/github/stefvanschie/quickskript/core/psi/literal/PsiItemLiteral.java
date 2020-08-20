@@ -96,6 +96,7 @@ public class PsiItemLiteral extends PsiElement<Item> {
         /**
          * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
          *
+         * @param skriptLoader the skript loader
          * @param result the result of the pattern match
          * @param amount the amount of items or null if not specified
          * @param enchantment the enchantment on the item or null if not specified
@@ -106,14 +107,14 @@ public class PsiItemLiteral extends PsiElement<Item> {
         @Nullable
         @Contract(pure = true)
         @Pattern("pattern")
-        public PsiItemLiteral parse(@NotNull SkriptMatchResult result, @Nullable PsiElement<?> amount,
-            @Nullable PsiElement<?> enchantment, int lineNumber) {
+        public PsiItemLiteral parse(@NotNull SkriptLoader skriptLoader, @NotNull SkriptMatchResult result,
+            @Nullable PsiElement<?> amount, @Nullable PsiElement<?> enchantment, int lineNumber) {
             for (Pair<SkriptPatternGroup, String> pair : result.getMatchedGroups()) {
                 if (!(pair.getX() instanceof RegexGroup)) {
                     continue;
                 }
 
-                for (ItemTypeRegistry.Entry entry : SkriptLoader.get().getItemTypeRegistry().getEntries()) {
+                for (ItemTypeRegistry.Entry entry : skriptLoader.getItemTypeRegistry().getEntries()) {
                     for (SkriptMatchResult match : entry.getPattern().match(pair.getY())) {
                         if (match.hasUnmatchedParts()) {
                             continue;

@@ -57,15 +57,14 @@ public class SkriptFileSection extends SkriptFileNode {
      */
     @NotNull
     @Contract(pure = true)
-    public PsiElement<?>[] parseNodes() {
+    public PsiElement<?>[] parseNodes(@NotNull SkriptLoader skriptLoader) {
         Deque<PsiElement<?>> result = new ArrayDeque<>(nodes.size());
-        var loader = SkriptLoader.get();
 
         PsiIf latestValidIf = null;
 
         for (SkriptFileNode node : nodes) {
             if (!(node instanceof SkriptFileSection)) {
-                result.add(loader.forceParseElement(node.getText(), node.getLineNumber()));
+                result.add(skriptLoader.forceParseElement(node.getText(), node.getLineNumber()));
                 continue;
             }
 
@@ -80,8 +79,8 @@ public class SkriptFileSection extends SkriptFileNode {
                 text = node.getText().substring("else ".length());
             }
 
-            PsiSection section = loader.forceParseSection(text,
-                    ((SkriptFileSection) node)::parseNodes, node.getLineNumber());
+            PsiSection section = skriptLoader.forceParseSection(text,
+                () -> ((SkriptFileSection) node).parseNodes(skriptLoader), node.getLineNumber());
 
             if (elseSection) {
                 latestValidIf.setElseSection(section);

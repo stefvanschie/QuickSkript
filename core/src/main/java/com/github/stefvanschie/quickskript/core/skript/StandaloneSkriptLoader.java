@@ -277,7 +277,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
             throw new ParseException("Unable to find a trigger for the command", section.getLineNumber());
         }
 
-        PsiBaseSection baseSection = new PsiBaseSection(skript, trigger, CommandContext.class);
+        PsiBaseSection baseSection = new PsiBaseSection(this, skript, trigger, CommandContext.class);
 
         commands.put(command, baseSection);
     }
@@ -287,7 +287,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         String event = section.getText();
 
         if (registeredEvents.stream().anyMatch(pattern -> pattern.matcher(event).matches())) {
-            events.put(event, new PsiBaseSection(skript, section, EventContext.class));
+            events.put(event, new PsiBaseSection(this, skript, section, EventContext.class));
         }
     }
 }

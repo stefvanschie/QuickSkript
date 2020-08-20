@@ -556,7 +556,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
             return;
         }
 
-        command.setExecutor(new SkriptCommandExecutor(skript, trigger, target));
+        command.setExecutor(new SkriptCommandExecutor(this, skript, trigger, target));
 
         commandMapWrapper.register(command);
     }
@@ -568,7 +568,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         input = input.trim();
 
         for (EventProxyFactory factory : events) {
-            if (factory.tryRegister(input, () -> new SkriptEventExecutor(skript, section))) {
+            if (factory.tryRegister(input, () -> new SkriptEventExecutor(this, skript, section))) {
                 return;
             }
         }

@@ -98,6 +98,7 @@ public class PsiItemCategoryLiteral extends PsiElement<ItemCategory> {
         /**
          * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
          *
+         * @param skriptLoader the skript loader to parse with
          * @param result the result of matching the pattern
          * @param amount the amount of this category
          * @param enchantment the enchantment added to this category
@@ -108,8 +109,8 @@ public class PsiItemCategoryLiteral extends PsiElement<ItemCategory> {
         @Nullable
         @Contract(pure = true)
         @Pattern("pattern")
-        public PsiItemCategoryLiteral parse(@NotNull SkriptMatchResult result, @Nullable PsiElement<?> amount,
-            @Nullable PsiElement<?> enchantment, int lineNumber) {
+        public PsiItemCategoryLiteral parse(@NotNull SkriptLoader skriptLoader, @NotNull SkriptMatchResult result,
+            @Nullable PsiElement<?> amount, @Nullable PsiElement<?> enchantment, int lineNumber) {
             String pattern = null;
 
             for (Pair<SkriptPatternGroup, String> matchedGroup : result.getMatchedGroups()) {
@@ -127,7 +128,7 @@ public class PsiItemCategoryLiteral extends PsiElement<ItemCategory> {
 
             var itemTypes = new HashSet<ItemTypeRegistry.Entry>();
 
-            for (ItemTypeRegistry.Entry entry : SkriptLoader.get().getItemTypeRegistry().getEntries()) {
+            for (ItemTypeRegistry.Entry entry : skriptLoader.getItemTypeRegistry().getEntries()) {
                 outer:
                 for (SkriptPattern category : entry.getCategories()) {
                     List<SkriptMatchResult> matches = category.match(pattern);

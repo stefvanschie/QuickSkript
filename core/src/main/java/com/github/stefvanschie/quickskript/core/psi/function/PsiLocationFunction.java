@@ -71,6 +71,7 @@ public class PsiLocationFunction extends PsiElement<Object> {
         /**
          * This gets called upon parsing
          *
+         * @param skriptLoader the skript loader to parse with
          * @param text the text to parse
          * @param lineNumber the line number
          * @return the function, or null to indicate failure
@@ -79,7 +80,7 @@ public class PsiLocationFunction extends PsiElement<Object> {
         @Nullable
         @Contract(pure = true)
         @Fallback
-        public PsiLocationFunction tryParse(@NotNull String text, int lineNumber) {
+        public PsiLocationFunction tryParse(@NotNull SkriptLoader skriptLoader, @NotNull String text, int lineNumber) {
             if (!text.startsWith("location(") || text.charAt(text.length() - 1) != ')') {
                 return null;
             }
@@ -90,12 +91,12 @@ public class PsiLocationFunction extends PsiElement<Object> {
                 return null;
             }
 
-            PsiElement<?> world = SkriptLoader.get().forceParseElement(values[0], lineNumber);
+            PsiElement<?> world = skriptLoader.forceParseElement(values[0], lineNumber);
 
             List<PsiElement<?>> elements = new ArrayList<>(Math.min(values.length, 5));
 
             for (int i = 1; i < values.length; i++) {
-                elements.add(i - 1, SkriptLoader.get().forceParseElement(values[i], lineNumber));
+                elements.add(i - 1, skriptLoader.forceParseElement(values[i], lineNumber));
             }
 
             return create(
@@ -111,8 +112,8 @@ public class PsiLocationFunction extends PsiElement<Object> {
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters. This should be overridden by impl, instead of the
+         * {@link #tryParse(SkriptLoader, String, int)} method.
          *
          * @param world the world of the location
          * @param x the x coordinate of the location

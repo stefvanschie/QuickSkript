@@ -37,25 +37,7 @@ import java.util.function.Supplier;
  *
  * @since 0.1.0
  */
-public abstract class SkriptLoader implements Closeable {
-
-    /**
-     * The current loader instance or null if there is none present.
-     */
-    @Nullable
-    private static SkriptLoader instance;
-
-    /**
-     * Gets the current loader instance. Returns null if there is none present.
-     *
-     * @return the current instance
-     * @since 0.1.0
-     */
-    @Contract(pure = true)
-    public static SkriptLoader get() {
-        return instance;
-    }
-
+public abstract class SkriptLoader {
 
     /**
      * A list of all psi element factories.
@@ -113,10 +95,6 @@ public abstract class SkriptLoader implements Closeable {
      * @since 0.1.0
      */
     protected SkriptLoader() {
-        if (instance != null) {
-            throw new IllegalStateException("A SkriptLoader is already present, can't create another one.");
-        }
-
         CompletableFuture.allOf(CompletableFuture.runAsync(() -> {
             biomeRegistry = new BiomeRegistry();
             entityTypeRegistry = new EntityTypeRegistry();
@@ -130,8 +108,6 @@ public abstract class SkriptLoader implements Closeable {
         }), CompletableFuture.runAsync(() ->
             itemTypeRegistry = new ItemTypeRegistry()
         )).join();
-
-        instance = this;
     }
 
 
@@ -318,24 +294,22 @@ public abstract class SkriptLoader implements Closeable {
 
                             method.setAccessible(true);
 
-                            Object[] parameters;
+                            Class<?>[] parameterTypes = method.getParameterTypes();
+                            List<Object> parameters = new ArrayList<>(Arrays.asList(elements));
 
+                            //allow an optional SkriptLoader in front
+                            if (parameterTypes[parameters.size() - elements.length] == SkriptLoader.class) {
+                                parameters.add(parameters.size() - elements.length, this);
+                            }
                             //allow an optional SkriptMatchResult in front
-                            if (method.getParameterTypes()[0] == SkriptMatchResult.class) {
-                                parameters = new Object[elements.length + 2];
-
-                                parameters[0] = result;
-
-                                System.arraycopy(elements, 0, parameters, 1, parameters.length - 2);
-                            } else {
-                                parameters = new Object[elements.length + 1];
-
-                                System.arraycopy(elements, 0, parameters, 0, parameters.length - 1);
+                            if (parameterTypes[parameters.size() - elements.length] == SkriptMatchResult.class) {
+                                parameters.add(parameters.size() - elements.length, result);
                             }
 
-                            parameters[parameters.length - 1] = lineNumber;
+                            parameters.add(lineNumber);
 
-                            PsiElement<?> element = (PsiElement<?>) method.invoke(factory, parameters);
+                            Object[] parameterArray = parameters.toArray(Object[]::new);
+                            PsiElement<?> element = (PsiElement<?>) method.invoke(factory, parameterArray);
 
                             if (element == null) {
                                 continue;
@@ -375,7 +349,16 @@ public abstract class SkriptLoader implements Closeable {
                 //will only loop once
                 for (Method method : fallbackMethods) {
                     try {
-                        Object result = method.invoke(factory, input, lineNumber);
+                        List<Object> parameters = new ArrayList<>();
+
+                        if (method.getParameterTypes()[0] == SkriptLoader.class) {
+                            parameters.add(this);
+                        }
+
+                        parameters.add(input);
+                        parameters.add(lineNumber);
+
+                        Object result = method.invoke(factory, parameters.toArray(Object[]::new));
 
                         if (result != null) {
                             return (PsiElement<?>) result;
@@ -427,7 +410,7 @@ public abstract class SkriptLoader implements Closeable {
     public PsiSection forceParseSection(@NotNull String input,
                                         @NotNull Supplier<PsiElement<?>[]> elementsSupplier, int lineNumber) {
         for (PsiSectionFactory<?> factory : sections) {
-            PsiSection result = factory.tryParse(input, elementsSupplier, lineNumber);
+            PsiSection result = factory.tryParse(this, input, elementsSupplier, lineNumber);
 
             if (result != null) {
                 return result;
@@ -506,21 +489,6 @@ public abstract class SkriptLoader implements Closeable {
         if (converters.put(name, converter) != null) {
             throw new IllegalArgumentException("A PsiConverter with the same name has already been registered.");
         }
-    }
-
-    /**
-     * Deletes the current loader instance.
-     * Normally should only be called if you are the one who created it.
-     *
-     * @since 0.1.0
-     */
-    @Override
-    public void close() {
-        if (instance == null) {
-            throw new IllegalStateException("No SkriptLoader is present, can't close it.");
-        }
-
-        instance = null;
     }
 
     /**

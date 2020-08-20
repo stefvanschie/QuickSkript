@@ -21,8 +21,8 @@ class SkriptFileParseTest extends TestClassBase {
     void test() {
         for (FileSkript skript : getSampleSkripts()) {
             try {
-                skript.registerCommands();
-                skript.registerEventExecutors();
+                skript.registerCommands(skriptLoader);
+                skript.registerEventExecutors(skriptLoader);
                 System.out.println("Successfully parsed: " + skript.getName());
             } catch (ParseException e) {
                 throw new AssertionError("Error while parsing:" + e.getExtraInfo(skript), e);

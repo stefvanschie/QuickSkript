@@ -42,6 +42,7 @@ public class PsiBiomeLiteral extends PsiPrecomputedHolder<BiomeRegistry.Entry> {
         /**
          * This gets called upon parsing
          *
+         * @param skriptLoader the skript loader to parse with
          * @param text the text to parse
          * @param lineNumber the line number
          * @return the literal, or null to indicate failure
@@ -50,8 +51,8 @@ public class PsiBiomeLiteral extends PsiPrecomputedHolder<BiomeRegistry.Entry> {
         @Nullable
         @Contract(pure = true)
         @Fallback
-        public PsiBiomeLiteral tryParse(@NotNull String text, int lineNumber) {
-            BiomeRegistry.Entry biome = SkriptLoader.get().getBiomeRegistry().getEntries().stream()
+        public PsiBiomeLiteral tryParse(@NotNull SkriptLoader skriptLoader, @NotNull String text, int lineNumber) {
+            BiomeRegistry.Entry biome = skriptLoader.getBiomeRegistry().getEntries().stream()
                 .filter(entry -> entry.getName().equalsIgnoreCase(text))
                 .findAny()
                 .orElse(null);
@@ -65,8 +66,8 @@ public class PsiBiomeLiteral extends PsiPrecomputedHolder<BiomeRegistry.Entry> {
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
-         * constructor parameters. This should be overridden by impl, instead of the {@link #tryParse(String, int)}
-         * method.
+         * constructor parameters. This should be overridden by impl, instead of the
+         * {@link #tryParse(SkriptLoader, String, int)} method.
          *
          * @param biome the value of the literal
          * @param lineNumber the line number

@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.bukkit.plugin;
 import com.github.stefvanschie.quickskript.bukkit.context.ExecuteContextImpl;
 import com.github.stefvanschie.quickskript.bukkit.util.CommandMapWrapper;
 import com.github.stefvanschie.quickskript.core.skript.SingleLineSkript;
+import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -19,18 +20,30 @@ import org.jetbrains.annotations.NotNull;
  */
 public class ExecuteCommand implements CommandExecutor {
 
-    private ExecuteCommand() {
+    /**
+     * The skript loader
+     */
+    private SkriptLoader skriptLoader;
+
+    /**
+     * Creates a new execute command
+     *
+     * @param skriptLoader the associated skript loader
+     * @since 0.1.0
+     */
+    private ExecuteCommand(@NotNull SkriptLoader skriptLoader) {
+        this.skriptLoader = skriptLoader;
     }
 
     /**
      * Registers this {@link CommandExecutor} into Bukkit's command system.
      */
-    public static void register() {
+    public static void register(@NotNull SkriptLoader skriptLoader) {
         var wrapper = new CommandMapWrapper();
         PluginCommand command = wrapper.create("skexec");
         command.setPermission("quickskript.exec");
         command.setDescription("Allows the execution of single line Skripts from the chat.");
-        command.setExecutor(new ExecuteCommand());
+        command.setExecutor(new ExecuteCommand(skriptLoader));
         wrapper.register(command);
     }
 
@@ -40,7 +53,7 @@ public class ExecuteCommand implements CommandExecutor {
         String input = StringUtils.join(args, ' ');
 
         long startTime = System.nanoTime();
-        var skript = new SingleLineSkript(input);
+        var skript = new SingleLineSkript(skriptLoader, input);
         Object result = skript.getParsedElement() == null
                 ? null
                 : skript.execute(new ExecuteContextImpl(skript, sender));
