@@ -151,7 +151,7 @@ public abstract class SkriptLoader {
                     } while (searching != null);
 
                     if (field == null) {
-                        continue;
+                        throw new IllegalStateException("Unable to find field '" + pattern.value() + "' associated with Pattern annotation");
                     }
 
                     field.setAccessible(true);
