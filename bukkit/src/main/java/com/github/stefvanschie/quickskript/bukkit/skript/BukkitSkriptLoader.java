@@ -185,6 +185,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiStatusEffectTypeLiteral.Factory());
         registerElement(new PsiTeleportCauseLiteral.Factory());
         registerElement(new PsiTimeLiteral.Factory());
+        registerElement(new PsiTimePeriodLiteral.Factory());
 
         //expressions
         registerElement(new PsiAlphabeticalSortExpression.Factory());
