@@ -127,7 +127,7 @@ public class LiteralGroup implements SkriptPatternGroup {
                 builder.deleteCharAt(escapeIndex);
             }
 
-            escapeIndex = builder.indexOf("\\", escapeIndex);
+            escapeIndex = builder.indexOf("\\", escapeIndex + 1);
         }
 
         builder.append(input.substring(index));
