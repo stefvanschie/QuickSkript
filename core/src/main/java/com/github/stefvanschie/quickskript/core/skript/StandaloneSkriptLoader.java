@@ -127,6 +127,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiTeleportCauseLiteral.Factory());
         registerElement(new PsiTimeLiteral.Factory());
         registerElement(new PsiTimePeriodLiteral.Factory());
+        registerElement(new PsiTimeSpanLiteral.Factory());
 
         //expressions
         registerElement(new PsiAlphabeticalSortExpression.Factory());

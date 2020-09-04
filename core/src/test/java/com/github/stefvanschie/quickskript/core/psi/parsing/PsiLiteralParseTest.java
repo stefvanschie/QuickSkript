@@ -4,7 +4,6 @@ import com.github.stefvanschie.quickskript.core.psi.TestClassBase;
 import com.github.stefvanschie.quickskript.core.psi.literal.PsiNumberLiteral;
 import com.github.stefvanschie.quickskript.core.psi.literal.PsiStringLiteral;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
