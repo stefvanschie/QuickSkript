@@ -1,9 +1,9 @@
 package com.github.stefvanschie.quickskript.core.psi.parsing;
 
+import com.github.stefvanschie.quickskript.core.TestClassBase;
 import com.github.stefvanschie.quickskript.core.file.skript.FileSkript;
 import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileNode;
 import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileSection;
-import com.github.stefvanschie.quickskript.core.psi.TestClassBase;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,10 +18,7 @@ class SkriptFileIndentationTest extends TestClassBase {
 
     @Test
     void test() throws NoSuchFieldException, IllegalAccessException {
-        FileSkript skript = getSampleSkripts().stream()
-            .filter(sk -> sk.getName().equals("Dynamic-indentation"))
-            .findAny()
-            .orElseThrow();
+        FileSkript skript = getSkriptResource("Dynamic-indentation");
 
         Field sectionField = FileSkript.class.getDeclaredField("section");
         sectionField.setAccessible(true);

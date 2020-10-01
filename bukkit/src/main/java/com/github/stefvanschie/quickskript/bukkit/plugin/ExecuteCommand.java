@@ -37,6 +37,8 @@ public class ExecuteCommand implements CommandExecutor {
 
     /**
      * Registers this {@link CommandExecutor} into Bukkit's command system.
+     *
+     * @param skriptLoader the skript loader to parse with
      */
     public static void register(@NotNull SkriptLoader skriptLoader) {
         var wrapper = new CommandMapWrapper();

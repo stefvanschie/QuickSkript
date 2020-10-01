@@ -1,7 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.execution;
 
+import com.github.stefvanschie.quickskript.core.TestClassBase;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
-import com.github.stefvanschie.quickskript.core.psi.TestClassBase;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiRandomNumberExpression;
 import com.github.stefvanschie.quickskript.core.psi.function.*;

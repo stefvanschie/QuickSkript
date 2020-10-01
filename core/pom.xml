@@ -13,7 +13,7 @@
 
     <name>QuickSkript-core</name>
     <artifactId>core</artifactId>
-    <version>${parent.version}</version>
+    <version>${project.parent.version}</version>
     <url>https://github.com/stefvanschie/QuickSkript</url>
 
     <properties>
@@ -32,6 +32,12 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.5.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
             <version>5.5.2</version>
             <scope>test</scope>
         </dependency>
@@ -62,6 +68,13 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M3</version>
+                <configuration>
+                    <properties>
+                        <configurationParameters>
+                            junit.jupiter.execution.parallel.enabled=true
+                        </configurationParameters>
+                    </properties>
+                </configuration>
             </plugin>
 
             <plugin>
