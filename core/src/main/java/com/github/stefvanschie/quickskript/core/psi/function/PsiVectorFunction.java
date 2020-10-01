@@ -41,7 +41,7 @@ public class PsiVectorFunction extends PsiElement<Object> {
         this.z = z;
 
         if (this.x.isPreComputed() && this.y.isPreComputed() && this.z.isPreComputed()) {
-            preComputed = executeImpl(null);
+            preComputed = executeImpl(null, null);
             this.x = this.y = this.z = null;
         }
     }

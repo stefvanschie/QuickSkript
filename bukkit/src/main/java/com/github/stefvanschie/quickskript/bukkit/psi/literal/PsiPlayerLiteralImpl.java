@@ -2,6 +2,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.literal;
 
 import com.github.stefvanschie.quickskript.bukkit.context.ContextImpl;
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.literal.PsiPlayerLiteral;
 import org.bukkit.command.CommandSender;
@@ -22,7 +23,7 @@ public class PsiPlayerLiteralImpl extends PsiPlayerLiteral {
 
     @NotNull
     @Override
-    protected Player executeImpl(@Nullable Context context) {
+    protected Player executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         if (context == null) {
             throw new ExecutionException("Cannot find a player without a context", lineNumber);
         }

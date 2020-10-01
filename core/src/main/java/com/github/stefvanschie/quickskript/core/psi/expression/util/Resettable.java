@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.expression.util;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -16,7 +17,7 @@ public interface Resettable {
      * @param context the context this code is being executed in, or null during pre computation
      * @since 0.1.0
      */
-    default void reset(@Nullable Context context) {
+    default void reset(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         throw new UnsupportedOperationException("Cannot change expression without implementation.");
     }
 }

@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.skript;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -51,7 +52,7 @@ public class SingleLineSkript implements Skript {
      * @return the result of the execution or null if the parsing failed
      */
     @Nullable
-    public Object execute(@NotNull Context context) {
-        return element == null ? null : element.execute(context);
+    public Object execute(@NotNull SkriptRunEnvironment environment, @NotNull Context context) {
+        return element == null ? null : element.execute(environment, context);
     }
 }

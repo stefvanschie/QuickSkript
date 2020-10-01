@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.effect;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiFeedEffect;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -28,15 +29,15 @@ public class PsiFeedEffectImpl extends PsiFeedEffect {
 
     @Nullable
     @Override
-    protected Void executeImpl(@Nullable Context context) {
-        Player player = this.player.execute(context, Player.class);
+    protected Void executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        Player player = this.player.execute(environment, context, Player.class);
 
         if (amount == null) {
             player.setFoodLevel(20);
             return null;
         }
 
-        Number amount = this.amount.execute(context, Number.class);
+        Number amount = this.amount.execute(environment, context, Number.class);
 
         player.setFoodLevel(player.getFoodLevel() + (int) amount.doubleValue());
         return null;

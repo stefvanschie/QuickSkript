@@ -5,6 +5,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiFoodLevelExpression;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Contract;
@@ -33,37 +34,37 @@ public class PsiFoodLevelExpressionImpl extends PsiFoodLevelExpression {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Double executeImpl(@Nullable Context context) {
-        return forceGetPlayer(context).getFoodLevel() / 2.0;
+    protected Double executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return forceGetPlayer(environment, context).getFoodLevel() / 2.0;
     }
 
     @Override
-    public void add(@Nullable Context context, @NotNull PsiElement<?> object) {
-        Player player = forceGetPlayer(context);
+    public void add(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        Player player = forceGetPlayer(environment, context);
 
-        player.setFoodLevel(player.getFoodLevel() + (int) (object.execute(context, Number.class).doubleValue() * 2));
+        player.setFoodLevel(player.getFoodLevel() + (int) (object.execute(environment, context, Number.class).doubleValue() * 2));
     }
 
     @Override
-    public void delete(@Nullable Context context) {
-        forceGetPlayer(context).setFoodLevel(0);
+    public void delete(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        forceGetPlayer(environment, context).setFoodLevel(0);
     }
 
     @Override
-    public void remove(@Nullable Context context, @NotNull PsiElement<?> object) {
-        Player player = forceGetPlayer(context);
+    public void remove(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        Player player = forceGetPlayer(environment, context);
 
-        player.setFoodLevel(player.getFoodLevel() - (int) (object.execute(context, Number.class).doubleValue() * 2));
+        player.setFoodLevel(player.getFoodLevel() - (int) (object.execute(environment, context, Number.class).doubleValue() * 2));
     }
 
     @Override
-    public void reset(@Nullable Context context) {
-        forceGetPlayer(context).setFoodLevel(20);
+    public void reset(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        forceGetPlayer(environment, context).setFoodLevel(20);
     }
 
     @Override
-    public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
-        forceGetPlayer(context).setFoodLevel((int) (object.execute(context, Number.class).doubleValue() * 2));
+    public void set(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        forceGetPlayer(environment, context).setFoodLevel((int) (object.execute(environment, context, Number.class).doubleValue() * 2));
     }
 
     /**
@@ -76,7 +77,7 @@ public class PsiFoodLevelExpressionImpl extends PsiFoodLevelExpression {
      */
     @NotNull
     @Contract(pure = true)
-    private Player forceGetPlayer(@Nullable Context context) {
+    private Player forceGetPlayer(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         Player player = null;
 
         if (this.player == null && context != null) {
@@ -86,7 +87,7 @@ public class PsiFoodLevelExpressionImpl extends PsiFoodLevelExpression {
                 player = (Player) commandSender;
             }
         } else if (this.player != null) {
-            player = this.player.execute(context, Player.class);
+            player = this.player.execute(environment, context, Player.class);
         }
 
         if (player == null) {

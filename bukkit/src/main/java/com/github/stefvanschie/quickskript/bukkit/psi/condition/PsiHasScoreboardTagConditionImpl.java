@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.condition;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.condition.PsiHasScoreboardTagCondition;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.Contract;
@@ -34,10 +35,10 @@ public class PsiHasScoreboardTagConditionImpl extends PsiHasScoreboardTagConditi
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Boolean executeImpl(@Nullable Context context) {
-        Entity entity = this.entity.execute(context, Entity.class);
+    protected Boolean executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        Entity entity = this.entity.execute(environment, context, Entity.class);
 
-        return positive == entity.getScoreboardTags().contains(tag.execute(context, Text.class).toString());
+        return positive == entity.getScoreboardTags().contains(tag.execute(environment, context, Text.class).toString());
     }
 
     /**

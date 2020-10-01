@@ -2,7 +2,6 @@ package com.github.stefvanschie.quickskript.core.skript.profiler;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.Skript;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,32 +15,6 @@ import java.util.Objects;
  * @since 0.1.0
  */
 public abstract class SkriptProfiler<T> {
-
-    /**
-     * A {@link SkriptProfiler} to be used by all skripts
-     */
-    @NotNull
-    private static SkriptProfiler<?> active = new NoOpSkriptProfiler();
-
-    /**
-     * Gets the current profiler instance.
-     *
-     * @return the profiler instance that is to be used
-     */
-    @NotNull
-    @Contract(pure = true)
-    public static SkriptProfiler<?> getActive() {
-        return active;
-    }
-
-    /**
-     * Sets the current profiler instance.
-     *
-     * @param active the new profiler instance
-     */
-    public static void setActive(@NotNull SkriptProfiler<?> active) {
-        SkriptProfiler.active = active;
-    }
 
     /**
      * Called whenever the code inside an entry point was (successfully) executed.

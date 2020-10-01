@@ -9,6 +9,7 @@ import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException
 import com.github.stefvanschie.quickskript.core.psi.section.PsiBaseSection;
 import com.github.stefvanschie.quickskript.core.skript.Skript;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -31,6 +32,12 @@ public class SkriptCommandExecutor implements CommandExecutor {
     private final Skript skript;
 
     /**
+     * The run environment this executor operates in
+     */
+    @NotNull
+    private final SkriptRunEnvironment environment;
+
+    /**
      * The elements that should get executed
      */
     @NotNull
@@ -47,13 +54,15 @@ public class SkriptCommandExecutor implements CommandExecutor {
      * part in a skript file.
      *
      * @param skript the source of this command executor code
+     * @param environment the environment this executor operates in
      * @param section the file section to load the elements from
      * @param executionTarget the group which can execute this command
      * @since 0.1.0
      */
-    SkriptCommandExecutor(@NotNull SkriptLoader skriptLoader, @NotNull Skript skript,
-        @NotNull SkriptFileSection section, @Nullable ExecutionTarget executionTarget) {
+    SkriptCommandExecutor(@NotNull SkriptLoader skriptLoader, @NotNull SkriptRunEnvironment environment,
+            @NotNull Skript skript, @NotNull SkriptFileSection section, @Nullable ExecutionTarget executionTarget) {
         this.skript = skript;
+        this.environment = environment;
         this.executionTarget = executionTarget;
         elements = new PsiBaseSection(skriptLoader, skript, section, CommandContext.class);
     }
@@ -65,7 +74,7 @@ public class SkriptCommandExecutor implements CommandExecutor {
         }
 
         try {
-            elements.execute(new CommandContextImpl(skript, sender));
+            elements.execute(environment, new CommandContextImpl(skript, sender));
         } catch (ExecutionException e) {
             QuickSkript.getInstance().getLogger().log(Level.SEVERE, "Error while executing skript:" +
                     e.getExtraInfo(skript), e);

@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.expression;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiFlyModeExpression;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -30,18 +31,18 @@ public class PsiFlyModeExpressionImpl extends PsiFlyModeExpression {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Boolean executeImpl(@Nullable Context context) {
-        return player.execute(context, Player.class).getAllowFlight();
+    protected Boolean executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return player.execute(environment, context, Player.class).getAllowFlight();
     }
 
     @Override
-    public void reset(@Nullable Context context) {
-        player.execute(context, Player.class).setAllowFlight(false);
+    public void reset(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        player.execute(environment, context, Player.class).setAllowFlight(false);
     }
 
     @Override
-    public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
-        player.execute(context, Player.class).setAllowFlight(object.execute(context, Boolean.class));
+    public void set(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        player.execute(environment, context, Player.class).setAllowFlight(object.execute(environment, context, Boolean.class));
     }
 
     /**

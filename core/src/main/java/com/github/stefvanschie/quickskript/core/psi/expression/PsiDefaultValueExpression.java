@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
@@ -40,7 +41,7 @@ public class PsiDefaultValueExpression extends PsiElement<Object> {
         this.defaultValue = defaultValue;
 
         if (this.value.isPreComputed() && this.defaultValue.isPreComputed()) {
-            preComputed = executeImpl(null);
+            preComputed = executeImpl(null, null);
 
             this.value = null;
             this.defaultValue = null;
@@ -50,11 +51,11 @@ public class PsiDefaultValueExpression extends PsiElement<Object> {
     @Nullable
     @Contract(pure = true)
     @Override
-    protected Object executeImpl(@Nullable Context context) {
-        Object value = this.value.execute(context);
+    protected Object executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        Object value = this.value.execute(environment, context);
 
         if (value == null) {
-            return defaultValue.execute(context);
+            return defaultValue.execute(environment, context);
         }
 
         return value;

@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.bukkit.context.ExecuteContextImpl;
 import com.github.stefvanschie.quickskript.bukkit.util.CommandMapWrapper;
 import com.github.stefvanschie.quickskript.core.skript.SingleLineSkript;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -23,27 +24,36 @@ public class ExecuteCommand implements CommandExecutor {
     /**
      * The skript loader
      */
-    private SkriptLoader skriptLoader;
+    private final SkriptLoader skriptLoader;
+
+    /**
+     * The skript run environment
+     */
+    private final SkriptRunEnvironment environment;
 
     /**
      * Creates a new execute command
      *
      * @param skriptLoader the associated skript loader
+     * @param environment the associated run environment
      * @since 0.1.0
      */
-    private ExecuteCommand(@NotNull SkriptLoader skriptLoader) {
+    private ExecuteCommand(@NotNull SkriptLoader skriptLoader,
+            @NotNull SkriptRunEnvironment environment) {
         this.skriptLoader = skriptLoader;
+        this.environment = environment;
     }
 
     /**
      * Registers this {@link CommandExecutor} into Bukkit's command system.
      */
-    public static void register(@NotNull SkriptLoader skriptLoader) {
+    public static void register(@NotNull SkriptLoader skriptLoader,
+            @NotNull SkriptRunEnvironment environment) {
         var wrapper = new CommandMapWrapper();
         PluginCommand command = wrapper.create("skexec");
         command.setPermission("quickskript.exec");
         command.setDescription("Allows the execution of single line Skripts from the chat.");
-        command.setExecutor(new ExecuteCommand(skriptLoader));
+        command.setExecutor(new ExecuteCommand(skriptLoader, environment));
         wrapper.register(command);
     }
 
@@ -56,7 +66,7 @@ public class ExecuteCommand implements CommandExecutor {
         var skript = new SingleLineSkript(skriptLoader, input);
         Object result = skript.getParsedElement() == null
                 ? null
-                : skript.execute(new ExecuteContextImpl(skript, sender));
+                : skript.execute(environment, new ExecuteContextImpl(skript, sender));
         long deltaMillis = (System.nanoTime() - startTime) / 1000000;
 
         String output = ChatColor.YELLOW + "Output: " + (skript.getParsedElement() == null

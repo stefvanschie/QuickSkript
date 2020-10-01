@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.expression;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiGlowingExpression;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -24,18 +25,18 @@ public class PsiGlowingExpressionImpl extends PsiGlowingExpression {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Boolean executeImpl(@Nullable Context context) {
-        return entity.execute(context, Entity.class).isGlowing();
+    protected Boolean executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return entity.execute(environment, context, Entity.class).isGlowing();
     }
 
     @Override
-    public void reset(@Nullable Context context) {
-        entity.execute(context, Entity.class).setGlowing(false);
+    public void reset(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        entity.execute(environment, context, Entity.class).setGlowing(false);
     }
 
     @Override
-    public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
-        entity.execute(context, Entity.class).setGlowing(object.execute(context, Boolean.class));
+    public void set(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        entity.execute(environment, context, Entity.class).setGlowing(object.execute(environment, context, Boolean.class));
     }
 
     /**

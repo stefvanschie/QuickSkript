@@ -1,10 +1,8 @@
 package com.github.stefvanschie.quickskript.core.file.alias;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
 import java.util.List;
 
 /**

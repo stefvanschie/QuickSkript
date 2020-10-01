@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
@@ -44,7 +45,7 @@ public class PsiFormatDateTimeExpression extends PsiElement<String> {
         this.format = format;
 
         if (this.dateTime.isPreComputed() && (this.format == null || this.format.isPreComputed())) {
-            preComputed = executeImpl(null);
+            preComputed = executeImpl(null, null);
 
             this.dateTime = null;
             this.format = null;
@@ -53,12 +54,12 @@ public class PsiFormatDateTimeExpression extends PsiElement<String> {
 
     @Nullable
     @Override
-    protected String executeImpl(@Nullable Context context) {
-        String pattern = this.format == null ? "yyyy-MM-dd HH:mm:ss z" : format.execute(context, String.class);
+    protected String executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        String pattern = this.format == null ? "yyyy-MM-dd HH:mm:ss z" : format.execute(environment, context, String.class);
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(pattern).withZone(ZoneId.systemDefault());
 
-        return dateTime.execute(context, LocalDateTime.class).format(dateTimeFormatter);
+        return dateTime.execute(environment, context, LocalDateTime.class).format(dateTimeFormatter);
     }
 
     /**

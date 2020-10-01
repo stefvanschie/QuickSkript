@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.bukkit.plugin.QuickSkript;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiPlayerVisibilityEffect;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Contract;
@@ -36,12 +37,12 @@ public class PsiPlayerVisibilityEffectImpl extends PsiPlayerVisibilityEffect {
 
     @Nullable
     @Override
-    protected Void executeImpl(@Nullable Context context) {
+    protected Void executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         Collection<? extends Player> targets = target == null
                 ? Bukkit.getOnlinePlayers()
-                : Collections.singleton(target.execute(context, Player.class));
+                : Collections.singleton(target.execute(environment, context, Player.class));
 
-        Player player = this.player.execute(context, Player.class);
+        Player player = this.player.execute(environment, context, Player.class);
 
         targets.forEach(target -> {
             if (show) {

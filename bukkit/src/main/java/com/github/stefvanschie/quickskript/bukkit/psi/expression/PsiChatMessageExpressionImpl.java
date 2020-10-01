@@ -6,6 +6,7 @@ import com.github.stefvanschie.quickskript.core.context.EventContext;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiChatMessageExpression;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -38,7 +39,7 @@ public class PsiChatMessageExpressionImpl extends PsiChatMessageExpression {
     @Contract(pure = true)
     @Override
     @SuppressWarnings("deprecation")
-    protected Text executeImpl(@Nullable Context context) {
+    protected Text executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         if (!(context instanceof EventContext)) {
             throw new ExecutionException("Chat message can only be retrieved from events", lineNumber);
         }
@@ -61,13 +62,13 @@ public class PsiChatMessageExpressionImpl extends PsiChatMessageExpression {
      */
     @Override
     @SuppressWarnings("deprecation")
-    public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
+    public void set(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
         if (!(context instanceof EventContext)) {
             throw new ExecutionException("Chat message can only be retrieved from events", lineNumber);
         }
 
         Event event = ((EventContextImpl) context).getEvent();
-        String message = object.execute(context, Text.class).toString();
+        String message = object.execute(environment, context, Text.class).toString();
 
         if (event instanceof AsyncPlayerChatEvent) {
             ((AsyncPlayerChatEvent) event).setMessage(message);

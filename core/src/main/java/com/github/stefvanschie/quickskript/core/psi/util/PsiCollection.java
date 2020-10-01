@@ -2,6 +2,7 @@ package com.github.stefvanschie.quickskript.core.psi.util;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -40,7 +41,7 @@ public final class PsiCollection<T> extends PsiElement<Collection<T>> {
         this.elements = elements;
 
         if (elements.stream().allMatch(PsiElement::isPreComputed)) {
-            preComputed = executeImpl(null);
+            preComputed = executeImpl(null, null);
             this.elements = null;
         }
     }
@@ -70,9 +71,9 @@ public final class PsiCollection<T> extends PsiElement<Collection<T>> {
 
     @NotNull
     @Override
-    protected Collection<T> executeImpl(@Nullable Context context) {
+    protected Collection<T> executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         return elements.stream()
-                .map(e -> (T) e.execute(context))
+                .map(e -> e.execute(environment, context))
                 .collect(Collectors.toList());
     }
 

@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.function;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
@@ -41,15 +42,15 @@ public class PsiSumFunction extends PsiElement<Double> {
         this.element = element;
 
         if (this.element.isPreComputed()) {
-            preComputed = executeImpl(null);
+            preComputed = executeImpl(null, null);
             this.element = null;
         }
     }
 
     @NotNull
     @Override
-    protected Double executeImpl(@Nullable Context context) {
-        Object object = element.execute(context);
+    protected Double executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        Object object = element.execute(environment, context);
 
         double sum = 0;
         Collection<Object> objects = PsiCollection.toCollection(object);

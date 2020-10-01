@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
@@ -42,7 +43,7 @@ public class PsiRoundExpression extends PsiElement<Integer> {
         this.roundMode = roundMode;
 
         if (number.isPreComputed()) {
-            preComputed = executeImpl(null);
+            preComputed = executeImpl(null, null);
 
             this.number = null;
             this.roundMode = null;
@@ -51,17 +52,17 @@ public class PsiRoundExpression extends PsiElement<Integer> {
 
     @NotNull
     @Override
-    protected Integer executeImpl(@Nullable Context context) {
+    protected Integer executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         if (roundMode == RoundMode.DOWN) {
-            return (int) Math.floor(number.execute(context, Number.class).doubleValue());
+            return (int) Math.floor(number.execute(environment, context, Number.class).doubleValue());
         }
 
         if (roundMode == RoundMode.NEAREST) {
-            return (int) Math.round(number.execute(context, Number.class).doubleValue());
+            return (int) Math.round(number.execute(environment, context, Number.class).doubleValue());
         }
 
         if (roundMode == RoundMode.UP) {
-            return (int) Math.ceil(number.execute(context, Number.class).doubleValue());
+            return (int) Math.ceil(number.execute(environment, context, Number.class).doubleValue());
         }
 
         throw new ExecutionException(new UnsupportedOperationException("Unknown rounding mode"), lineNumber);

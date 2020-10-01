@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.pattern.group.OptionalGroup;
@@ -51,8 +52,8 @@ public class PsiChanceCondition extends PsiElement<Boolean> {
     @Nullable
     @Contract(pure = true)
     @Override
-    protected Boolean executeImpl(@Nullable Context context) {
-        return ThreadLocalRandom.current().nextDouble(asPercentage ? 100 : 1) < number.execute(context, Double.class);
+    protected Boolean executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return ThreadLocalRandom.current().nextDouble(asPercentage ? 100 : 1) < number.execute(environment, context, Double.class);
     }
 
     /**

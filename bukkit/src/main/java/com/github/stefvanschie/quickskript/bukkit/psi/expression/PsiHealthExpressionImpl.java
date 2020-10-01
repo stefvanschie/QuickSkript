@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiHealthExpression;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -33,32 +34,32 @@ public class PsiHealthExpressionImpl extends PsiHealthExpression {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Double executeImpl(@Nullable Context context) {
-        return damageable.execute(context, Damageable.class).getHealth() / 2.0;
+    protected Double executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return damageable.execute(environment, context, Damageable.class).getHealth() / 2.0;
     }
 
     @Override
-    public void add(@Nullable Context context, @NotNull PsiElement<?> object) {
-        Damageable damageable = this.damageable.execute(context, Damageable.class);
+    public void add(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        Damageable damageable = this.damageable.execute(environment, context, Damageable.class);
 
-        damageable.setHealth(damageable.getHealth() + object.execute(context, Number.class).doubleValue() * 2.0);
+        damageable.setHealth(damageable.getHealth() + object.execute(environment, context, Number.class).doubleValue() * 2.0);
     }
 
     @Override
-    public void delete(@Nullable Context context) {
-        damageable.execute(context, Damageable.class).setHealth(0);
+    public void delete(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        damageable.execute(environment, context, Damageable.class).setHealth(0);
     }
 
     @Override
-    public void remove(@Nullable Context context, @NotNull PsiElement<?> object) {
-        Damageable damageable = this.damageable.execute(context, Damageable.class);
+    public void remove(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        Damageable damageable = this.damageable.execute(environment, context, Damageable.class);
 
-        damageable.setHealth(damageable.getHealth() - object.execute(context, Number.class).doubleValue() * 2.0);
+        damageable.setHealth(damageable.getHealth() - object.execute(environment, context, Number.class).doubleValue() * 2.0);
     }
 
     @Override
-    public void reset(@Nullable Context context) {
-        Object object = damageable.execute(context);
+    public void reset(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        Object object = damageable.execute(environment, context);
 
         if (!(object instanceof Attributable) || !(object instanceof Damageable)) {
             throw new ExecutionException("Object must be both an Attributable and a Damageable", lineNumber);
@@ -74,10 +75,10 @@ public class PsiHealthExpressionImpl extends PsiHealthExpression {
     }
 
     @Override
-    public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
-        double health = object.execute(context, Number.class).doubleValue();
+    public void set(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        double health = object.execute(environment, context, Number.class).doubleValue();
 
-        damageable.execute(context, Damageable.class).setHealth(health * 2.0);
+        damageable.execute(environment, context, Damageable.class).setHealth(health * 2.0);
     }
 
     /**

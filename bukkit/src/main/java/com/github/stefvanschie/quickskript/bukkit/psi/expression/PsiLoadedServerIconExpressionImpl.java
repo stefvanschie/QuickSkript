@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.expression;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiLoadServerIconEffect;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiLoadedServerIconExpression;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.util.TemporaryCache;
 import org.bukkit.util.CachedServerIcon;
 import org.jetbrains.annotations.Contract;
@@ -29,7 +30,7 @@ public class PsiLoadedServerIconExpressionImpl extends PsiLoadedServerIconExpres
     @Nullable
     @Contract(pure = true)
     @Override
-    protected CachedServerIcon executeImpl(@Nullable Context context) {
+    protected CachedServerIcon executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         return TemporaryCache.get("last-server-icon");
     }
 

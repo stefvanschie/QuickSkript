@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
@@ -40,7 +41,7 @@ public class PsiExistsCondition extends PsiElement<Boolean> {
         this.positive = positive;
 
         if (object.isPreComputed()) {
-            preComputed = executeImpl(null);
+            preComputed = executeImpl(null, null);
             this.object = null;
         }
     }
@@ -48,8 +49,8 @@ public class PsiExistsCondition extends PsiElement<Boolean> {
     @Nullable
     @Contract(pure = true)
     @Override
-    protected Boolean executeImpl(@Nullable Context context) {
-        return positive == (object.execute(context) != null);
+    protected Boolean executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return positive == (object.execute(environment, context) != null);
     }
 
     /**

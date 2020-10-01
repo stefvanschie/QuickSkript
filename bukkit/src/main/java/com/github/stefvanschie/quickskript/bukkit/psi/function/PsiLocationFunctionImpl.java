@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.bukkit.psi.function;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.function.PsiLocationFunction;
 import org.bukkit.Location;
@@ -34,14 +35,14 @@ public class PsiLocationFunctionImpl extends PsiLocationFunction {
 
     @NotNull
     @Override
-    public Location executeImpl(@Nullable Context context) {
+    public Location executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         return new Location(
-                world.execute(context, World.class),
-                x.execute(context, Number.class).doubleValue(),
-                y.execute(context, Number.class).doubleValue(),
-                z.execute(context, Number.class).doubleValue(),
-                yaw == null ? 0 : yaw.execute(context, Number.class).floatValue(),
-                pitch == null ? 0 : pitch.execute(context, Number.class).floatValue()
+                world.execute(environment, context, World.class),
+                x.execute(environment, context, Number.class).doubleValue(),
+                y.execute(environment, context, Number.class).doubleValue(),
+                z.execute(environment, context, Number.class).doubleValue(),
+                yaw == null ? 0 : yaw.execute(environment, context, Number.class).floatValue(),
+                pitch == null ? 0 : pitch.execute(environment, context, Number.class).floatValue()
         );
     }
 

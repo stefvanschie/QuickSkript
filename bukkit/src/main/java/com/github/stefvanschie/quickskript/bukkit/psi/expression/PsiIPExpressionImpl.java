@@ -6,6 +6,7 @@ import com.github.stefvanschie.quickskript.core.context.EventContext;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiIPExpression;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -39,7 +40,7 @@ public class PsiIPExpressionImpl extends PsiIPExpression {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Text executeImpl(@Nullable Context context) {
+    protected Text executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         InetAddress inetAddress;
 
         if (player == null) {
@@ -57,7 +58,7 @@ public class PsiIPExpressionImpl extends PsiIPExpression {
                 throw new ExecutionException("You need Paper to execute this expression from a ping event", lineNumber);
             }
         } else {
-            InetSocketAddress address = player.execute(context, Player.class).getAddress();
+            InetSocketAddress address = player.execute(environment, context, Player.class).getAddress();
 
             if (address == null) {
                 throw new ExecutionException("Could not find address for player", lineNumber);

@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.section;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiSection;
 import com.github.stefvanschie.quickskript.core.psi.PsiSectionFactory;
@@ -70,10 +71,10 @@ public class PsiIf extends PsiSection {
 
     @Nullable
     @Override
-    protected ExitSectionsPointerMovement executeImpl(@Nullable Context context) {
+    protected ExitSectionsPointerMovement executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         PsiElement<?>[] elements;
 
-        if (condition.execute(context, Boolean.class)) {
+        if (condition.execute(environment, context, Boolean.class)) {
             elements = this.elements;
         } else if (elseSection != null) {
             elements = elseSection.getElements();
@@ -82,7 +83,7 @@ public class PsiIf extends PsiSection {
         }
 
         for (PsiElement<?> element : elements) {
-            Object result = element.execute(context);
+            Object result = element.execute(environment, context);
 
             if (result == Boolean.FALSE) {
                 break;

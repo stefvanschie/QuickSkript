@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.bukkit.psi.function;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.function.PsiWorldFunction;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
@@ -29,8 +30,8 @@ public class PsiWorldFunctionImpl extends PsiWorldFunction {
 
     @Nullable
     @Override
-    public World executeImpl(@Nullable Context context) {
-        return Bukkit.getWorld(parameter.execute(context, Text.class).toString());
+    public World executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return Bukkit.getWorld(parameter.execute(environment, context, Text.class).toString());
     }
 
     /**

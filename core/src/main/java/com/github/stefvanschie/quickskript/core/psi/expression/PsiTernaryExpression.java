@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.pattern.group.RegexGroup;
@@ -56,12 +57,12 @@ public class PsiTernaryExpression extends PsiElement<Object> {
         this.elseCode = elseCode;
 
         if (condition.isPreComputed()) {
-            boolean conditionResult = condition.execute(null, Boolean.class);
+            boolean conditionResult = condition.execute(null, null, Boolean.class);
 
             if (conditionResult && ifCode.isPreComputed()) {
-                preComputed = ifCode.execute(null);
+                preComputed = ifCode.execute(null, null);
             } else if (!conditionResult && elseCode.isPreComputed()) {
-                preComputed = elseCode.execute(null);
+                preComputed = elseCode.execute(null, null);
             } else {
                 return;
             }
@@ -74,12 +75,12 @@ public class PsiTernaryExpression extends PsiElement<Object> {
 
     @Nullable
     @Override
-    protected Object executeImpl(@Nullable Context context) {
-        if (condition.execute(context, Boolean.class)) {
-            return ifCode.execute(context);
+    protected Object executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        if (condition.execute(environment, context, Boolean.class)) {
+            return ifCode.execute(environment, context);
         }
 
-        return elseCode.execute(context);
+        return elseCode.execute(environment, context);
     }
 
     /**

@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.expression;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiPermissionsExpression;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.jetbrains.annotations.Contract;
@@ -30,8 +31,8 @@ public class PsiPermissionsExpressionImpl extends PsiPermissionsExpression {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected String[] executeImpl(@Nullable Context context) {
-        return player.execute(context, Player.class).getEffectivePermissions().stream()
+    protected String[] executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return player.execute(environment, context, Player.class).getEffectivePermissions().stream()
             .map(PermissionAttachmentInfo::getPermission)
             .toArray(String[]::new);
     }

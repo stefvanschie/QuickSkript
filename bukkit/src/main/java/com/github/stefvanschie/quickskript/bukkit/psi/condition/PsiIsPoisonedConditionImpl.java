@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.condition;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.condition.PsiIsPoisonedCondition;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.Contract;
@@ -32,8 +33,8 @@ public class PsiIsPoisonedConditionImpl extends PsiIsPoisonedCondition {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Boolean executeImpl(@Nullable Context context) {
-        return positive == livingEntity.execute(context, LivingEntity.class).hasPotionEffect(PotionEffectType.POISON);
+    protected Boolean executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return positive == livingEntity.execute(environment, context, LivingEntity.class).hasPotionEffect(PotionEffectType.POISON);
     }
 
     /**
