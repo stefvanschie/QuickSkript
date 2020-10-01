@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.section;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiSection;
 import com.github.stefvanschie.quickskript.core.psi.PsiSectionFactory;
@@ -48,11 +49,11 @@ public class PsiWhile extends PsiSection {
 
     @Nullable
     @Override
-    protected ExitSectionsPointerMovement executeImpl(@Nullable Context context) {
+    protected ExitSectionsPointerMovement executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         outerLoop:
-        while (condition.execute(context, Boolean.class)) {
+        while (condition.execute(environment, context, Boolean.class)) {
             for (PsiElement<?> element : elements) {
-                Object result = element.execute(context);
+                Object result = element.execute(environment, context);
 
                 if (result == Boolean.FALSE) {
                     break;

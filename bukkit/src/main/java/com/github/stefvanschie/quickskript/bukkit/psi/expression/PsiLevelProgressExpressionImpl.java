@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.expression;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiLevelProgressExpression;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -30,42 +31,42 @@ public class PsiLevelProgressExpressionImpl extends PsiLevelProgressExpression {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Float executeImpl(@Nullable Context context) {
-        return player.execute(context, Player.class).getExp();
+    protected Float executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return player.execute(environment, context, Player.class).getExp();
     }
 
     @Override
-    public void add(@Nullable Context context, @NotNull PsiElement<?> object) {
-        Player player = this.player.execute(context, Player.class);
-        float exp = player.getExp() + object.execute(context, Number.class).floatValue();
+    public void add(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        Player player = this.player.execute(environment, context, Player.class);
+        float exp = player.getExp() + object.execute(environment, context, Number.class).floatValue();
 
         player.setLevel(player.getLevel() + (int) Math.floor(exp));
         player.setExp(player.getExp() + exp % 1);
     }
 
     @Override
-    public void delete(@Nullable Context context) {
-        this.player.execute(context, Player.class).setExp(0);
+    public void delete(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        this.player.execute(environment, context, Player.class).setExp(0);
     }
 
     @Override
-    public void remove(@Nullable Context context, @NotNull PsiElement<?> object) {
-        Player player = this.player.execute(context, Player.class);
-        float exp = player.getExp() - object.execute(context, Number.class).floatValue();
+    public void remove(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        Player player = this.player.execute(environment, context, Player.class);
+        float exp = player.getExp() - object.execute(environment, context, Number.class).floatValue();
 
         player.setLevel(player.getLevel() + (int) Math.floor(exp));
         player.setExp(player.getExp() + exp % 1);
     }
 
     @Override
-    public void reset(@Nullable Context context) {
-        delete(context);
+    public void reset(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        delete(environment, context);
     }
 
     @Override
-    public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
-        Player player = this.player.execute(context, Player.class);
-        float exp = object.execute(context, Number.class).floatValue();
+    public void set(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        Player player = this.player.execute(environment, context, Player.class);
+        float exp = object.execute(environment, context, Number.class).floatValue();
 
         player.setLevel(player.getLevel() + (int) Math.floor(exp));
         player.setExp(player.getExp() + exp % 1);

@@ -2,11 +2,12 @@ package com.github.stefvanschie.quickskript.core.psi.expression.util;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Indicates that a {@link #removeAll(Context, PsiElement)} operation can be performed on the expression.
+ * Indicates that a {@link #removeAll(SkriptRunEnvironment, Context, PsiElement)} operation can be performed on the expression.
  *
  * @since 0.1.0
  */
@@ -19,7 +20,7 @@ public interface RemoveAllable extends Removable {
      * @param object the object to removed
      * @since 0.1.0
      */
-    default void removeAll(@Nullable Context context, @NotNull PsiElement<?> object) {
+    default void removeAll(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
         throw new UnsupportedOperationException("Cannot change expression without implementation.");
     }
 }

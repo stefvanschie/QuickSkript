@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.condition;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.condition.PsiIsSleepingCondition;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -31,8 +32,8 @@ public class PsiIsSleepingConditionImpl extends PsiIsSleepingCondition {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Boolean executeImpl(@Nullable Context context) {
-        return positive == player.execute(context, Player.class).isSleeping();
+    protected Boolean executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return positive == player.execute(environment, context, Player.class).isSleeping();
     }
 
     /**

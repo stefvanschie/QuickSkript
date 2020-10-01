@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
@@ -46,7 +47,7 @@ public class PsiIsCondition extends PsiElement<Boolean> {
 
         if (this.leftSide.isPreComputed() && this.rightSide.isPreComputed()) {
             //TODO: Show warning
-            preComputed = executeImpl(null);
+            preComputed = executeImpl(null, null);
             this.leftSide = null;
             this.rightSide = null;
         }
@@ -54,9 +55,9 @@ public class PsiIsCondition extends PsiElement<Boolean> {
 
     @Nullable
     @Override
-    protected Boolean executeImpl(@Nullable Context context) {
-        Object leftResult = leftSide.execute(context);
-        Object rightResult = rightSide.execute(context);
+    protected Boolean executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        Object leftResult = leftSide.execute(environment, context);
+        Object rightResult = rightSide.execute(environment, context);
 
         if (leftResult == null && rightResult == null) {
             return true;

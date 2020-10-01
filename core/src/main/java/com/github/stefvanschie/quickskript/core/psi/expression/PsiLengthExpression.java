@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
@@ -35,7 +36,7 @@ public class PsiLengthExpression extends PsiElement<Integer> {
         this.text = text;
 
         if (text.isPreComputed()) {
-            preComputed = executeImpl(null);
+            preComputed = executeImpl(null, null);
 
             this.text = null;
         }
@@ -44,8 +45,8 @@ public class PsiLengthExpression extends PsiElement<Integer> {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Integer executeImpl(@Nullable Context context) {
-        return text.execute(context, Text.class).toString().length();
+    protected Integer executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return text.execute(environment, context, Text.class).toString().length();
     }
 
     /**

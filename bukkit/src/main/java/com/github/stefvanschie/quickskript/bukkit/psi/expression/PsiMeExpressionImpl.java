@@ -5,6 +5,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.context.ExecuteContext;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiMeExpression;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -31,7 +32,7 @@ public class PsiMeExpressionImpl extends PsiMeExpression {
     @Nullable
     @Contract(pure = true)
     @Override
-    protected CommandSender executeImpl(@Nullable Context context) {
+    protected CommandSender executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         if (!(context instanceof ExecuteContext))
             throw new ExecutionException("This expression can only be used inside execute commands", lineNumber);
 

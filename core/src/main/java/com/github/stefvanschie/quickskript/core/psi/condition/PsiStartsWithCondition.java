@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
@@ -51,7 +52,7 @@ public class PsiStartsWithCondition extends PsiElement<Boolean> {
         this.positive = positive;
 
         if (text.isPreComputed() && prefix.isPreComputed()) {
-            preComputed = executeImpl(null);
+            preComputed = executeImpl(null, null);
 
             this.text = null;
             this.prefix = null;
@@ -61,10 +62,10 @@ public class PsiStartsWithCondition extends PsiElement<Boolean> {
     @Nullable
     @Contract(pure = true)
     @Override
-    protected Boolean executeImpl(@Nullable Context context) {
-        Text text = this.text.execute(context, Text.class);
+    protected Boolean executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        Text text = this.text.execute(environment, context, Text.class);
 
-        return positive == text.toString().startsWith(prefix.execute(context, Text.class).toString());
+        return positive == text.toString().startsWith(prefix.execute(environment, context, Text.class).toString());
     }
 
     /**

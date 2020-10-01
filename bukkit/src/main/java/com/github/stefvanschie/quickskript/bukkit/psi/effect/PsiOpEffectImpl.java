@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.effect;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiOpEffect;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -30,8 +31,8 @@ public class PsiOpEffectImpl extends PsiOpEffect {
     @Nullable
     @Contract(pure = true)
     @Override
-    protected Void executeImpl(@Nullable Context context) {
-        offlinePlayer.execute(context, OfflinePlayer.class).setOp(op);
+    protected Void executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        offlinePlayer.execute(environment, context, OfflinePlayer.class).setOp(op);
 
         return null;
     }

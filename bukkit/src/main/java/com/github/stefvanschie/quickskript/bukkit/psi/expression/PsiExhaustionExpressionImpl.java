@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.expression;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiExhaustionExpression;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -29,42 +30,42 @@ public class PsiExhaustionExpressionImpl extends PsiExhaustionExpression {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Float executeImpl(@Nullable Context context) {
-        return player.execute(context, Player.class).getExhaustion();
+    protected Float executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return player.execute(environment, context, Player.class).getExhaustion();
     }
 
     @Override
-    public void add(@Nullable Context context, @NotNull PsiElement<?> object) {
-        Player player = this.player.execute(context, Player.class);
+    public void add(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        Player player = this.player.execute(environment, context, Player.class);
 
-        player.setExhaustion(player.getExhaustion() + object.execute(context, Number.class).floatValue());
+        player.setExhaustion(player.getExhaustion() + object.execute(environment, context, Number.class).floatValue());
     }
 
     @Override
-    public void delete(@Nullable Context context) {
-        player.execute(context, Player.class).setExhaustion(0);
+    public void delete(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        player.execute(environment, context, Player.class).setExhaustion(0);
     }
 
     @Override
-    public void remove(@Nullable Context context, @NotNull PsiElement<?> object) {
-        Player player = this.player.execute(context, Player.class);
+    public void remove(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        Player player = this.player.execute(environment, context, Player.class);
 
-        player.setExhaustion(player.getExhaustion() - object.execute(context, Number.class).floatValue());
+        player.setExhaustion(player.getExhaustion() - object.execute(environment, context, Number.class).floatValue());
     }
 
     @Override
-    public void removeAll(@Nullable Context context, @NotNull PsiElement<?> object) {
-        player.execute(context, Player.class).setExhaustion(0);
+    public void removeAll(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        player.execute(environment, context, Player.class).setExhaustion(0);
     }
 
     @Override
-    public void reset(@Nullable Context context) {
-        player.execute(context, Player.class).setExhaustion(0);
+    public void reset(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        player.execute(environment, context, Player.class).setExhaustion(0);
     }
 
     @Override
-    public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
-        player.execute(context, Player.class).setExhaustion(object.execute(context, Number.class).floatValue());
+    public void set(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        player.execute(environment, context, Player.class).setExhaustion(object.execute(environment, context, Number.class).floatValue());
     }
 
     /**

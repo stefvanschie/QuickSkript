@@ -2,16 +2,15 @@ package com.github.stefvanschie.quickskript.bukkit.plugin;
 
 import com.github.stefvanschie.quickskript.bukkit.integration.money.VaultIntegration;
 import com.github.stefvanschie.quickskript.bukkit.integration.region.RegionIntegration;
-import com.github.stefvanschie.quickskript.bukkit.integration.region.WorldGuardIntegration;
 import com.github.stefvanschie.quickskript.bukkit.skript.BukkitSkriptLoader;
 import com.github.stefvanschie.quickskript.bukkit.util.event.ExperienceOrbSpawnEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.QuickSkriptPostEnableEvent;
 import com.github.stefvanschie.quickskript.core.file.skript.FileSkript;
 import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.skript.profiler.BasicSkriptProfiler;
 import com.github.stefvanschie.quickskript.core.skript.profiler.NoOpSkriptProfiler;
-import com.github.stefvanschie.quickskript.core.skript.profiler.SkriptProfiler;
 import com.github.stefvanschie.quickskript.core.skript.profiler.WholeSkriptProfiler;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
@@ -70,8 +69,6 @@ public class QuickSkript extends JavaPlugin {
         instance = this;
         saveDefaultConfig();
 
-        setProfilerImplementation();
-
         PluginManager pluginManager = Bukkit.getPluginManager();
 
         //load custom events
@@ -93,11 +90,14 @@ public class QuickSkript extends JavaPlugin {
 
         printIntegrations();
 
-        var skriptLoader = new BukkitSkriptLoader();
+        var environment = new SkriptRunEnvironment();
+        updateProfilerImplementation(environment);
+
+        var skriptLoader = new BukkitSkriptLoader(environment);
         loadScripts(skriptLoader);
 
         if (getConfig().getBoolean("enable-execute-command")) {
-            ExecuteCommand.register(skriptLoader);
+            ExecuteCommand.register(skriptLoader, environment);
         }
 
         pluginManager.callEvent(new QuickSkriptPostEnableEvent());
@@ -108,16 +108,16 @@ public class QuickSkript extends JavaPlugin {
         instance = null;
     }
 
-    private void setProfilerImplementation() {
+    private void updateProfilerImplementation(@NotNull SkriptRunEnvironment environment) {
         switch (getConfig().getString("profiler-implementation").toLowerCase()) {
             case "noop":
-                SkriptProfiler.setActive(new NoOpSkriptProfiler());
+                environment.setProfiler(new NoOpSkriptProfiler());
                 break;
             case "basic":
-                SkriptProfiler.setActive(new BasicSkriptProfiler());
+                environment.setProfiler(new BasicSkriptProfiler());
                 break;
             case "whole":
-                SkriptProfiler.setActive(new WholeSkriptProfiler());
+                environment.setProfiler(new WholeSkriptProfiler());
                 break;
             default:
                 getLogger().severe("Invalid profiler implementation in config.yml, using default one.");

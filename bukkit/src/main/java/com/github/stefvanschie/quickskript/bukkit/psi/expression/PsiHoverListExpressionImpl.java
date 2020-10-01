@@ -8,6 +8,7 @@ import com.github.stefvanschie.quickskript.core.context.EventContext;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiHoverListExpression;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -41,7 +42,7 @@ public class PsiHoverListExpressionImpl extends PsiHoverListExpression {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Collection<Text> executeImpl(@Nullable Context context) {
+    protected Collection<Text> executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         if (!(context instanceof EventContext)) {
             throw new ExecutionException("This expression can only be used inside events", lineNumber);
         }
@@ -61,7 +62,7 @@ public class PsiHoverListExpressionImpl extends PsiHoverListExpression {
     }
 
     @Override
-    public void add(@Nullable Context context, @NotNull PsiElement<?> object) {
+    public void add(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
         if (!(context instanceof EventContext)) {
             throw new ExecutionException("This expression can only be used inside events", lineNumber);
         }
@@ -72,11 +73,11 @@ public class PsiHoverListExpressionImpl extends PsiHoverListExpression {
             throw new ExecutionException("This expression can only be used inside ping events", lineNumber);
         }
 
-        ((PaperServerListPingEvent) event).getPlayerSample().add(forceGetProfile(context, object));
+        ((PaperServerListPingEvent) event).getPlayerSample().add(forceGetProfile(environment, context, object));
     }
 
     @Override
-    public void delete(@Nullable Context context) {
+    public void delete(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         if (!(context instanceof EventContext)) {
             throw new ExecutionException("This expression can only be used inside events", lineNumber);
         }
@@ -91,7 +92,7 @@ public class PsiHoverListExpressionImpl extends PsiHoverListExpression {
     }
 
     @Override
-    public void remove(@Nullable Context context, @NotNull PsiElement<?> object) {
+    public void remove(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
         if (!(context instanceof EventContext)) {
             throw new ExecutionException("This expression can only be used inside events", lineNumber);
         }
@@ -102,16 +103,16 @@ public class PsiHoverListExpressionImpl extends PsiHoverListExpression {
             throw new ExecutionException("This expression can only be used inside ping events", lineNumber);
         }
 
-        ((PaperServerListPingEvent) event).getPlayerSample().remove(forceGetProfile(context, object));
+        ((PaperServerListPingEvent) event).getPlayerSample().remove(forceGetProfile(environment, context, object));
     }
 
     @Override
-    public void reset(@Nullable Context context) {
-        delete(context);
+    public void reset(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        delete(environment, context);
     }
 
     @Override
-    public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
+    public void set(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
         if (!(context instanceof EventContext)) {
             throw new ExecutionException("This expression can only be used inside events", lineNumber);
         }
@@ -125,7 +126,7 @@ public class PsiHoverListExpressionImpl extends PsiHoverListExpression {
         List<PlayerProfile> playerSample = ((PaperServerListPingEvent) event).getPlayerSample();
 
         playerSample.clear();
-        playerSample.add(forceGetProfile(context, object));
+        playerSample.add(forceGetProfile(environment, context, object));
     }
 
     /**
@@ -139,7 +140,7 @@ public class PsiHoverListExpressionImpl extends PsiHoverListExpression {
      */
     @NotNull
     @Contract(pure = true)
-    private PlayerProfile forceGetProfile(@Nullable Context context, @NotNull PsiElement<?> object) {
+    private PlayerProfile forceGetProfile(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
         if (!(context instanceof EventContext)) {
             throw new ExecutionException("This expression can only be used inside events", lineNumber);
         }
@@ -150,7 +151,7 @@ public class PsiHoverListExpressionImpl extends PsiHoverListExpression {
             throw new ExecutionException("This expression can only be used inside ping events", lineNumber);
         }
 
-        Object obj = object.execute(context);
+        Object obj = object.execute(environment, context);
 
         if (obj instanceof Player) {
             return Bukkit.createProfile(((Player) obj).getUniqueId(), ((Player) obj).getName());

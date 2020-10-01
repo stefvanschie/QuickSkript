@@ -5,6 +5,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.context.EventContext;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiCommandSenderExpression;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.Contract;
@@ -48,7 +49,7 @@ public class PsiCommandSenderExpressionImpl extends PsiCommandSenderExpression {
     @Nullable
     @Contract(pure = true)
     @Override
-    protected Object executeImpl(@Nullable Context context) {
+    protected Object executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         if (!(context instanceof EventContext)) {
             throw new ExecutionException("Command sender expression can only be used from inside an event", lineNumber);
         }

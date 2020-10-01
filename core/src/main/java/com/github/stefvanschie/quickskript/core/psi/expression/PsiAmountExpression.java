@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
@@ -36,7 +37,7 @@ public class PsiAmountExpression extends PsiElement<Number> {
         this.collection = collection;
 
         if (collection.isPreComputed()) {
-            preComputed = executeImpl(null);
+            preComputed = executeImpl(null, null);
 
             this.collection = null;
         }
@@ -45,8 +46,8 @@ public class PsiAmountExpression extends PsiElement<Number> {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Number executeImpl(@Nullable Context context) {
-        Object object = collection.execute(context);
+    protected Number executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        Object object = collection.execute(environment, context);
 
         if (object == null) {
             throw new ExecutionException("Object is null", lineNumber);

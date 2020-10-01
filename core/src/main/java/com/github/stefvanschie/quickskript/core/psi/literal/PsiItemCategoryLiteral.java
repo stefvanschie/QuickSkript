@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.literal;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.pattern.group.RegexGroup;
@@ -59,7 +60,7 @@ public class PsiItemCategoryLiteral extends PsiElement<ItemCategory> {
         this.enchantment = enchantment;
 
         if (amount != null && amount.isPreComputed() && enchantment != null && enchantment.isPreComputed()) {
-            preComputed = executeImpl(null);
+            preComputed = executeImpl(null, null);
 
             this.itemCategory = null;
             this.amount = null;
@@ -69,13 +70,13 @@ public class PsiItemCategoryLiteral extends PsiElement<ItemCategory> {
 
     @NotNull
     @Override
-    protected ItemCategory executeImpl(@Nullable Context context) {
+    protected ItemCategory executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         if (amount != null) {
-            itemCategory.setAmount(amount.execute(context, Number.class).intValue());
+            itemCategory.setAmount(amount.execute(environment, context, Number.class).intValue());
         }
 
         if (enchantment != null) {
-            itemCategory.addEnchantment(enchantment.execute(context, Enchantment.class));
+            itemCategory.addEnchantment(enchantment.execute(environment, context, Enchantment.class));
         }
 
         return itemCategory;

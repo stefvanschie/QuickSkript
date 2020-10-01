@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.bukkit.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiVehicleExpression;
 import org.bukkit.entity.Entity;
@@ -29,8 +30,8 @@ public class PsiVehicleExpressionImpl extends PsiVehicleExpression {
     @Nullable
     @Contract(pure = true)
     @Override
-    protected Entity executeImpl(@Nullable Context context) {
-        return entity.execute(context, Entity.class).getVehicle();
+    protected Entity executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return entity.execute(environment, context, Entity.class).getVehicle();
     }
 
     /**

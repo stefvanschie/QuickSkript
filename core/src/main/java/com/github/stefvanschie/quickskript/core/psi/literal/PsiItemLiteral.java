@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.literal;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.pattern.group.RegexGroup;
@@ -60,7 +61,7 @@ public class PsiItemLiteral extends PsiElement<Item> {
         this.enchantment = enchantment;
 
         if ((amount == null || amount.isPreComputed()) && (enchantment == null || enchantment.isPreComputed())) {
-            preComputed = executeImpl(null);
+            preComputed = executeImpl(null, null);
 
             this.item = null;
             this.amount = null;
@@ -70,11 +71,11 @@ public class PsiItemLiteral extends PsiElement<Item> {
 
     @Nullable
     @Override
-    protected Item executeImpl(@Nullable Context context) {
-        var item = new Item(this.item, amount == null ? 1 : amount.execute(context, Number.class).intValue());
+    protected Item executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        var item = new Item(this.item, amount == null ? 1 : amount.execute(environment, context, Number.class).intValue());
 
         if (enchantment != null) {
-            item.setEnchantment(enchantment.execute(context, Enchantment.class));
+            item.setEnchantment(enchantment.execute(environment, context, Enchantment.class));
         }
 
         return item;

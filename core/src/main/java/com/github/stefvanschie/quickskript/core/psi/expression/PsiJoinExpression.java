@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
@@ -48,7 +49,7 @@ public class PsiJoinExpression extends PsiElement<Text> {
         this.delimiter = delimiter;
 
         if (texts.isPreComputed() && (delimiter == null || delimiter.isPreComputed())) {
-            preComputed = executeImpl(null);
+            preComputed = executeImpl(null, null);
 
             this.texts = null;
             this.delimiter = null;
@@ -58,8 +59,8 @@ public class PsiJoinExpression extends PsiElement<Text> {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Text executeImpl(@Nullable Context context) {
-        Object object = texts.execute(context);
+    protected Text executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        Object object = texts.execute(environment, context);
 
         List<Text> texts = new ArrayList<>();
         PsiCollection.forEach(object, e -> {
@@ -73,7 +74,7 @@ public class PsiJoinExpression extends PsiElement<Text> {
             return Text.empty();
         }
 
-        Text delimiter = this.delimiter == null ? Text.parseLiteral(", ") : this.delimiter.execute(context, Text.class);
+        Text delimiter = this.delimiter == null ? Text.parseLiteral(", ") : this.delimiter.execute(environment, context, Text.class);
         List<TextPart> parts = new ArrayList<>(texts.get(0).getParts());
 
         for (int index = 1; index < texts.size(); index++) {

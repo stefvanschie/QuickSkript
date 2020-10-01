@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.effect;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiKillEffect;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.entity.Damageable;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -28,8 +29,8 @@ public class PsiKillEffectImpl extends PsiKillEffect {
 
     @Nullable
     @Override
-    protected Void executeImpl(@Nullable Context context) {
-        entity.execute(context, Damageable.class).setHealth(0);
+    protected Void executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        entity.execute(environment, context, Damageable.class).setHealth(0);
 
         return null;
     }

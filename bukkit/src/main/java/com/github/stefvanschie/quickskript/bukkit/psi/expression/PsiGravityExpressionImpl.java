@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.expression;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiGravityExpression;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -30,18 +31,18 @@ public class PsiGravityExpressionImpl extends PsiGravityExpression {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Boolean executeImpl(@Nullable Context context) {
-        return entity.execute(context, Entity.class).hasGravity();
+    protected Boolean executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return entity.execute(environment, context, Entity.class).hasGravity();
     }
 
     @Override
-    public void reset(@Nullable Context context) {
-        entity.execute(context, Entity.class).setGravity(true);
+    public void reset(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        entity.execute(environment, context, Entity.class).setGravity(true);
     }
 
     @Override
-    public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
-        entity.execute(context, Entity.class).setGravity(object.execute(context, Boolean.class));
+    public void set(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        entity.execute(environment, context, Entity.class).setGravity(object.execute(environment, context, Boolean.class));
     }
 
     /**

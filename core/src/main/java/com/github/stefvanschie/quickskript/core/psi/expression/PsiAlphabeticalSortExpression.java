@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
@@ -36,7 +37,7 @@ public class PsiAlphabeticalSortExpression extends PsiElement<Text[]> {
         this.texts = texts;
 
         if (texts.isPreComputed()) {
-            preComputed = executeImpl(null);
+            preComputed = executeImpl(null, null);
 
             this.texts = null;
         }
@@ -45,8 +46,8 @@ public class PsiAlphabeticalSortExpression extends PsiElement<Text[]> {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Text[] executeImpl(@Nullable Context context) {
-        Object result = this.texts.execute(context);
+    protected Text[] executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        Object result = this.texts.execute(environment, context);
         return PsiCollection.toStreamForgiving(result)
                 .map(e -> (Text) e)
                 .sorted()

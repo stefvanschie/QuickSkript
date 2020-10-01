@@ -5,7 +5,6 @@ import com.github.stefvanschie.quickskript.core.file.alias.exception.AliasFileRe
 import com.github.stefvanschie.quickskript.core.file.alias.exception.UndefinedAliasFileVariation;
 import com.github.stefvanschie.quickskript.core.file.alias.manager.AliasFileManager;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
-import com.github.stefvanschie.quickskript.core.pattern.exception.SkriptPatternParseException;
 import com.github.stefvanschie.quickskript.core.util.registry.ItemTypeRegistry;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;

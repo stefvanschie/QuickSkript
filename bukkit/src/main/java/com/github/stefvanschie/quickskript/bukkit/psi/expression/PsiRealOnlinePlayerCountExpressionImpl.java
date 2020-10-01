@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.bukkit.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiRealOnlinePlayerCountExpression;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.Contract;
@@ -27,7 +28,7 @@ public class PsiRealOnlinePlayerCountExpressionImpl extends PsiRealOnlinePlayerC
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Integer executeImpl(@Nullable Context context) {
+    protected Integer executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         return Bukkit.getOnlinePlayers().size();
     }
 

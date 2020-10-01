@@ -2,6 +2,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.expression;
 
 import com.github.stefvanschie.quickskript.bukkit.context.ContextImpl;
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiSaturationExpression;
@@ -32,43 +33,44 @@ public class PsiSaturationExpressionImpl extends PsiSaturationExpression {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Float executeImpl(@Nullable Context context) {
-        return forceGetPlayer(context).getSaturation();
+    protected Float executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return forceGetPlayer(environment, context).getSaturation();
     }
 
     @Override
-    public void add(@Nullable Context context, @NotNull PsiElement<?> object) {
-        Player player = forceGetPlayer(context);
+    public void add(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        Player player = forceGetPlayer(environment, context);
 
-        player.setSaturation(player.getSaturation() + object.execute(context, Number.class).floatValue());
+        player.setSaturation(player.getSaturation() + object.execute(environment, context, Number.class).floatValue());
     }
 
     @Override
-    public void delete(@Nullable Context context) {
-        forceGetPlayer(context).setSaturation(0);
+    public void delete(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        forceGetPlayer(environment, context).setSaturation(0);
     }
 
     @Override
-    public void remove(@Nullable Context context, @NotNull PsiElement<?> object) {
-        Player player = forceGetPlayer(context);
+    public void remove(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        Player player = forceGetPlayer(environment, context);
 
-        player.setSaturation(player.getSaturation() - object.execute(context, Number.class).floatValue());
+        player.setSaturation(player.getSaturation() - object.execute(environment, context, Number.class).floatValue());
     }
 
     @Override
-    public void reset(@Nullable Context context) {
-        delete(context);
+    public void reset(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        delete(environment, context);
     }
 
     @Override
-    public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
-        forceGetPlayer(context).setSaturation(object.execute(context, Number.class).floatValue());
+    public void set(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        forceGetPlayer(environment, context).setSaturation(object.execute(environment, context, Number.class).floatValue());
     }
 
     /**
      * Derives a player from both {@link #player} and the provided context. This will throw an
      * {@link ExecutionException} when no player could be found.
      *
+     * @param environment the environment for looking for the player
      * @param context the context for looking for the player
      * @return the player
      * @since 0.1.0
@@ -76,7 +78,7 @@ public class PsiSaturationExpressionImpl extends PsiSaturationExpression {
      */
     @NotNull
     @Contract(pure = true)
-    private Player forceGetPlayer(@Nullable Context context) {
+    private Player forceGetPlayer(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         if (this.player == null && context != null) {
             CommandSender sender = ((ContextImpl) context).getCommandSender();
 
@@ -88,7 +90,7 @@ public class PsiSaturationExpressionImpl extends PsiSaturationExpression {
         }
 
         if (this.player != null) {
-            return this.player.execute(context, Player.class);
+            return this.player.execute(environment, context, Player.class);
         }
 
         throw new ExecutionException("Implicit player can only be acquired with context", lineNumber);

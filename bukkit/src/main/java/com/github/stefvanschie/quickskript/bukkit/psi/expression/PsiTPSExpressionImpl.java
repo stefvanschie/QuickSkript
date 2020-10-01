@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.bukkit.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiTPSExpression;
 import org.bukkit.Bukkit;
@@ -29,7 +30,7 @@ public class PsiTPSExpressionImpl extends PsiTPSExpression {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected double[] executeImpl(@Nullable Context context) {
+    protected double[] executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         if (timespan == null) {
             return Bukkit.getTPS();
         }

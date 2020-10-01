@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.expression;
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
 import com.github.stefvanschie.quickskript.bukkit.context.EventContextImpl;
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.context.EventContext;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
@@ -33,7 +34,7 @@ public class PsiVersionStringExpressionImpl extends PsiVersionStringExpression {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Text executeImpl(@Nullable Context context) {
+    protected Text executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         if (!(context instanceof EventContext)) {
             throw new ExecutionException("Version string expression can only be executed inside an event", lineNumber);
         }
@@ -49,7 +50,7 @@ public class PsiVersionStringExpressionImpl extends PsiVersionStringExpression {
     }
 
     @Override
-    public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
+    public void set(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
         if (!(context instanceof EventContext)) {
             throw new ExecutionException("Version string expression can only be executed inside an event", lineNumber);
         }
@@ -61,7 +62,7 @@ public class PsiVersionStringExpressionImpl extends PsiVersionStringExpression {
                 lineNumber);
         }
 
-        ((PaperServerListPingEvent) event).setVersion(object.execute(context, Text.class).toString());
+        ((PaperServerListPingEvent) event).setVersion(object.execute(environment, context, Text.class).toString());
     }
 
     /**

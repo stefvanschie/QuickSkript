@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.bukkit.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiRealMaxPlayersExpression;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.Contract;
@@ -28,7 +29,7 @@ public class PsiRealMaxPlayersExpressionImpl extends PsiRealMaxPlayersExpression
     @Override
     @Contract(pure = true)
     @NotNull
-    protected Integer executeImpl(@Nullable Context context) {
+    protected Integer executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         return Bukkit.getMaxPlayers();
     }
 

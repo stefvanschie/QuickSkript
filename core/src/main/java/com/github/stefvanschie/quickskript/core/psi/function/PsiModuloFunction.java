@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.function;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
@@ -39,15 +40,15 @@ public class PsiModuloFunction extends PsiElement<Double> {
         this.b = b;
 
         if (this.a.isPreComputed() && this.b.isPreComputed()) {
-            preComputed = executeImpl(null);
+            preComputed = executeImpl(null, null);
             this.a = this.b = null;
         }
     }
 
     @NotNull
     @Override
-    protected Double executeImpl(@Nullable Context context) {
-        return a.execute(context, Number.class).doubleValue() % b.execute(context, Number.class).doubleValue();
+    protected Double executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return a.execute(environment, context, Number.class).doubleValue() % b.execute(environment, context, Number.class).doubleValue();
     }
 
     /**

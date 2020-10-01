@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.effect;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiSayEffect;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Contract;
@@ -30,8 +31,8 @@ public class PsiSayEffectImpl extends PsiSayEffect {
 
     @Nullable
     @Override
-    protected Void executeImpl(@Nullable Context context) {
-        player.execute(context, Player.class).chat(text.execute(context, Text.class).toString());
+    protected Void executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        player.execute(environment, context, Player.class).chat(text.execute(environment, context, Text.class).toString());
 
         return null;
     }

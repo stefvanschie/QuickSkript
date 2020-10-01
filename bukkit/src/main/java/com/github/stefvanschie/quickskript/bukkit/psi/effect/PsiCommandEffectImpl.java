@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.bukkit.context.ContextImpl;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiCommandEffect;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -32,13 +33,13 @@ public class PsiCommandEffectImpl extends PsiCommandEffect {
     }
 
     @Nullable
-    @Contract(value = "_ -> null", pure = true)
+    @Contract(value = "_, _ -> null", pure = true)
     @Override
-    protected Void executeImpl(@Nullable Context context) {
+    protected Void executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         CommandSender sender = null;
 
         if (commandSender != null) {
-            sender = commandSender.execute(context, CommandSender.class);
+            sender = commandSender.execute(environment, context, CommandSender.class);
         }
 
         if (sender == null && context != null) {
@@ -49,7 +50,7 @@ public class PsiCommandEffectImpl extends PsiCommandEffect {
             sender = Bukkit.getConsoleSender();
         }
 
-        Bukkit.dispatchCommand(sender, commandName.execute(context, Text.class).toString());
+        Bukkit.dispatchCommand(sender, commandName.execute(environment, context, Text.class).toString());
 
         return null;
     }

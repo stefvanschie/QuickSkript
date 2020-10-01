@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.bukkit.util.Platform;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiActionBarEffect;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -32,13 +33,13 @@ public class PsiActionBarEffectImpl extends PsiActionBarEffect {
     }
 
     @Nullable
-    @Contract(value = "_ -> null", pure = true)
+    @Contract(value = "_, _ -> null", pure = true)
     @SuppressWarnings("deprecation")
     @Override
-    protected Void executeImpl(@Nullable Context context) {
+    protected Void executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         Platform platform = Platform.getPlatform();
-        Player player = this.player.execute(context, Player.class);
-        String text = this.text.execute(context, Text.class).toString();
+        Player player = this.player.execute(environment, context, Player.class);
+        String text = this.text.execute(environment, context, Text.class).toString();
 
         if (platform.isAvailable(Platform.PAPER)) {
             player.sendActionBar(text);

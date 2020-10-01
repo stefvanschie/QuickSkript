@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiMaxHealthExpression;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -33,8 +34,8 @@ public class PsiMaxHealthExpressionImpl extends PsiMaxHealthExpression {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Double executeImpl(@Nullable Context context) {
-        Attributable attributable = livingEntity.execute(context, Attributable.class);
+    protected Double executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        Attributable attributable = livingEntity.execute(environment, context, Attributable.class);
         AttributeInstance attribute = attributable.getAttribute(Attribute.GENERIC_MAX_HEALTH);
 
         if (attribute == null) {
@@ -45,32 +46,32 @@ public class PsiMaxHealthExpressionImpl extends PsiMaxHealthExpression {
     }
 
     @Override
-    public void add(@Nullable Context context, @NotNull PsiElement<?> object) {
-        Attributable attributable = livingEntity.execute(context, Attributable.class);
+    public void add(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        Attributable attributable = livingEntity.execute(environment, context, Attributable.class);
         AttributeInstance attribute = attributable.getAttribute(Attribute.GENERIC_MAX_HEALTH);
 
         if (attribute == null) {
             throw new ExecutionException("Entity does not have a maximum health", lineNumber);
         }
 
-        attribute.setBaseValue(attribute.getBaseValue() + object.execute(context, Number.class).doubleValue() * 2);
+        attribute.setBaseValue(attribute.getBaseValue() + object.execute(environment, context, Number.class).doubleValue() * 2);
     }
 
     @Override
-    public void remove(@Nullable Context context, @NotNull PsiElement<?> object) {
-        Attributable attributable = livingEntity.execute(context, Attributable.class);
+    public void remove(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        Attributable attributable = livingEntity.execute(environment, context, Attributable.class);
         AttributeInstance attribute = attributable.getAttribute(Attribute.GENERIC_MAX_HEALTH);
 
         if (attribute == null) {
             throw new ExecutionException("Entity does not have a maximum health", lineNumber);
         }
 
-        attribute.setBaseValue(attribute.getBaseValue() - object.execute(context, Number.class).doubleValue() * 2);
+        attribute.setBaseValue(attribute.getBaseValue() - object.execute(environment, context, Number.class).doubleValue() * 2);
     }
 
     @Override
-    public void reset(@Nullable Context context) {
-        Attributable attributable = livingEntity.execute(context, Attributable.class);
+    public void reset(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        Attributable attributable = livingEntity.execute(environment, context, Attributable.class);
         AttributeInstance attribute = attributable.getAttribute(Attribute.GENERIC_MAX_HEALTH);
 
         if (attribute == null) {
@@ -81,15 +82,15 @@ public class PsiMaxHealthExpressionImpl extends PsiMaxHealthExpression {
     }
 
     @Override
-    public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
-        Attributable attributable = livingEntity.execute(context, Attributable.class);
+    public void set(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        Attributable attributable = livingEntity.execute(environment, context, Attributable.class);
         AttributeInstance attribute = attributable.getAttribute(Attribute.GENERIC_MAX_HEALTH);
 
         if (attribute == null) {
             throw new ExecutionException("Entity does not have a maximum health", lineNumber);
         }
 
-        attribute.setBaseValue(object.execute(context, Number.class).doubleValue() * 2);
+        attribute.setBaseValue(object.execute(environment, context, Number.class).doubleValue() * 2);
     }
 
     /**

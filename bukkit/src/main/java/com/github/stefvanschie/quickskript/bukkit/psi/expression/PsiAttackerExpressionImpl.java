@@ -5,6 +5,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.context.EventContext;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiAttackerExpression;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
@@ -71,7 +72,7 @@ public class PsiAttackerExpressionImpl extends PsiAttackerExpression {
     @Nullable
     @Contract(pure = true)
     @Override
-    protected Object executeImpl(@Nullable Context context) {
+    protected Object executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         if (!(context instanceof EventContext)) {
             throw new ExecutionException("The attacker can only be gotten in events", lineNumber);
         }

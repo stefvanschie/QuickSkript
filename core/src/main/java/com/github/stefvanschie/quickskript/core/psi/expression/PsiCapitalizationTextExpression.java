@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
@@ -45,7 +46,7 @@ public class PsiCapitalizationTextExpression extends PsiElement<Text> {
         this.text = text;
 
         if (text.isPreComputed()) {
-            preComputed = executeImpl(null);
+            preComputed = executeImpl(null, null);
 
             this.capitalization = null;
             this.text = null;
@@ -54,8 +55,8 @@ public class PsiCapitalizationTextExpression extends PsiElement<Text> {
 
     @Nullable
     @Override
-    protected Text executeImpl(@Nullable Context context) {
-        String text = this.text.execute(context, Text.class).toString();
+    protected Text executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        String text = this.text.execute(environment, context, Text.class).toString();
         Locale locale = Locale.getDefault();
         StringBuilder newText = new StringBuilder(text.length());
 

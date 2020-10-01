@@ -2,7 +2,6 @@ package com.github.stefvanschie.quickskript.bukkit.skript;
 
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
 import com.github.stefvanschie.quickskript.bukkit.integration.region.RegionIntegration;
-import com.github.stefvanschie.quickskript.bukkit.integration.region.WorldGuardIntegration;
 import com.github.stefvanschie.quickskript.bukkit.plugin.QuickSkript;
 import com.github.stefvanschie.quickskript.bukkit.event.ComplexEventProxyFactory;
 import com.github.stefvanschie.quickskript.bukkit.event.EventProxyFactory;
@@ -36,6 +35,7 @@ import com.github.stefvanschie.quickskript.core.psi.section.PsiIf;
 import com.github.stefvanschie.quickskript.core.psi.section.PsiWhile;
 import com.github.stefvanschie.quickskript.core.skript.Skript;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
@@ -78,6 +78,14 @@ import java.util.stream.Collectors;
 public class BukkitSkriptLoader extends SkriptLoader {
 
     /**
+     * The run environment this instance operates in.
+     * While loading should be separate from execution,
+     * it's not possible to separate event listener registration
+     * and command registration from the runtime.
+     */
+    private final SkriptRunEnvironment environment;
+
+    /**
      * A list of all event proxy factories.
      */
     private List<EventProxyFactory> events;
@@ -91,9 +99,15 @@ public class BukkitSkriptLoader extends SkriptLoader {
     /**
      * Creates a new Bukkit skript loader.
      *
+     * @param environment the run environment this instance operates in.
+     * While loading should be separate from execution,
+     * it's not possible to separate event listener registration
+     * and command registration from the runtime.
      * @since 0.1.0
      */
-    public BukkitSkriptLoader() {
+    public BukkitSkriptLoader(@NotNull SkriptRunEnvironment environment) {
+        this.environment = environment;
+
         RegionIntegration regionIntegration = QuickSkript.getInstance().getRegionIntegration();
 
         if (regionIntegration != null) {
@@ -563,7 +577,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
             return;
         }
 
-        command.setExecutor(new SkriptCommandExecutor(this, skript, trigger, target));
+        command.setExecutor(new SkriptCommandExecutor(this, environment, skript, trigger, target));
 
         commandMapWrapper.register(command);
     }
@@ -575,7 +589,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         input = input.trim();
 
         for (EventProxyFactory factory : events) {
-            if (factory.tryRegister(input, () -> new SkriptEventExecutor(this, skript, section))) {
+            if (factory.tryRegister(input, () -> new SkriptEventExecutor(this, environment, skript, section))) {
                 return;
             }
         }
