@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.expression;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiGlidingStateExpression;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -29,18 +30,18 @@ public class PsiGlidingStateExpressionImpl extends PsiGlidingStateExpression {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Boolean executeImpl(@Nullable Context context) {
-        return livingEntity.execute(context, LivingEntity.class).isGliding();
+    protected Boolean executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return livingEntity.execute(environment, context, LivingEntity.class).isGliding();
     }
 
     @Override
-    public void reset(@Nullable Context context) {
-        livingEntity.execute(context, LivingEntity.class).setGliding(false);
+    public void reset(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        livingEntity.execute(environment, context, LivingEntity.class).setGliding(false);
     }
 
     @Override
-    public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
-        livingEntity.execute(context, LivingEntity.class).setGliding(object.execute(context, Boolean.class));
+    public void set(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        livingEntity.execute(environment, context, LivingEntity.class).setGliding(object.execute(environment, context, Boolean.class));
     }
 
     /**

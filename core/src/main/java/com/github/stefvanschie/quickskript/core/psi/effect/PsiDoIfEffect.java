@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.pattern.group.RegexGroup;
@@ -53,9 +54,9 @@ public class PsiDoIfEffect extends PsiElement<Void> {
 
     @Nullable
     @Override
-    protected Void executeImpl(@Nullable Context context) {
-        if (condition.execute(context, Boolean.class)) {
-            expression.execute(context);
+    protected Void executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        if (condition.execute(environment, context, Boolean.class)) {
+            expression.execute(environment, context);
         }
 
         return null;

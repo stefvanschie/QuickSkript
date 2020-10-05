@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
@@ -45,7 +46,7 @@ public class PsiIndexOfExpression extends PsiElement<Integer> {
         this.searchPosition = searchPos;
 
         if (needle.isPreComputed() && haystack.isPreComputed()) {
-            preComputed = executeImpl(null);
+            preComputed = executeImpl(null, null);
 
             this.haystack = null;
             this.needle = null;
@@ -56,9 +57,9 @@ public class PsiIndexOfExpression extends PsiElement<Integer> {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Integer executeImpl(@Nullable Context context) {
-        String needle = this.needle.execute(context, Text.class).toString();
-        String haystack = this.haystack.execute(context, Text.class).toString();
+    protected Integer executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        String needle = this.needle.execute(environment, context, Text.class).toString();
+        String haystack = this.haystack.execute(environment, context, Text.class).toString();
         int index;
 
         if (searchPosition == SearchPosition.FIRST) {

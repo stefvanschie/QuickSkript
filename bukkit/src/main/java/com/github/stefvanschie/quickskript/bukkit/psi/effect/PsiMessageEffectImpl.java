@@ -6,6 +6,7 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiMessageEffect;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiCollection;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -31,13 +32,13 @@ public class PsiMessageEffectImpl extends PsiMessageEffect {
 
     @Nullable
     @Override
-    protected Void executeImpl(@Nullable Context context) {
+    protected Void executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         CommandSender receiver = null;
 
         if (this.receiver == null && context != null) {
             receiver = ((ContextImpl) context).getCommandSender();
         } else if (this.receiver != null) {
-            receiver = this.receiver.execute(context, CommandSender.class);
+            receiver = this.receiver.execute(environment, context, CommandSender.class);
         }
 
         if (receiver == null) {
@@ -46,7 +47,7 @@ public class PsiMessageEffectImpl extends PsiMessageEffect {
             );
         }
 
-        Object object = Objects.requireNonNull(message.execute(context));
+        Object object = Objects.requireNonNull(message.execute(environment, context));
         CommandSender finalReceiver = receiver;
         PsiCollection.forEach(object, e -> finalReceiver.sendMessage(String.valueOf(e)), null);
         return null;

@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.util;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -28,7 +29,7 @@ public class PsiPrecomputedHolder<T> extends PsiElement<T> {
 
     @Override
     @Contract("_ -> fail")
-    protected final T executeImpl(@Nullable Context context) {
+    protected final T executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         throw new AssertionError("Since the preComputed variable is always set, this method should never get called");
     }
 }

@@ -6,6 +6,7 @@ import com.github.stefvanschie.quickskript.core.context.EventContext;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiHidePlayerFromServerListEffect;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.server.ServerListPingEvent;
@@ -34,7 +35,7 @@ public class PsiHidePlayerFromServerListEffectImpl extends PsiHidePlayerFromServ
 
     @Nullable
     @Override
-    protected Void executeImpl(@Nullable Context context) {
+    protected Void executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         if (!(context instanceof EventContext)) {
             throw new ExecutionException("Code needs to be run from an event trigger", lineNumber);
         }
@@ -45,7 +46,7 @@ public class PsiHidePlayerFromServerListEffectImpl extends PsiHidePlayerFromServ
             throw new ExecutionException("Code needs to be run from a server list ping trigger", lineNumber);
         }
 
-        Player player = this.player.execute(context, Player.class);
+        Player player = this.player.execute(environment, context, Player.class);
         Iterator<Player> iterator = ((ServerListPingEvent) event).iterator();
 
         while (iterator.hasNext()) {

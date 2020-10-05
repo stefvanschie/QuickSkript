@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
@@ -48,7 +49,7 @@ public class PsiNumbersExpression extends PsiElement<List<Number>> {
         this.integer = integer;
 
         if (lowerBound.isPreComputed() && upperBound.isPreComputed()) {
-            preComputed = executeImpl(null);
+            preComputed = executeImpl(null, null);
 
             this.lowerBound = null;
             this.upperBound = null;
@@ -58,11 +59,11 @@ public class PsiNumbersExpression extends PsiElement<List<Number>> {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected List<Number> executeImpl(@Nullable Context context) {
+    protected List<Number> executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         List<Number> numbers = new ArrayList<>();
 
-        double lowerBound = this.lowerBound.execute(context, Double.class);
-        double upperBound = this.upperBound.execute(context, Double.class);
+        double lowerBound = this.lowerBound.execute(environment, context, Double.class);
+        double upperBound = this.upperBound.execute(environment, context, Double.class);
 
         int incrementer = lowerBound < upperBound ? 1 : -1;
 

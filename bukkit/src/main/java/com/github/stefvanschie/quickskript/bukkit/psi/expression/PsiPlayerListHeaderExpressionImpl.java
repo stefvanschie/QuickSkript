@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.bukkit.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiPlayerListHeaderExpression;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
@@ -30,23 +31,23 @@ public class PsiPlayerListHeaderExpressionImpl extends PsiPlayerListHeaderExpres
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Text executeImpl(@Nullable Context context) {
-        return Text.parseNullable(player.execute(context, Player.class).getPlayerListHeader());
+    protected Text executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return Text.parseNullable(player.execute(environment, context, Player.class).getPlayerListHeader());
     }
 
     @Override
-    public void delete(@Nullable Context context) {
-        player.execute(context, Player.class).setPlayerListHeader("");
+    public void delete(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        player.execute(environment, context, Player.class).setPlayerListHeader("");
     }
 
     @Override
-    public void reset(@Nullable Context context) {
-        delete(context);
+    public void reset(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        delete(environment, context);
     }
 
     @Override
-    public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
-        player.execute(context, Player.class).setPlayerListHeader(object.execute(context, Text.class).toString());
+    public void set(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        player.execute(environment, context, Player.class).setPlayerListHeader(object.execute(environment, context, Text.class).toString());
     }
 
     /**

@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.condition;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.condition.PsiIsOnlineCondition;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -30,8 +31,8 @@ public class PsiIsOnlineConditionImpl extends PsiIsOnlineCondition {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Boolean executeImpl(@Nullable Context context) {
-        return positive == offlinePlayer.execute(context, OfflinePlayer.class).isOnline();
+    protected Boolean executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return positive == offlinePlayer.execute(environment, context, OfflinePlayer.class).isOnline();
     }
 
     /**

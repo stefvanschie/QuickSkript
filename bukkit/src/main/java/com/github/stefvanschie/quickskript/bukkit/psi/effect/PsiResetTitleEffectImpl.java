@@ -5,6 +5,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiResetTitleEffect;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Contract;
@@ -31,7 +32,7 @@ public class PsiResetTitleEffectImpl extends PsiResetTitleEffect {
 
     @Nullable
     @Override
-    protected Void executeImpl(@Nullable Context context) {
+    protected Void executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         Player player;
 
         if (this.player == null) {
@@ -47,7 +48,7 @@ public class PsiResetTitleEffectImpl extends PsiResetTitleEffect {
                 throw new ExecutionException("Unable to find a player to reset the title for", lineNumber);
             }
         } else {
-            player = this.player.execute(context, Player.class);
+            player = this.player.execute(environment, context, Player.class);
         }
 
         player.resetTitle();

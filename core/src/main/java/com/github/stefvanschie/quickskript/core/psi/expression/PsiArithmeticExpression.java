@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
@@ -43,7 +44,7 @@ public class PsiArithmeticExpression extends PsiElement<Number> {
         this.operation = operation;
 
         if (left.isPreComputed() && right.isPreComputed()) {
-            preComputed = executeImpl(null);
+            preComputed = executeImpl(null, null);
 
             this.left = null;
             this.right = null;
@@ -54,9 +55,9 @@ public class PsiArithmeticExpression extends PsiElement<Number> {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Number executeImpl(@Nullable Context context) {
-        double leftNumber = left.execute(context, Number.class).doubleValue();
-        double rightNumber = right.execute(context, Number.class).doubleValue();
+    protected Number executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        double leftNumber = left.execute(environment, context, Number.class).doubleValue();
+        double rightNumber = right.execute(environment, context, Number.class).doubleValue();
 
         switch (operation) {
             case ADDITION:

@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.function;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
@@ -64,22 +65,22 @@ public class PsiDateFunction extends PsiElement<LocalDateTime> {
             (this.hour == null || this.hour.isPreComputed()) && (this.minute == null || this.minute.isPreComputed()) &&
             (this.second == null || this.second.isPreComputed()) &&
             (this.millisecond == null || this.millisecond.isPreComputed())) {
-            preComputed = executeImpl(null);
+            preComputed = executeImpl(null, null);
             this.year = this.month = this.day = this.hour = this.minute = this.second = this.millisecond = null;
         }
     }
 
     @NotNull
     @Override
-    protected LocalDateTime executeImpl(@Nullable Context context) {
+    protected LocalDateTime executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         return LocalDateTime.of(
-                year.execute(context, Number.class).intValue(),
-                month.execute(context, Number.class).intValue(),
-                day.execute(context, Number.class).intValue(),
-                hour == null ? 0 : hour.execute(context, Number.class).intValue(),
-                minute == null ? 0 : minute.execute(context, Number.class).intValue(),
-                second == null ? 0 : second.execute(context, Number.class).intValue(),
-                millisecond == null ? 0 : millisecond.execute(context, Number.class).intValue() * 1000000
+                year.execute(environment, context, Number.class).intValue(),
+                month.execute(environment, context, Number.class).intValue(),
+                day.execute(environment, context, Number.class).intValue(),
+                hour == null ? 0 : hour.execute(environment, context, Number.class).intValue(),
+                minute == null ? 0 : minute.execute(environment, context, Number.class).intValue(),
+                second == null ? 0 : second.execute(environment, context, Number.class).intValue(),
+                millisecond == null ? 0 : millisecond.execute(environment, context, Number.class).intValue() * 1000000
         );
     }
 

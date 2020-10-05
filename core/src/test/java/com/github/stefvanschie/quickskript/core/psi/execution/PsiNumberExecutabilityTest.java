@@ -133,7 +133,7 @@ class PsiNumberExecutabilityTest extends TestClassBase {
             RunContext context = new RunContext(supplier);
             PsiElement<Number> result = next(context);
             assertEquals(precomputed, result.isPreComputed());
-            result.execute(null, Number.class);
+            result.execute(null, null, Number.class);
         } catch (ExecutionException e) {
             System.out.println("Acceptable exception was thrown");
         }

@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.expression;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiPingExpression;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -29,8 +30,8 @@ public class PsiPingExpressionImpl extends PsiPingExpression {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Integer executeImpl(@Nullable Context context) {
-        return player.execute(context, Player.class).spigot().getPing();
+    protected Integer executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return player.execute(environment, context, Player.class).spigot().getPing();
     }
 
     /**

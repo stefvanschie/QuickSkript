@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.expression;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiLeashHolderExpression;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.Contract;
@@ -31,8 +32,8 @@ public class PsiLeashHolderExpressionImpl extends PsiLeashHolderExpression {
     @Nullable
     @Contract(pure = true)
     @Override
-    protected Entity executeImpl(@Nullable Context context) {
-        LivingEntity entity = this.entity.execute(context, LivingEntity.class);
+    protected Entity executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        LivingEntity entity = this.entity.execute(environment, context, LivingEntity.class);
 
         return entity.isLeashed() ? entity.getLeashHolder() : null;
     }

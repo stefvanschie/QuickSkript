@@ -2,6 +2,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiOfflinePlayersExpression;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.Contract;
@@ -29,7 +30,7 @@ public class PsiOfflinePlayersExpressionImpl extends PsiOfflinePlayersExpression
     @NotNull
     @Contract(pure = true)
     @Override
-    protected OfflinePlayer[] executeImpl(@Nullable Context context) {
+    protected OfflinePlayer[] executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         return Bukkit.getOfflinePlayers();
     }
 

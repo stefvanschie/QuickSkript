@@ -2,6 +2,7 @@ package com.github.stefvanschie.quickskript.core.psi;
 
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -44,19 +45,21 @@ public abstract class PsiElement<T> {
     /**
      * Returns a pre computed value if {@link #isPreComputed()} returns true otherwise executes this element.
      *
+     * @param environment the environment this code is being executed in, may be null if the code is expected to be pre computed
      * @param context the context this code is being executed in, may be null if the code is expected to be pre computed
      * @return the computed value which is null if the computation returned null
      * @since 0.1.0
      */
     @Nullable
-    public final T execute(@Nullable Context context) {
-        return isPreComputed() ? preComputed : executeImpl(context);
+    public final T execute(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return isPreComputed() ? preComputed : executeImpl(environment, context);
     }
 
     /**
      * Returns a pre computed value if {@link #isPreComputed()} returns true otherwise executes this element.
      * If the result is not an instance of the specified {@link Class} an {@link ExecutionException} is thrown.
      *
+     * @param environment the environment this code is being executed in, may be null if the code is expected to be pre computed
      * @param context the context this code is being executed in, may be null if the code is expected to be pre computed
      * @param forcedResult the {@link Class} this method must return an instance of
      * @param <R> the type this method must return an instance of
@@ -64,8 +67,8 @@ public abstract class PsiElement<T> {
      * @since 0.1.0
      */
     @NotNull
-    public <R> R execute(@Nullable Context context, @NotNull Class<R> forcedResult) {
-        T result = execute(context);
+    public <R> R execute(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull Class<R> forcedResult) {
+        T result = execute(environment, context);
 
         if (forcedResult.isInstance(result)) {
             return forcedResult.cast(result);
@@ -84,7 +87,7 @@ public abstract class PsiElement<T> {
      * @since 0.1.0
      */
     @Nullable
-    protected T executeImpl(@Nullable Context context) {
+    protected T executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         throw new UnsupportedOperationException("Cannot execute expression without implementation.");
     }
 

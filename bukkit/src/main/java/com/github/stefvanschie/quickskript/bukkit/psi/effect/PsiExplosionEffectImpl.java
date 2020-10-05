@@ -5,6 +5,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiExplosionEffect;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
@@ -33,7 +34,7 @@ public class PsiExplosionEffectImpl extends PsiExplosionEffect {
 
     @Nullable
     @Override
-    protected Void executeImpl(@Nullable Context context) {
+    protected Void executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         if (context == null) {
             throw new ExecutionException("Context cannot be absent", lineNumber);
         }
@@ -52,7 +53,7 @@ public class PsiExplosionEffectImpl extends PsiExplosionEffect {
         Location location = entity.getLocation();
 
         entity.getWorld().createExplosion(location.getX(),
-            location.getY(), location.getZ(), force.execute(context, Number.class).floatValue(), !safe, !safe);
+            location.getY(), location.getZ(), force.execute(environment, context, Number.class).floatValue(), !safe, !safe);
 
         return null;
     }

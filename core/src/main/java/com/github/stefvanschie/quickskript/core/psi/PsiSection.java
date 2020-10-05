@@ -2,6 +2,7 @@ package com.github.stefvanschie.quickskript.core.psi;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.util.pointermovement.ExitSectionsPointerMovement;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -35,16 +36,16 @@ public abstract class PsiSection extends PsiElement<ExitSectionsPointerMovement>
         this.elements = elements;
 
         if (Arrays.stream(elements).anyMatch(element -> element.isPreComputed()
-                && element.execute(null) instanceof Boolean)) {
+                && element.execute(null, null) instanceof Boolean)) {
             //TODO warning
         }
     }
 
     @Nullable
     @Override
-    protected ExitSectionsPointerMovement executeImpl(@Nullable Context context) {
+    protected ExitSectionsPointerMovement executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         for (PsiElement<?> element : elements) {
-            if (element.execute(context) == Boolean.FALSE) {
+            if (element.execute(environment, context) == Boolean.FALSE) {
                 break;
             }
         }

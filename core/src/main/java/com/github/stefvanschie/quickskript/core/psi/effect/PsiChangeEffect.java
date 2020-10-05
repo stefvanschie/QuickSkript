@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
@@ -57,19 +58,19 @@ public class PsiChangeEffect extends PsiElement<Void> {
 
     @Nullable
     @Override
-    protected Void executeImpl(@Nullable Context context) {
+    protected Void executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         if (changeMode == ChangeMode.ADD && changee instanceof Addable) {
-            ((Addable) changee).add(context, Objects.requireNonNull(objects));
+            ((Addable) changee).add(environment, context, Objects.requireNonNull(objects));
         } else if (changeMode == ChangeMode.SET && changee instanceof Settable) {
-            ((Settable) changee).set(context, Objects.requireNonNull(objects));
+            ((Settable) changee).set(environment, context, Objects.requireNonNull(objects));
         } else if (changeMode == ChangeMode.REMOVE_ALL && changee instanceof RemoveAllable) {
-            ((RemoveAllable) changee).removeAll(context, Objects.requireNonNull(objects));
+            ((RemoveAllable) changee).removeAll(environment, context, Objects.requireNonNull(objects));
         } else if (changeMode == ChangeMode.REMOVE && changee instanceof Removable) {
-            ((Removable) changee).remove(context, Objects.requireNonNull(objects));
+            ((Removable) changee).remove(environment, context, Objects.requireNonNull(objects));
         } else if (changeMode == ChangeMode.DELETE && changee instanceof Deletable) {
-            ((Deletable) changee).delete(context);
+            ((Deletable) changee).delete(environment, context);
         } else if (changeMode == ChangeMode.RESET && changee instanceof Resettable) {
-            ((Resettable) changee).reset(context);
+            ((Resettable) changee).reset(environment, context);
         } else {
             throw new ExecutionException("Specified change cannot be applied on the given expression", lineNumber);
         }

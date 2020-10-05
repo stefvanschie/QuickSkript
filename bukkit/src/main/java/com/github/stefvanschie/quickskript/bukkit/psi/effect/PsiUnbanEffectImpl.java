@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiUnbanEffect;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
@@ -32,10 +33,10 @@ public class PsiUnbanEffectImpl extends PsiUnbanEffect {
     }
 
     @Nullable
-    @Contract(value = "_ -> null", pure = true)
+    @Contract(value = "_, _ -> null", pure = true)
     @Override
-    protected Void executeImpl(@Nullable Context context) {
-        Object object = this.object.execute(context);
+    protected Void executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        Object object = this.object.execute(environment, context);
         BanList banList = Bukkit.getBanList(ipBan ? BanList.Type.IP : BanList.Type.NAME);
 
         if (object instanceof Text) {

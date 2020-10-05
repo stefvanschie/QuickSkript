@@ -6,6 +6,7 @@ import com.github.stefvanschie.quickskript.core.context.EventContext;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiFakeMaxPlayersExpression;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.server.ServerListPingEvent;
@@ -34,39 +35,39 @@ public class PsiFakeMaxPlayersExpressionImpl extends PsiFakeMaxPlayersExpression
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Integer executeImpl(@Nullable Context context) {
+    protected Integer executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         return forceGetServerListPingEvent(context).getMaxPlayers();
     }
 
     @Override
-    public void add(@Nullable Context context, @NotNull PsiElement<?> object) {
+    public void add(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
         ServerListPingEvent serverListPingEvent = forceGetServerListPingEvent(context);
-        int newMaxPlayers = serverListPingEvent.getMaxPlayers() + object.execute(context, Number.class).intValue();
+        int newMaxPlayers = serverListPingEvent.getMaxPlayers() + object.execute(environment, context, Number.class).intValue();
 
         serverListPingEvent.setMaxPlayers(newMaxPlayers);
     }
 
     @Override
-    public void delete(@Nullable Context context) {
+    public void delete(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         forceGetServerListPingEvent(context).setMaxPlayers(Bukkit.getMaxPlayers());
     }
 
     @Override
-    public void remove(@Nullable Context context, @NotNull PsiElement<?> object) {
+    public void remove(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
         ServerListPingEvent serverListPingEvent = forceGetServerListPingEvent(context);
-        int newMaxPlayers = serverListPingEvent.getMaxPlayers() - object.execute(context, Number.class).intValue();
+        int newMaxPlayers = serverListPingEvent.getMaxPlayers() - object.execute(environment, context, Number.class).intValue();
 
         serverListPingEvent.setMaxPlayers(newMaxPlayers);
     }
 
     @Override
-    public void reset(@Nullable Context context) {
-        delete(context);
+    public void reset(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        delete(environment, context);
     }
 
     @Override
-    public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
-        forceGetServerListPingEvent(context).setMaxPlayers(object.execute(context, Number.class).intValue());
+    public void set(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        forceGetServerListPingEvent(context).setMaxPlayers(object.execute(environment, context, Number.class).intValue());
     }
 
     /**

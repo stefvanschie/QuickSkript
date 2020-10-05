@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
@@ -43,8 +44,8 @@ public class PsiRandomExpression extends PsiElement<Object> {
     @Nullable
     @Contract(pure = true)
     @Override
-    protected Object executeImpl(@Nullable Context context) {
-        List<?> list = PsiCollection.toStreamForgiving(collection.execute(context))
+    protected Object executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        List<?> list = PsiCollection.toStreamForgiving(collection.execute(environment, context))
             .collect(Collectors.toUnmodifiableList());
 
         if (list.size() == 0) {

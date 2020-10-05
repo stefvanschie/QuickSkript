@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
@@ -42,8 +43,8 @@ public class PsiShuffleExpression extends PsiElement<List<?>> {
 
     @Nullable
     @Override
-    protected List<?> executeImpl(@Nullable Context context) {
-        List<?> list = PsiCollection.toStreamForgiving(collection.execute(context)).collect(Collectors.toList());
+    protected List<?> executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        List<?> list = PsiCollection.toStreamForgiving(collection.execute(environment, context)).collect(Collectors.toList());
 
         Collections.shuffle(list);
 

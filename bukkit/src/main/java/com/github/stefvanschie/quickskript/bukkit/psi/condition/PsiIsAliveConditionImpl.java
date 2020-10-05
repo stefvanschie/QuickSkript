@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.condition;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.condition.PsiIsAliveCondition;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -31,8 +32,8 @@ public class PsiIsAliveConditionImpl extends PsiIsAliveCondition {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Boolean executeImpl(@Nullable Context context) {
-        return positive == !livingEntity.execute(context, LivingEntity.class).isDead();
+    protected Boolean executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return positive == !livingEntity.execute(environment, context, LivingEntity.class).isDead();
     }
 
     /**

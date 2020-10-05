@@ -8,6 +8,7 @@ import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException
 import com.github.stefvanschie.quickskript.core.psi.util.pointermovement.ExitSectionsPointerMovement;
 import com.github.stefvanschie.quickskript.core.skript.Skript;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.skript.profiler.SkriptProfiler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -59,11 +60,11 @@ public class PsiBaseSection extends PsiSection {
 
     @Nullable
     @Override
-    protected ExitSectionsPointerMovement executeImpl(@Nullable Context context) {
+    protected ExitSectionsPointerMovement executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         long startTime = System.nanoTime();
 
         for (PsiElement<?> element : elements) {
-            Object result = element.execute(context);
+            Object result = element.execute(environment, context);
 
             if (result == Boolean.FALSE) {
                 break;
@@ -93,8 +94,10 @@ public class PsiBaseSection extends PsiSection {
             }
         }
 
-        SkriptProfiler.getActive().onTimeMeasured(contextType, profilerIdentifier,
-            System.nanoTime() - startTime);
+        if (environment != null) {
+            environment.getProfiler().onTimeMeasured(contextType, profilerIdentifier,
+                    System.nanoTime() - startTime);
+        }
         return null;
     }
 }

@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
@@ -37,7 +38,7 @@ public class PsiUnixTimestampExpression extends PsiElement<Long> {
         this.dateTime = dateTime;
 
         if (dateTime.isPreComputed()) {
-            preComputed = executeImpl(null);
+            preComputed = executeImpl(null, null);
 
             this.dateTime = null;
         }
@@ -45,8 +46,8 @@ public class PsiUnixTimestampExpression extends PsiElement<Long> {
 
     @Nullable
     @Override
-    protected Long executeImpl(@Nullable Context context) {
-        LocalDateTime dateTime = this.dateTime.execute(context, LocalDateTime.class);
+    protected Long executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        LocalDateTime dateTime = this.dateTime.execute(environment, context, LocalDateTime.class);
 
         return dateTime.toEpochSecond(ZoneId.systemDefault().getRules().getOffset(dateTime));
     }

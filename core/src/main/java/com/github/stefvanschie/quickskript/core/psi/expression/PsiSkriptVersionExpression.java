@@ -1,18 +1,13 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
-import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.util.ApplicationInfo;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-
-import java.io.IOException;
-import java.util.Properties;
 
 /**
  * Gets the Skript version.

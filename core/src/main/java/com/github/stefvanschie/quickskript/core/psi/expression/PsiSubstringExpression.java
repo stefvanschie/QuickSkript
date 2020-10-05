@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
@@ -54,15 +55,15 @@ public class PsiSubstringExpression extends PsiElement<Text> {
 
     @Nullable
     @Override
-    protected Text executeImpl(@Nullable Context context) {
-        String text = this.text.execute(context, Text.class).toString();
+    protected Text executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        String text = this.text.execute(environment, context, Text.class).toString();
 
         int startIndex = -1;
 
         if (this.startIndex == null) {
             startIndex = 1;
         } else {
-            int start = this.startIndex.execute(context, Number.class).intValue();
+            int start = this.startIndex.execute(environment, context, Number.class).intValue();
 
             if (relation == PositionRelation.STATIC) {
                 startIndex = start;
@@ -71,7 +72,7 @@ public class PsiSubstringExpression extends PsiElement<Text> {
             }
         }
 
-        int endIndex = this.endIndex == null ? text.length() : this.endIndex.execute(context, Number.class).intValue();
+        int endIndex = this.endIndex == null ? text.length() : this.endIndex.execute(environment, context, Number.class).intValue();
 
         return Text.parse(text.substring(startIndex - 1, endIndex));
     }

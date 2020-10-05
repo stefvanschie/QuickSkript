@@ -2,6 +2,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiBukkitVersionExpression;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.Contract;
@@ -28,7 +29,7 @@ public class PsiBukkitVersionExpressionImpl extends PsiBukkitVersionExpression {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Text executeImpl(@Nullable Context context) {
+    protected Text executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         return Text.parseLiteral(Bukkit.getBukkitVersion());
     }
 

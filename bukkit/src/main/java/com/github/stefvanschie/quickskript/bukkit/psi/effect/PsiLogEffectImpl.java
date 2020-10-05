@@ -5,6 +5,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiLogEffect;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -38,16 +39,16 @@ public class PsiLogEffectImpl extends PsiLogEffect {
 
     @Nullable
     @Override
-    protected Void executeImpl(@Nullable Context context) {
+    protected Void executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         var instance = QuickSkript.getInstance();
-        String text = this.text.execute(context, Text.class).toString();
+        String text = this.text.execute(environment, context, Text.class).toString();
 
         if (fileName == null) {
             String prefix = context == null ? "" : '[' + context.getSkript().getName() + "] ";
 
             instance.getLogger().info(prefix + text);
         } else {
-            String fileName = this.fileName.execute(context, Text.class).toString();
+            String fileName = this.fileName.execute(environment, context, Text.class).toString();
 
             if (!fileName.endsWith(".log")) {
                 fileName += ".log";

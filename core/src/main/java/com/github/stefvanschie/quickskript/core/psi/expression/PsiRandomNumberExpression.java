@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
@@ -52,9 +53,9 @@ public class PsiRandomNumberExpression extends PsiElement<Number> {
 
     @NotNull
     @Override
-    protected Number executeImpl(@Nullable Context context) {
-        Number minNumber = min.execute(context, Number.class);
-        Number maxNumber = max.execute(context, Number.class);
+    protected Number executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        Number minNumber = min.execute(environment, context, Number.class);
+        Number maxNumber = max.execute(environment, context, Number.class);
 
         if (minNumber.doubleValue() > maxNumber.doubleValue()) {
             Number temp = maxNumber;

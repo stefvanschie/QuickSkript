@@ -8,6 +8,7 @@ import com.github.stefvanschie.quickskript.core.context.EventContext;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiFakeOnlinePlayerCountExpression;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.server.ServerListPingEvent;
@@ -35,7 +36,7 @@ public class PsiFakeOnlinePlayerCountExpressionImpl extends PsiFakeOnlinePlayerC
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Integer executeImpl(@Nullable Context context) {
+    protected Integer executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         if (!(context instanceof EventContext)) {
             throw new ExecutionException("Fake online player count expression can only be executed from events",
                 lineNumber);
@@ -52,32 +53,32 @@ public class PsiFakeOnlinePlayerCountExpressionImpl extends PsiFakeOnlinePlayerC
     }
 
     @Override
-    public void add(@Nullable Context context, @NotNull PsiElement<?> object) {
+    public void add(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
         PaperServerListPingEvent pingEvent = forceGetPingEvent(context);
 
-        pingEvent.setNumPlayers(pingEvent.getNumPlayers() + object.execute(context, Number.class).intValue());
+        pingEvent.setNumPlayers(pingEvent.getNumPlayers() + object.execute(environment, context, Number.class).intValue());
     }
 
     @Override
-    public void delete(@Nullable Context context) {
+    public void delete(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         forceGetPingEvent(context).setNumPlayers(Bukkit.getOnlinePlayers().size());
     }
 
     @Override
-    public void remove(@Nullable Context context, @NotNull PsiElement<?> object) {
+    public void remove(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
         PaperServerListPingEvent pingEvent = forceGetPingEvent(context);
 
-        pingEvent.setNumPlayers(pingEvent.getNumPlayers() - object.execute(context, Number.class).intValue());
+        pingEvent.setNumPlayers(pingEvent.getNumPlayers() - object.execute(environment, context, Number.class).intValue());
     }
 
     @Override
-    public void reset(@Nullable Context context) {
-        delete(context);
+    public void reset(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        delete(environment, context);
     }
 
     @Override
-    public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
-        forceGetPingEvent(context).setNumPlayers(object.execute(context, Number.class).intValue());
+    public void set(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        forceGetPingEvent(context).setNumPlayers(object.execute(environment, context, Number.class).intValue());
     }
 
     /**

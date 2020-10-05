@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.expression;
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
 import com.github.stefvanschie.quickskript.bukkit.context.EventContextImpl;
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.context.EventContext;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
@@ -34,7 +35,7 @@ public class PsiShownServerIconExpressionImpl extends PsiShownServerIconExpressi
     @Nullable
     @Contract(pure = true)
     @Override
-    protected CachedServerIcon executeImpl(@Nullable Context context) {
+    protected CachedServerIcon executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         if (!(context instanceof EventContext)) {
             throw new ExecutionException("The shown server icon can only be retrieved in an event", lineNumber);
         }
@@ -49,7 +50,7 @@ public class PsiShownServerIconExpressionImpl extends PsiShownServerIconExpressi
     }
 
     @Override
-    public void reset(@Nullable Context context) {
+    public void reset(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         if (!(context instanceof EventContext)) {
             throw new ExecutionException("The shown server icon can only be retrieved in an event", lineNumber);
         }
@@ -64,7 +65,7 @@ public class PsiShownServerIconExpressionImpl extends PsiShownServerIconExpressi
     }
 
     @Override
-    public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
+    public void set(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
         if (!(context instanceof EventContext)) {
             throw new ExecutionException("The shown server icon can only be retrieved in an event", lineNumber);
         }
@@ -75,7 +76,7 @@ public class PsiShownServerIconExpressionImpl extends PsiShownServerIconExpressi
             throw new ExecutionException("The shown server icon can only be retrieved in a ping event", lineNumber);
         }
 
-        ((PaperServerListPingEvent) event).setServerIcon(object.execute(context, CachedServerIcon.class));
+        ((PaperServerListPingEvent) event).setServerIcon(object.execute(environment, context, CachedServerIcon.class));
     }
 
     /**

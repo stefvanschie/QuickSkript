@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.expression;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiDefaultServerIconExpression;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.Bukkit;
 import org.bukkit.util.CachedServerIcon;
 import org.jetbrains.annotations.Contract;
@@ -31,7 +32,7 @@ public class PsiDefaultServerIconExpressionImpl extends PsiDefaultServerIconExpr
     @NotNull
     @Contract(pure = true)
     @Override
-    protected CachedServerIcon executeImpl(@Nullable Context context) {
+    protected CachedServerIcon executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         throw new ExecutionException("This expression is always pre-computed", lineNumber);
     }
 

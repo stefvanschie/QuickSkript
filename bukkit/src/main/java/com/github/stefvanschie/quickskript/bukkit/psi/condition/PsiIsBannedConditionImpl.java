@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.condition.PsiIsBannedCondition;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
@@ -36,8 +37,8 @@ public class PsiIsBannedConditionImpl extends PsiIsBannedCondition {
     @Nullable
     @Contract(pure = true)
     @Override
-    protected Boolean executeImpl(@Nullable Context context) {
-        Object object = this.object.execute(context);
+    protected Boolean executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        Object object = this.object.execute(environment, context);
         BanList banList = Bukkit.getBanList(ipBan ? BanList.Type.IP : BanList.Type.NAME);
 
         if (object instanceof OfflinePlayer) {

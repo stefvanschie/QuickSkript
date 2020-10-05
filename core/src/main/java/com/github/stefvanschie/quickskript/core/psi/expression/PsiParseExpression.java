@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.pattern.group.RegexGroup;
@@ -50,14 +51,14 @@ public class PsiParseExpression extends PsiElement<Object> {
         this.converter = converter;
 
         if (this.value.isPreComputed()) {
-            preComputed = executeImpl(null);
+            preComputed = executeImpl(null, null);
         }
     }
 
     @Nullable
     @Override
-    protected Object executeImpl(@Nullable Context context) {
-        Object toParse = value.execute(context);
+    protected Object executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        Object toParse = value.execute(environment, context);
 
         if (toParse == null) {
             return null; //TODO didn't think this through, no idea what should happen, please fix
@@ -70,7 +71,7 @@ public class PsiParseExpression extends PsiElement<Object> {
             return null;
         }
 
-        return parsed.execute(context);
+        return parsed.execute(environment, context);
     }
 
     /**

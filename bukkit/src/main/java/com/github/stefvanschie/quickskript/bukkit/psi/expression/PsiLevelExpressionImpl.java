@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.expression;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiLevelExpression;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -29,37 +30,37 @@ public class PsiLevelExpressionImpl extends PsiLevelExpression {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Integer executeImpl(@Nullable Context context) {
-        return this.player.execute(context, Player.class).getLevel();
+    protected Integer executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return this.player.execute(environment, context, Player.class).getLevel();
     }
 
     @Override
-    public void add(@Nullable Context context, @NotNull PsiElement<?> object) {
-        Player player = this.player.execute(context, Player.class);
+    public void add(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        Player player = this.player.execute(environment, context, Player.class);
 
-        player.setLevel(player.getLevel() + object.execute(context, Integer.class));
+        player.setLevel(player.getLevel() + object.execute(environment, context, Integer.class));
     }
 
     @Override
-    public void delete(@Nullable Context context) {
-        this.player.execute(context, Player.class).setLevel(0);
+    public void delete(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        this.player.execute(environment, context, Player.class).setLevel(0);
     }
 
     @Override
-    public void remove(@Nullable Context context, @NotNull PsiElement<?> object) {
-        Player player = this.player.execute(context, Player.class);
+    public void remove(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        Player player = this.player.execute(environment, context, Player.class);
 
-        player.setLevel(player.getLevel() - object.execute(context, Integer.class));
+        player.setLevel(player.getLevel() - object.execute(environment, context, Integer.class));
     }
 
     @Override
-    public void reset(@Nullable Context context) {
-        delete(null);
+    public void reset(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        delete(environment, context);
     }
 
     @Override
-    public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
-        this.player.execute(context, Player.class).setLevel(object.execute(context, Integer.class));
+    public void set(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        this.player.execute(environment, context, Player.class).setLevel(object.execute(environment, context, Integer.class));
     }
 
     /**

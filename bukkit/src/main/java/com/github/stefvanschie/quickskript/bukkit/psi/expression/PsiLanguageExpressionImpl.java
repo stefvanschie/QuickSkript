@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.expression;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiLanguageExpression;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Contract;
@@ -31,8 +32,8 @@ public class PsiLanguageExpressionImpl extends PsiLanguageExpression {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Text executeImpl(@Nullable Context context) {
-        return Text.parseLiteral(player.execute(context, Player.class).getLocale());
+    protected Text executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return Text.parseLiteral(player.execute(environment, context, Player.class).getLocale());
     }
 
     /**

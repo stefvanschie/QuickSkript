@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.bukkit.psi.function;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.function.PsiVectorFunction;
 import org.bukkit.util.Vector;
@@ -28,10 +29,10 @@ public class PsiVectorFunctionImpl extends PsiVectorFunction {
 
     @NotNull
     @Override
-    protected Vector executeImpl(@Nullable Context context) {
-        Number xResult = x.execute(context, Number.class);
-        Number yResult = y.execute(context, Number.class);
-        Number zResult = z.execute(context, Number.class);
+    protected Vector executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        Number xResult = x.execute(environment, context, Number.class);
+        Number yResult = y.execute(environment, context, Number.class);
+        Number zResult = z.execute(environment, context, Number.class);
 
         return new Vector(xResult.doubleValue(), yResult.doubleValue(), zResult.doubleValue());
     }

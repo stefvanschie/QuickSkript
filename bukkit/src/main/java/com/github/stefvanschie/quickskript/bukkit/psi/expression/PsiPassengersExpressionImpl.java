@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.expression;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiPassengersExpression;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -31,24 +32,24 @@ public class PsiPassengersExpressionImpl extends PsiPassengersExpression {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected List<Entity> executeImpl(@Nullable Context context) {
-        return entity.execute(context, Entity.class).getPassengers();
+    protected List<Entity> executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return entity.execute(environment, context, Entity.class).getPassengers();
     }
 
     @Override
-    public void add(@Nullable Context context, @NotNull PsiElement<?> object) {
-        entity.execute(context, Entity.class).getPassengers().add(object.execute(context, Entity.class));
+    public void add(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        entity.execute(environment, context, Entity.class).getPassengers().add(object.execute(environment, context, Entity.class));
     }
 
     @Override
-    public void delete(@Nullable Context context) {
-        entity.execute(context, Entity.class).eject();
+    public void delete(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        entity.execute(environment, context, Entity.class).eject();
     }
 
     @Override
-    public void remove(@Nullable Context context, @NotNull PsiElement<?> object) {
-        Entity entity = this.entity.execute(context, Entity.class);
-        Entity searchingEntity = object.execute(context, Entity.class);
+    public void remove(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        Entity entity = this.entity.execute(environment, context, Entity.class);
+        Entity searchingEntity = object.execute(environment, context, Entity.class);
 
         entity.getPassengers().stream()
             .filter(passenger -> passenger.equals(searchingEntity))
@@ -56,21 +57,21 @@ public class PsiPassengersExpressionImpl extends PsiPassengersExpression {
     }
 
     @Override
-    public void removeAll(@Nullable Context context, @NotNull PsiElement<?> object) {
-        remove(context, object);
+    public void removeAll(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        remove(environment, context, object);
     }
 
     @Override
-    public void reset(@Nullable Context context) {
-        delete(context);
+    public void reset(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        delete(environment, context);
     }
 
     @Override
-    public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
-        Entity entity = this.entity.execute(context, Entity.class);
+    public void set(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        Entity entity = this.entity.execute(environment, context, Entity.class);
 
         entity.eject();
-        entity.addPassenger(object.execute(context, Entity.class));
+        entity.addPassenger(object.execute(environment, context, Entity.class));
     }
 
     /**

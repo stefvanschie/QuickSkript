@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.bukkit.util.Platform;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiCloseInventoryEffect;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.jetbrains.annotations.Contract;
@@ -30,8 +31,8 @@ public class PsiCloseInventoryEffectImpl extends PsiCloseInventoryEffect {
 
     @Nullable
     @Override
-    protected Void executeImpl(@Nullable Context context) {
-        HumanEntity humanEntity = this.humanEntity.execute(context, HumanEntity.class);
+    protected Void executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        HumanEntity humanEntity = this.humanEntity.execute(environment, context, HumanEntity.class);
 
         if (Platform.getPlatform().isAvailable(Platform.PAPER)) {
             humanEntity.closeInventory(InventoryCloseEvent.Reason.PLUGIN);

@@ -2,6 +2,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.expression;
 
 import com.github.stefvanschie.quickskript.bukkit.context.EventContextImpl;
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.context.EventContext;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiTamerExpression;
@@ -32,7 +33,7 @@ public class PsiTamerExpressionImpl extends PsiTamerExpression {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected AnimalTamer executeImpl(@Nullable Context context) {
+    protected AnimalTamer executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         if (!(context instanceof EventContext)) {
             throw new ExecutionException("Tamer expression can only be used in events", lineNumber);
         }

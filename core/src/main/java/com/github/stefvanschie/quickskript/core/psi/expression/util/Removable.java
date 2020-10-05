@@ -2,6 +2,7 @@ package com.github.stefvanschie.quickskript.core.psi.expression.util;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,7 +20,7 @@ public interface Removable {
      * @param object the object to remove
      * @since 0.1.0
      */
-    default void remove(@Nullable Context context, @NotNull PsiElement<?> object) {
+    default void remove(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
         throw new UnsupportedOperationException("Cannot change expression without implementation.");
     }
 

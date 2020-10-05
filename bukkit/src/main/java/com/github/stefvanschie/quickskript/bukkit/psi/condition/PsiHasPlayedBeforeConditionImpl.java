@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.condition;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.condition.PsiHasPlayedBeforeCondition;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -23,8 +24,8 @@ public class PsiHasPlayedBeforeConditionImpl extends PsiHasPlayedBeforeCondition
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Boolean executeImpl(@Nullable Context context) {
-        return positive == player.execute(context, OfflinePlayer.class).hasPlayedBefore();
+    protected Boolean executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return positive == player.execute(environment, context, OfflinePlayer.class).hasPlayedBefore();
     }
 
     /**

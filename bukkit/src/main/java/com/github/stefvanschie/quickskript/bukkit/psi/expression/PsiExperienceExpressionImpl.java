@@ -7,6 +7,7 @@ import com.github.stefvanschie.quickskript.core.context.EventContext;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiExperienceExpression;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -32,7 +33,7 @@ public class PsiExperienceExpressionImpl extends PsiExperienceExpression {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Integer executeImpl(@Nullable Context context) {
+    protected Integer executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         if (!(context instanceof EventContext)) {
             throw new ExecutionException("Experience expression can only be used inside events", lineNumber);
         }
@@ -50,7 +51,7 @@ public class PsiExperienceExpressionImpl extends PsiExperienceExpression {
     }
 
     @Override
-    public void add(@Nullable Context context, @NotNull PsiElement<?> object) {
+    public void add(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
         if (!(context instanceof EventContext)) {
             throw new ExecutionException("Experience expression can only be used inside events", lineNumber);
         }
@@ -65,13 +66,13 @@ public class PsiExperienceExpressionImpl extends PsiExperienceExpression {
         }
 
         ExperienceOrbSpawnEvent experienceOrbSpawnEvent = (ExperienceOrbSpawnEvent) event;
-        int newXp = experienceOrbSpawnEvent.getXp() + object.execute(context, Number.class).intValue();
+        int newXp = experienceOrbSpawnEvent.getXp() + object.execute(environment, context, Number.class).intValue();
 
         experienceOrbSpawnEvent.setXp(Math.max(0, newXp));
     }
 
     @Override
-    public void remove(@Nullable Context context, @NotNull PsiElement<?> object) {
+    public void remove(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
         if (!(context instanceof EventContext)) {
             throw new ExecutionException("Experience expression can only be used inside events", lineNumber);
         }
@@ -86,18 +87,18 @@ public class PsiExperienceExpressionImpl extends PsiExperienceExpression {
         }
 
         ExperienceOrbSpawnEvent experienceOrbSpawnEvent = (ExperienceOrbSpawnEvent) event;
-        int newXp = experienceOrbSpawnEvent.getXp() - object.execute(context, Number.class).intValue();
+        int newXp = experienceOrbSpawnEvent.getXp() - object.execute(environment, context, Number.class).intValue();
 
         experienceOrbSpawnEvent.setXp(Math.max(0, newXp));
     }
 
     @Override
-    public void removeAll(@Nullable Context context, @NotNull PsiElement<?> object) {
-        remove(context, object);
+    public void removeAll(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
+        remove(environment, context, object);
     }
 
     @Override
-    public void set(@Nullable Context context, @NotNull PsiElement<?> object) {
+    public void set(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
         if (!(context instanceof EventContext)) {
             throw new ExecutionException("Experience expression can only be used inside events", lineNumber);
         }
@@ -113,7 +114,7 @@ public class PsiExperienceExpressionImpl extends PsiExperienceExpression {
 
         ExperienceOrbSpawnEvent experienceOrbSpawnEvent = (ExperienceOrbSpawnEvent) event;
 
-        experienceOrbSpawnEvent.setXp(Math.max(0, object.execute(context, Number.class).intValue()));
+        experienceOrbSpawnEvent.setXp(Math.max(0, object.execute(environment, context, Number.class).intValue()));
     }
 
     /**

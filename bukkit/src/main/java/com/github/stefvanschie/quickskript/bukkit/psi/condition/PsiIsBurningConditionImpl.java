@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.bukkit.psi.condition;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.condition.PsiIsBurningCondition;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -31,8 +32,8 @@ public class PsiIsBurningConditionImpl extends PsiIsBurningCondition {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Boolean executeImpl(@Nullable Context context) {
-        return positive == (entity.execute(context, Entity.class).getFireTicks() > 0);
+    protected Boolean executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return positive == (entity.execute(environment, context, Entity.class).getFireTicks() > 0);
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
@@ -38,7 +39,7 @@ public class PsiSortExpression extends PsiElement<List<?>> {
         this.collection = collection;
 
         if (collection.isPreComputed()) {
-            preComputed = executeImpl(null);
+            preComputed = executeImpl(null, null);
 
             this.collection = null;
         }
@@ -47,8 +48,8 @@ public class PsiSortExpression extends PsiElement<List<?>> {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected List<?> executeImpl(@Nullable Context context) {
-        return PsiCollection.toStreamForgiving(collection.execute(context)).sorted().collect(Collectors.toList());
+    protected List<?> executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return PsiCollection.toStreamForgiving(collection.execute(environment, context)).sorted().collect(Collectors.toList());
     }
 
     /**
