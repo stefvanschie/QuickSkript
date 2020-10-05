@@ -1,6 +1,6 @@
 package com.github.stefvanschie.quickskript.core.psi.parsing;
 
-import com.github.stefvanschie.quickskript.core.psi.TestClassBase;
+import com.github.stefvanschie.quickskript.core.TestClassBase;
 import com.github.stefvanschie.quickskript.core.psi.literal.PsiNumberLiteral;
 import com.github.stefvanschie.quickskript.core.psi.literal.PsiStringLiteral;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
@@ -48,9 +48,9 @@ class PsiLiteralParseTest extends TestClassBase {
     void test() {
         inputHolders.forEach((clazz, cases) -> {
             cases.getSuccess().forEach(input ->
-                assertTrue(clazz.isInstance(skriptLoader.forceParseElement(input, -1))));
+                assertTrue(clazz.isInstance(getSkriptLoader().forceParseElement(input, -1))));
             cases.getFailure().forEach(input ->
-                assertNull(skriptLoader.tryParseElement(input, -1)));
+                assertNull(getSkriptLoader().tryParseElement(input, -1)));
         });
     }
 

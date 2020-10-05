@@ -1,0 +1,3 @@
+command /test:
+    Trigary:
+        message "Trigary should be trigger instead" to the console

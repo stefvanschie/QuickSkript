@@ -1,12 +1,14 @@
 package com.github.stefvanschie.quickskript.core.psi.parsing;
 
+import com.github.stefvanschie.quickskript.core.TestClassBase;
 import com.github.stefvanschie.quickskript.core.file.skript.FileSkript;
 import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileLine;
 import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileNode;
-import com.github.stefvanschie.quickskript.core.psi.TestClassBase;
 import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,17 +19,22 @@ import java.util.List;
  */
 class SkriptFileParseTest extends TestClassBase {
 
-    @Test
-    void test() {
-        for (FileSkript skript : getSampleSkripts()) {
-            try {
-                skript.registerCommands(skriptLoader);
-                skript.registerEventExecutors(skriptLoader);
-                System.out.println("Successfully parsed: " + skript.getName());
-            } catch (ParseException e) {
-                throw new AssertionError("Error while parsing:" + e.getExtraInfo(skript), e);
-            }
-        }
+    @ParameterizedTest
+    @ValueSource(strings = {"Basic-sections", "Dynamic-indentation", "Simple-with-comments"})
+    void testValidSamples(String file) {
+        FileSkript skript = getSkriptResource(file);
+        skript.registerCommands(getSkriptLoader());
+        skript.registerEventExecutors(getSkriptLoader());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"Invalid-command", "Invalid-content", /*"Invalid-event"*/})
+    void testInvalidSamples(String file) {
+        Assertions.assertThrows(ParseException.class, () -> {
+            FileSkript skript = getSkriptResource(file);
+            skript.registerCommands(getSkriptLoader());
+            skript.registerEventExecutors(getSkriptLoader());
+        });
     }
 
     @Test

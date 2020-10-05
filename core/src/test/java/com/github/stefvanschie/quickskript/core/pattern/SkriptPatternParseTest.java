@@ -1,9 +1,14 @@
 package com.github.stefvanschie.quickskript.core.pattern;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import java.util.Set;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Execution(ExecutionMode.CONCURRENT)
 class SkriptPatternParseTest {
 
     private final Set<String> patterns = Set.of(
