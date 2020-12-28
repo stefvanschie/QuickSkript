@@ -6,10 +6,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Matches a space character (U+0020). No other spaces should be matched by this group; those belong to
@@ -19,13 +16,6 @@ import java.util.List;
  * @since 0.1.0
  */
 public class SpaceGroup implements SkriptPatternGroup {
-
-    /**
-     * An instance of a space group. This instance is used to save on memory footprint by reusing the same object. This
-     * is possible, because all space groups are the same.
-     */
-    @NotNull
-    private static final SpaceGroup INSTANCE = new SpaceGroup();
 
     @NotNull
     @Contract(pure = true)
@@ -82,6 +72,26 @@ public class SpaceGroup implements SkriptPatternGroup {
         return Collections.emptyList();
     }
 
+    @NotNull
+    @Contract(pure = true)
+    @Override
+    public Collection<String> unrollFully(@NotNull List<SkriptPatternGroup> groups) {
+        int index = SkriptPatternGroup.indexOfSame(groups, this);
+
+        if (index + 1 < groups.size() && groups.get(index + 1) instanceof OptionalGroup &&
+            (index + 2 >= groups.size() || !(groups.get(index + 2) instanceof SpaceGroup))) {
+            //after this an optional group and then a space
+            return Collections.emptySet();
+        }
+
+        if (index - 1 >= 0 && groups.get(index - 1) instanceof OptionalGroup) {
+            //before this is an optional group
+            return Collections.emptySet();
+        }
+
+        return Collections.singleton(" ");
+    }
+
     /**
      * Parses the group at the starting of the match, returning the correct group if it matches correctly. This will
      * only match if the match is at the start and continuous i.e. there are no gaps in the match.
@@ -94,7 +104,7 @@ public class SpaceGroup implements SkriptPatternGroup {
     @Nullable
     public static Pair<SpaceGroup, StringBuilder> parseStarting(@NotNull StringBuilder input) {
         if (input.charAt(0) == ' ') {
-            return new Pair<>(INSTANCE, input.deleteCharAt(0));
+            return new Pair<>(new SpaceGroup(), input.deleteCharAt(0));
         }
 
         return null;

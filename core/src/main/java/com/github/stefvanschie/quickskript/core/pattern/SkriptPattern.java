@@ -1,5 +1,6 @@
 package com.github.stefvanschie.quickskript.core.pattern;
 
+import com.github.stefvanschie.quickskript.core.pattern.exception.SkriptPatternInvalidGroupException;
 import com.github.stefvanschie.quickskript.core.pattern.group.*;
 import com.github.stefvanschie.quickskript.core.util.Pair;
 import org.jetbrains.annotations.Contract;
@@ -104,6 +105,42 @@ public class SkriptPattern {
         }
 
         return groups.get(0).match(groups.subList(1, groups.size()).toArray(SkriptPatternGroup[]::new), input);
+    }
+
+    /**
+     * Unrolls this skript pattern returning an array of all possible strings that will fully match this pattern. This
+     * method does not work for patterns that contain a type group or regex group. If this method is called on a skript
+     * pattern which does have either have these groups, an {@link SkriptPatternInvalidGroupException} will be thrown.
+     * The returned collection is unmodifiable.
+     *
+     * @return all possible matches for this pattern
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public Collection<String> unrollFully() {
+        Collection<String> matches = new HashSet<>();
+
+        matches.add("");
+
+        for (SkriptPatternGroup group : groups) {
+            Collection<String> newMatches = new HashSet<>();
+            Collection<String> strings = group.unrollFully(Collections.unmodifiableList(groups));
+
+            if (strings.isEmpty()) {
+                continue;
+            }
+
+            for (String match : matches) {
+                for (String string : strings) {
+                    newMatches.add(match + string);
+                }
+            }
+
+            matches = newMatches;
+        }
+
+        return Collections.unmodifiableCollection(matches);
     }
 
     /**

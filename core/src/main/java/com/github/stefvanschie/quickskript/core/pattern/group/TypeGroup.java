@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.pattern.group;
 
 import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
+import com.github.stefvanschie.quickskript.core.pattern.exception.SkriptPatternInvalidGroupException;
 import com.github.stefvanschie.quickskript.core.pattern.exception.SkriptPatternParseException;
 import com.github.stefvanschie.quickskript.core.util.Pair;
 import org.jetbrains.annotations.Contract;
@@ -155,6 +156,13 @@ public class TypeGroup implements SkriptPatternGroup {
         }
 
         return new Pair<>(new TypeGroup(input.substring(0, endCharacter), constraint), input.delete(0, endCharacter + 1));
+    }
+
+    @NotNull
+    @Contract(pure = true)
+    @Override
+    public Collection<String> unrollFully(@NotNull List<SkriptPatternGroup> groups) {
+        throw new SkriptPatternInvalidGroupException("Type group cannot be unrolled");
     }
 
     @Override

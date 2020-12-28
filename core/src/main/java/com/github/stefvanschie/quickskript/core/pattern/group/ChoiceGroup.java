@@ -8,10 +8,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * A group that marks possible choices.
@@ -221,6 +218,19 @@ public class ChoiceGroup implements SkriptPatternGroup {
         ChoiceGroup choiceGroup = new ChoiceGroup(patterns.toArray(SkriptPattern[]::new), parseMarkArray);
 
         return new Pair<>(choiceGroup, input.delete(0, lastIndex + 1));
+    }
+
+    @NotNull
+    @Contract(pure = true)
+    @Override
+    public Collection<String> unrollFully(@NotNull List<SkriptPatternGroup> groups) {
+        Collection<String> matches = new HashSet<>();
+
+        for (SkriptPattern pattern : patterns) {
+            matches.addAll(pattern.unrollFully());
+        }
+
+        return matches;
     }
 
     @Override

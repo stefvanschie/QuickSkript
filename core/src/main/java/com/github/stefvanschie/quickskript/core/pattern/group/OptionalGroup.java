@@ -8,10 +8,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * A optional with multiple choices, similar to a {@link ChoiceGroup}, but these choices are optional: none have to
@@ -228,6 +225,39 @@ public class OptionalGroup implements SkriptPatternGroup {
         OptionalGroup optionalGroup = new OptionalGroup(patterns.toArray(new SkriptPattern[0]), parseMarkArray);
 
         return new Pair<>(optionalGroup, input.delete(0, lastIndex + 1));
+    }
+
+    @NotNull
+    @Contract(pure = true)
+    @Override
+    public Collection<String> unrollFully(@NotNull List<SkriptPatternGroup> groups) {
+        int index = SkriptPatternGroup.indexOfSame(groups, this);
+        Collection<String> matches = new HashSet<>();
+
+        if (index + 1 < groups.size() && groups.get(index + 1) instanceof SpaceGroup) {
+            //cover the space after this optional as well
+            for (SkriptPattern pattern : patterns) {
+                for (String match : pattern.unrollFully()) {
+                    matches.add(match + ' ');
+                }
+            }
+        } else if (index - 1 >= 0 && groups.get(index - 1) instanceof SpaceGroup &&
+            (index + 1 >= groups.size() || !(groups.get(index + 1) instanceof SpaceGroup))) {
+            //cover the space before this optional
+            for (SkriptPattern pattern : patterns) {
+                for (String match : pattern.unrollFully()) {
+                    matches.add(' ' + match);
+                }
+            }
+        } else {
+            for (SkriptPattern pattern : patterns) {
+                matches.addAll(pattern.unrollFully());
+            }
+        }
+
+        matches.add("");
+
+        return Collections.unmodifiableCollection(matches);
     }
 
     @Override

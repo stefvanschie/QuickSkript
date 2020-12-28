@@ -115,14 +115,10 @@ public class PsiItemLiteral extends PsiElement<Item> {
                     continue;
                 }
 
-                for (ItemTypeRegistry.Entry entry : skriptLoader.getItemTypeRegistry().getEntries()) {
-                    for (SkriptMatchResult match : entry.getPattern().match(pair.getY())) {
-                        if (match.hasUnmatchedParts()) {
-                            continue;
-                        }
+                ItemTypeRegistry.Entry entry = skriptLoader.getItemTypeRegistry().getEntryByName(pair.getY());
 
-                        return create(entry, amount, enchantment, lineNumber);
-                    }
+                if (entry != null) {
+                    return create(entry, amount, enchantment, lineNumber);
                 }
 
                 return null;

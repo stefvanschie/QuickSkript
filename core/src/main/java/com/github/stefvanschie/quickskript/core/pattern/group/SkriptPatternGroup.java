@@ -3,7 +3,9 @@ package com.github.stefvanschie.quickskript.core.pattern.group;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -48,4 +50,37 @@ public interface SkriptPatternGroup {
     @NotNull
     @Contract(pure = true)
     List<SkriptMatchResult> match(@NotNull SkriptPatternGroup[] followingGroups, @NotNull String input);
+
+    /**
+     * Fully unrolls this group returning all possible strings that would match this group. The returned collection is
+     * unmodifiable.
+     *
+     * @param groups all groups in the skript pattern that is being unrolled
+     * @return all possible matches for this group
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    Collection<String> unrollFully(@NotNull List<SkriptPatternGroup> groups);
+
+    /**
+     * Gets the index of the specified object in the specified list. The objects are compared using object identity
+     * comparison, unlike {@link List#indexOf(Object)} which uses object equality. The returned value is the index in
+     * the list where the object resides or -1 if the object cannot be found in the specified list.
+     *
+     * @param list the list to look in
+     * @param object the object to search for
+     * @return the index of the object
+     * @since 0.1.0
+     */
+    @Contract(pure = true)
+    static int indexOfSame(@NotNull List<?> list, @Nullable Object object) {
+        for (int index = 0, listSize = list.size(); index < listSize; index++) {
+            if (object == list.get(index)) {
+                return index;
+            }
+        }
+
+        return -1;
+    }
 }

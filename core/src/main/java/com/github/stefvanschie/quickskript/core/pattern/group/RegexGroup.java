@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.pattern.group;
 
 import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
+import com.github.stefvanschie.quickskript.core.pattern.exception.SkriptPatternInvalidGroupException;
 import com.github.stefvanschie.quickskript.core.pattern.exception.SkriptPatternParseException;
 import com.github.stefvanschie.quickskript.core.util.Pair;
 import org.jetbrains.annotations.Contract;
@@ -121,6 +122,13 @@ public class RegexGroup implements SkriptPatternGroup {
         }
 
         return new Pair<>(new RegexGroup(input.substring(1, endCharacter)), input.delete(0, endCharacter + 1));
+    }
+
+    @NotNull
+    @Contract(pure = true)
+    @Override
+    public Collection<String> unrollFully(@NotNull List<SkriptPatternGroup> groups) {
+        throw new SkriptPatternInvalidGroupException("Regex group cannot be unrolled");
     }
 
     @Override

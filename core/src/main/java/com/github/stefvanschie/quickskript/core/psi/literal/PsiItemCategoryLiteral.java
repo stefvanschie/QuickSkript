@@ -129,25 +129,9 @@ public class PsiItemCategoryLiteral extends PsiElement<ItemCategory> {
                     lineNumber);
             }
 
-            var itemTypes = new HashSet<ItemTypeRegistry.Entry>();
-            ItemTypeRegistry itemTypeRegistry = skriptLoader.getItemTypeRegistry();
-            Map<SkriptPattern, Set<ItemTypeRegistry.Entry>> categories = itemTypeRegistry.getCategories();
+            Set<ItemTypeRegistry.Entry> itemTypes = skriptLoader.getItemTypeRegistry().getEntriesByCategory(pattern);
 
-            for (Map.Entry<SkriptPattern, Set<ItemTypeRegistry.Entry>> entry : categories.entrySet()) {
-                List<SkriptMatchResult> matches = entry.getKey().match(pattern);
-
-                for (SkriptMatchResult match : matches) {
-                    if (match.hasUnmatchedParts()) {
-                        continue;
-                    }
-
-
-                    itemTypes.addAll(entry.getValue());
-                    break;
-                }
-            }
-
-            if (itemTypes.isEmpty()) {
+            if (itemTypes == null || itemTypes.isEmpty()) {
                 return null;
             }
 

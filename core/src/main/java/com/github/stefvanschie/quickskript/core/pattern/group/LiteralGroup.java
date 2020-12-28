@@ -134,6 +134,13 @@ public class LiteralGroup implements SkriptPatternGroup {
         return new Pair<>(literalGroup, builder.delete(0, index - escapesHit));
     }
 
+    @NotNull
+    @Contract(pure = true)
+    @Override
+    public Collection<String> unrollFully(@NotNull List<SkriptPatternGroup> groups) {
+        return Collections.singleton(getText());
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) {

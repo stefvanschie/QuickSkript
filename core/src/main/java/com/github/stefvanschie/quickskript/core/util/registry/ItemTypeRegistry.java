@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.file.alias.manager.AliasFileMana
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
 import java.util.*;
@@ -26,6 +27,16 @@ public class ItemTypeRegistry {
     private final Map<SkriptPattern, Set<Entry>> categories = new HashMap<>();
 
     /**
+     * A map from an unrolled string to the corresponding entry
+     */
+    private final Map<String, Entry> unrolledEntries = new HashMap<>();
+
+    /**
+     * A map from an unrolled category to the corresponding entries
+     */
+    private final Map<String, Set<Entry>> unrolledCategories = new HashMap<>();
+
+    /**
      * Creates a new item type registry and adds the default item types to it
      *
      * @since 0.1.0
@@ -43,9 +54,43 @@ public class ItemTypeRegistry {
     public void addEntry(@NotNull Entry entry) {
         entries.add(entry);
 
+        for (String unrolledPatternMatch : entry.unrolledPatternMatches) {
+            unrolledEntries.put(unrolledPatternMatch, entry);
+        }
+
         for (SkriptPattern category : entry.getCategories()) {
             categories.computeIfAbsent(category, c -> new HashSet<>()).add(entry);
         }
+
+        for (String unrolledCategory : entry.unrolledCategories) {
+            unrolledCategories.computeIfAbsent(unrolledCategory, c -> new HashSet<>()).add(entry);
+        }
+    }
+
+    /**
+     * Gets an entry by a name. If no entry exists by the given name, this returns null.
+     *
+     * @param name the name
+     * @return the entry or null
+     * @since 0.1.0
+     */
+    @Nullable
+    @Contract(pure = true)
+    public Entry getEntryByName(@NotNull String name) {
+        return unrolledEntries.get(name);
+    }
+
+    /**
+     * Gets all entries belonging to the given category. If no entries exist by the given category, this returns null.
+     *
+     * @param category the category to look by
+     * @return the entries this category corresponds to
+     * @since 0.1.0
+     */
+    @Nullable
+    @Contract(pure = true)
+    public Set<Entry> getEntriesByCategory(@NotNull String category) {
+        return unrolledCategories.get(category);
     }
 
     /**
@@ -116,10 +161,22 @@ public class ItemTypeRegistry {
         private final SkriptPattern pattern;
 
         /**
+         * The possible matches this pattern has when all possible matches are unrolled.
+         */
+        @NotNull
+        private final Collection<String> unrolledPatternMatches;
+
+        /**
          * The categories this item type belongs to
          */
         @NotNull
         private final Collection<SkriptPattern> categories = new HashSet<>();
+
+        /**
+         * The unrolled categories for this entry
+         */
+        @NotNull
+        private final Collection<String> unrolledCategories = new HashSet<>();
 
         /**
          * Creates a new entry with the specified pattern
@@ -129,6 +186,7 @@ public class ItemTypeRegistry {
          */
         public Entry(@NotNull SkriptPattern pattern) {
             this.pattern = pattern;
+            this.unrolledPatternMatches = this.pattern.unrollFully();
         }
 
         /**
@@ -139,6 +197,7 @@ public class ItemTypeRegistry {
          */
         public void addCategory(@NotNull SkriptPattern category) {
             this.categories.add(category);
+            this.unrolledCategories.addAll(category.unrollFully());
         }
 
         /**
