@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.bukkit;
 import com.github.stefvanschie.quickskript.bukkit.plugin.QuickSkript;
 import com.github.stefvanschie.quickskript.bukkit.skript.BukkitSkriptLoader;
 import com.github.stefvanschie.quickskript.core.file.skript.FileSkript;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.apache.commons.lang.reflect.FieldUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
@@ -41,7 +42,7 @@ public abstract class TestClassBase {
         Mockito.when(plugin.getLogger()).thenReturn(Logger.getGlobal());
         FieldUtils.writeDeclaredStaticField(QuickSkript.class, "instance", plugin, true);
 
-        skriptLoader = new BukkitSkriptLoader();
+        skriptLoader = new BukkitSkriptLoader(new SkriptRunEnvironment());
     }
 
     @AfterAll

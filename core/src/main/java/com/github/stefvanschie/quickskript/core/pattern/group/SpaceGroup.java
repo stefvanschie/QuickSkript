@@ -20,6 +20,13 @@ import java.util.List;
  */
 public class SpaceGroup implements SkriptPatternGroup {
 
+    /**
+     * An instance of a space group. This instance is used to save on memory footprint by reusing the same object. This
+     * is possible, because all space groups are the same.
+     */
+    @NotNull
+    private static final SpaceGroup INSTANCE = new SpaceGroup();
+
     @NotNull
     @Contract(pure = true)
     @Override
@@ -87,9 +94,18 @@ public class SpaceGroup implements SkriptPatternGroup {
     @Nullable
     public static Pair<SpaceGroup, StringBuilder> parseStarting(@NotNull StringBuilder input) {
         if (input.charAt(0) == ' ') {
-            return new Pair<>(new SpaceGroup(), input.deleteCharAt(0));
+            return new Pair<>(INSTANCE, input.deleteCharAt(0));
         }
 
         return null;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+
+        return object != null && getClass() == object.getClass();
     }
 }

@@ -229,4 +229,26 @@ public class OptionalGroup implements SkriptPatternGroup {
 
         return new Pair<>(optionalGroup, input.delete(0, lastIndex + 1));
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+
+        OptionalGroup optionalGroup = (OptionalGroup) object;
+
+        return Arrays.equals(patterns, optionalGroup.patterns) && Arrays.equals(parseMarks, optionalGroup.parseMarks);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Arrays.hashCode(patterns);
+        result = 31 * result + Arrays.hashCode(parseMarks);
+        return result;
+    }
 }

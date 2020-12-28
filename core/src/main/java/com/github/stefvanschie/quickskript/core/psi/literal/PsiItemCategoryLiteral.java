@@ -21,6 +21,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Represents an item category. This may be pre-computed.
@@ -128,20 +130,20 @@ public class PsiItemCategoryLiteral extends PsiElement<ItemCategory> {
             }
 
             var itemTypes = new HashSet<ItemTypeRegistry.Entry>();
+            ItemTypeRegistry itemTypeRegistry = skriptLoader.getItemTypeRegistry();
+            Map<SkriptPattern, Set<ItemTypeRegistry.Entry>> categories = itemTypeRegistry.getCategories();
 
-            for (ItemTypeRegistry.Entry entry : skriptLoader.getItemTypeRegistry().getEntries()) {
-                outer:
-                for (SkriptPattern category : entry.getCategories()) {
-                    List<SkriptMatchResult> matches = category.match(pattern);
+            for (Map.Entry<SkriptPattern, Set<ItemTypeRegistry.Entry>> entry : categories.entrySet()) {
+                List<SkriptMatchResult> matches = entry.getKey().match(pattern);
 
-                    for (SkriptMatchResult match : matches) {
-                        if (match.hasUnmatchedParts()) {
-                            continue;
-                        }
-
-                        itemTypes.add(entry);
-                        break outer;
+                for (SkriptMatchResult match : matches) {
+                    if (match.hasUnmatchedParts()) {
+                        continue;
                     }
+
+
+                    itemTypes.addAll(entry.getValue());
+                    break;
                 }
             }
 

@@ -7,10 +7,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Has to match a certain type of elements. Since patterns and the PSI are separated, this will assume that the match is
@@ -158,6 +155,26 @@ public class TypeGroup implements SkriptPatternGroup {
         }
 
         return new Pair<>(new TypeGroup(input.substring(0, endCharacter), constraint), input.delete(0, endCharacter + 1));
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+
+        TypeGroup typeGroup = (TypeGroup) object;
+
+        return constraint == typeGroup.constraint && type.equals(typeGroup.type);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(constraint, type);
     }
 
     /**

@@ -6,10 +6,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * A literal is a piece of text, without spaces, that should be directly and exactly matched, before matching is
@@ -135,5 +132,25 @@ public class LiteralGroup implements SkriptPatternGroup {
         LiteralGroup literalGroup = new LiteralGroup(builder.substring(0, index - escapesHit));
 
         return new Pair<>(literalGroup, builder.delete(0, index - escapesHit));
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+
+        LiteralGroup literalGroup = (LiteralGroup) object;
+
+        return text.equals(literalGroup.text);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(text);
     }
 }

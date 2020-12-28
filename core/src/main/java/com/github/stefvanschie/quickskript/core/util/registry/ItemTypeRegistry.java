@@ -21,6 +21,11 @@ public class ItemTypeRegistry {
     private final Set<Entry> entries = new HashSet<>();
 
     /**
+     * The different categories mapped to their entries
+     */
+    private final Map<SkriptPattern, Set<Entry>> categories = new HashMap<>();
+
+    /**
      * Creates a new item type registry and adds the default item types to it
      *
      * @since 0.1.0
@@ -37,6 +42,10 @@ public class ItemTypeRegistry {
      */
     public void addEntry(@NotNull Entry entry) {
         entries.add(entry);
+
+        for (SkriptPattern category : entry.getCategories()) {
+            categories.computeIfAbsent(category, c -> new HashSet<>()).add(entry);
+        }
     }
 
     /**
@@ -48,7 +57,20 @@ public class ItemTypeRegistry {
     @NotNull
     @Contract(pure = true)
     public Collection<Entry> getEntries() {
-        return Collections.unmodifiableSet(entries);
+        return Collections.unmodifiableCollection(this.entries);
+    }
+
+    /**
+     * Gets all categories and their entries. Entries which do not belong to a category are not included in this. The
+     * returned map is unmodifiable.
+     *
+     * @return the categories
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public Map<SkriptPattern, Set<Entry>> getCategories() {
+        return Collections.unmodifiableMap(this.categories);
     }
 
     /**

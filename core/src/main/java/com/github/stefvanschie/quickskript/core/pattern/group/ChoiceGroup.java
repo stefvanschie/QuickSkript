@@ -222,4 +222,26 @@ public class ChoiceGroup implements SkriptPatternGroup {
 
         return new Pair<>(choiceGroup, input.delete(0, lastIndex + 1));
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+
+        ChoiceGroup choiceGroup = (ChoiceGroup) object;
+
+        return Arrays.equals(patterns, choiceGroup.patterns) && Arrays.equals(parseMarks, choiceGroup.parseMarks);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Arrays.hashCode(patterns);
+        result = 31 * result + Arrays.hashCode(parseMarks);
+        return result;
+    }
 }
