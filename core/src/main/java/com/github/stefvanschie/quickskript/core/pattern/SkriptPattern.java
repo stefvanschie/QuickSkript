@@ -5,6 +5,7 @@ import com.github.stefvanschie.quickskript.core.pattern.group.*;
 import com.github.stefvanschie.quickskript.core.util.Pair;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.Function;
@@ -22,6 +23,13 @@ public class SkriptPattern {
      * The groups of this skript pattern
      */
     private final List<SkriptPatternGroup> groups;
+
+    /**
+     * The cached result of fully unrolling this pattern. This may be null when this pattern hasn't been fully unrolled
+     * yet.
+     */
+    @Nullable
+    private Collection<String> cachedFullUnroll;
 
     /**
      * A set with functions that can parse groups
@@ -119,6 +127,10 @@ public class SkriptPattern {
     @NotNull
     @Contract(pure = true)
     public Collection<String> unrollFully() {
+        if (cachedFullUnroll != null) {
+            return cachedFullUnroll;
+        }
+
         Collection<String> matches = new HashSet<>();
 
         matches.add("");
@@ -140,7 +152,9 @@ public class SkriptPattern {
             matches = newMatches;
         }
 
-        return Collections.unmodifiableCollection(matches);
+        cachedFullUnroll = Collections.unmodifiableCollection(matches);
+
+        return cachedFullUnroll;
     }
 
     /**

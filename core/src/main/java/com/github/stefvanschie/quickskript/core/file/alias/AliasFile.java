@@ -64,13 +64,16 @@ public class AliasFile {
         variations.putAll(this.variations);
 
         Set<ItemTypeRegistry.Entry> itemTypes = new HashSet<>();
+        Map<String, SkriptPattern> categoryCache = new HashMap<>();
 
         for (AliasFileEntry entry : entries) {
             for (String combination : variationCombinations(entry.getEntry(), variations)) {
                 ItemTypeRegistry.Entry itemType = new ItemTypeRegistry.Entry(SkriptPattern.parse(combination));
 
                 for (String category : entry.getCategories()) {
-                    itemType.addCategory(SkriptPattern.parse(category));
+                    categoryCache.putIfAbsent(category, SkriptPattern.parse(category));
+
+                    itemType.addCategory(categoryCache.get(category));
                 }
 
                 itemTypes.add(itemType);

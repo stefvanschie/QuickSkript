@@ -144,7 +144,9 @@ public class ItemTypeRegistry {
             exception.printStackTrace();
         }
 
-        manager.resolveAll().forEach(this::addEntry);
+        for (Entry entry : manager.resolveAll()) {
+            addEntry(entry);
+        }
     }
 
     /**
