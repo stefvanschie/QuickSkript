@@ -184,9 +184,15 @@ public class SkriptPattern {
     @NotNull
     @Contract(pure = true)
     public List<SkriptPatternGroup> getGroups() {
-        return groups.stream()
-            .flatMap(group -> Stream.concat(Stream.of(group), group.getChildren().stream()))
-            .collect(Collectors.toUnmodifiableList());
+        List<SkriptPatternGroup> groups = new ArrayList<>();
+
+        for (SkriptPatternGroup group : this.groups) {
+            groups.add(group);
+
+            groups.addAll(group.getChildren());
+        }
+
+        return Collections.unmodifiableList(groups);
     }
 
     @Override
