@@ -8,6 +8,7 @@ import com.github.stefvanschie.quickskript.core.pattern.group.TypeGroup;
 import com.github.stefvanschie.quickskript.core.psi.*;
 import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.core.psi.section.PsiIf;
+import com.github.stefvanschie.quickskript.core.psi.util.CachedReflectionMethod;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.exception.IllegalFallbackAnnotationAmountException;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -45,11 +46,11 @@ public abstract class SkriptLoader {
     private final List<PsiElementFactory> elements = new ArrayList<>();
 
     /**
-     * A cache for a factory and a list of methods with their patterns. This is gradually built up for element factories
-     * that are being tested and can be used in the future to avoid having to do lookups.
+     * A cache for a factory and a set of cached methods. This is gradually built up for element factories that are
+     * being tested and can be used in the future to avoid having to do lookups.
      */
     @NotNull
-    private final Map<PsiElementFactory, Map<Method, SkriptPattern[]>> elementsCached = new HashMap<>();
+    private final Map<PsiElementFactory, Set<CachedReflectionMethod>> elementsCached = new HashMap<>();
 
     /**
      * A list of all psi section factories.
@@ -125,10 +126,10 @@ public abstract class SkriptLoader {
         input = input.trim();
 
         for (PsiElementFactory factory : elements) {
-            Map<Method, SkriptPattern[]> methods = elementsCached.get(factory);
+            Set<CachedReflectionMethod> methods = elementsCached.get(factory);
 
             if (methods == null) {
-                methods = new HashMap<>();
+                methods = new HashSet<>();
                 List<Method> newMethods = new ArrayList<>(Arrays.asList(factory.getClass().getMethods()));
 
                 for (Method method : newMethods) {
@@ -174,22 +175,21 @@ public abstract class SkriptLoader {
                         continue;
                     }
 
-                    methods.put(method, skriptPatterns);
+                    methods.add(new CachedReflectionMethod(method, skriptPatterns));
                 }
 
                 elementsCached.put(factory, methods);
             }
 
-            for (Map.Entry<Method, SkriptPattern[]> entry : methods.entrySet()) {
-                Method method = entry.getKey();
-                Class<?>[] parameterTypes = method.getParameterTypes();
-                SkriptPattern[] skriptPatterns = entry.getValue();
-
-                PatternTypeOrderHolder holder = method.getAnnotation(PatternTypeOrderHolder.class);
-                PatternTypeOrder patternTypeOrder = null;
+            for (CachedReflectionMethod cachedReflectionMethod : methods) {
+                Method method = cachedReflectionMethod.getMethod();
+                SkriptPattern[] skriptPatterns = cachedReflectionMethod.getPatterns();
 
                 try {
                     for (int skriptPatternIndex = 0; skriptPatternIndex < skriptPatterns.length; skriptPatternIndex++) {
+                        PatternTypeOrderHolder holder = cachedReflectionMethod.getPatternTypeOrderHolder();
+                        PatternTypeOrder patternTypeOrder = null;
+
                         if (holder != null) {
                             int amount = 0;
                             PatternTypeOrder order = null;
@@ -275,6 +275,7 @@ public abstract class SkriptLoader {
 
                             method.setAccessible(true);
 
+                            Class<?>[] parameterTypes = cachedReflectionMethod.getParameterTypes();
                             List<Object> parameters = new ArrayList<>(Arrays.asList(elements));
 
                             //allow an optional SkriptLoader in front
