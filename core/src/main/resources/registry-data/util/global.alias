@@ -11,3 +11,4 @@ colored = {white, orange, magenta, light blue, yellow, (lime|light green), pink,
 wood type = {oak [wood], spruce [wood], birch [wood], jungle [wood], acacia [wood], dark oak [wood], crimson, warped}
 nether block = {crimson, warped}
 tree type = {oak, spruce, birch, jungle, acacia, dark oak}
+[axised] = {(vertical|z-aligned), (east-west|west-east|x-aligned), (north-south|south-north|z-aligned)}

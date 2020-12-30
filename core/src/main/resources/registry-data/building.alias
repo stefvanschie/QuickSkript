@@ -1,7 +1,6 @@
 :use util/global.alias
 
 [snowable] = {(non-snowy|snowless), snowy}
-[axised] = {(vertical|z-aligned), (east-west|west-east|x-aligned), (north-south|south-north|z-aligned)}
 [slab] = {top, bottom, double}
 [stairs] = {top, bottom}
 [stairs shape] = {straight, inner-left, inner-right, outer-left, outer-right}
