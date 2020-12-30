@@ -182,13 +182,14 @@ public abstract class SkriptLoader {
 
             for (Map.Entry<Method, SkriptPattern[]> entry : methods.entrySet()) {
                 Method method = entry.getKey();
+                Class<?>[] parameterTypes = method.getParameterTypes();
                 SkriptPattern[] skriptPatterns = entry.getValue();
+
+                PatternTypeOrderHolder holder = method.getAnnotation(PatternTypeOrderHolder.class);
+                PatternTypeOrder patternTypeOrder = null;
 
                 try {
                     for (int skriptPatternIndex = 0; skriptPatternIndex < skriptPatterns.length; skriptPatternIndex++) {
-                        PatternTypeOrderHolder holder = method.getAnnotation(PatternTypeOrderHolder.class);
-                        PatternTypeOrder patternTypeOrder = null;
-
                         if (holder != null) {
                             int amount = 0;
                             PatternTypeOrder order = null;
@@ -214,13 +215,8 @@ public abstract class SkriptLoader {
                         }
 
                         SkriptPattern skriptPattern = skriptPatterns[skriptPatternIndex];
-                        int typeGroupAmount = 0;
-
-                        for (SkriptPatternGroup group : skriptPattern.getGroups()) {
-                            if (group instanceof TypeGroup) {
-                                typeGroupAmount++;
-                            }
-                        }
+                        List<TypeGroup> typeGroups = skriptPattern.getGroups(TypeGroup.class);
+                        int typeGroupAmount = typeGroups.size();
 
                         if (method.getParameterCount() < typeGroupAmount + 1) {
                             throw new IllegalStateException("Method '" + method.getName() + "' has "
@@ -237,19 +233,13 @@ public abstract class SkriptLoader {
                             Collection<Pair<SkriptPatternGroup, String>> matchedGroups = result.getMatchedGroups();
 
                             List<TypeGroup> groups = new ArrayList<>();
+                            List<String> matchedTypeTexts = new ArrayList<>();
 
                             for (Pair<SkriptPatternGroup, String> matchedGroup : matchedGroups) {
                                 SkriptPatternGroup group = matchedGroup.getX();
 
                                 if (group instanceof TypeGroup) {
                                     groups.add((TypeGroup) group);
-                                }
-                            }
-
-                            List<String> matchedTypeTexts = new ArrayList<>();
-
-                            for (Pair<SkriptPatternGroup, String> matchedGroup : matchedGroups) {
-                                if (matchedGroup.getX() instanceof TypeGroup) {
                                     matchedTypeTexts.add(matchedGroup.getY());
                                 }
                             }
@@ -257,14 +247,6 @@ public abstract class SkriptLoader {
                             Object[] elements = new Object[typeGroupAmount];
 
                             for (int i = 0; i < elements.length && i < groups.size(); i++) {
-                                List<TypeGroup> typeGroups = new ArrayList<>();
-
-                                for (SkriptPatternGroup group : skriptPattern.getGroups()) {
-                                    if (group instanceof TypeGroup) {
-                                        typeGroups.add((TypeGroup) group);
-                                    }
-                                }
-
                                 int elementIndex = typeGroups.indexOf(groups.get(i));
 
                                 if (patternTypeOrder != null && !Arrays.equals(patternTypeOrder.typeOrder(), new int[]{})) {
@@ -293,7 +275,6 @@ public abstract class SkriptLoader {
 
                             method.setAccessible(true);
 
-                            Class<?>[] parameterTypes = method.getParameterTypes();
                             List<Object> parameters = new ArrayList<>(Arrays.asList(elements));
 
                             //allow an optional SkriptLoader in front

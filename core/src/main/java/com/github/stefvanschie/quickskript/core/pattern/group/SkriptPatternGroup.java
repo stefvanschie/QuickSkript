@@ -26,6 +26,16 @@ public interface SkriptPatternGroup {
     List<SkriptPatternGroup> getChildren();
 
     /**
+     * Gets all groups in this group (recursive) of the type specified. The returned list is immutable.
+     *
+     * @param groupClass the class of the group to find
+     * @param <T> the type of group
+     * @return a list of groups that conform to the specified type
+     * @since 0.1.0
+     */
+    <T extends SkriptPatternGroup> List<T> getGroups(Class<T> groupClass);
+
+    /**
      * Sees if the input matches according to this group. This may partially match with trailing, unmatched characters
      * at the end, only if this is not the last group (followingGroups is not empty). If this is the last group
      * (followingGroups is empty), the rest of the input should be consumed in its entirety.

@@ -102,6 +102,23 @@ public class ChoiceGroup implements SkriptPatternGroup {
         return Collections.unmodifiableList(groups);
     }
 
+    @NotNull
+    @Contract(pure = true)
+    @Override
+    public <T extends SkriptPatternGroup> List<T> getGroups(Class<T> groupClass) {
+        var groups = new ArrayList<T>();
+
+        if (getClass() == groupClass) {
+            groups.add((T) this);
+        }
+
+        for (SkriptPattern pattern : getPatterns()) {
+            groups.addAll(pattern.getGroups(groupClass));
+        }
+
+        return groups;
+    }
+
     /**
      * Gets the possible choices as skript patterns
      *

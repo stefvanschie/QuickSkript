@@ -75,6 +75,17 @@ public class SpaceGroup implements SkriptPatternGroup {
     @NotNull
     @Contract(pure = true)
     @Override
+    public <T extends SkriptPatternGroup> List<T> getGroups(Class<T> groupClass) {
+        if (getClass() == groupClass) {
+            return Collections.singletonList((T) this);
+        }
+
+        return Collections.emptyList();
+    }
+
+    @NotNull
+    @Contract(pure = true)
+    @Override
     public Collection<String> unrollFully(@NotNull List<SkriptPatternGroup> groups) {
         int index = SkriptPatternGroup.indexOfSame(groups, this);
 

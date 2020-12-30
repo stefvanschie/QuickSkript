@@ -9,8 +9,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Contains a fully parsed skript pattern
@@ -190,6 +188,26 @@ public class SkriptPattern {
             groups.add(group);
 
             groups.addAll(group.getChildren());
+        }
+
+        return Collections.unmodifiableList(groups);
+    }
+
+    /**
+     * Gets all groups in this group (recursive) of the type specified. The returned list is immutable.
+     *
+     * @param groupClass the class of the group to find
+     * @param <T> the type of group
+     * @return a list of groups that conform to the specified type
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public <T extends SkriptPatternGroup> List<T> getGroups(Class<T> groupClass) {
+        var groups = new ArrayList<T>();
+
+        for (SkriptPatternGroup group : this.groups) {
+            groups.addAll(group.getGroups(groupClass));
         }
 
         return Collections.unmodifiableList(groups);

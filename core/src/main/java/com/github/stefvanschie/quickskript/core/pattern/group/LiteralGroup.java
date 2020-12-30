@@ -74,6 +74,17 @@ public class LiteralGroup implements SkriptPatternGroup {
         return Collections.emptyList();
     }
 
+    @NotNull
+    @Contract(pure = true)
+    @Override
+    public <T extends SkriptPatternGroup> List<T> getGroups(Class<T> groupClass) {
+        if (getClass() == groupClass) {
+            return Collections.singletonList((T) this);
+        }
+
+        return Collections.emptyList();
+    }
+
     /**
      * Parses the group at the starting of the match, returning the correct group if it matches correctly. This will
      * only match if the match is at the start and continuous i.e. there are no gaps in the match.
