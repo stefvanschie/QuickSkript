@@ -90,6 +90,11 @@ public abstract class SkriptLoader {
     private RegionRegistry regionRegistry;
 
     /**
+     * A literal registry fro working with literals
+     */
+    private LiteralRegistry literalRegistry;
+
+    /**
      * Create a new instance, initializing it with all default (non-addon) data.
      *
      * @since 0.1.0
@@ -100,6 +105,7 @@ public abstract class SkriptLoader {
             entityTypeRegistry = new EntityTypeRegistry();
             inventoryTypeRegistry = new InventoryTypeRegistry();
             regionRegistry = new RegionRegistry();
+            literalRegistry = new LiteralRegistry();
 
             registerDefaultElements();
             registerDefaultSections();
@@ -530,6 +536,18 @@ public abstract class SkriptLoader {
     @Contract(pure = true)
     public RegionRegistry getRegionRegistry() {
         return regionRegistry;
+    }
+
+    /**
+     * Gets the literal registry attached to this skript loader
+     *
+     * @return the literal registry
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public LiteralRegistry getLiteralRegistry() {
+        return literalRegistry;
     }
 
     /**
