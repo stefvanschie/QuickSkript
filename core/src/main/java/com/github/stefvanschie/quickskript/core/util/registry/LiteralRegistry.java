@@ -54,6 +54,7 @@ public class LiteralRegistry {
         addEntry(new Entry(SkriptPattern.parse("(time[ ]period[s]|duration[s])"), TimePeriod.class));
         addEntry(new Entry(SkriptPattern.parse("time[ ]span[s]"), TimeSpan.class));
         addEntry(new Entry(SkriptPattern.parse("(tree[ ]type[s]|tree[s])"), TreeType.class));
+        addEntry(new Entry(SkriptPattern.parse("visual effect"), VisualEffectRegistry.Entry.class));
     }
 
     /**

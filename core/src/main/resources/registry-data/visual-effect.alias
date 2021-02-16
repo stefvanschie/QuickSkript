@@ -1,0 +1,136 @@
+ender [eye] signal[s]
+[mo(b|nster)][ ]spawner flames
+[%potioneffecttype%] potion break[ing]
+smoke [%direction%]
+(hurt|damage)
+sheep eat[ing] [a] [grass] [block]
+
+wolf (hearts|tame|being tamed)
+wolf shak(e|ing)
+wolf smok(e|ing)
+
+(iron golem [offering] rose|rose in hand)
+
+villager hearts
+angry villager entity
+happy villager entity
+
+witch magic
+([zombie] turning to a villager|zombie transform)
+firework explosion
+[tipped] arrow particles
+(jumping rabbit|rabbit jump)
+(love|breeding) hearts
+[squid] rotation reset
+entity poof
+guardian target [with laser]
+
+(block [with a shield]|shield block)
+shield break
+
+armor stand hit
+(hurt|damage) by thorns
+iron golem (sheathing|putting away) rose
+resurrection [by totem]
+
+(hurt|damage) by drowning
+(hurt|damage) by explosion
+
+firework['s] spark
+
+(critical hit|crit)[ spark]
+(magic[al]|blue) (critical hit|crit) [spark]
+
+[%-color%] potion swirl
+[%-color%] transparent potion swirl
+(spell|thrown potion|lingering potion)
+instant (spell|thrown potion)
+
+(witch (magic|spell)|purple spark)
+note
+[nether] portal
+(flying (glyph|letter)|enchantment table)
+(flame|fire)
+lava pop
+footsteps
+[water] splash
+smoke particle
+
+huge explosion
+large explosion
+explosion
+
+void fog
+(small smoke|town aura)
+cloud
+(%-color%|colo[u]red) dust
+snowball break
+
+water drip
+lava drip
+
+(snow shovel|snow(man| golem) spawn)
+slime
+heart
+
+(angry villager|[villager] thundercloud)
+(happy villager|green spark)
+
+large smoke
+
+%itemtype% item (break|crack)[ing]
+%itemtype% break[ing]
+
+[sprinting] dust of [%itemtype%]
+end rod
+falling dust of [%itemtype%]
+totem
+spit
+squid ink
+bubble pop
+
+(current|bubble column) down
+(current|bubble column) up
+
+nautilus
+dolphin
+sneeze
+
+campfire co(s|z)y smoke
+campfire signal smoke
+
+composter
+flash
+
+falling lava
+landing lava
+
+falling water
+barrier
+damage indicator
+dragon[s] breath
+(mob appearance|guardian ghost)
+(suspended|underwater)
+sweep attack
+
+water bubble
+water wake
+water drop
+
+dripping honey
+falling honey
+landing honey
+
+falling nectar
+ash
+crimson spore
+soul fire flame
+warped spore
+
+dripping obsidian tear
+falling obsidian tear
+landing obsidian tear
+
+soul
+reverse portal
+white ash

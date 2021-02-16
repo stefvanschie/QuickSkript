@@ -5,7 +5,6 @@ import com.github.stefvanschie.quickskript.core.file.alias.exception.AliasFileRe
 import com.github.stefvanschie.quickskript.core.file.alias.exception.UndefinedAliasFileVariation;
 import com.github.stefvanschie.quickskript.core.file.alias.manager.AliasFileManager;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
-import com.github.stefvanschie.quickskript.core.util.registry.ItemTypeRegistry;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -36,18 +35,18 @@ public class AliasFile {
     private final Set<AliasFileEntry> entries = new HashSet<>();
 
     /**
-     * Resolves all possible item types from this file. This means that each possible item type that differ from each
-     * other will be a separate entry. The entries are represented by patterns - each pattern permutation is the same
-     * item type. The alias file manager should have loaded all alias files that this file depends on via a {@code :use}
-     * directive. It is not necessary for these dependencies to be resolved, however.
+     * Resolves all possible entries from this file. This means that each possible entry that differ from each other
+     * will be a separate entry. The entries are represented by patterns - each pattern permutation is the same entry.
+     * The alias file manager should have loaded all alias files that this file depends on via a {@code :use} directive.
+     * It is not necessary for these dependencies to be resolved, however.
      *
      * @param manager the alias file manager
-     * @return all item types
+     * @return all entries and their categories
      * @since 0.1.0
      */
     @NotNull
     @Contract(pure = true)
-    public Collection<ItemTypeRegistry.Entry> resolveAllItemTypes(@NotNull AliasFileManager manager) {
+    public Map<? extends SkriptPattern, ? extends Set<SkriptPattern>> resolveAll(@NotNull AliasFileManager manager) {
         Map<String, AliasFileVariation> variations = new HashMap<>();
 
         for (AliasFileUseDirective directive : directives) {
@@ -63,24 +62,25 @@ public class AliasFile {
 
         variations.putAll(this.variations);
 
-        Set<ItemTypeRegistry.Entry> itemTypes = new HashSet<>();
+        var fileEntries = new HashMap<SkriptPattern, Set<SkriptPattern>>();
         Map<String, SkriptPattern> categoryCache = new HashMap<>();
 
         for (AliasFileEntry entry : entries) {
             for (String combination : variationCombinations(entry.getEntry(), variations)) {
-                ItemTypeRegistry.Entry itemType = new ItemTypeRegistry.Entry(SkriptPattern.parse(combination));
+                SkriptPattern pattern = SkriptPattern.parse(combination);
+                var categories = new HashSet<SkriptPattern>(entry.getCategories().size());
 
                 for (String category : entry.getCategories()) {
                     categoryCache.putIfAbsent(category, SkriptPattern.parse(category));
 
-                    itemType.addCategory(categoryCache.get(category));
+                    categories.add(categoryCache.get(category));
                 }
 
-                itemTypes.add(itemType);
+                fileEntries.put(pattern, categories);
             }
         }
 
-        return Collections.unmodifiableSet(itemTypes);
+        return Collections.unmodifiableMap(fileEntries);
     }
 
     /**

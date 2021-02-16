@@ -127,24 +127,30 @@ public class ItemTypeRegistry {
         var manager = new AliasFileManager();
 
         try {
-            manager.read(getClass().getResource("/registry-data/util/global.alias"), "util/global.alias");
-            manager.read(getClass().getResource("/registry-data/brewing.alias"), "brewing.alias");
-            manager.read(getClass().getResource("/registry-data/building.alias"), "building.alias");
-            manager.read(getClass().getResource("/registry-data/combat.alias"), "combat.alias");
-            manager.read(getClass().getResource("/registry-data/decoration.alias"), "decoration.alias");
-            manager.read(getClass().getResource("/registry-data/food.alias"), "food.alias");
-            manager.read(getClass().getResource("/registry-data/miscellaneous.alias"),
+            manager.read(getClass().getResource("/registry-data/item/util/global.alias"), "util/global.alias");
+            manager.read(getClass().getResource("/registry-data/item/brewing.alias"), "brewing.alias");
+            manager.read(getClass().getResource("/registry-data/item/building.alias"), "building.alias");
+            manager.read(getClass().getResource("/registry-data/item/combat.alias"), "combat.alias");
+            manager.read(getClass().getResource("/registry-data/item/decoration.alias"), "decoration.alias");
+            manager.read(getClass().getResource("/registry-data/item/food.alias"), "food.alias");
+            manager.read(getClass().getResource("/registry-data/item/miscellaneous.alias"),
                 "miscellaneous.alias");
-            manager.read(getClass().getResource("/registry-data/other.alias"), "other.alias");
-            manager.read(getClass().getResource("/registry-data/redstone.alias"), "redstone.alias");
-            manager.read(getClass().getResource("/registry-data/tools.alias"), "tools.alias");
-            manager.read(getClass().getResource("/registry-data/transportation.alias"),
+            manager.read(getClass().getResource("/registry-data/item/other.alias"), "other.alias");
+            manager.read(getClass().getResource("/registry-data/item/redstone.alias"), "redstone.alias");
+            manager.read(getClass().getResource("/registry-data/item/tools.alias"), "tools.alias");
+            manager.read(getClass().getResource("/registry-data/item/transportation.alias"),
                 "transportation.alias");
         } catch (IOException exception) {
             exception.printStackTrace();
         }
 
-        for (Entry entry : manager.resolveAll()) {
+        for (Map.Entry<? extends SkriptPattern, ? extends Set<? extends SkriptPattern>> mapEntry : manager.resolveAll().entrySet()) {
+            var entry = new Entry(mapEntry.getKey());
+
+            for (SkriptPattern category : mapEntry.getValue()) {
+                entry.addCategory(category);
+            }
+
             addEntry(entry);
         }
     }

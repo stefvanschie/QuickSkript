@@ -1,7 +1,7 @@
 package com.github.stefvanschie.quickskript.core.file.alias.manager;
 
 import com.github.stefvanschie.quickskript.core.file.alias.AliasFile;
-import com.github.stefvanschie.quickskript.core.util.registry.ItemTypeRegistry;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -36,21 +36,21 @@ public class AliasFileManager {
     }
 
     /**
-     * Resolves all files and returns a collection of item types
+     * Resolves all files and returns a collection of entries and categories
      *
-     * @return all resolved item types
+     * @return all resolved entries and categories
      * @since 0.1.0
      */
     @NotNull
     @Contract(pure = true)
-    public Collection<ItemTypeRegistry.Entry> resolveAll() {
-        Set<ItemTypeRegistry.Entry> itemTypes = new HashSet<>();
+    public Map<? extends SkriptPattern, ? extends Set<? extends SkriptPattern>> resolveAll() {
+        var entries = new HashMap<SkriptPattern, Set<SkriptPattern>>();
 
         for (AliasFile file : files.values()) {
-            itemTypes.addAll(file.resolveAllItemTypes(this));
+            entries.putAll(file.resolveAll(this));
         }
 
-        return Collections.unmodifiableSet(itemTypes);
+        return Collections.unmodifiableMap(entries);
     }
 
     /**

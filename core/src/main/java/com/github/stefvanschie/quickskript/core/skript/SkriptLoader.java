@@ -95,6 +95,11 @@ public abstract class SkriptLoader {
     private LiteralRegistry literalRegistry;
 
     /**
+     * A visual effect registry fro working with visual effect
+     */
+    private VisualEffectRegistry visualEffectRegistry;
+
+    /**
      * Create a new instance, initializing it with all default (non-addon) data.
      *
      * @since 0.1.0
@@ -111,9 +116,10 @@ public abstract class SkriptLoader {
             registerDefaultSections();
             registerDefaultConverters();
             registerDefaultEvents();
-        }), CompletableFuture.runAsync(() ->
-            itemTypeRegistry = new ItemTypeRegistry()
-        )).join();
+        }), CompletableFuture.runAsync(() -> {
+            itemTypeRegistry = new ItemTypeRegistry();
+            visualEffectRegistry = new VisualEffectRegistry();
+        })).join();
     }
 
 
@@ -548,6 +554,18 @@ public abstract class SkriptLoader {
     @Contract(pure = true)
     public LiteralRegistry getLiteralRegistry() {
         return literalRegistry;
+    }
+
+    /**
+     * Gets the visual effect registry attached to this skript loader
+     *
+     * @return the visual effect registry
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public VisualEffectRegistry getVisualEffectRegistry() {
+        return visualEffectRegistry;
     }
 
     /**
