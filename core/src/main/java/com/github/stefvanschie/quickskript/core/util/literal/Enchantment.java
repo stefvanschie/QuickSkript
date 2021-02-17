@@ -1,7 +1,11 @@
 package com.github.stefvanschie.quickskript.core.util.literal;
 
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents an enchantment either with or without a level
@@ -298,6 +302,31 @@ public class Enchantment {
          *
          * @since 0.1.0
          */
-        UNBREAKING
+        UNBREAKING;
+
+        /**
+         * All entries in this enum by their name
+         */
+        @NotNull
+        private static final Map<String, Type> ENTRIES = new HashMap<>();
+
+        /**
+         * Gets the enchantment type by name or null if no such type exists.
+         *
+         * @param name the name of the enchantment type
+         * @return the enchantment type or null
+         * @since 0.1.0
+         */
+        @Nullable
+        @Contract(pure = true)
+        public static Type byName(@NotNull String name) {
+            return ENTRIES.get(name);
+        }
+
+        static {
+            for (Type type : Type.values()) {
+                ENTRIES.put(type.name().replace('_', ' ').toLowerCase(), type);
+            }
+        }
     }
 }

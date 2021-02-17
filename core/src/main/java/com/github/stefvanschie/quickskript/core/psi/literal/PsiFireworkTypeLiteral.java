@@ -45,13 +45,13 @@ public class PsiFireworkTypeLiteral extends PsiPrecomputedHolder<FireworkType> {
         @Contract(pure = true)
         @Fallback
         public PsiFireworkTypeLiteral parse(@NotNull String text, int lineNumber) {
-            for (FireworkType fireworkType : FireworkType.values()) {
-                if (fireworkType.name().replace('_', ' ').equalsIgnoreCase(text)) {
-                    return create(fireworkType, lineNumber);
-                }
+            FireworkType fireworkType = FireworkType.byName(text.toLowerCase());
+
+            if (fireworkType == null) {
+                return null;
             }
 
-            return null;
+            return create(fireworkType, lineNumber);
         }
 
         /**

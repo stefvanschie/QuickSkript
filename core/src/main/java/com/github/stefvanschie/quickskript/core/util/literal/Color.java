@@ -2,6 +2,10 @@ package com.github.stefvanschie.quickskript.core.util.literal;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents possible colors
@@ -126,7 +130,13 @@ public enum Color {
      * An array of possible ways to name this color
      */
     @NotNull
-    private String[] names;
+    private final String[] names;
+
+    /**
+     * All entries in this enum by their names
+     */
+    @NotNull
+    private static final Map<String, Color> ENTRIES = new HashMap<>();
 
     /**
      * Creates a new color with an array of names for this color
@@ -148,5 +158,26 @@ public enum Color {
     @Contract(pure = true)
     public String[] getNames() {
         return names;
+    }
+
+    /**
+     * Gets the color by the given name, or null if no such color exists.
+     *
+     * @param name the name of the color
+     * @return the color or null
+     * @since 0.1.0
+     */
+    @Nullable
+    @Contract(pure = true)
+    public static Color byName(@NotNull String name) {
+        return ENTRIES.get(name);
+    }
+
+    static {
+        for (Color color : Color.values()) {
+            for (String name : color.getNames()) {
+                ENTRIES.put(name, color);
+            }
+        }
     }
 }

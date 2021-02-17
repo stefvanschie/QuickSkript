@@ -2,8 +2,11 @@ package com.github.stefvanschie.quickskript.core.util.literal;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents different reasons a creature could have spawned
@@ -250,6 +253,12 @@ public enum SpawnReason {
     private final String[] aliases;
 
     /**
+     * All spawn reasons by name
+     */
+    @NotNull
+    private static final Map<String, SpawnReason> ENTRIES = new HashMap<>();
+
+    /**
      * Creates a spawn reason with the provided aliases
      *
      * @param aliases the aliases
@@ -269,5 +278,26 @@ public enum SpawnReason {
     @Contract(pure = true)
     public String[] getAliases() {
         return Arrays.copyOf(aliases, aliases.length);
+    }
+
+    /**
+     * Gets the spawn reason by the given name or null if no such spawn reason exists.
+     *
+     * @param name the name of the spawn reason
+     * @return the spawn reason or null
+     * @since 0.1.0
+     */
+    @Nullable
+    @Contract(pure = true)
+    public static SpawnReason byName(@NotNull String name) {
+        return ENTRIES.get(name);
+    }
+
+    static {
+        for (SpawnReason spawnReason : SpawnReason.values()) {
+            for (String alias : spawnReason.getAliases()) {
+                ENTRIES.put(alias, spawnReason);
+            }
+        }
     }
 }

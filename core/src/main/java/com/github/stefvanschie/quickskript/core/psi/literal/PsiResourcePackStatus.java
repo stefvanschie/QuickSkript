@@ -8,6 +8,8 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Locale;
+
 /**
  * Represents a resource pack status
  *
@@ -45,15 +47,13 @@ public class PsiResourcePackStatus extends PsiPrecomputedHolder<ResourcePackStat
         @Contract(pure = true)
         @Fallback
         public PsiResourcePackStatus parse(@NotNull String text, int lineNumber) {
-            for (ResourcePackStatus status : ResourcePackStatus.values()) {
-                if (!status.name().replace('_', ' ').equalsIgnoreCase(text)) {
-                    continue;
-                }
+            ResourcePackStatus resourcePackStatus = ResourcePackStatus.byName(text.toLowerCase());
 
-                return create(status, lineNumber);
+            if (resourcePackStatus == null) {
+                return null;
             }
 
-            return null;
+            return create(resourcePackStatus, lineNumber);
         }
 
         /**

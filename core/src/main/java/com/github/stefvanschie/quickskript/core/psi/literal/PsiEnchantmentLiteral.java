@@ -1,14 +1,17 @@
 package com.github.stefvanschie.quickskript.core.psi.literal;
 
+import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
+import com.github.stefvanschie.quickskript.core.pattern.group.RegexGroup;
+import com.github.stefvanschie.quickskript.core.pattern.group.SkriptPatternGroup;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
-import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
+import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.util.Pair;
 import com.github.stefvanschie.quickskript.core.util.literal.Enchantment;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Locale;
 
 /**
  * Gets an enchantment
@@ -36,42 +39,53 @@ public class PsiEnchantmentLiteral extends PsiPrecomputedHolder<Enchantment> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * This gets called upon parsing
+         * The pattern for parsing enchantments
+         */
+        @NotNull
+        private final SkriptPattern pattern = SkriptPattern.parse("<.+> [<\\d+>]");
+
+        /**
+         * Called whenever a potential match is found for an enchantment literal
          *
-         * @param text the text to parse
+         * @param result the match result
          * @param lineNumber the line number
          * @return the literal, or null to indicate failure
          * @since 0.1.0
          */
         @Nullable
         @Contract(pure = true)
-        @Fallback
-        public PsiEnchantmentLiteral parse(@NotNull String text, int lineNumber) {
-            text = text.toUpperCase(Locale.getDefault());
-            Enchantment.Type enchantment = null;
+        @Pattern("pattern")
+        public PsiEnchantmentLiteral parse(@NotNull SkriptMatchResult result, int lineNumber) {
+            String[] regexStrings = new String[2];
 
-            for (Enchantment.Type type : Enchantment.Type.values()) {
-                String name = type.name().replace('_', ' ').toUpperCase(Locale.getDefault());
+            for (Pair<SkriptPatternGroup, String> group : result.getMatchedGroups()) {
+                if (!(group.getX() instanceof RegexGroup)) {
+                    continue;
+                }
 
-                if (text.startsWith(name)) {
-                    text = text.substring(name.length());
-                    enchantment = type;
+                if (regexStrings[0] == null) {
+                    regexStrings[0] = group.getY();
+                } else {
+                    regexStrings[1] = group.getY();
+
                     break;
                 }
             }
+
+            Enchantment.Type enchantment = Enchantment.Type.byName(regexStrings[0].toLowerCase());
 
             if (enchantment == null) {
                 return null;
             }
 
-            if (text.isBlank()) {
+            if (regexStrings[1] == null) {
                 return create(enchantment, null, lineNumber);
-            }
-
-            try {
-                return create(enchantment, Integer.parseUnsignedInt(text.trim()), lineNumber);
-            } catch (NumberFormatException ignored) {
-                return null;
+            } else {
+                try {
+                    return create(enchantment, Integer.parseUnsignedInt(regexStrings[1]), lineNumber);
+                } catch (NumberFormatException ignored) {
+                    return null;
+                }
             }
         }
 

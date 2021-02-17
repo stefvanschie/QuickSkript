@@ -50,15 +50,13 @@ public class PsiInventoryTypeLiteral extends PsiPrecomputedHolder<InventoryTypeR
         @Fallback
         public PsiInventoryTypeLiteral parse(@NotNull SkriptLoader skriptLoader, @NotNull String text, int lineNumber) {
             InventoryTypeRegistry inventoryTypeRegistry = skriptLoader.getInventoryTypeRegistry();
-            Optional<InventoryTypeRegistry.Entry> inventoryType = inventoryTypeRegistry.getEntries().stream()
-                .filter(entry -> entry.getName().equalsIgnoreCase(text))
-                .findAny();
+            InventoryTypeRegistry.Entry inventoryType = inventoryTypeRegistry.byName(text.toLowerCase());
 
-            if (inventoryType.isEmpty()) {
+            if (inventoryType == null) {
                 return null;
             }
 
-            return create(inventoryType.get(), lineNumber);
+            return create(inventoryType, lineNumber);
         }
 
         /**

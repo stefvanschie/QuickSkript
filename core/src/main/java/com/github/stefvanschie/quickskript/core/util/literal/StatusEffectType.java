@@ -2,6 +2,10 @@ package com.github.stefvanschie.quickskript.core.util.literal;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents all different potion effect types.
@@ -238,7 +242,13 @@ public enum StatusEffectType {
      * The name of the status effect type
      */
     @NotNull
-    private String name;
+    private final String name;
+
+    /**
+     * All status effect types by their name
+     */
+    @NotNull
+    private static final Map<String, StatusEffectType> ENTRIES = new HashMap<>();
 
     /**
      * Creates a status effect type with the given name
@@ -260,5 +270,24 @@ public enum StatusEffectType {
     @Contract(pure = true)
     public String getName() {
         return name;
+    }
+
+    /**
+     * Gets a status effect type by the given name or null if no such status effect type exists.
+     *
+     * @param name the name of the status effect type
+     * @return the status effect type
+     * @since 0.1.0
+     */
+    @Nullable
+    @Contract(pure = true)
+    public static StatusEffectType byName(@NotNull String name) {
+        return ENTRIES.get(name);
+    }
+
+    static {
+        for (StatusEffectType statusEffectType : StatusEffectType.values()) {
+            ENTRIES.put(statusEffectType.getName(), statusEffectType);
+        }
     }
 }

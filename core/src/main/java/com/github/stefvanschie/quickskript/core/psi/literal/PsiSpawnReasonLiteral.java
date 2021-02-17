@@ -45,17 +45,13 @@ public class PsiSpawnReasonLiteral extends PsiPrecomputedHolder<SpawnReason> {
         @Contract(pure = true)
         @Fallback
         public PsiSpawnReasonLiteral parse(@NotNull String text, int lineNumber) {
-            for (SpawnReason spawnReason : SpawnReason.values()) {
-                for (String alias : spawnReason.getAliases()) {
-                    if (!alias.equalsIgnoreCase(text)) {
-                        continue;
-                    }
+            SpawnReason spawnReason = SpawnReason.byName(text.toLowerCase());
 
-                    return create(spawnReason, lineNumber);
-                }
+            if (spawnReason == null) {
+                return null;
             }
 
-            return null;
+            return create(spawnReason, lineNumber);
         }
 
         /**

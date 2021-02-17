@@ -45,15 +45,13 @@ public class PsiColorLiteral extends PsiPrecomputedHolder<Color> {
         @Contract(pure = true)
         @Fallback
         public PsiColorLiteral parse(@NotNull String text, int lineNumber) {
-            for (Color color : Color.values()) {
-                for (String name : color.getNames()) {
-                    if (name.equalsIgnoreCase(text)) {
-                        return create(color, lineNumber);
-                    }
-                }
+            Color color = Color.byName(text.toLowerCase());
+
+            if (color == null) {
+                return null;
             }
 
-            return null;
+            return create(color, lineNumber);
         }
 
         /**

@@ -1,5 +1,12 @@
 package com.github.stefvanschie.quickskript.core.util.literal;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Represents possible genes for pandas
  *
@@ -54,6 +61,30 @@ public enum Gene {
      *
      * @since 0.1.0
      */
-    WORRIED
+    WORRIED;
 
+    /**
+     * All genes by their name
+     */
+    @NotNull
+    private static final Map<String, Gene> ENTRIES = new HashMap<>();
+
+    /**
+     * Gets the gene by the given name or null if no such gene exists.
+     *
+     * @param name the name of the gene
+     * @return the gene or null
+     * @since 0.1.0
+     */
+    @Nullable
+    @Contract(pure = true)
+    public static Gene byName(@NotNull String name) {
+        return ENTRIES.get(name);
+    }
+
+    static {
+        for (Gene gene : Gene.values()) {
+            ENTRIES.put(gene.name().replace('_', ' ').toLowerCase(), gene);
+        }
+    }
 }

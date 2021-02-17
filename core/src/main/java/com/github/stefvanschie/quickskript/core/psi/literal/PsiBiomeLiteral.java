@@ -9,6 +9,8 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Locale;
+
 /**
  * Gets a biome by a specific name. This is always pre-computed.
  *
@@ -52,10 +54,7 @@ public class PsiBiomeLiteral extends PsiPrecomputedHolder<BiomeRegistry.Entry> {
         @Contract(pure = true)
         @Fallback
         public PsiBiomeLiteral tryParse(@NotNull SkriptLoader skriptLoader, @NotNull String text, int lineNumber) {
-            BiomeRegistry.Entry biome = skriptLoader.getBiomeRegistry().getEntries().stream()
-                .filter(entry -> entry.getName().equalsIgnoreCase(text))
-                .findAny()
-                .orElse(null);
+            BiomeRegistry.Entry biome = skriptLoader.getBiomeRegistry().byName(text.toLowerCase());
 
             if (biome == null) {
                 return null;

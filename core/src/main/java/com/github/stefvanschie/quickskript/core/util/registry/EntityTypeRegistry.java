@@ -2,11 +2,9 @@ package com.github.stefvanschie.quickskript.core.util.registry;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Represents all possible entity types
@@ -18,7 +16,8 @@ public class EntityTypeRegistry {
     /**
      * The entries of this registry
      */
-    private Set<Entry> entries = new HashSet<>();
+    @NotNull
+    private final Map<String, Entry> entries = new HashMap<>();
 
     /**
      * Creates a new entity type registry and initializes it with the default entity types
@@ -36,19 +35,20 @@ public class EntityTypeRegistry {
      * @since 0.1.0
      */
     public void addEntry(@NotNull Entry entry) {
-        entries.add(entry);
+        entries.put(entry.getName(), entry);
     }
 
     /**
-     * Gets all the entries currently in this registry. The returned collection is unmodifiable.
+     * Gets the entity type by name or null if no such entity type exists.
      *
-     * @return the entries
+     * @param name the name of the entity type
+     * @return the entity type or null
      * @since 0.1.0
      */
-    @NotNull
+    @Nullable
     @Contract(pure = true)
-    public Collection<Entry> getEntries() {
-        return Collections.unmodifiableSet(entries);
+    public Entry byName(@NotNull String name) {
+        return entries.get(name);
     }
 
     /**
@@ -174,7 +174,7 @@ public class EntityTypeRegistry {
          * The name of the entity type
          */
         @NotNull
-        private String name;
+        private final String name;
 
         /**
          * Creates a new entity type entry by the given name

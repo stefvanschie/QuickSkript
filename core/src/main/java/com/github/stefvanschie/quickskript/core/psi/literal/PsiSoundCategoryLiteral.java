@@ -48,17 +48,15 @@ public class PsiSoundCategoryLiteral extends PsiPrecomputedHolder<SoundCategory>
                 return null;
             }
 
-            text = text.substring(0, text.length() - " category".length());
+            text = text.substring(0, text.length() - " category".length()).toLowerCase();
 
-            for (SoundCategory soundCategory : SoundCategory.values()) {
-                if (!soundCategory.name().replace('_', ' ').equalsIgnoreCase(text)) {
-                    continue;
-                }
+            SoundCategory soundCategory = SoundCategory.byName(text);
 
-                return create(soundCategory, lineNumber);
+            if (soundCategory == null) {
+                return null;
             }
 
-            return null;
+            return create(soundCategory, lineNumber);
         }
 
         /**

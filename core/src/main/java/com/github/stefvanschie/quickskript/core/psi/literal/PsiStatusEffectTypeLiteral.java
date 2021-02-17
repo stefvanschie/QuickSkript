@@ -45,13 +45,13 @@ public class PsiStatusEffectTypeLiteral extends PsiPrecomputedHolder<StatusEffec
         @Contract(pure = true)
         @Fallback
         public PsiStatusEffectTypeLiteral parse(@NotNull String text, int lineNumber) {
-            for (StatusEffectType statusEffectType : StatusEffectType.values()) {
-                if (statusEffectType.getName().equals(text)) {
-                    return create(statusEffectType, lineNumber);
-                }
+            StatusEffectType statusEffectType = StatusEffectType.byName(text.toLowerCase());
+
+            if (statusEffectType == null) {
+                return null;
             }
 
-            return null;
+            return create(statusEffectType, lineNumber);
         }
 
         /**

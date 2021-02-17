@@ -1,5 +1,12 @@
 package com.github.stefvanschie.quickskript.core.util.literal;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Represents the different sound categories
  *
@@ -75,5 +82,29 @@ public enum SoundCategory {
      *
      * @since 0.1.0
      */
-    WEATHER
+    WEATHER;
+
+    /**
+     * All sound categories by name
+     */
+    private static final Map<String, SoundCategory> ENTRIES = new HashMap<>();
+
+    /**
+     * Gets a sound category by name or null if no such sound category exists.
+     *
+     * @param name the name of the sound category
+     * @return the sound category or null
+     * @since 0.1.0
+     */
+    @Nullable
+    @Contract(pure = true)
+    public static SoundCategory byName(@NotNull String name) {
+        return ENTRIES.get(name);
+    }
+
+    static {
+        for (SoundCategory soundCategory : SoundCategory.values()) {
+            ENTRIES.put(soundCategory.name().replace('_', ' ').toLowerCase(), soundCategory);
+        }
+    }
 }

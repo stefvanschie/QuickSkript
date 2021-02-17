@@ -1,5 +1,12 @@
 package com.github.stefvanschie.quickskript.core.util.literal;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Represents possible inventory actions
  *
@@ -138,5 +145,30 @@ public enum InventoryAction {
      *
      * @since 0.1.0
      */
-    UNKNOWN
+    UNKNOWN;
+
+    /**
+     * The inventory actions by their name
+     */
+    @NotNull
+    private static final Map<String, InventoryAction> ENTRIES = new HashMap<>();
+
+    /**
+     * Gets the inventory action by the given name or null if no such inventory action exists.
+     *
+     * @param name the name of the inventory action
+     * @return the inventory action or null
+     * @since 0.1.0
+     */
+    @Nullable
+    @Contract(pure = true)
+    public static InventoryAction byName(@NotNull String name) {
+        return ENTRIES.get(name);
+    }
+
+    static {
+        for (InventoryAction inventoryAction : InventoryAction.values()) {
+            ENTRIES.put(inventoryAction.name().replace('_', ' ').toLowerCase(), inventoryAction);
+        }
+    }
 }

@@ -2,11 +2,9 @@ package com.github.stefvanschie.quickskript.core.util.registry;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * A registry for inventory types
@@ -18,7 +16,7 @@ public class InventoryTypeRegistry {
     /**
      * The entries of this registry
      */
-    private Set<Entry> entries = new HashSet<>();
+    private Map<String, Entry> entries = new HashMap<>();
 
     /**
      * Creates a new inventory type registry initialized with the default inventory types.
@@ -36,19 +34,20 @@ public class InventoryTypeRegistry {
      * @since 0.1.0
      */
     public void addEntry(@NotNull Entry entry) {
-        entries.add(entry);
+        entries.put(entry.getName(), entry);
     }
 
     /**
-     * Gets all the entries in this registry. The returned collection is unmodifiable.
+     * Gets the inventory type by the given name or null if no such inventory type exists.
      *
-     * @return the entries
+     * @param name the name of the inventory type
+     * @return the inventory type
      * @since 0.1.0
      */
-    @NotNull
+    @Nullable
     @Contract(pure = true)
-    public Collection<Entry> getEntries() {
-        return Collections.unmodifiableSet(entries);
+    public Entry byName(@NotNull String name) {
+        return entries.get(name);
     }
 
     /**
@@ -94,7 +93,7 @@ public class InventoryTypeRegistry {
          * The name of the entry
          */
         @NotNull
-        private String name;
+        private final String name;
 
         /**
          * Creates a new entry with the specified name

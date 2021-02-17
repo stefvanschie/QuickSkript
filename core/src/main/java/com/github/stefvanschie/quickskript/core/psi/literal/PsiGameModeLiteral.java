@@ -45,13 +45,13 @@ public class PsiGameModeLiteral extends PsiPrecomputedHolder<GameMode> {
         @Contract(pure = true)
         @Fallback
         public PsiGameModeLiteral parse(@NotNull String text, int lineNumber) {
-            for (GameMode gameMode : GameMode.values()) {
-                if (gameMode.name().replace('_', ' ').equalsIgnoreCase(text)) {
-                    return create(gameMode, lineNumber);
-                }
+            GameMode gameMode = GameMode.byName(text.toLowerCase());
+
+            if (gameMode == null) {
+                return null;
             }
 
-            return null;
+            return create(gameMode, lineNumber);
         }
 
         /**

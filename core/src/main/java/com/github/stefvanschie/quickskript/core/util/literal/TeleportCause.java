@@ -2,8 +2,11 @@ package com.github.stefvanschie.quickskript.core.util.literal;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents all possible reasons as to why teleportation occured.
@@ -82,6 +85,12 @@ public enum TeleportCause {
     private final String[] aliases;
 
     /**
+     * All teleport causes by name
+     */
+    @NotNull
+    private static final Map<String, TeleportCause> ENTRIES = new HashMap<>();
+
+    /**
      * Creates a teleport cause with the given aliases
      *
      * @param aliases the aliases
@@ -102,5 +111,26 @@ public enum TeleportCause {
     @Contract(pure = true)
     public String[] getAliases() {
         return Arrays.copyOf(aliases, aliases.length);
+    }
+
+    /**
+     * Gets a teleport cause by the given name or null if no such teleport cause exists
+     *
+     * @param name the name of the teleport cause
+     * @return the teleport cause or null
+     * @since 0.1.0
+     */
+    @Nullable
+    @Contract(pure = true)
+    public static TeleportCause byName(@NotNull String name) {
+        return ENTRIES.get(name);
+    }
+
+    static {
+        for (TeleportCause teleportCause : TeleportCause.values()) {
+            for (String alias : teleportCause.getAliases()) {
+                ENTRIES.put(alias, teleportCause);
+            }
+        }
     }
 }

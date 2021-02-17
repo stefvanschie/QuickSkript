@@ -2,11 +2,9 @@ package com.github.stefvanschie.quickskript.core.util.registry;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Represents all possible biomes
@@ -18,7 +16,7 @@ public class BiomeRegistry {
     /**
      * The entries in this biome registry
      */
-    private final Set<Entry> entries = new HashSet<>();
+    private final Map<String, Entry> entries = new HashMap<>();
 
     /**
      * Creates a new biome registry, with the default biomes added to it
@@ -36,19 +34,19 @@ public class BiomeRegistry {
      * @since 0.1.0
      */
     public void addEntry(@NotNull Entry entry) {
-        entries.add(entry);
+        entries.put(entry.getName(), entry);
     }
 
     /**
-     * Gets all the biome entries currently in this registry. The returned collection is unmodifiable.
+     * Gets the biome entry by the given name.
      *
-     * @return all biome entries
+     * @return the biome or null if no biome by the provided name exists
      * @since 0.1.0
      */
-    @NotNull
+    @Nullable
     @Contract(pure = true)
-    public Collection<Entry> getEntries() {
-        return Collections.unmodifiableSet(entries);
+    public Entry byName(@NotNull String name) {
+        return entries.get(name);
     }
 
     /**
@@ -142,7 +140,7 @@ public class BiomeRegistry {
          * The name of the biome
          */
         @NotNull
-        private String name;
+        private final String name;
 
         /**
          * An entry for the biome registry.

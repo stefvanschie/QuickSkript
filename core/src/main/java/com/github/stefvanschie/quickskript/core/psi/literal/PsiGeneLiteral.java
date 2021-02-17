@@ -45,13 +45,13 @@ public class PsiGeneLiteral extends PsiPrecomputedHolder<Gene> {
         @Contract(pure = true)
         @Fallback
         public PsiGeneLiteral parse(@NotNull String text, int lineNumber) {
-            for (Gene gene : Gene.values()) {
-                if (gene.name().replace('_', ' ').equalsIgnoreCase(text)) {
-                    return create(gene, lineNumber);
-                }
+            Gene gene = Gene.byName(text.toLowerCase());
+
+            if (gene == null) {
+                return null;
             }
 
-            return null;
+            return create(gene, lineNumber);
         }
 
         /**

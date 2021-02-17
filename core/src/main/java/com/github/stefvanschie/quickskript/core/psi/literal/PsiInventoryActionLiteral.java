@@ -45,13 +45,13 @@ public class PsiInventoryActionLiteral extends PsiPrecomputedHolder<InventoryAct
         @Contract(pure = true)
         @Fallback
         public PsiInventoryActionLiteral parse(@NotNull String text, int lineNumber) {
-            for (InventoryAction inventoryAction : InventoryAction.values()) {
-                if (inventoryAction.name().replace('_', ' ').equalsIgnoreCase(text)) {
-                    return create(inventoryAction, lineNumber);
-                }
+            InventoryAction inventoryAction = InventoryAction.byName(text.toLowerCase());
+
+            if (inventoryAction == null) {
+                return null;
             }
 
-            return null;
+            return create(inventoryAction, lineNumber);
         }
 
         /**

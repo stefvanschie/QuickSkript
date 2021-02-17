@@ -45,13 +45,13 @@ public class PsiDamageCauseLiteral extends PsiPrecomputedHolder<DamageCause> {
         @Contract(pure = true)
         @Fallback
         public PsiDamageCauseLiteral parse(@NotNull String text, int lineNumber) {
-            for (DamageCause damageCause : DamageCause.values()) {
-                if (damageCause.getName().equalsIgnoreCase(text)) {
-                    return create(damageCause, lineNumber);
-                }
+            DamageCause damageCause = DamageCause.byName(text.toLowerCase());
+
+            if (damageCause == null) {
+                return null;
             }
 
-            return null;
+            return create(damageCause, lineNumber);
         }
 
         /**

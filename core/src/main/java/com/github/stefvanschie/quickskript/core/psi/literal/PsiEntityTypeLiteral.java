@@ -9,8 +9,6 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
-
 /**
  * Gets an entity type
  *
@@ -49,15 +47,13 @@ public class PsiEntityTypeLiteral extends PsiPrecomputedHolder<EntityTypeRegistr
         @Contract(pure = true)
         @Fallback
         public PsiEntityTypeLiteral parse(@NotNull SkriptLoader skriptLoader, @NotNull String text, int lineNumber) {
-            Optional<EntityTypeRegistry.Entry> entityType = skriptLoader.getEntityTypeRegistry().getEntries().stream()
-                .filter(entry -> entry.getName().equalsIgnoreCase(text))
-                .findAny();
+            EntityTypeRegistry.Entry entityType = skriptLoader.getEntityTypeRegistry().byName(text.toLowerCase());
 
-            if (entityType.isEmpty()) {
+            if (entityType == null) {
                 return null;
             }
 
-            return create(entityType.get(), lineNumber);
+            return create(entityType, lineNumber);
         }
 
         /**

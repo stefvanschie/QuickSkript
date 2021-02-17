@@ -2,6 +2,10 @@ package com.github.stefvanschie.quickskript.core.util.literal;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents possible ways an entity can be damaged
@@ -213,6 +217,12 @@ public enum DamageCause {
     private String name;
 
     /**
+     * All entries in this enum by their name
+     */
+    @NotNull
+    private static final Map<String, DamageCause> ENTRIES = new HashMap<>();
+
+    /**
      * Creates a damage cause with the normalized name of the enum value
      *
      * @param name the normalized name
@@ -232,5 +242,24 @@ public enum DamageCause {
     @Contract(pure = true)
     public String getName() {
         return name;
+    }
+
+    /**
+     * Gets the damage cause by the provided name or null if no such damage cause exists.
+     *
+     * @param name the name of the damage cause
+     * @return the damage cause or null
+     * @since 0.1.0
+     */
+    @Nullable
+    @Contract(pure = true)
+    public static DamageCause byName(@NotNull String name) {
+        return ENTRIES.get(name);
+    }
+
+    static {
+        for (DamageCause damageCause : DamageCause.values()) {
+            ENTRIES.put(damageCause.getName(), damageCause);
+        }
     }
 }

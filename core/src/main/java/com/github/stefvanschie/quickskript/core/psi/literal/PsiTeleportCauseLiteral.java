@@ -45,17 +45,13 @@ public class PsiTeleportCauseLiteral extends PsiPrecomputedHolder<TeleportCause>
         @Contract(pure = true)
         @Fallback
         public PsiTeleportCauseLiteral parse(@NotNull String text, int lineNumber) {
-            for (TeleportCause teleportCause : TeleportCause.values()) {
-                for (String alias : teleportCause.getAliases()) {
-                    if (!alias.equalsIgnoreCase(text)) {
-                        continue;
-                    }
+            TeleportCause teleportCause = TeleportCause.byName(text.toLowerCase());
 
-                    return create(teleportCause, lineNumber);
-                }
+            if (teleportCause == null) {
+                return null;
             }
 
-            return null;
+            return create(teleportCause, lineNumber);
         }
 
         /**
