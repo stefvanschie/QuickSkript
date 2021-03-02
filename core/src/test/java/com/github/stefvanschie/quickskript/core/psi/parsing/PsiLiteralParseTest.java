@@ -16,10 +16,10 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class PsiLiteralParseTest extends TestClassBase {
 
-    private final Map<Class<? extends PsiPrecomputedHolder<?>>, CaseHolder> inputHolders = new HashMap<>();
+    private final Set<CaseHolder> inputHolders = new HashSet<>();
 
     PsiLiteralParseTest() {
-        inputHolders.put(PsiNumberLiteral.class, new CaseHolder().setSuccess(
+        inputHolders.add(new CaseHolder().setSuccess(
             "3",
             "94",
             "6.8",
@@ -32,7 +32,7 @@ class PsiLiteralParseTest extends TestClassBase {
             "-44.65"
         ));
 
-        inputHolders.put(PsiStringLiteral.class, new CaseHolder().setSuccess(
+        inputHolders.add(new CaseHolder().setSuccess(
             "\"&cTest§f\"",
             "\"&e\"",
             "\" \""
@@ -46,9 +46,9 @@ class PsiLiteralParseTest extends TestClassBase {
 
     @Test
     void test() {
-        inputHolders.forEach((clazz, cases) -> {
+        inputHolders.forEach(cases -> {
             cases.getSuccess().forEach(input ->
-                assertTrue(clazz.isInstance(getSkriptLoader().forceParseElement(input, -1))));
+                assertNotNull(getSkriptLoader().forceParseElement(input, -1)));
             cases.getFailure().forEach(input ->
                 assertNull(getSkriptLoader().tryParseElement(input, -1)));
         });

@@ -3,19 +3,27 @@ package com.github.stefvanschie.quickskript.bukkit.event;
 import com.github.stefvanschie.quickskript.bukkit.plugin.QuickSkript;
 import com.github.stefvanschie.quickskript.bukkit.skript.SkriptEventExecutor;
 import com.github.stefvanschie.quickskript.bukkit.util.Platform;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
+import com.github.stefvanschie.quickskript.core.pattern.group.SkriptPatternGroup;
+import com.github.stefvanschie.quickskript.core.pattern.group.TypeGroup;
+import com.github.stefvanschie.quickskript.core.psi.PsiElement;
+import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.util.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
 import org.bukkit.plugin.EventExecutor;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * A factory which is capable of registering complex event handlers.
@@ -53,28 +61,64 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
     @NotNull
     private final List<EventPattern> eventPatterns = new ArrayList<>();
 
+    /**
+     * The skript loader for which this event proxy factory is used.
+     */
+    @NotNull
+    private final SkriptLoader skriptLoader;
+
+    /**
+     * Constructs a new complex event proxy factory with the specified skript loader
+     *
+     * @param skriptLoader the skript loader for which this event proxy factory registers events
+     * @since 0.1.0
+     */
+    public ComplexEventProxyFactory(@NotNull SkriptLoader skriptLoader) {
+        this.skriptLoader = skriptLoader;
+    }
+
     @Override
     public boolean tryRegister(@NotNull String text, @NotNull Supplier<SkriptEventExecutor> toRegisterSupplier) {
         for (EventPattern eventPattern : eventPatterns) {
-            Matcher matcher = eventPattern.getMatcher(text);
+            List<SkriptMatchResult> matches = eventPattern.getPattern().match(text);
 
-            if (!matcher.matches()) {
-                continue;
-            }
+            for (SkriptMatchResult match : matches) {
+                if (!match.hasUnmatchedParts()) {
+                    continue;
+                }
 
-            if (eventPattern.getEvent() == null) {
-                QuickSkript.getInstance().getLogger().warning(
-                        "The event '" + matcher.group() + "' is not available on your platform."
-                );
-                continue;
-            }
+                if (eventPattern.getEvent() == null) {
+                    QuickSkript.getInstance().getLogger().warning(
+                        "The event '" + match.getMatchedString() + "' is not available on your platform."
+                    );
+                    continue;
+                }
 
-            REGISTERED_HANDLERS.computeIfAbsent(eventPattern.getEvent(), event -> {
-                Bukkit.getPluginManager().registerEvent(event, EMPTY_LISTENER,
+                List<PsiElement<?>> elements = new ArrayList<>();
+
+                for (Pair<SkriptPatternGroup, String> pair : match.getMatchedGroups()) {
+                    if (!(pair.getX() instanceof TypeGroup)) {
+                        continue;
+                    }
+
+                    elements.add(skriptLoader.tryParseElement(pair.getY(), -1));
+                }
+
+                Predicate<Event> predicate;
+
+                if (eventPattern.getFilterCreator() == null) {
+                    predicate = event -> true;
+                } else {
+                    predicate = eventPattern.getFilterCreator().apply(match, elements.toArray(PsiElement<?>[]::new));
+                }
+
+                REGISTERED_HANDLERS.computeIfAbsent(eventPattern.getEvent(), event -> {
+                    Bukkit.getPluginManager().registerEvent(event, EMPTY_LISTENER,
                         EventPriority.NORMAL, HANDLER_EXECUTOR, QuickSkript.getInstance());
-                return new ArrayList<>();
-            }).add(Map.entry(toRegisterSupplier.get(), Objects.requireNonNull(eventPattern.getFilterCreator()).apply(matcher)));
-            return true;
+                    return new ArrayList<>();
+                }).add(Map.entry(toRegisterSupplier.get(), predicate));
+                return true;
+            }
         }
 
         return false;
@@ -84,7 +128,7 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
      * Maps the specified regex to the specified Bukkit event.
      *
      * @param event the event to register
-     * @param regex the pattern of the event in Skript source
+     * @param pattern the pattern of the event in Skript source
      * @param filterCreator the {@link Function} which creates a {@link Predicate}
      * based on the {@link Matcher} created by the specified regex and the Skript source
      * @param <T> the event that was registered
@@ -92,9 +136,11 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
      * @since 0.1.0
      */
     @NotNull
-    public <T extends Event> ComplexEventProxyFactory registerEvent(@NotNull Class<T> event, @NotNull String regex,
-            @NotNull Function<Matcher, Predicate<T>> filterCreator) {
-        eventPatterns.add(new EventPattern(event, regex, (Function<Matcher, Predicate<Event>>) (Object) filterCreator));
+    public <T extends Event> ComplexEventProxyFactory registerEvent(@NotNull Class<T> event, @NotNull String pattern,
+            @NotNull BiFunction<SkriptMatchResult, PsiElement<?>[], Predicate<T>> filterCreator) {
+        var filter = (BiFunction<SkriptMatchResult, PsiElement<?>[], Predicate<Event>>) (Object) filterCreator;
+
+        eventPatterns.add(new EventPattern(event, pattern, filter));
         return this;
     }
 
@@ -102,7 +148,7 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
      * Maps the specified regex to the specified Bukkit event.
      *
      * @param eventName the event to register's name. This is the full class name including the package
-     * @param regex the pattern of the event in Skript source
+     * @param pattern the pattern of the event in Skript source
      * @param filterCreator the {@link Function} which creates a {@link Predicate}
      * based on the {@link Matcher} created by the specified regex and the Skript source
      * @param platform the platform required for this event
@@ -111,16 +157,17 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
      * @since 0.1.0
      */
     @NotNull
-    public <T extends Event> ComplexEventProxyFactory registerEvent(@NotNull String eventName, @NotNull String regex,
-            @NotNull Function<Matcher, Predicate<T>> filterCreator, @NotNull Platform platform) {
+    public <T extends Event> ComplexEventProxyFactory registerEvent(@NotNull String eventName, @NotNull String pattern,
+        @NotNull BiFunction<SkriptMatchResult, PsiElement<?>[], Predicate<T>> filterCreator,
+        @NotNull Platform platform) {
         if (!Platform.getPlatform().isAvailable(platform)) {
-            eventPatterns.add(new EventPattern(null, regex, null));
+            eventPatterns.add(new EventPattern(null, pattern, null));
             return this;
         }
 
         try {
-            eventPatterns.add(new EventPattern((Class<? extends Event>) Class.forName(eventName), regex,
-                    (Function<Matcher, Predicate<Event>>) (Object) filterCreator));
+            eventPatterns.add(new EventPattern((Class<? extends Event>) Class.forName(eventName), pattern,
+                    (BiFunction<SkriptMatchResult, PsiElement<?>[], Predicate<Event>>) (Object) filterCreator));
         } catch (ClassNotFoundException exception) {
             exception.printStackTrace();
         }
@@ -141,19 +188,24 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
          */
         @Nullable
         private final Class<? extends Event> event;
+
+        /**
+         * The skript pattern for matching this event pattern
+         */
         @NotNull
-        private final Pattern pattern;
+        private final SkriptPattern pattern;
+
         /**
          * Whether the listener should be executed when the specified event is fired.
          * This is null when {@link #event} is null.
          */
         @Nullable
-        private final Function<Matcher, Predicate<Event>> filterCreator;
+        private final BiFunction<SkriptMatchResult, PsiElement<?>[], Predicate<Event>> filterCreator;
 
-        EventPattern(@Nullable Class<? extends Event> event, @NotNull String regex,
-                @Nullable Function<Matcher, Predicate<Event>> filterCreator) {
+        EventPattern(@Nullable Class<? extends Event> event, @NotNull String pattern,
+                @Nullable BiFunction<SkriptMatchResult, PsiElement<?>[], Predicate<Event>> filterCreator) {
             this.event = event;
-            pattern = Pattern.compile(regex);
+            this.pattern = SkriptPattern.parse(pattern);
             this.filterCreator = filterCreator;
         }
 
@@ -163,13 +215,20 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
             return event;
         }
 
+        /**
+         * Gets the skript pattern of this event pattern.
+         *
+         * @return the skript pattern
+         * @since 0.1.0
+         */
         @NotNull
-        Matcher getMatcher(String text) {
-            return pattern.matcher(text);
+        @Contract(pure = true)
+        private SkriptPattern getPattern() {
+            return pattern;
         }
 
         @Nullable
-        Function<Matcher, Predicate<Event>> getFilterCreator() {
+        BiFunction<SkriptMatchResult, PsiElement<?>[], Predicate<Event>> getFilterCreator() {
             return filterCreator;
         }
     }

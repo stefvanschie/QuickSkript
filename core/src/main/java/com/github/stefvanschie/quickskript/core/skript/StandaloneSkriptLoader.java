@@ -124,6 +124,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiSoundCategoryLiteral.Factory());
         registerElement(new PsiSpawnReasonLiteral.Factory());
         registerElement(new PsiStatusEffectTypeLiteral.Factory());
+        registerElement(new PsiStringLiteral.Factory());
         registerElement(new PsiTeleportCauseLiteral.Factory());
         registerElement(new PsiTimeLiteral.Factory());
         registerElement(new PsiTimePeriodLiteral.Factory());
@@ -243,9 +244,6 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiTangentFunction.Factory());
         registerElement(new PsiVectorFunction.Factory());
         registerElement(new PsiWorldFunction.Factory());
-
-        //this one is here, because it has special identifiers around it
-        registerElement(new PsiStringLiteral.Factory());
 
         //these are slow and match a lot, therefore at the bottom
         registerElement(new PsiItemCategoryLiteral.Factory());

@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.bukkit.event;
 import com.github.stefvanschie.quickskript.bukkit.plugin.QuickSkript;
 import com.github.stefvanschie.quickskript.bukkit.skript.SkriptEventExecutor;
 import com.github.stefvanschie.quickskript.bukkit.util.Platform;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
@@ -11,8 +12,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.function.Supplier;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * A factory which is capable of registering simple event handlers.
@@ -74,29 +73,28 @@ public class SimpleEventProxyFactory extends EventProxyFactory {
      * The storage of the registered event patterns.
      */
     @NotNull
-    private final List<Map.Entry<Class<? extends Event>, Pattern>> eventPatterns = new ArrayList<>();
+    private final List<Map.Entry<Class<? extends Event>, Collection<String>>> eventPatterns = new ArrayList<>();
 
     @Override
     public boolean tryRegister(@NotNull String text, @NotNull Supplier<SkriptEventExecutor> toRegisterSupplier) {
-        for (Map.Entry<Class<? extends Event>, Pattern> eventPattern : eventPatterns) {
-            Matcher matcher = eventPattern.getValue().matcher(text);
-
-            if (!matcher.matches()) {
+        for (Map.Entry<Class<? extends Event>, Collection<String>> eventPattern : eventPatterns) {
+            if (!eventPattern.getValue().contains(text)) {
                 continue;
             }
 
             if (eventPattern.getKey() == null) {
                 QuickSkript.getInstance().getLogger().warning(
-                    "The event '" + matcher.group() + "' is not available on your platform."
+                    "The event '" + text + "' is not available on your platform."
                 );
                 continue;
             }
 
             REGISTERED_HANDLERS.computeIfAbsent(eventPattern.getKey(), event -> {
                 Bukkit.getPluginManager().registerEvent(event, EMPTY_LISTENER,
-                        EventPriority.NORMAL, HANDLER_EXECUTOR, QuickSkript.getInstance());
+                    EventPriority.NORMAL, HANDLER_EXECUTOR, QuickSkript.getInstance());
                 return new ArrayList<>();
             }).add(toRegisterSupplier.get());
+
             return true;
         }
 
@@ -107,14 +105,14 @@ public class SimpleEventProxyFactory extends EventProxyFactory {
      * Maps the specified regex to the specified Bukkit event.
      *
      * @param event the event to register
-     * @param regex the pattern of the event in Skript source
+     * @param pattern the pattern of the event in Skript source
      * @return itself for chaining
      *
      * @since 0.1.0
      */
     @NotNull
-    public SimpleEventProxyFactory registerEvent(@NotNull Class<? extends Event> event, @NotNull String regex) {
-        eventPatterns.add(Map.entry(event, Pattern.compile(regex)));
+    public SimpleEventProxyFactory registerEvent(@NotNull Class<? extends Event> event, @NotNull String pattern) {
+        eventPatterns.add(Map.entry(event, SkriptPattern.parse(pattern).unrollFully()));
         return this;
     }
 
@@ -122,23 +120,25 @@ public class SimpleEventProxyFactory extends EventProxyFactory {
      * Maps the specified regex to the specified Bukkit event.
      *
      * @param eventName the event to register's name
-     * @param regex the pattern of the event in Skript source
+     * @param pattern the pattern of the event in Skript source
      * @param platform the platform required for this event
      * @return itself for chaining
      *
      * @since 0.1.0
      */
     @NotNull
-    public SimpleEventProxyFactory registerEvent(@NotNull String eventName, @NotNull String regex,
+    public SimpleEventProxyFactory registerEvent(@NotNull String eventName, @NotNull String pattern,
                                                  @NotNull Platform platform) {
+        Collection<String> patterns = SkriptPattern.parse(pattern).unrollFully();
+
         if (Platform.getPlatform().isAvailable(platform)) {
             try {
-                eventPatterns.add(Map.entry((Class<? extends Event>) Class.forName(eventName), Pattern.compile(regex)));
+                eventPatterns.add(Map.entry((Class<? extends Event>) Class.forName(eventName), patterns));
             } catch (ClassNotFoundException exception) {
                 exception.printStackTrace();
             }
         } else {
-            eventPatterns.add(new AbstractMap.SimpleEntry<>(null, Pattern.compile(regex)));
+            eventPatterns.add(new AbstractMap.SimpleEntry<>(null, patterns));
         }
 
         return this;
