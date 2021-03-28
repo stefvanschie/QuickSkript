@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -62,18 +63,16 @@ public class PsiHasPermissionCondition extends PsiElement<Boolean> {
         /**
          * The positive pattern to match has permission conditions with
          */
-        @SuppressWarnings("HardcodedFileSeparator")
         @NotNull
         private final SkriptPattern positivePattern =
-            SkriptPattern.parse("%players/console% (has|have) [the] permission[s] %texts%");
+            SkriptPattern.parse("%commandsenders% (has|have) [the] permission[s] %texts%");
 
         /**
          * The negative pattern to match has permission conditions with
          */
-        @SuppressWarnings("HardcodedFileSeparator")
         @NotNull
         private final SkriptPattern negativePattern =
-            SkriptPattern.parse("%players/console% (doesn't|does not|do not|don't) have [the] permission[s] %texts%");
+            SkriptPattern.parse("%commandsenders% (doesn't|does not|do not|don't) have [the] permission[s] %texts%");
 
         /**
          * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
@@ -126,6 +125,13 @@ public class PsiHasPermissionCondition extends PsiElement<Boolean> {
                                                    @NotNull PsiElement<?> permission, boolean positive,
                                                    int lineNumber) {
             return new PsiHasPermissionCondition(permissible, permission, positive, lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.BOOLEAN;
         }
     }
 }

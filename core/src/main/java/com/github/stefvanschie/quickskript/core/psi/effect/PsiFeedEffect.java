@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -85,6 +86,13 @@ public class PsiFeedEffect extends PsiElement<Void> {
         @Contract(pure = true)
         public PsiFeedEffect create(@NotNull PsiElement<?> player, @Nullable PsiElement<?> amount, int lineNumber) {
             return new PsiFeedEffect(player, amount, lineNumber);
+        }
+
+        @Nullable
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return null;
         }
     }
 }

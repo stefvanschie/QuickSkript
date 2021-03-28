@@ -6,6 +6,7 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -128,6 +129,13 @@ public class PsiLogarithmFunction extends PsiElement<Double> {
         protected PsiLogarithmFunction create(@NotNull PsiElement<?> value, @Nullable PsiElement<?> base,
                                               int lineNumber) {
             return new PsiLogarithmFunction(value, base, lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.NUMBER;
         }
     }
 }

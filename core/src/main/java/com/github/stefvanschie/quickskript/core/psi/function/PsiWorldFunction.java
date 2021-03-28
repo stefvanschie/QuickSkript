@@ -4,6 +4,8 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.util.Type;
+import com.github.stefvanschie.quickskript.core.util.literal.World;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -17,7 +19,7 @@ import java.util.regex.Pattern;
  *
  * @since 0.1.0
  */
-public class PsiWorldFunction extends PsiElement<Object> {
+public class PsiWorldFunction extends PsiElement<World> {
 
     /**
      * The parameter for getting the world
@@ -89,6 +91,13 @@ public class PsiWorldFunction extends PsiElement<Object> {
         @Contract(pure = true)
         protected PsiWorldFunction create(@NotNull PsiElement<?> element, int lineNumber) {
             return new PsiWorldFunction(element, lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.WORLD;
         }
     }
 }

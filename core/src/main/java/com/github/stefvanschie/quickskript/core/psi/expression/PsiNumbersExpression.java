@@ -7,6 +7,7 @@ import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -137,6 +138,13 @@ public class PsiNumbersExpression extends PsiElement<List<Number>> {
         public PsiNumbersExpression create(@NotNull PsiElement<?> lowerBound, @NotNull PsiElement<?> upperBound,
             boolean integer, int lineNumber) {
             return new PsiNumbersExpression(lowerBound, upperBound, integer, lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.NUMBERS;
         }
     }
 }

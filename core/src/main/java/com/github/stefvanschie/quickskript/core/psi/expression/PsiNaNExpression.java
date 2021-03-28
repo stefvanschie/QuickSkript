@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -66,6 +67,13 @@ public class PsiNaNExpression extends PsiPrecomputedHolder<Double> {
         @Contract(pure = true)
         public PsiNaNExpression create(int lineNumber) {
             return new PsiNaNExpression(lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.NUMBER;
         }
     }
 }

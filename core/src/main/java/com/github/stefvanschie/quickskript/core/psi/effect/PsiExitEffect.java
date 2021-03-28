@@ -8,8 +8,10 @@ import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.psi.util.pointermovement.ExitSectionsPointerMovement;
 import com.github.stefvanschie.quickskript.core.util.Pair;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
@@ -107,6 +109,13 @@ public class PsiExitEffect extends PsiPrecomputedHolder<ExitSectionsPointerMovem
 
             int amount = regexMatch == null ? 1 : Integer.parseInt(regexMatch);
             return new PsiExitEffect(new ExitSectionsPointerMovement(type, amount), lineNumber);
+        }
+
+        @Nullable
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return null;
         }
     }
 }

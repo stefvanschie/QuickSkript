@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.psi.PsiConverter;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -77,6 +78,13 @@ public class PsiNumberLiteral extends PsiPrecomputedHolder<Double> {
         @Contract(pure = true)
         protected PsiNumberLiteral create(double value, int lineNumber) {
             return new PsiNumberLiteral(value, lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.NUMBER;
         }
     }
 

@@ -4,8 +4,10 @@ import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Kills the entity
@@ -74,6 +76,13 @@ public class PsiKillEffect extends PsiElement<Void> {
         @Contract(pure = true)
         public PsiKillEffect create(@NotNull PsiElement<?> entity, int lineNumber) {
             return new PsiKillEffect(entity, lineNumber);
+        }
+
+        @Nullable
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return null;
         }
     }
 }

@@ -6,6 +6,7 @@ import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -139,6 +140,13 @@ public class PsiIsCondition extends PsiElement<Boolean> {
         protected PsiIsCondition create(@NotNull PsiElement<?> leftSide, @NotNull PsiElement<?> rightSide,
                                         boolean positive, int lineNumber) {
             return new PsiIsCondition(leftSide, rightSide, positive, lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.BOOLEAN;
         }
     }
 }

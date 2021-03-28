@@ -19,6 +19,7 @@ import com.github.stefvanschie.quickskript.bukkit.util.CommandMapWrapper;
 import com.github.stefvanschie.quickskript.bukkit.util.Platform;
 import com.github.stefvanschie.quickskript.bukkit.util.event.ExperienceOrbSpawnEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.QuickSkriptPostEnableEvent;
+import com.github.stefvanschie.quickskript.bukkit.util.event.WorldTimeChangeEvent;
 import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileLine;
 import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileNode;
 import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileSection;
@@ -36,6 +37,8 @@ import com.github.stefvanschie.quickskript.core.psi.section.PsiWhile;
 import com.github.stefvanschie.quickskript.core.skript.Skript;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
+import com.github.stefvanschie.quickskript.core.util.literal.Time;
+import com.github.stefvanschie.quickskript.core.util.literal.World;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
@@ -342,180 +345,189 @@ public class BukkitSkriptLoader extends SkriptLoader {
         events = new ArrayList<>(); //this has to go here, because this method will be called before the class's initialization
 
         registerEvent(new SimpleEventProxyFactory()
-                .registerEvent(AreaEffectCloudApplyEvent.class, "[on] (area|AoE) [cloud] effect")
-                .registerEvent(BlockCanBuildEvent.class, "[on] [block] can build check")
-                .registerEvent(BlockDamageEvent.class, "[on] block damag(ing|e)")
-                .registerEvent(BlockFromToEvent.class, "[on] [block] (flow[ing]|mov(e|ing))")
-                .registerEvent(BlockIgniteEvent.class, "[on] [block] ignit[e|ion]")
-                .registerEvent(BlockPhysicsEvent.class, "[on] [block] physics")
-                .registerEvent(BlockPistonExtendEvent.class, "[on] piston extend[ing]")
-                .registerEvent(BlockPistonRetractEvent.class, "[on] piston retract[ing]")
-                .registerEvent(BlockRedstoneEvent.class, "[on] redstone [current] [chang(e|ing)]")
-                .registerEvent(BlockSpreadEvent.class, "[on] spread[ing]")
-                .registerEvent(ChunkLoadEvent.class, "[on] chunk load[ing]")
-                .registerEvent(ChunkPopulateEvent.class, "[on] chunk (generat|populat)(e|ing)")
-                .registerEvent(ChunkUnloadEvent.class, "[on] chunk unload[ing]")
-                .registerEvent(CreeperPowerEvent.class, "[on] creeper power")
-                .registerEvent(EntityBreakDoorEvent.class, "[on] zombie break[ing] [a] [wood[en]] door")
-                .registerEvent(EntityCombustEvent.class, "[on] combust[ing]")
-                .registerEvent("org.spigotmc.event.entity.EntityDismountEvent", "[on] dismount[ing]", Platform.SPIGOT)
-                .registerEvent(EntityExplodeEvent.class, "[on] explo(d(e|ing)|sion)")
-                .registerEvent("org.spigotmc.event.entity.EntityMountEvent", "[on] mount[ing]", Platform.SPIGOT)
-                .registerEvent(EntityPortalEnterEvent.class, "[on] (portal enter[ing]|entering [a] portal)")
-                .registerEvent(EntityRegainHealthEvent.class, "[on] heal[ing]")
-                .registerEvent(EntityResurrectEvent.class, "[on] [entity] resurrect[ion] [attempt]")
-                .registerEvent(EntityTameEvent.class, "[on] [entity] tam(e|ing)")
-                .registerEvent(EntityTargetEvent.class, "[on] [entity] [un[-]]target")
-                .registerEvent(EntityToggleGlideEvent.class, "[on] [toggle] glid(e|ing) [state change]")
-                .registerEvent(EntityToggleSwimEvent.class, "[on] [entity] (toggl(e|ing) swim|swim toggl(e|ing))")
-                .registerEvent(ExperienceOrbSpawnEvent.class, "[on] ([e]xp[erience] [orb] spawn|spawn of [a[n]] [e]xp[erience] [orb])")
-                .registerEvent(ExplosionPrimeEvent.class, "[on] explosion prime")
-                .registerEvent(FoodLevelChangeEvent.class, "[on] (food|hunger) (level|met(er|re)|bar) chang(e|ing)")
-                .registerEvent(FurnaceBurnEvent.class, "[on] fuel burn[ing]")
-                .registerEvent(FurnaceSmeltEvent.class, "[on] [ore] smelt[ing] [of ore]")
-                .registerEvent(InventoryCloseEvent.class, "[on] inventory clos(e[d]|ing)")
-                .registerEvent(InventoryOpenEvent.class, "[on] inventory open[ed]")
-                .registerEvent(LeavesDecayEvent.class, "[on] leaves decay[ing]")
-                .registerEvent(LightningStrikeEvent.class, "[on] lightning [strike]")
-                .registerEvent(PigZapEvent.class, "[on] pig[ ]zap")
-                .registerEvent(PlayerBedEnterEvent.class, "[on] (bed enter[ing]|[player] enter[ing] [a] bed)")
-                .registerEvent(PlayerBedLeaveEvent.class, "[on] (bed leav(e|ing)|[player] leav(e|ing) [a] bed)")
-                .registerEvent(PlayerBucketEmptyEvent.class, "[on] [player] [empty[ing]] [a] bucket [empty[ing]]")
-                .registerEvent(PlayerBucketFillEvent.class, "[on] [player] [fill[ing]] [a] bucket [fill[ing]]")
-                .registerEvent(PlayerChangedWorldEvent.class, "[on] [player] world chang(ing|e[d])")
-                .registerEvent(PlayerCommandPreprocessEvent.class, "[on] command")
-                .registerEvent(PlayerEggThrowEvent.class, "[on] (throw[ing] [of] [an] egg|[player] egg throw)")
-                .registerEvent(PlayerFishEvent.class, "[on] [player] fish[ing]")
-                .registerEvent(PlayerItemBreakEvent.class, "[on] [player] (tool break[ing]|break[ing] [a|the] tool)")
-                .registerEvent(PlayerItemHeldEvent.class, "[on] [player['s]] (tool|item held|held item) chang(e|ing)")
-                .registerEvent(PlayerJoinEvent.class, "[on] [player] (log[ging] in|join[ing])")
-                .registerEvent("com.destroystokyo.paper.event.player.PlayerJumpEvent", "[on] [player] jump[ing]", Platform.PAPER)
-                .registerEvent(PlayerKickEvent.class, "[on] [player] [being] kick[ed]")
-                .registerEvent(PlayerLevelChangeEvent.class, "[on] [player] level [change]")
-                .registerEvent(PlayerLocaleChangeEvent.class, "[on] [player] ((language|locale) chang(e|ing)|chang(e|ing) (language|locale))")
-                .registerEvent(PlayerLoginEvent.class, "[on] [player] connect[ing]")
-                .registerEvent(PlayerPortalEvent.class, "[on] [player] portal")
-                .registerEvent(PlayerQuitEvent.class, "[on] (quit[ting]|disconnect[ing]|log[ging | ]out)")
-                .registerEvent(PlayerRespawnEvent.class, "[on] [player] respawn[ing]")
-                .registerEvent(PlayerSwapHandItemsEvent.class, "[on] swap[ping of] [hand|held] item[s]")
-                .registerEvent(PlayerTeleportEvent.class, "[on] [player] teleport[ing]")
-                .registerEvent(PlayerToggleFlightEvent.class, "[on] [player] (flight toggl(e|ing)|toggl(e|ing) flight)")
-                .registerEvent(PlayerToggleSneakEvent.class, "[on] [player] (toggl(e|ing) sneak|sneak toggl(e|ing))")
-                .registerEvent(PlayerToggleSprintEvent.class, "[on] [player] (toggl(e|ing) sprint|sprint toggl(e|ing))")
-                .registerEvent(PortalCreateEvent.class, "[on] portal creat(e|ion)")
-                .registerEvent(ProjectileHitEvent.class, "[on] projectile hit")
-                .registerEvent(ProjectileLaunchEvent.class, "[on] [projectile] shoot")
-                .registerEvent(
-                    Platform.getPlatform() == Platform.PAPER ? PaperServerListPingEvent.class : ServerListPingEvent.class,
-                    "[on] server [list] ping"
-                )
-                .registerEvent(QuickSkriptPostEnableEvent.class, "[on] (server|skript) (start|load|enable)")
-                .registerEvent(SheepRegrowWoolEvent.class, "[on] sheep [re]grow[ing] wool")
-                .registerEvent(SignChangeEvent.class, "[on] (sign (chang[e]|edit)[ing]|[player] (chang[e]|edit)[ing] [a] sign)")
-                .registerEvent(SlimeSplitEvent.class, "[on] slime split[ting]")
-                .registerEvent(SpawnChangeEvent.class, "[on] [world] spawn change")
-                .registerEvent(VehicleCreateEvent.class, "[on] (vehicle create|creat(e|ing|ion of) [a] vehicle)")
-                .registerEvent(VehicleDamageEvent.class, "[on] (vehicle damage|damag(e|ing) [a] vehicle)")
-                .registerEvent(VehicleDestroyEvent.class, "[on] (vehicle destroy|destr(oy[ing]|uction of) [a] vehicle)")
-                .registerEvent(VehicleEnterEvent.class, "[on] (vehicle enter|enter[ing] [a] vehicle)")
-                .registerEvent(VehicleExitEvent.class, "[on] (vehicle exit|exit[ing] [a] vehicle)")
-                .registerEvent(WorldInitEvent.class, "[on] world init[ialization]")
-                .registerEvent(WorldLoadEvent.class, "[on] world load[ing]")
-                .registerEvent(WorldSaveEvent.class, "[on] world sav(e|ing)")
-                .registerEvent(WorldUnloadEvent.class, "[on] world unload[ing]")
+            .registerEvent(AreaEffectCloudApplyEvent.class, "[on] (area|AoE) [cloud] effect")
+            .registerEvent(BlockCanBuildEvent.class, "[on] [block] can build check")
+            .registerEvent(BlockDamageEvent.class, "[on] block damag(ing|e)")
+            .registerEvent(BlockFromToEvent.class, "[on] [block] (flow[ing]|mov(e|ing))")
+            .registerEvent(BlockIgniteEvent.class, "[on] [block] ignit[e|ion]")
+            .registerEvent(BlockPhysicsEvent.class, "[on] [block] physics")
+            .registerEvent(BlockPistonExtendEvent.class, "[on] piston extend[ing]")
+            .registerEvent(BlockPistonRetractEvent.class, "[on] piston retract[ing]")
+            .registerEvent(BlockRedstoneEvent.class, "[on] redstone [current] [chang(e|ing)]")
+            .registerEvent(BlockSpreadEvent.class, "[on] spread[ing]")
+            .registerEvent(ChunkLoadEvent.class, "[on] chunk load[ing]")
+            .registerEvent(ChunkPopulateEvent.class, "[on] chunk (generat|populat)(e|ing)")
+            .registerEvent(ChunkUnloadEvent.class, "[on] chunk unload[ing]")
+            .registerEvent(CreeperPowerEvent.class, "[on] creeper power")
+            .registerEvent(EntityBreakDoorEvent.class, "[on] zombie break[ing] [a] [wood[en]] door")
+            .registerEvent(EntityCombustEvent.class, "[on] combust[ing]")
+            .registerEvent("org.spigotmc.event.entity.EntityDismountEvent", "[on] dismount[ing]", Platform.SPIGOT)
+            .registerEvent(EntityExplodeEvent.class, "[on] explo(d(e|ing)|sion)")
+            .registerEvent("org.spigotmc.event.entity.EntityMountEvent", "[on] mount[ing]", Platform.SPIGOT)
+            .registerEvent(EntityPortalEnterEvent.class, "[on] (portal enter[ing]|entering [a] portal)")
+            .registerEvent(EntityRegainHealthEvent.class, "[on] heal[ing]")
+            .registerEvent(EntityResurrectEvent.class, "[on] [entity] resurrect[ion] [attempt]")
+            .registerEvent(EntityTameEvent.class, "[on] [entity] tam(e|ing)")
+            .registerEvent(EntityTargetEvent.class, "[on] [entity] [un[-]]target")
+            .registerEvent(EntityToggleGlideEvent.class, "[on] [toggle] glid(e|ing) [state change]")
+            .registerEvent(EntityToggleSwimEvent.class, "[on] [entity] (toggl(e|ing) swim|swim toggl(e|ing))")
+            .registerEvent(ExperienceOrbSpawnEvent.class, "[on] ([e]xp[erience] [orb] spawn|spawn of [a[n]] [e]xp[erience] [orb])")
+            .registerEvent(ExplosionPrimeEvent.class, "[on] explosion prime")
+            .registerEvent(FoodLevelChangeEvent.class, "[on] (food|hunger) (level|met(er|re)|bar) chang(e|ing)")
+            .registerEvent(FurnaceBurnEvent.class, "[on] fuel burn[ing]")
+            .registerEvent(FurnaceSmeltEvent.class, "[on] [ore] smelt[ing] [of ore]")
+            .registerEvent(InventoryCloseEvent.class, "[on] inventory clos(e[d]|ing)")
+            .registerEvent(InventoryOpenEvent.class, "[on] inventory open[ed]")
+            .registerEvent(LeavesDecayEvent.class, "[on] leaves decay[ing]")
+            .registerEvent(LightningStrikeEvent.class, "[on] lightning [strike]")
+            .registerEvent(PigZapEvent.class, "[on] pig[ ]zap")
+            .registerEvent(PlayerBedEnterEvent.class, "[on] (bed enter[ing]|[player] enter[ing] [a] bed)")
+            .registerEvent(PlayerBedLeaveEvent.class, "[on] (bed leav(e|ing)|[player] leav(e|ing) [a] bed)")
+            .registerEvent(PlayerBucketEmptyEvent.class, "[on] [player] [empty[ing]] [a] bucket [empty[ing]]")
+            .registerEvent(PlayerBucketFillEvent.class, "[on] [player] [fill[ing]] [a] bucket [fill[ing]]")
+            .registerEvent(PlayerChangedWorldEvent.class, "[on] [player] world chang(ing|e[d])")
+            .registerEvent(PlayerCommandPreprocessEvent.class, "[on] command")
+            .registerEvent(PlayerEggThrowEvent.class, "[on] (throw[ing] [of] [an] egg|[player] egg throw)")
+            .registerEvent(PlayerFishEvent.class, "[on] [player] fish[ing]")
+            .registerEvent(PlayerItemBreakEvent.class, "[on] [player] (tool break[ing]|break[ing] [a|the] tool)")
+            .registerEvent(PlayerItemHeldEvent.class, "[on] [player['s]] (tool|item held|held item) chang(e|ing)")
+            .registerEvent(PlayerJoinEvent.class, "[on] [player] (log[ging] in|join[ing])")
+            .registerEvent("com.destroystokyo.paper.event.player.PlayerJumpEvent", "[on] [player] jump[ing]", Platform.PAPER)
+            .registerEvent(PlayerKickEvent.class, "[on] [player] [being] kick[ed]")
+            .registerEvent(PlayerLevelChangeEvent.class, "[on] [player] level [change]")
+            .registerEvent(PlayerLocaleChangeEvent.class, "[on] [player] ((language|locale) chang(e|ing)|chang(e|ing) (language|locale))")
+            .registerEvent(PlayerLoginEvent.class, "[on] [player] connect[ing]")
+            .registerEvent(PlayerPortalEvent.class, "[on] [player] portal")
+            .registerEvent(PlayerQuitEvent.class, "[on] (quit[ting]|disconnect[ing]|log[ging | ]out)")
+            .registerEvent(PlayerRespawnEvent.class, "[on] [player] respawn[ing]")
+            .registerEvent(PlayerSwapHandItemsEvent.class, "[on] swap[ping of] [hand|held] item[s]")
+            .registerEvent(PlayerTeleportEvent.class, "[on] [player] teleport[ing]")
+            .registerEvent(PlayerToggleFlightEvent.class, "[on] [player] (flight toggl(e|ing)|toggl(e|ing) flight)")
+            .registerEvent(PlayerToggleSneakEvent.class, "[on] [player] (toggl(e|ing) sneak|sneak toggl(e|ing))")
+            .registerEvent(PlayerToggleSprintEvent.class, "[on] [player] (toggl(e|ing) sprint|sprint toggl(e|ing))")
+            .registerEvent(PortalCreateEvent.class, "[on] portal creat(e|ion)")
+            .registerEvent(ProjectileHitEvent.class, "[on] projectile hit")
+            .registerEvent(ProjectileLaunchEvent.class, "[on] [projectile] shoot")
+            .registerEvent(
+                Platform.getPlatform() == Platform.PAPER ? PaperServerListPingEvent.class : ServerListPingEvent.class,
+                "[on] server [list] ping"
+            )
+            .registerEvent(QuickSkriptPostEnableEvent.class, "[on] (server|skript) (start|load|enable)")
+            .registerEvent(SheepRegrowWoolEvent.class, "[on] sheep [re]grow[ing] wool")
+            .registerEvent(SignChangeEvent.class, "[on] (sign (chang[e]|edit)[ing]|[player] (chang[e]|edit)[ing] [a] sign)")
+            .registerEvent(SlimeSplitEvent.class, "[on] slime split[ting]")
+            .registerEvent(SpawnChangeEvent.class, "[on] [world] spawn change")
+            .registerEvent(VehicleCreateEvent.class, "[on] (vehicle create|creat(e|ing|ion of) [a] vehicle)")
+            .registerEvent(VehicleDamageEvent.class, "[on] (vehicle damage|damag(e|ing) [a] vehicle)")
+            .registerEvent(VehicleDestroyEvent.class, "[on] (vehicle destroy|destr(oy[ing]|uction of) [a] vehicle)")
+            .registerEvent(VehicleEnterEvent.class, "[on] (vehicle enter|enter[ing] [a] vehicle)")
+            .registerEvent(VehicleExitEvent.class, "[on] (vehicle exit|exit[ing] [a] vehicle)")
+            .registerEvent(WorldInitEvent.class, "[on] world init[ialization]")
+            .registerEvent(WorldLoadEvent.class, "[on] world load[ing]")
+            .registerEvent(WorldSaveEvent.class, "[on] world sav(e|ing)")
+            .registerEvent(WorldUnloadEvent.class, "[on] world unload[ing]")
         );
 
         registerEvent(new ComplexEventProxyFactory(this)
-                .registerEvent(EntityChangeBlockEvent.class, "[on] enderman place",
-                    (matcher, elements) -> event ->
-                        event.getEntity() instanceof Enderman && event.getTo() != Material.AIR)
-                .registerEvent(EntityChangeBlockEvent.class, "[on] enderman pickup",
-                    (matcher, elements) -> event ->
-                        event.getEntity() instanceof Enderman && event.getTo() == Material.AIR)
-                .registerEvent(EntityChangeBlockEvent.class, "[on] sheep eat", (matcher, elements) -> event ->
-                        event.getEntity() instanceof Sheep)
-                .registerEvent(EntityChangeBlockEvent.class, "[on] silverfish enter",
-                    (matcher, elements) -> event ->
-                        event.getEntity() instanceof Silverfish && EnumSet.of(
-                                Material.INFESTED_COBBLESTONE,
-                                Material.INFESTED_STONE,
-                                Material.INFESTED_CHISELED_STONE_BRICKS,
-                                Material.INFESTED_CRACKED_STONE_BRICKS,
-                                Material.INFESTED_MOSSY_STONE_BRICKS,
-                                Material.INFESTED_STONE_BRICKS
-                        ).contains(event.getTo()))
-                .registerEvent(EntityChangeBlockEvent.class, "[on] silverfish exit",
-                    (matcher, elements) -> event ->
-                        event.getEntity() instanceof Silverfish && event.getTo() == Material.AIR)
-                .registerEvent(PlayerCommandPreprocessEvent.class, "[on] command %text%",
-                    (matcher, elements) -> {
-                        String command = elements[0].execute(null, null, Text.class).toString();
-                        String finalCommand = command.startsWith("/") ? command.substring(1) : command;
+            .registerEvent(WorldTimeChangeEvent.class, "at %time% [in %worlds%]", (matcher, elements) -> {
+                long time = elements[0].execute(null, null, Time.class).asTicks();
 
+                if (elements.length > 1) {
+                    World world = elements[1].execute(null, null, World.class);
+
+                    return event -> event.getTime() == time && event.getWorld().getName().equals(world.getName());
+                } else {
+                    return event -> event.getTime() == time;
+                }
+            })
+            .registerEvent(EntityChangeBlockEvent.class, "[on] enderman place",
+                (matcher, elements) -> event -> event.getEntity() instanceof Enderman && event.getTo() != Material.AIR)
+            .registerEvent(EntityChangeBlockEvent.class, "[on] enderman pickup",
+                (matcher, elements) -> event -> event.getEntity() instanceof Enderman && event.getTo() == Material.AIR)
+            .registerEvent(EntityChangeBlockEvent.class, "[on] sheep eat", (matcher, elements) -> event ->
+                    event.getEntity() instanceof Sheep)
+            .registerEvent(EntityChangeBlockEvent.class, "[on] silverfish enter",
+                (matcher, elements) -> event ->
+                    event.getEntity() instanceof Silverfish && EnumSet.of(
+                            Material.INFESTED_COBBLESTONE,
+                            Material.INFESTED_STONE,
+                            Material.INFESTED_CHISELED_STONE_BRICKS,
+                            Material.INFESTED_CRACKED_STONE_BRICKS,
+                            Material.INFESTED_MOSSY_STONE_BRICKS,
+                            Material.INFESTED_STONE_BRICKS
+                    ).contains(event.getTo()))
+            .registerEvent(EntityChangeBlockEvent.class, "[on] silverfish exit",
+                (matcher, elements) -> event ->
+                    event.getEntity() instanceof Silverfish && event.getTo() == Material.AIR)
+            .registerEvent(PlayerCommandPreprocessEvent.class, "[on] command %text%",
+                (matcher, elements) -> {
+                    String command = elements[0].execute(null, null, Text.class).toString();
+                    String finalCommand = command.startsWith("/") ? command.substring(1) : command;
+
+                    return event -> {
+                        String message = event.getMessage();
+                        return message.startsWith(finalCommand, message.startsWith("/") ? 1 : 0);
+                    };
+                }
+            )
+            .registerEvent(PlayerEditBookEvent.class, "[on] book (edit|change|write|1\u00A6sign|1\u00A6signing)",
+                (matcher, elements) ->
+                    matcher.getParseMark() == 1 ? PlayerEditBookEvent::isSigning : event -> !event.isSigning())
+            .registerEvent(PlayerInteractEvent.class, "[on] [(1\u00A6right|2\u00A6left)[ |-]][mouse[ |-]]click[ing]?",
+                (matcher, elements) -> {
+                    //TODO: This expression needs to be completed in the future, since it's missing optional additional parts
+                    int parseMark = matcher.getParseMark();
+
+                    if (parseMark == 0) {
+                        return event -> true;
+                    }
+
+                    if (parseMark == 1) {
                         return event -> {
-                            String message = event.getMessage();
-                            return message.startsWith(finalCommand, message.startsWith("/") ? 1 : 0);
+                            Action action = event.getAction();
+                            return action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK;
                         };
                     }
-                )
-                .registerEvent(PlayerEditBookEvent.class, "[on] book (edit|change|write|1\u00A6sign|1\u00A6signing)",
-                    (matcher, elements) ->
-                        matcher.getParseMark() == 1 ? PlayerEditBookEvent::isSigning : event -> !event.isSigning())
-                .registerEvent(PlayerInteractEvent.class, "[on] [(1\u00A6right|2\u00A6left)[ |-]][mouse[ |-]]click[ing]?",
-                    (matcher, elements) -> {
-                        //TODO: This expression needs to be completed in the future, since it's missing optional additional parts
-                        int parseMark = matcher.getParseMark();
 
-                        if (parseMark == 0) {
-                            return event -> true;
-                        }
-
-                        if (parseMark == 1) {
-                            return event -> {
-                                Action action = event.getAction();
-                                return action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK;
-                            };
-                        }
-
-                        if (parseMark == 2) {
-                            return event -> {
-                                Action action = event.getAction();
-                                return action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK;
-                            };
-                        }
-
-                        throw new AssertionError("Unknown click type detected for event registration");
+                    if (parseMark == 2) {
+                        return event -> {
+                            Action action = event.getAction();
+                            return action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK;
+                        };
                     }
-                )
-                .registerEvent(PlayerInteractEvent.class, "[on] [step[ping] on] [a] [pressure] plate",
-                    (matcher, elements) -> event -> {
-                        Block clickedBlock = event.getClickedBlock();
 
-                        return event.getAction() == Action.PHYSICAL && clickedBlock != null && EnumSet.of(
-                            Material.OAK_PRESSURE_PLATE,
-                            Material.SPRUCE_PRESSURE_PLATE,
-                            Material.BIRCH_PRESSURE_PLATE,
-                            Material.JUNGLE_PRESSURE_PLATE,
-                            Material.ACACIA_PRESSURE_PLATE,
-                            Material.DARK_OAK_PRESSURE_PLATE,
-                            Material.STONE_PRESSURE_PLATE,
-                            Material.HEAVY_WEIGHTED_PRESSURE_PLATE,
-                            Material.LIGHT_WEIGHTED_PRESSURE_PLATE
-                        ).contains(clickedBlock.getType());
-                    })
-                .registerEvent(PlayerInteractEvent.class, "[on] [trip|step[ping] on] [a] tripwire)",
-                    (matcher, elements) -> event -> {
-                        Block clickedBlock = event.getClickedBlock();
+                    throw new AssertionError("Unknown click type detected for event registration");
+                }
+            )
+            .registerEvent(PlayerInteractEvent.class, "[on] [step[ping] on] [a] [pressure] plate",
+                (matcher, elements) -> event -> {
+                    Block clickedBlock = event.getClickedBlock();
 
-                        return event.getAction() == Action.PHYSICAL && clickedBlock != null && EnumSet.of(
-                            Material.TRIPWIRE,
-                            Material.TRIPWIRE_HOOK
-                        ).contains(clickedBlock.getType());
-                    })
-                .registerEvent(PlayerJoinEvent.class, "[on] first (join|login)", (matcher, elements) -> event ->
-                        !event.getPlayer().hasPlayedBefore())
-                .registerEvent(PluginDisableEvent.class, "[on] (server|skript) (stop|unload|disable)",
-                    (matcher, elements) -> event -> event.getPlugin().equals(QuickSkript.getInstance()))
+                    return event.getAction() == Action.PHYSICAL && clickedBlock != null && EnumSet.of(
+                        Material.OAK_PRESSURE_PLATE,
+                        Material.SPRUCE_PRESSURE_PLATE,
+                        Material.BIRCH_PRESSURE_PLATE,
+                        Material.JUNGLE_PRESSURE_PLATE,
+                        Material.ACACIA_PRESSURE_PLATE,
+                        Material.DARK_OAK_PRESSURE_PLATE,
+                        Material.STONE_PRESSURE_PLATE,
+                        Material.HEAVY_WEIGHTED_PRESSURE_PLATE,
+                        Material.LIGHT_WEIGHTED_PRESSURE_PLATE
+                    ).contains(clickedBlock.getType());
+                })
+            .registerEvent(PlayerInteractEvent.class, "[on] [trip|step[ping] on] [a] tripwire)",
+                (matcher, elements) -> event -> {
+                    Block clickedBlock = event.getClickedBlock();
+
+                    return event.getAction() == Action.PHYSICAL && clickedBlock != null && EnumSet.of(
+                        Material.TRIPWIRE,
+                        Material.TRIPWIRE_HOOK
+                    ).contains(clickedBlock.getType());
+                })
+            .registerEvent(PlayerJoinEvent.class, "[on] first (join|login)", (matcher, elements) -> event ->
+                    !event.getPlayer().hasPlayedBefore())
+            .registerEvent(PluginDisableEvent.class, "[on] (server|skript) (stop|unload|disable)",
+                (matcher, elements) -> event -> event.getPlugin().equals(QuickSkript.getInstance()))
         );
     }
 

@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -105,6 +106,13 @@ public class PsiIsOnGroundCondition extends PsiElement<Boolean> {
         @Contract(pure = true)
         protected PsiIsOnGroundCondition create(@NotNull PsiElement<?> entity, boolean positive, int lineNumber) {
             return new PsiIsOnGroundCondition(entity, positive, lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.BOOLEAN;
         }
     }
 }

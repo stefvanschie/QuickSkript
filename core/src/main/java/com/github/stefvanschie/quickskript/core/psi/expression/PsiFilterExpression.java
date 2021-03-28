@@ -11,6 +11,7 @@ import com.github.stefvanschie.quickskript.core.psi.util.PsiCollection;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.util.Pair;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -143,6 +144,13 @@ public class PsiFilterExpression extends PsiElement<Object> {
         public PsiFilterExpression create(@NotNull PsiElement<?> objects, @NotNull PsiElement<?> predicate,
             int lineNumber) {
             return new PsiFilterExpression(objects, predicate, lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.OBJECT;
         }
     }
 }

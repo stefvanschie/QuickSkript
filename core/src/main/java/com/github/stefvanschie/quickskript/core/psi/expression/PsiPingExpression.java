@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -77,6 +78,13 @@ public class PsiPingExpression extends PsiElement<Integer> {
         @Contract(pure = true)
         public PsiPingExpression create(@NotNull PsiElement<?> player, int lineNumber) {
             return new PsiPingExpression(player, lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.NUMBER;
         }
     }
 }

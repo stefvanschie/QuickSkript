@@ -9,6 +9,7 @@ import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException
 import com.github.stefvanschie.quickskript.core.psi.expression.util.*;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.PatternTypeOrder;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -226,6 +227,13 @@ public class PsiChangeEffect extends PsiElement<Void> {
         @Pattern("resetPattern")
         public PsiChangeEffect parseReset(@NotNull PsiElement<?> changee, int lineNumber) {
             return new PsiChangeEffect(null, changee, ChangeMode.RESET, lineNumber);
+        }
+
+        @Nullable
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return null;
         }
     }
 

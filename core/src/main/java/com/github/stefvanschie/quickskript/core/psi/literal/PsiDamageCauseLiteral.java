@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.core.psi.literal;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.DamageCause;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -67,6 +68,13 @@ public class PsiDamageCauseLiteral extends PsiPrecomputedHolder<DamageCause> {
         @Contract(pure = true)
         public PsiDamageCauseLiteral create(@NotNull DamageCause damageCause, int lineNumber) {
             return new PsiDamageCauseLiteral(damageCause, lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.DAMAGE_CAUSE;
         }
     }
 }

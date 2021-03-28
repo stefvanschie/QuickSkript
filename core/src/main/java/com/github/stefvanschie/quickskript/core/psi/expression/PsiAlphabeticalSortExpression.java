@@ -7,6 +7,7 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiCollection;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -80,6 +81,13 @@ public class PsiAlphabeticalSortExpression extends PsiElement<Text[]> {
         @Pattern("pattern")
         public PsiAlphabeticalSortExpression parse(@NotNull PsiElement<?> texts, int lineNumber) {
             return new PsiAlphabeticalSortExpression(texts, lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.TEXTS;
         }
     }
 }

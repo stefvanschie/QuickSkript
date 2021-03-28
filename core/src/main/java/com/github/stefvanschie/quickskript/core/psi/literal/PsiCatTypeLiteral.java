@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.core.psi.literal;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.CatType;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -75,6 +76,13 @@ public class PsiCatTypeLiteral extends PsiPrecomputedHolder<CatType> {
         @Contract(pure = true)
         public PsiCatTypeLiteral create(@NotNull CatType catType, int lineNumber) {
             return new PsiCatTypeLiteral(catType, lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.CAT_TYPE;
         }
     }
 }

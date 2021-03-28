@@ -8,6 +8,7 @@ import com.github.stefvanschie.quickskript.core.psi.expression.util.Removable;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.Resettable;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.Settable;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -115,6 +116,13 @@ public class PsiSpeedExpression extends PsiElement<Float> implements Addable, Re
         public PsiSpeedExpression create(@NotNull MovementType movementType, @NotNull PsiElement<?> player,
             int lineNumber) {
             return new PsiSpeedExpression(movementType, player, lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.NUMBER;
         }
     }
 

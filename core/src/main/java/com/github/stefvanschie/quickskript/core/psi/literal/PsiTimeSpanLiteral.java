@@ -9,6 +9,7 @@ import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.util.Pair;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.TimeSpan;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -126,6 +127,10 @@ public class PsiTimeSpanLiteral extends PsiPrecomputedHolder<TimeSpan> {
                     subPartsIndex++;
                 }
 
+                if (subPartsIndex >= subParts.length) {
+                    return null;
+                }
+
                 subPart = subParts[subPartsIndex];
                 if (subPart.equalsIgnoreCase("real") || subPart.equalsIgnoreCase("irl") ||
                     subPart.equalsIgnoreCase("rl")) {
@@ -139,6 +144,10 @@ public class PsiTimeSpanLiteral extends PsiPrecomputedHolder<TimeSpan> {
 
                 double duration;
                 boolean tick = false;
+
+                if (subPartsIndex >= subParts.length) {
+                    return null;
+                }
 
                 subPart = subParts[subPartsIndex];
                 if (subPart.equalsIgnoreCase("tick") || subPart.equalsIgnoreCase("ticks")) {
@@ -183,6 +192,13 @@ public class PsiTimeSpanLiteral extends PsiPrecomputedHolder<TimeSpan> {
         @Contract(pure = true)
         public PsiTimeSpanLiteral create(@NotNull TimeSpan timeSpan, int lineNumber) {
             return new PsiTimeSpanLiteral(timeSpan, lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.OBJECT;
         }
 
         /**

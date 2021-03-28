@@ -4,8 +4,10 @@ import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Enables or disables the ability to fly for a player
@@ -105,6 +107,13 @@ public class PsiToggleFlightEffect extends PsiElement<Void> {
         @Contract(pure = true)
         public PsiToggleFlightEffect create(@NotNull PsiElement<?> player, boolean enable, int lineNumber) {
             return new PsiToggleFlightEffect(player, enable, lineNumber);
+        }
+
+        @Nullable
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return null;
         }
     }
 }

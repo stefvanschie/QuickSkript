@@ -5,8 +5,10 @@ import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Makes the player start/stop flying
@@ -88,6 +90,13 @@ public class PsiFlyEffect extends PsiElement<Void> {
         @Contract(pure = true)
         public PsiFlyEffect create(@NotNull PsiElement<?> player, boolean enable, int lineNumber) {
             return new PsiFlyEffect(player, enable, lineNumber);
+        }
+
+        @Nullable
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return null;
         }
     }
 }

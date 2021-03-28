@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.core.psi.literal;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.TeleportCause;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -67,6 +68,13 @@ public class PsiTeleportCauseLiteral extends PsiPrecomputedHolder<TeleportCause>
         @Contract(pure = true)
         public PsiTeleportCauseLiteral create(@NotNull TeleportCause teleportCause, int lineNumber) {
             return new PsiTeleportCauseLiteral(teleportCause, lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.TELEPORT_CAUSE;
         }
     }
 }

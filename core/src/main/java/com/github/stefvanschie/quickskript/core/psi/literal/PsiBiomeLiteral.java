@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.registry.BiomeRegistry;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -77,6 +78,13 @@ public class PsiBiomeLiteral extends PsiPrecomputedHolder<BiomeRegistry.Entry> {
         @Contract(pure = true)
         protected PsiBiomeLiteral create(BiomeRegistry.Entry biome, int lineNumber) {
             return new PsiBiomeLiteral(biome, lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.BIOME;
         }
     }
 }

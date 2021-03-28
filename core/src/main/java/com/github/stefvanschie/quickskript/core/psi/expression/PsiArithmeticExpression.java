@@ -7,6 +7,7 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -196,6 +197,13 @@ public class PsiArithmeticExpression extends PsiElement<Number> {
         public PsiArithmeticExpression parseExponentiation(@NotNull PsiElement<?> left, @NotNull PsiElement<?> right,
             int lineNumber) {
             return new PsiArithmeticExpression(left, right, Operation.EXPONENTIATION, lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.NUMBER;
         }
     }
 

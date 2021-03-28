@@ -8,6 +8,7 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiCollection;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import com.github.stefvanschie.quickskript.core.util.text.TextPart;
 import org.jetbrains.annotations.Contract;
@@ -131,6 +132,13 @@ public class PsiJoinExpression extends PsiElement<Text> {
         public PsiJoinExpression create(@NotNull PsiElement<?> texts, @Nullable PsiElement<?> delimiter,
             int lineNumber) {
             return new PsiJoinExpression(texts, delimiter, lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.TEXT;
         }
     }
 }

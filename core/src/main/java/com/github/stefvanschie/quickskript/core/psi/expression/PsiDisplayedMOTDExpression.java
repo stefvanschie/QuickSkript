@@ -7,6 +7,7 @@ import com.github.stefvanschie.quickskript.core.psi.expression.util.Deletable;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.Resettable;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.Settable;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -68,6 +69,13 @@ public class PsiDisplayedMOTDExpression extends PsiElement<Text> implements Dele
         @Contract(pure = true)
         public PsiDisplayedMOTDExpression create(int lineNumber) {
             return new PsiDisplayedMOTDExpression(lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.TEXT;
         }
     }
 }

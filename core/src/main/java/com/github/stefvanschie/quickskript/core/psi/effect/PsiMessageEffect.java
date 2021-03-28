@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -52,10 +53,9 @@ public class PsiMessageEffect extends PsiElement<Void> {
         /**
          * The pattern to match {@link PsiMessageEffect}s
          */
-        @SuppressWarnings("HardcodedFileSeparator")
         @NotNull
         private final SkriptPattern pattern =
-            SkriptPattern.parse("(message|send [message[s]]) %texts% [to %players/console%]");
+            SkriptPattern.parse("(message|send [message[s]]) %texts% [to %commandsenders%]");
 
         /**
          * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
@@ -89,6 +89,13 @@ public class PsiMessageEffect extends PsiElement<Void> {
         protected PsiMessageEffect create(@NotNull PsiElement<?> message, @Nullable PsiElement<?> receiver,
                                           int lineNumber) {
             return new PsiMessageEffect(message, receiver, lineNumber);
+        }
+
+        @Nullable
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return null;
         }
     }
 }

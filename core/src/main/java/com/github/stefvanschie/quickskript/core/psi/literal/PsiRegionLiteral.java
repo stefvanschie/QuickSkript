@@ -10,6 +10,7 @@ import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.util.Pair;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.Region;
 import com.github.stefvanschie.quickskript.core.util.registry.RegionRegistry;
 import org.jetbrains.annotations.Contract;
@@ -96,6 +97,13 @@ public class PsiRegionLiteral extends PsiPrecomputedHolder<Region> {
         @Contract(pure = true)
         public PsiRegionLiteral create(@NotNull Region region, int lineNumber) {
             return new PsiRegionLiteral(region, lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.OBJECT;
         }
     }
 }

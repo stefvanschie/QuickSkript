@@ -4,8 +4,10 @@ import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Loads a server icon for later usage
@@ -75,6 +77,13 @@ public class PsiLoadServerIconEffect extends PsiElement<Void> {
         @Contract(pure = true)
         public PsiLoadServerIconEffect create(@NotNull PsiElement<?> path, int lineNumber) {
             return new PsiLoadServerIconEffect(path, lineNumber);
+        }
+
+        @Nullable
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return null;
         }
     }
 }

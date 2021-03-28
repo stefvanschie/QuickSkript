@@ -15,6 +15,7 @@ import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.PatternTypeOrder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.PatternTypeOrderHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.exception.ParsingAnnotationInvalidValueException;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.registry.*;
 import com.github.stefvanschie.quickskript.core.util.Pair;
 import org.jetbrains.annotations.Contract;
@@ -43,7 +44,7 @@ public abstract class SkriptLoader {
      * A list of all psi element factories.
      */
     @NotNull
-    private final List<PsiElementFactory> elements = new ArrayList<>();
+    private final Map<Type, Collection<PsiElementFactory>> elements = new HashMap<>();
 
     /**
      * A cache for a factory and a set of cached methods. This is gradually built up for element factories that are
@@ -128,16 +129,17 @@ public abstract class SkriptLoader {
      * Returns null if no element was found.
      *
      * @param input the text to be parsed
+     * @param inputType the inputType to parse for
      * @param lineNumber the line number of the element which will potentially be parsed
      * @return the parsed psi element, or null if none were found
      * @since 0.1.0
      */
     @Nullable
     @Contract(pure = true)
-    public PsiElement<?> tryParseElement(@NotNull String input, int lineNumber) {
+    public PsiElement<?> tryParseElement(@NotNull String input, @NotNull Type inputType, int lineNumber) {
         input = input.trim();
 
-        for (PsiElementFactory factory : elements) {
+        for (PsiElementFactory factory : getFactories(inputType)) {
             Set<CachedReflectionMethod> methods = elementsCached.get(factory);
 
             if (methods == null) {
@@ -368,6 +370,21 @@ public abstract class SkriptLoader {
 
     /**
      * Parses text into psi elements.
+     * Returns null if no element was found.
+     *
+     * @param input the text to be parsed
+     * @param lineNumber the line number of the element which will potentially be parsed
+     * @return the parsed psi element, or null if none were found
+     * @since 0.1.0
+     */
+    @Nullable
+    @Contract(pure = true)
+    public PsiElement<?> tryParseElement(@NotNull String input, int lineNumber) {
+        return tryParseElement(input, Type.OBJECT, lineNumber);
+    }
+
+    /**
+     * Parses text into psi elements.
      * Throws a {@link ParseException} if no element was found.
      *
      * @param input the text to be parsed
@@ -385,6 +402,35 @@ public abstract class SkriptLoader {
         }
 
         throw new ParseException("Unable to find an expression named: " + input, lineNumber);
+    }
+
+
+    /**
+     * Gets the factories for the given text type.
+     *
+     * @param type the text type
+     * @return the factories
+     * @since 0.1.0
+     */
+    private Collection<? extends PsiElementFactory> getFactories(@NotNull Type type) {
+        Collection<PsiElementFactory> factories = new HashSet<>();
+
+        if (type == Type.OBJECT || type == Type.OBJECTS) {
+            for (Map.Entry<Type, Collection<PsiElementFactory>> entry : elements.entrySet()) {
+                factories.addAll(entry.getValue());
+            }
+        } else {
+            factories.addAll(elements.getOrDefault(type, Collections.emptySet()));
+
+            if (type.getSingular() != null) {
+                factories.addAll(elements.getOrDefault(type.getSingular(), Collections.emptySet()));
+            }
+
+            factories.addAll(elements.getOrDefault(Type.OBJECT, Collections.emptySet()));
+            factories.addAll(elements.getOrDefault(Type.OBJECTS, Collections.emptySet()));
+        }
+
+        return factories;
     }
 
 
@@ -458,7 +504,17 @@ public abstract class SkriptLoader {
      * @since 0.1.0
      */
     protected void registerElement(@NotNull PsiElementFactory factory) {
-        elements.add(factory);
+        Type type = factory.getType();
+
+        if (type == null) {
+            type = Type.OBJECT;
+        }
+
+        if (!elements.containsKey(type)) {
+            elements.put(type, new HashSet<>());
+        }
+
+        elements.get(type).add(factory);
     }
 
     /**

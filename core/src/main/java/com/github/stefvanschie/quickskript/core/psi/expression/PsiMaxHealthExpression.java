@@ -8,6 +8,7 @@ import com.github.stefvanschie.quickskript.core.psi.expression.util.Removable;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.Resettable;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.Settable;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -82,6 +83,13 @@ public class PsiMaxHealthExpression extends PsiElement<Double> implements Addabl
         @Contract(pure = true)
         public PsiMaxHealthExpression create(@NotNull PsiElement<?> livingEntity, int lineNumber) {
             return new PsiMaxHealthExpression(livingEntity, lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.NUMBER;
         }
     }
 }

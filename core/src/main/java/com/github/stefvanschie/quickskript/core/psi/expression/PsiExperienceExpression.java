@@ -7,6 +7,7 @@ import com.github.stefvanschie.quickskript.core.psi.expression.util.Addable;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.RemoveAllable;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.Settable;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -67,6 +68,13 @@ public class PsiExperienceExpression extends PsiElement<Integer> implements Adda
         @Contract(pure = true)
         public PsiExperienceExpression create(int lineNumber) {
             return new PsiExperienceExpression(lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.NUMBER;
         }
     }
 }

@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.registry.EntityTypeRegistry;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -69,6 +70,13 @@ public class PsiEntityTypeLiteral extends PsiPrecomputedHolder<EntityTypeRegistr
         @Contract(pure = true)
         public PsiEntityTypeLiteral create(@NotNull EntityTypeRegistry.Entry entityType, int lineNumber) {
             return new PsiEntityTypeLiteral(entityType, lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.OBJECT;
         }
     }
 }

@@ -5,6 +5,7 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.util.ApplicationInfo;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -65,6 +66,13 @@ public class PsiSkriptVersionExpression extends PsiPrecomputedHolder<Text> {
         @Contract(pure = true)
         public PsiSkriptVersionExpression create(int lineNumber) {
             return new PsiSkriptVersionExpression(lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.TEXT;
         }
     }
 }

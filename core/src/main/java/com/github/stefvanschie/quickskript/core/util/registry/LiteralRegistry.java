@@ -20,7 +20,7 @@ public class LiteralRegistry {
      * A mapping between the name of an entry and the entry
      */
     @NotNull
-    private final Map<String, Entry> mapping = new HashMap<>();
+    private final Map<String, Entry> mappingByName = new HashMap<>();
 
     /**
      * Creates a new literal registry populated with the default entries.
@@ -51,9 +51,9 @@ public class LiteralRegistry {
         addEntry(new Entry(SkriptPattern.parse("(text|string)[s]"), Text.class));
         addEntry(new Entry(SkriptPattern.parse("teleport[ ](cause|reason|type)[s]"), TeleportCause.class));
         addEntry(new Entry(SkriptPattern.parse("time[s]"), Time.class));
-        addEntry(new Entry(SkriptPattern.parse("(time[ ]period[s]|duration[s])"), TimePeriod.class));
+        addEntry(new Entry(SkriptPattern.parse("(time[ ]period|duration)[s]"), TimePeriod.class));
         addEntry(new Entry(SkriptPattern.parse("time[ ]span[s]"), TimeSpan.class));
-        addEntry(new Entry(SkriptPattern.parse("(tree[ ]type[s]|tree[s])"), TreeType.class));
+        addEntry(new Entry(SkriptPattern.parse("(tree[ ]type|tree)[s]"), TreeType.class));
         addEntry(new Entry(SkriptPattern.parse("visual effect"), VisualEffectRegistry.Entry.class));
     }
 
@@ -65,7 +65,7 @@ public class LiteralRegistry {
      */
     public void addEntry(@NotNull Entry entry) {
         for (String name : entry.names) {
-            mapping.put(name, entry);
+            mappingByName.put(name, entry);
         }
     }
 
@@ -80,7 +80,7 @@ public class LiteralRegistry {
     @Nullable
     @Contract(pure = true)
     public Entry byName(@NotNull String name) {
-        return mapping.get(name);
+        return mappingByName.get(name);
     }
 
     /**

@@ -10,6 +10,7 @@ import com.github.stefvanschie.quickskript.core.pattern.group.TypeGroup;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.util.Pair;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
@@ -82,8 +83,9 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
         for (EventPattern eventPattern : eventPatterns) {
             List<SkriptMatchResult> matches = eventPattern.getPattern().match(text);
 
+            nextMatch:
             for (SkriptMatchResult match : matches) {
-                if (!match.hasUnmatchedParts()) {
+                if (match.hasUnmatchedParts()) {
                     continue;
                 }
 
@@ -101,7 +103,22 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
                         continue;
                     }
 
-                    elements.add(skriptLoader.tryParseElement(pair.getY(), -1));
+                    Type[] types = ((TypeGroup) pair.getX()).getTypes();
+                    PsiElement<?> psiElement = null;
+
+                    for (Type type : types) {
+                        psiElement = skriptLoader.tryParseElement(pair.getY(), type, -1);
+
+                        if (psiElement != null) {
+                            break;
+                        }
+                    }
+
+                    if (psiElement == null) {
+                        continue nextMatch;
+                    }
+
+                    elements.add(psiElement);
                 }
 
                 Predicate<Event> predicate;

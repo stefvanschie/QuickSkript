@@ -5,6 +5,7 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.PatternTypeOrder;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -55,11 +56,10 @@ public class PsiCommandEffect extends PsiElement<Void> {
          * Patterns to match a {@link PsiCommandEffect}
          */
         @NotNull
-        @SuppressWarnings("HardcodedFileSeparator")
         private final SkriptPattern[] patterns = SkriptPattern.parse(
-            "[execute] [the] command %texts% [by %players/console%]",
-            "[execute] [the] %players/console% command %texts%",
-            "(let|make) %players/console% execute [[the] command] %texts%"
+            "[execute] [the] command %texts% [by %commandsenders%]",
+            "[execute] [the] %commandsenders% command %texts%",
+            "(let|make) %commandsenders% execute [[the] command] %texts%"
         );
 
         /**
@@ -95,6 +95,13 @@ public class PsiCommandEffect extends PsiElement<Void> {
         public PsiCommandEffect create(@Nullable PsiElement<?> commandSender, @NotNull PsiElement<?> commandName,
                                        int lineNumber) {
             return new PsiCommandEffect(commandSender, commandName, lineNumber);
+        }
+
+        @Nullable
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return null;
         }
     }
 }

@@ -4,8 +4,10 @@ import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Creates a an explosion according to the specified arguments
@@ -114,6 +116,13 @@ public class PsiExplosionEffect extends PsiElement<Void> {
         @Contract(pure = true)
         protected PsiExplosionEffect create(@NotNull PsiElement<?> force, boolean safe, int lineNumber) {
             return new PsiExplosionEffect(force, safe, lineNumber);
+        }
+
+        @Nullable
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return null;
         }
     }
 }

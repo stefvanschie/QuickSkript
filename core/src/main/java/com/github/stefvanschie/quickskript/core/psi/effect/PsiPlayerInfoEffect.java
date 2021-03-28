@@ -4,8 +4,10 @@ import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Hides/Shows player info when pinging the server
@@ -94,6 +96,13 @@ public class PsiPlayerInfoEffect extends PsiElement<Void> {
         @Contract(pure = true)
         protected PsiPlayerInfoEffect create(boolean show, int lineNumber) {
             return new PsiPlayerInfoEffect(show, lineNumber);
+        }
+
+        @Nullable
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return null;
         }
     }
 }

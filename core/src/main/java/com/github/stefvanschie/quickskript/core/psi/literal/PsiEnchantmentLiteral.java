@@ -8,6 +8,7 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.util.Pair;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.Enchantment;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -103,6 +104,13 @@ public class PsiEnchantmentLiteral extends PsiPrecomputedHolder<Enchantment> {
         @Contract(pure = true)
         public PsiEnchantmentLiteral create(@NotNull Enchantment.Type type, @Nullable Integer level, int lineNumber) {
             return new PsiEnchantmentLiteral(new Enchantment(type, level), lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.ENCHANTMENT;
         }
     }
 }

@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -80,6 +81,13 @@ public class PsiHiddenPlayersExpression extends PsiElement<Collection<?>> {
         @Contract(pure = true)
         public PsiHiddenPlayersExpression create(@NotNull PsiElement<?> player, int lineNumber) {
             return new PsiHiddenPlayersExpression(player, lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.OBJECTS;
         }
     }
 }

@@ -6,6 +6,7 @@ import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -165,6 +166,13 @@ public class PsiCapitalizationTextExpression extends PsiElement<Text> {
         public PsiCapitalizationTextExpression create(@NotNull Capitalization capitalization,
             @NotNull PsiElement<?> text, int lineNumber) {
             return new PsiCapitalizationTextExpression(capitalization, text, lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.TEXT;
         }
     }
 

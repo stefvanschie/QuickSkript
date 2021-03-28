@@ -12,6 +12,7 @@ import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.util.Pair;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.Enchantment;
 import com.github.stefvanschie.quickskript.core.util.literal.Item;
 import com.github.stefvanschie.quickskript.core.util.registry.ItemTypeRegistry;
@@ -143,6 +144,13 @@ public class PsiItemLiteral extends PsiElement<Item> {
         public PsiItemLiteral create(@NotNull ItemTypeRegistry.Entry item, PsiElement<?> amount,
             PsiElement<?> enchantment, int lineNumber) {
             return new PsiItemLiteral(item, amount, enchantment, lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.ITEM;
         }
     }
 }

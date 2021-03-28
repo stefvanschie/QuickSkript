@@ -46,6 +46,17 @@ public class Time {
     }
 
     /**
+     * Gets this time as an amount of ticks ranging from 0 to 23999 (bi-inclusive).
+     *
+     * @return the amount of ticks
+     * @since 0.1.0
+     */
+    @Contract(pure = true)
+    public long asTicks() {
+        return this.ticks;
+    }
+
+    /**
      * Parses the time from the given text. Returns null when this piece of text isn't a time. Throws a
      * {@link ParseException} when the amount of hours or minutes exceeds the maximum amount.
      *
@@ -125,6 +136,10 @@ public class Time {
 
                 break;
             }
+        }
+
+        if (minutes == -1) {
+            minutes = 0;
         }
 
         if (hours == 12) {

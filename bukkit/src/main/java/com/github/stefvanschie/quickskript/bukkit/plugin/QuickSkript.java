@@ -5,6 +5,7 @@ import com.github.stefvanschie.quickskript.bukkit.integration.region.RegionInteg
 import com.github.stefvanschie.quickskript.bukkit.skript.BukkitSkriptLoader;
 import com.github.stefvanschie.quickskript.bukkit.util.event.ExperienceOrbSpawnEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.QuickSkriptPostEnableEvent;
+import com.github.stefvanschie.quickskript.bukkit.util.event.WorldTimeChangeEvent;
 import com.github.stefvanschie.quickskript.core.file.skript.FileSkript;
 import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
@@ -73,6 +74,8 @@ public class QuickSkript extends JavaPlugin {
 
         //load custom events
         pluginManager.registerEvents(new ExperienceOrbSpawnEvent.Listener(), this);
+
+        new WorldTimeChangeEvent.Listener(this).listenToTimeChanges();
 
         if (pluginManager.isPluginEnabled("Vault")) {
             vault = new VaultIntegration();

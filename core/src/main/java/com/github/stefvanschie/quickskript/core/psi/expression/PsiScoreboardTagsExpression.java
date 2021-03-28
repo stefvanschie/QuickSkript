@@ -5,6 +5,7 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.*;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -81,6 +82,13 @@ public class PsiScoreboardTagsExpression extends PsiElement<Set<Text>> implement
         @Contract(pure = true)
         public PsiScoreboardTagsExpression create(@NotNull PsiElement<?> entity, int lineNumber) {
             return new PsiScoreboardTagsExpression(entity, lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.TEXTS;
         }
     }
 }

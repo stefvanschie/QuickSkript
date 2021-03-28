@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -106,6 +107,13 @@ public class PsiHasClientWeatherCondition extends PsiElement<Boolean> {
         @Contract(pure = true)
         public PsiHasClientWeatherCondition create(@NotNull PsiElement<?> player, boolean positive, int lineNumber) {
             return new PsiHasClientWeatherCondition(player, positive, lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.BOOLEAN;
         }
     }
 }

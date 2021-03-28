@@ -97,19 +97,19 @@ class SkriptPatternMatchTest {
         CORRECT_PATTERNS.put(SkriptPattern.parse("(x|y|z)"), new String[] {
             "x", "y", "z"
         });
-        CORRECT_PATTERNS.put(SkriptPattern.parse("%x%"), new String[] {
+        CORRECT_PATTERNS.put(SkriptPattern.parse("%object%"), new String[] {
             "x", "y", "z"
         });
-        CORRECT_PATTERNS.put(SkriptPattern.parse("%x%y"), new String[] {
+        CORRECT_PATTERNS.put(SkriptPattern.parse("%object%y"), new String[] {
             "xy", "yy", "zy"
         });
-        CORRECT_PATTERNS.put(SkriptPattern.parse("%x% y"), new String[] {
+        CORRECT_PATTERNS.put(SkriptPattern.parse("%object% y"), new String[] {
             "x y", "y y", "z y"
         });
-        CORRECT_PATTERNS.put(SkriptPattern.parse("x%y%"), new String[] {
+        CORRECT_PATTERNS.put(SkriptPattern.parse("x%object%"), new String[] {
             "xx", "xy", "xz"
         });
-        CORRECT_PATTERNS.put(SkriptPattern.parse("x %y%"), new String[] {
+        CORRECT_PATTERNS.put(SkriptPattern.parse("x %object%"), new String[] {
             "x x", "x y", "x z"
         });
         CORRECT_PATTERNS.put(SkriptPattern.parse("<.>"), new String[] {
@@ -127,17 +127,17 @@ class SkriptPatternMatchTest {
         CORRECT_PATTERNS.put(SkriptPattern.parse("x <.>"), new String[] {
             "x x", "x y", "x z"
         });
-        CORRECT_PATTERNS.put(SkriptPattern.parse("%x% [y]"), new String[] {
+        CORRECT_PATTERNS.put(SkriptPattern.parse("%object% [y]"), new String[] {
             "x y", "x", "y"
         });
         CORRECT_PATTERNS.put(SkriptPattern.parse("x [y] z"), new String[] {
             "x y z", "x z"
         });
         //noinspection HardcodedFileSeparator
-        CORRECT_PATTERNS.put(SkriptPattern.parse("%w% (x|y) \\[<.+>\\]"), new String[] {
+        CORRECT_PATTERNS.put(SkriptPattern.parse("%object% (x|y) \\[<.+>\\]"), new String[] {
             "w x [z]", "w y [z]"
         });
-        CORRECT_PATTERNS.put(SkriptPattern.parse("[%*type%] input"), new String[] {
+        CORRECT_PATTERNS.put(SkriptPattern.parse("[%*object%] input"), new String[] {
             "input"
         });
 
@@ -205,16 +205,16 @@ class SkriptPatternMatchTest {
         INCORRECT_PATTERNS.put(SkriptPattern.parse("(x|y|z)"), new String[] {
             "xyz", "xy", "xz", "yz"
         });
-        INCORRECT_PATTERNS.put(SkriptPattern.parse("%x%y"), new String[] {
+        INCORRECT_PATTERNS.put(SkriptPattern.parse("%object%y"), new String[] {
             "x", "z"
         });
-        INCORRECT_PATTERNS.put(SkriptPattern.parse("%x% y"), new String[] {
+        INCORRECT_PATTERNS.put(SkriptPattern.parse("%object% y"), new String[] {
             "xy", "yy", "zy"
         });
-        INCORRECT_PATTERNS.put(SkriptPattern.parse("x%y%"), new String[] {
+        INCORRECT_PATTERNS.put(SkriptPattern.parse("x%object%"), new String[] {
             "y", "z"
         });
-        INCORRECT_PATTERNS.put(SkriptPattern.parse("x %y%"), new String[] {
+        INCORRECT_PATTERNS.put(SkriptPattern.parse("x %object%"), new String[] {
             "xx", "xy", "xz"
         });
         INCORRECT_PATTERNS.put(SkriptPattern.parse("<.>"), new String[] {

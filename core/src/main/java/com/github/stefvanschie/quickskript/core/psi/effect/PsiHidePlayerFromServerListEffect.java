@@ -4,8 +4,10 @@ import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Hides a player from the server list
@@ -77,6 +79,13 @@ public class PsiHidePlayerFromServerListEffect extends PsiElement<Void> {
         @Contract(pure = true)
         public PsiHidePlayerFromServerListEffect create(@NotNull PsiElement<?> player, int lineNumber) {
             return new PsiHidePlayerFromServerListEffect(player, lineNumber);
+        }
+
+        @Nullable
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return null;
         }
     }
 }

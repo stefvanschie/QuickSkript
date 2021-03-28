@@ -3,6 +3,7 @@ package com.github.stefvanschie.quickskript.core.psi.literal;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.FireworkType;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -67,6 +68,13 @@ public class PsiFireworkTypeLiteral extends PsiPrecomputedHolder<FireworkType> {
         @Contract(pure = true)
         public PsiFireworkTypeLiteral create(@NotNull FireworkType fireworkType, int lineNumber) {
             return new PsiFireworkTypeLiteral(fireworkType, lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            return Type.FIREWORK_TYPE;
         }
     }
 }
