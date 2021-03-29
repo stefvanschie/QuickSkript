@@ -350,6 +350,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
             .registerEvent("com.destroystokyo.paper.event.player.PlayerArmorChangeEvent", "[on] [player] armor change[d]", Platform.PAPER)
             .registerEvent(BlockCanBuildEvent.class, "[on] [block] can build check")
             .registerEvent(BlockDamageEvent.class, "[on] block damag(ing|e)")
+            .registerEvent(BlockFertilizeEvent.class, "[on] [block] fertilize")
             .registerEvent(BlockFromToEvent.class, "[on] [block] (flow[ing]|mov(e|ing))")
             .registerEvent(BlockIgniteEvent.class, "[on] [block] ignit[e|ion]")
             .registerEvent(BlockPhysicsEvent.class, "[on] [block] physics")
