@@ -347,6 +347,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerEvent(new SimpleEventProxyFactory()
             .registerEvent(AreaEffectCloudApplyEvent.class, "[on] (area|AoE) [cloud] effect")
             .registerEvent(PlayerAnimationEvent.class, "[on] [player] arm swing")
+            .registerEvent("com.destroystokyo.paper.event.player.PlayerArmorChangeEvent", "[on] [player] armor change[d]", Platform.PAPER)
             .registerEvent(BlockCanBuildEvent.class, "[on] [block] can build check")
             .registerEvent(BlockDamageEvent.class, "[on] block damag(ing|e)")
             .registerEvent(BlockFromToEvent.class, "[on] [block] (flow[ing]|mov(e|ing))")
