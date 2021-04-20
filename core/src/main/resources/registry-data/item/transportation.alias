@@ -8,45 +8,45 @@
                 (ascending east|descending west), (ascending west|ascending east), [curved] (north-east|east-north),
                 [curved] (north-west|west-north), [curved] (south-east|east-south), [curved] (south-west|west-south)}
 
-elytra[s]
-saddle[s]
-carrot[s] on [a] stick[s]
+elytra[s] -> minecraft:elytra
+saddle[s] -> minecraft:saddle
+carrot[s] on [a] stick[s] -> minecraft:carrot_on_a_stick
 
-oak boat[s] : [any] boat[s]
-spruce boat[s] : [any] boat[s]
-birch boat[s] : [any] boat[s]
-jungle boat[s] : [any] boat[s]
-acacia boat[s] : [any] boat[s]
-dark oak boat[s] : [any] boat[s]
+oak boat[s] : [any] boat[s] -> minecraft:oak_boat
+spruce boat[s] : [any] boat[s] -> minecraft:spruce_boat
+birch boat[s] : [any] boat[s] -> minecraft:birch_boat
+jungle boat[s] : [any] boat[s] -> minecraft:jungle_boat
+acacia boat[s] : [any] boat[s] -> minecraft:acacia_boat
+dark oak boat[s] : [any] boat[s] -> minecraft:dark_oak_boat
 
-[normal] minecart[s] : any minecart[s]
-minecart[s] with chest[s] : storage minecart[s], any minecart[s]
-minecart[s] with furnace[s] : powered minecart[s], any minecart[s]
+[normal] minecart[s] : any minecart[s] -> minecraft:minecart
+minecart[s] with chest[s] : storage minecart[s], any minecart[s] -> minecraft:chest_minecart
+minecart[s] with furnace[s] : powered minecart[s], any minecart[s] -> minecraft:furnace_minecart
 
-minecart[s] with tnt[s] : any minecart[s]
-minecart[s] with hopper[s] : any minecart[s]
-minecart[s] with command block[s] : any minecart[s]
+minecart[s] with tnt[s] : any minecart[s] -> minecraft:tnt_minecart
+minecart[s] with hopper[s] : any minecart[s] -> minecraft:hopper_minecart
+minecart[s] with command block[s] : any minecart[s] -> minecraft:command_block_minecart
 
-{powerable} {rail straight} (golden|powered) [minecart] (rail|track)[s]
-(golden|powered) [minecart] (rail|track) item[s]
+{powerable} {rail straight} (golden|powered) [minecart] (rail|track)[s] -> minecraft:powered_rail
+(golden|powered) [minecart] (rail|track) item[s] -> minecraft:powered_rail
 
-{powerable} {rail straight} detector [minecart] (rail|track)[s]
-detector [minecart] (rail|track) item[s]
+{powerable} {rail straight} detector [minecart] (rail|track)[s] -> minecraft:detector_rail
+detector [minecart] (rail|track) item[s] -> minecraft:detector_rail
 
-{powerable} {rail straight} activator [minecart] (rail|track)[s]
-activator [minecart] (rail|track) item[s]
+{powerable} {rail straight} activator [minecart] (rail|track)[s] -> minecraft:activator_rail
+activator [minecart] (rail|track) item[s] -> minecraft:activator_rail
 
-[flat|straight] (north-south|south-north) [normal] [minecart] (rail|track) [block[s]] : (ascending|descending|inclined) [normal] [minecart] (rail|track) [block[s]]
-[flat|straight] (east-west|west-east) [normal] [minecart] (rail|track) [block[s]] : (ascending|descending|inclined) [normal] [minecart] (rail|track) [block[s]]
-(ascending north|descending south) [normal] [minecart] (rail|track) [block[s]] : (ascending|descending|inclined) [normal] [minecart] (rail|track) [block[s]]
-(ascending south|descending north) [normal] [minecart] (rail|track) [block[s]] : (ascending|descending|inclined) [normal] [minecart] (rail|track) [block[s]]
-(ascending east|descending west) [normal] [minecart] (rail|track) [block[s]] : (ascending|descending|inclined) [normal] [minecart] (rail|track) [block[s]]
-(ascending west|ascending east) [normal] [minecart] (rail|track) [block[s]] : (ascending|descending|inclined) [normal] [minecart] (rail|track) [block[s]]
-[curved] (north-east|east-north) [normal] [minecart] (rail|track) [block[s]] : curved [normal] [minecart] (rail|track) [block[s]]
-[curved] (north-west|west-north) [normal] [minecart] (rail|track) [block[s]] : curved [normal] [minecart] (rail|track) [block[s]]
-[curved] (south-east|east-south) [normal] [minecart] (rail|track) [block[s]] : curved [normal] [minecart] (rail|track) [block[s]]
-[curved] (south-west|west-south) [normal] [minecart] (rail|track) [block[s]] : curved [normal] [minecart] (rail|track) [block[s]]
+[flat|straight] (north-south|south-north) [normal] [minecart] (rail|track) [block[s]] : (ascending|descending|inclined) [normal] [minecart] (rail|track) [block[s]] -> minecraft:rail[shape=north_south]
+[flat|straight] (east-west|west-east) [normal] [minecart] (rail|track) [block[s]] : (ascending|descending|inclined) [normal] [minecart] (rail|track) [block[s]] -> minecraft:rail[shape=east_west]
+(ascending north|descending south) [normal] [minecart] (rail|track) [block[s]] : (ascending|descending|inclined) [normal] [minecart] (rail|track) [block[s]] -> minecraft:rail[shape=ascending_north]
+(ascending south|descending north) [normal] [minecart] (rail|track) [block[s]] : (ascending|descending|inclined) [normal] [minecart] (rail|track) [block[s]] -> minecraft:rail[shape=ascending_south]
+(ascending east|descending west) [normal] [minecart] (rail|track) [block[s]] : (ascending|descending|inclined) [normal] [minecart] (rail|track) [block[s]] -> minecraft:rail[shape=ascending_east]
+(ascending west|ascending east) [normal] [minecart] (rail|track) [block[s]] : (ascending|descending|inclined) [normal] [minecart] (rail|track) [block[s]] -> minecraft:rail[shape=ascending_west]
+[curved] (north-east|east-north) [normal] [minecart] (rail|track) [block[s]] : curved [normal] [minecart] (rail|track) [block[s]] -> minecraft:rail[shape=north_east]
+[curved] (north-west|west-north) [normal] [minecart] (rail|track) [block[s]] : curved [normal] [minecart] (rail|track) [block[s]] -> minecraft:rail[shape=north_west]
+[curved] (south-east|east-south) [normal] [minecart] (rail|track) [block[s]] : curved [normal] [minecart] (rail|track) [block[s]] -> minecraft:rail[shape=south_east]
+[curved] (south-west|west-south) [normal] [minecart] (rail|track) [block[s]] : curved [normal] [minecart] (rail|track) [block[s]] -> minecraft:rail[shape=south_west]
 
-[minecart] (rail|track) item[s]
+[minecart] (rail|track) item[s] -> minecraft:rail
 
-warped fungus on a stick[s]
+warped fungus on a stick[s] -> minecraft:warped_fungus_on_a_stick

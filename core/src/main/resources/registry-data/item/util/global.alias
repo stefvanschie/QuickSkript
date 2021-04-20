@@ -1,5 +1,3 @@
-colored = {white, orange, magenta, light blue, yellow, (lime|light green), pink, [dark] gray, light gray, cyan, purple,
-            blue, brown, [dark] green, red, black}
 [directional] = {north(ward| facing), south(ward| facing), west(ward| facing), east(ward| facing)}
 [half] = {(bottom|lower)[-half], (top|upper)[-half]}
 [lightable] = {lit, unlit}
@@ -8,7 +6,4 @@ colored = {white, orange, magenta, light blue, yellow, (lime|light green), pink,
                east(ward| facing)}
 [powerable] = {powered, unpowered}
 [waterloggable] = {dry, waterlogged}
-wood type = {oak [wood], spruce [wood], birch [wood], jungle [wood], acacia [wood], dark oak [wood], crimson, warped}
-nether block = {crimson, warped}
-tree type = {oak, spruce, birch, jungle, acacia, dark oak}
 [axised] = {(vertical|z-aligned), (east-west|west-east|x-aligned), (north-south|south-north|z-aligned)}

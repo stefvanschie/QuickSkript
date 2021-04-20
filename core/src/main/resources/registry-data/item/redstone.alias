@@ -9,56 +9,94 @@
 [enableable] = {enabled, disabled}
 [extendable] = {(unextended|retracted), extended}
 
-redstone (wire|dust block)[s] : any redstone item
-redstone [(dust|item)[s]] : any redstone item
+redstone (wire|dust block)[s] : any redstone item -> minecraft:redstone_wire
+redstone [(dust|item)[s]] : any redstone item -> minecraft:redstone
 
-stone pressure plate[s] : [any] pressure plate[s]
-(gold[en]|light weighted) pressure plate[s] : [any] pressure plate[s]
-(iron|heavy weighted) pressure plate[s] : [any] pressure plate[s]
+stone pressure plate[s] : [any] pressure plate[s] -> minecraft:stone_pressure_plate
+(gold[en]|light weighted) pressure plate[s] : [any] pressure plate[s] -> minecraft:light_weighted_pressure_plate
+(iron|heavy weighted) pressure plate[s] : [any] pressure plate[s] -> minecraft:heavy_weighted_pressure_plate
 
-(tripwire|placed string)[s]
+(tripwire|placed string)[s] -> minecraft:tripwire
 
-{orientable} dispenser[s]
-{orientable} dropper[s]
+{orientable} dispenser[s] -> minecraft:dispenser
+{orientable} dropper[s] -> minecraft:dropper
 
-tnt [block[s]]
+tnt [block[s]] -> minecraft:tnt
 
-{powerable} {directional} {wood type} {attached} button[s] : [any] wood[en] button[s], [any] button[s]
-{powerable} {directional} {attached} stone button[s] : [any] button[s]
+{powerable} {directional} oak [wood] {attached} button[s] : [any] wood[en] button[s], [any] button[s] -> minecraft:oak_button
+{powerable} {directional} spruce [wood] {attached} button[s] : [any] wood[en] button[s], [any] button[s] -> minecraft:spruce_button
+{powerable} {directional} birch [wood] {attached} button[s] : [any] wood[en] button[s], [any] button[s] -> minecraft:birch_button
+{powerable} {directional} jungle [wood] {attached} button[s] : [any] wood[en] button[s], [any] button[s] -> minecraft:jungle_button
+{powerable} {directional} acacia [wood] {attached} button[s] : [any] wood[en] button[s], [any] button[s] -> minecraft:acacia_button
+{powerable} {directional} dark oak [wood] {attached} button[s] : [any] wood[en] button[s], [any] button[s] -> minecraft:dark_oak_button
+{powerable} {directional} crimson {attached} button[s] : [any] wood[en] button[s], [any] button[s] -> minecraft:crimson_button
+{powerable} {directional} warped {attached} button[s] : [any] wood[en] button[s], [any] button[s] -> minecraft:warped_button
 
-{powerable} {wood type} pressure plate[s] : [any] wood[en] pressure plate[s], [any] pressure plate[s]
+{powerable} {directional} {attached} stone button[s] : [any] button[s] -> minecraft:stone_button
 
-{waterloggable} {openable} {trapdoor position} {directional} iron trapdoor[s] : [any] trapdoor[s]
-{waterloggable} {openable} {trapdoor position} {directional} {wood type} trapdoor[s] : [any] wood[en] trapdoor[s], [any] trapdoor[s]
+{powerable} oak [wood] pressure plate[s] : [any] wood[en] pressure plate[s], [any] pressure plate[s] -> minecraft:oak_pressure_plate
+{powerable} spruce [wood] pressure plate[s] : [any] wood[en] pressure plate[s], [any] pressure plate[s] -> minecraft:spruce_pressure_plate
+{powerable} birch [wood] pressure plate[s] : [any] wood[en] pressure plate[s], [any] pressure plate[s] -> minecraft:birch_pressure_plate
+{powerable} jungle [wood] pressure plate[s] : [any] wood[en] pressure plate[s], [any] pressure plate[s] -> minecraft:jungle_pressure_plate
+{powerable} acacia [wood] pressure plate[s] : [any] wood[en] pressure plate[s], [any] pressure plate[s] -> minecraft:acacia_pressure_plate
+{powerable} dark oak [wood] pressure plate[s] : [any] wood[en] pressure plate[s], [any] pressure plate[s] -> minecraft:dark_oak_pressure_plate
+{powerable} crimson pressure plate[s] : [any] wood[en] pressure plate[s], [any] pressure plate[s] -> minecraft:crimson_pressure_plate
+{powerable} warped pressure plate[s] : [any] wood[en] pressure plate[s], [any] pressure plate[s] -> minecraft:warped_pressure_plate
 
-{powerable} {openable} {directional} {wood type} [fence] gate[s] : [any] [fence] gate[s], [any] fence part
+{waterloggable} {openable} {trapdoor position} {directional} iron trapdoor[s] : [any] trapdoor[s] -> minecraft:iron_trapdoor
 
-{powerable} {openable} {half} {directional} {wood type} door[s] : [any] wood[en] door[s], [any] door[s]
-{powerable} {openable} {half} {directional} iron door[s] : [any] door[s]
+{waterloggable} {openable} {trapdoor position} {directional} oak [wood] trapdoor[s] : [any] wood[en] trapdoor[s], [any] trapdoor[s] -> minecraft:oak_trapdoor
+{waterloggable} {openable} {trapdoor position} {directional} spruce [wood] trapdoor[s] : [any] wood[en] trapdoor[s], [any] trapdoor[s] -> minecraft:spruce_trapdoor
+{waterloggable} {openable} {trapdoor position} {directional} birch [wood] trapdoor[s] : [any] wood[en] trapdoor[s], [any] trapdoor[s] -> minecraft:birch_trapdoor
+{waterloggable} {openable} {trapdoor position} {directional} jungle [wood] trapdoor[s] : [any] wood[en] trapdoor[s], [any] trapdoor[s] -> minecraft:jungle_trapdoor
+{waterloggable} {openable} {trapdoor position} {directional} acacia [wood] trapdoor[s] : [any] wood[en] trapdoor[s], [any] trapdoor[s] -> minecraft:acacia_trapdoor
+{waterloggable} {openable} {trapdoor position} {directional} dark oak [wood] trapdoor[s] : [any] wood[en] trapdoor[s], [any] trapdoor[s] -> minecraft:dark_oak_trapdoor
+{waterloggable} {openable} {trapdoor position} {directional} crimson trapdoor[s] : [any] wood[en] trapdoor[s], [any] trapdoor[s] -> minecraft:crimson_trapdoor
+{waterloggable} {openable} {trapdoor position} {directional} warped trapdoor[s] : [any] wood[en] trapdoor[s], [any] trapdoor[s] -> minecraft:warped_trapdoor
 
-lit redstone [floor] torch[es] : [any] redstone floor torch[es], [any] lit redstone torch[es], any redstone torch
-unlit redstone [floor] torch[es] : [any] redstone floor torch[es], [any] unlit redstone torch[es], any redstone torch
-{directional} lit redstone wall torch[es] : [any] redstone wall torch[es], [any] lit redstone torch[es], any redstone torch
-{directional} unlit redstone wall torch[es] : [any] redstone wall torch[es], [any] unlit redstone torch[es], any redstone torch
+{powerable} {openable} {directional} oak [wood] [fence] gate[s] : [any] [fence] gate[s], [any] fence part -> minecraft:oak_fence_gate
+{powerable} {openable} {directional} spruce [wood] [fence] gate[s] : [any] [fence] gate[s], [any] fence part -> minecraft:spruce_fence_gate
+{powerable} {openable} {directional} birch [wood] [fence] gate[s] : [any] [fence] gate[s], [any] fence part -> minecraft:birch_fence_gate
+{powerable} {openable} {directional} jungle [wood] [fence] gate[s] : [any] [fence] gate[s], [any] fence part -> minecraft:jungle_fence_gate
+{powerable} {openable} {directional} acacia [wood] [fence] gate[s] : [any] [fence] gate[s], [any] fence part -> minecraft:acacia_fence_gate
+{powerable} {openable} {directional} dark oak [wood] [fence] gate[s] : [any] [fence] gate[s], [any] fence part -> minecraft:dark_oak_fence_gate
+{powerable} {openable} {directional} crimson [fence] gate[s] : [any] [fence] gate[s], [any] fence part -> minecraft:crimson_fence_gate
+{powerable} {openable} {directional} warped [fence] gate[s] : [any] [fence] gate[s], [any] fence part -> minecraft:warped_fence_gate
 
-{lightable} redstone lamp[s] : [any] redstone lamp[s]
-{powerable} {instrumental} note block[s]
-{hopper direction} {enableable} hopper[s]
+{powerable} {openable} {half} {directional} oak [wood] door[s] : [any] wood[en] door[s], [any] door[s] -> minecraft:oak_door
+{powerable} {openable} {half} {directional} spruce [wood] door[s] : [any] wood[en] door[s], [any] door[s] -> minecraft:spruce_door
+{powerable} {openable} {half} {directional} birch [wood] door[s] : [any] wood[en] door[s], [any] door[s] -> minecraft:birch_door
+{powerable} {openable} {half} {directional} jungle [wood] door[s] : [any] wood[en] door[s], [any] door[s] -> minecraft:jungle_door
+{powerable} {openable} {half} {directional} acacia [wood] door[s] : [any] wood[en] door[s], [any] door[s] -> minecraft:acacia_door
+{powerable} {openable} {half} {directional} dark oak [wood] door[s] : [any] wood[en] door[s], [any] door[s] -> minecraft:dark_oak_door
+{powerable} {openable} {half} {directional} crimson door[s] : [any] wood[en] door[s], [any] door[s] -> minecraft:crimson_door
+{powerable} {openable} {half} {directional} warped door[s] : [any] wood[en] door[s], [any] door[s] -> minecraft:warped_door
 
-{orientable} {extendable} [normal|non-sticky] piston[s]
-{orientable} {extendable} sticky piston[s]
-{orientable} piston head[s]
+{powerable} {openable} {half} {directional} iron door[s] : [any] door[s] -> minecraft:iron_door
 
-{directional} {powerable} tripwire hook[s]
-[normal|uninverted] daylight (detector|sensor)[s] : [any] daylight (detector|sensor)[s]
-inverted daylight (detector|sensor)[s] : [any] daylight (detector|sensor)[s]
-{powerable} {directional} {attached} [redstone] lever[s]
+lit redstone [floor] torch[es] : [any] redstone floor torch[es], [any] lit redstone torch[es], any redstone torch -> minecraft:redstone_torch[lit=true]
+unlit redstone [floor] torch[es] : [any] redstone floor torch[es], [any] unlit redstone torch[es], any redstone torch -> minecraft:redstone_torch[lit=false]
+{directional} lit redstone wall torch[es] : [any] redstone wall torch[es], [any] lit redstone torch[es], any redstone torch -> minecraft:redstone_wall_torch[lit=true]
+{directional} unlit redstone wall torch[es] : [any] redstone wall torch[es], [any] unlit redstone torch[es], any redstone torch -> minecraft:redstone_wall_torch[lit=false]
 
-stable tnt [block[s]]
-unstable tnt [block[s]]
+{lightable} redstone lamp[s] : [any] redstone lamp[s] -> minecraft:redstone_lamp
+{powerable} {instrumental} note block[s] -> minecraft:note_block
+{hopper direction} {enableable} hopper[s] -> minecraft:hopper
 
-{powerable} {orientable} [redstone] observer[s]
+{orientable} {extendable} [normal|non-sticky] piston[s] -> minecraft:piston
+{orientable} {extendable} sticky piston[s] -> minecraft:sticky_piston
+{orientable} piston head[s] -> minecraft:piston_head
 
-(archery|redstone|hay|bullseye) target [block][s]
-{powerable} polished blackstone pressure plate[s] : [any] pressure plate[s]
-{powerable} {directional} {attached} polished blackstone button[s]
+{directional} {powerable} tripwire hook[s] -> minecraft:tripwire_hook
+[normal|uninverted] daylight (detector|sensor)[s] : [any] daylight (detector|sensor)[s] -> minecraft:daylight_detector[inverted=false]
+inverted daylight (detector|sensor)[s] : [any] daylight (detector|sensor)[s] -> minecraft:daylight_detector[inverted=true]
+{powerable} {directional} {attached} [redstone] lever[s] -> minecraft:lever
+
+stable tnt [block[s]] -> minecraft:tnt[unstable=false]
+unstable tnt [block[s]] -> minecraft:tnt[unstable=true]
+
+{powerable} {orientable} [redstone] observer[s] -> minecraft:observer
+
+(archery|redstone|hay|bullseye) target [block][s] -> minecraft:target
+{powerable} polished blackstone pressure plate[s] : [any] pressure plate[s] -> minecraft:polished_blackstone_pressure_plate
+{powerable} {directional} {attached} polished blackstone button[s] -> minecraft:polished_blackstone_button

@@ -46,7 +46,7 @@ public class AliasFile {
      */
     @NotNull
     @Contract(pure = true)
-    public Map<? extends SkriptPattern, ? extends Set<SkriptPattern>> resolveAll(@NotNull AliasFileManager manager) {
+    public Collection<? extends ResolvedAliasEntry> resolveAll(@NotNull AliasFileManager manager) {
         Map<String, AliasFileVariation> variations = new HashMap<>();
 
         for (AliasFileUseDirective directive : directives) {
@@ -62,12 +62,14 @@ public class AliasFile {
 
         variations.putAll(this.variations);
 
-        var fileEntries = new HashMap<SkriptPattern, Set<SkriptPattern>>();
+        var fileEntries = new HashSet<ResolvedAliasEntry>();
         Map<String, SkriptPattern> categoryCache = new HashMap<>();
 
         for (AliasFileEntry entry : entries) {
-            for (String combination : variationCombinations(entry.getEntry(), variations)) {
-                SkriptPattern pattern = SkriptPattern.parse(combination);
+            Map<String, Map<String, String>> combinations = variationCombinations(entry.getEntry(), variations);
+
+            for (Map.Entry<String, Map<String, String>> combination : combinations.entrySet()) {
+                SkriptPattern pattern = SkriptPattern.parse(combination.getKey());
                 var categories = new HashSet<SkriptPattern>(entry.getCategories().size());
 
                 for (String category : entry.getCategories()) {
@@ -76,11 +78,43 @@ public class AliasFile {
                     categories.add(categoryCache.get(category));
                 }
 
-                fileEntries.put(pattern, categories);
+                Map<String, String> attributes = combination.getValue();
+                String key = entry.getKey();
+
+                if (key != null) {
+                    int openSquareBracket = key.indexOf('[');
+
+                    if (openSquareBracket != -1) {
+                        int closedSquareBracket = key.indexOf(']');
+
+                        if (closedSquareBracket == -1 || closedSquareBracket != key.length() - 1) {
+                            throw new AliasFileResolveException(
+                                "Key has missing closing square bracket, expected this at the end of the key"
+                            );
+                        }
+
+                        String attribute = key.substring(openSquareBracket + 1, key.length() - 1);
+
+                        key = key.substring(0, openSquareBracket);
+
+                        int equalsIndex = attribute.indexOf('=');
+
+                        if (equalsIndex == -1) {
+                            throw new AliasFileResolveException("Invalid attribute '" + attribute + "', missing '='");
+                        }
+
+                        String attributeKey = attribute.substring(0, equalsIndex);
+                        String attributeValue = attribute.substring(equalsIndex + 1);
+
+                        attributes.put(attributeKey, attributeValue);
+                    }
+                }
+
+                fileEntries.add(new ResolvedAliasEntry(pattern, key, categories, attributes));
             }
         }
 
-        return Collections.unmodifiableMap(fileEntries);
+        return Collections.unmodifiableCollection(fileEntries);
     }
 
     /**
@@ -94,15 +128,15 @@ public class AliasFile {
      */
     @NotNull
     @Contract(pure = true)
-    private Collection<String> variationCombinations(@NotNull String pattern,
+    private Map<String, Map<String, String>> variationCombinations(@NotNull String pattern,
         @NotNull Map<String, AliasFileVariation> variations) {
-        Collection<String> patterns = new HashSet<>();
+        Map<String, Map<String, String>> patterns = new HashMap<>();
 
         int openIndex = pattern.indexOf('{');
         int closeIndex = pattern.indexOf('}');
 
-        if (openIndex == -1 || closeIndex == -1 || openIndex + 1 > pattern.indexOf('}')) {
-            patterns.add(pattern);
+        if (openIndex == -1 || closeIndex == -1 || openIndex + 1 > closeIndex) {
+            patterns.put(pattern, new HashMap<>());
             return patterns;
         }
 
@@ -120,7 +154,15 @@ public class AliasFile {
         String secondSubstring = pattern.substring(variationIndex + fullName.length());
 
         for (String entry : variation.getEntries()) {
-            patterns.addAll(variationCombinations(firstSubstring + entry + secondSubstring, variations));
+            String replacedPattern = firstSubstring + entry + secondSubstring;
+            Map<String, Map<String, String>> combinations = variationCombinations(replacedPattern, variations);
+
+            for (Map.Entry<String, Map<String, String>> combination : combinations.entrySet()) {
+                Map<String, String> attributes = combination.getValue();
+                attributes.put(variation.getName(), entry);
+
+                patterns.put(combination.getKey(), attributes);
+            }
         }
 
         if (variation.isOptional()) {
@@ -136,7 +178,7 @@ public class AliasFile {
                 );
             }
 
-            patterns.addAll(variationCombinations(replaced, variations));
+            patterns.putAll(variationCombinations(replaced, variations));
         }
 
         return patterns;
@@ -166,18 +208,29 @@ public class AliasFile {
             }
 
             int equalsIndex = line.indexOf('=');
+            int arrowIndex = line.indexOf("->");
 
-            if (equalsIndex == -1) {
-                int colonIndex = line.indexOf(':');
+            if (arrowIndex != -1 || equalsIndex == -1) {
+                String entryAndCategories;
+                String key = null;
                 AliasFileEntry entry;
 
-                if (colonIndex == -1) {
-                    entry = new AliasFileEntry(line.trim());
+                if (arrowIndex == -1) {
+                    entryAndCategories = line;
                 } else {
-                    entry = new AliasFileEntry(line.substring(0, colonIndex).trim());
+                    entryAndCategories = line.substring(0, arrowIndex);
+                    key = line.substring(arrowIndex + "->".length()).trim();
+                }
+
+                int colonIndex = entryAndCategories.indexOf(':');
+
+                if (colonIndex == -1) {
+                    entry = new AliasFileEntry(entryAndCategories.trim(), key);
+                } else {
+                    entry = new AliasFileEntry(entryAndCategories.substring(0, colonIndex).trim(), key);
 
                     int lastCommaIndex = 0;
-                    String categories = line.substring(colonIndex + 1);
+                    String categories = entryAndCategories.substring(colonIndex + 1);
 
                     for (int index = 0; index < categories.length(); index++) {
                         char character = categories.charAt(index);

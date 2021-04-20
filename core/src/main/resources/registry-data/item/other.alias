@@ -14,51 +14,51 @@
 [jigsaw orientation] = {down-east, down-north, down-south, down-west, up-east, up-north, up-south, up-west, east-up,
                         west-up, north-up, south-up}
 
-end[er] portal [block[s]]
-fire
-tripwire [string|line]
-air
-barrier [block[s]]
-dragon egg[s]
+end[er] portal [block[s]] -> minecraft:end_portal
+fire -> minecraft:fire
+tripwire [string|line] -> minecraft:tripwire
+air -> minecraft:air
+barrier [block[s]] -> minecraft:barrier
+dragon egg[s] -> minecraft:dragon_egg
 
-suspicious stew[s]
-{jigsaw orientation} jigsaw block[s]
+suspicious stew[s] -> minecraft:suspicious_stew
+{jigsaw orientation} jigsaw block[s] -> minecraft:jigsaw
 
-frosted ice
-end[er] gateway
+frosted ice -> minecraft:frosted_ice
+end[er] gateway -> minecraft:end_gateway
 
-structure void[s]
+structure void[s] -> minecraft:structure_void
 
-knowledge book[s]
+knowledge book[s] -> minecraft:knowledge_book
 
-[nether] portal [block[s]]
-[mob|monster] spawner[s]
+[nether] portal [block[s]] -> minecraft:nether_portal
+[mob|monster] spawner[s] -> minecraft:spawner
 
-{orientable} {conditional} [impulse] command block[s]
-{orientable} {conditional} chain command block[s]
-{orientable} {conditional} repeating command block[s]
+{orientable} {conditional} [impulse] command block[s] -> minecraft:command_block
+{orientable} {conditional} chain command block[s] -> minecraft:chain_command_block
+{orientable} {conditional} repeating command block[s] -> minecraft:repeating_command_block
 
-{structure block mode} structure block[s] : [any] structure block[s]
+{structure block mode} structure block[s] : [any] structure block[s] -> minecraft:structure_block
 
-{directional} attached melon stem
-{directional} attached pumpkin stem
+{directional} attached melon stem -> minecraft:attached_melon_stem
+{directional} attached pumpkin stem -> minecraft:attached_pumpkin_stem
 
-{crop growth stage} potato plant
-{crop growth stage} carrot plant
-{crop growth stage} wheat plant
-{crop growth stage} pumpkin stem
-{crop growth stage} melon stem
-{three stage growth} beet[root] plant
-{three stage growth} nether wart plant
+{crop growth stage} potato plant -> minecraft:potatoes
+{crop growth stage} carrot plant -> minecraft:carrots
+{crop growth stage} wheat plant -> minecraft:wheat
+{crop growth stage} pumpkin stem -> minecraft:pumpkin_stem
+{crop growth stage} melon stem -> minecraft:melon_stem
+{three stage growth} beet[root] plant -> minecraft:beetroots
+{three stage growth} nether wart plant -> minecraft:nether_wart
 
-debug stick[s]
+debug stick[s] -> minecraft:debug_stick
 
-cave air
-void air
+cave air -> minecraft:cave_air
+void air -> minecraft:void_air
 
-{column direction} bubble column
+{column direction} bubble column -> minecraft:bubble_column
 
-{fluid state} water
-{fluid state} lava
+{fluid state} water -> minecraft:water
+{fluid state} lava -> minecraft:lava
 
-soul fire
+soul fire -> minecraft:soul_fire

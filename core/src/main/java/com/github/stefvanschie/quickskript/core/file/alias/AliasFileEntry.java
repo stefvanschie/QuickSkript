@@ -2,6 +2,7 @@ package com.github.stefvanschie.quickskript.core.file.alias;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -18,22 +19,30 @@ public class AliasFileEntry {
      * The textual representation of this entry.
      */
     @NotNull
-    private String entry;
+    private final String entry;
+
+    /**
+     * The namespaced key representing which item this entry represents or null if this entry does not have a key
+     */
+    @Nullable
+    private final String key;
 
     /**
      * The categories this entry belongs to.
      */
     @NotNull
-    private Collection<String> categories = new HashSet<>();
+    private final Collection<String> categories = new HashSet<>();
 
     /**
      * Creates a new entry for an alias file.
      *
      * @param entry the entry
+     * @param key the key
      * @since 0.1.0
      */
-    public AliasFileEntry(@NotNull String entry) {
+    public AliasFileEntry(@NotNull String entry, @Nullable String key) {
         this.entry = entry;
+        this.key = key;
     }
 
     /**
@@ -69,5 +78,17 @@ public class AliasFileEntry {
     @Contract(pure = true)
     public String getEntry() {
         return entry;
+    }
+
+    /**
+     * Gets the key of this entry
+     *
+     * @return the key
+     * @since 0.1.0
+     */
+    @Nullable
+    @Contract(pure = true)
+    public String getKey() {
+        return key;
     }
 }

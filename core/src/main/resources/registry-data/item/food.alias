@@ -1,45 +1,45 @@
-apple[s] : any apple, [any] fruit[s], [any] food
-baked potato[es] : any potato[es], [any] cooked food[s], [any] food
-beetroot[s] : [any] root vegetable[s], [any] food
-beetroot (stew|soup)[s] : [any] (soup|stew)[s], [any] food
-[loa(f|ves) of] bread : [any] food
-carrot[s] : [any] root vegetable[s], [any] food
-chorus fruit[s] : [any] fruit[s], [any] food
-(cooked beef|steak[s]) : [any] cooked meat[s], [any] meat[s], [any] cooked food[s], [any] food
-cooked chicken[s] : [any] cooked meat[s], [any] meat[s], [any] cooked food[s], [any] food
-cooked mutton[s] : [any] cooked meat[s], [any] meat[s], [any] cooked food[s], [any] food
-cooked pork[chop[s]] : [any] cooked meat[s], [any] meat[s], [any] cooked food[s], [any] food
-cooked rabbit[s] : [any] cooked meat[s], [any] meat[s], [any] cooked food[s], [any] food
-cookie[s] : [any] dessert[s], [any] food
-golden carrot[s]
-mushroom (stew|soup)[s] : [any] (soup|stew)[s], [any] food
-poisonous potato[es] : [any] food
-potato[es] : any potato[es], [any] root vegetable[s], [any] food
-pumpkin pie[s] : [any] dessert[s], [any] food
-rabbit (stew|soup)[s] : [any] (soup|stew)[s], [any] food
-[raw] beef : [any] raw meat[s], [any] meat[s], [any] food
-[raw] chicken[s] : [any] raw meat[s], [any] meat[s], [any] food
-[raw] mutton[s] : [any] raw meat[s], [any] meat[s], [any] food
-[raw] pork[chop[s]] : [any] raw meat[s], [any] meat[s], [any] food
-[raw] rabbit[s] : [any] raw meat[s], [any] meat[s], [any] food
-rotten flesh : [any] monster (food|meat[s]), [any] food
-spider eye[s] : [any] monster (food|meat[s]), [any] food
+apple[s] : any apple, [any] fruit[s], [any] food -> minecraft:apple
+baked potato[es] : any potato[es], [any] cooked food[s], [any] food -> minecraft:baked_potato
+beetroot[s] : [any] root vegetable[s], [any] food -> minecraft:beetroot
+beetroot (stew|soup)[s] : [any] (soup|stew)[s], [any] food -> minecraft:beetroot_soup
+[loa(f|ves) of] bread : [any] food -> minecraft:bread
+carrot[s] : [any] root vegetable[s], [any] food -> minecraft:carrot
+chorus fruit[s] : [any] fruit[s], [any] food -> minecraft:chorus_fruit
+(cooked beef|steak[s]) : [any] cooked meat[s], [any] meat[s], [any] cooked food[s], [any] food -> minecraft:cooked_beef
+cooked chicken[s] : [any] cooked meat[s], [any] meat[s], [any] cooked food[s], [any] food -> minecraft:cooked_chicken
+cooked mutton[s] : [any] cooked meat[s], [any] meat[s], [any] cooked food[s], [any] food -> minecraft:cooked_mutton
+cooked pork[chop[s]] : [any] cooked meat[s], [any] meat[s], [any] cooked food[s], [any] food -> minecraft:cooked_porkchop
+cooked rabbit[s] : [any] cooked meat[s], [any] meat[s], [any] cooked food[s], [any] food -> minecraft:cooked_rabbit
+cookie[s] : [any] dessert[s], [any] food -> minecraft:cookie
+golden carrot[s] -> minecraft:golden_carrot
+mushroom (stew|soup)[s] : [any] (soup|stew)[s], [any] food -> minecraft:mushroom_stew
+poisonous potato[es] : [any] food -> minecraft:poisonous_potato
+potato[es] : any potato[es], [any] root vegetable[s], [any] food -> minecraft:potato
+pumpkin pie[s] : [any] dessert[s], [any] food -> minecraft:pumpkin_pie
+rabbit (stew|soup)[s] : [any] (soup|stew)[s], [any] food -> minecraft:rabbit_stew
+[raw] beef : [any] raw meat[s], [any] meat[s], [any] food -> minecraft:beef
+[raw] chicken[s] : [any] raw meat[s], [any] meat[s], [any] food -> minecraft:chicken
+[raw] mutton[s] : [any] raw meat[s], [any] meat[s], [any] food -> minecraft:mutton
+[raw] pork[chop[s]] : [any] raw meat[s], [any] meat[s], [any] food -> minecraft:porkchop
+[raw] rabbit[s] : [any] raw meat[s], [any] meat[s], [any] food -> minecraft:rabbit
+rotten flesh : [any] monster (food|meat[s]), [any] food -> minecraft:rotten_flesh
+spider eye[s] : [any] monster (food|meat[s]), [any] food -> minecraft:spider_eye
 
-dried kelp[s] : [any] food
-sweet berr(y|ies) : [any] fruit[s], [any] food
+dried kelp[s] : [any] food -> minecraft:dried_kelp
+sweet berr(y|ies) : [any] fruit[s], [any] food -> minecraft:sweet_berries
 
-honey bottle[s] : [any] food
+honey bottle[s] : [any] food -> minecraft:honey_bottle
 
-[raw] cod [fillet[s]] : any cod [fillet[s]], any raw fish[es], any fish, [any] food
-cooked cod [fillet[s]] : any cod [fillet[s]], any cooked (fish[es]|fish fillet[s]), [any] cooked food[s], any fish, [any] food
-[raw] salmon [fillet[s]] : any raw fish[es], any fish, [any] food
-cooked salmon [fillet[s]] : any cooked (fish[es]|fish fillet[s]), [any] cooked food[s], any fish, [any] food
-pufferfish[es] : any raw fish[es], any fish, [any] food
-tropical fish[es] : any raw fish[es], any fish, [any] food
+[raw] cod [fillet[s]] : any cod [fillet[s]], any raw fish[es], any fish, [any] food -> minecraft:cod
+cooked cod [fillet[s]] : any cod [fillet[s]], any cooked (fish[es]|fish fillet[s]), [any] cooked food[s], any fish, [any] food -> minecraft:cooked_cod
+[raw] salmon [fillet[s]] : any raw fish[es], any fish, [any] food -> minecraft:salmon
+cooked salmon [fillet[s]] : any cooked (fish[es]|fish fillet[s]), [any] cooked food[s], any fish, [any] food -> minecraft:cooked_salmon
+pufferfish[es] : any raw fish[es], any fish, [any] food -> minecraft:pufferfish
+tropical fish[es] : any raw fish[es], any fish, [any] food -> minecraft:tropical_fish
 
-[normal] golden apple[s] : any golden apple, any apple, [any] fruit[s], [any] food
-(enchanted golden|notch) apple[s] : any golden apple, any apple, [any] fruit[s], [any] food
+[normal] golden apple[s] : any golden apple, any apple, [any] fruit[s], [any] food -> minecraft:golden_apple
+(enchanted golden|notch) apple[s] : any golden apple, any apple, [any] fruit[s], [any] food -> minecraft:enchanted_golden_apple
 
-melon slice[s] : [any] fruit[s], [any] food
+melon slice[s] : [any] fruit[s], [any] food -> minecraft:melon_slice
 
-cake[s] : [any] dessert[s], [any] food
+cake[s] : [any] dessert[s], [any] food -> minecraft:cake

@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.file.alias.manager;
 
 import com.github.stefvanschie.quickskript.core.file.alias.AliasFile;
+import com.github.stefvanschie.quickskript.core.file.alias.ResolvedAliasEntry;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +21,7 @@ public class AliasFileManager {
     /**
      * The files and their relative paths.
      */
-    private Map<String, AliasFile> files = new HashMap<>();
+    private final Map<String, AliasFile> files = new HashMap<>();
 
     /**
      * Reads the alias file from the specified url and stores them by the given name. This throws an {@link IOException}
@@ -43,14 +44,14 @@ public class AliasFileManager {
      */
     @NotNull
     @Contract(pure = true)
-    public Map<? extends SkriptPattern, ? extends Set<? extends SkriptPattern>> resolveAll() {
-        var entries = new HashMap<SkriptPattern, Set<SkriptPattern>>();
+    public Collection<? extends ResolvedAliasEntry> resolveAll() {
+        var entries = new HashSet<ResolvedAliasEntry>();
 
         for (AliasFile file : files.values()) {
-            entries.putAll(file.resolveAll(this));
+            entries.addAll(file.resolveAll(this));
         }
 
-        return Collections.unmodifiableMap(entries);
+        return Collections.unmodifiableSet(entries);
     }
 
     /**

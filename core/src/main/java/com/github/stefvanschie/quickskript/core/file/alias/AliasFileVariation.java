@@ -65,7 +65,7 @@ public class AliasFileVariation {
     }
 
     /**
-     * Gets the full name of this variation
+     * Gets the full name of this variation. This is the name of the variation with curly braces surrounding it.
      *
      * @return the full name
      * @since 0.1.0

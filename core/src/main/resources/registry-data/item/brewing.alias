@@ -12,24 +12,24 @@ potion type = {water, thick, mundane, awkward, night vision, (extended|long) nig
                (extended|long) slow fall[ing], luck}
 [cauldron level] = {empty, one-third filled, two-thirds filled, (filled|full)}
 
-[glass|empty] bottle[s]
-(bottle[s] of water|water bottle[s])
+[glass|empty] bottle[s] -> minecraft:glass_bottle
+(bottle[s] of water|water bottle[s]) -> minecraft:potion
 
-(potion[s] of {potion type}|{potion type} potion[s]) : any potion
-(splash potion[s] of {potion type}|{potion type} splash potion[s]) : any potion
-(lingering potion[s] of {potion type}|{potion type} lingering potion[s]) : any potion
-potion : any potion
+(potion[s] of {potion type}|{potion type} potion[s]) : any potion -> minecraft:potion
+(splash potion[s] of {potion type}|{potion type} splash potion[s]) : any potion -> minecraft:splash_potion
+(lingering potion[s] of {potion type}|{potion type} lingering potion[s]) : any potion -> minecraft:lingering_potion
+potion : any potion -> minecraft:potion
 
-{cauldron level} cauldron[s]
-dragon['s] breath
+{cauldron level} cauldron[s] -> minecraft:cauldron
+dragon['s] breath -> minecraft:dragon_breath
 
-ghast tear[s]
-fermented spider eye[s]
-blaze powder[s]
-magma cream[s]
-gold[en] carrot[s]
-rabbit['s] (foot|feet)
+ghast tear[s] -> minecraft:ghast_tear
+fermented spider eye[s] -> minecraft:fermented_spider_eye
+blaze powder[s] -> minecraft:blaze_powder
+magma cream[s] -> minecraft:magma_cream
+gold[en] carrot[s] -> minecraft:golden_carrot
+rabbit['s] (foot|feet) -> minecraft:rabbit_foot
 
-(glistering|gold[en]) melon [slice[s]]
+(glistering|gold[en]) melon [slice[s]] -> minecraft:speckled_melon
 
-phantom membrane[s]
+phantom membrane[s] -> minecraft:phantom_membrane

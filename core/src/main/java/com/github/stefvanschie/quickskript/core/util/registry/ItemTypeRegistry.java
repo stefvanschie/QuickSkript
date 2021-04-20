@@ -1,5 +1,6 @@
 package com.github.stefvanschie.quickskript.core.util.registry;
 
+import com.github.stefvanschie.quickskript.core.file.alias.ResolvedAliasEntry;
 import com.github.stefvanschie.quickskript.core.file.alias.manager.AliasFileManager;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import org.jetbrains.annotations.Contract;
@@ -144,10 +145,16 @@ public class ItemTypeRegistry {
             exception.printStackTrace();
         }
 
-        for (Map.Entry<? extends SkriptPattern, ? extends Set<? extends SkriptPattern>> mapEntry : manager.resolveAll().entrySet()) {
-            var entry = new Entry(mapEntry.getKey());
+        for (ResolvedAliasEntry aliasEntry : manager.resolveAll()) {
+            String key = aliasEntry.getKey();
 
-            for (SkriptPattern category : mapEntry.getValue()) {
+            if (key == null) {
+                throw new IllegalStateException("Alias is missing key; this is mandatory for items");
+            }
+
+            var entry = new Entry(aliasEntry.getPattern(), key, aliasEntry.getAttributes());
+
+            for (SkriptPattern category : aliasEntry.getCategories()) {
                 entry.addCategory(category);
             }
 
@@ -167,6 +174,18 @@ public class ItemTypeRegistry {
          */
         @NotNull
         private final SkriptPattern pattern;
+
+        /**
+         * The namespaced key for the item this entry represents
+         */
+        @NotNull
+        private final String key;
+
+        /**
+         * The attributes belonging to the key
+         */
+        @NotNull
+        private final Map<? extends String, ? extends String> attributes;
 
         /**
          * The possible matches this pattern has when all possible matches are unrolled.
@@ -190,10 +209,14 @@ public class ItemTypeRegistry {
          * Creates a new entry with the specified pattern
          *
          * @param pattern the pattern for the entry
+         * @param key the key for this entry
+         * @param attributes the attributes for this key
          * @since 0.1.0
          */
-        public Entry(@NotNull SkriptPattern pattern) {
+        public Entry(@NotNull SkriptPattern pattern, @NotNull String key, @NotNull Map<? extends String, ? extends String> attributes) {
             this.pattern = pattern;
+            this.key = key;
+            this.attributes = attributes;
             this.unrolledPatternMatches = this.pattern.unrollFully();
         }
 

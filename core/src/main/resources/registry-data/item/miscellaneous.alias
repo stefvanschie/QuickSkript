@@ -10,201 +10,199 @@
 [bamboo stage] = {(stagnant|stage 0), (growing|stage 1)}
 [berry age] = {young, berryless, (some berries|berried), (many berries|very berried)}
 
-coal
-diamond[s]
-iron ingot[s] : any ingot[s]
-gold[en] ingot[s] : any ingot[s]
-gold[en] nugget[s] : any nugget[s]
-emerald[s]
-flint[s]
+coal -> minecraft:coal
+diamond[s] -> minecraft:diamond
+iron ingot[s] : any ingot[s] -> minecraft:iron_ingot
+gold[en] ingot[s] : any ingot[s] -> minecraft:gold_ingot
+gold[en] nugget[s] : any nugget[s] -> minecraft:gold_nugget
+emerald[s] -> minecraft:emerald
+flint[s] -> minecraft:flint
 
-shulker shell[s]
-iron nugget[s] : any nugget[s]
+shulker shell[s] -> minecraft:shulker_shell
+iron nugget[s] : any nugget[s] -> minecraft:iron_nugget
 
-charcoal
-sugar cane[s]
-conduit[s]
-[turtle [shell]] scute[s]
-kelp
-nautilus shell[s]
-heart[s] of the sea
-popped chorus fruit[s]
-nether brick item[s]
+charcoal -> minecraft:charcoal
+sugar cane[s] -> minecraft:sugar_cane
+conduit[s] -> minecraft:conduit
+[turtle [shell]] scute[s] -> minecraft:scute
+kelp -> minecraft:kelp
+nautilus shell[s] -> minecraft:nautilus_shell
+heart[s] of the sea -> minecraft:heart_of_the_sea
+popped chorus fruit[s] -> minecraft:popped_chorus_fruit
+nether brick item[s] -> minecraft:nether_brick
 
-{egg count} {hatch stage} turtle egg[s]
-{beacon level} beacon[s]
+{egg count} {hatch stage} turtle egg[s] -> minecraft:turtle_egg
+{beacon level} beacon[s] -> minecraft:beacon
 
-stick[s]
-bowl[s]
-string[s]
-feather[s]
-gunpowder
-snowball[s]
-leather
-clay [ball[s]]
-[clay] brick [item[s]]
-(piece[s] of paper|paper[s])
-slime[ ]ball[s]
-egg[s]
-glowstone dust
-bone[s]
-sugar
-ender pearl[s]
-blaze rod[s]
-(ender eye[s]|eye[s] of ender)
-(bottle[s] o' enchanting|xp bottle[s]|experience bottle[s])
-fire charge[s]
-[empty] map
-filled map
-nether star[s]
-[nether] quartz
-prismarine shard[s]
-prismarine crystal[s]
-rabbit hide[s]
-enchanted book[s]
+stick[s] -> minecraft:stick
+bowl[s] -> minecraft:bowl
+string[s] -> minecraft:string
+feather[s] -> minecraft:feather
+gunpowder -> minecraft:gunpowder
+snowball[s] -> minecraft:snowball
+leather -> minecraft:leather
+clay [ball[s]] -> minecraft:clay_ball
+[clay] brick [item[s]] -> minecraft:brick
+(piece[s] of paper|paper[s]) -> minecraft:paper
+slime[ ]ball[s] -> minecraft:slime_ball
+egg[s] -> minecraft:egg
+glowstone dust -> minecraft:glowstone_dust
+bone[s] -> minecraft:bone
+sugar -> minecraft:sugar
+ender pearl[s] -> minecraft:ender_pearl
+blaze rod[s] -> minecraft:blaze_rod
+(ender eye[s]|eye[s] of ender) -> minecraft:ender_eye
+(bottle[s] o' enchanting|xp bottle[s]|experience bottle[s]) -> minecraft:experience_bottle
+fire charge[s] -> minecraft:fire_charge
+[empty] map -> minecraft:map
+filled map -> minecraft:filled_map
+nether star[s] -> minecraft:nether_star
+[nether] quartz -> minecraft:quartz
+prismarine shard[s] -> minecraft:prismarine_shard
+prismarine crystal[s] -> minecraft:prismarine_crystals
+rabbit hide[s] -> minecraft:rabbit_hide
+enchanted book[s] -> minecraft:enchanted_book
 
-nether wart [item[s]]
+nether wart [item[s]] -> minecraft:nether_wart
 
-book[s] : any book[s]
-(book and quill|writable book)[s] : book with text, any book[s]
-written book[s] : book with text, any book[s]
-book with text
-enchanted book
+book[s] : any book[s] -> minecraft:book
+(book and quill|writable book)[s] : book with text, any book[s] -> minecraft:writable_book
+written book[s] : book with text, any book[s] -> minecraft:written_book
 
-[(flight|duration|flight duration)] {firework duration} firework [rocket[s]]
+[(flight|duration|flight duration)] {firework duration} firework [rocket[s]] -> minecraft:firework_rocket
 
-pumpkin seed[s] : any seed[s]
-melon seed[s] : any seed[s]
-[wheat] seed[s] : any seed[s]
-beetroot seed[s]
+pumpkin seed[s] : any seed[s] -> minecraft:pumpkin_seeds
+melon seed[s] : any seed[s] -> minecraft:melon_seeds
+[wheat] seed[s] : any seed[s] -> minecraft:wheat_seeds
+beetroot seed[s] -> minecraft:beetroot_seeds
 
-wheat [item[s]]
-chorus fruit[s]
+wheat [item[s]] -> minecraft:wheat
+chorus fruit[s] -> minecraft:chorus_fruit
 
-[empty] bucket[s] : any bucket
-water bucket[s] : any bucket
-lava bucket[s] : any bucket
-milk [bucket[s]] : any bucket
+[empty] bucket[s] : any bucket -> minecraft:bucket
+water bucket[s] : any bucket -> minecraft:water_bucket
+lava bucket[s] : any bucket -> minecraft:lava_bucket
+milk [bucket[s]] : any bucket -> minecraft:milk_bucket
 
-tropical fish bucket[s] : any fish bucket, any bucket
-cod bucket[s] : any fish bucket, any bucket
-pufferfish bucket[s] : any fish bucket, any bucket
-salmon bucket[s] : any fish bucket, any bucket
+tropical fish bucket[s] : any fish bucket, any bucket -> minecraft:tropical_fish_bucket
+cod bucket[s] : any fish bucket, any bucket -> minecraft:cod_bucket
+pufferfish bucket[s] : any fish bucket, any bucket -> minecraft:pufferfish_bucket
+salmon bucket[s] : any fish bucket, any bucket -> minecraft:salmon_bucket
 
-[music] (disc|record) 11 : [any] [music] (disc|record)
-[music] (disc|record) 13 : [any] [music] (disc|record)
-[music] (disc|record) blocks : [any] [music] (disc|record)
-[music] (disc|record) cat : [any] [music] (disc|record)
-[music] (disc|record) chirp : [any] [music] (disc|record)
-[music] (disc|record) far : [any] [music] (disc|record)
-[music] (disc|record) mall : [any] [music] (disc|record)
-[music] (disc|record) stal : [any] [music] (disc|record)
-[music] (disc|record) strad : [any] [music] (disc|record)
-[music] (disc|record) wait : [any] [music] (disc|record)
-[music] (disc|record) ward : [any] [music] (disc|record)
+[music] (disc|record) 11 : [any] [music] (disc|record) -> minecraft:music_disc_11
+[music] (disc|record) 13 : [any] [music] (disc|record) -> minecraft:music_disc_13
+[music] (disc|record) blocks : [any] [music] (disc|record) -> minecraft:music_disc_blocks
+[music] (disc|record) cat : [any] [music] (disc|record) -> minecraft:music_disc_cat
+[music] (disc|record) chirp : [any] [music] (disc|record) -> minecraft:music_disc_chirp
+[music] (disc|record) far : [any] [music] (disc|record) -> minecraft:music_disc_far
+[music] (disc|record) mall : [any] [music] (disc|record) -> minecraft:music_disc_mall
+[music] (disc|record) stal : [any] [music] (disc|record) -> minecraft:music_disc_stal
+[music] (disc|record) strad : [any] [music] (disc|record) -> minecraft:music_disc_strad
+[music] (disc|record) wait : [any] [music] (disc|record) -> minecraft:music_disc_wait
+[music] (disc|record) ward : [any] [music] (disc|record) -> minecraft:music_disc_ward
 
-purple dye[s] : [any] dye
-cyan dye[s] : [any] dye
-light gr(a|e)y dye[s] : [any] dye
-gr(a|e)y dye[s] : [any] dye
-pink dye[s] : [any] dye
-(lime|light green) dye[s] : [any] dye
-light blue dye[s] : [any] dye
-magenta dye[s] : [any] dye
-orange dye[s] : [any] dye
+purple dye[s] : [any] dye -> minecraft:purple_dye
+cyan dye[s] : [any] dye -> minecraft:cyan_dye
+light gr(a|e)y dye[s] : [any] dye -> minecraft:light_gray_dye
+gr(a|e)y dye[s] : [any] dye -> minecraft:gray_dye
+pink dye[s] : [any] dye -> minecraft:pink_dye
+(lime|light green) dye[s] : [any] dye -> minecraft:lime_dye
+light blue dye[s] : [any] dye -> minecraft:light_blue_dye
+magenta dye[s] : [any] dye -> minecraft:magenta_dye
+orange dye[s] : [any] dye -> minecraft:orange_dye
 
-black dye[s] : [any] dye
-brown dye[s] : [any] dye
-blue dye[s] : [any] dye
-white dye[s] : [any] dye
-red dye[s] : [any] dye
-green dye[s] : [any] dye
-yellow dye[s] : [any] dye
+black dye[s] : [any] dye -> minecraft:black_dye
+brown dye[s] : [any] dye -> minecraft:brown_dye
+blue dye[s] : [any] dye -> minecraft:blue_dye
+white dye[s] : [any] dye -> minecraft:white_dye
+red dye[s] : [any] dye -> minecraft:red_dye
+green dye[s] : [any] dye -> minecraft:green_dye
+yellow dye[s] : [any] dye -> minecraft:yellow_dye
 
-bone[ ]meal[s]
-lapis [lazuli[s]]
-ink sac[s]
-cocoa bean[s]
+bone[ ]meal[s] -> minecraft:bone_meal
+lapis [lazuli[s]] -> minecraft:lapis_lazuli
+ink sac[s] -> minecraft:ink_sac
+cocoa bean[s] -> minecraft:cocoa_beans
 
-(bat [spawn] egg|spawn bat)[s] : [any] spawn egg[s]
-(blaze [spawn] egg|spawn blaze)[s] : [any] spawn egg[s]
-(cave spider [spawn] egg|spawn cave spider)[s] : [any] spawn egg[s]
-(chicken [spawn] egg|spawn chicken)[s] : [any] spawn egg[s]
-(cod [spawn] egg|spawn cod)[s] : [any] spawn egg[s]
-(cow [spawn] egg|spawn cow)[s] : [any] spawn egg[s]
-(creeper [spawn] egg|spawn creeper)[s] : [any] spawn egg[s]
-(dolphin [spawn] egg|spawn dolphin)[s] : [any] spawn egg[s]
-(donkey [spawn] egg|spawn donkey)[s] : [any] spawn egg[s]
-(drowned [spawn] egg|spawn drowned)[s] : [any] spawn egg[s]
-(elder guardian [spawn] egg|spawn elder guardian)[s] : [any] spawn egg[s]
-(enderman [spawn] egg|spawn enderman)[s] : [any] spawn egg[s]
-(endermite [spawn] egg|spawn endermite)[s] : [any] spawn egg[s]
-(evoker [spawn] egg|spawn evoker)[s] : [any] spawn egg[s]
-(ghast [spawn] egg|spawn ghast)[s] : [any] spawn egg[s]
-(guardian [spawn] egg|spawn guardian)[s] : [any] spawn egg[s]
-(horse [spawn] egg|spawn horse)[s] : [any] spawn egg[s]
-(husk [spawn] egg|spawn husk)[s] : [any] spawn egg[s]
-(llama [spawn] egg|spawn llama)[s] : [any] spawn egg[s]
-(magma cube [spawn] egg|spawn magma cube)[s] : [any] spawn egg[s]
-((mooshroom|mushroom cow) [spawn] egg|spawn (mooshroom|mushroom cow))[s] : [any] spawn egg[s]
-(mule [spawn] egg|spawn mule)[s] : [any] spawn egg[s]
-(ocelot [spawn] egg|spawn ocelot)[s] : [any] spawn egg[s]
-(parrot [spawn] egg|spawn parrot)[s] : [any] spawn egg[s]
-(phantom [spawn] egg|spawn phantom)[s] : [any] spawn egg[s]
-(pig [spawn] egg|spawn pig)[s] : [any] spawn egg[s]
-(polar bear [spawn] egg|spawn polar bear)[s] : [any] spawn egg[s]
-(pufferfish [spawn] egg|spawn pufferfish)[s] : [any] spawn egg[s]
-(rabbit [spawn] egg|spawn rabbit)[s] : [any] spawn egg[s]
-(salmon [spawn] egg|spawn salmon)[s] : [any] spawn egg[s]
-(sheep [spawn] egg|spawn sheep)[s] : [any] spawn egg[s]
-(shulker [spawn] egg|spawn shulker)[s] : [any] spawn egg[s]
-(silverfish [spawn] egg|spawn silverfish)[s] : [any] spawn egg[s]
-(skeleton [spawn] egg|spawn skeleton)[s] : [any] spawn egg[s]
-(skelet(on|al) horse [spawn] egg|spawn skelet(on|al) horse)[s] : [any] spawn egg[s]
-(slime [spawn] egg|spawn slime)[s] : [any] spawn egg[s]
-(spider [spawn] egg|spawn spider)[s] : [any] spawn egg[s]
-(squid [spawn] egg|spawn squid)[s] : [any] spawn egg[s]
-(stray [spawn] egg|spawn stray)[s] : [any] spawn egg[s]
-(tropical fish [spawn] egg|spawn tropical fish)[s] : [any] spawn egg[s]
-(turtle spawn egg|spawn turtle)[s] : [any] spawn egg[s]
-(vex [spawn] egg|spawn vex)[s] : [any] spawn egg[s]
-(villager [spawn] egg|spawn villager)[s] : [any] spawn egg[s]
-(vindicator [spawn] egg|spawn vindicator)[s] : [any] spawn egg[s]
-(witch [spawn] egg|spawn witches)[s] : [any] spawn egg[s]
-(wither skeleton [spawn] egg|spawn wither skeleton)[s] : [any] spawn egg[s]
-((wolf|dog) [spawn] egg|spawn (wolf|dog))[s] : [any] spawn egg[s]
-(zombie [spawn] egg|spawn zombie)[s] : [any] spawn egg[s]
-(zombie horse [spawn] egg|spawn zombie horse)[s] : [any] spawn egg[s]
-(zombie villager [spawn] egg|spawn zombie villager)[s] : [any] spawn egg[s]
+(bat [spawn] egg|spawn bat)[s] : [any] spawn egg[s] -> minecraft:bat_spawn_egg
+(blaze [spawn] egg|spawn blaze)[s] : [any] spawn egg[s] -> minecraft:blaze_spawn_egg
+(cave spider [spawn] egg|spawn cave spider)[s] : [any] spawn egg[s] -> minecraft:cave_spider_spawn_egg
+(chicken [spawn] egg|spawn chicken)[s] : [any] spawn egg[s] -> minecraft:chicken_spawn_egg
+(cod [spawn] egg|spawn cod)[s] : [any] spawn egg[s] -> minecraft:cod_spawn_egg
+(cow [spawn] egg|spawn cow)[s] : [any] spawn egg[s] -> minecraft:cow_spawn_egg
+(creeper [spawn] egg|spawn creeper)[s] : [any] spawn egg[s] -> minecraft:creeper_spawn_egg
+(dolphin [spawn] egg|spawn dolphin)[s] : [any] spawn egg[s] -> minecraft:dolphin_spawn_egg
+(donkey [spawn] egg|spawn donkey)[s] : [any] spawn egg[s] -> minecraft:donkey_spawn_egg
+(drowned [spawn] egg|spawn drowned)[s] : [any] spawn egg[s] -> minecraft:drowned_spawn_egg
+(elder guardian [spawn] egg|spawn elder guardian)[s] : [any] spawn egg[s] -> minecraft:elder_guardian_spawn_egg
+(enderman [spawn] egg|spawn enderman)[s] : [any] spawn egg[s] -> minecraft:enderman_spawn_egg
+(endermite [spawn] egg|spawn endermite)[s] : [any] spawn egg[s] -> minecraft:endermite_spawn_egg
+(evoker [spawn] egg|spawn evoker)[s] : [any] spawn egg[s] -> minecraft:evoker_spawn_egg
+(ghast [spawn] egg|spawn ghast)[s] : [any] spawn egg[s] -> minecraft:ghast_spawn_egg
+(guardian [spawn] egg|spawn guardian)[s] : [any] spawn egg[s] -> minecraft:guardian_spawn_egg
+(horse [spawn] egg|spawn horse)[s] : [any] spawn egg[s] -> minecraft:horse_spawn_egg
+(husk [spawn] egg|spawn husk)[s] : [any] spawn egg[s] -> minecraft:husk_spawn_egg
+(llama [spawn] egg|spawn llama)[s] : [any] spawn egg[s] -> minecraft:llama_spawn_egg
+(magma cube [spawn] egg|spawn magma cube)[s] : [any] spawn egg[s] -> minecraft:magma_cube_spawn_egg
+((mooshroom|mushroom cow) [spawn] egg|spawn (mooshroom|mushroom cow))[s] : [any] spawn egg[s] -> minecraft:mooshroom_spawn_egg
+(mule [spawn] egg|spawn mule)[s] : [any] spawn egg[s] -> minecraft:mule_spawn_egg
+(ocelot [spawn] egg|spawn ocelot)[s] : [any] spawn egg[s] -> minecraft:ocelot_spawn_egg
+(parrot [spawn] egg|spawn parrot)[s] : [any] spawn egg[s] -> minecraft:parrot_spawn_egg
+(phantom [spawn] egg|spawn phantom)[s] : [any] spawn egg[s] -> minecraft:phantom_spawn_egg
+(pig [spawn] egg|spawn pig)[s] : [any] spawn egg[s] -> minecraft:pig_spawn_egg
+(polar bear [spawn] egg|spawn polar bear)[s] : [any] spawn egg[s] -> minecraft:polar_bear_spawn_egg
+(pufferfish [spawn] egg|spawn pufferfish)[s] : [any] spawn egg[s] -> minecraft:pufferfish_spawn_egg
+(rabbit [spawn] egg|spawn rabbit)[s] : [any] spawn egg[s] -> minecraft:rabbit_spawn_egg
+(salmon [spawn] egg|spawn salmon)[s] : [any] spawn egg[s] -> minecraft:salmon_spawn_egg
+(sheep [spawn] egg|spawn sheep)[s] : [any] spawn egg[s] -> minecraft:sheep_spawn_egg
+(shulker [spawn] egg|spawn shulker)[s] : [any] spawn egg[s] -> minecraft:shulker_spawn_egg
+(silverfish [spawn] egg|spawn silverfish)[s] : [any] spawn egg[s] -> minecraft:silverfish_spawn_egg
+(skeleton [spawn] egg|spawn skeleton)[s] : [any] spawn egg[s] -> mincraft:skeleton_spawn_egg
+(skelet(on|al) horse [spawn] egg|spawn skelet(on|al) horse)[s] : [any] spawn egg[s] -> minecraft:skeleton_horse_spawn_egg
+(slime [spawn] egg|spawn slime)[s] : [any] spawn egg[s] -> minecraft:slime_spawn_egg
+(spider [spawn] egg|spawn spider)[s] : [any] spawn egg[s] -> minecraft:spider_spawn_egg
+(squid [spawn] egg|spawn squid)[s] : [any] spawn egg[s] -> minecraft:squid_spawn_egg
+(stray [spawn] egg|spawn stray)[s] : [any] spawn egg[s] -> minecraft:stray_spawn_egg
+(tropical fish [spawn] egg|spawn tropical fish)[s] : [any] spawn egg[s] -> minecraft:tropical_fish_spawn_egg
+(turtle spawn egg|spawn turtle)[s] : [any] spawn egg[s] -> minecraft:turtle_spawn_egg
+(vex [spawn] egg|spawn vex)[s] : [any] spawn egg[s] -> minecraft:vex_spawn_egg
+(villager [spawn] egg|spawn villager)[s] : [any] spawn egg[s] -> minecraft:villager_spawn_egg
+(vindicator [spawn] egg|spawn vindicator)[s] : [any] spawn egg[s] -> minecraft:vindicator_spawn_egg
+(witch [spawn] egg|spawn witches)[s] : [any] spawn egg[s] -> minecraft:witch_spawn_egg
+(wither skeleton [spawn] egg|spawn wither skeleton)[s] : [any] spawn egg[s] -> minecraft:wither_skeleton_spawn_egg
+((wolf|dog) [spawn] egg|spawn (wolf|dog))[s] : [any] spawn egg[s] -> minecraft:wolf_spawn_egg
+(zombie [spawn] egg|spawn zombie)[s] : [any] spawn egg[s] -> minecraft:zombie_spawn_egg
+(zombie horse [spawn] egg|spawn zombie horse)[s] : [any] spawn egg[s] -> minecraft:zombie_horse_spawn_egg
+(zombie villager [spawn] egg|spawn zombie villager)[s] : [any] spawn egg[s] -> minecraft:zombie_villager_spawn_egg
 
-(pillager [spawn] egg|spawn pillager)[s] : [any] spawn egg[s]
-(ravager [spawn] egg|spawn ravager)[s] : [any] spawn egg[s]
-(wandering trader [spawn] egg|spawn wandering trader)[s] : [any] spawn egg[s]
-(trader llama [spawn] egg|spawn trader llama)[s] : [any] spawn egg[s]
-(cat [spawn] egg|spawn cat)[s] : [any] spawn egg[s]
-(fox [spawn] egg|spawn fox)[s] : [any] spawn egg[s]
-(panda [spawn] egg|spawn panda)[s] : [any] spawn egg[s]
+(pillager [spawn] egg|spawn pillager)[s] : [any] spawn egg[s] -> minecraft:pillager_spawn_egg
+(ravager [spawn] egg|spawn ravager)[s] : [any] spawn egg[s] -> minecraft:ravager_spawn_egg
+(wandering trader [spawn] egg|spawn wandering trader)[s] : [any] spawn egg[s] -> minecraft:wandering_trader_spawn_egg
+(trader llama [spawn] egg|spawn trader llama)[s] : [any] spawn egg[s] -> minecraft:trader_llama_spawn_egg
+(cat [spawn] egg|spawn cat)[s] : [any] spawn egg[s] -> minecraft:cat_spawn_egg
+(fox [spawn] egg|spawn fox)[s] : [any] spawn egg[s] -> minecraft:fox_spawn_egg
+(panda [spawn] egg|spawn panda)[s] : [any] spawn egg[s] -> minecraft:panda_spawn_egg
 
-(bee [spawn] egg|spawn bee)[s] : [any] spawn egg[s]
-{composter stage} composter[s]
-{bamboo age} {bamboo leaves} {bamboo stage} bamboo [plant]
-{berry age} sweet berry bush [plant]
+(bee [spawn] egg|spawn bee)[s] : [any] spawn egg[s] -> minecraft:bee_spawn_egg
+{composter stage} composter[s] -> minecraft:composter
+{bamboo age} {bamboo leaves} {bamboo stage} bamboo [plant] -> minecraft:bamboo
+{berry age} sweet berry bush [plant] -> minecraft:sweet_berries
 
-flower charge banner pattern[s] : [any] banner pattern[s]
-creeper charge banner pattern[s] : [any] banner pattern[s]
-skull charge banner pattern[s] : [any] banner pattern[s]
-(mojang|thing) banner pattern[s] : [any] banner pattern[s]
-globe banner pattern[s] : [any] banner pattern[s]
+flower charge banner pattern[s] : [any] banner pattern[s] -> minecraft:flower_banner_pattern
+creeper charge banner pattern[s] : [any] banner pattern[s] -> minecraft:creeper_banner_pattern
+skull charge banner pattern[s] : [any] banner pattern[s] -> minecraft:skull_banner_pattern
+(mojang|thing) banner pattern[s] : [any] banner pattern[s] -> minecraft:mojang_banner_pattern
+globe banner pattern[s] : [any] banner pattern[s] -> minecraft:globe_banner_pattern
 
-honeycomb[s]
+honeycomb[s] -> minecraft:honeycomb
 
-netherite ingot[s]
-netherite scrap[s]
-(hoglin [spawn] egg|spawn hoglin)[s] : [any] spawn egg[s]
-((zombified piglin|zombie pigman) [spawn] egg|spawn (zombified piglin|zombie pigman))[s] : [any] spawn egg[s]
-zoglin [spawn] egg|spawn zoglin)[s] : [any] spawn egg[s]
-(strider [spawn] egg|spawn strider)[s] : [any] spawn egg[s]
+netherite ingot[s] -> minecraft:netherite_ingot
+netherite scrap[s] -> minecraft:netherite_scrap
+(hoglin [spawn] egg|spawn hoglin)[s] : [any] spawn egg[s] -> minecraft:hoglin_spawn_egg
+((zombified piglin|zombie pigman) [spawn] egg|spawn (zombified piglin|zombie pigman))[s] : [any] spawn egg[s] -> minecraft:zombified_piglin_spawn_egg
+zoglin [spawn] egg|spawn zoglin)[s] : [any] spawn egg[s] -> minecraft:zoglin_spawn_egg
+(strider [spawn] egg|spawn strider)[s] : [any] spawn egg[s] -> minecraft:strider_spawn_egg
 
-[music] (disc|record) pigstep : [any] [music] (disc|record)
+[music] (disc|record) pigstep : [any] [music] (disc|record) -> minecraft:music_disc_pigstep
 
-(snout|piglin) banner pattern[s] : [any] banner pattern[s]
+(snout|piglin) banner pattern[s] : [any] banner pattern[s] -> minecraft:pigling_banner_pattern

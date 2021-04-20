@@ -1,15 +1,13 @@
 package com.github.stefvanschie.quickskript.core.util.registry;
 
+import com.github.stefvanschie.quickskript.core.file.alias.ResolvedAliasEntry;
 import com.github.stefvanschie.quickskript.core.file.alias.manager.AliasFileManager;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Represents all possible visual effects
@@ -57,8 +55,8 @@ public class VisualEffectRegistry {
             exception.printStackTrace();
         }
 
-        for (SkriptPattern pattern : manager.resolveAll().keySet()) {
-            addEntry(new VisualEffectRegistry.Entry(pattern));
+        for (ResolvedAliasEntry entry : manager.resolveAll()) {
+            addEntry(new VisualEffectRegistry.Entry(entry.getPattern()));
         }
     }
 
