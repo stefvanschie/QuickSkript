@@ -221,6 +221,36 @@ public class ItemTypeRegistry {
         }
 
         /**
+         * Gets a full namespaced key for this entry. This includes both the full namespaced key as well as all
+         * attributes appended in the default Minecraft format (e.g., minecraft:chest[waterlogged=true]).
+         *
+         * @return a full namespaced key
+         * @since 0.1.0
+         */
+        @NotNull
+        @Contract(pure = true)
+        public String getFullNamespacedKey() {
+            StringBuilder fullKey = new StringBuilder(this.key);
+
+            if (!attributes.isEmpty()) {
+                fullKey.append('[');
+
+                for (Map.Entry<? extends String, ? extends String> entry : this.attributes.entrySet()) {
+                    fullKey.append(entry.getKey());
+                    fullKey.append('=');
+                    fullKey.append(entry.getValue());
+                    fullKey.append(',');
+                }
+
+                //remove last trailing comma
+                fullKey.deleteCharAt(fullKey.length() - 1);
+                fullKey.append(']');
+            }
+
+            return fullKey.toString();
+        }
+
+        /**
          * Adds the specified category to the collection of categories
          *
          * @param category the category to add

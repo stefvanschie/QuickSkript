@@ -41,7 +41,7 @@ public class LiteralRegistry {
         addEntry(new Entry(SkriptPattern.parse("[panda] gene[s]"), Gene.class));
         addEntry(new Entry(SkriptPattern.parse("inventory[ ]action[s]"), InventoryAction.class));
         addEntry(new Entry(SkriptPattern.parse("inventory[ ]type[s]"), InventoryTypeRegistry.Entry.class));
-        addEntry(new Entry(SkriptPattern.parse("(item[ ]type[s]|items|materials)"), ItemCategory.class));
+        addEntry(new Entry(SkriptPattern.parse("(item[ ]type[s]|items|materials)"), ItemType.class));
         addEntry(new Entry(SkriptPattern.parse("(item|material)"), Item.class));
         addEntry(new Entry(SkriptPattern.parse("num[ber][s]"), Number.class));
         addEntry(new Entry(SkriptPattern.parse("resource[ ]pack[ ]state[s]"), ResourcePackStatus.class));

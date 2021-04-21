@@ -1,8 +1,11 @@
 package com.github.stefvanschie.quickskript.core.util.literal;
 
 import com.github.stefvanschie.quickskript.core.util.registry.ItemTypeRegistry;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Collections;
 
 /**
  * An item with an amount and optionally an enchantment

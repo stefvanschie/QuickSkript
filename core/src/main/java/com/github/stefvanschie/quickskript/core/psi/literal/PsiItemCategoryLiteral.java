@@ -14,28 +14,25 @@ import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.util.Pair;
 import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.Enchantment;
-import com.github.stefvanschie.quickskript.core.util.literal.ItemCategory;
+import com.github.stefvanschie.quickskript.core.util.literal.ItemType;
 import com.github.stefvanschie.quickskript.core.util.registry.ItemTypeRegistry;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Represents an item category. This may be pre-computed.
  *
  * @since 0.1.0
  */
-public class PsiItemCategoryLiteral extends PsiElement<ItemCategory> {
+public class PsiItemCategoryLiteral extends PsiElement<ItemType> {
 
     /**
      * The item category
      */
-    private ItemCategory itemCategory;
+    private ItemType itemType;
 
     /**
      * The amount of each item in this item category
@@ -50,22 +47,22 @@ public class PsiItemCategoryLiteral extends PsiElement<ItemCategory> {
     /**
      * Creates a new element with the given line number
      *
-     * @param itemCategory the item category this literal represents
+     * @param itemType the item category this literal represents
      * @param lineNumber the line number this element is associated with
      * @since 0.1.0
      */
-    private PsiItemCategoryLiteral(@NotNull ItemCategory itemCategory, @Nullable PsiElement<?> amount,
+    private PsiItemCategoryLiteral(@NotNull ItemType itemType, @Nullable PsiElement<?> amount,
         @Nullable PsiElement<?> enchantment, int lineNumber) {
         super(lineNumber);
 
-        this.itemCategory = itemCategory;
+        this.itemType = itemType;
         this.amount = amount;
         this.enchantment = enchantment;
 
         if (amount != null && amount.isPreComputed() && enchantment != null && enchantment.isPreComputed()) {
             preComputed = executeImpl(null, null);
 
-            this.itemCategory = null;
+            this.itemType = null;
             this.amount = null;
             this.enchantment = null;
         }
@@ -73,16 +70,16 @@ public class PsiItemCategoryLiteral extends PsiElement<ItemCategory> {
 
     @NotNull
     @Override
-    protected ItemCategory executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+    protected ItemType executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         if (amount != null) {
-            itemCategory.setAmount(amount.execute(environment, context, Number.class).intValue());
+            itemType.setAmount(amount.execute(environment, context, Number.class).intValue());
         }
 
         if (enchantment != null) {
-            itemCategory.addEnchantment(enchantment.execute(environment, context, Enchantment.class));
+            itemType.addEnchantment(enchantment.execute(environment, context, Enchantment.class));
         }
 
-        return itemCategory;
+        return itemType;
     }
 
     /**
@@ -133,10 +130,16 @@ public class PsiItemCategoryLiteral extends PsiElement<ItemCategory> {
             Set<ItemTypeRegistry.Entry> itemTypes = skriptLoader.getItemTypeRegistry().getEntriesByCategory(pattern);
 
             if (itemTypes == null || itemTypes.isEmpty()) {
-                return null;
+                ItemTypeRegistry.Entry entry = skriptLoader.getItemTypeRegistry().getEntryByName(pattern);
+
+                if (entry == null) {
+                    return null;
+                }
+
+                itemTypes = Collections.singleton(entry);
             }
 
-            var itemCategory = new ItemCategory(itemTypes);
+            var itemCategory = new ItemType(itemTypes);
 
             if (result.getParseMark() == 1) {
                 itemCategory.all();
@@ -149,7 +152,7 @@ public class PsiItemCategoryLiteral extends PsiElement<ItemCategory> {
          * Provides a default way for creating the specified object for this factory with the given parameters as
          * constructor parameters.
          *
-         * @param itemCategory the item category
+         * @param itemType the item category
          * @param amount the amount of items from the item category
          * @param enchantment the enchantment to apply to the items in the item category
          * @param lineNumber the line number
@@ -158,9 +161,9 @@ public class PsiItemCategoryLiteral extends PsiElement<ItemCategory> {
          */
         @NotNull
         @Contract(pure = true)
-        public PsiItemCategoryLiteral create(@NotNull ItemCategory itemCategory, @Nullable PsiElement<?> amount,
+        public PsiItemCategoryLiteral create(@NotNull ItemType itemType, @Nullable PsiElement<?> amount,
             @Nullable PsiElement<?> enchantment, int lineNumber) {
-            return new PsiItemCategoryLiteral(itemCategory, amount, enchantment, lineNumber);
+            return new PsiItemCategoryLiteral(itemType, amount, enchantment, lineNumber);
         }
 
         @NotNull

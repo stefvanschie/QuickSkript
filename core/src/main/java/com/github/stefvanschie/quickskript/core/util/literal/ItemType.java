@@ -1,6 +1,7 @@
 package com.github.stefvanschie.quickskript.core.util.literal;
 
 import com.github.stefvanschie.quickskript.core.util.registry.ItemTypeRegistry;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -12,7 +13,7 @@ import java.util.Set;
  *
  * @since 0.1.0
  */
-public class ItemCategory {
+public class ItemType {
 
     /**
      * All item types that belong to this category
@@ -41,7 +42,7 @@ public class ItemCategory {
      * @param itemTypes the item types this category has
      * @since 0.1.0
      */
-    public ItemCategory(@NotNull Collection<ItemTypeRegistry.Entry> itemTypes) {
+    public ItemType(@NotNull Collection<ItemTypeRegistry.Entry> itemTypes) {
         this.itemTypes = itemTypes;
     }
 
@@ -72,5 +73,17 @@ public class ItemCategory {
      */
     public void addEnchantment(@NotNull Enchantment enchantment) {
         this.enchantments.add(enchantment);
+    }
+
+    /**
+     * Gets all item type entries of this item type.
+     *
+     * @return all entries
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public Iterable<? extends ItemTypeRegistry.Entry> getItemTypeEntries() {
+        return itemTypes;
     }
 }

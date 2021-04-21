@@ -37,12 +37,16 @@ import com.github.stefvanschie.quickskript.core.psi.section.PsiWhile;
 import com.github.stefvanschie.quickskript.core.skript.Skript;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
+import com.github.stefvanschie.quickskript.core.util.literal.ItemType;
 import com.github.stefvanschie.quickskript.core.util.literal.Time;
 import com.github.stefvanschie.quickskript.core.util.literal.World;
+import com.github.stefvanschie.quickskript.core.util.registry.ItemTypeRegistry;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Enderman;
 import org.bukkit.entity.Sheep;
@@ -63,10 +67,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -432,6 +433,32 @@ public class BukkitSkriptLoader extends SkriptLoader {
         );
 
         registerEvent(new ComplexEventProxyFactory(this)
+            .registerEvent(BlockGrowEvent.class, "[on] (plant|crop|block) grow[th|ing] [[of] %item types%]",
+                (matcher, elements) -> {
+                    if (elements.length > 0) {
+                        ItemType itemType = elements[0].execute(null, null, ItemType.class);
+                        Collection<BlockData> blockData = new HashSet<>();
+
+                        for (ItemTypeRegistry.Entry entry : itemType.getItemTypeEntries()) {
+                            blockData.add(Bukkit.createBlockData(entry.getFullNamespacedKey()));
+                        }
+
+                        return event -> {
+                            BlockData eventData = event.getBlock().getState().getBlockData();
+
+                            for (BlockData data : blockData) {
+                                if (eventData.matches(data)) {
+                                    return true;
+                                }
+                            }
+
+                            return false;
+                        };
+                    }
+
+                    return event -> true;
+                }
+            )
             .registerEvent(WorldTimeChangeEvent.class, "at %time% [in %worlds%]", (matcher, elements) -> {
                 long time = elements[0].execute(null, null, Time.class).asTicks();
 
