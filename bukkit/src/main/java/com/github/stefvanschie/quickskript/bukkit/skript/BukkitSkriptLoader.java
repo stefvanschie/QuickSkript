@@ -68,6 +68,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -437,23 +439,8 @@ public class BukkitSkriptLoader extends SkriptLoader {
                 (matcher, elements) -> {
                     if (elements.length > 0) {
                         ItemType itemType = elements[0].execute(null, null, ItemType.class);
-                        Collection<BlockData> blockData = new HashSet<>();
 
-                        for (ItemTypeRegistry.Entry entry : itemType.getItemTypeEntries()) {
-                            blockData.add(Bukkit.createBlockData(entry.getFullNamespacedKey()));
-                        }
-
-                        return event -> {
-                            BlockData eventData = event.getBlock().getState().getBlockData();
-
-                            for (BlockData data : blockData) {
-                                if (eventData.matches(data)) {
-                                    return true;
-                                }
-                            }
-
-                            return false;
-                        };
+                        return defaultItemTypeComparison(itemType);
                     }
 
                     return event -> true;
@@ -470,6 +457,16 @@ public class BukkitSkriptLoader extends SkriptLoader {
                     return event -> event.getTime() == time;
                 }
             })
+            .registerEvent(BlockBreakEvent.class, "[on] [block] (break[ing]|min(e|ing)) [[of] %item types%]",
+                (matcher, elements) -> {
+                    if (elements.length > 0) {
+                        ItemType itemType = elements[0].execute(null, null, ItemType.class);
+
+                        return defaultItemTypeComparison(itemType);
+                    }
+
+                    return event -> true;
+                })
             .registerEvent(EntityChangeBlockEvent.class, "[on] enderman place",
                 (matcher, elements) -> event -> event.getEntity() instanceof Enderman && event.getTo() != Material.AIR)
             .registerEvent(EntityChangeBlockEvent.class, "[on] enderman pickup",
@@ -644,6 +641,36 @@ public class BukkitSkriptLoader extends SkriptLoader {
                 return;
             }
         }
+    }
+
+    /**
+     * Creates a default predicate which takes in a block event, comparing the block data to the provided item type,
+     * returning true if any of the block data matches and false otherwise.
+     *
+     * @param itemType the item type to compare against
+     * @return a predicate comparing the block event's block data to the item type
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    private <T extends BlockEvent> Predicate<T> defaultItemTypeComparison(@NotNull ItemType itemType) {
+        Collection<BlockData> blockData = new HashSet<>();
+
+        for (ItemTypeRegistry.Entry entry : itemType.getItemTypeEntries()) {
+            blockData.add(Bukkit.createBlockData(entry.getFullNamespacedKey()));
+        }
+
+        return event -> {
+            BlockData eventData = event.getBlock().getState().getBlockData();
+
+            for (BlockData data : blockData) {
+                if (eventData.matches(data)) {
+                    return true;
+                }
+            }
+
+            return false;
+        };
     }
 
     /**
