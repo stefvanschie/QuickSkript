@@ -38,7 +38,7 @@ public class ResolvedAliasEntry {
      * The attributes of the key
      */
     @NotNull
-    private final Map<? extends String, ? extends String> attributes;
+    private final Collection<? extends String> attributes;
 
     /**
      * Creates a resolves alias entry with parsed information.
@@ -51,7 +51,7 @@ public class ResolvedAliasEntry {
      */
     public ResolvedAliasEntry(@NotNull SkriptPattern pattern, @Nullable String key,
         @NotNull Collection<? extends SkriptPattern> categories,
-        @NotNull Map<? extends String, ? extends String> attributes) {
+        @NotNull Collection<? extends String> attributes) {
         this.pattern = pattern;
         this.key = key;
         this.categories = categories;
@@ -90,8 +90,8 @@ public class ResolvedAliasEntry {
      */
     @NotNull
     @Contract(pure = true)
-    public Map<? extends String, ? extends String> getAttributes() {
-        return Collections.unmodifiableMap(attributes);
+    public Collection<? extends String> getAttributes() {
+        return Collections.unmodifiableCollection(attributes);
     }
 
     /**

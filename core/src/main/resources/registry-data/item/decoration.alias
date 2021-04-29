@@ -1,23 +1,83 @@
 :use util/global.alias
 
-[decayable] = {decayable, (persistent|permanent)}
-[jukebox state] = {without record, with record}
-[end portal eye] = {unfilled, filled}
-[bed part] = {foot, head}
-[bed occupied] = {unoccupied, occupied}
-[rotatable] = {south(ward| rotated), south-southwest(ward| rotated), southwest(ward| rotated),
-               west-southwest(ward| rotated), west(ward| rotated), west-northwest(ward| rotated),
-               northwest(ward| rotated), north-northwest(ward| rotated), north(ward| rotated),
-               north-northeast(ward| rotated), northeast(ward| rotated), east-northeast(ward| rotated),
-               east(ward| rotated), east-southeast(ward| rotated), southeast(ward| rotated),
-               south-southeast(ward| rotated)}
-[scaffold bottom] = {bottomless, bottom}
-[grindstone face] = {floor, wall, ceiling}
-[bell attachment] = {floor, single wall, double wall, ceiling}
-[lantern hanging] = {(floor|not hanging), (hanging|ceiling)}
-[pickle count] = {(one|singular), (pair of|[bundle of] two), (trio of|[bundle of] three), [bundle of] four}
-[honey level] = {(empty|level 0), level 1, level 2, level 3, level 4, (full|filled|level 5)}
-[charges] = {(empty|level 0), level 1, level 2, level 3, (full[y charged]|level 4)}
+[decayable] = <
+    decayable :: [persistent=false],
+    (persistent|permanent) :: [persistent=true]
+>
+[jukebox state] = <
+    without record :: [has_record=false],
+    with record :: [has_record=true]
+>
+[end portal eye] = <
+    unfilled :: [eye=false],
+    filled :: [eye=true]
+>
+[bed part] = <
+    foot :: [part=foot],
+    head :: [part=head]
+>
+[bed occupied] = <
+    unoccupied :: [occupied=false],
+    occupied :: [occupied=true]
+>
+[rotatable] = <
+    south(ward| rotated) :: [rotation=0],
+    south-southwest(ward| rotated) :: [rotation=1],
+    southwest(ward| rotated) :: [rotation=2],
+    west-southwest(ward| rotated) :: [rotation=3],
+    west(ward| rotated) :: [rotation=4],
+    west-northwest(ward| rotated) :: [rotation=5],
+    northwest(ward| rotated) :: [rotation=6],
+    north-northwest(ward| rotated) :: [rotation=7],
+    north(ward| rotated) :: [rotation=8],
+    north-northeast(ward| rotated) :: [rotation=9],
+    northeast(ward| rotated) :: [rotation=10],
+    east-northeast(ward| rotated) :: [rotation=11],
+    east(ward| rotated) :: [rotation=12],
+    east-southeast(ward| rotated) :: [rotation=13],
+    southeast(ward| rotated) :: [rotation=14],
+    south-southeast(ward| rotated) :: [rotation=15]
+>
+[scaffold bottom] = <
+    bottomless :: [bottom=false],
+    bottom :: [bottom=true]
+>
+[grindstone face] = <
+    floor :: [face=floor],
+    wall :: [face=wall],
+    ceiling :: [face=ceiling]
+>
+[bell attachment] = <
+    floor :: [attachment=floor],
+    single wall :: [attachment=single_wall],
+    double wall :: [attachment=double_wall],
+    ceiling :: [attachment=ceiling]
+>
+[lantern hanging] = <
+    (floor|not hanging) :: [hanging=false],
+    (hanging|ceiling) :: [hanging=true]
+>
+[pickle count] = <
+    (one|singular) :: [pickles=1],
+    (pair of|[bundle of] two) :: [pickles=2],
+    (trio of|[bundle of] three) :: [pickles=3],
+    [bundle of] four :: [pickles=4]
+>
+[honey level] = <
+    (empty|level 0) :: [honey_level=0],
+    level 1 :: [honey_level=1],
+    level 2 :: [honey_level=2],
+    level 3 :: [honey_level=3],
+    level 4 :: [honey_level=4],
+    (full|filled|level 5) :: [honey_level=5]
+>
+[charges] = <
+    (empty|level 0) :: [charges=0],
+    level 1 :: [charges=1],
+    level 2 :: [charges=2],
+    level 3 :: [charges=3],
+    (full[y charged]|level 4) :: [charges=4]
+>
 
 brown mushroom[s] : [any] [small] mushroom -> minecraft:brown_mushroom
 red mushroom[s] : [any] [small] mushroom -> minecraft:red_mushroom

@@ -185,7 +185,7 @@ public class ItemTypeRegistry {
          * The attributes belonging to the key
          */
         @NotNull
-        private final Map<? extends String, ? extends String> attributes;
+        private final Collection<? extends String> attributes;
 
         /**
          * The possible matches this pattern has when all possible matches are unrolled.
@@ -213,11 +213,83 @@ public class ItemTypeRegistry {
          * @param attributes the attributes for this key
          * @since 0.1.0
          */
-        public Entry(@NotNull SkriptPattern pattern, @NotNull String key, @NotNull Map<? extends String, ? extends String> attributes) {
+        public Entry(@NotNull SkriptPattern pattern, @NotNull String key, @NotNull Collection<? extends String> attributes) {
             this.pattern = pattern;
             this.key = key;
             this.attributes = attributes;
             this.unrolledPatternMatches = this.pattern.unrollFully();
+        }
+
+        /**
+         * Gets a string of combined block states, such as [waterlogged=true,axis=x] based on the attributes of this
+         * item. When there are no block state attributes for this item, an empty string is returned.
+         *
+         * @return a string of block states
+         * @since 0.1.0
+         */
+        @NotNull
+        @Contract(pure = true)
+        private String getBlockStates() {
+            if (attributes.isEmpty()) {
+                return "";
+            }
+
+            StringBuilder blockStates = new StringBuilder("[");
+
+            for (String entry : this.attributes) {
+                if (!entry.startsWith("[")) {
+                    continue;
+                }
+
+                blockStates.append(entry, 1, entry.length() - 1);
+                blockStates.append(',');
+            }
+
+            if (blockStates.length() < 1) {
+                return "";
+            }
+
+            //remove last trailing comma
+            blockStates.deleteCharAt(blockStates.length() - 1);
+            blockStates.append(']');
+
+            return blockStates.toString();
+        }
+
+        /**
+         * Gets a string of combined data, such as {Levels:2} based on the attributes of this item. When there are no
+         * data attributes for this item, an empty string is returned.
+         *
+         * @return a string of data
+         * @since 0.1.0
+         */
+        @NotNull
+        @Contract(pure = true)
+        private String getData() {
+            if (attributes.isEmpty()) {
+                return "";
+            }
+
+            StringBuilder blockStates = new StringBuilder("{");
+
+            for (String entry : this.attributes) {
+                if (!entry.startsWith("{")) {
+                    continue;
+                }
+
+                blockStates.append(entry, 1, entry.length() - 1);
+                blockStates.append(',');
+            }
+
+            if (blockStates.length() < 1) {
+                return "";
+            }
+
+            //remove last trailing comma
+            blockStates.deleteCharAt(blockStates.length() - 1);
+            blockStates.append('}');
+
+            return blockStates.toString();
         }
 
         /**
@@ -230,24 +302,14 @@ public class ItemTypeRegistry {
         @NotNull
         @Contract(pure = true)
         public String getFullNamespacedKey() {
-            StringBuilder fullKey = new StringBuilder(this.key);
+            String firstPart = this.key + getBlockStates();
+            String data = getData();
 
-            if (!attributes.isEmpty()) {
-                fullKey.append('[');
-
-                for (Map.Entry<? extends String, ? extends String> entry : this.attributes.entrySet()) {
-                    fullKey.append(entry.getKey());
-                    fullKey.append('=');
-                    fullKey.append(entry.getValue());
-                    fullKey.append(',');
-                }
-
-                //remove last trailing comma
-                fullKey.deleteCharAt(fullKey.length() - 1);
-                fullKey.append(']');
+            if (data.isEmpty()) {
+                return firstPart;
             }
 
-            return fullKey.toString();
+            return firstPart +  ' ' + data;
         }
 
         /**

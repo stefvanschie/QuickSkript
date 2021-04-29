@@ -1,14 +1,57 @@
-[hatch stage] = {uncracked, cracked, almost hatched}
-[egg count] = {(one|singular), (pair of|[pile of] two), (trio of|[pile of] three), [pile of] four}
-[beacon level] = {(level (0|zero)|unleveled), level (1|one), level (2|two), level (3|three),
-                  (level (4|four)|complete[d])}
-[firework duration] = {(0|zero|immediate), (1|one|short), (2|two|medium), (3|three|long)}
-[composter stage] = {(empty|unfilled|level 0), level 1, level 2, level 3, (half full|half empty|level 4), level 5,
-                     level 6, level 7, (filled|level 8)}
-[bamboo age] = {(thin|age 0), (thick|age 1)}
-[bamboo leaves] = {leafless, small leaved, large leaved}
-[bamboo stage] = {(stagnant|stage 0), (growing|stage 1)}
-[berry age] = {young, berryless, (some berries|berried), (many berries|very berried)}
+[hatch stage] = <
+    uncracked :: [hatch=0],
+    cracked :: [hatch=1],
+    almost hatched :: [hatch=2]
+>
+[egg count] = <
+    (one|singular) :: [eggs=1],
+    (pair of|[pile of] two) :: [eggs=2],
+    (trio of|[pile of] three) :: [eggs=3],
+    [pile of] four :: [eggs=4]
+>
+[beacon level] = <
+    (level (0|zero)|unleveled) :: {Levels:0},
+    level (1|one) :: {Levels:1},
+    level (2|two) :: {Levels:2},
+    level (3|three) :: {Levels:3},
+    (level (4|four)|complete[d]) :: {Levels:4}
+>
+[firework duration] = <
+    (0|zero|immediate) :: {Fireworks:{Flight:0}},
+    (1|one|short) :: {Fireworks:{Flight:1}},
+    (2|two|medium) :: {Fireworks:{Flight:2}},
+    (3|three|long) :: {Fireworks:{Flight:3}}
+>
+[composter stage] = <
+    (empty|unfilled|level 0) :: [level=0],
+    level 1 :: [level=1],
+    level 2 :: [level=2],
+    level 3 :: [level=3],
+    (half full|half empty|level 4) :: [level=4],
+    level 5 :: [level=5],
+    level 6 :: [level=6],
+    level 7 :: [level=7],
+    (filled|level 8) :: [level=8]
+>
+[bamboo age] = <
+    (thin|age 0) :: [age=0],
+    (thick|age 1) :: [age=1]
+>
+[bamboo leaves] = <
+    leafless :: [leaves=none],
+    small leaved :: [leaves=small],
+    large leaved :: [leaves=large]
+>
+[bamboo stage] = <
+    (stagnant|stage 0) :: [stage=0],
+    (growing|stage 1) :: [stage=1]
+>
+[berry age] = <
+    young :: [age=0],
+    berryless :: [age=1],
+    (some berries|berried) :: [age=2],
+    (many berries|very berried) :: [age=3]
+>
 
 coal -> minecraft:coal
 diamond[s] -> minecraft:diamond

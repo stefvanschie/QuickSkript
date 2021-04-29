@@ -66,9 +66,9 @@ public class AliasFile {
         Map<String, SkriptPattern> categoryCache = new HashMap<>();
 
         for (AliasFileEntry entry : entries) {
-            Map<String, Map<String, String>> combinations = variationCombinations(entry.getEntry(), variations);
+            Map<String, Collection<String>> combinations = variationCombinations(entry.getEntry(), variations);
 
-            for (Map.Entry<String, Map<String, String>> combination : combinations.entrySet()) {
+            for (Map.Entry<String, Collection<String>> combination : combinations.entrySet()) {
                 SkriptPattern pattern = SkriptPattern.parse(combination.getKey());
                 var categories = new HashSet<SkriptPattern>(entry.getCategories().size());
 
@@ -78,7 +78,7 @@ public class AliasFile {
                     categories.add(categoryCache.get(category));
                 }
 
-                Map<String, String> attributes = combination.getValue();
+                Collection<String> attributes = combination.getValue();
                 String key = entry.getKey();
 
                 if (key != null) {
@@ -93,20 +93,7 @@ public class AliasFile {
                             );
                         }
 
-                        String attribute = key.substring(openSquareBracket + 1, key.length() - 1);
-
-                        key = key.substring(0, openSquareBracket);
-
-                        int equalsIndex = attribute.indexOf('=');
-
-                        if (equalsIndex == -1) {
-                            throw new AliasFileResolveException("Invalid attribute '" + attribute + "', missing '='");
-                        }
-
-                        String attributeKey = attribute.substring(0, equalsIndex);
-                        String attributeValue = attribute.substring(equalsIndex + 1);
-
-                        attributes.put(attributeKey, attributeValue);
+                        attributes.add(key.substring(openSquareBracket));
                     }
                 }
 
@@ -128,15 +115,15 @@ public class AliasFile {
      */
     @NotNull
     @Contract(pure = true)
-    private Map<String, Map<String, String>> variationCombinations(@NotNull String pattern,
+    private Map<String, Collection<String>> variationCombinations(@NotNull String pattern,
         @NotNull Map<String, AliasFileVariation> variations) {
-        Map<String, Map<String, String>> patterns = new HashMap<>();
+        Map<String, Collection<String>> patterns = new HashMap<>();
 
         int openIndex = pattern.indexOf('{');
         int closeIndex = pattern.indexOf('}');
 
         if (openIndex == -1 || closeIndex == -1 || openIndex + 1 > closeIndex) {
-            patterns.put(pattern, new HashMap<>());
+            patterns.put(pattern, new HashSet<>());
             return patterns;
         }
 
@@ -153,13 +140,13 @@ public class AliasFile {
         String firstSubstring = pattern.substring(0, variationIndex);
         String secondSubstring = pattern.substring(variationIndex + fullName.length());
 
-        for (String entry : variation.getEntries()) {
-            String replacedPattern = firstSubstring + entry + secondSubstring;
-            Map<String, Map<String, String>> combinations = variationCombinations(replacedPattern, variations);
+        for (Map.Entry<String, String> entry : variation.getEntries().entrySet()) {
+            String replacedPattern = firstSubstring + entry.getKey() + secondSubstring;
+            Map<String, Collection<String>> combinations = variationCombinations(replacedPattern, variations);
 
-            for (Map.Entry<String, Map<String, String>> combination : combinations.entrySet()) {
-                Map<String, String> attributes = combination.getValue();
-                attributes.put(variation.getName(), entry);
+            for (Map.Entry<String, Collection<String>> combination : combinations.entrySet()) {
+                Collection<String> attributes = combination.getValue();
+                attributes.add(entry.getValue());
 
                 patterns.put(combination.getKey(), attributes);
             }
@@ -261,7 +248,7 @@ public class AliasFile {
 
                 StringBuilder variation = new StringBuilder(line.substring(equalsIndex + 1).trim());
 
-                if (variation.charAt(0) != '{') {
+                if (variation.charAt(0) != '<') {
                     throw new AliasFileFormatException(
                         "Variation declaration should have an opening curly bracket followed by it."
                     );
@@ -269,16 +256,22 @@ public class AliasFile {
 
                 variation.deleteCharAt(0);
 
-                while (!lines[i].contains("}")) {
+                while (!lines[i].contains(">")) {
                     variation.append(lines[++i]);
                 }
 
                 variation.deleteCharAt(variation.length() - 1);
 
-                List<String> entries = new ArrayList<>();
+                Map<String, String> entries = new HashMap<>();
 
                 for (String entry : variation.toString().split(",")) {
-                    entries.add(entry.trim());
+                    String[] parts = entry.split("::");
+
+                    if (parts.length != 2) {
+                        throw new AliasFileFormatException("Variation entry has no or more than one key separator");
+                    }
+
+                    entries.put(parts[0].trim(), parts[1].trim());
                 }
 
                 file.variations.put(variationName, new AliasFileVariation(entries, variationName, optional));

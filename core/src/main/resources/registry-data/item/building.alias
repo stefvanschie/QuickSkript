@@ -1,9 +1,25 @@
 :use util/global.alias
 
-[snowable] = {(non-snowy|snowless), snowy}
-[slab] = {top, bottom, double}
-[stairs] = {top, bottom}
-[stairs shape] = {straight, inner-left, inner-right, outer-left, outer-right}
+[snowable] = <
+    (non-snowy|snowless) :: [snowy=false],
+    snowy :: [snowy=true]
+>
+[slab] = <
+    top :: [type=top],
+    bottom :: [type=bottom],
+    double :: [type=double]
+>
+[stairs] = <
+    top :: [half=top],
+    bottom :: [half=bottom]
+>
+[stairs shape] = <
+    straight :: [shape=straight],
+    inner-left :: [shape=inner_left],
+    inner-right :: [shape=inner_right],
+    outer-left :: [shape=outer_left],
+    outer-right :: [shape=outer_right]
+>
 
 stone [block[s]] : any [natural] stone[s] -> minecraft:stone
 

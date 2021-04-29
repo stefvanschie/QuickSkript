@@ -4,6 +4,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents possible variations that may be used inside an alias entry.
@@ -14,10 +15,10 @@ public class AliasFileVariation {
 
     /**
      * The entries in this variation. This represents all possible patterns that may be used to represent this
-     * variation.
+     * variation, mapped to their attribute value
      */
     @NotNull
-    private List<String> entries;
+    private final Map<String, String> entries;
 
     /**
      * The name of this variation
@@ -45,7 +46,7 @@ public class AliasFileVariation {
      * @param optional whether this variation is optional or not
      * @since 0.1.0
      */
-    public AliasFileVariation(@NotNull List<String> entries, @NotNull String name, boolean optional) {
+    public AliasFileVariation(@NotNull Map<String, String> entries, @NotNull String name, boolean optional) {
         this.entries = entries;
         this.name = name;
         this.optional = optional;
@@ -60,7 +61,7 @@ public class AliasFileVariation {
      */
     @NotNull
     @Contract(pure = true)
-    public List<String> getEntries() {
+    public Map<String, String> getEntries() {
         return entries;
     }
 

@@ -1,9 +1,39 @@
-[directional] = {north(ward| facing), south(ward| facing), west(ward| facing), east(ward| facing)}
-[half] = {(bottom|lower)[-half], (top|upper)[-half]}
-[lightable] = {lit, unlit}
-[openable] = {open, closed}
-[orientable] = {down(ward| facing), up(ward| facing), north(ward| facing), south(ward| facing), west(ward| facing),
-               east(ward| facing)}
-[powerable] = {powered, unpowered}
-[waterloggable] = {dry, waterlogged}
-[axised] = {(vertical|z-aligned), (east-west|west-east|x-aligned), (north-south|south-north|z-aligned)}
+[directional] = <
+    north(ward| facing) :: [facing=north],
+    south(ward| facing) :: [facing=south],
+    west(ward| facing) :: [facing=west],
+    east(ward| facing) :: [facing=east]
+>
+[half] = <
+    (bottom|lower)[-half] :: [half=lower],
+    (top|upper)[-half] :: [half=upper]
+>
+[lightable] = <
+    lit :: [lit=true],
+    unlit :: [lit=false]
+>
+[openable] = <
+    open :: [open=true],
+    closed :: [open=false]
+>
+[orientable] = <
+    down(ward| facing) :: [facing=down],
+    up(ward| facing) :: [facing=up],
+    north(ward| facing) :: [facing=north],
+    south(ward| facing) :: [facing=south],
+    west(ward| facing) :: [facing=west],
+    east(ward| facing) :: [facing=east]
+>
+[powerable] = <
+    powered :: [powered=true],
+    unpowered :: [powered=false]
+>
+[waterloggable] = <
+    dry :: [waterlogged=false],
+    waterlogged :: [waterlogged=true]
+>
+[axised] = <
+    (vertical|z-aligned) :: [axis=y],
+    (east-west|west-east|x-aligned) :: [axis=x],
+    (north-south|south-north|z-aligned) :: [axis=z]
+>

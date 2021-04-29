@@ -1,12 +1,25 @@
 :use util/global.alias
 
-[rail straight] = {[flat|straight] (north-south|south-north), [flat|straight] (east-west|west-east),
-                   (ascending north|descending south), (ascending south|descending north),
-                   (ascending east|descending west), (ascending west|ascending east)}
-[rail shape] = {[flat|straight] (north-south|south-north), [flat|straight] (east-west|west-east),
-                (ascending north|descending south), (ascending south|descending north),
-                (ascending east|descending west), (ascending west|ascending east), [curved] (north-east|east-north),
-                [curved] (north-west|west-north), [curved] (south-east|east-south), [curved] (south-west|west-south)}
+[rail straight] = <
+    [flat|straight] (north-south|south-north) :: [shape=north_south],
+    [flat|straight] (east-west|west-east) :: [shape=east_west],
+    (ascending north|descending south) :: [shape=ascending_north],
+    (ascending south|descending north) :: [shape=ascending_south],
+    (ascending east|descending west) :: [shape=ascending_east],
+    (ascending west|ascending east) :: [shape=ascending_west]
+>
+[rail shape] = <
+    [flat|straight] (north-south|south-north) :: [shape=north_south],
+    [flat|straight] (east-west|west-east) :: [shape=east_west],
+    (ascending north|descending south) :: [shape=ascending_north],
+    (ascending south|descending north) :: [shape=ascending_south],
+    (ascending east|descending west) :: [shape=ascending_east],
+    (ascending west|ascending east) :: [shape=ascending_west],
+    [curved] (north-east|east-north) :: [shape=north_east],
+    [curved] (north-west|west-north) :: [shape=north_west],
+    [curved] (south-east|east-south) :: [shape=south_east],
+    [curved] (south-west|west-south) :: [shape=south_west]
+>
 
 elytra[s] -> minecraft:elytra
 saddle[s] -> minecraft:saddle

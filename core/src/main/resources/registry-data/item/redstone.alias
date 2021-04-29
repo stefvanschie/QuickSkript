@@ -1,13 +1,45 @@
 :use util/global.alias
 
-[comparator mode] = {(comparison|compare mode), (subtraction|subtract mode)}
-[attached] = {floor, wall, ceiling}
-[trapdoor position] = {(bottom|lower)[-half], (top|upper)[-half]}
-[instrumental] = {xylophone, chime, guitar, bell, flute, bass, hat, snare, basedrum, harp}
-[hopper direction] = {down(ward| facing), north(ward| facing), south(ward| facing), west(ward| facing),
-                      east(ward| facing)}
-[enableable] = {enabled, disabled}
-[extendable] = {(unextended|retracted), extended}
+[comparator mode] = <
+    (comparison|compare mode) :: [mode=compare],
+    (subtraction|subtract mode) :: [mode=subtract]
+>
+[attached] = <
+    floor :: [face=floor],
+    wall :: [face=wall],
+    ceiling :: [face=ceiling]
+>
+[trapdoor position] = <
+    (bottom|lower)[-half] ::[half=bottom],
+    (top|upper)[-half] :: [half=top]
+>
+[instrumental] = <
+    xylophone :: [instrument=xylophone],
+    chime :: [instrument=chime],
+    guitar :: [instrument=guitar],
+    bell :: [instrument=bell],
+    flute :: [instrument=flute],
+    bass :: [instrument=bass],
+    hat :: [instrument=hat],
+    snare :: [instrument=snare],
+    basedrum :: [instrument=basedrum],
+    harp :: [instrument=harp]
+>
+[hopper direction] = <
+    down(ward| facing) :: [facing=down],
+    north(ward| facing) :: [facing=north],
+    south(ward| facing) :: [facing=south],
+    west(ward| facing) :: [facing=west],
+    east(ward| facing) :: [facing=east]
+>
+[enableable] = <
+    enabled :: [enabled=true],
+    disabled :: [enabled=false]
+>
+[extendable] = <
+    (unextended|retracted) :: [extended=false],
+    extended :: [extended=true]
+>
 
 redstone (wire|dust block)[s] : any redstone item -> minecraft:redstone_wire
 redstone [(dust|item)[s]] : any redstone item -> minecraft:redstone
