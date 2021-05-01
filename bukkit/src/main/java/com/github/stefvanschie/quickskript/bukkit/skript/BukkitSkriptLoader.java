@@ -435,6 +435,15 @@ public class BukkitSkriptLoader extends SkriptLoader {
         );
 
         registerEvent(new ComplexEventProxyFactory(this)
+            .registerEvent(BlockBurnEvent.class, "[on] [block] burn[ing] [[of] %item types%]", (matcher, elements) -> {
+                if (elements.length > 0) {
+                    ItemType itemType = elements[0].execute(null, null, ItemType.class);
+
+                    return defaultItemTypeComparison(itemType);
+                }
+
+                return event -> true;
+            })
             .registerEvent(BlockGrowEvent.class, "[on] (plant|crop|block) grow[th|ing] [[of] %item types%]",
                 (matcher, elements) -> {
                     if (elements.length > 0) {
