@@ -68,7 +68,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -392,6 +391,10 @@ public class BukkitSkriptLoader extends SkriptLoader {
             .registerEvent(PlayerBucketEmptyEvent.class, "[on] [player] [empty[ing]] [a] bucket [empty[ing]]")
             .registerEvent(PlayerBucketFillEvent.class, "[on] [player] [fill[ing]] [a] bucket [fill[ing]]")
             .registerEvent(PlayerChangedWorldEvent.class, "[on] [player] world chang(ing|e[d])")
+            /* TODO: deprecated, but no way to ensure that the underlying code can be executed safely async, in the
+               future maybe do some analysis to switch over to the async variant if deemed safe. This should be the same
+               as listening to the async variant and moving everything over to the main thread */
+            .registerEvent(PlayerChatEvent.class, "[on] chat")
             .registerEvent(PlayerCommandPreprocessEvent.class, "[on] command")
             .registerEvent(PlayerEggThrowEvent.class, "[on] (throw[ing] [of] [an] egg|[player] egg throw)")
             .registerEvent(PlayerFishEvent.class, "[on] [player] fish[ing]")
