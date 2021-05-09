@@ -76,7 +76,7 @@ public class PsiEntityTypeLiteral extends PsiPrecomputedHolder<EntityTypeRegistr
         @Contract(pure = true)
         @Override
         public Type getType() {
-            return Type.OBJECT;
+            return Type.ENTITY_TYPE;
         }
     }
 }

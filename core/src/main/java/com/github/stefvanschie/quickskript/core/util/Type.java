@@ -166,6 +166,20 @@ public enum Type {
     ENTITY("entity"),
 
     /**
+     * A single type of entity.
+     *
+     * @since 0.1.0
+     */
+    ENTITY_TYPE("entity[ ]type"),
+
+    /**
+     * Multiple types of entities.
+     *
+     * @since 0.1.0
+     */
+    ENTITY_TYPES("entity[ ]types", ENTITY_TYPE),
+
+    /**
      * Multiple entities.
      *
      * @since 0.1.0

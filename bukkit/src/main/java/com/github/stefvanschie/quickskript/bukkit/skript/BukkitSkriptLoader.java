@@ -16,6 +16,7 @@ import com.github.stefvanschie.quickskript.bukkit.psi.literal.PsiMoneyLiteralImp
 import com.github.stefvanschie.quickskript.bukkit.psi.literal.PsiPlayerLiteralImpl;
 import com.github.stefvanschie.quickskript.bukkit.skript.util.ExecutionTarget;
 import com.github.stefvanschie.quickskript.bukkit.util.CommandMapWrapper;
+import com.github.stefvanschie.quickskript.bukkit.util.ItemComparisonUtil;
 import com.github.stefvanschie.quickskript.bukkit.util.Platform;
 import com.github.stefvanschie.quickskript.bukkit.util.event.ExperienceOrbSpawnEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.QuickSkriptPostEnableEvent;
@@ -23,6 +24,7 @@ import com.github.stefvanschie.quickskript.bukkit.util.event.WorldTimeChangeEven
 import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileLine;
 import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileNode;
 import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileSection;
+import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.condition.*;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiChangeEffect;
@@ -40,17 +42,17 @@ import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.util.literal.ItemType;
 import com.github.stefvanschie.quickskript.core.util.literal.Time;
 import com.github.stefvanschie.quickskript.core.util.literal.World;
+import com.github.stefvanschie.quickskript.core.util.registry.EntityTypeRegistry;
 import com.github.stefvanschie.quickskript.core.util.registry.ItemTypeRegistry;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.command.PluginCommand;
-import org.bukkit.entity.Enderman;
-import org.bukkit.entity.Sheep;
-import org.bukkit.entity.Silverfish;
+import org.bukkit.entity.*;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.FurnaceBurnEvent;
@@ -63,6 +65,9 @@ import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.event.vehicle.*;
 import org.bukkit.event.weather.LightningStrikeEvent;
 import org.bukkit.event.world.*;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -512,30 +517,193 @@ public class BukkitSkriptLoader extends SkriptLoader {
             .registerEvent(PlayerEditBookEvent.class, "[on] book (edit|change|write|1\u00A6sign|1\u00A6signing)",
                 (matcher, elements) ->
                     matcher.getParseMark() == 1 ? PlayerEditBookEvent::isSigning : event -> !event.isSigning())
-            .registerEvent(PlayerInteractEvent.class, "[on] [(1\u00A6right|2\u00A6left)[ |-]][mouse[ |-]]click[ing]?",
+            .registerEvent(PlayerInteractEvent.class,
+                "[on] [(1\u00A6right|2\u00A6left)[( |-)]][mouse[( |-)]]click[ing] ([4\u00A6on %item type%] [8\u00A6(with|using|holding) %item type%]|28\u00A6(with|using|holding) %item type% on %item type%)",
                 (matcher, elements) -> {
-                    //TODO: This expression needs to be completed in the future, since it's missing optional additional parts
                     int parseMark = matcher.getParseMark();
 
                     if (parseMark == 0) {
                         return event -> true;
                     }
 
-                    if (parseMark == 1) {
-                        return event -> {
-                            Action action = event.getAction();
-                            return action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK;
-                        };
+                    EnumSet<Action> allowedActions = EnumSet.allOf(Action.class);
+                    Collection<BlockData> targets = new HashSet<>();
+                    Collection<String> holding = new HashSet<>();
+
+                    if ((parseMark & 1) > 0) {
+                        allowedActions = EnumSet.of(Action.RIGHT_CLICK_AIR, Action.RIGHT_CLICK_BLOCK);
+                    } else if ((parseMark & 2) > 0) {
+                        allowedActions = EnumSet.of(Action.LEFT_CLICK_AIR, Action.LEFT_CLICK_BLOCK);
                     }
 
-                    if (parseMark == 2) {
-                        return event -> {
-                            Action action = event.getAction();
-                            return action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK;
-                        };
+                    int elementIndex = 0;
+
+                    if ((parseMark & 4) > 0) {
+                        ItemType itemType = elements[0].execute(null, null, ItemType.class);
+
+                        for (ItemTypeRegistry.Entry entry : itemType.getItemTypeEntries()) {
+                            String namespacedKey = entry.getFullNamespacedKey();
+
+                            if ((parseMark & 16) > 0) {
+                                holding.add(namespacedKey);
+                            } else {
+                                targets.add(Bukkit.createBlockData(namespacedKey));
+                            }
+                        }
+
+                        elementIndex++;
                     }
 
-                    throw new AssertionError("Unknown click type detected for event registration");
+                    if ((parseMark & 8) > 0) {
+                        PsiElement<?> element = elements[elementIndex];
+                        ItemType itemType = element.execute(null, null, ItemType.class);
+
+                        for (ItemTypeRegistry.Entry entry : itemType.getItemTypeEntries()) {
+                            String namespacedKey = entry.getFullNamespacedKey();
+
+                            if ((parseMark & 16) > 0) {
+                                targets.add(Bukkit.createBlockData(namespacedKey));
+                            } else {
+                                holding.add(namespacedKey);
+                            }
+                        }
+                    }
+
+                    final EnumSet<Action> finalAllowedActions = allowedActions;
+
+                    return event -> {
+                        if (!finalAllowedActions.contains(event.getAction())) {
+                            return false;
+                        }
+
+                        Block clickedBlock = event.getClickedBlock();
+
+                        if (clickedBlock != null) {
+                            BlockData eventData = clickedBlock.getBlockData();
+
+                            for (BlockData data : targets) {
+                                if (!eventData.matches(data)) {
+                                    return false;
+                                }
+                            }
+                        } else if (!targets.isEmpty()) {
+                            return false;
+                        }
+
+                        ItemStack item = event.getItem();
+
+                        if (item != null) {
+                            for (String data : holding) {
+                                if (!ItemComparisonUtil.compare(item, data)) {
+                                    return false;
+                                }
+                            }
+                        } else if (!holding.isEmpty()) {
+                            return false;
+                        }
+
+                        return true;
+                    };
+                }
+            )
+            .registerEvent(PlayerInteractAtEntityEvent.class,
+                "[on] [(1\u00A6right|2\u00A6left)[( |-)]][mouse[( |-)]]click[ing] ([4\u00A6on %entity type%] [8\u00A6(with|using|holding) %item type%]|28\u00A6(with|using|holding) %item type% on %entity type%)",
+                (matcher, elements) -> {
+                    int parseMark = matcher.getParseMark();
+
+                    if (parseMark == 0) {
+                        return event -> true;
+                    }
+
+                    //we have to differentiate between this not being specified, being null and being actual text, so here's a nullable optional
+                    //noinspection OptionalAssignedToNull
+                    Optional<String> entityTypeKey = null;
+                    Collection<String> holding = new HashSet<>();
+
+                    if ((parseMark & 2) > 0) {
+                        return event -> false;
+                    }
+
+                    int elementIndex = 0;
+
+                    if ((parseMark & 16) > 0) {
+                        if ((parseMark & 4) > 0) {
+                            PsiElement<?> element = elements[0];
+                            ItemType itemType = element.execute(null, null, ItemType.class);
+
+                            for (ItemTypeRegistry.Entry entry : itemType.getItemTypeEntries()) {
+                                holding.add(entry.getFullNamespacedKey());
+                            }
+
+                            elementIndex++;
+                        }
+
+                        if ((parseMark & 8) > 0) {
+                            EntityTypeRegistry.Entry entityType = elements[elementIndex].execute(null, null, EntityTypeRegistry.Entry.class);
+
+                            //may actually be null
+                            entityTypeKey = Optional.ofNullable(entityType.getKey());
+                        }
+                    } else {
+                        if ((parseMark & 4) > 0) {
+                            EntityTypeRegistry.Entry entityType = elements[0].execute(null, null, EntityTypeRegistry.Entry.class);
+
+                            //may actually be null
+                            entityTypeKey = Optional.ofNullable(entityType.getKey());
+
+                            elementIndex++;
+                        }
+
+                        if ((parseMark & 8) > 0) {
+                            PsiElement<?> element = elements[elementIndex];
+                            ItemType itemType = element.execute(null, null, ItemType.class);
+
+                            for (ItemTypeRegistry.Entry entry : itemType.getItemTypeEntries()) {
+                                holding.add(entry.getFullNamespacedKey());
+                            }
+                        }
+                    }
+
+                    final Optional<String> finalEntityTypeKey = entityTypeKey;
+
+                    return event -> {
+                        Entity clickedEntity = event.getRightClicked();
+
+                        //see comments above
+                        //noinspection OptionalAssignedToNull
+                        if (finalEntityTypeKey != null) {
+                            EntityType type = clickedEntity.getType();
+                            boolean isUnknown = type == EntityType.UNKNOWN;
+
+                            //xor check: only return false if entity type is unknown and a key exists or entity type is not unknown, but a key doesn't exist
+                            if (isUnknown != finalEntityTypeKey.isEmpty()) {
+                                return false;
+                            }
+
+                            if (!isUnknown) {
+                                NamespacedKey key = type.getKey();
+
+                                if (!finalEntityTypeKey.get().equals(key.getNamespace() + ':' + key.getKey())) {
+                                    return false;
+                                }
+                            }
+                        }
+
+                        PlayerInventory inventory = event.getPlayer().getInventory();
+                        ItemStack item = event.getHand() == EquipmentSlot.HAND ? inventory.getItemInMainHand() : inventory.getItemInOffHand();
+
+                        if (item.getType() != Material.AIR) {
+                            for (String data : holding) {
+                                if (!ItemComparisonUtil.compare(item, data)) {
+                                    return false;
+                                }
+                            }
+                        } else if (!holding.isEmpty()) {
+                            return false;
+                        }
+
+                        return true;
+                    };
                 }
             )
             .registerEvent(PlayerInteractEvent.class, "[on] [step[ping] on] [a] [pressure] plate",
@@ -673,7 +841,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         }
 
         return event -> {
-            BlockData eventData = event.getBlock().getState().getBlockData();
+            BlockData eventData = event.getBlock().getBlockData();
 
             for (BlockData data : blockData) {
                 if (eventData.matches(data)) {
