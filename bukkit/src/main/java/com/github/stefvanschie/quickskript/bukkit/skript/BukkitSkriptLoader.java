@@ -377,6 +377,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
             .registerEvent(EntityExplodeEvent.class, "[on] explo(d(e|ing)|sion)")
             .registerEvent("org.spigotmc.event.entity.EntityMountEvent", "[on] mount[ing]", Platform.SPIGOT)
             .registerEvent(EntityPortalEnterEvent.class, "[on] (portal enter[ing]|entering [a] portal)")
+            .registerEvent(EntityPortalEvent.class, "[on] entity portal")
             .registerEvent(EntityRegainHealthEvent.class, "[on] heal[ing]")
             .registerEvent(EntityResurrectEvent.class, "[on] [entity] resurrect[ion] [attempt]")
             .registerEvent(EntityTameEvent.class, "[on] [entity] tam(e|ing)")
