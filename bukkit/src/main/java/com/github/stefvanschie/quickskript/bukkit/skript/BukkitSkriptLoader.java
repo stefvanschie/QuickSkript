@@ -56,6 +56,7 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.*;
 import org.bukkit.event.block.*;
 import org.bukkit.event.enchantment.EnchantItemEvent;
+import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.*;
@@ -420,6 +421,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
             .registerEvent(PlayerToggleSneakEvent.class, "[on] [player] (toggl(e|ing) sneak|sneak toggl(e|ing))")
             .registerEvent(PlayerToggleSprintEvent.class, "[on] [player] (toggl(e|ing) sprint|sprint toggl(e|ing))")
             .registerEvent(PortalCreateEvent.class, "[on] portal creat(e|ion)")
+            .registerEvent(PrepareItemEnchantEvent.class, "[on] [item] enchant prepare")
             .registerEvent(ProjectileHitEvent.class, "[on] projectile hit")
             .registerEvent(ProjectileLaunchEvent.class, "[on] [projectile] shoot")
             .registerEvent(
