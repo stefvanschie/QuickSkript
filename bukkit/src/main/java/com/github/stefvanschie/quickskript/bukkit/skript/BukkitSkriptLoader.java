@@ -484,6 +484,35 @@ public class BukkitSkriptLoader extends SkriptLoader {
                         return false;
                     };
                 })
+            .registerEvent(EntityDamageEvent.class, "[on] damag(e|ing) [of %entity type%]",
+                (matcher, elements) -> {
+                    if (elements.length == 0) {
+                        return event -> true;
+                    }
+
+                    PsiElement<?> element = elements[0];
+                    EntityTypeRegistry.Entry entityType = element.execute(null, null,
+                        EntityTypeRegistry.Entry.class);
+                    String entityTypeKey = entityType.getKey();
+
+                    return event -> {
+                        EntityType type = event.getEntityType();
+                        boolean isUnknown = type == EntityType.UNKNOWN;
+
+                        //xor check: only return false if entity type is unknown and a key exists or entity type is not unknown, but a key doesn't exist
+                        if (isUnknown != (entityTypeKey == null)) {
+                            return false;
+                        }
+
+                        if (!isUnknown) {
+                            NamespacedKey key = type.getKey();
+
+                            return entityTypeKey.equals(key.getNamespace() + ':' + key.getKey());
+                        }
+
+                        return true;
+                    };
+                })
             .registerEvent(PlayerCommandPreprocessEvent.class, "[on] command [%text%]", (matcher, elements) -> {
                 if (elements.length > 0) {
                     String command = elements[0].execute(null, null, Text.class).toString();
