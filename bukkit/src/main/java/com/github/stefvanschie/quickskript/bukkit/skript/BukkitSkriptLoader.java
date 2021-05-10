@@ -400,7 +400,6 @@ public class BukkitSkriptLoader extends SkriptLoader {
                future maybe do some analysis to switch over to the async variant if deemed safe. This should be the same
                as listening to the async variant and moving everything over to the main thread */
             .registerEvent(PlayerChatEvent.class, "[on] chat")
-            .registerEvent(PlayerCommandPreprocessEvent.class, "[on] command")
             .registerEvent(PlayerEggThrowEvent.class, "[on] (throw[ing] [of] [an] egg|[player] egg throw)")
             .registerEvent(PlayerFishEvent.class, "[on] [player] fish[ing]")
             .registerEvent(PlayerItemBreakEvent.class, "[on] [player] (tool break[ing]|break[ing] [a|the] tool)")
@@ -463,6 +462,29 @@ public class BukkitSkriptLoader extends SkriptLoader {
                     return event -> true;
                 }
             )
+            .registerEvent(PlayerCommandPreprocessEvent.class, "[on] command [%text%]", (matcher, elements) -> {
+                if (elements.length > 0) {
+                    String command = elements[0].execute(null, null, Text.class).toString();
+
+                    if (command.charAt(0) == '/') {
+                        command = command.substring(1);
+                    }
+
+                    final String finalCommand = command;
+
+                    return event -> {
+                        String message = event.getMessage();
+
+                        if (message.charAt(0) == '/') {
+                            message = message.substring(1);
+                        }
+
+                        return finalCommand.equals(message);
+                    };
+                }
+
+                return event -> true;
+            })
             .registerEvent(WorldTimeChangeEvent.class, "at %time% [in %worlds%]", (matcher, elements) -> {
                 long time = elements[0].execute(null, null, Time.class).asTicks();
 
