@@ -485,6 +485,31 @@ public class BukkitSkriptLoader extends SkriptLoader {
 
                 return event -> true;
             })
+            .registerEvent(PlayerItemConsumeEvent.class, "[on] [player] ((eat|drink)[ing]|consum(e|ing)) [[of] %item types%]",
+                (matcher, elements) -> {
+                    if (elements.length > 0) {
+                        ItemType itemType = elements[0].execute(null, null, ItemType.class);
+                        Collection<String> entries = new HashSet<>();
+
+                        for (ItemTypeRegistry.Entry entry : itemType.getItemTypeEntries()) {
+                            entries.add(entry.getFullNamespacedKey());
+                        }
+
+                        return event -> {
+                            ItemStack item = event.getItem();
+
+                            for (String entry : entries) {
+                                if (ItemComparisonUtil.compare(item, entry)) {
+                                    return true;
+                                }
+                            }
+
+                            return false;
+                        };
+                    }
+
+                    return event -> true;
+                })
             .registerEvent(WorldTimeChangeEvent.class, "at %time% [in %worlds%]", (matcher, elements) -> {
                 long time = elements[0].execute(null, null, Time.class).asTicks();
 
