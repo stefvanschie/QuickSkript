@@ -47,6 +47,24 @@ public class ItemType {
     }
 
     /**
+     * Gets all full namespaced keys of this item type.
+     *
+     * @return all keys
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public Collection<String> getAllKeys() {
+        var entries = new HashSet<String>();
+
+        for (ItemTypeRegistry.Entry entry : getItemTypeEntries()) {
+            entries.add(entry.getFullNamespacedKey());
+        }
+
+        return entries;
+    }
+
+    /**
      * Makes this item category hold for all item types it matches, instead of just one.
      *
      * @since 0.1.0

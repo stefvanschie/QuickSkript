@@ -54,6 +54,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.*;
+import org.bukkit.event.Event;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.*;
@@ -450,6 +451,27 @@ public class BukkitSkriptLoader extends SkriptLoader {
 
                 return event -> true;
             })
+            .registerEvent(BlockDispenseEvent.class, "[on] dispens(e|ing) [[of] %item types%]",
+                (matcher, elements) -> {
+                    if (elements.length == 0) {
+                        return event -> true;
+                    }
+
+                    ItemType itemType = elements[0].execute(null, null, ItemType.class);
+                    Iterable<String> entries = itemType.getAllKeys();
+
+                    return event -> {
+                        ItemStack item = event.getItem();
+
+                        for (String entry : entries) {
+                            if (ItemComparisonUtil.compare(item, entry)) {
+                                return true;
+                            }
+                        }
+
+                        return false;
+                    };
+                })
             .registerEvent(BlockGrowEvent.class, "[on] (plant|crop|block) grow[th|ing] [[of] %item types%]",
                 (matcher, elements) -> {
                     if (elements.length > 0) {
@@ -468,11 +490,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                     }
 
                     ItemType itemType = elements[0].execute(null, null, ItemType.class);
-                    Collection<String> entries = new HashSet<>();
-
-                    for (ItemTypeRegistry.Entry entry : itemType.getItemTypeEntries()) {
-                        entries.add(entry.getFullNamespacedKey());
-                    }
+                    Iterable<String> entries = itemType.getAllKeys();
 
                     return event -> {
                         ItemStack item = event.getRecipe().getResult();
@@ -516,11 +534,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                 (matcher, elements) -> {
                     if (elements.length > 0) {
                         ItemType itemType = elements[0].execute(null, null, ItemType.class);
-                        Collection<String> entries = new HashSet<>();
-
-                        for (ItemTypeRegistry.Entry entry : itemType.getItemTypeEntries()) {
-                            entries.add(entry.getFullNamespacedKey());
-                        }
+                        Iterable<String> entries = itemType.getAllKeys();
 
                         return event -> {
                             ItemStack item = event.getItem();
@@ -705,9 +719,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                             PsiElement<?> element = elements[0];
                             ItemType itemType = element.execute(null, null, ItemType.class);
 
-                            for (ItemTypeRegistry.Entry entry : itemType.getItemTypeEntries()) {
-                                holding.add(entry.getFullNamespacedKey());
-                            }
+                            holding.addAll(itemType.getAllKeys());
 
                             elementIndex++;
                         }
@@ -732,9 +744,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                             PsiElement<?> element = elements[elementIndex];
                             ItemType itemType = element.execute(null, null, ItemType.class);
 
-                            for (ItemTypeRegistry.Entry entry : itemType.getItemTypeEntries()) {
-                                holding.add(entry.getFullNamespacedKey());
-                            }
+                            holding.addAll(itemType.getAllKeys());
                         }
                     }
 
