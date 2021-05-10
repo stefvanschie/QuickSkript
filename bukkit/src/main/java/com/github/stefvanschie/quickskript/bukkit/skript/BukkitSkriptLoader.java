@@ -55,6 +55,7 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.*;
 import org.bukkit.event.block.*;
+import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.*;
@@ -368,6 +369,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
             .registerEvent(ChunkPopulateEvent.class, "[on] chunk (generat|populat)(e|ing)")
             .registerEvent(ChunkUnloadEvent.class, "[on] chunk unload[ing]")
             .registerEvent(CreeperPowerEvent.class, "[on] creeper power")
+            .registerEvent(EnchantItemEvent.class, "[on] [item] enchant")
             .registerEvent(EntityBreakDoorEvent.class, "[on] zombie break[ing] [a] [wood[en]] door")
             .registerEvent(EntityCombustEvent.class, "[on] combust[ing]")
             .registerEvent("org.spigotmc.event.entity.EntityDismountEvent", "[on] dismount[ing]", Platform.SPIGOT)
