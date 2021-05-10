@@ -615,6 +615,8 @@ public class BukkitSkriptLoader extends SkriptLoader {
             .registerEvent(EntityChangeBlockEvent.class, "[on] silverfish exit",
                 (matcher, elements) -> event ->
                     event.getEntity() instanceof Silverfish && event.getTo() == Material.AIR)
+            .registerEvent(EntityChangeBlockEvent.class, "[on] falling block land[ing]", (matcher, elements) ->
+                event -> event.getEntity() instanceof FallingBlock)
             .registerEvent(PlayerCommandPreprocessEvent.class, "[on] command %text%",
                 (matcher, elements) -> {
                     String command = elements[0].execute(null, null, Text.class).toString();
