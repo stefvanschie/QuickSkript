@@ -24,6 +24,7 @@ import com.github.stefvanschie.quickskript.bukkit.util.event.WorldTimeChangeEven
 import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileLine;
 import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileNode;
 import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileSection;
+import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.condition.*;
@@ -70,6 +71,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.BiFunction;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -485,34 +487,8 @@ public class BukkitSkriptLoader extends SkriptLoader {
                     };
                 })
             .registerEvent(EntityDamageEvent.class, "[on] damag(e|ing) [of %entity type%]",
-                (matcher, elements) -> {
-                    if (elements.length == 0) {
-                        return event -> true;
-                    }
-
-                    PsiElement<?> element = elements[0];
-                    EntityTypeRegistry.Entry entityType = element.execute(null, null,
-                        EntityTypeRegistry.Entry.class);
-                    String entityTypeKey = entityType.getKey();
-
-                    return event -> {
-                        EntityType type = event.getEntityType();
-                        boolean isUnknown = type == EntityType.UNKNOWN;
-
-                        //xor check: only return false if entity type is unknown and a key exists or entity type is not unknown, but a key doesn't exist
-                        if (isUnknown != (entityTypeKey == null)) {
-                            return false;
-                        }
-
-                        if (!isUnknown) {
-                            NamespacedKey key = type.getKey();
-
-                            return entityTypeKey.equals(key.getNamespace() + ':' + key.getKey());
-                        }
-
-                        return true;
-                    };
-                })
+                defaultEntityComparison())
+            .registerEvent(EntityDeathEvent.class, "[on] death [of %entity types%]", defaultEntityComparison())
             .registerEvent(PlayerCommandPreprocessEvent.class, "[on] command [%text%]", (matcher, elements) -> {
                 if (elements.length > 0) {
                     String command = elements[0].execute(null, null, Text.class).toString();
@@ -948,6 +924,50 @@ public class BukkitSkriptLoader extends SkriptLoader {
             }
 
             return false;
+        };
+    }
+
+    /**
+     * Returns a bi function taking in a skript match result and an array of psi element and returns an event predicate
+     * returning whether the fired event should be executed or not. This does a standard comparison, always returning
+     * true if there are no elements to compare and otherwise comparing the entity type from the first psi element in
+     * the array with the entity type involved in the event, returning true if the entity type involved in the event is
+     * the same as the entity type specified.
+     *
+     * @param <T> the type of entity event to compare for
+     * @return a bi function of a skript match result and a psi element array, returning a predicate for the event
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    private <T extends EntityEvent> BiFunction<SkriptMatchResult, PsiElement<?>[], Predicate<T>> defaultEntityComparison() {
+        return (matcher, elements) -> {
+            if (elements.length == 0) {
+                return event -> true;
+            }
+
+            PsiElement<?> element = elements[0];
+            EntityTypeRegistry.Entry entityType = element.execute(null, null,
+                EntityTypeRegistry.Entry.class);
+            String entityTypeKey = entityType.getKey();
+
+            return event -> {
+                EntityType type = event.getEntityType();
+                boolean isUnknown = type == EntityType.UNKNOWN;
+
+                //xor check: only return false if entity type is unknown and a key exists or entity type is not unknown, but a key doesn't exist
+                if (isUnknown != (entityTypeKey == null)) {
+                    return false;
+                }
+
+                if (!isUnknown) {
+                    NamespacedKey key = type.getKey();
+
+                    return entityTypeKey.equals(key.getNamespace() + ':' + key.getKey());
+                }
+
+                return true;
+            };
         };
     }
 
