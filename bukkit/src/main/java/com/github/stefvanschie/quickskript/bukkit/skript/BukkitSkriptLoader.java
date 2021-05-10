@@ -55,10 +55,7 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.*;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.*;
-import org.bukkit.event.inventory.FurnaceBurnEvent;
-import org.bukkit.event.inventory.FurnaceSmeltEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.*;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.ServerListPingEvent;
@@ -462,6 +459,31 @@ public class BukkitSkriptLoader extends SkriptLoader {
                     return event -> true;
                 }
             )
+            .registerEvent(CraftItemEvent.class, "[on] [player] craft[ing] [[of] %item types%]",
+                (matcher, elements) -> {
+                    if (elements.length == 0) {
+                        return event -> true;
+                    }
+
+                    ItemType itemType = elements[0].execute(null, null, ItemType.class);
+                    Collection<String> entries = new HashSet<>();
+
+                    for (ItemTypeRegistry.Entry entry : itemType.getItemTypeEntries()) {
+                        entries.add(entry.getFullNamespacedKey());
+                    }
+
+                    return event -> {
+                        ItemStack item = event.getRecipe().getResult();
+
+                        for (String entry : entries) {
+                            if (ItemComparisonUtil.compare(item, entry)) {
+                                return true;
+                            }
+                        }
+
+                        return false;
+                    };
+                })
             .registerEvent(PlayerCommandPreprocessEvent.class, "[on] command [%text%]", (matcher, elements) -> {
                 if (elements.length > 0) {
                     String command = elements[0].execute(null, null, Text.class).toString();
