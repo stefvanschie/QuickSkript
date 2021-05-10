@@ -54,7 +54,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.*;
-import org.bukkit.event.Event;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.*;
@@ -530,6 +529,27 @@ public class BukkitSkriptLoader extends SkriptLoader {
 
                 return event -> true;
             })
+            .registerEvent(PlayerDropItemEvent.class, "[on] [player] drop[ing] [[of] %item types%]",
+                (matcher, elements) -> {
+                    if (elements.length == 0) {
+                        return event -> true;
+                    }
+
+                    ItemType itemType = elements[0].execute(null, null, ItemType.class);
+                    Iterable<String> entries = itemType.getAllKeys();
+
+                    return event -> {
+                        ItemStack item = event.getItemDrop().getItemStack();
+
+                        for (String entry : entries) {
+                            if (ItemComparisonUtil.compare(item, entry)) {
+                                return true;
+                            }
+                        }
+
+                        return false;
+                    };
+                })
             .registerEvent(PlayerItemConsumeEvent.class, "[on] [player] ((eat|drink)[ing]|consum(e|ing)) [[of] %item types%]",
                 (matcher, elements) -> {
                     if (elements.length > 0) {
