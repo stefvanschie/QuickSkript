@@ -488,6 +488,31 @@ public class BukkitSkriptLoader extends SkriptLoader {
 
                     return defaultItemTypeComparison(itemType);
                 })
+            .registerEvent(BlockFormEvent.class, "[on] [block] form[ing] [[of] %item types%]",
+                (matcher, elements) -> {
+                    if (elements.length == 0) {
+                        return event -> true;
+                    }
+
+                    ItemType itemType = elements[0].execute(null, null, ItemType.class);
+                    Collection<BlockData> blockData = new HashSet<>();
+
+                    for (ItemTypeRegistry.Entry entry : itemType.getItemTypeEntries()) {
+                        blockData.add(Bukkit.createBlockData(entry.getFullNamespacedKey()));
+                    }
+
+                    return event -> {
+                        BlockData eventData = event.getNewState().getBlockData();
+
+                        for (BlockData data : blockData) {
+                            if (eventData.matches(data)) {
+                                return true;
+                            }
+                        }
+
+                        return false;
+                    };
+                })
             .registerEvent(BlockGrowEvent.class, "[on] (plant|crop|block) grow[th|ing] [[of] %item types%]",
                 (matcher, elements) -> {
                     if (elements.length > 0) {
