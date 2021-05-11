@@ -40,6 +40,7 @@ import com.github.stefvanschie.quickskript.core.psi.section.PsiWhile;
 import com.github.stefvanschie.quickskript.core.skript.Skript;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
+import com.github.stefvanschie.quickskript.core.util.literal.Color;
 import com.github.stefvanschie.quickskript.core.util.literal.ItemType;
 import com.github.stefvanschie.quickskript.core.util.literal.Time;
 import com.github.stefvanschie.quickskript.core.util.literal.World;
@@ -48,6 +49,7 @@ import com.github.stefvanschie.quickskript.core.util.registry.ItemTypeRegistry;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -521,6 +523,25 @@ public class BukkitSkriptLoader extends SkriptLoader {
             .registerEvent(EntityDamageEvent.class, "[on] damag(e|ing) [of %entity type%]",
                 defaultEntityComparison())
             .registerEvent(EntityDeathEvent.class, "[on] death [of %entity types%]", defaultEntityComparison())
+            .registerEvent(FireworkExplodeEvent.class, "[on] [a] firework explo(d(e|ing)|sion) [colo[u]red %colors%]",
+                (matcher, elements) -> {
+                    if (elements.length == 0) {
+                        return event -> true;
+                    }
+
+                    Color color = elements[0].execute(null, null, Color.class);
+                    org.bukkit.Color fireworkColor = org.bukkit.Color.fromRGB(color.getFireworkColor());
+
+                    return event -> {
+                        Collection<org.bukkit.Color> colors = new HashSet<>();
+
+                        for (FireworkEffect effect : event.getEntity().getFireworkMeta().getEffects()) {
+                            colors.addAll(effect.getColors());
+                        }
+
+                        return colors.contains(fireworkColor);
+                    };
+                })
             .registerEvent(PlayerCommandPreprocessEvent.class, "[on] command [%text%]", (matcher, elements) -> {
                 if (elements.length > 0) {
                     String command = elements[0].execute(null, null, Text.class).toString();

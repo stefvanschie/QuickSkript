@@ -19,112 +19,117 @@ public enum Color {
      *
      * @since 0.1.0
      */
-    BLACK("black"),
+    BLACK(0x1E1B1B, "black"),
 
     /**
      * A blue color
      *
      * @since 0.1.0
      */
-    BLUE("blue", "dark blue"),
+    BLUE(0x253192, "blue", "dark blue"),
 
     /**
      * A brown color
      *
      * @since 0.1.0
      */
-    BROWN("brown", "indigo"),
+    BROWN(0x51301A, "brown", "indigo"),
 
     /**
      * A cyan color
      *
      * @since 0.1.0
      */
-    CYAN("cyan", "aqua", "dark cyan", "dark aqua"),
+    CYAN(0x287697, "cyan", "aqua", "dark cyan", "dark aqua"),
 
     /**
      * A dark gray color
      *
      * @since 0.1.0
      */
-    DARK_GRAY("dark grey", "dark gray"),
+    DARK_GRAY(0x434343, "dark grey", "dark gray"),
 
     /**
      * A dark yellow color
      *
      * @since 0.1.0
      */
-    DARK_YELLOW("orange", "gold", "dark yellow"),
+    DARK_YELLOW(0xEB8844, "orange", "gold", "dark yellow"),
 
     /**
      * A gray color
      *
      * @since 0.1.0
      */
-    GRAY("grey", "light grey", "gray", "light gray", "silver"),
+    GRAY(0xABABAB, "grey", "light grey", "gray", "light gray", "silver"),
 
     /**
      * A green color
      *
      * @since 0.1.0
      */
-    GREEN("green", "dark green"),
+    GREEN(0x3B511A, "green", "dark green"),
 
     /**
      * A light blue color
      *
      * @since 0.1.0
      */
-    LIGHT_BLUE("light blue", "light cyan", "light aqua"),
+    LIGHT_BLUE(0x6689D3, "light blue", "light cyan", "light aqua"),
 
     /**
      * A light green color
      *
      * @since 0.1.0
      */
-    LIGHT_GREEN("light green", "lime", "lime green"),
+    LIGHT_GREEN(0x41CD34, "light green", "lime", "lime green"),
 
     /**
      * A light purple color
      *
      * @since 0.1.0
      */
-    LIGHT_PURPLE("magenta", "light purple"),
+    LIGHT_PURPLE(0xC354CD, "magenta", "light purple"),
 
     /**
      * A light red color
      *
      * @since 0.1.0
      */
-    LIGHT_RED("pink", "light red"),
+    LIGHT_RED(0xD88198, "pink", "light red"),
 
     /**
      * A purple color
      *
      * @since 0.1.0
      */
-    PURPLE("purple", "dark purple"),
+    PURPLE(0x7B2FBE, "purple", "dark purple"),
 
     /**
      * A red color
      *
      * @since 0.1.0
      */
-    RED("red", "dark red"),
+    RED(0xB3312C, "red", "dark red"),
 
     /**
      * A white color
      *
      * @since 0.1.0
      */
-    WHITE("white"),
+    WHITE(0xF0F0F0, "white"),
 
     /**
      * A yellow color
      *
      * @since 0.1.0
      */
-    YELLOW("yellow", "light yellow");
+    YELLOW(0xDECF2A, "yellow", "light yellow");
+
+    /**
+     * The firework color of this color
+     */
+    private final int fireworkColor;
 
     /**
      * An array of possible ways to name this color
@@ -141,11 +146,24 @@ public enum Color {
     /**
      * Creates a new color with an array of names for this color
      *
+     * @param fireworkColor the firework color
      * @param names the names for this color
      * @since 0.1.0
      */
-    Color(@NotNull String... names) {
+    Color(int fireworkColor, @NotNull String... names) {
+        this.fireworkColor = fireworkColor;
         this.names = names;
+    }
+
+    /**
+     * Gets the firework color of this color.
+     *
+     * @return the firework color
+     * @since 0.1.0
+     */
+    @Contract(pure = true)
+    public int getFireworkColor() {
+        return fireworkColor;
     }
 
     /**
