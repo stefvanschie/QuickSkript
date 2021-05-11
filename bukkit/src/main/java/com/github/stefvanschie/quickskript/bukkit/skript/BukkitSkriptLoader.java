@@ -40,10 +40,7 @@ import com.github.stefvanschie.quickskript.core.psi.section.PsiWhile;
 import com.github.stefvanschie.quickskript.core.skript.Skript;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.util.literal.Color;
-import com.github.stefvanschie.quickskript.core.util.literal.ItemType;
-import com.github.stefvanschie.quickskript.core.util.literal.Time;
-import com.github.stefvanschie.quickskript.core.util.literal.World;
+import com.github.stefvanschie.quickskript.core.util.literal.*;
 import com.github.stefvanschie.quickskript.core.util.registry.EntityTypeRegistry;
 import com.github.stefvanschie.quickskript.core.util.registry.ItemTypeRegistry;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
@@ -631,6 +628,17 @@ public class BukkitSkriptLoader extends SkriptLoader {
                     }
 
                     return event -> true;
+                })
+            .registerEvent(PlayerGameModeChangeEvent.class, "[on] game[ ]mode change [to %gamemode%]",
+                (matcher, elements) -> {
+                    if (elements.length == 0) {
+                        return event -> true;
+                    }
+
+                    String gameModeName = elements[0].execute(null, null, GameMode.class).name();
+                    org.bukkit.GameMode gameMode = org.bukkit.GameMode.valueOf(gameModeName);
+
+                    return event -> event.getNewGameMode() == gameMode;
                 })
             .registerEvent(WorldTimeChangeEvent.class, "at %time% [in %worlds%]", (matcher, elements) -> {
                 long time = elements[0].execute(null, null, Time.class).asTicks();
