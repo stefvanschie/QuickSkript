@@ -476,6 +476,16 @@ public class BukkitSkriptLoader extends SkriptLoader {
                         return false;
                     };
                 })
+            .registerEvent(BlockFadeEvent.class, "[on] [block] fad(e|ing) [[of] %item types%]",
+                (matcher, elements) -> {
+                    if (elements.length == 0) {
+                        return event -> true;
+                    }
+
+                    ItemType itemType = elements[0].execute(null, null, ItemType.class);
+
+                    return defaultItemTypeComparison(itemType);
+                })
             .registerEvent(BlockGrowEvent.class, "[on] (plant|crop|block) grow[th|ing] [[of] %item types%]",
                 (matcher, elements) -> {
                     if (elements.length > 0) {
