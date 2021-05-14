@@ -80,6 +80,8 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
 
     @Override
     public boolean tryRegister(@NotNull String text, @NotNull Supplier<SkriptEventExecutor> toRegisterSupplier) {
+        boolean found = false;
+
         for (EventPattern eventPattern : eventPatterns) {
             List<SkriptMatchResult> matches = eventPattern.getPattern().match(text);
 
@@ -134,11 +136,12 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
                         EventPriority.NORMAL, HANDLER_EXECUTOR, QuickSkript.getInstance());
                     return new ArrayList<>();
                 }).add(Map.entry(toRegisterSupplier.get(), predicate));
-                return true;
+
+                found = true;
             }
         }
 
-        return false;
+        return found;
     }
 
     /**

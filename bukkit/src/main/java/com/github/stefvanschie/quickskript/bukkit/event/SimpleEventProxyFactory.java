@@ -77,6 +77,8 @@ public class SimpleEventProxyFactory extends EventProxyFactory {
 
     @Override
     public boolean tryRegister(@NotNull String text, @NotNull Supplier<SkriptEventExecutor> toRegisterSupplier) {
+        boolean found = false;
+
         for (Map.Entry<Class<? extends Event>, Collection<String>> eventPattern : eventPatterns) {
             if (!eventPattern.getValue().contains(text)) {
                 continue;
@@ -95,10 +97,10 @@ public class SimpleEventProxyFactory extends EventProxyFactory {
                 return new ArrayList<>();
             }).add(toRegisterSupplier.get());
 
-            return true;
+            found = true;
         }
 
-        return false;
+        return found;
     }
 
     /**

@@ -18,6 +18,7 @@ import com.github.stefvanschie.quickskript.bukkit.skript.util.ExecutionTarget;
 import com.github.stefvanschie.quickskript.bukkit.util.CommandMapWrapper;
 import com.github.stefvanschie.quickskript.bukkit.util.ItemComparisonUtil;
 import com.github.stefvanschie.quickskript.bukkit.util.Platform;
+import com.github.stefvanschie.quickskript.bukkit.util.TreeTypeUtil;
 import com.github.stefvanschie.quickskript.bukkit.util.event.ExperienceOrbSpawnEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.QuickSkriptPostEnableEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.WorldTimeChangeEvent;
@@ -510,7 +511,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                         return false;
                     };
                 })
-            .registerEvent(BlockGrowEvent.class, "[on] (plant|crop|block) grow[th|ing] [[of] %item types%]",
+            .registerEvent(BlockGrowEvent.class, "[on] ((plant|crop|block) grow[th|ing]|grow) [[of] %item types%]",
                 (matcher, elements) -> {
                     if (elements.length > 0) {
                         ItemType itemType = elements[0].execute(null, null, ItemType.class);
@@ -640,6 +641,16 @@ public class BukkitSkriptLoader extends SkriptLoader {
 
                     return event -> event.getNewGameMode() == gameMode;
                 })
+            .registerEvent(StructureGrowEvent.class, "[on] grow [of %tree type%]", (matcher, elements) -> {
+                if (elements.length == 0) {
+                    return event -> true;
+                }
+
+                TreeType treeType = elements[0].execute(null, null, TreeType.class);
+                Collection<org.bukkit.TreeType> treeTypes = TreeTypeUtil.convert(treeType);
+
+                return event -> treeTypes.contains(event.getSpecies());
+            })
             .registerEvent(WorldTimeChangeEvent.class, "at %time% [in %worlds%]", (matcher, elements) -> {
                 long time = elements[0].execute(null, null, Time.class).asTicks();
 

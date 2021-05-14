@@ -18,11 +18,12 @@ public abstract class EventProxyFactory {
     protected static final Listener EMPTY_LISTENER = new Listener() {};
 
     /**
-     * Tries to parse the given text for this specified factory.
+     * Tries to parse the given text for this specified factory. If multiple matches are found, a registration takes
+     * place for every match.
      *
      * @param text the text to be parsed
      * @param toRegisterSupplier a {@link Supplier} which can create one {@link SkriptEventExecutor} instance to register
-     * @return whether a registration took place
+     * @return whether one or more registrations took place
      * @since 0.1.0
      */
     public abstract boolean tryRegister(@NotNull String text, @NotNull Supplier<SkriptEventExecutor> toRegisterSupplier);
