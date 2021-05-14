@@ -566,6 +566,31 @@ public class BukkitSkriptLoader extends SkriptLoader {
                         return colors.contains(fireworkColor);
                     };
                 })
+            .registerEvent(InventoryClickEvent.class, "[on] [player] inventory(-| )click[ing] [[at] %item types%]",
+                (matcher, elements) -> {
+                    if (elements.length == 0) {
+                        return event -> true;
+                    }
+
+                    ItemType itemType = elements[0].execute(null, null, ItemType.class);
+                    Iterable<String> entries = itemType.getAllKeys();
+
+                    return event -> {
+                        ItemStack item = event.getCurrentItem();
+
+                        if (item == null) {
+                            return false;
+                        }
+
+                        for (String entry : entries) {
+                            if (ItemComparisonUtil.compare(item, entry)) {
+                                return true;
+                            }
+                        }
+
+                        return false;
+                    };
+                })
             .registerEvent(PlayerCommandPreprocessEvent.class, "[on] command [%text%]", (matcher, elements) -> {
                 if (elements.length > 0) {
                     String command = elements[0].execute(null, null, Text.class).toString();
