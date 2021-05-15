@@ -392,6 +392,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
             .registerEvent(HorseJumpEvent.class, "[on] horse jump")
             .registerEvent(InventoryCloseEvent.class, "[on] inventory clos(e[d]|ing)")
             .registerEvent(InventoryOpenEvent.class, "[on] inventory open[ed]")
+            .registerEvent(InventoryPickupItemEvent.class, "[on] inventory pick[ ]up")
             .registerEvent(LeavesDecayEvent.class, "[on] leaves decay[ing]")
             .registerEvent(LightningStrikeEvent.class, "[on] lightning [strike]")
             .registerEvent(PigZapEvent.class, "[on] pig[ ]zap")
