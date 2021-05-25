@@ -5,12 +5,7 @@ import com.github.stefvanschie.quickskript.bukkit.skript.SkriptEventExecutor;
 import com.github.stefvanschie.quickskript.bukkit.util.Platform;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
-import com.github.stefvanschie.quickskript.core.pattern.group.SkriptPatternGroup;
-import com.github.stefvanschie.quickskript.core.pattern.group.TypeGroup;
-import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
-import com.github.stefvanschie.quickskript.core.util.Pair;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
@@ -20,7 +15,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -83,62 +77,48 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
         boolean found = false;
 
         for (EventPattern eventPattern : eventPatterns) {
-            List<SkriptMatchResult> matches = eventPattern.getPattern().match(text);
+            if (eventPattern.getEvent() == null) {
+                QuickSkript.getInstance().getLogger().warning(
+                    "The event '" + text + "' is not available on your platform."
+                );
+                continue;
+            }
 
-            nextMatch:
+            List<SkriptMatchResult> matches = eventPattern.getPattern().match(text);
+            Set<SkriptMatchResult> possibleMatches = new HashSet<>();
+
             for (SkriptMatchResult match : matches) {
                 if (match.hasUnmatchedParts()) {
                     continue;
                 }
 
-                if (eventPattern.getEvent() == null) {
-                    QuickSkript.getInstance().getLogger().warning(
-                        "The event '" + match.getMatchedString() + "' is not available on your platform."
-                    );
-                    continue;
-                }
-
-                List<PsiElement<?>> elements = new ArrayList<>();
-
-                for (Pair<SkriptPatternGroup, String> pair : match.getMatchedGroups()) {
-                    if (!(pair.getX() instanceof TypeGroup)) {
-                        continue;
-                    }
-
-                    Type[] types = ((TypeGroup) pair.getX()).getTypes();
-                    PsiElement<?> psiElement = null;
-
-                    for (Type type : types) {
-                        psiElement = skriptLoader.tryParseElement(pair.getY(), type, -1);
-
-                        if (psiElement != null) {
-                            break;
-                        }
-                    }
-
-                    if (psiElement == null) {
-                        continue nextMatch;
-                    }
-
-                    elements.add(psiElement);
-                }
-
-                Predicate<Event> predicate;
-
-                if (eventPattern.getFilterCreator() == null) {
-                    predicate = event -> true;
-                } else {
-                    predicate = eventPattern.getFilterCreator().apply(match, elements.toArray(PsiElement<?>[]::new));
-                }
-
-                REGISTERED_HANDLERS.computeIfAbsent(eventPattern.getEvent(), event -> {
-                    Bukkit.getPluginManager().registerEvent(event, EMPTY_LISTENER,
-                        EventPriority.NORMAL, HANDLER_EXECUTOR, QuickSkript.getInstance());
-                    return new ArrayList<>();
-                }).add(Map.entry(toRegisterSupplier.get(), predicate));
-
-                found = true;
+                possibleMatches.add(match);
             }
+
+            if (possibleMatches.isEmpty()) {
+                continue;
+            }
+
+            Predicate<Event> predicate;
+
+            if (eventPattern.getFilterCreator() == null) {
+                predicate = event -> true;
+            } else {
+                predicate = eventPattern.getFilterCreator().apply(possibleMatches);
+            }
+
+            //no predicate, so no good match found
+            if (predicate == null) {
+                continue;
+            }
+
+            REGISTERED_HANDLERS.computeIfAbsent(eventPattern.getEvent(), event -> {
+                Bukkit.getPluginManager().registerEvent(event, EMPTY_LISTENER,
+                    EventPriority.NORMAL, HANDLER_EXECUTOR, QuickSkript.getInstance());
+                return new ArrayList<>();
+            }).add(Map.entry(toRegisterSupplier.get(), predicate));
+
+            found = true;
         }
 
         return found;
@@ -157,8 +137,8 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
      */
     @NotNull
     public <T extends Event> ComplexEventProxyFactory registerEvent(@NotNull Class<T> event, @NotNull String pattern,
-            @NotNull BiFunction<SkriptMatchResult, PsiElement<?>[], Predicate<T>> filterCreator) {
-        var filter = (BiFunction<SkriptMatchResult, PsiElement<?>[], Predicate<Event>>) (Object) filterCreator;
+            @NotNull Function<Iterable<SkriptMatchResult>, Predicate<T>> filterCreator) {
+        var filter = (Function<Iterable<SkriptMatchResult>, Predicate<Event>>) (Object) filterCreator;
 
         eventPatterns.add(new EventPattern(event, pattern, filter));
         return this;
@@ -178,7 +158,7 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
      */
     @NotNull
     public <T extends Event> ComplexEventProxyFactory registerEvent(@NotNull String eventName, @NotNull String pattern,
-        @NotNull BiFunction<SkriptMatchResult, PsiElement<?>[], Predicate<T>> filterCreator,
+        @NotNull Function<Iterable<SkriptMatchResult>, Predicate<T>> filterCreator,
         @NotNull Platform platform) {
         if (!Platform.getPlatform().isAvailable(platform)) {
             eventPatterns.add(new EventPattern(null, pattern, null));
@@ -187,7 +167,7 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
 
         try {
             eventPatterns.add(new EventPattern((Class<? extends Event>) Class.forName(eventName), pattern,
-                    (BiFunction<SkriptMatchResult, PsiElement<?>[], Predicate<Event>>) (Object) filterCreator));
+                    (Function<Iterable<SkriptMatchResult>, Predicate<Event>>) (Object) filterCreator));
         } catch (ClassNotFoundException exception) {
             exception.printStackTrace();
         }
@@ -220,10 +200,10 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
          * This is null when {@link #event} is null.
          */
         @Nullable
-        private final BiFunction<SkriptMatchResult, PsiElement<?>[], Predicate<Event>> filterCreator;
+        private final Function<Iterable<SkriptMatchResult>, Predicate<Event>> filterCreator;
 
         EventPattern(@Nullable Class<? extends Event> event, @NotNull String pattern,
-                @Nullable BiFunction<SkriptMatchResult, PsiElement<?>[], Predicate<Event>> filterCreator) {
+                @Nullable Function<Iterable<SkriptMatchResult>, Predicate<Event>> filterCreator) {
             this.event = event;
             this.pattern = SkriptPattern.parse(pattern);
             this.filterCreator = filterCreator;
@@ -248,7 +228,7 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
         }
 
         @Nullable
-        BiFunction<SkriptMatchResult, PsiElement<?>[], Predicate<Event>> getFilterCreator() {
+        Function<Iterable<SkriptMatchResult>, Predicate<Event>> getFilterCreator() {
             return filterCreator;
         }
     }

@@ -26,6 +26,8 @@ import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileLine;
 import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileNode;
 import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileSection;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
+import com.github.stefvanschie.quickskript.core.pattern.group.SkriptPatternGroup;
+import com.github.stefvanschie.quickskript.core.pattern.group.TypeGroup;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.condition.*;
@@ -41,6 +43,8 @@ import com.github.stefvanschie.quickskript.core.psi.section.PsiWhile;
 import com.github.stefvanschie.quickskript.core.skript.Skript;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
+import com.github.stefvanschie.quickskript.core.util.Pair;
+import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.*;
 import com.github.stefvanschie.quickskript.core.util.registry.EntityTypeRegistry;
 import com.github.stefvanschie.quickskript.core.util.registry.ItemTypeRegistry;
@@ -73,7 +77,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -449,23 +453,48 @@ public class BukkitSkriptLoader extends SkriptLoader {
         );
 
         registerEvent(new ComplexEventProxyFactory(this)
-            .registerEvent(BlockBurnEvent.class, "[on] [block] burn[ing] [[of] %item types%]", (matcher, elements) -> {
-                if (elements.length > 0) {
-                    ItemType itemType = elements[0].execute(null, null, ItemType.class);
+            .registerEvent(BlockBurnEvent.class, "[on] [block] burn[ing] [[of] %item types%]", matches -> {
+                for (SkriptMatchResult match : matches) {
+                    PsiElement<?>[] elements = tryParseAllTypes(match);
 
-                    return defaultItemTypeComparison(itemType);
+                    if (elements == null) {
+                        continue;
+                    }
+
+                    if (elements.length > 0) {
+                        Object object = elements[0].execute(null, null);
+
+                        if (!(object instanceof ItemType)) {
+                            continue;
+                        }
+
+                        return defaultItemTypeComparison((ItemType) object);
+                    }
+
+                    return event -> true;
                 }
 
-                return event -> true;
+                return null;
             })
-            .registerEvent(BlockDispenseEvent.class, "[on] dispens(e|ing) [[of] %item types%]",
-                (matcher, elements) -> {
+            .registerEvent(BlockDispenseEvent.class, "[on] dispens(e|ing) [[of] %item types%]", matches -> {
+                for (SkriptMatchResult match : matches) {
+                    PsiElement<?>[] elements = tryParseAllTypes(match);
+
+                    if (elements == null) {
+                        continue;
+                    }
+
                     if (elements.length == 0) {
                         return event -> true;
                     }
 
-                    ItemType itemType = elements[0].execute(null, null, ItemType.class);
-                    Iterable<String> entries = itemType.getAllKeys();
+                    Object object = elements[0].execute(null, null);
+
+                    if (!(object instanceof ItemType)) {
+                        continue;
+                    }
+
+                    Iterable<String> entries = ((ItemType) object).getAllKeys();
 
                     return event -> {
                         ItemStack item = event.getItem();
@@ -478,27 +507,54 @@ public class BukkitSkriptLoader extends SkriptLoader {
 
                         return false;
                     };
-                })
-            .registerEvent(BlockFadeEvent.class, "[on] [block] fad(e|ing) [[of] %item types%]",
-                (matcher, elements) -> {
+                }
+
+                return null;
+            })
+            .registerEvent(BlockFadeEvent.class, "[on] [block] fad(e|ing) [[of] %item types%]", matches -> {
+                for (SkriptMatchResult match : matches) {
+                    PsiElement<?>[] elements = tryParseAllTypes(match);
+
+                    if (elements == null) {
+                        continue;
+                    }
+
                     if (elements.length == 0) {
                         return event -> true;
                     }
 
-                    ItemType itemType = elements[0].execute(null, null, ItemType.class);
+                    Object object = elements[0].execute(null, null);
 
-                    return defaultItemTypeComparison(itemType);
-                })
-            .registerEvent(BlockFormEvent.class, "[on] [block] form[ing] [[of] %item types%]",
-                (matcher, elements) -> {
+                    if (!(object instanceof ItemType)) {
+                        continue;
+                    }
+
+                    return defaultItemTypeComparison((ItemType) object);
+                }
+
+                return null;
+            })
+            .registerEvent(BlockFormEvent.class, "[on] [block] form[ing] [[of] %item types%]", matches -> {
+                for (SkriptMatchResult match : matches) {
+                    PsiElement<?>[] elements = tryParseAllTypes(match);
+
+                    if (elements == null) {
+                        continue;
+                    }
+
                     if (elements.length == 0) {
                         return event -> true;
                     }
 
-                    ItemType itemType = elements[0].execute(null, null, ItemType.class);
+                    Object object = elements[0].execute(null, null);
+
+                    if (!(object instanceof ItemType)) {
+                        continue;
+                    }
+
                     Collection<BlockData> blockData = new HashSet<>();
 
-                    for (ItemTypeRegistry.Entry entry : itemType.getItemTypeEntries()) {
+                    for (ItemTypeRegistry.Entry entry : ((ItemType) object).getItemTypeEntries()) {
                         blockData.add(Bukkit.createBlockData(entry.getFullNamespacedKey()));
                     }
 
@@ -513,26 +569,54 @@ public class BukkitSkriptLoader extends SkriptLoader {
 
                         return false;
                     };
-                })
-            .registerEvent(BlockGrowEvent.class, "[on] ((plant|crop|block) grow[th|ing]|grow) [[of] %item types%]",
-                (matcher, elements) -> {
-                    if (elements.length > 0) {
-                        ItemType itemType = elements[0].execute(null, null, ItemType.class);
+                }
 
-                        return defaultItemTypeComparison(itemType);
+                return null;
+            })
+            .registerEvent(BlockGrowEvent.class, "[on] ((plant|crop|block) grow[th|ing]|grow) [[of] %item types%]",
+                matches -> {
+                    for (SkriptMatchResult match : matches) {
+                        PsiElement<?>[] elements = tryParseAllTypes(match);
+
+                        if (elements == null) {
+                            continue;
+                        }
+
+                        if (elements.length > 0) {
+                            Object object = elements[0].execute(null, null);
+
+                            if (!(object instanceof ItemType)) {
+                                continue;
+                            }
+
+                            return defaultItemTypeComparison((ItemType) object);
+                        }
+
+                        return event -> true;
                     }
 
-                    return event -> true;
+                    return null;
                 }
             )
-            .registerEvent(CraftItemEvent.class, "[on] [player] craft[ing] [[of] %item types%]",
-                (matcher, elements) -> {
+            .registerEvent(CraftItemEvent.class, "[on] [player] craft[ing] [[of] %item types%]", matches -> {
+                for (SkriptMatchResult match : matches) {
+                    PsiElement<?>[] elements = tryParseAllTypes(match);
+
+                    if (elements == null) {
+                        continue;
+                    }
+
                     if (elements.length == 0) {
                         return event -> true;
                     }
 
-                    ItemType itemType = elements[0].execute(null, null, ItemType.class);
-                    Iterable<String> entries = itemType.getAllKeys();
+                    Object object = elements[0].execute(null, null);
+
+                    if (!(object instanceof ItemType)) {
+                        continue;
+                    }
+
+                    Iterable<String> entries = ((ItemType) object).getAllKeys();
 
                     return event -> {
                         ItemStack item = event.getRecipe().getResult();
@@ -545,106 +629,74 @@ public class BukkitSkriptLoader extends SkriptLoader {
 
                         return false;
                     };
-                })
+                }
+
+                return null;
+            })
             .registerEvent(EntityDamageEvent.class, "[on] damag(e|ing) [of %entity type%]",
                 defaultEntityComparison())
             .registerEvent(EntityDeathEvent.class, "[on] death [of %entity types%]", defaultEntityComparison())
             .registerEvent(FireworkExplodeEvent.class, "[on] [a] firework explo(d(e|ing)|sion) [colo[u]red %colors%]",
-                (matcher, elements) -> {
-                    if (elements.length == 0) {
-                        return event -> true;
-                    }
+                matches -> {
+                    for (SkriptMatchResult match : matches) {
+                        PsiElement<?>[] elements = tryParseAllTypes(match);
 
-                    Color color = elements[0].execute(null, null, Color.class);
-                    org.bukkit.Color fireworkColor = org.bukkit.Color.fromRGB(color.getFireworkColor());
-
-                    return event -> {
-                        Collection<org.bukkit.Color> colors = new HashSet<>();
-
-                        for (FireworkEffect effect : event.getEntity().getFireworkMeta().getEffects()) {
-                            colors.addAll(effect.getColors());
+                        if (elements == null) {
+                            continue;
                         }
 
-                        return colors.contains(fireworkColor);
-                    };
-                })
-            .registerEvent(InventoryClickEvent.class, "[on] [player] inventory(-| )click[ing] [[at] %item types%]",
-                (matcher, elements) -> {
-                    if (elements.length == 0) {
-                        return event -> true;
-                    }
-
-                    ItemType itemType = elements[0].execute(null, null, ItemType.class);
-                    Iterable<String> entries = itemType.getAllKeys();
-
-                    return event -> {
-                        ItemStack item = event.getCurrentItem();
-
-                        if (item == null) {
-                            return false;
+                        if (elements.length == 0) {
+                            return event -> true;
                         }
 
-                        for (String entry : entries) {
-                            if (ItemComparisonUtil.compare(item, entry)) {
-                                return true;
-                            }
+                        Object object = elements[0].execute(null, null);
+
+                        if (!(object instanceof Color)) {
+                            continue;
                         }
 
-                        return false;
-                    };
-                })
-            .registerEvent(PlayerCommandPreprocessEvent.class, "[on] command [%text%]", (matcher, elements) -> {
-                if (elements.length > 0) {
-                    String command = elements[0].execute(null, null, Text.class).toString();
-
-                    if (command.charAt(0) == '/') {
-                        command = command.substring(1);
-                    }
-
-                    final String finalCommand = command;
-
-                    return event -> {
-                        String message = event.getMessage();
-
-                        if (message.charAt(0) == '/') {
-                            message = message.substring(1);
-                        }
-
-                        return finalCommand.equals(message);
-                    };
-                }
-
-                return event -> true;
-            })
-            .registerEvent(PlayerDropItemEvent.class, "[on] [player] drop[ing] [[of] %item types%]",
-                (matcher, elements) -> {
-                    if (elements.length == 0) {
-                        return event -> true;
-                    }
-
-                    ItemType itemType = elements[0].execute(null, null, ItemType.class);
-                    Iterable<String> entries = itemType.getAllKeys();
-
-                    return event -> {
-                        ItemStack item = event.getItemDrop().getItemStack();
-
-                        for (String entry : entries) {
-                            if (ItemComparisonUtil.compare(item, entry)) {
-                                return true;
-                            }
-                        }
-
-                        return false;
-                    };
-                })
-            .registerEvent(PlayerItemConsumeEvent.class, "[on] [player] ((eat|drink)[ing]|consum(e|ing)) [[of] %item types%]",
-                (matcher, elements) -> {
-                    if (elements.length > 0) {
-                        ItemType itemType = elements[0].execute(null, null, ItemType.class);
-                        Iterable<String> entries = itemType.getAllKeys();
+                        org.bukkit.Color fireworkColor = org.bukkit.Color.fromRGB(((Color) object).getFireworkColor());
 
                         return event -> {
-                            ItemStack item = event.getItem();
+                            Collection<org.bukkit.Color> colors = new HashSet<>();
+
+                            for (FireworkEffect effect : event.getEntity().getFireworkMeta().getEffects()) {
+                                colors.addAll(effect.getColors());
+                            }
+
+                            return colors.contains(fireworkColor);
+                        };
+                    }
+
+                    return null;
+                })
+            .registerEvent(InventoryClickEvent.class, "[on] [player] inventory(-| )click[ing] [[at] %item types%]",
+                matches -> {
+                    for (SkriptMatchResult match : matches) {
+                        PsiElement<?>[] elements = tryParseAllTypes(match);
+
+                        if (elements == null) {
+                            continue;
+                        }
+
+                        if (elements.length == 0) {
+                            return event -> true;
+                        }
+
+                        Object object = elements[0].execute(null, null);
+
+                        if (!(object instanceof ItemType)) {
+                            continue;
+                        }
+
+                        Iterable<String> entries = ((ItemType) object).getAllKeys();
+
+                        return event -> {
+                            ItemStack item = event.getCurrentItem();
+
+                            if (item == null) {
+                                return false;
+                            }
 
                             for (String entry : entries) {
                                 if (ItemComparisonUtil.compare(item, entry)) {
@@ -656,58 +708,271 @@ public class BukkitSkriptLoader extends SkriptLoader {
                         };
                     }
 
+                    return null;
+                })
+            .registerEvent(ItemDespawnEvent.class, "[on] ((item[ ][stack]|[item] %item types%) despawn[ing]|[item[ ][stack]] despawn[ing] [[of] %item types%])",
+                matches -> {
+                    for (SkriptMatchResult match : matches) {
+                        PsiElement<?>[] elements = tryParseAllTypes(match);
+
+                        if (elements == null) {
+                            continue;
+                        }
+
+                        if (elements.length == 0) {
+                            return event -> true;
+                        }
+
+                        Object object = elements[0].execute(null, null);
+
+                        if (!(object instanceof ItemType)) {
+                            continue;
+                        }
+
+                        Iterable<String> entries = ((ItemType) object).getAllKeys();
+
+                        return event -> {
+                            ItemStack item = event.getEntity().getItemStack();
+
+                            for (String entry : entries) {
+                                if (ItemComparisonUtil.compare(item, entry)) {
+                                    return true;
+                                }
+                            }
+
+                            return false;
+                        };
+                    }
+
+                    return null;
+                })
+            .registerEvent(PlayerCommandPreprocessEvent.class, "[on] command [%text%]", matches -> {
+                for (SkriptMatchResult match : matches) {
+                    PsiElement<?>[] elements = tryParseAllTypes(match);
+
+                    if (elements == null) {
+                        continue;
+                    }
+
+                    if (elements.length > 0) {
+                        Object object = elements[0].execute(null, null);
+
+                        if (!(object instanceof Text)) {
+                            continue;
+                        }
+
+                        String command = object.toString();
+
+                        if (command.charAt(0) == '/') {
+                            command = command.substring(1);
+                        }
+
+                        final String finalCommand = command;
+
+                        return event -> {
+                            String message = event.getMessage();
+
+                            if (message.charAt(0) == '/') {
+                                message = message.substring(1);
+                            }
+
+                            return finalCommand.equals(message);
+                        };
+                    }
+
                     return event -> true;
+                }
+
+                return null;
+            })
+            .registerEvent(PlayerDropItemEvent.class, "[on] [player] drop[ing] [[of] %item types%]",
+                matches -> {
+                    for (SkriptMatchResult match : matches) {
+                        PsiElement<?>[] elements = tryParseAllTypes(match);
+
+                        if (elements == null) {
+                            continue;
+                        }
+
+                        if (elements.length == 0) {
+                            return event -> true;
+                        }
+
+                        Object object = elements[0].execute(null, null);
+
+                        if (!(object instanceof ItemType)) {
+                            continue;
+                        }
+
+                        Iterable<String> entries = ((ItemType) object).getAllKeys();
+
+                        return event -> {
+                            ItemStack item = event.getItemDrop().getItemStack();
+
+                            for (String entry : entries) {
+                                if (ItemComparisonUtil.compare(item, entry)) {
+                                    return true;
+                                }
+                            }
+
+                            return false;
+                        };
+                    }
+
+                    return null;
+                })
+            .registerEvent(PlayerItemConsumeEvent.class, "[on] [player] ((eat|drink)[ing]|consum(e|ing)) [[of] %item types%]",
+                matches -> {
+                    for (SkriptMatchResult match : matches) {
+                        PsiElement<?>[] elements = tryParseAllTypes(match);
+
+                        if (elements == null) {
+                            continue;
+                        }
+
+                        if (elements.length > 0) {
+                            Object object = elements[0].execute(null, null);
+
+                            if (!(object instanceof ItemType)) {
+                                continue;
+                            }
+
+                            Iterable<String> entries = ((ItemType) object).getAllKeys();
+
+                            return event -> {
+                                ItemStack item = event.getItem();
+
+                                for (String entry : entries) {
+                                    if (ItemComparisonUtil.compare(item, entry)) {
+                                        return true;
+                                    }
+                                }
+
+                                return false;
+                            };
+                        }
+
+                        return event -> true;
+                    }
+
+                    return null;
                 })
             .registerEvent(PlayerGameModeChangeEvent.class, "[on] game[ ]mode change [to %gamemode%]",
-                (matcher, elements) -> {
+                matches -> {
+                    for (SkriptMatchResult match : matches) {
+                        PsiElement<?>[] elements = tryParseAllTypes(match);
+
+                        if (elements == null) {
+                            continue;
+                        }
+
+                        if (elements.length == 0) {
+                            return event -> true;
+                        }
+
+                        Object object = elements[0].execute(null, null);
+
+                        if (!(object instanceof GameMode)) {
+                            continue;
+                        }
+
+                        org.bukkit.GameMode gameMode = org.bukkit.GameMode.valueOf(((GameMode) object).name());
+
+                        return event -> event.getNewGameMode() == gameMode;
+                    }
+
+                    return null;
+                })
+            .registerEvent(StructureGrowEvent.class, "[on] grow [of %tree type%]", matches -> {
+                for (SkriptMatchResult match : matches) {
+                    PsiElement<?>[] elements = tryParseAllTypes(match);
+
+                    if (elements == null) {
+                        continue;
+                    }
+
                     if (elements.length == 0) {
                         return event -> true;
                     }
 
-                    String gameModeName = elements[0].execute(null, null, GameMode.class).name();
-                    org.bukkit.GameMode gameMode = org.bukkit.GameMode.valueOf(gameModeName);
+                    Object object = elements[0].execute(null, null);
 
-                    return event -> event.getNewGameMode() == gameMode;
-                })
-            .registerEvent(StructureGrowEvent.class, "[on] grow [of %tree type%]", (matcher, elements) -> {
-                if (elements.length == 0) {
-                    return event -> true;
-                }
-
-                TreeType treeType = elements[0].execute(null, null, TreeType.class);
-                Collection<org.bukkit.TreeType> treeTypes = TreeTypeUtil.convert(treeType);
-
-                return event -> treeTypes.contains(event.getSpecies());
-            })
-            .registerEvent(WorldTimeChangeEvent.class, "at %time% [in %worlds%]", (matcher, elements) -> {
-                long time = elements[0].execute(null, null, Time.class).asTicks();
-
-                if (elements.length > 1) {
-                    World world = elements[1].execute(null, null, World.class);
-
-                    return event -> event.getTime() == time && event.getWorld().getName().equals(world.getName());
-                } else {
-                    return event -> event.getTime() == time;
-                }
-            })
-            .registerEvent(BlockBreakEvent.class, "[on] [block] (break[ing]|min(e|ing)) [[of] %item types%]",
-                (matcher, elements) -> {
-                    if (elements.length > 0) {
-                        ItemType itemType = elements[0].execute(null, null, ItemType.class);
-
-                        return defaultItemTypeComparison(itemType);
+                    if (!(object instanceof TreeType)) {
+                        continue;
                     }
 
-                    return event -> true;
+                    Collection<org.bukkit.TreeType> treeTypes = TreeTypeUtil.convert((TreeType) object);
+
+                    return event -> treeTypes.contains(event.getSpecies());
+                }
+
+                return null;
+            })
+            .registerEvent(WorldTimeChangeEvent.class, "at %time% [in %worlds%]", matches -> {
+                for (SkriptMatchResult match : matches) {
+                    PsiElement<?>[] elements = tryParseAllTypes(match);
+
+                    if (elements == null) {
+                        continue;
+                    }
+
+                    Object object = elements[0].execute(null, null);
+
+                    if (!(object instanceof Time)) {
+                        continue;
+                    }
+
+                    long time = ((Time) object).asTicks();
+
+                    if (elements.length > 1) {
+                        Object world = elements[1].execute(null, null);
+
+                        if (!(world instanceof World)) {
+                            continue;
+                        }
+
+                        String worldName = ((World) world).getName();
+
+                        return event -> event.getTime() == time && event.getWorld().getName().equals(worldName);
+                    } else {
+                        return event -> event.getTime() == time;
+                    }
+                }
+
+                return null;
+            })
+            .registerEvent(BlockBreakEvent.class, "[on] [block] (break[ing]|min(e|ing)) [[of] %item types%]",
+                matches -> {
+                    for (SkriptMatchResult match : matches) {
+                        PsiElement<?>[] elements = tryParseAllTypes(match);
+
+                        if (elements == null) {
+                            continue;
+                        }
+
+                        if (elements.length > 0) {
+                            Object itemType = elements[0].execute(null, null);
+
+                            if (!(itemType instanceof ItemType)) {
+                                continue;
+                            }
+
+                            return defaultItemTypeComparison((ItemType) itemType);
+                        }
+
+                        return event -> true;
+                    }
+
+                    return null;
                 })
             .registerEvent(EntityChangeBlockEvent.class, "[on] enderman place",
-                (matcher, elements) -> event -> event.getEntity() instanceof Enderman && event.getTo() != Material.AIR)
+                matches -> event -> event.getEntity() instanceof Enderman && event.getTo() != Material.AIR)
             .registerEvent(EntityChangeBlockEvent.class, "[on] enderman pickup",
-                (matcher, elements) -> event -> event.getEntity() instanceof Enderman && event.getTo() == Material.AIR)
-            .registerEvent(EntityChangeBlockEvent.class, "[on] sheep eat", (matcher, elements) -> event ->
+                matches -> event -> event.getEntity() instanceof Enderman && event.getTo() == Material.AIR)
+            .registerEvent(EntityChangeBlockEvent.class, "[on] sheep eat", matches -> event ->
                     event.getEntity() instanceof Sheep)
             .registerEvent(EntityChangeBlockEvent.class, "[on] silverfish enter",
-                (matcher, elements) -> event ->
+                matches -> event ->
                     event.getEntity() instanceof Silverfish && EnumSet.of(
                             Material.INFESTED_COBBLESTONE,
                             Material.INFESTED_STONE,
@@ -717,13 +982,24 @@ public class BukkitSkriptLoader extends SkriptLoader {
                             Material.INFESTED_STONE_BRICKS
                     ).contains(event.getTo()))
             .registerEvent(EntityChangeBlockEvent.class, "[on] silverfish exit",
-                (matcher, elements) -> event ->
-                    event.getEntity() instanceof Silverfish && event.getTo() == Material.AIR)
-            .registerEvent(EntityChangeBlockEvent.class, "[on] falling block land[ing]", (matcher, elements) ->
-                event -> event.getEntity() instanceof FallingBlock)
-            .registerEvent(PlayerCommandPreprocessEvent.class, "[on] command %text%",
-                (matcher, elements) -> {
-                    String command = elements[0].execute(null, null, Text.class).toString();
+                matches -> event -> event.getEntity() instanceof Silverfish && event.getTo() == Material.AIR)
+            .registerEvent(EntityChangeBlockEvent.class, "[on] falling block land[ing]", matches -> event ->
+                event.getEntity() instanceof FallingBlock)
+            .registerEvent(PlayerCommandPreprocessEvent.class, "[on] command %text%", matches -> {
+                for (SkriptMatchResult match : matches) {
+                    PsiElement<?>[] elements = tryParseAllTypes(match);
+
+                    if (elements == null) {
+                        continue;
+                    }
+
+                    Object object = elements[0].execute(null, null);
+
+                    if (!(object instanceof Text)) {
+                        continue;
+                    }
+
+                    String command = object.toString();
                     String finalCommand = command.startsWith("/") ? command.substring(1) : command;
 
                     return event -> {
@@ -731,197 +1007,255 @@ public class BukkitSkriptLoader extends SkriptLoader {
                         return message.startsWith(finalCommand, message.startsWith("/") ? 1 : 0);
                     };
                 }
-            )
+
+                return null;
+            })
             .registerEvent(PlayerEditBookEvent.class, "[on] book (edit|change|write|1\u00A6sign|1\u00A6signing)",
-                (matcher, elements) ->
-                    matcher.getParseMark() == 1 ? PlayerEditBookEvent::isSigning : event -> !event.isSigning())
+                matches -> {
+                    //iterates once
+                    for (SkriptMatchResult match : matches) {
+                        return match.getParseMark() == 1 ? PlayerEditBookEvent::isSigning : event -> !event.isSigning();
+                    }
+
+                    //will never be reached
+                    return null;
+                })
             .registerEvent(PlayerInteractEvent.class,
                 "[on] [(1\u00A6right|2\u00A6left)[( |-)]][mouse[( |-)]]click[ing] ([4\u00A6on %item type%] [8\u00A6(with|using|holding) %item type%]|28\u00A6(with|using|holding) %item type% on %item type%)",
-                (matcher, elements) -> {
-                    int parseMark = matcher.getParseMark();
+                matches -> {
+                    for (SkriptMatchResult match : matches) {
+                        int parseMark = match.getParseMark();
 
-                    if (parseMark == 0) {
-                        return event -> true;
-                    }
+                        if (parseMark == 0) {
+                            return event -> true;
+                        }
 
-                    EnumSet<Action> allowedActions = EnumSet.allOf(Action.class);
-                    Collection<BlockData> targets = new HashSet<>();
-                    Collection<String> holding = new HashSet<>();
+                        EnumSet<Action> allowedActions = EnumSet.allOf(Action.class);
+                        Collection<BlockData> targets = new HashSet<>();
+                        Collection<String> holding = new HashSet<>();
 
-                    if ((parseMark & 1) > 0) {
-                        allowedActions = EnumSet.of(Action.RIGHT_CLICK_AIR, Action.RIGHT_CLICK_BLOCK);
-                    } else if ((parseMark & 2) > 0) {
-                        allowedActions = EnumSet.of(Action.LEFT_CLICK_AIR, Action.LEFT_CLICK_BLOCK);
-                    }
+                        if ((parseMark & 1) > 0) {
+                            allowedActions = EnumSet.of(Action.RIGHT_CLICK_AIR, Action.RIGHT_CLICK_BLOCK);
+                        } else if ((parseMark & 2) > 0) {
+                            allowedActions = EnumSet.of(Action.LEFT_CLICK_AIR, Action.LEFT_CLICK_BLOCK);
+                        }
 
-                    int elementIndex = 0;
+                        PsiElement<?>[] elements = tryParseAllTypes(match);
 
-                    if ((parseMark & 4) > 0) {
-                        ItemType itemType = elements[0].execute(null, null, ItemType.class);
+                        if (elements == null) {
+                            continue;
+                        }
 
-                        for (ItemTypeRegistry.Entry entry : itemType.getItemTypeEntries()) {
-                            String namespacedKey = entry.getFullNamespacedKey();
+                        int elementIndex = 0;
 
-                            if ((parseMark & 16) > 0) {
-                                holding.add(namespacedKey);
-                            } else {
-                                targets.add(Bukkit.createBlockData(namespacedKey));
+                        if ((parseMark & 4) > 0) {
+                            Object object = elements[0].execute(null, null);
+
+                            if (!(object instanceof ItemType)) {
+                                continue;
                             }
-                        }
 
-                        elementIndex++;
-                    }
+                            for (ItemTypeRegistry.Entry entry : ((ItemType) object).getItemTypeEntries()) {
+                                String namespacedKey = entry.getFullNamespacedKey();
 
-                    if ((parseMark & 8) > 0) {
-                        PsiElement<?> element = elements[elementIndex];
-                        ItemType itemType = element.execute(null, null, ItemType.class);
-
-                        for (ItemTypeRegistry.Entry entry : itemType.getItemTypeEntries()) {
-                            String namespacedKey = entry.getFullNamespacedKey();
-
-                            if ((parseMark & 16) > 0) {
-                                targets.add(Bukkit.createBlockData(namespacedKey));
-                            } else {
-                                holding.add(namespacedKey);
-                            }
-                        }
-                    }
-
-                    final EnumSet<Action> finalAllowedActions = allowedActions;
-
-                    return event -> {
-                        if (!finalAllowedActions.contains(event.getAction())) {
-                            return false;
-                        }
-
-                        Block clickedBlock = event.getClickedBlock();
-
-                        if (clickedBlock != null) {
-                            BlockData eventData = clickedBlock.getBlockData();
-
-                            for (BlockData data : targets) {
-                                if (!eventData.matches(data)) {
-                                    return false;
+                                if ((parseMark & 16) > 0) {
+                                    holding.add(namespacedKey);
+                                } else {
+                                    targets.add(Bukkit.createBlockData(namespacedKey));
                                 }
                             }
-                        } else if (!targets.isEmpty()) {
-                            return false;
+
+                            elementIndex++;
                         }
 
-                        ItemStack item = event.getItem();
+                        if ((parseMark & 8) > 0) {
+                            Object object = elements[elementIndex].execute(null, null);
 
-                        if (item != null) {
-                            for (String data : holding) {
-                                if (!ItemComparisonUtil.compare(item, data)) {
-                                    return false;
+                            if (!(object instanceof ItemType)) {
+                                continue;
+                            }
+
+                            for (ItemTypeRegistry.Entry entry : ((ItemType) object).getItemTypeEntries()) {
+                                String namespacedKey = entry.getFullNamespacedKey();
+
+                                if ((parseMark & 16) > 0) {
+                                    targets.add(Bukkit.createBlockData(namespacedKey));
+                                } else {
+                                    holding.add(namespacedKey);
                                 }
                             }
-                        } else if (!holding.isEmpty()) {
-                            return false;
                         }
 
-                        return true;
-                    };
+                        final EnumSet<Action> finalAllowedActions = allowedActions;
+
+                        return event -> {
+                            if (!finalAllowedActions.contains(event.getAction())) {
+                                return false;
+                            }
+
+                            Block clickedBlock = event.getClickedBlock();
+
+                            if (clickedBlock != null) {
+                                BlockData eventData = clickedBlock.getBlockData();
+
+                                for (BlockData data : targets) {
+                                    if (!eventData.matches(data)) {
+                                        return false;
+                                    }
+                                }
+                            } else if (!targets.isEmpty()) {
+                                return false;
+                            }
+
+                            ItemStack item = event.getItem();
+
+                            if (item != null) {
+                                for (String data : holding) {
+                                    if (!ItemComparisonUtil.compare(item, data)) {
+                                        return false;
+                                    }
+                                }
+                            } else if (!holding.isEmpty()) {
+                                return false;
+                            }
+
+                            return true;
+                        };
+                    }
+
+                    return null;
                 }
             )
             .registerEvent(PlayerInteractAtEntityEvent.class,
                 "[on] [(1\u00A6right|2\u00A6left)[( |-)]][mouse[( |-)]]click[ing] ([4\u00A6on %entity type%] [8\u00A6(with|using|holding) %item type%]|28\u00A6(with|using|holding) %item type% on %entity type%)",
-                (matcher, elements) -> {
-                    int parseMark = matcher.getParseMark();
+                matches -> {
+                    for (SkriptMatchResult match : matches) {
+                        int parseMark = match.getParseMark();
 
-                    if (parseMark == 0) {
-                        return event -> true;
-                    }
-
-                    //we have to differentiate between this not being specified, being null and being actual text, so here's a nullable optional
-                    //noinspection OptionalAssignedToNull
-                    Optional<String> entityTypeKey = null;
-                    Collection<String> holding = new HashSet<>();
-
-                    if ((parseMark & 2) > 0) {
-                        return event -> false;
-                    }
-
-                    int elementIndex = 0;
-
-                    if ((parseMark & 16) > 0) {
-                        if ((parseMark & 4) > 0) {
-                            PsiElement<?> element = elements[0];
-                            ItemType itemType = element.execute(null, null, ItemType.class);
-
-                            holding.addAll(itemType.getAllKeys());
-
-                            elementIndex++;
+                        if (parseMark == 0) {
+                            return event -> true;
                         }
 
-                        if ((parseMark & 8) > 0) {
-                            EntityTypeRegistry.Entry entityType = elements[elementIndex].execute(null, null, EntityTypeRegistry.Entry.class);
-
-                            //may actually be null
-                            entityTypeKey = Optional.ofNullable(entityType.getKey());
-                        }
-                    } else {
-                        if ((parseMark & 4) > 0) {
-                            EntityTypeRegistry.Entry entityType = elements[0].execute(null, null, EntityTypeRegistry.Entry.class);
-
-                            //may actually be null
-                            entityTypeKey = Optional.ofNullable(entityType.getKey());
-
-                            elementIndex++;
-                        }
-
-                        if ((parseMark & 8) > 0) {
-                            PsiElement<?> element = elements[elementIndex];
-                            ItemType itemType = element.execute(null, null, ItemType.class);
-
-                            holding.addAll(itemType.getAllKeys());
-                        }
-                    }
-
-                    final Optional<String> finalEntityTypeKey = entityTypeKey;
-
-                    return event -> {
-                        Entity clickedEntity = event.getRightClicked();
-
-                        //see comments above
+                        //we have to differentiate between this not being specified, being null and being actual text, so here's a nullable optional
                         //noinspection OptionalAssignedToNull
-                        if (finalEntityTypeKey != null) {
-                            EntityType type = clickedEntity.getType();
-                            boolean isUnknown = type == EntityType.UNKNOWN;
+                        Optional<String> entityTypeKey = null;
+                        Collection<String> holding = new HashSet<>();
 
-                            //xor check: only return false if entity type is unknown and a key exists or entity type is not unknown, but a key doesn't exist
-                            if (isUnknown != finalEntityTypeKey.isEmpty()) {
+                        if ((parseMark & 2) > 0) {
+                            return event -> false;
+                        }
+
+                        PsiElement<?>[] elements = tryParseAllTypes(match);
+
+                        if (elements == null) {
+                            continue;
+                        }
+
+                        int elementIndex = 0;
+
+                        if ((parseMark & 16) > 0) {
+                            if ((parseMark & 4) > 0) {
+                                PsiElement<?> element = elements[0];
+                                Object itemType = element.execute(null, null);
+
+                                if (!(itemType instanceof ItemType)) {
+                                    continue;
+                                }
+
+                                holding.addAll(((ItemType) itemType).getAllKeys());
+
+                                elementIndex++;
+                            }
+
+                            if ((parseMark & 8) > 0) {
+                                Object entityType = elements[elementIndex].execute(null, null);
+
+                                if (!(entityType instanceof EntityTypeRegistry.Entry)) {
+                                    continue;
+                                }
+
+                                //may actually be null
+                                entityTypeKey = Optional.ofNullable(((EntityTypeRegistry.Entry) entityType).getKey());
+                            }
+                        } else {
+                            if ((parseMark & 4) > 0) {
+                                Object entityType = elements[0].execute(null, null);
+
+                                if (!(entityType instanceof EntityTypeRegistry.Entry)) {
+                                    continue;
+                                }
+
+                                //may actually be null
+                                entityTypeKey = Optional.ofNullable(((EntityTypeRegistry.Entry) entityType).getKey());
+
+                                elementIndex++;
+                            }
+
+                            if ((parseMark & 8) > 0) {
+                                PsiElement<?> element = elements[elementIndex];
+                                Object itemType = element.execute(null, null);
+
+                                if (!(itemType instanceof ItemType)) {
+                                    continue;
+                                }
+
+                                holding.addAll(((ItemType) itemType).getAllKeys());
+                            }
+                        }
+
+                        final Optional<String> finalEntityTypeKey = entityTypeKey;
+
+                        return event -> {
+                            Entity clickedEntity = event.getRightClicked();
+
+                            //see comments above
+                            //noinspection OptionalAssignedToNull
+                            if (finalEntityTypeKey != null) {
+                                EntityType type = clickedEntity.getType();
+                                boolean isUnknown = type == EntityType.UNKNOWN;
+
+                                //xor check: only return false if entity type is unknown and a key exists or entity type is not unknown, but a key doesn't exist
+                                if (isUnknown != finalEntityTypeKey.isEmpty()) {
+                                    return false;
+                                }
+
+                                if (!isUnknown) {
+                                    NamespacedKey key = type.getKey();
+
+                                    if (!finalEntityTypeKey.get().equals(key.getNamespace() + ':' + key.getKey())) {
+                                        return false;
+                                    }
+                                }
+                            }
+
+                            PlayerInventory inventory = event.getPlayer().getInventory();
+                            ItemStack item;
+
+                            if (event.getHand() == EquipmentSlot.HAND) {
+                                item = inventory.getItemInMainHand();
+                            } else {
+                                item = inventory.getItemInOffHand();
+                            }
+
+                            if (item.getType() != Material.AIR) {
+                                for (String data : holding) {
+                                    if (!ItemComparisonUtil.compare(item, data)) {
+                                        return false;
+                                    }
+                                }
+                            } else if (!holding.isEmpty()) {
                                 return false;
                             }
 
-                            if (!isUnknown) {
-                                NamespacedKey key = type.getKey();
+                            return true;
+                        };
+                    }
 
-                                if (!finalEntityTypeKey.get().equals(key.getNamespace() + ':' + key.getKey())) {
-                                    return false;
-                                }
-                            }
-                        }
-
-                        PlayerInventory inventory = event.getPlayer().getInventory();
-                        ItemStack item = event.getHand() == EquipmentSlot.HAND ? inventory.getItemInMainHand() : inventory.getItemInOffHand();
-
-                        if (item.getType() != Material.AIR) {
-                            for (String data : holding) {
-                                if (!ItemComparisonUtil.compare(item, data)) {
-                                    return false;
-                                }
-                            }
-                        } else if (!holding.isEmpty()) {
-                            return false;
-                        }
-
-                        return true;
-                    };
+                    return null;
                 }
             )
-            .registerEvent(PlayerInteractEvent.class, "[on] [step[ping] on] [a] [pressure] plate",
-                (matcher, elements) -> event -> {
+            .registerEvent(PlayerInteractEvent.class, "[on] [step[ping] on] [a] [pressure] plate", matches ->
+                event -> {
                     Block clickedBlock = event.getClickedBlock();
 
                     return event.getAction() == Action.PHYSICAL && clickedBlock != null && EnumSet.of(
@@ -936,8 +1270,8 @@ public class BukkitSkriptLoader extends SkriptLoader {
                         Material.LIGHT_WEIGHTED_PRESSURE_PLATE
                     ).contains(clickedBlock.getType());
                 })
-            .registerEvent(PlayerInteractEvent.class, "[on] [trip|step[ping] on] [a] tripwire)",
-                (matcher, elements) -> event -> {
+            .registerEvent(PlayerInteractEvent.class, "[on] [trip|step[ping] on] [a] tripwire)", matches ->
+                event -> {
                     Block clickedBlock = event.getClickedBlock();
 
                     return event.getAction() == Action.PHYSICAL && clickedBlock != null && EnumSet.of(
@@ -945,10 +1279,10 @@ public class BukkitSkriptLoader extends SkriptLoader {
                         Material.TRIPWIRE_HOOK
                     ).contains(clickedBlock.getType());
                 })
-            .registerEvent(PlayerJoinEvent.class, "[on] first (join|login)", (matcher, elements) -> event ->
-                    !event.getPlayer().hasPlayedBefore())
-            .registerEvent(PluginDisableEvent.class, "[on] (server|skript) (stop|unload|disable)",
-                (matcher, elements) -> event -> event.getPlugin().equals(QuickSkript.getInstance()))
+            .registerEvent(PlayerJoinEvent.class, "[on] first (join|login)", matches -> event ->
+                !event.getPlayer().hasPlayedBefore())
+            .registerEvent(PluginDisableEvent.class, "[on] (server|skript) (stop|unload|disable)", matches ->
+                event -> event.getPlugin().equals(QuickSkript.getInstance()))
         );
     }
 
@@ -1080,35 +1414,87 @@ public class BukkitSkriptLoader extends SkriptLoader {
      */
     @NotNull
     @Contract(pure = true)
-    private <T extends EntityEvent> BiFunction<SkriptMatchResult, PsiElement<?>[], Predicate<T>> defaultEntityComparison() {
-        return (matcher, elements) -> {
-            if (elements.length == 0) {
-                return event -> true;
+    private <T extends EntityEvent> Function<Iterable<SkriptMatchResult>, Predicate<T>> defaultEntityComparison() {
+        return matches -> {
+            for (SkriptMatchResult match : matches) {
+                PsiElement<?>[] elements = tryParseAllTypes(match);
+
+                if (elements.length == 0) {
+                    return event -> true;
+                }
+
+                PsiElement<?> element = elements[0];
+                Object object = element.execute(null, null);
+
+                if (!(object instanceof EntityTypeRegistry.Entry)) {
+                    continue;
+                }
+
+                String entityTypeKey = ((EntityTypeRegistry.Entry) object).getKey();
+
+                return event -> {
+                    EntityType type = event.getEntityType();
+                    boolean isUnknown = type == EntityType.UNKNOWN;
+
+                    //xor check: only return false if entity type is unknown and a key exists or entity type is not unknown, but a key doesn't exist
+                    if (isUnknown != (entityTypeKey == null)) {
+                        return false;
+                    }
+
+                    if (!isUnknown) {
+                        NamespacedKey key = type.getKey();
+
+                        return entityTypeKey.equals(key.getNamespace() + ':' + key.getKey());
+                    }
+
+                    return true;
+                };
             }
 
-            PsiElement<?> element = elements[0];
-            EntityTypeRegistry.Entry entityType = element.execute(null, null,
-                EntityTypeRegistry.Entry.class);
-            String entityTypeKey = entityType.getKey();
-
-            return event -> {
-                EntityType type = event.getEntityType();
-                boolean isUnknown = type == EntityType.UNKNOWN;
-
-                //xor check: only return false if entity type is unknown and a key exists or entity type is not unknown, but a key doesn't exist
-                if (isUnknown != (entityTypeKey == null)) {
-                    return false;
-                }
-
-                if (!isUnknown) {
-                    NamespacedKey key = type.getKey();
-
-                    return entityTypeKey.equals(key.getNamespace() + ':' + key.getKey());
-                }
-
-                return true;
-            };
+            return null;
         };
+    }
+
+    /**
+     * Tries to parse all the types in the given skript match result. This returns an array of all elements that were
+     * parsed corresponding to the given match. The order of the elements is the same as the order in which the
+     * corresponding types are specified. If a type in the match failed to be parsed, the result will be null, even if
+     * some types could be parsed - the returned array is guaranteed to have all elements if it's not null. The type in
+     * the provided match result is respected: if the type is a number, then the element will be one that can return a
+     * number (the element may also specify to return object(s) - these are valid for every type).
+     *
+     * @param match the match to parse all types of
+     * @return an array of parsed elements
+     * @since 0.1.0
+     */
+    @Nullable
+    private PsiElement<?>[] tryParseAllTypes(@NotNull SkriptMatchResult match) {
+        List<PsiElement<?>> elements = new ArrayList<>();
+
+        for (Pair<SkriptPatternGroup, String> pair : match.getMatchedGroups()) {
+            if (!(pair.getX() instanceof TypeGroup)) {
+                continue;
+            }
+
+            Type[] types = ((TypeGroup) pair.getX()).getTypes();
+            PsiElement<?> psiElement = null;
+
+            for (Type type : types) {
+                psiElement = tryParseElement(pair.getY(), type, -1);
+
+                if (psiElement != null) {
+                    break;
+                }
+            }
+
+            if (psiElement == null) {
+                return null;
+            }
+
+            elements.add(psiElement);
+        }
+
+        return elements.toArray(PsiElement<?>[]::new);
     }
 
     /**
