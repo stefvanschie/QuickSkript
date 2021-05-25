@@ -414,6 +414,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
             .registerEvent(PlayerItemBreakEvent.class, "[on] [player] (tool break[ing]|break[ing] [a|the] tool)")
             .registerEvent(PlayerItemDamageEvent.class, "[on] item damag(e|ing)")
             .registerEvent(PlayerItemHeldEvent.class, "[on] [player['s]] (tool|item held|held item) chang(e|ing)")
+            .registerEvent(PlayerItemMendEvent.class, "[on] item mend[ing]")
             .registerEvent(PlayerJoinEvent.class, "[on] [player] (log[ging] in|join[ing])")
             .registerEvent("com.destroystokyo.paper.event.player.PlayerJumpEvent", "[on] [player] jump[ing]", Platform.PAPER)
             .registerEvent(PlayerKickEvent.class, "[on] [player] [being] kick[ed]")
