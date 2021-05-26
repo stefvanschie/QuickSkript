@@ -747,6 +747,42 @@ public class BukkitSkriptLoader extends SkriptLoader {
 
                     return null;
                 })
+            .registerEvent(ItemMergeEvent.class, "[on] ((item[ ][stack]|[item] %item types%) merg(e|ing)|item[ ][stack] merg(e|ing) [[of] %item types%])",
+                matches -> {
+                    for (SkriptMatchResult match : matches) {
+                        PsiElement<?>[] elements = tryParseAllTypes(match);
+
+                        if (elements == null) {
+                            continue;
+                        }
+
+                        if (elements.length == 0) {
+                            return event -> true;
+                        }
+
+                        Object object = elements[0].execute(null, null);
+
+                        if (!(object instanceof ItemType)) {
+                            continue;
+                        }
+
+                        Iterable<String> entries = ((ItemType) object).getAllKeys();
+
+                        return event -> {
+                            ItemStack item = event.getEntity().getItemStack();
+
+                            for (String entry : entries) {
+                                if (ItemComparisonUtil.compare(item, entry)) {
+                                    return true;
+                                }
+                            }
+
+                            return false;
+                        };
+                    }
+
+                    return null;
+                })
             .registerEvent(PlayerCommandPreprocessEvent.class, "[on] command [%text%]", matches -> {
                 for (SkriptMatchResult match : matches) {
                     PsiElement<?>[] elements = tryParseAllTypes(match);
