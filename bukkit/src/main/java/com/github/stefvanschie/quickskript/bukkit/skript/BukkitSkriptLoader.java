@@ -49,6 +49,7 @@ import com.github.stefvanschie.quickskript.core.util.literal.*;
 import com.github.stefvanschie.quickskript.core.util.registry.EntityTypeRegistry;
 import com.github.stefvanschie.quickskript.core.util.registry.ItemTypeRegistry;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
+import io.papermc.paper.event.entity.EntityMoveEvent;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.FireworkEffect;
@@ -421,6 +422,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
             .registerEvent(PlayerLevelChangeEvent.class, "[on] [player] level [change]")
             .registerEvent(PlayerLocaleChangeEvent.class, "[on] [player] ((language|locale) chang(e|ing)|chang(e|ing) (language|locale))")
             .registerEvent(PlayerLoginEvent.class, "[on] [player] connect[ing]")
+            .registerEvent(PlayerMoveEvent.class, "[on] player (move|walk|step)")
             .registerEvent(PlayerPortalEvent.class, "[on] [player] portal")
             .registerEvent(PlayerQuitEvent.class, "[on] (quit[ting]|disconnect[ing]|log[ging | ]out)")
             .registerEvent(PlayerRespawnEvent.class, "[on] [player] respawn[ing]")
@@ -637,6 +639,51 @@ public class BukkitSkriptLoader extends SkriptLoader {
             .registerEvent(EntityDamageEvent.class, "[on] damag(e|ing) [of %entity type%]",
                 defaultEntityComparison())
             .registerEvent(EntityDeathEvent.class, "[on] death [of %entity types%]", defaultEntityComparison())
+            .registerEvent("io.papermc.paper.event.entity.EntityMoveEvent", "[on] %entity type% (move|walk|step)", matches -> {
+                for (SkriptMatchResult match : matches) {
+                    PsiElement<?>[] elements = tryParseAllTypes(match);
+
+                    if (elements == null) {
+                        continue;
+                    }
+
+                    Object object = elements[0].execute(null, null);
+
+                    if (!(object instanceof EntityTypeRegistry.Entry)) {
+                        continue;
+                    }
+
+                    EntityTypeRegistry.Entry entityType = (EntityTypeRegistry.Entry) object;
+
+                    //already handled by the simple player move event
+                    if (entityType.getName().equals("player")) {
+                        return null;
+                    }
+
+                    String entityTypeKey = entityType.getKey();
+
+                    return event -> {
+                        Entity entity = ((EntityMoveEvent) event).getEntity();
+                        EntityType type = entity.getType();
+                        boolean isUnknown = type == EntityType.UNKNOWN;
+
+                        //xor check: only return false if entity type is unknown and a key exists or entity type is not unknown, but a key doesn't exist
+                        if (isUnknown != (entityTypeKey == null)) {
+                            return false;
+                        }
+
+                        if (!isUnknown) {
+                            NamespacedKey key = type.getKey();
+
+                            return entityTypeKey.equals(key.getNamespace() + ':' + key.getKey());
+                        }
+
+                        return true;
+                    };
+                }
+
+                return null;
+            }, Platform.PAPER)
             .registerEvent(FireworkExplodeEvent.class, "[on] [a] firework explo(d(e|ing)|sion) [colo[u]red %colors%]",
                 matches -> {
                     for (SkriptMatchResult match : matches) {
