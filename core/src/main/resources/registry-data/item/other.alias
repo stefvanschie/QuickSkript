@@ -62,6 +62,27 @@
     north-up :: [orientation=north_up],
     south-up :: [orientation=south_up]
 >
+[light level] = <
+    level (1|one) :: [level=1],
+    level (2|two) :: [level=2],
+    level (3|three) :: [level=3],
+    level (4|four) :: [level=4],
+    level (5|five) :: [level=5],
+    level (6|six) :: [level=6],
+    level (7|seven) :: [level=7],
+    level (8|eight) :: [level=8],
+    level (9|nine) :: [level=9],
+    level (10|ten) :: [level=10],
+    level (11|eleven) :: [level=11],
+    level (12|twelve) :: [level=12],
+    level (13|thirteen) :: [level=13],
+    level (14|fourteen) :: [level=14],
+    level (15|fifteen) :: [level=15]
+>
+[sculk sensor activity] = <
+    active :: [sculk_sensor_phase=active],
+    cooldown :: [sculk_sensor_phase=cooldown]
+>
 
 end[er] portal [block[s]] -> minecraft:end_portal
 fire -> minecraft:fire
@@ -111,3 +132,32 @@ void air -> minecraft:void_air
 {fluid state} lava -> minecraft:lava
 
 soul fire -> minecraft:soul_fire
+
+candle cake[s] -> minecraft:candle_cake
+white candle cake[s] -> minecraft:white_candle_cake
+orange candle cake[s] -> minecraft:orange_candle_cake
+magenta candle cake[s] -> minecraft:magenta_candle_cake
+light blue candle cake[s] -> minecraft:light_blue_candle_cake
+yellow candle cake[s] -> minecraft:yellow_candle_cake
+(lime|light green) candle cake[s] -> minecraft:lime_candle_cake
+pink candle cake[s] -> minecraft:pink_candle_cake
+[dark] gray candle cake[s] -> minecraft:gray_candle_cake
+light gray candle cake[s] -> minecraft:light_gray_candle_cake
+cyan candle cake[s] -> minecraft:cyan_candle_cake
+purple candle cake[s] -> minecraft:purple_candle_cake
+blue candle cake[s] -> minecraft:blue_candle_cake
+brown candle cake[s] -> minecraft:brown_candle_cake
+[dark] green candle cake[s] -> minecraft:green_candle_cake
+red candle cake[s] -> minecraft:red_candle_cake
+black candle cake[s] -> minecraft:black_candle_cake
+
+cave vines -> minecraft:cave_vines
+cave vines plant -> minecraft:cave_vines_plant
+
+powder snow [block[s]] -> minecraft:powder_snow
+
+{waterloggable} {light level} light [block[s]] -> minecraft:light
+
+bundle[s] -> minecraft:bundle
+
+{waterloggable} {sculk sensor activity} sculk sensor -> minecraft:sculk_sensor

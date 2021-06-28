@@ -57,7 +57,11 @@ potion type = <
 (lingering potion[s] of {potion type}|{potion type} lingering potion[s]) : any potion -> minecraft:lingering_potion
 potion : any potion -> minecraft:potion
 
-{cauldron level} cauldron[s] -> minecraft:cauldron
+[empty] cauldron[s] -> minecraft:cauldron
+lava cauldron[s] -> minecraft:lava_cauldron
+{cauldron level} [water] cauldron[s] -> minecraft:water_cauldron
+{cauldron level} powder snow cauldron[s] -> minecraft:powder_snow_cauldron
+
 dragon['s] breath -> minecraft:dragon_breath
 
 ghast tear[s] -> minecraft:ghast_tear

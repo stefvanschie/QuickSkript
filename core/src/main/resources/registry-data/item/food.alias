@@ -43,3 +43,5 @@ tropical fish[es] : any raw fish[es], any fish, [any] food -> minecraft:tropical
 melon slice[s] : [any] fruit[s], [any] food -> minecraft:melon_slice
 
 cake[s] : [any] dessert[s], [any] food -> minecraft:cake
+
+glow berr(y|ies) : [any] food -> minecraft:glow_berries

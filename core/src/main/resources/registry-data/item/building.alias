@@ -31,12 +31,12 @@ sand [block[s]] -> minecraft:sand
 gravel [block[s]] -> minecraft:gravel
 clay block[s] -> minecraft:clay
 
-gold ore[s] : [any] ore -> minecraft:gold_ore
-iron ore[s] : [any] ore -> minecraft:iron_ore
-coal ore[s] : [any] ore -> minecraft:coal_ore
-lapis [lazuli] ore[s] : [any] ore -> minecraft:lapis_ore
-diamond ore[s] : [any] ore -> minecraft:diamond_ore
-emerald ore[s] : [any] ore -> minecraft:emerald_ore
+gold ore[s] : [any] ore, [any] stone ore -> minecraft:gold_ore
+iron ore[s] : [any] ore, [any] stone ore -> minecraft:iron_ore
+coal ore[s] : [any] ore, [any] stone ore -> minecraft:coal_ore
+lapis [lazuli] ore[s] : [any] ore, [any] stone ore -> minecraft:lapis_ore
+diamond ore[s] : [any] ore, [any] stone ore -> minecraft:diamond_ore
+emerald ore[s] : [any] ore, [any] stone ore -> minecraft:emerald_ore
 
 obsidian [block[s]] -> minecraft:obsidian
 bedrock [block[s]] -> minecraft:bedrock
@@ -78,8 +78,8 @@ end[ ]stone brick[s] -> minecraft:end_stone_bricks
 {snowable} podzol [block[s]] -> minecraft:podzol
 {snowable} mycelium [block[s]] -> minecraft:mycelium
 coarse dirt [block[s]] -> minecraft:coarse_dirt
-[nether] quartz ore[s] : [any] ore -> minecraft:nether_quartz_ore
-{lightable} redstone ore[s] : [any] ore -> minecraft:redstone_ore
+[nether] quartz ore[s] : [any] ore, [any] stone ore -> minecraft:nether_quartz_ore
+{lightable} redstone ore[s] : [any] ore, [any] stone ore -> minecraft:redstone_ore
 
 oak [wood] plank[s] : [any] plank[s] -> minecraft:oak_planks
 spruce [wood] plank[s] : [any] plank[s] -> minecraft:spruce_planks
@@ -405,3 +405,87 @@ chiseled polished blackstone -> minecraft:chiseled_polished_blackstone
 
 {waterloggable} {stairs} {stairs shape} {directional} polished blackstone brick stair[s] : [any] slab[s], any blackstone stair[s] -> minecraft:polished_blackstone_brick_stairs
 gilded blackstone -> minecraft:gilded_blackstone
+
+(amethyst block[s]|block[s] of amethyst) -> minecraft:amethyst_block
+budding amethyst[s] -> minecraft:budding_amethyst
+
+(copper block[s]|block[s] of copper) -> minecraft:copper_block
+exposed copper [block[s]] -> minecraft:exposed_copper
+weathered copper [block[s]] -> minecraft:weathered_copper
+oxidized copper [block[s]] -> minecraft:oxidized_copper
+cut copper [block[s]] -> minecraft:cut_copper
+exposed cut copper [block[s]] -> minecraft:exposed_cut_copper
+weathered cut copper [block[s]] -> minecraft:weathered_cut_copper
+oxidized cut copper [block[s]] -> minecraft:oxidized_cut_copper
+
+waxed (copper block[s]|block[s] of copper) -> minecraft:waxed_copper_block
+waxed exposed copper [block[s]] -> minecraft:waxed_exposed_copper
+waxed weathered copper [block[s]] -> minecraft:waxed_weathered_copper
+waxed oxidized copper [block[s]] -> minecraft:waxed_oxidized_copper
+waxed cut copper [block[s]] -> minecraft:waxed_cut_copper
+waxed exposed cut copper [block[s]] -> minecraft:waxed_exposed_cut_copper
+waxed weathered cut copper [block[s]] -> minecraft:waxed_weathered_cut_copper
+waxed oxidized cut copper [block[s]] -> minecraft:waxed_oxidized_cut_copper
+
+{stairs} {stairs shape} {directional} cut copper stair[s] : [any] stair[s], any [cut] copper stair[s], any non-waxed [cut] copper stair[s] -> minecraft:cut_copper_stairs
+{stairs} {stairs shape} {directional} exposed copper stair[s] : [any] stair[s], any [cut] copper stair[s], any non-waxed [cut] copper stair[s] -> minecraft:exposed_cut_copper_stairs
+{stairs} {stairs shape} {directional} weathered copper stair[s] : [any] stair[s], any [cut] copper stair[s], any non-waxed [cut] copper stair[s] -> minecraft:weathered_cut_copper_stairs
+{stairs} {stairs shape} {directional} oxidized copper stair[s] : [any] stair[s], any [cut] copper stair[s], any non-waxed [cut] copper stair[s] -> minecraft:oxidized_cut_copper_stairs
+
+{stairs} {stairs shape} {directional} waxed cut copper stair[s] : [any] stair[s], any [cut] copper stair[s], any waxed [cut] copper stair[s] -> minecraft:waxed_cut_copper_stairs
+{stairs} {stairs shape} {directional} waxed exposed copper stair[s] : [any] stair[s], any [cut] copper stair[s], any waxed [cut] copper stair[s] -> minecraft:waxed_exposed_cut_copper_stairs
+{stairs} {stairs shape} {directional} waxed weathered copper stair[s] : [any] stair[s], any [cut] copper stair[s], any waxed [cut] copper stair[s] -> minecraft:waxed_weathered_cut_copper_stairs
+{stairs} {stairs shape} {directional} waxed oxidized copper stair[s] : [any] stair[s], any [cut] copper stair[s], any waxed [cut] copper stair[s] -> minecraft:waxed_oxidized_cut_copper_stairs
+
+{waterloggable} {slab} cut copper slab[s] : [any] slab[s], any [cut] copper slab[s], any non-waxed [cut] copper slab[s] -> minecraft:cut_copper_slab
+{waterloggable} {slab} exposed copper slab[s] : [any] slab[s], any [cut] copper slab[s], any non-waxed [cut] copper slab[s] -> minecraft:exposed_copper_slab
+{waterloggable} {slab} weathered copper slab[s] : [any] slab[s], any [cut] copper slab[s], any non-waxed [cut] copper slab[s] -> minecraft:weathered_copper_slab
+{waterloggable} {slab} oxidized copper slab[s] : [any] slab[s], any [cut] copper slab[s], any non-waxed [cut] copper slab[s] -> minecraft:oxidized_copper_slab
+
+{waterloggable} {slab} waxed cut copper slab[s] : [any] slab[s], any [cut] copper slab[s], any waxed [cut] copper slab[s] -> minecraft:waxed_cut_copper_slab
+{waterloggable} {slab} waxed exposed copper slab[s] : [any] slab[s], any [cut] copper slab[s], any waxed [cut] copper slab[s] -> minecraft:waxed_exposed_copper_slab
+{waterloggable} {slab} waxed weathered copper slab[s] : [any] slab[s], any [cut] copper slab[s], any waxed [cut] copper slab[s] -> minecraft:waxed_weathered_copper_slab
+{waterloggable} {slab} waxed oxidized copper slab[s] : [any] slab[s], any [cut] copper slab[s], any waxed [cut] copper slab[s] -> minecraft:waxed_oxidized_copper_slab
+
+{axised} deepslate [block[s]] -> minecraft:deepslate
+chiseled deepslate [block[s]] -> minecraft:chiseled_deepslate
+
+cobbled deepslate [block[s]] -> minecraft:cobbled_deepslate
+{waterloggable} {stairs} {stairs shape} {directional} cobbled deepslate stair[s] : [any] stair[s] -> minecraft:cobbled_deepslate_stairs
+{waterloggable} {slab} cobbled deepslate slab[s] : [any] slab[s] -> minecraft:cobbled_deepslate_slab
+
+polished deepslate [block[s]] -> minecraft:polished_deepslate
+{waterloggable} {stairs} {stairs shape} {directional} polished deepslate stair[s] : [any] stair[s] -> minecraft:polished_deepslate_stairs
+{waterloggable} {slab} polished deepslate slab[s] : [any] slab[s] -> minecraft:polished_deepslate_slab
+
+deepslate tile[s] : any deepslate tile[s] -> minecraft:deepslate_tiles
+cracked deepslate tile[s] : any deepslate tile[s] -> minecraft:cracked_deepslate_tiles
+{waterloggable} {stairs} {stairs shape} {directional} deepslate tile stair[s] : [any] stair[s] -> minecraft:deepslate_tile_stairs
+{waterloggable} {slab} deepslate tile slab[s] : [any] slab[s] -> minecraft:deepslate_tile_slab
+
+deepslate brick[s] : any deepslate brick[s] -> minecraft:deepslate_bricks
+cracked deepslate brick[s] : any deepslate brick[s] -> minecraft:cracked_deepslate_bricks
+{waterloggable} {stairs} {stairs shape} {directional} deepslate brick stair[s] : [any] stair[s] -> minecraft:deepslate_brick_stairs
+{waterloggable} {slab} deepslate brick slab[s] : [any] slab[s] -> minecraft:deepslate_brick_slab
+
+(raw iron block[s]|block[s] of raw iron) -> minecraft:raw_iron_block
+(raw copper block[s]|block[s] of raw copper) -> minecraft:raw_copper_block
+(raw gold block[s]|block[s] of raw gold) -> minecraft:raw_gold_block
+
+calcite -> minecraft:calcite
+tuff -> minecraft:tuff
+dripstone block[s] -> minecraft:dripstone_block
+smooth_basalt -> minecraft:smooth_basalt
+rooted dirt [block[s]] -> minecraft:rooted_dirt
+
+tinted glass -> minecraft:tinted_glass
+
+copper ore[s] -> minecraft:copper_ore
+deepslate coal ore[s] : [any] ore, [any] deepslate ore -> minecraft:deepslate_coal_ore
+deepslate iron ore[s] : [any] ore, [any] deepslate ore -> minecraft:deepslate_iron_ore
+deepslate copper ore[s] : [any] ore, [any] deepslate ore -> minecraft:deepslate_copper_ore
+deepslate gold ore[s] : [any] ore, [any] deepslate ore -> minecraft:deepslate_gold_ore
+deepslate redstone ore[s] : [any] ore, [any] deepslate ore -> minecraft:deepslate_redstone_ore
+deepslate emerald ore[s] : [any] ore, [any] deepslate ore -> minecraft:deepslate_emerald_ore
+deepslate lapis [lazuli] ore[s] : [any] ore, [any] deepslate ore -> minecraft:deepslate_lapis_ore
+deepslate diamond ore[s] : [any] ore, [any] deepslate ore -> minecraft:deepslate_diamond_ore

@@ -127,10 +127,10 @@ water bucket[s] : any bucket -> minecraft:water_bucket
 lava bucket[s] : any bucket -> minecraft:lava_bucket
 milk [bucket[s]] : any bucket -> minecraft:milk_bucket
 
-tropical fish bucket[s] : any fish bucket, any bucket -> minecraft:tropical_fish_bucket
-cod bucket[s] : any fish bucket, any bucket -> minecraft:cod_bucket
-pufferfish bucket[s] : any fish bucket, any bucket -> minecraft:pufferfish_bucket
-salmon bucket[s] : any fish bucket, any bucket -> minecraft:salmon_bucket
+(tropical fish bucket[s]|bucket[s] of tropical fish) : any fish bucket, any bucket -> minecraft:tropical_fish_bucket
+(cod bucket[s]|bucket[s] of cod) : any fish bucket, any bucket -> minecraft:cod_bucket
+(pufferfish bucket[s]|bucket[s] of pufferfish) : any fish bucket, any bucket -> minecraft:pufferfish_bucket
+(salmon bucket[s]|bucket[s] of salmon) : any fish bucket, any bucket -> minecraft:salmon_bucket
 
 [music] (disc|record) 11 : [any] [music] (disc|record) -> minecraft:music_disc_11
 [music] (disc|record) 13 : [any] [music] (disc|record) -> minecraft:music_disc_13
@@ -227,6 +227,11 @@ cocoa bean[s] -> minecraft:cocoa_beans
 (panda [spawn] egg|spawn panda)[s] : [any] spawn egg[s] -> minecraft:panda_spawn_egg
 
 (bee [spawn] egg|spawn bee)[s] : [any] spawn egg[s] -> minecraft:bee_spawn_egg
+
+(axolotl [spawn] egg|spawn axolotl)[s] : [any] spawn egg[s] -> minecraft:axolotl_spawn_egg
+(goat [spawn] egg|spawn goat)[s] : [any] spawn egg[s] -> minecraft:goat_spawn_egg
+(glow squid [spawn] egg|spawn glow squid)[s] : [any] spawn egg[s] -> minecraft:glow_squid_spawn_egg
+
 {composter stage} composter[s] -> minecraft:composter
 {bamboo age} {bamboo leaves} {bamboo stage} bamboo [plant] -> minecraft:bamboo
 {berry age} sweet berry bush [plant] -> minecraft:sweet_berries
@@ -239,7 +244,7 @@ globe banner pattern[s] : [any] banner pattern[s] -> minecraft:globe_banner_patt
 
 honeycomb[s] -> minecraft:honeycomb
 
-netherite ingot[s] -> minecraft:netherite_ingot
+netherite ingot[s] : any ingot[s] -> minecraft:netherite_ingot
 netherite scrap[s] -> minecraft:netherite_scrap
 (hoglin [spawn] egg|spawn hoglin)[s] : [any] spawn egg[s] -> minecraft:hoglin_spawn_egg
 ((zombified piglin|zombie pigman) [spawn] egg|spawn (zombified piglin|zombie pigman))[s] : [any] spawn egg[s] -> minecraft:zombified_piglin_spawn_egg
@@ -249,3 +254,15 @@ zoglin [spawn] egg|spawn zoglin)[s] : [any] spawn egg[s] -> minecraft:zoglin_spa
 [music] (disc|record) pigstep : [any] [music] (disc|record) -> minecraft:music_disc_pigstep
 
 (snout|piglin) banner pattern[s] : [any] banner pattern[s] -> minecraft:pigling_banner_pattern
+
+glow ink sac[s] -> minecraft:glow_ink_sac
+amethyst_shard[s] -> minecraft:amethyst_shard
+
+powder snow bucket[s] : any bucket -> minecraft:powder_snow_bucket
+(axolotl bucket[s]|bucket[s] of axolotl) : any bucket, any fish bucket -> minecraft:axolotl_bucket
+
+copper ingot[s] : any ingot[s] -> minecraft:copper_ingot
+
+raw iron : [any] raw ore[s] -> minecraft:raw_iron
+raw copper : [any] raw ore[s] -> minecraft:raw_copper
+raw gold : [any] raw ore[s] -> minecraft:raw_gold

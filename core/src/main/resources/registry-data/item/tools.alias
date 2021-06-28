@@ -35,3 +35,5 @@ flint and steel[s] -> minecraft:flint_and_steel
 shear[s] -> minecraft:shears
 (lead[s]|leash[es]) -> minecraft:lead
 name[ ]tag[s] -> minecraft:name_tag
+
+spyglass[es] -> minecraft:spyglass

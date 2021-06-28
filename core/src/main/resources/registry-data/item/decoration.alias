@@ -78,6 +78,23 @@
     level 3 :: [charges=3],
     (full[y charged]|level 4) :: [charges=4]
 >
+[pointed dripstone thickness] = <
+    base :: [thickness=base],
+    frustum :: [thickness=frustum],
+    middle :: [thickness=middle],
+    tip :: [thickness=tip],
+    tip merge :: [thickness=tip_merge]
+>
+[pointed dripstone direction] = <
+    (floor [attached]|upward facing) :: [vertical_direction=down],
+    (ceiling [attached]|downward facing) :: [vertical_direction=up]
+>
+[dripleaf tilt] = <
+    fully tilted :: [tilt=full],
+    non-tilted :: [tilt=none],
+    partially tilted :: [tilt=partial],
+    unstabl(e|y tilted) :: [tilt=unstable]
+>
 
 brown mushroom[s] : [any] [small] mushroom -> minecraft:brown_mushroom
 red mushroom[s] : [any] [small] mushroom -> minecraft:red_mushroom
@@ -343,7 +360,7 @@ smithing table[s] -> minecraft:smithing_table
 
 chorus (plant|stem)[s] -> minecraft:chorus_plant
 chorus flower[s] -> minecraft:chorus_flower
-grass path [block[s]] -> minecraft:grass_path
+(grass|dirt) path [block[s]] -> minecraft:dirt_path
 end[er] crystal [item[s]] -> minecraft:end_crystal
 
 {orientable} [normal] shulker box[es] : any shulker box[es] -> minecraft:shulker_box
@@ -463,3 +480,55 @@ warped nether root[s] : [any] root[s] -> minecraft:warped_roots
 {waterloggable} {lightable} signal[ing] soul campfire -> minecraft:soul_campfire[signal_fire=true]
 
 {waterloggable} {lantern hanging} soul lantern[s] : any lantern -> minecraft:soul_lantern
+
+{waterloggable} {orientable} small amethyst bud[s] : [any] amethyst bud[s] -> minecraft:small_amethyst_bus
+{waterloggable} {orientable} medium amethyst bud[s] : [any] amethyst bud[s] -> minecraft:medium_amethyst_bus
+{waterloggable} {orientable} large amethyst bud[s] : [any] amethyst bud[s] -> minecraft:large_amethyst_bus
+
+{waterloggable} {orientable} amethyst cluster[s] -> minecraft:amethyst_cluster
+
+azalea[s] -> minecraft:azalea
+flowering azalea[s] -> minecraft:flowering_azalea
+{decayable} azalea lea(f|ves) : [any] lea(f|ves) -> minecraft:azalea_leaves
+{decayable} flowering azalea lea(f|ves) : [any] lea(f|ves) -> minecraft:flowering_azalea_leaves
+
+candle[s] -> minecraft:candle
+white candle[s] -> minecraft:white_candle
+orange candle[s] -> minecraft:orange_candle
+magenta candle[s] -> minecraft:magenta_candle
+light blue candle[s] -> minecraft:light_blue_candle
+yellow candle[s] -> minecraft:yellow_candle
+(lime|light green) candle[s] -> minecraft:lime_candle
+pink candle[s] -> minecraft:pink_candle
+[dark] gray candle[s] -> minecraft:gray_candle
+light gray candle[s] -> minecraft:light_gray_candle
+cyan candle[s] -> minecraft:cyan_candle
+purple candle[s] -> minecraft:purple_candle
+blue candle[s] -> minecraft:blue_candle
+brown candle[s] -> minecraft:brown_candle
+[dark] green candle[s] -> minecraft:green_candle
+red candle[s] -> minecraft:red_candle
+black candle[s] -> minecraft:black_candle
+
+{waterloggable} {pointed dripstone direction} pointed dripstone {pointed dripstone thickness} -> minecraft:pointed_dripstone
+
+spore blossom[s] -> minecraft:spore_blossom
+
+moss carpet[s] -> minecraft:moss_carpet
+moss block[s] -> minecraft:moss_block
+
+{waterloggable} hanging root[s] -> minecraft:hanging_roots
+
+{waterloggable} {directional} {dripleaf tilt} big dripleaf -> minecraft:big_dripleaf
+{waterloggable} {directional} big dripleaf stem -> minecraft:big_dripleaf_stem
+{waterloggable} {directional} {half} small dripleaf -> minecraft:small_dripleaf
+
+(infested|silverfish) deepslate [block][s] : [any] (infested|silverfish) block[s] -> minecraft:infested_deepslate
+
+{waterloggable} cobbled deepslate wall[s] -> minecraft:cobbled_deepslate_wall
+{waterloggable} polished deepslate wall[s] -> minecraft:polished_deepslate_wall
+{waterloggable} deepslate brick wall[s] -> minecraft:deepslate_brick_wall
+{waterloggable} deepslate tile wall[s] -> minecraft:deepslate_tile_wall
+
+{waterloggable} glow lichen[s] -> minecraft:glow_lichen
+glow item frame [item][s] -> minecraft:glow_item_frame
