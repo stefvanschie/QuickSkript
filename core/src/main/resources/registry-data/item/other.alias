@@ -141,8 +141,8 @@ light blue candle cake[s] -> minecraft:light_blue_candle_cake
 yellow candle cake[s] -> minecraft:yellow_candle_cake
 (lime|light green) candle cake[s] -> minecraft:lime_candle_cake
 pink candle cake[s] -> minecraft:pink_candle_cake
-[dark] gray candle cake[s] -> minecraft:gray_candle_cake
-light gray candle cake[s] -> minecraft:light_gray_candle_cake
+[dark] gr(a|e)y candle cake[s] -> minecraft:gray_candle_cake
+light gr(a|e)y candle cake[s] -> minecraft:light_gray_candle_cake
 cyan candle cake[s] -> minecraft:cyan_candle_cake
 purple candle cake[s] -> minecraft:purple_candle_cake
 blue candle cake[s] -> minecraft:blue_candle_cake

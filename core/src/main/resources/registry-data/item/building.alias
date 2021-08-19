@@ -134,8 +134,8 @@ light blue [stained] glass [block[s]] : [any] stained glass block[s] -> minecraf
 yellow [stained] glass [block[s]] : [any] stained glass block[s] -> minecraft:yellow_stained_glass
 (lime|light green) [stained] glass [block[s]] : [any] stained glass block[s] -> minecraft:lime_stained_glass
 pink [stained] glass [block[s]] : [any] stained glass block[s] -> minecraft:pink_stained_glass
-[dark] gray [stained] glass [block[s]] : [any] stained glass block[s] -> minecraft:gray_stained_glass
-light gray [stained] glass [block[s]] : [any] stained glass block[s] -> minecraft:light_gray_stained_glass
+[dark] gr(a|e)y [stained] glass [block[s]] : [any] stained glass block[s] -> minecraft:gray_stained_glass
+light gr(a|e)y [stained] glass [block[s]] : [any] stained glass block[s] -> minecraft:light_gray_stained_glass
 cyan [stained] glass [block[s]] : [any] stained glass block[s] -> minecraft:cyan_stained_glass
 purple [stained] glass [block[s]] : [any] stained glass block[s] -> minecraft:purple_stained_glass
 blue [stained] glass [block[s]] : [any] stained glass block[s] -> minecraft:blue_stained_glass
@@ -151,8 +151,8 @@ light blue wool [block[s]] : [any] wool [block[s]] -> minecraft:light_blue_wool
 yellow wool [block[s]] : [any] wool [block[s]] -> minecraft:yellow_wool
 (lime|light green) wool [block[s]] : [any] wool [block[s]] -> minecraft:lime_wool
 pink wool [block[s]] : [any] wool [block[s]] -> minecraft:pink_wool
-[dark] gray wool [block[s]] : [any] wool [block[s]] -> minecraft:gray_wool
-light gray wool [block[s]] : [any] wool [block[s]] -> minecraft:light_gray_wool
+[dark] gr(a|e)y wool [block[s]] : [any] wool [block[s]] -> minecraft:gray_wool
+light gr(a|e)y wool [block[s]] : [any] wool [block[s]] -> minecraft:light_gray_wool
 cyan wool [block[s]] : [any] wool [block[s]] -> minecraft:cyan_wool
 purple wool [block[s]] : [any] wool [block[s]] -> minecraft:purple_wool
 blue wool [block[s]] : [any] wool [block[s]] -> minecraft:blue_wool
@@ -168,8 +168,8 @@ light blue [stained] ([hard[ened]] clay|terracotta) : any stained ([hard[ened]] 
 yellow [stained] ([hard[ened]] clay|terracotta) : any stained ([hard[ened]] clay|terracotta), any (hard[ened] clay|terracotta) [block[s]] -> minecraft:yellow_terracotta
 (lime|light green) [stained] ([hard[ened]] clay|terracotta) : any stained ([hard[ened]] clay|terracotta), any (hard[ened] clay|terracotta) [block[s]] -> minecraft:lime_terracotta
 pink [stained] ([hard[ened]] clay|terracotta) : any stained ([hard[ened]] clay|terracotta), any (hard[ened] clay|terracotta) [block[s]] -> minecraft:pink_terracotta
-[dark] gray [stained] ([hard[ened]] clay|terracotta) : any stained ([hard[ened]] clay|terracotta), any (hard[ened] clay|terracotta) [block[s]] -> minecraft:gray_terracotta
-light gray [stained] ([hard[ened]] clay|terracotta) : any stained ([hard[ened]] clay|terracotta), any (hard[ened] clay|terracotta) [block[s]] -> minecraft:light_gray_terracotta
+[dark] gr(a|e)y [stained] ([hard[ened]] clay|terracotta) : any stained ([hard[ened]] clay|terracotta), any (hard[ened] clay|terracotta) [block[s]] -> minecraft:gray_terracotta
+light gr(a|e)y [stained] ([hard[ened]] clay|terracotta) : any stained ([hard[ened]] clay|terracotta), any (hard[ened] clay|terracotta) [block[s]] -> minecraft:light_gray_terracotta
 cyan [stained] ([hard[ened]] clay|terracotta) : any stained ([hard[ened]] clay|terracotta), any (hard[ened] clay|terracotta) [block[s]] -> minecraft:cyan_terracotta
 purple [stained] ([hard[ened]] clay|terracotta) : any stained ([hard[ened]] clay|terracotta), any (hard[ened] clay|terracotta) [block[s]] -> minecraft:purple_terracotta
 blue [stained] ([hard[ened]] clay|terracotta) : any stained ([hard[ened]] clay|terracotta), any (hard[ened] clay|terracotta) [block[s]] -> minecraft:blue_terracotta
@@ -186,8 +186,8 @@ light blue concrete : [any] concrete [block[s]] -> minecraft:light_blue_concrete
 yellow concrete : [any] concrete [block[s]] -> minecraft:yellow_concrete
 (lime|light green) concrete : [any] concrete [block[s]] -> minecraft:lime_concrete
 pink concrete : [any] concrete [block[s]] -> minecraft:pink_concrete
-[dark] gray concrete : [any] concrete [block[s]] -> minecraft:gray_concrete
-light gray concrete : [any] concrete [block[s]] -> minecraft:light_gray_concrete
+[dark] gr(a|e)y concrete : [any] concrete [block[s]] -> minecraft:gray_concrete
+light gr(a|e)y concrete : [any] concrete [block[s]] -> minecraft:light_gray_concrete
 cyan concrete : [any] concrete [block[s]] -> minecraft:cyan_concrete
 purple concrete : [any] concrete [block[s]] -> minecraft:purple_concrete
 blue concrete : [any] concrete [block[s]] -> minecraft:blue_concrete
@@ -203,8 +203,8 @@ light blue concrete powder : [any] concrete powder [block[s]] -> minecraft:light
 yellow concrete powder : [any] concrete powder [block[s]] -> minecraft:yellow_concrete_powder
 (lime|light green) concrete powder : [any] concrete powder [block[s]] -> minecraft:lime_concrete_powder
 pink concrete powder : [any] concrete powder [block[s]] -> minecraft:pink_concrete_powder
-[dark] gray concrete powder : [any] concrete powder [block[s]] -> minecraft:gray_concrete_powder
-light gray concrete powder : [any] concrete powder [block[s]] -> minecraft:light_gray_concrete_powder
+[dark] gr(a|e)y concrete powder : [any] concrete powder [block[s]] -> minecraft:gray_concrete_powder
+light gr(a|e)y concrete powder : [any] concrete powder [block[s]] -> minecraft:light_gray_concrete_powder
 cyan concrete powder : [any] concrete powder [block[s]] -> minecraft:cyan_concrete_powder
 purple concrete powder : [any] concrete powder [block[s]] -> minecraft:purple_concrete_powder
 blue concrete powder : [any] concrete powder [block[s]] -> minecraft:blue_concrete_powder

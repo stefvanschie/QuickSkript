@@ -184,8 +184,8 @@ light blue carpet[s] : [any] carpet[s] -> minecraft:light_blue_carpet
 yellow carpet[s] : [any] carpet[s] -> minecraft:yellow_carpet
 (lime|light green) carpet[s] : [any] carpet[s] -> minecraft:lime_carpet
 pink carpet[s] : [any] carpet[s] -> minecraft:pink_carpet
-[dark] gray carpet[s] : [any] carpet[s] -> minecraft:gray_carpet
-light gray carpet[s] : [any] carpet[s] -> minecraft:light_gray_carpet
+[dark] gr(a|e)y carpet[s] : [any] carpet[s] -> minecraft:gray_carpet
+light gr(a|e)y carpet[s] : [any] carpet[s] -> minecraft:light_gray_carpet
 cyan carpet[s] : [any] carpet[s] -> minecraft:cyan_carpet
 purple carpet[s] : [any] carpet[s] -> minecraft:purple_carpet
 blue carpet[s] : [any] carpet[s] -> minecraft:light_blue_carpet
@@ -201,8 +201,8 @@ light blue [stained] glass pane[s] : [any] stained glass pane[s] -> minecraft:li
 yellow [stained] glass pane[s] : [any] stained glass pane[s] -> minecraft:yellow_stained_glass_pane
 (lime|light green) [stained] glass pane[s] : [any] stained glass pane[s] -> minecraft:lime_stained_glass_pane
 pink [stained] glass pane[s] : [any] stained glass pane[s] -> minecraft:pink_stained_glass_pane
-[dark] gray [stained] glass pane[s] : [any] stained glass pane[s] -> minecraft:gray_stained_glass_pane
-light gray [stained] glass pane[s] : [any] stained glass pane[s] -> minecraft:light_gray_stained_glass_pane
+[dark] gr(a|e)y [stained] glass pane[s] : [any] stained glass pane[s] -> minecraft:gray_stained_glass_pane
+light gr(a|e)y [stained] glass pane[s] : [any] stained glass pane[s] -> minecraft:light_gray_stained_glass_pane
 cyan [stained] glass pane[s] : [any] stained glass pane[s] -> minecraft:cyan_stained_glass_pane
 purple [stained] glass pane[s] : [any] stained glass pane[s] -> minecraft:purple_stained_glass_pane
 blue [stained] glass pane[s] : [any] stained glass pane[s] -> minecraft:blue_stained_glass_pane
@@ -218,8 +218,8 @@ black [stained] glass pane[s] : [any] stained glass pane[s] -> minecraft:black_s
 {directional} yellow glazed terracotta [block[s]] : any glazed terracotta -> minecraft:yellow_glazed_terracotta
 {directional} (lime|light green) glazed terracotta [block[s]] : any glazed terracotta -> minecraft:lime_glazed_terracotta
 {directional} pink glazed terracotta [block[s]] : any glazed terracotta -> minecraft:pink_glazed_terracotta
-{directional} [dark] gray glazed terracotta [block[s]] : any glazed terracotta -> minecraft:gray_glazed_terracotta
-{directional} light gray glazed terracotta [block[s]] : any glazed terracotta -> minecraft:light_gray_glazed_terracotta
+{directional} [dark] gr(a|e)y glazed terracotta [block[s]] : any glazed terracotta -> minecraft:gray_glazed_terracotta
+{directional} light gr(a|e)y glazed terracotta [block[s]] : any glazed terracotta -> minecraft:light_gray_glazed_terracotta
 {directional} cyan glazed terracotta [block[s]] : any glazed terracotta -> minecraft:cyan_glazed_terracotta
 {directional} purple glazed terracotta [block[s]] : any glazed terracotta -> minecraft:purple_glazed_terracotta
 {directional} blue glazed terracotta [block[s]] : any glazed terracotta -> minecraft:blue_glazed_terracotta
@@ -235,8 +235,8 @@ black [stained] glass pane[s] : [any] stained glass pane[s] -> minecraft:black_s
 {directional} {bed occupied} yellow bed {bed part} : any bed -> minecraft:yellow_bed
 {directional} {bed occupied} (lime|light green) bed {bed part} : any bed -> minecraft:lime_bed
 {directional} {bed occupied} pink bed {bed part} : any bed -> minecraft:pink_bed
-{directional} {bed occupied} [dark] gray bed {bed part} : any bed -> minecraft:gray_bed
-{directional} {bed occupied} light gray bed {bed part} : any bed -> minecraft:light_gray_bed
+{directional} {bed occupied} [dark] gr(a|e)y bed {bed part} : any bed -> minecraft:gray_bed
+{directional} {bed occupied} light gr(a|e)y bed {bed part} : any bed -> minecraft:light_gray_bed
 {directional} {bed occupied} cyan bed {bed part} : any bed -> minecraft:cyan_bed
 {directional} {bed occupied} purple bed {bed part} : any bed -> minecraft:purple_bed
 {directional} {bed occupied} blue bed {bed part} : any bed -> minecraft:blue_bed
@@ -372,8 +372,8 @@ end[er] crystal [item[s]] -> minecraft:end_crystal
 {orientable} yellow shulker box[es] : any shulker box[es] -> minecraft:yellow_shulker_box
 {orientable} (lime|light green) shulker box[es] : any shulker box[es] -> minecraft:lime_shulker_box
 {orientable} pink shulker box[es] : any shulker box[es] -> minecraft:pink_shulker_box
-{orientable} [dark] gray shulker box[es] : any shulker box[es] -> minecraft:gray_shulker_box
-{orientable} light gray shulker box[es] : any shulker box[es] -> minecraft:light_gray_shulker_box
+{orientable} [dark] gr(a|e)y shulker box[es] : any shulker box[es] -> minecraft:gray_shulker_box
+{orientable} light gr(a|e)y shulker box[es] : any shulker box[es] -> minecraft:light_gray_shulker_box
 {orientable} cyan shulker box[es] : any shulker box[es] -> minecraft:cyan_shulker_box
 {orientable} purple shulker box[es] : any shulker box[es] -> minecraft:purple_shulker_box
 {orientable} blue shulker box[es] : any shulker box[es] -> minecraft:blue_shulker_box
@@ -415,8 +415,8 @@ creeper (head|skull) item[s] : [any] (head|skull) item[s] -> minecraft:creeper_h
 {directional} yellow wall banner[s] : [any] wall banner[s], [any] banner[s] -> minecraft:yellow_wall_banner
 {directional} (lime|light green) wall banner[s] : [any] wall banner[s], [any] banner[s] -> minecraft:lime_wall_banner
 {directional} pink wall banner[s] : [any] wall banner[s], [any] banner[s] -> minecraft:pink_wall_banner
-{directional} [dark] gray wall banner[s] : [any] wall banner[s], [any] banner[s] -> minecraft:gray_wall_banner
-{directional} light gray wall banner[s] : [any] wall banner[s], [any] banner[s] -> minecraft:light_gray_wall_banner
+{directional} [dark] gr(a|e)y wall banner[s] : [any] wall banner[s], [any] banner[s] -> minecraft:gray_wall_banner
+{directional} light gr(a|e)y wall banner[s] : [any] wall banner[s], [any] banner[s] -> minecraft:light_gray_wall_banner
 {directional} cyan wall banner[s] : [any] wall banner[s], [any] banner[s] -> minecraft:cyan_wall_banner
 {directional} purple wall banner[s] : [any] wall banner[s], [any] banner[s] -> minecraft:purple_wall_banner
 {directional} blue wall banner[s] : [any] wall banner[s], [any] banner[s] -> minecraft:blue_wall_banner
@@ -432,8 +432,8 @@ creeper (head|skull) item[s] : [any] (head|skull) item[s] -> minecraft:creeper_h
 {rotatable} yellow (standing|floor) banner[s] : [any] (standing|floor) banner[s], [any] banner[s] -> minecraft:yellow_banner
 {rotatable} (lime|light green) (standing|floor) banner[s] : [any] (standing|floor) banner[s], [any] banner[s] -> minecraft:lime_banner
 {rotatable} pink (standing|floor) banner[s] : [any] (standing|floor) banner[s], [any] banner[s] -> minecraft:pink_banner
-{rotatable} [dark] gray (standing|floor) banner[s] : [any] (standing|floor) banner[s], [any] banner[s] -> minecraft:gray_banner
-{rotatable} light gray (standing|floor) banner[s] : [any] (standing|floor) banner[s], [any] banner[s] -> minecraft:light_gray_banner
+{rotatable} [dark] gr(a|e)y (standing|floor) banner[s] : [any] (standing|floor) banner[s], [any] banner[s] -> minecraft:gray_banner
+{rotatable} light gr(a|e)y (standing|floor) banner[s] : [any] (standing|floor) banner[s], [any] banner[s] -> minecraft:light_gray_banner
 {rotatable} cyan (standing|floor) banner[s] : [any] (standing|floor) banner[s], [any] banner[s] -> minecraft:cyan_banner
 {rotatable} purple (standing|floor) banner[s] : [any] (standing|floor) banner[s], [any] banner[s] -> minecraft:purple_banner
 {rotatable} blue (standing|floor) banner[s] : [any] (standing|floor) banner[s], [any] banner[s] -> minecraft:blue_banner
@@ -500,8 +500,8 @@ light blue candle[s] -> minecraft:light_blue_candle
 yellow candle[s] -> minecraft:yellow_candle
 (lime|light green) candle[s] -> minecraft:lime_candle
 pink candle[s] -> minecraft:pink_candle
-[dark] gray candle[s] -> minecraft:gray_candle
-light gray candle[s] -> minecraft:light_gray_candle
+[dark] gr(a|e)y candle[s] -> minecraft:gray_candle
+light gr(a|e)y candle[s] -> minecraft:light_gray_candle
 cyan candle[s] -> minecraft:cyan_candle
 purple candle[s] -> minecraft:purple_candle
 blue candle[s] -> minecraft:blue_candle
