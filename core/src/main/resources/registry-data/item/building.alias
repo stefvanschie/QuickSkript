@@ -78,7 +78,7 @@ end[ ]stone brick[s] -> minecraft:end_stone_bricks
 {snowable} podzol [block[s]] -> minecraft:podzol
 {snowable} mycelium [block[s]] -> minecraft:mycelium
 coarse dirt [block[s]] -> minecraft:coarse_dirt
-[nether] quartz ore[s] : [any] ore, [any] stone ore -> minecraft:nether_quartz_ore
+[nether] quartz ore[s] : [any] ore, [any] nether ore -> minecraft:nether_quartz_ore
 {lightable} redstone ore[s] : [any] ore, [any] stone ore -> minecraft:redstone_ore
 
 oak [wood] plank[s] : [any] plank[s] -> minecraft:oak_planks
@@ -97,12 +97,12 @@ warped plank[s] : [any] plank[s] -> minecraft:warped_planks
 {axised} acacia [wood] log[s] : [any] log[s], [any] normal log, any acacia log -> minecraft:acacia_log
 {axised} dark oak [wood] log[s] : [any] log[s], [any] normal log, any dark oak log -> minecraft:dark_oak_log
 
-{axised} oak [wood] bark [block[s]] : [any] log[s], [any] normal log, [any] bark [block[s]], any oak log -> minecraft:oak_wood
-{axised} spruce [wood] bark [block[s]] : [any] log[s], [any] normal log, [any] bark [block[s]], any spruce log -> minecraft:spruce_wood
-{axised} birch [wood] bark [block[s]] : [any] log[s], [any] normal log, [any] bark [block[s]], any birch log -> minecraft:birch_wood
-{axised} jungle [wood] bark [block[s]] : [any] log[s], [any] normal log, [any] bark [block[s]], any jungle log -> minecraft:jungle_wood
-{axised} acacia [wood] bark [block[s]] : [any] log[s], [any] normal log, [any] bark [block[s]], any acacia log -> minecraft:acacia_wood
-{axised} dark oak [wood] bark [block[s]] : [any] log[s], [any] normal log, [any] bark [block[s]], any dark oak log -> minecraft:dark_oak_wood
+{axised} oak (wood|bark) [block[s]] : [any] log[s], [any] normal log, [any] (wood|bark) [block[s]], any oak log -> minecraft:oak_wood
+{axised} spruce (wood|bark) [block[s]] : [any] log[s], [any] normal log, [any] (wood|bark) [block[s]], any spruce log -> minecraft:spruce_wood
+{axised} birch (wood|bark) [block[s]] : [any] log[s], [any] normal log, [any] (wood|bark) [block[s]], any birch log -> minecraft:birch_wood
+{axised} jungle (wood|bark) [block[s]] : [any] log[s], [any] normal log, [any] (wood|bark) [block[s]], any jungle log -> minecraft:jungle_wood
+{axised} acacia (wood|bark) [block[s]] : [any] log[s], [any] normal log, [any] (wood|bark) [block[s]], any acacia log -> minecraft:acacia_wood
+{axised} dark oak (wood|bark) [block[s]] : [any] log[s], [any] normal log, [any] (wood|bark) [block[s]], any dark oak log -> minecraft:dark_oak_wood
 
 {axised} stripped oak log[s] : [any] log[s], [any] stripped log [block[s]] -> minecraft:stripped_oak_log
 {axised} stripped spruce log[s] : [any] log[s], [any] stripped log [block[s]] -> minecraft:stripped_spruce_log
@@ -111,12 +111,12 @@ warped plank[s] : [any] plank[s] -> minecraft:warped_planks
 {axised} stripped acacia log[s] : [any] log[s], [any] stripped log [block[s]] -> minecraft:stripped_acacia_log
 {axised} stripped dark oak log[s] : [any] log[s], [any] stripped log [block[s]] -> minecraft:stripped_dark_oak_log
 
-{axised} stripped oak (bark|wood) [block[s]] : [any] log[s], [any] stripped bark [block[s]] -> minecraft:stripped_oak_wood
-{axised} stripped spruce (bark|wood) [block[s]] : [any] log[s], [any] stripped bark [block[s]] -> minecraft:stripped_spruce_wood
-{axised} stripped birch (bark|wood) [block[s]] : [any] log[s], [any] stripped bark [block[s]] -> minecraft:stripped_birch_wood
-{axised} stripped jungle (bark|wood) [block[s]] : [any] log[s], [any] stripped bark [block[s]] -> minecraft:stripped_jungle_wood
-{axised} stripped acacia (bark|wood) [block[s]] : [any] log[s], [any] stripped bark [block[s]] -> minecraft:stripped_acacia_wood
-{axised} stripped dark oak (bark|wood) [block[s]] : [any] log[s], [any] stripped bark [block[s]] -> minecraft:stripped_dark_oak_wood
+{axised} stripped oak (bark|wood) [block[s]] : [any] log[s], [any] stripped (bark|wood) [block[s]] -> minecraft:stripped_oak_wood
+{axised} stripped spruce (bark|wood) [block[s]] : [any] log[s], [any] stripped (bark|wood) [block[s]] -> minecraft:stripped_spruce_wood
+{axised} stripped birch (bark|wood) [block[s]] : [any] log[s], [any] stripped (bark|wood) [block[s]] -> minecraft:stripped_birch_wood
+{axised} stripped jungle (bark|wood) [block[s]] : [any] log[s], [any] stripped (bark|wood) [block[s]] -> minecraft:stripped_jungle_wood
+{axised} stripped acacia (bark|wood) [block[s]] : [any] log[s], [any] stripped (bark|wood) [block[s]] -> minecraft:stripped_acacia_wood
+{axised} stripped dark oak (bark|wood) [block[s]] : [any] log[s], [any] stripped (bark|wood) [block[s]] -> minecraft:stripped_dark_oak_wood
 
 red sand [block[s]] -> minecraft:red_sand
 [normal] sandstone [block[s]] : any sandstone [block[s]] -> minecraft:sandstone
@@ -235,16 +235,16 @@ black concrete powder : [any] concrete powder [block[s]] -> minecraft:black_conc
 {waterloggable} {slab} [raw] prismarine slab[s] : [any] slab[s] -> minecraft:prismarine_slab
 {waterloggable} {slab} prismarine brick slab[s] : [any] slab[s] -> minecraft:prismarine_brick_slab
 {waterloggable} {slab} dark prismarine slab[s] : [any] slab[s] -> minecraft:dark_prismarine_slab
-{waterloggable} {slab} stone slab[s] : [any] slab[s], [any] stone slab[s] -> minecraft:stone_slab
-{waterloggable} {slab} smooth stone slab[s] : [any] slab[s], [any] stone slab[s] -> minecraft:smooth_stone_slab
-{waterloggable} {slab} granite slab[s] : [any] slab[s], [any] stone slab[s] -> minecraft:granite_slab
-{waterloggable} {slab} diorite slab[s] : [any] slab[s], [any] stone slab[s] -> minecraft:diorite_slab
-{waterloggable} {slab} andesite slab[s] : [any] slab[s], [any] stone slab[s] -> minecraft:andesite_slab
-{waterloggable} {slab} polished granite slab[s] : [any] slab[s], [any] stone slab[s] -> minecraft:polished_granite_slab
-{waterloggable} {slab} polished diorite slab[s] : [any] slab[s], [any] stone slab[s] -> minecraft:polished_diorite_slab
-{waterloggable} {slab} polished andesite slab[s] : [any] slab[s], [any] stone slab[s] -> minecraft:polished_andesite_slab
-{waterloggable} {slab} mossy stone brick slab[s] : [any] slab[s], [any] stone slab[s] -> minecraft:mossy_stone_brick_slab
-{waterloggable} {slab} mossy cobble[stone] slab[s] : [any] slab[s], [any] stone slab[s] -> minecraft:mossy_cobblestone_slab
+{waterloggable} {slab} stone slab[s] : [any] slab[s], any stone slab[s] -> minecraft:stone_slab
+{waterloggable} {slab} smooth stone slab[s] : [any] slab[s], any stone slab[s] -> minecraft:smooth_stone_slab
+{waterloggable} {slab} granite slab[s] : [any] slab[s], any stone slab[s] -> minecraft:granite_slab
+{waterloggable} {slab} diorite slab[s] : [any] slab[s], any stone slab[s] -> minecraft:diorite_slab
+{waterloggable} {slab} andesite slab[s] : [any] slab[s], any stone slab[s] -> minecraft:andesite_slab
+{waterloggable} {slab} polished granite slab[s] : [any] slab[s], any stone slab[s] -> minecraft:polished_granite_slab
+{waterloggable} {slab} polished diorite slab[s] : [any] slab[s], any stone slab[s] -> minecraft:polished_diorite_slab
+{waterloggable} {slab} polished andesite slab[s] : [any] slab[s], any stone slab[s] -> minecraft:polished_andesite_slab
+{waterloggable} {slab} mossy stone brick slab[s] : [any] slab[s], any stone slab[s] -> minecraft:mossy_stone_brick_slab
+{waterloggable} {slab} mossy cobble[stone] slab[s] : [any] slab[s], any stone slab[s] -> minecraft:mossy_cobblestone_slab
 {waterloggable} {slab} smooth sandstone slab[s] : [any] slab[s], [any] sandstone slab[s] -> minecraft:smooth_sandstone_slab
 {waterloggable} {slab} smooth red sandstone slab : [any] slab[s], [any] sandstone slab[s] -> minecraft:smooth_red_sandstone_slab
 {waterloggable} {slab} cut sandstone slab[s] : [any] slab[s], [any] sandstone slab[s] -> minecraft:cut_sandstone_slab
@@ -360,7 +360,7 @@ melon [block[s]] -> minecraft:melon
 snow block[s] -> minecraft:snow_block
 {axised} purpur pillar[s] -> minecraft:purpur_pillar
 
-ancient debris -> minecraft:ancient_debris
+ancient debris : [any] ore, [any] nether ore -> minecraft:ancient_debris
 basalt -> minecraft:basalt
 polished basalt -> minecraft:polished_basalt
 (netherite block[s]|block[s] of netherite) -> minecraft:netherite_block
@@ -369,7 +369,7 @@ warped [nether] wart block[s] -> minecraft:warped_ward_block
 crying obsidian -> minecraft:crying_obsidian
 chiseled nether brick[s] -> minecraft:chiseled_nether_bricks
 cracked nether brick[s] -> minecraft:cracked_nether_bricks
-nether gold ore[s] -> minecraft:nether_gold_ore
+nether gold ore[s] : [any] ore, [any] nether ore -> minecraft:nether_gold_ore
 quartz brick[s] -> minecraft:quartz_bricks
 
 crimson nylium[s] : [any] nylium[s] -> minecraft:crimson_nylium
@@ -480,7 +480,7 @@ rooted dirt [block[s]] -> minecraft:rooted_dirt
 
 tinted glass -> minecraft:tinted_glass
 
-copper ore[s] -> minecraft:copper_ore
+copper ore[s] : [any] stone ore -> minecraft:copper_ore
 deepslate coal ore[s] : [any] ore, [any] deepslate ore -> minecraft:deepslate_coal_ore
 deepslate iron ore[s] : [any] ore, [any] deepslate ore -> minecraft:deepslate_iron_ore
 deepslate copper ore[s] : [any] ore, [any] deepslate ore -> minecraft:deepslate_copper_ore

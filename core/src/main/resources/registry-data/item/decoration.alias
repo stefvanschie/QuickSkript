@@ -174,8 +174,8 @@ oxeye dais(y|ies) : [any] small flower, [any] flower[s] -> minecraft:oxeye_daisy
 
 ({directional} {end portal eye} end portal frame [block[s]]|end portal frame item[s]) -> minecraft:end_portal_frame
 
-{waterloggable} cobblestone wall[s] : any cobblestone wall -> minecraft:cobblestone_wall
-{waterloggable} mossy cobblestone wall[s] : any cobblestone wall -> minecraft:mossy_cobblestone_wall
+{waterloggable} cobblestone wall[s] : any wall[s], any cobblestone wall -> minecraft:cobblestone_wall
+{waterloggable} mossy cobblestone wall[s] : any wall[s], any cobblestone wall -> minecraft:mossy_cobblestone_wall
 
 white carpet[s] : [any] carpet[s] -> minecraft:white_carpet
 orange carpet[s] : [any] carpet[s] -> minecraft:orange_carpet
@@ -246,27 +246,27 @@ black [stained] glass pane[s] : [any] stained glass pane[s] -> minecraft:black_s
 {directional} {bed occupied} black bed {bed part} : any bed -> minecraft:black_bed
 
 [empty] flower pot[s] -> minecraft:flower_pot
-(potted|flower pot with) (dandelion|yellow flower) -> minecraft:potted_dandelion
-(potted|flower pot with) (poppy|red flower) -> minecraft:potted_poppy
-(potted|flower pot with) [blue] orchid -> minecraft:potted_blue_orchid
-(potted|flower pot with) allium -> minecraft:potted_allium
-(potted|flower pot with) azure bluet -> minecraft:potted_azure_bluet
-(potted|flower pot with) red tulip -> minecraft:potted_red_tulip
-(potted|flower pot with) orange tulip -> minecraft:potted_orange_tulip
-(potted|flower pot with) white tulip -> minecraft:potted_white_tulip
-(potted|flower pot with) pink tulip -> minecraft:potted_pink_tulip
-(potted|flower pot with) oxeye daisy -> minecraft:potted_oxeye_daisy
-(potted|flower pot with) oak [wood[en]] sapling -> minecraft:potted_oak_sapling
-(potted|flower pot with) spruce [wood[en]] sapling -> minecraft:potted_spruce_sapling
-(potted|flower pot with) birch [wood[en]] sapling -> minecraft:potted_birch_sapling
-(potted|flower pot with) jungle [wood[en]] sapling -> minecraft:potted_jungle_sapling
-(potted|flower pot with) acacia [wood[en]] sapling -> minecraft:potted_acacia_sapling
-(potted|flower pot with) dark oak [wood[en]] sapling -> minecraft:potted_dark_oak_sapling
-(potted|flower pot with) red mushroom -> minecraft:potted_red_mushroom
-(potted|flower pot with) brown mushroom -> minecraft:potted_brown_mushroom
-(potted|flower pot with) cactus -> minecraft:potted_cactus
-(potted|flower pot with) dead bush -> minecraft:potted_dead_bush
-(potted|flower pot with) fern -> minecraft:potted_fern
+(potted|flower pot with) (dandelion|yellow flower) : (any flower pot|[any] potted plant) -> minecraft:potted_dandelion
+(potted|flower pot with) (poppy|red flower) : (any flower pot|[any] potted plant) -> minecraft:potted_poppy
+(potted|flower pot with) [blue] orchid : (any flower pot|[any] potted plant) -> minecraft:potted_blue_orchid
+(potted|flower pot with) allium : (any flower pot|[any] potted plant) -> minecraft:potted_allium
+(potted|flower pot with) azure bluet : (any flower pot|[any] potted plant) -> minecraft:potted_azure_bluet
+(potted|flower pot with) red tulip : (any flower pot|[any] potted plant) -> minecraft:potted_red_tulip
+(potted|flower pot with) orange tulip : (any flower pot|[any] potted plant) -> minecraft:potted_orange_tulip
+(potted|flower pot with) white tulip : (any flower pot|[any] potted plant) -> minecraft:potted_white_tulip
+(potted|flower pot with) pink tulip : (any flower pot|[any] potted plant) -> minecraft:potted_pink_tulip
+(potted|flower pot with) oxeye daisy : (any flower pot|[any] potted plant) -> minecraft:potted_oxeye_daisy
+(potted|flower pot with) oak [wood[en]] sapling : (any flower pot|[any] potted plant) -> minecraft:potted_oak_sapling
+(potted|flower pot with) spruce [wood[en]] sapling : (any flower pot|[any] potted plant) -> minecraft:potted_spruce_sapling
+(potted|flower pot with) birch [wood[en]] sapling : (any flower pot|[any] potted plant) -> minecraft:potted_birch_sapling
+(potted|flower pot with) jungle [wood[en]] sapling : (any flower pot|[any] potted plant) -> minecraft:potted_jungle_sapling
+(potted|flower pot with) acacia [wood[en]] sapling : (any flower pot|[any] potted plant) -> minecraft:potted_acacia_sapling
+(potted|flower pot with) dark oak [wood[en]] sapling : (any flower pot|[any] potted plant) -> minecraft:potted_dark_oak_sapling
+(potted|flower pot with) red mushroom : (any flower pot|[any] potted plant) -> minecraft:potted_red_mushroom
+(potted|flower pot with) brown mushroom : (any flower pot|[any] potted plant) -> minecraft:potted_brown_mushroom
+(potted|flower pot with) cactus : (any flower pot|[any] potted plant) -> minecraft:potted_cactus
+(potted|flower pot with) dead bush : (any flower pot|[any] potted plant) -> minecraft:potted_dead_bush
+(potted|flower pot with) fern : (any flower pot|[any] potted plant) -> minecraft:potted_fern
 
 [floor] torch[es] : any torch -> minecraft:torch
 {directional} wall torch[es] : any torch -> minecraft:wall_torch
@@ -297,10 +297,10 @@ dead chorus flower[s] -> minecraft:chorus_flower[age=5]
 {directional} chipped anvil[s] : any anvil[s] -> minecraft:chipped_anvil
 {directional} damaged anvil[s] : any anvil[s] -> minecraft:damaged_anvil
 
-(potted|flower pot with) bamboo -> minecraft:potted_bamboo
-(potted|flower pot with) cornflower -> minecraft:potted_cornflower
-(potted|flower pot with) lily of the valley -> minecraft:potted_lily_of_the_valley
-(potted|flower pot with) wither rose -> minecraft:potted_wither_rose
+(potted|flower pot with) bamboo : (any flower pot|[any] potted plant) -> minecraft:potted_bamboo
+(potted|flower pot with) cornflower : (any flower pot|[any] potted plant) -> minecraft:potted_cornflower
+(potted|flower pot with) lily of the valley : (any flower pot|[any] potted plant) -> minecraft:potted_lily_of_the_valley
+(potted|flower pot with) wither rose : (any flower pot|[any] potted plant) -> minecraft:potted_wither_rose
 bamboo sapling -> minecraft:bamboo_sapling
 
 {waterloggable} {directional} oak [wood] wall sign[s] : [any] wall sign[s], [any] sign[s] -> minecraft:oak_wall_sign
@@ -325,18 +325,18 @@ cornflower[s] : [any] small flower, [any] flower[s] -> minecraft:cornflower
 lily of the valley : [any] small flower, [any] flower[s] -> minecraft:lily_of_the_valley
 wither[ed] rose[s] : [any] small flower, [any] flower[s] -> minecrfat:wither_rose
 
-{waterloggable} brick wall[s] -> minecraft:brick_wall
-{waterloggable} prismarine wall[s] -> minecraft:prismarine_wall
-{waterloggable} sandstone wall[s] -> minecraft:sandstone_wall
-{waterloggable} red sandstone wall[s] -> minecraft:red_sandstone_wall
-{waterloggable} stone brick wall[s] -> minecraft:stone_brick_wall
-{waterloggable} mossy stone brick wall[s] -> minecraft:mossy_stone_brick_wall
-{waterloggable} granite wall[s] -> minecraft:granite_wall
-{waterloggable} diorite wall[s] -> minecraft:diorite_wall
-{waterloggable} andesite wall[s] -> minecraft:andesite_wall
-{waterloggable} nether brick wall[s] -> minecraft:nether_brick_wall
-{waterloggable} red nether brick wall[s] -> minecraft:red_nether_brick_wall
-{waterloggable} end stone brick wall[s] -> minecraft:end_stone_brick_wall
+{waterloggable} brick wall[s] : any wall[s] -> minecraft:brick_wall
+{waterloggable} prismarine wall[s] : any wall[s] -> minecraft:prismarine_wall
+{waterloggable} sandstone wall[s] : any wall[s] -> minecraft:sandstone_wall
+{waterloggable} red sandstone wall[s] : any wall[s] -> minecraft:red_sandstone_wall
+{waterloggable} stone brick wall[s] : any wall[s] -> minecraft:stone_brick_wall
+{waterloggable} mossy stone brick wall[s] : any wall[s] -> minecraft:mossy_stone_brick_wall
+{waterloggable} granite wall[s] : any wall[s] -> minecraft:granite_wall
+{waterloggable} diorite wall[s] : any wall[s] -> minecraft:diorite_wall
+{waterloggable} andesite wall[s] : any wall[s] -> minecraft:andesite_wall
+{waterloggable} nether brick wall[s] : any wall[s] -> minecraft:nether_brick_wall
+{waterloggable} red nether brick wall[s] : any wall[s] -> minecraft:red_nether_brick_wall
+{waterloggable} end stone brick wall[s] : any wall[s] -> minecraft:end_stone_brick_wall
 
 {waterloggable} {scaffold bottom} scaffolding -> minecraft:scaffolding
 
@@ -465,14 +465,14 @@ warped nether fung(us|i) : [any] fung(us|i) -> minecraft:warped_fungus
 crimson nether root[s] : [any] root[s] -> minecraft:crimson_roots
 warped nether root[s] : [any] root[s] -> minecraft:warped_roots
 
-(potted|flower pot with) crimson fungus -> minecraft:potted_crimson_fungus
-(potted|flower pot with) crimson roots -> minecraft:potted_crimson_roots
-(potted|flower pot with) warped fungus -> minecraft:potted_warped_fungus
-(potted|flower pot with) warped roots -> minecraft:potted_warped_roots
+(potted|flower pot with) crimson fungus : (any flower pot|[any] potted plant) -> minecraft:potted_crimson_fungus
+(potted|flower pot with) crimson roots : (any flower pot|[any] potted plant) -> minecraft:potted_crimson_roots
+(potted|flower pot with) warped fungus : (any flower pot|[any] potted plant) -> minecraft:potted_warped_fungus
+(potted|flower pot with) warped roots : (any flower pot|[any] potted plant) -> minecraft:potted_warped_roots
 
-{waterloggable} blackstone wall[s] -> minecraft:blackstone_wall
-{waterloggable} polished blackstone wall[s] -> minecraft:polished_blackstone_wall
-{waterloggable} polished blackstone brick wall[s] -> minecraft:polished_blackstone_brick_wall
+{waterloggable} blackstone wall[s] : any wall[s] -> minecraft:blackstone_wall
+{waterloggable} polished blackstone wall[s] : any wall[s] -> minecraft:polished_blackstone_wall
+{waterloggable} polished blackstone brick wall[s] : any wall[s] -> minecraft:polished_blackstone_brick_wall
 
 {charges} respawn anchor[s] -> minecraft:respawn_anchor
 
@@ -525,10 +525,13 @@ moss block[s] -> minecraft:moss_block
 
 (infested|silverfish) deepslate [block][s] : [any] (infested|silverfish) block[s] -> minecraft:infested_deepslate
 
-{waterloggable} cobbled deepslate wall[s] -> minecraft:cobbled_deepslate_wall
-{waterloggable} polished deepslate wall[s] -> minecraft:polished_deepslate_wall
-{waterloggable} deepslate brick wall[s] -> minecraft:deepslate_brick_wall
-{waterloggable} deepslate tile wall[s] -> minecraft:deepslate_tile_wall
+{waterloggable} cobbled deepslate wall[s] : any wall[s] -> minecraft:cobbled_deepslate_wall
+{waterloggable} polished deepslate wall[s] : any wall[s] -> minecraft:polished_deepslate_wall
+{waterloggable} deepslate brick wall[s] : any wall[s] -> minecraft:deepslate_brick_wall
+{waterloggable} deepslate tile wall[s] : any wall[s] -> minecraft:deepslate_tile_wall
 
 {waterloggable} glow lichen[s] -> minecraft:glow_lichen
 glow item frame [item][s] -> minecraft:glow_item_frame
+
+(potted|flower pot with) azalea [bush] : (any flower pot|[any] potted plant) -> minecraft:potted_azalea_bush
+(potted|flower pot with) flowering azalea [bush] : (any flower pot|[any] potted plant) -> minecraft:potted_flowering_azalea_bush
