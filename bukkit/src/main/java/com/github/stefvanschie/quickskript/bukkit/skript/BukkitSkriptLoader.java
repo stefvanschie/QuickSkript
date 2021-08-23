@@ -46,16 +46,18 @@ import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.util.Pair;
 import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.*;
+import com.github.stefvanschie.quickskript.core.util.literal.Color;
+import com.github.stefvanschie.quickskript.core.util.literal.GameMode;
+import com.github.stefvanschie.quickskript.core.util.literal.TreeType;
+import com.github.stefvanschie.quickskript.core.util.literal.World;
 import com.github.stefvanschie.quickskript.core.util.registry.EntityTypeRegistry;
 import com.github.stefvanschie.quickskript.core.util.registry.ItemTypeRegistry;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import io.papermc.paper.event.entity.EntityMoveEvent;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.FireworkEffect;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
+import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.*;
@@ -1400,6 +1402,57 @@ public class BukkitSkriptLoader extends SkriptLoader {
                 })
             .registerEvent(PlayerJoinEvent.class, "[on] first (join|login)", matches -> event ->
                 !event.getPlayer().hasPlayedBefore())
+            .registerEvent(PlayerMoveEvent.class, "[on] (step|walk)[ing] (on|over) %*item types%", matches -> {
+                for (SkriptMatchResult match : matches) {
+                    PsiElement<?>[] elements = tryParseAllTypes(match);
+
+                    if (elements == null || elements.length == 0) {
+                        continue;
+                    }
+
+                    Object itemType = elements[0].execute(null, null);
+
+                    if (!(itemType instanceof ItemType)) {
+                        continue;
+                    }
+
+                    Collection<BlockData> blockData = new HashSet<>();
+
+                    for (ItemTypeRegistry.Entry entry : ((ItemType) itemType).getItemTypeEntries()) {
+                        blockData.add(Bukkit.createBlockData(entry.getFullNamespacedKey()));
+                    }
+
+                    return event -> {
+                        Location to = event.getTo();
+                        Location from = event.getFrom();
+
+                        int toBlockX = to.getBlockX();
+                        int fromBlockX = from.getBlockX();
+
+                        int toBlockY = to.getBlockY();
+                        int fromBlockY = from.getBlockY();
+
+                        int toBlockZ = to.getBlockZ();
+                        int fromBlockZ = from.getBlockZ();
+
+                        if (toBlockX == fromBlockX && toBlockY == fromBlockY && toBlockZ == fromBlockZ) {
+                            return false;
+                        }
+
+                        BlockData eventData = to.getBlock().getRelative(BlockFace.DOWN).getBlockData();
+
+                        for (BlockData data : blockData) {
+                            if (eventData.matches(data)) {
+                                return true;
+                            }
+                        }
+
+                        return false;
+                    };
+                }
+
+                return null;
+            })
             .registerEvent(PluginDisableEvent.class, "[on] (server|skript) (stop|unload|disable)", matches ->
                 event -> event.getPlugin().equals(QuickSkript.getInstance()))
         );
