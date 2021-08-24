@@ -1106,6 +1106,43 @@ public class BukkitSkriptLoader extends SkriptLoader {
                 matches -> event -> event.getEntity() instanceof Silverfish && event.getTo() == Material.AIR)
             .registerEvent(EntityChangeBlockEvent.class, "[on] falling block land[ing]", matches -> event ->
                 event.getEntity() instanceof FallingBlock)
+            .registerEvent(EntityPickupItemEvent.class, "[on] [1\u00A6player|entity] (pick[ ]up|picking up) [[of] %item types%]", matches -> {
+                for (SkriptMatchResult match : matches) {
+                    PsiElement<?>[] elements = tryParseAllTypes(match);
+
+                    if (elements == null) {
+                        continue;
+                    }
+
+                    if (elements.length > 0) {
+                        Object itemType = elements[0].execute(null, null);
+
+                        if (!(itemType instanceof ItemType)) {
+                            continue;
+                        }
+
+                        Collection<String> keys = ((ItemType) itemType).getAllKeys();
+
+                        return event -> {
+                            if (match.getParseMark() == 1 && !(event.getEntity() instanceof Player)) {
+                                return false;
+                            }
+
+                            for (String key : keys) {
+                                if (ItemComparisonUtil.compare(event.getItem().getItemStack(), key)) {
+                                    return true;
+                                }
+                            }
+
+                            return false;
+                        };
+                    }
+
+                    return event -> true;
+                }
+
+                return null;
+            })
             .registerEvent(PlayerCommandPreprocessEvent.class, "[on] command %text%", matches -> {
                 for (SkriptMatchResult match : matches) {
                     PsiElement<?>[] elements = tryParseAllTypes(match);
