@@ -36,6 +36,7 @@
 .idea/artifacts
 .idea/compiler.xml
 .idea/scala_compiler.xml
+.idea/runConfigurations.xml
 .idea/jarRepositories.xml
 .idea/modules.xml
 .idea/*.iml
