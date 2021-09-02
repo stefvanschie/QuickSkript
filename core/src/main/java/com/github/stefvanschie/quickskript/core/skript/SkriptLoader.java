@@ -71,6 +71,11 @@ public abstract class SkriptLoader {
     private BiomeRegistry biomeRegistry;
 
     /**
+     * A block data registry for working with block data
+     */
+    private BlockDataRegistry blockDataRegistry;
+
+    /**
      * An entity type registry for working with entity types
      */
     private EntityTypeRegistry entityTypeRegistry;
@@ -112,15 +117,16 @@ public abstract class SkriptLoader {
             inventoryTypeRegistry = new InventoryTypeRegistry();
             regionRegistry = new RegionRegistry();
             literalRegistry = new LiteralRegistry();
-
-            registerDefaultElements();
-            registerDefaultSections();
-            registerDefaultConverters();
-            registerDefaultEvents();
         }), CompletableFuture.runAsync(() -> {
+            blockDataRegistry = new BlockDataRegistry();
             itemTypeRegistry = new ItemTypeRegistry();
             visualEffectRegistry = new VisualEffectRegistry();
         })).join();
+
+        registerDefaultElements();
+        registerDefaultSections();
+        registerDefaultConverters();
+        registerDefaultEvents();
     }
 
 
@@ -576,6 +582,18 @@ public abstract class SkriptLoader {
     @Contract(pure = true)
     public BiomeRegistry getBiomeRegistry() {
         return biomeRegistry;
+    }
+
+    /**
+     * Gets the block data registry attached to this skript loader
+     *
+     * @return the block data registry
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public BlockDataRegistry getBlockDataRegistry() {
+        return blockDataRegistry;
     }
 
     /**

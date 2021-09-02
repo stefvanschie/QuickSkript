@@ -33,6 +33,20 @@ public enum Type {
     BIOMES("biomes", BIOME),
 
     /**
+     * A single block data.
+     *
+     * @since 0.1.0
+     */
+    BLOCK_DATA("block[ ]data"),
+
+    /**
+     * Multiple block datas.
+     *
+     * @since 0.1.0
+     */
+    BLOCK_DATAS("block[ ]datas", BLOCK_DATA),
+
+    /**
      * A single boolean.
      *
      * @since 0.1.0

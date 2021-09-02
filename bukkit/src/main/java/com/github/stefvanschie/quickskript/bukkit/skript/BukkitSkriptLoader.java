@@ -195,6 +195,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
 
         //literals
         registerElement(new PsiBiomeLiteral.Factory());
+        registerElement(new PsiBlockDataLiteral.Factory());
         registerElement(new PsiBooleanLiteral.Factory());
         registerElement(new PsiCatTypeLiteral.Factory());
         registerElement(new PsiClickTypeLiteral.Factory());
@@ -598,6 +599,35 @@ public class BukkitSkriptLoader extends SkriptLoader {
                         }
 
                         return event -> true;
+                    }
+
+                    return null;
+                }
+            )
+            .registerEvent(BlockPlaceEvent.class, "[on] [block] (plac(e|ing)|build[ing]) [[of] %item types/block datas%]",
+                matches -> {
+                    for (SkriptMatchResult match : matches) {
+                        PsiElement<?>[] elements = tryParseAllTypes(match);
+
+                        if (elements == null) {
+                            continue;
+                        }
+
+                        if (elements.length == 0) {
+                            return event -> true;
+                        }
+
+                        Object object = elements[0].execute(null, null);
+
+                        if (object instanceof ItemType) {
+                            return defaultItemTypeComparison((ItemType) object);
+                        } else if (object instanceof com.github.stefvanschie.quickskript.core.util.literal.BlockData) {
+                            var blockData = (com.github.stefvanschie.quickskript.core.util.literal.BlockData) object;
+
+                            BlockData data = Bukkit.createBlockData(blockData.convertToString());
+
+                            return event -> event.getBlock().getBlockData().matches(data);
+                        }
                     }
 
                     return null;
