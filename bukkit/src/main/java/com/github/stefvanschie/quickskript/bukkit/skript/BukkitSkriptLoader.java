@@ -437,6 +437,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
             .registerEvent(PlayerToggleSprintEvent.class, "[on] [player] (toggl(e|ing) sprint|sprint toggl(e|ing))")
             .registerEvent(PortalCreateEvent.class, "[on] portal creat(e|ion)")
             .registerEvent(PrepareItemEnchantEvent.class, "[on] [item] enchant prepare")
+            .registerEvent("com.destroystokyo.paper.event.entity.ProjectileCollideEvent", "[on] projectile collide", Platform.PAPER)
             .registerEvent(ProjectileHitEvent.class, "[on] projectile hit")
             .registerEvent(ProjectileLaunchEvent.class, "[on] [projectile] shoot")
             .registerEvent(
