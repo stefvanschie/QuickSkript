@@ -75,6 +75,7 @@ import org.bukkit.event.world.*;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.Recipe;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -1030,6 +1031,48 @@ public class BukkitSkriptLoader extends SkriptLoader {
                         org.bukkit.GameMode gameMode = org.bukkit.GameMode.valueOf(((GameMode) object).name());
 
                         return event -> event.getNewGameMode() == gameMode;
+                    }
+
+                    return null;
+                })
+            .registerEvent(PrepareItemCraftEvent.class, "[on] [player] (preparing|beginning) craft[ing] [[of] %item types%]",
+                matches -> {
+                    for (SkriptMatchResult match : matches) {
+                        PsiElement<?>[] elements = tryParseAllTypes(match);
+
+                        if (elements == null) {
+                            continue;
+                        }
+
+                        if (elements.length == 0) {
+                            return event -> true;
+                        }
+
+                        Object object = elements[0].execute(null, null);
+
+                        if (!(object instanceof ItemType)) {
+                            continue;
+                        }
+
+                        Iterable<String> entries = ((ItemType) object).getAllKeys();
+
+                        return event -> {
+                            Recipe recipe = event.getRecipe();
+
+                            if (recipe == null) {
+                                return false;
+                            }
+
+                            ItemStack item = recipe.getResult();
+
+                            for (String entry : entries) {
+                                if (ItemComparisonUtil.compare(item, entry)) {
+                                    return true;
+                                }
+                            }
+
+                            return false;
+                        };
                     }
 
                     return null;
