@@ -89,18 +89,46 @@ public class SpaceGroup implements SkriptPatternGroup {
     public Collection<String> unrollFully(@NotNull List<SkriptPatternGroup> groups) {
         int index = SkriptPatternGroup.indexOfSame(groups, this);
 
-        if (index + 1 < groups.size() && groups.get(index + 1) instanceof OptionalGroup &&
-            (index + 2 >= groups.size() || !(groups.get(index + 2) instanceof SpaceGroup))) {
-            //after this an optional group and then a space
-            return Collections.emptySet();
+        if (index - 1 >= 0) {
+            SkriptPatternGroup group = groups.get(index - 1);
+
+            if (group instanceof OptionalGroup || group instanceof SpaceGroup) {
+                //before this is an optional or space group
+                return Collections.emptySet();
+            }
         }
 
-        if (index - 1 >= 0 && groups.get(index - 1) instanceof OptionalGroup) {
-            //before this is an optional group
-            return Collections.emptySet();
+        if (index == groups.size() - 1) {
+            return Collections.singleton(" ");
         }
 
-        return Collections.singleton(" ");
+        Collection<String> unrolled = new HashSet<>();
+
+        boolean isLastSequence = true;
+        int currentIndex = groups.size();
+
+        do {
+            currentIndex--;
+
+            SkriptPatternGroup group = groups.get(currentIndex);
+
+            if (!(group instanceof SpaceGroup) && !(group instanceof OptionalGroup)) {
+                isLastSequence = false;
+                break;
+            }
+        } while (currentIndex > index);
+
+        //only pass some groups, optional group doesn't need all of them
+        for (String element : groups.get(index + 1).unrollFully(groups.subList(index + 1, groups.size()))) {
+            //but not for the empty element if the sequence is the last in the list of groups
+            if (!element.isEmpty() || !isLastSequence) {
+                unrolled.add(" " + element);
+            } else {
+                unrolled.add("");
+            }
+        }
+
+        return unrolled;
     }
 
     /**

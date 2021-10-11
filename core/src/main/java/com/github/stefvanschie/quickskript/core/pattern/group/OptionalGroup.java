@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.swing.text.html.Option;
 import java.util.*;
 
 /**
@@ -251,30 +252,226 @@ public class OptionalGroup implements SkriptPatternGroup {
         int index = SkriptPatternGroup.indexOfSame(groups, this);
         Collection<String> matches = new HashSet<>();
 
-        if (index + 1 < groups.size() && groups.get(index + 1) instanceof SpaceGroup) {
-            //cover the space after this optional as well
-            for (SkriptPattern pattern : patterns) {
-                for (String match : pattern.unrollFully()) {
-                    matches.add(match + ' ');
-                }
-            }
-        } else if (index - 1 >= 0 && groups.get(index - 1) instanceof SpaceGroup &&
-            (index + 1 >= groups.size() || !(groups.get(index + 1) instanceof SpaceGroup))) {
-            //cover the space before this optional
-            for (SkriptPattern pattern : patterns) {
-                for (String match : pattern.unrollFully()) {
-                    matches.add(' ' + match);
-                }
-            }
-        } else {
-            for (SkriptPattern pattern : patterns) {
-                matches.addAll(pattern.unrollFully());
+        if (index - 1 >= 0) {
+            SkriptPatternGroup previousGroup = groups.get(index - 1);
+
+            if (previousGroup instanceof SpaceGroup || previousGroup instanceof OptionalGroup) {
+                return Collections.emptySet();
             }
         }
 
-        matches.add("");
+        List<SkriptPatternGroup> relevantGroups = new ArrayList<>();
+
+        int currentIndex = index;
+
+        do {
+            relevantGroups.add(groups.get(currentIndex));
+
+            currentIndex++;
+        } while (currentIndex < groups.size() &&
+            (groups.get(currentIndex) instanceof SpaceGroup || groups.get(currentIndex) instanceof OptionalGroup));
+
+        boolean isAllOptional = true;
+
+        for (SkriptPatternGroup relevantGroup : relevantGroups.subList(0, relevantGroups.size() - 1)) {
+            if (!(relevantGroup instanceof OptionalGroup)) {
+                isAllOptional = false;
+                break;
+            }
+        }
+
+        if (isAllOptional) {
+            List<OptionalGroup> optionalGroups = new ArrayList<>();
+
+            for (SkriptPatternGroup group : relevantGroups) {
+                if (group instanceof OptionalGroup) {
+                    optionalGroups.add((OptionalGroup) group);
+                }
+            }
+
+            Collection<String> permutations = permutations(optionalGroups);
+
+            permutations.add("");
+
+            //no space at the end
+            if (optionalGroups.size() == relevantGroups.size()) {
+                return permutations;
+            }
+
+            boolean isFirstSequence = true;
+
+            for (int sequenceIndex = 0; sequenceIndex < index; sequenceIndex++) {
+                SkriptPatternGroup group = groups.get(sequenceIndex);
+
+                if (!(group instanceof SpaceGroup) && !(group instanceof OptionalGroup)) {
+                    isFirstSequence = false;
+                    break;
+                }
+            }
+
+            Collection<String> permutationsWithSpace = new HashSet<>();
+
+            for (String permutation : permutations) {
+                //don't add space if this is the first sequence and the element is empty
+                if (!permutation.isEmpty() || !isFirstSequence) {
+                    permutationsWithSpace.add(permutation + ' ');
+                } else {
+                    permutationsWithSpace.add("");
+                }
+            }
+
+            return permutationsWithSpace;
+        }
+
+        int previousSpaceIndex = -1;
+
+        List<Collection<String>> allPermutations = new ArrayList<>();
+
+        for (int i = 0; i < relevantGroups.size(); i++) {
+            SkriptPatternGroup group = relevantGroups.get(i);
+
+            if (group instanceof SpaceGroup || i == relevantGroups.size() - 1) {
+                List<OptionalGroup> optionalGroups = new ArrayList<>();
+
+                int listSize = i == relevantGroups.size() - 1 && !(group instanceof SpaceGroup) ? i + 1 : i;
+
+                for (SkriptPatternGroup optionalGroup : relevantGroups.subList(previousSpaceIndex + 1, listSize)) {
+                    optionalGroups.add((OptionalGroup) optionalGroup);
+                }
+
+                if (optionalGroups.size() > 0) {
+                    allPermutations.add(permutations(optionalGroups));
+                }
+
+                previousSpaceIndex = i;
+            }
+        }
+
+        boolean isLastSequence = true;
+
+        for (int sequenceIndex = index + 1; sequenceIndex < groups.size(); sequenceIndex++) {
+            SkriptPatternGroup group = groups.get(sequenceIndex);
+
+            if (!(group instanceof SpaceGroup) && !(group instanceof OptionalGroup)) {
+                isLastSequence = false;
+                break;
+            }
+        }
+
+        Collection<List<String>> possiblePatterns = possiblePatterns(allPermutations);
+
+        for (List<String> possiblePattern : possiblePatterns) {
+            boolean isWhiteSpace = true;
+            StringBuilder match = new StringBuilder();
+
+            for (int i = 0; i < possiblePattern.size(); i++) {
+                String element = possiblePattern.get(i);
+
+                if (element.isEmpty() &&
+                    (i + 1 < possiblePattern.size() && !possiblePattern.get(i + 1).isEmpty())) {
+                    match.append(' ');
+                } else if (!element.isEmpty()) {
+                    if (!isWhiteSpace) {
+                        match.append(' ');
+                    }
+
+                    match.append(element);
+
+                    isWhiteSpace = false;
+                }
+            }
+
+            if (match.length() == 0 && !isLastSequence) {
+                matches.add(" ");
+            } else {
+                if (relevantGroups.get(relevantGroups.size() - 1) instanceof SpaceGroup) {
+                    match.append(' ');
+                }
+
+                matches.add(match.toString());
+            }
+        }
 
         return Collections.unmodifiableCollection(matches);
+    }
+
+    /**
+     * Gets all possible permutations for a list of optional groups. The resulting permutations are ordered by
+     * appearance in the provided list.
+     *
+     * @param optionalGroups the optional groups
+     * @return a collection of all permutations
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    private Collection<String> permutations(@NotNull List<OptionalGroup> optionalGroups) {
+        if (optionalGroups.size() == 1) {
+            Collection<String> strings = new HashSet<>();
+
+            for (SkriptPattern pattern : optionalGroups.get(0).patterns) {
+                strings.addAll(pattern.unrollFully());
+            }
+
+            strings.add("");
+
+            return strings;
+        }
+
+        Collection<String> allPermutations = new HashSet<>();
+        Collection<String> permutations = permutations(optionalGroups.subList(1, optionalGroups.size()));
+
+        for (SkriptPattern pattern : optionalGroups.get(0).patterns) {
+            for (String permutation : permutations) {
+                for (String string : pattern.unrollFully()) {
+                    allPermutations.add(string + permutation);
+                }
+
+                allPermutations.add(permutation);
+            }
+        }
+
+        return allPermutations;
+    }
+
+    /**
+     * Takes a list of collection of strings and returns a collection of list of strings. If the given list are columns
+     * with different options, then the output will be all possible permutations of picking a single element from each
+     * column. This keeps the initial order.
+     *
+     * @param allPermutations the permutations
+     * @return all possible permutations
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    private Collection<List<String>> possiblePatterns(@NotNull List<Collection<String>> allPermutations) {
+        Collection<List<String>> possiblePatterns;
+
+        if (allPermutations.size() == 1) {
+            possiblePatterns = new HashSet<>();
+
+            for (String element : allPermutations.get(0)) {
+                possiblePatterns.add(Collections.singletonList(element));
+            }
+
+            return possiblePatterns;
+        }
+
+        Collection<List<String>> allPossiblePatterns = new HashSet<>();
+        possiblePatterns = possiblePatterns(allPermutations.subList(1, allPermutations.size()));
+
+        for (String firstListElement : allPermutations.get(0)) {
+            for (List<String> possiblePattern : possiblePatterns) {
+                List<String> newPattern = new ArrayList<>(possiblePattern);
+
+                newPattern.add(0, firstListElement);
+
+                allPossiblePatterns.add(newPattern);
+            }
+        }
+
+        return allPossiblePatterns;
     }
 
     @Override

@@ -21,9 +21,12 @@ class SkriptPatternUnrollTest {
         assertTrue(collectionsEqual(Set.of("x", ""), SkriptPattern.parse("[x]").unrollFully()));
         assertTrue(collectionsEqual(Set.of(" "), SkriptPattern.parse(" ").unrollFully()));
 
-        assertTrue(collectionsEqual(Set.of(" x ", " "), SkriptPattern.parse(" [x] ").unrollFully()));
-        assertTrue(collectionsEqual(Set.of(" x", ""), SkriptPattern.parse(" [x]").unrollFully()));
-        assertTrue(collectionsEqual(Set.of("x ", ""), SkriptPattern.parse("[x] ").unrollFully()));
+        assertTrue(collectionsEqual(Set.of("x y", "x"), SkriptPattern.parse("x [y]").unrollFully()));
+        assertTrue(collectionsEqual(Set.of("x y", "y"), SkriptPattern.parse("[x] y").unrollFully()));
+
+        assertTrue(collectionsEqual(Set.of("x", "xy", "xy z", "x z"), SkriptPattern.parse("x[y] [z]").unrollFully()));
+
+        assertTrue(collectionsEqual(Set.of("w z", "wx z", "w y z", "wx y z"), SkriptPattern.parse("w[x] [y] z").unrollFully()));
     }
 
     boolean collectionsEqual(Collection<?> setA, Collection<?> setB) {
