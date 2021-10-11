@@ -383,6 +383,20 @@ public enum Type {
     PLAYERS("players", PLAYER),
 
     /**
+     * A single region.
+     *
+     * @since 0.1.0
+     */
+    REGION("region"),
+
+    /**
+     * Multiple regions.
+     *
+     * @since 0.1.0
+     */
+    REGIONS("regions", REGION),
+
+    /**
      * A single resource pack status.
      *
      * @since 0.1.0

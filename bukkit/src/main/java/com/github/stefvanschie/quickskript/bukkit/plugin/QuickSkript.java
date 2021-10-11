@@ -6,6 +6,8 @@ import com.github.stefvanschie.quickskript.bukkit.skript.BukkitSkriptLoader;
 import com.github.stefvanschie.quickskript.bukkit.util.event.ExperienceOrbSpawnEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.QuickSkriptPostEnableEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.WorldTimeChangeEvent;
+import com.github.stefvanschie.quickskript.bukkit.util.event.region.RegionEnterEvent;
+import com.github.stefvanschie.quickskript.bukkit.util.event.region.RegionLeaveEvent;
 import com.github.stefvanschie.quickskript.core.file.skript.FileSkript;
 import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
@@ -97,6 +99,12 @@ public class QuickSkript extends JavaPlugin {
         updateProfilerImplementation(environment);
 
         var skriptLoader = new BukkitSkriptLoader(environment);
+
+        if (regions != null) {
+            pluginManager.registerEvents(new RegionEnterEvent.Listener(skriptLoader), this);
+            pluginManager.registerEvents(new RegionLeaveEvent.Listener(skriptLoader), this);
+        }
+
         loadScripts(skriptLoader);
 
         if (getConfig().getBoolean("enable-execute-command")) {

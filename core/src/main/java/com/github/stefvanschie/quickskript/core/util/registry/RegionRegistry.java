@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -52,5 +53,17 @@ public class RegionRegistry {
         }
 
         return regions;
+    }
+
+    /**
+     * Gets all the registered regions. The returned collection is unmodifiable.
+     *
+     * @return all regions
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public Collection<? extends Region> getRegions() {
+        return Collections.unmodifiableSet(this.regions);
     }
 }
