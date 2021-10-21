@@ -102,6 +102,12 @@ public class SpaceGroup implements SkriptPatternGroup {
             return Collections.singleton(" ");
         }
 
+        SkriptPatternGroup nextGroup = groups.get(index + 1);
+
+        if (!(nextGroup instanceof SpaceGroup) && !(nextGroup instanceof OptionalGroup)) {
+            return Collections.singleton(" ");
+        }
+
         Collection<String> unrolled = new HashSet<>();
 
         boolean isLastSequence = true;
