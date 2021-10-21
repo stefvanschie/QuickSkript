@@ -15,10 +15,7 @@ import com.github.stefvanschie.quickskript.bukkit.psi.function.PsiWorldFunctionI
 import com.github.stefvanschie.quickskript.bukkit.psi.literal.PsiMoneyLiteralImpl;
 import com.github.stefvanschie.quickskript.bukkit.psi.literal.PsiPlayerLiteralImpl;
 import com.github.stefvanschie.quickskript.bukkit.skript.util.ExecutionTarget;
-import com.github.stefvanschie.quickskript.bukkit.util.CommandMapWrapper;
-import com.github.stefvanschie.quickskript.bukkit.util.ItemComparisonUtil;
-import com.github.stefvanschie.quickskript.bukkit.util.Platform;
-import com.github.stefvanschie.quickskript.bukkit.util.TreeTypeUtil;
+import com.github.stefvanschie.quickskript.bukkit.util.*;
 import com.github.stefvanschie.quickskript.bukkit.util.event.ExperienceOrbSpawnEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.QuickSkriptPostEnableEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.WorldTimeChangeEvent;
@@ -432,6 +429,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
             .registerEvent(PlayerMoveEvent.class, "[on] player (move|walk|step)")
             .registerEvent(PlayerPortalEvent.class, "[on] [player] portal")
             .registerEvent(PlayerQuitEvent.class, "[on] (quit[ting]|disconnect[ing]|log[ging | ]out)")
+            .registerEvent(PlayerResourcePackStatusEvent.class, "[on] resource pack [request] response")
             .registerEvent(PlayerRespawnEvent.class, "[on] [player] respawn[ing]")
             .registerEvent(PlayerSwapHandItemsEvent.class, "[on] swap[ping of] [hand|held] item[s]")
             .registerEvent(PlayerTeleportEvent.class, "[on] [player] teleport[ing]")
@@ -1083,6 +1081,30 @@ public class BukkitSkriptLoader extends SkriptLoader {
 
                     return null;
                 })
+            .registerEvent(PlayerResourcePackStatusEvent.class, "[on] resource pack [request] %resource pack states%",
+                matches -> {
+                    for (SkriptMatchResult match : matches) {
+                        PsiElement<?>[] elements = tryParseAllTypes(match);
+
+                        if (elements == null || elements.length != 1) {
+                            continue;
+                        }
+
+                        Object object = elements[0].execute(null, null);
+
+                        if (!(object instanceof ResourcePackStatus)) {
+                            continue;
+                        }
+
+                        ResourcePackStatus quickSkriptStatus = (ResourcePackStatus) object;
+                        PlayerResourcePackStatusEvent.Status bukkitStatus = ResourcePackStatusUtil.convert(quickSkriptStatus);
+
+                        return event -> event.getStatus() == bukkitStatus;
+                    }
+
+                    return null;
+                }
+            )
             .registerEvent(RegionEnterEvent.class, "[on] enter[ing] [of] [[the] region] %regions%",
                 defaultRegionComparison())
             .registerEvent(RegionLeaveEvent.class, "[on] (leav(e|ing)|exit[ing]) [of] [[the] region] %regions%",
