@@ -143,6 +143,8 @@ milk [bucket[s]] : any bucket -> minecraft:milk_bucket
 [music] (disc|record) strad : [any] [music] (disc|record) -> minecraft:music_disc_strad
 [music] (disc|record) wait : [any] [music] (disc|record) -> minecraft:music_disc_wait
 [music] (disc|record) ward : [any] [music] (disc|record) -> minecraft:music_disc_ward
+[music] (disc|record) pigstep : [any] [music] (disc|record) -> minecraft:music_disc_pigstep
+[music] (disc|record) otherside : [any] [music] (disc|record) -> minecraft:music_disc_otherside
 
 purple dye[s] : [any] dye -> minecraft:purple_dye
 cyan dye[s] : [any] dye -> minecraft:cyan_dye
@@ -250,8 +252,6 @@ netherite scrap[s] -> minecraft:netherite_scrap
 ((zombified piglin|zombie pigman) [spawn] egg|spawn (zombified piglin|zombie pigman))[s] : [any] spawn egg[s] -> minecraft:zombified_piglin_spawn_egg
 zoglin [spawn] egg|spawn zoglin)[s] : [any] spawn egg[s] -> minecraft:zoglin_spawn_egg
 (strider [spawn] egg|spawn strider)[s] : [any] spawn egg[s] -> minecraft:strider_spawn_egg
-
-[music] (disc|record) pigstep : [any] [music] (disc|record) -> minecraft:music_disc_pigstep
 
 (snout|piglin) banner pattern[s] : [any] banner pattern[s] -> minecraft:pigling_banner_pattern
 
