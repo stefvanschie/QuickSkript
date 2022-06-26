@@ -431,6 +431,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
             .registerEvent(PlayerQuitEvent.class, "[on] (quit[ting]|disconnect[ing]|log[ging | ]out)")
             .registerEvent(PlayerResourcePackStatusEvent.class, "[on] resource pack [request] response")
             .registerEvent(PlayerRespawnEvent.class, "[on] [player] respawn[ing]")
+            .registerEvent(PlayerRiptideEvent.class, "[on] [use of] riptide [enchant[ment]]")
             .registerEvent(PlayerSwapHandItemsEvent.class, "[on] swap[ping of] [hand|held] item[s]")
             .registerEvent(PlayerTeleportEvent.class, "[on] [player] teleport[ing]")
             .registerEvent(PlayerToggleFlightEvent.class, "[on] [player] (flight toggl(e|ing)|toggl(e|ing) flight)")
