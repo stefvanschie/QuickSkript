@@ -39,6 +39,13 @@ class SkriptPatternUnrollTest {
             "b c d e",
             "b c e"
         ), SkriptPattern.parse("[a] b c [d] e").unrollFully()));
+
+        assertTrue(collectionsEqual(Set.of(
+            "a b c",
+            "a c",
+            "b c",
+            "c"
+        ), SkriptPattern.parse("[a] [b] c").unrollFully()));
     }
 
     boolean collectionsEqual(Collection<?> setA, Collection<?> setB) {

@@ -358,6 +358,7 @@ public class OptionalGroup implements SkriptPatternGroup {
             }
         }
 
+        boolean isFirstSequence = index == 0;
         Collection<List<String>> possiblePatterns = possiblePatterns(allPermutations);
 
         for (List<String> possiblePattern : possiblePatterns) {
@@ -367,7 +368,8 @@ public class OptionalGroup implements SkriptPatternGroup {
             for (int i = 0; i < possiblePattern.size(); i++) {
                 String element = possiblePattern.get(i);
 
-                if (element.isEmpty() &&
+                //if this is the first sequence only allow if the match is not empty, otherwise you add a space at the start
+                if (element.isEmpty() && (!isFirstSequence || !match.isEmpty()) &&
                     (i + 1 < possiblePattern.size() && !possiblePattern.get(i + 1).isEmpty())) {
                     match.append(' ');
                 } else if (!element.isEmpty()) {
@@ -381,10 +383,10 @@ public class OptionalGroup implements SkriptPatternGroup {
                 }
             }
 
-            if (match.length() == 0 && !isLastSequence) {
+            if (match.length() == 0 && !isLastSequence && !isFirstSequence) {
                 matches.add(" ");
             } else {
-                if (relevantGroups.get(relevantGroups.size() - 1) instanceof SpaceGroup) {
+                if (relevantGroups.get(relevantGroups.size() - 1) instanceof SpaceGroup && match.length() != 0) {
                     match.append(' ');
                 }
 

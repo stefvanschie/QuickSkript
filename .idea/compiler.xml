@@ -6,13 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="bukkit" />
         <module name="core" />
+        <module name="bukkit" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="bukkit" target="11" />
-      <module name="core" target="11" />
+      <module name="bukkit" target="17" />
+      <module name="core" target="17" />
       <module name="parent" target="11" />
       <module name="QuickSkript" target="11" />
       <module name="quickskript" target="11" />
