@@ -50,6 +50,13 @@ public enum StatusEffectType {
     CONDUIT_POWER("conduit power"),
 
     /**
+     * The darkness status effect
+     *
+     * @since 0.1.0
+     */
+    DARKNESS("darkness"),
+
+    /**
      * The dolphin's grace status effect
      *
      * @since 0.1.0

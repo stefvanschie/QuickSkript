@@ -116,6 +116,7 @@ birch sapling[s] : [any] sapling[s] -> minecraft:birch_sapling
 jungle sapling[s] : [any] sapling[s] -> minecraft:jungle_sapling
 acacia sapling[s] : [any] sapling[s] -> minecraft:acacia_sapling
 dark oak sapling[s] : [any] sapling[s] -> minecraft:dark_oak_sapling
+{waterloggable} mangrove (propagule|sapling)[s] -> minecraft:mangrove_propagule
 
 {decayable} oak lea(f|ves) : [any] lea(f|ves) -> minecraft:oak_leaves
 {decayable} spruce lea(f|ves) : [any] lea(f|ves) -> minecraft:spruce_leaves
@@ -123,6 +124,7 @@ dark oak sapling[s] : [any] sapling[s] -> minecraft:dark_oak_sapling
 {decayable} jungle lea(f|ves) : [any] lea(f|ves) -> minecraft:jungle_leaves
 {decayable} acacia lea(f|ves) : [any] lea(f|ves) -> minecraft:acacia_leaves
 {decayable} dark oak lea(f|ves) : [any] lea(f|ves) -> minecraft:dark_oak_leaves
+{waterloggable} {decayable} mangrove lea(f|ves) : [any] lea(f|ves) -> minecraft:mangrove_leaves
 
 [cob]web[s] -> minecraft:cobweb
 jukebox[es] {jukebox state} -> minecraft:jukebox
@@ -267,6 +269,7 @@ black [stained] glass pane[s] : [any] stained glass pane[s] -> minecraft:black_s
 (potted|flower pot with) cactus : (any flower pot|[any] potted plant) -> minecraft:potted_cactus
 (potted|flower pot with) dead bush : (any flower pot|[any] potted plant) -> minecraft:potted_dead_bush
 (potted|flower pot with) fern : (any flower pot|[any] potted plant) -> minecraft:potted_fern
+(potted|pot with) mangrove (propagule|sapling) : (any flower pot|[any] potted plant) -> minecraft:potted_mangrove_propagule
 
 [floor] torch[es] : any torch -> minecraft:torch
 {directional} wall torch[es] : any torch -> minecraft:wall_torch
@@ -337,6 +340,7 @@ wither[ed] rose[s] : [any] small flower, [any] flower[s] -> minecrfat:wither_ros
 {waterloggable} nether brick wall[s] : any wall[s] -> minecraft:nether_brick_wall
 {waterloggable} red nether brick wall[s] : any wall[s] -> minecraft:red_nether_brick_wall
 {waterloggable} end stone brick wall[s] : any wall[s] -> minecraft:end_stone_brick_wall
+{waterloggable} mud brick wall[s] : any wall[s] -> minecraft:mud_brick_wall
 
 {waterloggable} {scaffold bottom} scaffolding -> minecraft:scaffolding
 
@@ -448,7 +452,7 @@ creeper (head|skull) item[s] : [any] (head|skull) item[s] -> minecraft:creeper_h
 honey block[s] -> minecraft:honey_block
 honeycomb block[s] -> minecraft:honeycomb_block
 
-shroomlight[s] -> minecraft:shrromlight
+shroomlight[s] -> minecraft:shroomlight
 [floor] soul torch[es] -> minecraft:soul_torch
 {directional} soul wall torch[es] -> minecraft:soul_wall_torch
 weeping vine[s] -> minecraft:weeping_vines
@@ -530,8 +534,12 @@ moss block[s] -> minecraft:moss_block
 {waterloggable} deepslate brick wall[s] : any wall[s] -> minecraft:deepslate_brick_wall
 {waterloggable} deepslate tile wall[s] : any wall[s] -> minecraft:deepslate_tile_wall
 
-{waterloggable} glow lichen[s] -> minecraft:glow_lichen
+{waterloggable} {orientable} glow lichen[s] -> minecraft:glow_lichen
 glow item frame [item][s] -> minecraft:glow_item_frame
 
 (potted|flower pot with) azalea [bush] : (any flower pot|[any] potted plant) -> minecraft:potted_azalea_bush
 (potted|flower pot with) flowering azalea [bush] : (any flower pot|[any] potted plant) -> minecraft:potted_flowering_azalea_bush
+
+frogspawn[s] -> minecraft:frogspawn
+
+{waterloggable} {orientable} sculk vein[s] -> minecraft:sculk_vein

@@ -250,7 +250,7 @@ public class AliasFile {
 
                 if (variation.charAt(0) != '<') {
                     throw new AliasFileFormatException(
-                        "Variation declaration should have an opening curly bracket followed by it."
+                        "Variation declaration should have a less than sign followed by it."
                     );
                 }
 

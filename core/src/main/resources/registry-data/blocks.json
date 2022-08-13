@@ -26,7 +26,8 @@
     },
     "acacia_leaves": {
         "distance": ["1", "2", "3", "4", "5", "6", "7"],
-        "persistent": ["false", "true"]
+        "persistent": ["false", "true"],
+        "waterlogged": ["false", "true"]
     },
     "acacia_log": {
         "axis": ["x", "y", "z"]
@@ -112,7 +113,8 @@
     "azalea": {},
     "azalea_leaves": {
         "distance": ["1", "2", "3", "4", "5", "6", "7"],
-        "persistent": ["false", "true"]
+        "persistent": ["false", "true"],
+        "waterlogged": ["false", "true"]
     },
     "azure_bluet": {},
     "bamboo": {
@@ -183,7 +185,8 @@
     },
     "birch_leaves": {
         "distance": ["1", "2", "3", "4", "5", "6", "7"],
-        "persistent": ["false", "true"]
+        "persistent": ["false", "true"],
+        "waterlogged": ["false", "true"]
     },
     "birch_log": {
         "axis": ["x", "y", "z"]
@@ -731,7 +734,8 @@
     },
     "dark_oak_leaves": {
         "distance": ["1", "2", "3", "4", "5", "6", "7"],
-        "persistent": ["false", "true"]
+        "persistent": ["false", "true"],
+        "waterlogged": ["false", "true"]
     },
     "dark_oak_log": {
         "axis": ["x", "y", "z"]
@@ -1015,9 +1019,11 @@
     "flowering_azalea": {},
     "flowering_azalea_leaves": {
         "distance": ["1", "2", "3", "4", "5", "6", "7"],
-        "persistent": ["false", "true"]
+        "persistent": ["false", "true"],
+        "waterlogged": ["false", "true"]
     },
     "flower_pot": {},
+    "frogspawn": {},
     "frosted_ice": {
         "age": ["0", "1", "2", "3"]
     },
@@ -1241,7 +1247,8 @@
     },
     "jungle_leaves": {
         "distance": ["1", "2", "3", "4", "5", "6", "7"],
-        "persistent": ["false", "true"]
+        "persistent": ["false", "true"],
+        "waterlogged":  ["false", "true"]
     },
     "jungle_log": {
         "axis": ["x", "y", "z"]
@@ -1490,6 +1497,82 @@
     },
     "magenta_wool": {},
     "magma_block": {},
+    "mangrove_button": {
+        "face": ["ceiling", "floor", "wall"],
+        "facing": ["east", "north", "south", "west"],
+        "powered": ["false", "true"]
+    },
+    "mangrove_door": {
+        "facing": ["east", "north", "south", "west"],
+        "half": ["lower", "upper"],
+        "hinge": ["left", "right"],
+        "open": ["false", "true"],
+        "powered": ["false", "true"]
+    },
+    "mangrove_fence": {
+        "east": ["false", "true"],
+        "north": ["false", "true"],
+        "south": ["false", "true"],
+        "waterlogged": ["false", "true"],
+        "west": ["false", "true"]
+    },
+    "mangrove_fence_gate": {
+        "facing": ["east", "north", "south", "west"],
+        "in_wall":  ["false", "true"],
+        "open": ["false", "true"],
+        "powered": ["false", "true"]
+    },
+    "mangrove_leaves": {
+        "distance": ["1", "2", "3", "4", "5" ,"6", "7"],
+        "persistent": ["false", "true"],
+        "waterlogged": ["false", "true"]
+    },
+    "mangrove_log": {
+        "axis": ["x", "y", "z"]
+    },
+    "mangrove_planks": {},
+    "mangrove_pressure_plate": {
+        "powered": ["false", "true"]
+    },
+    "mangrove_propagule": {
+        "age": ["0", "1", "2", "3"],
+        "hanging": ["false", "true"],
+        "stage": ["0", "1"],
+        "waterlogged": ["false", "true"]
+    },
+    "mangrove_roots": {
+        "waterlogged": ["false", "true"]
+    },
+    "mangrove_sign": {
+        "rotation": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"],
+        "lit": ["false", "true"],
+        "waterlogged": ["false", "true"]
+    },
+    "mangrove_slab": {
+        "type": ["bottom", "top", "double"],
+        "waterlogged": ["false", "true"]
+    },
+    "mangrove_stairs": {
+        "facing": ["east", "north", "south", "west"],
+        "half": ["bottom", "top"],
+        "shape": ["inner_left", "inner_right", "outer_left", "outer_right", "straight"],
+        "waterlogged": ["false", "true"]
+    },
+    "mangrove_trapdoor": {
+        "facing": ["east", "north", "south", "west"],
+        "half": ["bottom", "top"],
+        "open": ["false", "true"],
+        "powered": ["false", "true"],
+        "waterlogged": ["false", "true"]
+    },
+    "mangrove_wall_sign": {
+        "facing": ["east", "north", "south", "west"],
+        "lit": ["false", "true"],
+        "waterlogged": ["false", "true"]
+    },
+    "mangrove_wood": {
+        "axis": ["x", "y", "z"]
+    },
     "medium_amethyst_bud": {
         "facing": ["up", "down", "north", "south", "east", "west"],
         "waterlogged": ["false", "true"]
@@ -1541,6 +1624,29 @@
     "moving_piston": {
         "facing": ["down", "east", "north", "south", "up", "west"],
         "type": ["normal", "sticky"]
+    },
+    "mud": {},
+    "mud_brick_slab": {
+        "type": ["bottom", "top", "double"],
+        "waterlogged": ["false", "true"]
+    },
+    "mud_brick_stairs": {
+        "facing": ["east", "north", "south", "west"],
+        "half": ["bottom", "top"],
+        "shape": ["inner_left", "inner_right", "outer_left", "outer_right", "straight"],
+        "waterlogged": ["false", "true"]
+    },
+    "mud_brick_wall": {
+        "east": ["low", "none", "tall"],
+        "north": ["low", "none", "tall"],
+        "south": ["low", "none", "tall"],
+        "up": ["false", "true"],
+        "waterlogged":  ["false", "true"],
+        "west": ["low", "none", "tall"]
+    },
+    "mud_bricks": {},
+    "muddy_mangrove_roots": {
+        "axis": ["x", "y", "z"]
     },
     "mushroom_stem": {
         "east": ["false", "true"],
@@ -1623,7 +1729,8 @@
     },
     "oak_leaves": {
         "distance": ["1", "2", "3", "4", "5", "6", "7"],
-        "persistent": ["false", "true"]
+        "persistent": ["false", "true"],
+        "waterlogged": ["false", "true"]
     },
     "oak_log": {
         "axis": ["x", "y", "z"]
@@ -1670,6 +1777,9 @@
         "powered": ["false", "true"]
     },
     "obsidian": {},
+    "ochre_froglight": {
+        "axis": ["x", "y", "z"]
+    },
     "orange_banner": {
         "rotation": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"]
     },
@@ -1723,6 +1833,10 @@
         "waterlogged": ["false", "true"]
     },
     "packed_ice": {},
+    "packed_mud": {},
+    "pearlescent_froglight": {
+        "axis": ["x", "y", "z"]
+    },
     "peony": {
         "half": ["lower", "upper"]
     },
@@ -1916,6 +2030,7 @@
     "potted_flowering_azalea_bush": {},
     "potted_jungle_sapling": {},
     "potted_lily_of_the_valley": {},
+    "potted_mangrove_propagule": {},
     "potted_oak_sapling": {},
     "potted_orange_tulip": {},
     "potted_oxeye_daisy": {},
@@ -2153,6 +2268,7 @@
         "facing": ["east", "north", "south", "west"]
     },
     "red_wool": {},
+    "reinforced_deepslate": {},
     "repeater": {
         "delay": ["1", "2", "3", "4"],
         "facing": ["east", "north", "south", "west"],
@@ -2195,10 +2311,28 @@
         "distance": ["0", "1", "2", "3", "4", "5", "6", "7"],
         "waterlogged": ["false", "true"]
     },
+    "sculk": {},
+    "sculk_catalyst": {
+        "bloom": ["false", "true"]
+    },
     "sculk_sensor": {
         "power": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"],
         "sculk_sensor_phase": ["active", "cooldown", "inactive"],
         "waterloged": ["false", "true"]
+    },
+    "sculk_shrieker": {
+        "can_summon": ["false", "true"],
+        "shrieking": ["false", "true"],
+        "waterlogged": ["false", "true"]
+    },
+    "sculk_vein": {
+        "down": ["false", "true"],
+        "east": ["false", "true"],
+        "north": ["false", "true"],
+        "south": ["false", "true"],
+        "up": ["false", "true"],
+        "waterlogged": ["false", "true"],
+        "west": ["false", "true"]
     },
     "seagrass": {},
     "sea_lantern": {},
@@ -2320,7 +2454,8 @@
     },
     "spruce_leaves": {
         "distance": ["1", "2", "3", "4", "5", "6", "7"],
-        "persistent": ["false", "true"]
+        "persistent": ["false", "true"],
+        "waterlogged":  ["false", "true"]
     },
     "spruce_log": {
         "axis": ["x", "y", "z"]
@@ -2437,6 +2572,12 @@
     "stripped_jungle_wood": {
         "axis": ["x", "y", "z"]
     },
+    "stripped_mangrove_log": {
+        "axis": ["x", "y", "z"]
+    },
+    "stripped_mangrove_wood": {
+        "axis": ["x", "y", "z"]
+    },
     "stripped_oak_log": {
         "axis": ["x", "y", "z"]
     },
@@ -2522,6 +2663,9 @@
         "age": ["0", "1", "2", "3", "4", "5", "6", "7", "8","9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25"]
     },
     "twisting_vines_plant": {},
+    "verdant_froglight": {
+        "axis": ["x", "y", "z"]
+    },
     "vine": {
         "east": ["false", "true"],
         "north": ["false", "true"],

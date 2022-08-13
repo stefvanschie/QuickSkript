@@ -291,6 +291,13 @@ public class Enchantment {
         SWEEPING_EDGE,
 
         /**
+         * Represents the swift sneak enchantment
+         *
+         * @since 0.1.0
+         */
+        SWIFT_SNEAK,
+
+        /**
          * Represents the thorns enchantment
          *
          * @since 0.1.0

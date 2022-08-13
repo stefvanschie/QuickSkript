@@ -79,10 +79,6 @@
     level (14|fourteen) :: [level=14],
     level (15|fifteen) :: [level=15]
 >
-[sculk sensor activity] = <
-    active :: [sculk_sensor_phase=active],
-    cooldown :: [sculk_sensor_phase=cooldown]
->
 
 end[er] portal [block[s]] -> minecraft:end_portal
 fire -> minecraft:fire
@@ -159,5 +155,3 @@ powder snow [block[s]] -> minecraft:powder_snow
 {waterloggable} {light level} light [block[s]] -> minecraft:light
 
 bundle[s] -> minecraft:bundle
-
-{waterloggable} {sculk sensor activity} sculk sensor -> minecraft:sculk_sensor

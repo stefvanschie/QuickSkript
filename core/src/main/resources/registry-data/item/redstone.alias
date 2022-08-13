@@ -40,6 +40,10 @@
     (unextended|retracted) :: [extended=false],
     extended :: [extended=true]
 >
+[sculk sensor activity] = <
+    active :: [sculk_sensor_phase=active],
+    cooldown :: [sculk_sensor_phase=cooldown]
+>
 
 redstone (wire|dust block)[s] : any redstone item -> minecraft:redstone_wire
 redstone [(dust|item)[s]] : any redstone item -> minecraft:redstone
@@ -134,3 +138,5 @@ unstable tnt [block[s]] -> minecraft:tnt[unstable=true]
 {powerable} {directional} {attached} polished blackstone button[s] : [any] button[s], [any] wood[en] button[s] -> minecraft:polished_blackstone_button
 
 {waterloggable} {powerable} {orientable} lightning rod[s] -> minecraft:lightning_rod
+
+{waterloggable} {sculk sensor activity} sculk sensor[s] -> minecraft:sculk_sensor

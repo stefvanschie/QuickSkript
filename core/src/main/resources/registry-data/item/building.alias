@@ -20,6 +20,14 @@
     outer-left :: [shape=outer_left],
     outer-right :: [shape=outer_right]
 >
+[summonable] = <
+    (summonable|active) :: [can_summon=true],
+    (non-summonable|no-warden|activated) :: [can_summon=false]
+>
+[shriekable] = <
+    shrieking :: [shrieking=true],
+    (quiet|non-shrieking) :: [shrieking=false]
+>
 
 stone [block[s]] : any [natural] stone[s] -> minecraft:stone
 
@@ -96,6 +104,7 @@ warped plank[s] : [any] plank[s] -> minecraft:warped_planks
 {axised} jungle [wood] log[s] : [any] log[s], [any] normal log, any jungle log -> minecraft:jungle_log
 {axised} acacia [wood] log[s] : [any] log[s], [any] normal log, any acacia log -> minecraft:acacia_log
 {axised} dark oak [wood] log[s] : [any] log[s], [any] normal log, any dark oak log -> minecraft:dark_oak_log
+{axised} mangrove log[s] -> minecraft:mangrove_log
 
 {axised} oak (wood|bark) [block[s]] : [any] log[s], [any] normal log, [any] (wood|bark) [block[s]], any oak log -> minecraft:oak_wood
 {axised} spruce (wood|bark) [block[s]] : [any] log[s], [any] normal log, [any] (wood|bark) [block[s]], any spruce log -> minecraft:spruce_wood
@@ -103,6 +112,7 @@ warped plank[s] : [any] plank[s] -> minecraft:warped_planks
 {axised} jungle (wood|bark) [block[s]] : [any] log[s], [any] normal log, [any] (wood|bark) [block[s]], any jungle log -> minecraft:jungle_wood
 {axised} acacia (wood|bark) [block[s]] : [any] log[s], [any] normal log, [any] (wood|bark) [block[s]], any acacia log -> minecraft:acacia_wood
 {axised} dark oak (wood|bark) [block[s]] : [any] log[s], [any] normal log, [any] (wood|bark) [block[s]], any dark oak log -> minecraft:dark_oak_wood
+{axised} mangrove (wood|bark) [block[s]] -> minecraft:mangrove_wood
 
 {axised} stripped oak log[s] : [any] log[s], [any] stripped log [block[s]] -> minecraft:stripped_oak_log
 {axised} stripped spruce log[s] : [any] log[s], [any] stripped log [block[s]] -> minecraft:stripped_spruce_log
@@ -110,6 +120,7 @@ warped plank[s] : [any] plank[s] -> minecraft:warped_planks
 {axised} stripped jungle log[s] : [any] log[s], [any] stripped log [block[s]] -> minecraft:stripped_jungle_log
 {axised} stripped acacia log[s] : [any] log[s], [any] stripped log [block[s]] -> minecraft:stripped_acacia_log
 {axised} stripped dark oak log[s] : [any] log[s], [any] stripped log [block[s]] -> minecraft:stripped_dark_oak_log
+{axised} stripped mangrove log[s] : [any] stripped log [block[s]] -> minecraft:stripped_mangrove_log
 
 {axised} stripped oak (bark|wood) [block[s]] : [any] log[s], [any] stripped (bark|wood) [block[s]] -> minecraft:stripped_oak_wood
 {axised} stripped spruce (bark|wood) [block[s]] : [any] log[s], [any] stripped (bark|wood) [block[s]] -> minecraft:stripped_spruce_wood
@@ -117,6 +128,7 @@ warped plank[s] : [any] plank[s] -> minecraft:warped_planks
 {axised} stripped jungle (bark|wood) [block[s]] : [any] log[s], [any] stripped (bark|wood) [block[s]] -> minecraft:stripped_jungle_wood
 {axised} stripped acacia (bark|wood) [block[s]] : [any] log[s], [any] stripped (bark|wood) [block[s]] -> minecraft:stripped_acacia_wood
 {axised} stripped dark oak (bark|wood) [block[s]] : [any] log[s], [any] stripped (bark|wood) [block[s]] -> minecraft:stripped_dark_oak_wood
+{axised} stripped mangrove (bark|wood) [block[s]] : [any] stripped (bark|wood) [block[s]] -> minecraft:stripped_mangrove_wood
 
 red sand [block[s]] -> minecraft:red_sand
 [normal] sandstone [block[s]] : any sandstone [block[s]] -> minecraft:sandstone
@@ -249,6 +261,7 @@ black concrete powder : [any] concrete powder [block[s]] -> minecraft:black_conc
 {waterloggable} {slab} smooth red sandstone slab : [any] slab[s], [any] sandstone slab[s] -> minecraft:smooth_red_sandstone_slab
 {waterloggable} {slab} cut sandstone slab[s] : [any] slab[s], [any] sandstone slab[s] -> minecraft:cut_sandstone_slab
 {waterloggable} {slab} cut red sandstone slab[s] : [any] slab[s], [any] sandstone slab[s] -> minecraft:cut_red_sandstone_slab
+{waterloggable} {slab} mud brick slab[s] : [any] slab[s] -> minecraft:mud_brick_slabs
 
 {waterloggable} {stairs} {stairs shape} {directional} oak [wood] stair[s] : [any] wood[en] stair[s], [any] stair[s] -> minecraft:oak_stairs
 {waterloggable} {stairs} {stairs shape} {directional} spruce [wood] stair[s] : [any] wood[en] stair[s], [any] stair[s] -> minecraft:spruce_stairs
@@ -281,6 +294,7 @@ black concrete powder : [any] concrete powder [block[s]] -> minecraft:black_conc
 {waterloggable} {stairs} {stairs shape} {directional} mossy cobble[stone] stair[s] : [any] stair[s], any stone stair[s] -> minecraft:mossy_cobblestone_stairs
 {waterloggable} {stairs} {stairs shape} {directional} smooth sandstone stair[s] : [any] stair[s], [any] sandstone stair[s] -> minecraft:smooth_sandstone_stairs
 {waterloggable} {stairs} {stairs shape} {directional} smooth red sandstone stair[s] : [any] stair[s], [any] sandstone stair[s] -> minecraft:smooth_red_sandstone_stairs
+{waterloggable} mud brick stairs : [any] stair[s] -> minecraft:mud_brick_stairs
 
 dead (tube|blue) coral block[s] : [any] coral, [any] coral block[s], [any] dead coral, [any] dead coral block[s], [any] (tube|blue) coral, [any] (tube|blue) coral block[s] -> minecraft:dead_tube_coral_block
 dead (brain|pink) coral block[s] : [any] coral, [any] coral block[s], [any] dead coral, [any] dead coral block[s], [any] (brain|pink) coral, [any] (brain|pink) coral block[s] -> minecraft:dead_brain_coral_block
@@ -489,3 +503,20 @@ deepslate redstone ore[s] : [any] ore, [any] deepslate ore -> minecraft:deepslat
 deepslate emerald ore[s] : [any] ore, [any] deepslate ore -> minecraft:deepslate_emerald_ore
 deepslate lapis [lazuli] ore[s] : [any] ore, [any] deepslate ore -> minecraft:deepslate_lapis_ore
 deepslate diamond ore[s] : [any] ore, [any] deepslate ore -> minecraft:deepslate_diamond_ore
+
+ochre froglight[s] : [any] froglight[s] -> minecraft:ochre_froglight
+pearlescent froglight[s] : [any] froglight[s] -> minecraft:pearlescent_froglight
+verdant froglight[s] : [any] froglight[s] -> minecraft:verdant_froglight
+
+mud -> minecraft:mud
+muddy mangrove roots -> minecraft:muddy_mangrove_roots
+packed mud -> minecraft:packed_mud
+mud bricks -> minecraft:mud_bricks
+
+reinforced deepslate -> minecraft:reinforced_deepslate
+mangrove roots -> minecraft:mangrove_roots
+
+sculk [block[s]] -> minecraft:sculk
+sculk catalyst[s] -> minecrfat:sculk_catalyst
+
+{waterloggable} {summonable} {shriekable} shrieker -> minecraft:sculk_shrieker

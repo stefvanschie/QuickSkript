@@ -67,6 +67,7 @@ public class BiomeRegistry {
         addEntry(new Entry("custom", "unknown"));
         addEntry(new Entry("roofed forest", "black forest", "dark forest"));
         addEntry(new Entry("deep cold ocean"));
+        addEntry(new Entry("deep dark"));
         addEntry(new Entry("deep frozen ocean"));
         addEntry(new Entry("deep lukewarm ocean"));
         addEntry(new Entry("deep ocean"));
@@ -87,6 +88,7 @@ public class BiomeRegistry {
         addEntry(new Entry("jungle"));
         addEntry(new Entry("lukewarm ocean"));
         addEntry(new Entry("lush caves"));
+        addEntry(new Entry("mangrove swamp"));
         addEntry(new Entry("meadow"));
         addEntry(new Entry("mushroom island", "mushroom fields"));
         addEntry(new Entry("nether wastes", "nether", "hell"));

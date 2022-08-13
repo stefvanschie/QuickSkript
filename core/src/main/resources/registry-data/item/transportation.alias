@@ -31,6 +31,7 @@ birch boat[s] : [any] boat[s] -> minecraft:birch_boat
 jungle boat[s] : [any] boat[s] -> minecraft:jungle_boat
 acacia boat[s] : [any] boat[s] -> minecraft:acacia_boat
 dark oak boat[s] : [any] boat[s] -> minecraft:dark_oak_boat
+mangrove boat[s] : [any] boat[s] -> minecraft:mangrove_boat
 
 [normal] minecart[s] : any minecart[s] -> minecraft:minecart
 minecart[s] with chest[s] : storage minecart[s], any minecart[s] -> minecraft:chest_minecart
@@ -62,4 +63,11 @@ activator [minecart] (rail|track) item[s] -> minecraft:activator_rail
 
 [minecart] (rail|track) item[s] -> minecraft:rail
 
-warped fungus on a stick[s] -> minecraft:warped_fungus_on_a_stick
+warped fungus on a stick -> minecraft:warped_fungus_on_a_stick
+
+spruce (chest boat[s]|boat[s] with chest) : [any] (chest boat[s]|boat[s] with chest) -> minecraft:spruce_chest_boat
+birch (chest boat[s]|boat[s] with chest) : [any] (chest boat[s]|boat[s] with chest) -> minecraft:birch_chest_boat
+jungle (chest boat[s]|boat[s] with chest) : [any] (chest boat[s]|boat[s] with chest) -> minecraft:jungle_chest_boat
+acacia (chest boat[s]|boat[s] with chest) : [any] (chest boat[s]|boat[s] with chest) -> minecraft:acacia_chest_boat
+dark oak (chest boat[s]|boat[s] with chest) : [any] (chest boat[s]|boat[s] with chest) -> minecraft:dark_oak_chest_boat
+mangrove (chest boat[s]|boat[s] with chest) : [any] (chest boat[s]|boat[s] with chest) -> minecraft:mangrove_chest_boat

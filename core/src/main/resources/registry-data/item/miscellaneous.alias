@@ -52,6 +52,16 @@
     (some berries|berried) :: [age=2],
     (many berries|very berried) :: [age=3]
 >
+[horn variation] = <
+    ponder :: [instrument=minecraft:ponder_goat_horn],
+    sing :: [instrument=minecraft:sing_goat_horn],
+    seek :: [instrument=minecraft:seek_goat_horn],
+    feel :: [instrument=minecraft:feel_goat_horn],
+    admire :: [instrument=minecraft:admire_goat_horn],
+    call :: [instrument=minecraft:call_goat_horn],
+    yearn :: [instrument=minecraft:yearn_goat_horn],
+    dream :: [instrument=minecraft:dream_goat_horn]
+>
 
 coal -> minecraft:coal
 diamond[s] -> minecraft:diamond
@@ -131,6 +141,7 @@ milk [bucket[s]] : any bucket -> minecraft:milk_bucket
 (cod bucket[s]|bucket[s] of cod) : any fish bucket, any bucket -> minecraft:cod_bucket
 (pufferfish bucket[s]|bucket[s] of pufferfish) : any fish bucket, any bucket -> minecraft:pufferfish_bucket
 (salmon bucket[s]|bucket[s] of salmon) : any fish bucket, any bucket -> minecraft:salmon_bucket
+(tadpole bucket|bucket of tadpole)[s] -> minecraft:bucket_of_tadpole
 
 [music] (disc|record) 11 : [any] [music] (disc|record) -> minecraft:music_disc_11
 [music] (disc|record) 13 : [any] [music] (disc|record) -> minecraft:music_disc_13
@@ -145,6 +156,7 @@ milk [bucket[s]] : any bucket -> minecraft:milk_bucket
 [music] (disc|record) ward : [any] [music] (disc|record) -> minecraft:music_disc_ward
 [music] (disc|record) pigstep : [any] [music] (disc|record) -> minecraft:music_disc_pigstep
 [music] (disc|record) otherside : [any] [music] (disc|record) -> minecraft:music_disc_otherside
+[music] (disc|record) 5 : [any] [music] (disc|record) -> minecraft:music_disc_5
 
 purple dye[s] : [any] dye -> minecraft:purple_dye
 cyan dye[s] : [any] dye -> minecraft:cyan_dye
@@ -233,6 +245,10 @@ cocoa bean[s] -> minecraft:cocoa_beans
 (axolotl [spawn] egg|spawn axolotl)[s] : [any] spawn egg[s] -> minecraft:axolotl_spawn_egg
 (goat [spawn] egg|spawn goat)[s] : [any] spawn egg[s] -> minecraft:goat_spawn_egg
 (glow squid [spawn] egg|spawn glow squid)[s] : [any] spawn egg[s] -> minecraft:glow_squid_spawn_egg
+(allay [spawn] egg|spawn allay)[s] : [any] spawn egg[s] -> minecraft:allay_spawn_egg
+(frog [spawn] egg|spawn frog)[s] : [any] spawn egg[s] -> minecraft:frog_spawn_egg
+(tadpole [spawn] egg|spawn tadpole)[s] : [any] spawn egg[s] -> minecraft:tadpole_spawn_egg
+(warden [spawn] egg|spawn warden)[s] : [any] spawn egg[s] -> minecraft:warden_spawn_egg
 
 {composter stage} composter[s] -> minecraft:composter
 {bamboo age} {bamboo leaves} {bamboo stage} bamboo [plant] -> minecraft:bamboo
@@ -266,3 +282,10 @@ copper ingot[s] : any ingot[s] -> minecraft:copper_ingot
 raw iron : [any] raw ore[s] -> minecraft:raw_iron
 raw copper : [any] raw ore[s] -> minecraft:raw_copper
 raw gold : [any] raw ore[s] -> minecraft:raw_gold
+
+(disc|record) [5] fragment[s] -> minecraft:disc_fragment_5
+
+echo shard[s] -> minecraft:echo_shard
+recovery compass[es] -> minecraft:recovery_compass
+
+{horn variation} goat horn[s] -> minecraft:goat_horn
