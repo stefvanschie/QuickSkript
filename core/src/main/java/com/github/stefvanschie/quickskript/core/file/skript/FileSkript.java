@@ -9,9 +9,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Represents a skript file. The source of the code does not necessary have to be a file,
@@ -153,11 +155,13 @@ public class FileSkript implements Skript {
      * Registers all events in this skript
      *
      * @param skriptLoader the skript loader to parse with
+     * @param ignore the file nodes to ignore during this operation
      * @since 0.1.0
      */
-    public void registerEventExecutors(@NotNull SkriptLoader skriptLoader) {
+    private void registerEventExecutors(@NotNull SkriptLoader skriptLoader,
+        @NotNull Collection<? extends SkriptFileNode> ignore) {
         getNodes().stream()
-                .filter(node -> node instanceof SkriptFileSection)
+                .filter(node -> node instanceof SkriptFileSection && !ignore.contains(node))
                 .map(node -> (SkriptFileSection) node)
                 .forEach(node -> registerEvent(skriptLoader, node));
     }
@@ -166,13 +170,26 @@ public class FileSkript implements Skript {
      * Registers all commands in this skript
      *
      * @param skriptLoader the skript loader to parse with
+     * @return the set of nodes that were registered during this operation
      * @since 0.1.0
      */
-    public void registerCommands(@NotNull SkriptLoader skriptLoader) {
-        getNodes().stream()
-                .filter(node -> node.getText().startsWith("command")
-                        && node instanceof SkriptFileSection)
-                .forEach(node -> registerCommand(skriptLoader, (SkriptFileSection) node));
+    private Collection<? extends SkriptFileNode> registerCommands(@NotNull SkriptLoader skriptLoader) {
+        return getNodes().stream()
+            .filter(node -> node.getText().startsWith("command") && node instanceof SkriptFileSection)
+            .peek(node -> registerCommand(skriptLoader, (SkriptFileSection) node))
+            .collect(Collectors.toUnmodifiableSet());
+    }
+
+    /**
+     * Registers everything in this skript file.
+     *
+     * @param skriptLoader the skript loader to register all contents of this file with
+     * @since 0.1.0
+     */
+    public void registerAll(@NotNull SkriptLoader skriptLoader) {
+        Collection<? extends SkriptFileNode> registeredNodes = registerCommands(skriptLoader);
+
+        registerEventExecutors(skriptLoader, registeredNodes);
     }
 
     /**

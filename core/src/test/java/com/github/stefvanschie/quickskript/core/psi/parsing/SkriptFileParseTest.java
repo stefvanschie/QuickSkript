@@ -23,8 +23,7 @@ class SkriptFileParseTest extends TestClassBase {
     @ValueSource(strings = {"Basic-sections", "Dynamic-indentation", "Simple-with-comments"})
     void testValidSamples(String file) {
         FileSkript skript = getSkriptResource(file);
-        skript.registerCommands(getSkriptLoader());
-        skript.registerEventExecutors(getSkriptLoader());
+        skript.registerAll(getSkriptLoader());
     }
 
     @ParameterizedTest
@@ -32,8 +31,7 @@ class SkriptFileParseTest extends TestClassBase {
     void testInvalidSamples(String file) {
         Assertions.assertThrows(ParseException.class, () -> {
             FileSkript skript = getSkriptResource(file);
-            skript.registerCommands(getSkriptLoader());
-            skript.registerEventExecutors(getSkriptLoader());
+            skript.registerAll(getSkriptLoader());
         });
     }
 

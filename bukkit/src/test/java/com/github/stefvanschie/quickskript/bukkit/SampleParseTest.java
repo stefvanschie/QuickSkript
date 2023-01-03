@@ -13,7 +13,6 @@ class SampleParseTest extends TestClassBase {
     @ValueSource(strings = "Simple")
     void testValidSamples(String file) {
         FileSkript skript = getSkriptResource(file);
-        skript.registerCommands(getSkriptLoader());
-        skript.registerEventExecutors(getSkriptLoader());
+        skript.registerAll(getSkriptLoader());
     }
 }

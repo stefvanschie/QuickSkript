@@ -166,8 +166,7 @@ public class QuickSkript extends JavaPlugin {
 
         for (FileSkript skript : skripts) {
             try {
-                skript.registerCommands(skriptLoader);
-                skript.registerEventExecutors(skriptLoader);
+                skript.registerAll(skriptLoader);
             } catch (ParseException e) {
                 getLogger().log(Level.SEVERE, "Error while parsing:" + e.getExtraInfo(skript), e);
             }
