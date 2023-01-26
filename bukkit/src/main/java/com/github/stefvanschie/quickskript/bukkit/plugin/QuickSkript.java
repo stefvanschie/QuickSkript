@@ -8,6 +8,7 @@ import com.github.stefvanschie.quickskript.bukkit.util.event.QuickSkriptPostEnab
 import com.github.stefvanschie.quickskript.bukkit.util.event.WorldTimeChangeEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.region.RegionEnterEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.region.RegionLeaveEvent;
+import com.github.stefvanschie.quickskript.bukkit.util.event.script.ScriptLoadEvent;
 import com.github.stefvanschie.quickskript.core.file.skript.FileSkript;
 import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
@@ -167,6 +168,8 @@ public class QuickSkript extends JavaPlugin {
         for (FileSkript skript : skripts) {
             try {
                 skript.registerAll(skriptLoader);
+
+                Bukkit.getPluginManager().callEvent(new ScriptLoadEvent(skript));
             } catch (ParseException e) {
                 getLogger().log(Level.SEVERE, "Error while parsing:" + e.getExtraInfo(skript), e);
             }

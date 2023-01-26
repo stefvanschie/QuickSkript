@@ -22,6 +22,7 @@ import com.github.stefvanschie.quickskript.bukkit.util.event.WorldTimeChangeEven
 import com.github.stefvanschie.quickskript.bukkit.util.event.region.RegionEnterEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.region.RegionEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.region.RegionLeaveEvent;
+import com.github.stefvanschie.quickskript.bukkit.util.event.script.ScriptLoadEvent;
 import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileLine;
 import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileNode;
 import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileSection;
@@ -1110,6 +1111,8 @@ public class BukkitSkriptLoader extends SkriptLoader {
                 defaultRegionComparison())
             .registerEvent(RegionLeaveEvent.class, "[on] (leav(e|ing)|exit[ing]) [of] [[the] region] %regions%",
                 defaultRegionComparison())
+            .registerEvent(ScriptLoadEvent.class, "[on] [async] [script] (load|init|enable)", //TODO: async loading
+                (script, event) -> event.getScript().equals(script))
             .registerEvent(StructureGrowEvent.class, "[on] grow [of %tree type%]", matches -> {
                 for (SkriptMatchResult match : matches) {
                     PsiElement<?>[] elements = tryParseAllTypes(match);

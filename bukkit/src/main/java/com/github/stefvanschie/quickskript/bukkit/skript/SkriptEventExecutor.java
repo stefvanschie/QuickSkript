@@ -68,4 +68,15 @@ public class SkriptEventExecutor {
                     e.getExtraInfo(skript), e);
         }
     }
+
+    /**
+     * Gets the script this event executor is for.
+     *
+     * @return the script
+     * @since 0.1.0
+     */
+    @NotNull
+    public Skript getScript() {
+        return this.skript;
+    }
 }

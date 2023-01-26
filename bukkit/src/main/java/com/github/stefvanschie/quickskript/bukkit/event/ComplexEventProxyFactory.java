@@ -5,6 +5,7 @@ import com.github.stefvanschie.quickskript.bukkit.skript.SkriptEventExecutor;
 import com.github.stefvanschie.quickskript.bukkit.util.Platform;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
+import com.github.stefvanschie.quickskript.core.skript.Skript;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
@@ -15,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -33,19 +35,19 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
      */
     @NotNull
     private final Map<Class<? extends Event>, List<Map.Entry<SkriptEventExecutor,
-            Predicate<Event>>>> REGISTERED_HANDLERS = new HashMap<>();
+            BiPredicate<Skript, Event>>>> REGISTERED_HANDLERS = new HashMap<>();
 
     /**
      * The executor which handles the execution of all event handlers in the storage.
      */
     @NotNull
     private final EventExecutor HANDLER_EXECUTOR = (listener, event) -> {
-        List<Map.Entry<SkriptEventExecutor, Predicate<Event>>> handlers = REGISTERED_HANDLERS.get(event.getClass());
+        List<Map.Entry<SkriptEventExecutor, BiPredicate<Skript, Event>>> handlers = REGISTERED_HANDLERS.get(event.getClass());
 
         //yes this can be null, thank Bukkit for that
         if (handlers != null) {
             handlers.stream()
-                    .filter(handler -> handler.getValue().test(event))
+                    .filter(handler -> handler.getValue().test(handler.getKey().getScript(), event))
                     .forEach(handler -> handler.getKey().execute(event));
         }
     };
@@ -99,10 +101,10 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
                 continue;
             }
 
-            Predicate<Event> predicate;
+            BiPredicate<Skript, Event> predicate;
 
             if (eventPattern.getFilterCreator() == null) {
-                predicate = event -> true;
+                predicate = (script, event) -> true;
             } else {
                 predicate = eventPattern.getFilterCreator().apply(possibleMatches);
             }
@@ -138,9 +140,19 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
     @NotNull
     public <T extends Event> ComplexEventProxyFactory registerEvent(@NotNull Class<T> event, @NotNull String pattern,
             @NotNull Function<Iterable<SkriptMatchResult>, Predicate<T>> filterCreator) {
-        var filter = (Function<Iterable<SkriptMatchResult>, Predicate<Event>>) (Object) filterCreator;
+        Function<Iterable<SkriptMatchResult>, BiPredicate<Skript, T>> filter = matches -> (script, e) -> filterCreator.apply(matches).test(e);
 
-        eventPatterns.add(new EventPattern(event, pattern, filter));
+        eventPatterns.add(new EventPattern(event, pattern, (Function<Iterable<SkriptMatchResult>, BiPredicate<Skript, Event>>) (Object) filter));
+        return this;
+    }
+
+    @NotNull
+    public <T extends Event> ComplexEventProxyFactory registerEvent(@NotNull Class<T> event, @NotNull String pattern,
+        @NotNull BiPredicate<Skript, T> filterCreator) {
+        Function<Iterable<SkriptMatchResult>, BiPredicate<Skript, T>> filter = (matches -> filterCreator);
+
+        eventPatterns.add(new EventPattern(event, pattern,
+            (Function<Iterable<SkriptMatchResult>, BiPredicate<Skript, Event>>) (Object) filter));
         return this;
     }
 
@@ -165,9 +177,12 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
             return this;
         }
 
+        Function<Iterable<SkriptMatchResult>, BiPredicate<Skript, T>> transformed =
+            matches -> ((script, event) -> filterCreator.apply(matches).test(event));
+
         try {
             eventPatterns.add(new EventPattern((Class<? extends Event>) Class.forName(eventName), pattern,
-                    (Function<Iterable<SkriptMatchResult>, Predicate<Event>>) (Object) filterCreator));
+                    (Function<Iterable<SkriptMatchResult>, BiPredicate<Skript, Event>>) (Object) transformed));
         } catch (ClassNotFoundException exception) {
             exception.printStackTrace();
         }
@@ -200,10 +215,10 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
          * This is null when {@link #event} is null.
          */
         @Nullable
-        private final Function<Iterable<SkriptMatchResult>, Predicate<Event>> filterCreator;
+        private final Function<Iterable<SkriptMatchResult>, BiPredicate<Skript, Event>> filterCreator;
 
         EventPattern(@Nullable Class<? extends Event> event, @NotNull String pattern,
-                @Nullable Function<Iterable<SkriptMatchResult>, Predicate<Event>> filterCreator) {
+                @Nullable Function<Iterable<SkriptMatchResult>, BiPredicate<Skript, Event>> filterCreator) {
             this.event = event;
             this.pattern = SkriptPattern.parse(pattern);
             this.filterCreator = filterCreator;
@@ -228,7 +243,7 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
         }
 
         @Nullable
-        Function<Iterable<SkriptMatchResult>, Predicate<Event>> getFilterCreator() {
+        Function<Iterable<SkriptMatchResult>, BiPredicate<Skript, Event>> getFilterCreator() {
             return filterCreator;
         }
     }
