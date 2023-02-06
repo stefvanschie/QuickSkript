@@ -135,7 +135,7 @@ public class SimpleEventProxyFactory extends EventProxyFactory {
 
         if (Platform.getPlatform().isAvailable(platform)) {
             try {
-                eventPatterns.add(Map.entry((Class<? extends Event>) Class.forName(eventName), patterns));
+                eventPatterns.add(Map.entry(Class.forName(eventName).asSubclass(Event.class), patterns));
             } catch (ClassNotFoundException exception) {
                 exception.printStackTrace();
             }
