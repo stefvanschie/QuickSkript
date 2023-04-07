@@ -39,12 +39,12 @@ sand [block[s]] -> minecraft:sand
 gravel [block[s]] -> minecraft:gravel
 clay block[s] -> minecraft:clay
 
-gold ore[s] : [any] ore, [any] stone ore -> minecraft:gold_ore
-iron ore[s] : [any] ore, [any] stone ore -> minecraft:iron_ore
-coal ore[s] : [any] ore, [any] stone ore -> minecraft:coal_ore
-lapis [lazuli] ore[s] : [any] ore, [any] stone ore -> minecraft:lapis_ore
-diamond ore[s] : [any] ore, [any] stone ore -> minecraft:diamond_ore
-emerald ore[s] : [any] ore, [any] stone ore -> minecraft:emerald_ore
+gold ore[s] : [any] ore[s], [any] stone ore[s] -> minecraft:gold_ore
+iron ore[s] : [any] ore[s], [any] stone ore[s] -> minecraft:iron_ore
+coal ore[s] : [any] ore[s], [any] stone ore[s] -> minecraft:coal_ore
+lapis [lazuli] ore[s] : [any] ore[s], [any] stone ore[s] -> minecraft:lapis_ore
+diamond ore[s] : [any] ore[s], [any] stone ore[s] -> minecraft:diamond_ore
+emerald ore[s] : [any] ore[s], [any] stone ore[s] -> minecraft:emerald_ore
 
 obsidian [block[s]] -> minecraft:obsidian
 bedrock [block[s]] -> minecraft:bedrock
@@ -86,8 +86,8 @@ end[ ]stone brick[s] -> minecraft:end_stone_bricks
 {snowable} podzol [block[s]] -> minecraft:podzol
 {snowable} mycelium [block[s]] -> minecraft:mycelium
 coarse dirt [block[s]] -> minecraft:coarse_dirt
-[nether] quartz ore[s] : [any] ore, [any] nether ore -> minecraft:nether_quartz_ore
-{lightable} redstone ore[s] : [any] ore, [any] stone ore -> minecraft:redstone_ore
+[nether] quartz ore[s] : [any] ore[s], [any] nether ore[s] -> minecraft:nether_quartz_ore
+{lightable} redstone ore[s] : [any] ore[s], [any] stone ore[s] -> minecraft:redstone_ore
 
 oak [wood] plank[s] : [any] plank[s] -> minecraft:oak_planks
 spruce [wood] plank[s] : [any] plank[s] -> minecraft:spruce_planks
@@ -374,7 +374,7 @@ melon [block[s]] -> minecraft:melon
 snow block[s] -> minecraft:snow_block
 {axised} purpur pillar[s] -> minecraft:purpur_pillar
 
-ancient debris : [any] ore, [any] nether ore -> minecraft:ancient_debris
+ancient debris : [any] ore[s], [any] nether ore[s] -> minecraft:ancient_debris
 basalt -> minecraft:basalt
 polished basalt -> minecraft:polished_basalt
 (netherite block[s]|block[s] of netherite) -> minecraft:netherite_block
@@ -383,7 +383,7 @@ warped [nether] wart block[s] -> minecraft:warped_ward_block
 crying obsidian -> minecraft:crying_obsidian
 chiseled nether brick[s] -> minecraft:chiseled_nether_bricks
 cracked nether brick[s] -> minecraft:cracked_nether_bricks
-nether gold ore[s] : [any] ore, [any] nether ore -> minecraft:nether_gold_ore
+nether gold ore[s] : [any] ore[s], [any] nether ore[s] -> minecraft:nether_gold_ore
 quartz brick[s] -> minecraft:quartz_bricks
 
 crimson nylium[s] : [any] nylium[s] -> minecraft:crimson_nylium
@@ -494,15 +494,15 @@ rooted dirt [block[s]] -> minecraft:rooted_dirt
 
 tinted glass -> minecraft:tinted_glass
 
-copper ore[s] : [any] stone ore -> minecraft:copper_ore
-deepslate coal ore[s] : [any] ore, [any] deepslate ore -> minecraft:deepslate_coal_ore
-deepslate iron ore[s] : [any] ore, [any] deepslate ore -> minecraft:deepslate_iron_ore
-deepslate copper ore[s] : [any] ore, [any] deepslate ore -> minecraft:deepslate_copper_ore
-deepslate gold ore[s] : [any] ore, [any] deepslate ore -> minecraft:deepslate_gold_ore
-deepslate redstone ore[s] : [any] ore, [any] deepslate ore -> minecraft:deepslate_redstone_ore
-deepslate emerald ore[s] : [any] ore, [any] deepslate ore -> minecraft:deepslate_emerald_ore
-deepslate lapis [lazuli] ore[s] : [any] ore, [any] deepslate ore -> minecraft:deepslate_lapis_ore
-deepslate diamond ore[s] : [any] ore, [any] deepslate ore -> minecraft:deepslate_diamond_ore
+copper ore[s] : [any] stone ore[s] -> minecraft:copper_ore
+deepslate coal ore[s] : [any] ore[s], [any] deepslate ore[s] -> minecraft:deepslate_coal_ore
+deepslate iron ore[s] : [any] ore[s], [any] deepslate ore[s] -> minecraft:deepslate_iron_ore
+deepslate copper ore[s] : [any] ore[s], [any] deepslate ore[s] -> minecraft:deepslate_copper_ore
+deepslate gold ore[s] : [any] ore[s], [any] deepslate ore[s] -> minecraft:deepslate_gold_ore
+deepslate redstone ore[s] : [any] ore[s], [any] deepslate ore[s] -> minecraft:deepslate_redstone_ore
+deepslate emerald ore[s] : [any] ore[s], [any] deepslate ore[s] -> minecraft:deepslate_emerald_ore
+deepslate lapis [lazuli] ore[s] : [any] ore[s], [any] deepslate ore[s] -> minecraft:deepslate_lapis_ore
+deepslate diamond ore[s] : [any] ore[s], [any] deepslate ore[s] -> minecraft:deepslate_diamond_ore
 
 ochre froglight[s] : [any] froglight[s] -> minecraft:ochre_froglight
 pearlescent froglight[s] : [any] froglight[s] -> minecraft:pearlescent_froglight
