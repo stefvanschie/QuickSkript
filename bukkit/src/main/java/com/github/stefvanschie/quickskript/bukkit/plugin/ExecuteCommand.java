@@ -81,7 +81,8 @@ public class ExecuteCommand implements CommandExecutor {
                 .append(ChatColor.YELLOW + "Evaluation took: " + ChatColor.WHITE
                         + deltaMillis + ChatColor.GRAY + " ms")
                 .create()));
-        sender.sendMessage(text);
+        sender.spigot().sendMessage(text);
+
         return true;
     }
 }
