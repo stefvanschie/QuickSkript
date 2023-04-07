@@ -226,11 +226,11 @@ public class AliasFile {
                             continue;
                         }
 
-                        entry.addCategory(categories.substring(lastCommaIndex, index).trim());
+                        entry.addCategory(categories.substring(lastCommaIndex + 1, index).trim());
                         lastCommaIndex = index;
                     }
 
-                    entry.addCategory(categories.substring(lastCommaIndex).trim());
+                    entry.addCategory(categories.substring(lastCommaIndex + 1).trim());
                 }
 
                 file.entries.add(entry);

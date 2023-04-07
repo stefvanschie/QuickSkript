@@ -180,7 +180,9 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
             matches -> ((script, event) -> filterCreator.apply(matches).test(event));
 
         try {
-            eventPatterns.add(new EventPattern<>(Class.forName(eventName).asSubclass(Event.class), pattern, transformed));
+            //TODO: fix this
+            //noinspection rawtypes
+            eventPatterns.add(new EventPattern(Class.forName(eventName).asSubclass(Event.class), pattern, transformed));
         } catch (ClassNotFoundException exception) {
             exception.printStackTrace();
         }
