@@ -79,13 +79,6 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
         boolean found = false;
 
         for (EventPattern<?> eventPattern : eventPatterns) {
-            if (eventPattern.getEvent() == null) {
-                QuickSkript.getInstance().getLogger().warning(
-                    "The event '" + text + "' is not available on your platform."
-                );
-                continue;
-            }
-
             List<SkriptMatchResult> matches = eventPattern.getPattern().match(text);
             Set<SkriptMatchResult> possibleMatches = new HashSet<>();
 
@@ -98,6 +91,13 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
             }
 
             if (possibleMatches.isEmpty()) {
+                continue;
+            }
+
+            if (eventPattern.getEvent() == null) {
+                QuickSkript.getInstance().getLogger().warning(
+                    "The event '" + text + "' is not available on your platform."
+                );
                 continue;
             }
 
