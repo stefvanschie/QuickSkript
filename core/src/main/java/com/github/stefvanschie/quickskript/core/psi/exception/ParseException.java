@@ -1,7 +1,6 @@
 package com.github.stefvanschie.quickskript.core.psi.exception;
 
-import com.github.stefvanschie.quickskript.core.skript.Skript;
-import org.jetbrains.annotations.Contract;
+import com.github.stefvanschie.quickskript.core.file.skript.FileSkript;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -12,34 +11,48 @@ import org.jetbrains.annotations.NotNull;
 public class ParseException extends RuntimeException {
 
     /**
-     * Stores the line number this exception occurred at
+     * Creates a new parse exception for the given line number at which the parsing failed.
+     *
+     * @param message the message for this exception
+     * @param lineNumber the line number at which parsing failed
+     * @since 0.1.0
      */
-    private final int lineNumber;
-
-    public ParseException(String message, int lineNumber) {
-        super(message);
-
-        this.lineNumber = lineNumber;
-    }
-
-    public ParseException(Throwable cause, int lineNumber) {
-        super(cause);
-
-        this.lineNumber = lineNumber;
+    public ParseException(@NotNull String message, int lineNumber) {
+        super(message + System.lineSeparator() + "Line number: " + lineNumber);
     }
 
     /**
-     * Constructs and returns text containing extra information regarding this exception.
-     * A line separator is inserted at the start for convenience.
-     * This method should always be used when the exception gets handled.
+     * Creates a new parse exception for the given line number at which the parsing failed.
      *
-     * @param skript the Skript in which the code which caused this exception is
-     * @return extra information regarding this exception
+     * @param cause the underlying exception
+     * @param lineNumber the line number at which parsing failed
      * @since 0.1.0
      */
-    @NotNull
-    @Contract(pure = true)
-    public String getExtraInfo(@NotNull Skript skript) {
-        return System.lineSeparator() + "Skript name: " + skript.getName() + " | Line number: " + lineNumber;
+    public ParseException(@NotNull Throwable cause, int lineNumber) {
+        super(System.lineSeparator() + "Line number: " + lineNumber, cause);
+    }
+
+    /**
+     * Creates a new parse exception for the given script and the line number at which the parsing failed.
+     *
+     * @param script the script that was attempted to be parsed
+     * @param message the message for this exception
+     * @param lineNumber the line number at which parsing failed
+     * @since 0.1.0
+     */
+    public ParseException(@NotNull FileSkript script, @NotNull String message, int lineNumber) {
+        super(message + System.lineSeparator() + "Skript name: " + script.getName() + " | Line number: " + lineNumber);
+    }
+
+    /**
+     * Creates a new parse exception for the given script and the line number at which the parsing failed.
+     *
+     * @param script the script that was attempted to be parsed
+     * @param cause the underlying exception
+     * @param lineNumber the line number at which parsing failed
+     * @since 0.1.0
+     */
+    public ParseException(@NotNull FileSkript script, @NotNull Throwable cause, int lineNumber) {
+        super("Skript name: " + script.getName() + " | Line number: " + lineNumber, cause);
     }
 }

@@ -64,8 +64,7 @@ public class SkriptEventExecutor {
         try {
             elements.execute(environment, new EventContextImpl(skript, event));
         } catch (ExecutionException e) {
-            QuickSkript.getInstance().getLogger().log(Level.SEVERE, "Error while executing:" +
-                    e.getExtraInfo(skript), e);
+            QuickSkript.getInstance().getLogger().log(Level.SEVERE, "Error while executing", e);
         }
     }
 

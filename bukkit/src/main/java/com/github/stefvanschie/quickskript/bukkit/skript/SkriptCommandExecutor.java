@@ -76,8 +76,7 @@ public class SkriptCommandExecutor implements CommandExecutor {
         try {
             elements.execute(environment, new CommandContextImpl(skript, sender));
         } catch (ExecutionException e) {
-            QuickSkript.getInstance().getLogger().log(Level.SEVERE, "Error while executing skript:" +
-                    e.getExtraInfo(skript), e);
+            QuickSkript.getInstance().getLogger().log(Level.SEVERE, "Error while executing skript:", e);
         }
         return true;
     }

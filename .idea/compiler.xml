@@ -11,9 +11,6 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="bukkit" target="17" />
-      <module name="core" target="17" />
-      <module name="parent" target="11" />
       <module name="QuickSkript" target="11" />
       <module name="quickskript" target="11" />
       <module name="quickskript.bukkit" target="11" />

@@ -9,37 +9,47 @@ import com.github.stefvanschie.quickskript.bukkit.util.event.WorldTimeChangeEven
 import com.github.stefvanschie.quickskript.bukkit.util.event.region.RegionEnterEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.region.RegionLeaveEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.script.ScriptLoadEvent;
+import com.github.stefvanschie.quickskript.bukkit.util.event.script.ScriptUnloadEvent;
 import com.github.stefvanschie.quickskript.core.file.skript.FileSkript;
 import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
-import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
+import com.github.stefvanschie.quickskript.core.skript.ScriptManager;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.skript.profiler.BasicSkriptProfiler;
 import com.github.stefvanschie.quickskript.core.skript.profiler.NoOpSkriptProfiler;
 import com.github.stefvanschie.quickskript.core.skript.profiler.WholeSkriptProfiler;
 import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
-import java.util.logging.Level;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Main QuickSkript class
  *
  * @since 0.1.0
  */
-public class QuickSkript extends JavaPlugin {
+public class QuickSkript extends JavaPlugin implements Listener {
 
     /**
      * The current instance of this plugin or null if the plugin is not enabled.
      */
     private static QuickSkript instance;
+
+    /**
+     * The script manager for all script files.
+     */
+    private ScriptManager manager;
 
     /**
      * Integration with vault
@@ -71,9 +81,12 @@ public class QuickSkript extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+
         saveDefaultConfig();
 
         PluginManager pluginManager = Bukkit.getPluginManager();
+
+        pluginManager.registerEvents(this, this);
 
         //load custom events
         pluginManager.registerEvents(new ExperienceOrbSpawnEvent.Listener(), this);
@@ -106,7 +119,9 @@ public class QuickSkript extends JavaPlugin {
             pluginManager.registerEvents(new RegionLeaveEvent.Listener(skriptLoader), this);
         }
 
-        loadScripts(skriptLoader);
+        this.manager = new ScriptManager(skriptLoader);
+
+        loadScripts();
 
         if (getConfig().getBoolean("enable-execute-command")) {
             ExecuteCommand.register(skriptLoader, environment);
@@ -118,6 +133,25 @@ public class QuickSkript extends JavaPlugin {
     @Override
     public void onDisable() {
         instance = null;
+    }
+
+    /**
+     * Calls the unload event for all script files if this plugin disables.
+     *
+     * @param event the plugin disable event
+     */
+    @EventHandler
+    public void onPluginDisable(PluginDisableEvent event) {
+        /* We can't use onDisable, because then we're no longer allowed to fire events. This event is fired just before
+           this plugin gets disabled. */
+
+        if (!event.getPlugin().equals(this)) {
+            return;
+        }
+
+        for (FileSkript script : this.manager.getLoadedScripts()) {
+            Bukkit.getPluginManager().callEvent(new ScriptUnloadEvent(script));
+        }
     }
 
     private void updateProfilerImplementation(@NotNull SkriptRunEnvironment environment) {
@@ -140,39 +174,43 @@ public class QuickSkript extends JavaPlugin {
     /**
      * Loads all available scripts
      *
-     * @param skriptLoader the skript loader to parse with
      * @since 0.1.0
      */
-    private void loadScripts(@NotNull SkriptLoader skriptLoader) {
-        File skriptFolder = new File(getDataFolder(), "skripts");
-        if (!skriptFolder.exists() && !skriptFolder.mkdirs()) {
-            getLogger().severe("Unable to create skripts folder.");
-            return;
+    private void loadScripts() {
+        Path scriptFolder = getDataFolder().toPath().resolve("skripts");
+
+        if (Files.notExists(scriptFolder)) {
+            try {
+                Files.createDirectories(scriptFolder);
+            } catch (IOException exception) {
+                getLogger().severe("Unable to create skripts folder.");
+                exception.printStackTrace();
+                return;
+            }
         }
 
-        List<FileSkript> skripts = Arrays.stream(Objects.requireNonNull(skriptFolder.listFiles()))
-                .parallel()
-                .filter(file -> file.isFile() && file.getName().endsWith(".sk"))
-                .map(file -> {
-                    String skriptName = FileSkript.getName(file);
-                    try {
-                        return FileSkript.load(skriptName, file);
-                    } catch (IOException e) {
-                        getLogger().log(Level.SEVERE, "Unable to load skript named " + skriptName, e);
-                        return null;
-                    }
-                })
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+        try (Stream<Path> files = Files.list(scriptFolder)
+                .filter(path -> Files.isRegularFile(path) && path.getFileName().toString().endsWith(".sk"))) {
+            Collection<Path> scripts = files.collect(Collectors.toUnmodifiableSet());
 
-        for (FileSkript skript : skripts) {
-            try {
-                skript.registerAll(skriptLoader);
+            for (Path scriptPath : scripts) {
+                try {
+                    FileSkript script = this.manager.loadScript(scriptPath);
 
-                Bukkit.getPluginManager().callEvent(new ScriptLoadEvent(skript));
-            } catch (ParseException e) {
-                getLogger().log(Level.SEVERE, "Error while parsing:" + e.getExtraInfo(skript), e);
+                    Bukkit.getPluginManager().callEvent(new ScriptLoadEvent(script));
+                } catch (IOException exception) {
+                    getLogger().severe("Unable to read script file.");
+                    exception.printStackTrace();
+                    return;
+                } catch (ParseException exception) {
+                    getLogger().severe("Error while parsing.");
+                    exception.printStackTrace();
+                    return;
+                }
             }
+        } catch (IOException exception) {
+            getLogger().severe("Unable to read skripts folder.");
+            exception.printStackTrace();
         }
     }
 

@@ -8,7 +8,6 @@ import com.github.stefvanschie.quickskript.core.pattern.group.RegexGroup;
 import com.github.stefvanschie.quickskript.core.pattern.group.SkriptPatternGroup;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.util.Pair;
@@ -123,8 +122,7 @@ public class PsiItemCategoryLiteral extends PsiElement<ItemType> {
             }
 
             if (pattern == null) {
-                throw new ParseException(new IllegalStateException("No regex found, did the skript pattern change?"),
-                    lineNumber);
+                throw new IllegalStateException("No regex found, did the skript pattern change?");
             }
 
             Set<ItemTypeRegistry.Entry> itemTypes = skriptLoader.getItemTypeRegistry().getEntriesByCategory(pattern);
