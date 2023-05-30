@@ -42,14 +42,22 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
      */
     @NotNull
     private final EventExecutor HANDLER_EXECUTOR = (listener, event) -> {
-        List<Map.Entry<SkriptEventExecutor, BiPredicate<Skript, Event>>> handlers = REGISTERED_HANDLERS.get(event.getClass());
+        Class<?> clazz = event.getClass();
+        List<Map.Entry<SkriptEventExecutor, BiPredicate<Skript, Event>>> handlers = REGISTERED_HANDLERS.get(clazz);
 
-        //yes this can be null, thank Bukkit for that
-        if (handlers != null) {
-            handlers.stream()
-                .filter(handler -> handler.getValue().test(handler.getKey().getScript(), event))
-                .forEach(handler -> handler.getKey().execute(event));
+        while (handlers == null) {
+            clazz = clazz.getSuperclass();
+
+            if (clazz == null) {
+                return;
+            }
+
+            handlers = REGISTERED_HANDLERS.get(clazz);
         }
+
+        handlers.stream()
+            .filter(handler -> handler.getValue().test(handler.getKey().getScript(), event))
+            .forEach(handler -> handler.getKey().execute(event));
     };
 
     /**
@@ -93,6 +101,8 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
             if (possibleMatches.isEmpty()) {
                 continue;
             }
+
+            System.out.println("tryRegister : !possibleMatches.isEmpty()");
 
             if (eventPattern.getEvent() == null) {
                 QuickSkript.getInstance().getLogger().warning(

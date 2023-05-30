@@ -1255,6 +1255,8 @@ public class BukkitSkriptLoader extends SkriptLoader {
 
                 return null;
             })
+            .registerEvent(EntitySpawnEvent.class, "[on] spawn[ing] [of %entity types%]",
+                defaultEntityComparison())
             .registerEvent(PlayerCommandPreprocessEvent.class, "[on] command %text%", matches -> {
                 for (SkriptMatchResult match : matches) {
                     PsiElement<?>[] elements = tryParseAllTypes(match);
