@@ -102,8 +102,6 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
                 continue;
             }
 
-            System.out.println("tryRegister : !possibleMatches.isEmpty()");
-
             if (eventPattern.getEvent() == null) {
                 QuickSkript.getInstance().getLogger().warning(
                     "The event '" + text + "' is not available on your platform."

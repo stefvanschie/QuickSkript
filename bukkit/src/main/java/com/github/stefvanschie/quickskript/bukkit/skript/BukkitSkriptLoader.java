@@ -1,5 +1,6 @@
 package com.github.stefvanschie.quickskript.bukkit.skript;
 
+import com.destroystokyo.paper.event.player.PlayerStopSpectatingEntityEvent;
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
 import com.github.stefvanschie.quickskript.bukkit.integration.region.RegionIntegration;
 import com.github.stefvanschie.quickskript.bukkit.plugin.QuickSkript;
@@ -700,25 +701,11 @@ public class BukkitSkriptLoader extends SkriptLoader {
                         return null;
                     }
 
-                    String entityTypeKey = entityType.getKey();
-
                     return event -> {
                         Entity entity = ((EntityMoveEvent) event).getEntity();
                         EntityType type = entity.getType();
-                        boolean isUnknown = type == EntityType.UNKNOWN;
 
-                        //xor check: only return false if entity type is unknown and a key exists or entity type is not unknown, but a key doesn't exist
-                        if (isUnknown != (entityTypeKey == null)) {
-                            return false;
-                        }
-
-                        if (!isUnknown) {
-                            NamespacedKey key = type.getKey();
-
-                            return entityTypeKey.equals(key.getNamespace() + ':' + key.getKey());
-                        }
-
-                        return true;
+                        return equals(entityType, type);
                     };
                 }
 
@@ -980,6 +967,32 @@ public class BukkitSkriptLoader extends SkriptLoader {
 
                     return null;
                 })
+            .registerEvent(PlayerGameModeChangeEvent.class, "[on] game[ ]mode change [to %gamemode%]",
+                matches -> {
+                    for (SkriptMatchResult match : matches) {
+                        PsiElement<?>[] elements = tryParseAllTypes(match);
+
+                        if (elements == null) {
+                            continue;
+                        }
+
+                        if (elements.length == 0) {
+                            return event -> true;
+                        }
+
+                        Object object = elements[0].execute(null, null);
+
+                        if (!(object instanceof GameMode)) {
+                            continue;
+                        }
+
+                        org.bukkit.GameMode gameMode = org.bukkit.GameMode.valueOf(((GameMode) object).name());
+
+                        return event -> event.getNewGameMode() == gameMode;
+                    }
+
+                    return null;
+                })
             .registerEvent(PlayerItemConsumeEvent.class, "[on] [player] ((eat|drink)[ing]|consum(e|ing)) [[of] %item types%]",
                 matches -> {
                     for (SkriptMatchResult match : matches) {
@@ -1016,32 +1029,31 @@ public class BukkitSkriptLoader extends SkriptLoader {
 
                     return null;
                 })
-            .registerEvent(PlayerGameModeChangeEvent.class, "[on] game[ ]mode change [to %gamemode%]",
+            .registerEvent("com.destroystokyo.paper.event.player.PlayerStopSpectatingEntityEvent", "[on] [player] stop spectating [(of|from) %*entity types%]",
                 matches -> {
                     for (SkriptMatchResult match : matches) {
                         PsiElement<?>[] elements = tryParseAllTypes(match);
-
-                        if (elements == null) {
-                            continue;
-                        }
 
                         if (elements.length == 0) {
                             return event -> true;
                         }
 
-                        Object object = elements[0].execute(null, null);
+                        PsiElement<?> element = elements[0];
+                        Object object = element.execute(null, null);
 
-                        if (!(object instanceof GameMode)) {
+                        if (!(object instanceof EntityTypeRegistry.Entry entityType)) {
                             continue;
                         }
 
-                        org.bukkit.GameMode gameMode = org.bukkit.GameMode.valueOf(((GameMode) object).name());
+                        return event -> {
+                            Entity spectatorTarget = ((PlayerStopSpectatingEntityEvent) event).getSpectatorTarget();
 
-                        return event -> event.getNewGameMode() == gameMode;
+                            return equals(entityType, spectatorTarget.getType());
+                        };
                     }
 
                     return null;
-                })
+                }, Platform.PAPER)
             .registerEvent(PrepareItemCraftEvent.class, "[on] [player] (preparing|beginning) craft[ing] [[of] %item types%]",
                 matches -> {
                     for (SkriptMatchResult match : matches) {
@@ -1203,16 +1215,16 @@ public class BukkitSkriptLoader extends SkriptLoader {
             .registerEvent(EntityChangeBlockEvent.class, "[on] enderman pickup",
                 matches -> event -> event.getEntity() instanceof Enderman && event.getTo() == Material.AIR)
             .registerEvent(EntityChangeBlockEvent.class, "[on] sheep eat", matches -> event ->
-                    event.getEntity() instanceof Sheep)
+                event.getEntity() instanceof Sheep)
             .registerEvent(EntityChangeBlockEvent.class, "[on] silverfish enter",
                 matches -> event ->
                     event.getEntity() instanceof Silverfish && EnumSet.of(
-                            Material.INFESTED_COBBLESTONE,
-                            Material.INFESTED_STONE,
-                            Material.INFESTED_CHISELED_STONE_BRICKS,
-                            Material.INFESTED_CRACKED_STONE_BRICKS,
-                            Material.INFESTED_MOSSY_STONE_BRICKS,
-                            Material.INFESTED_STONE_BRICKS
+                        Material.INFESTED_COBBLESTONE,
+                        Material.INFESTED_STONE,
+                        Material.INFESTED_CHISELED_STONE_BRICKS,
+                        Material.INFESTED_CRACKED_STONE_BRICKS,
+                        Material.INFESTED_MOSSY_STONE_BRICKS,
+                        Material.INFESTED_STONE_BRICKS
                     ).contains(event.getTo()))
             .registerEvent(EntityChangeBlockEvent.class, "[on] silverfish exit",
                 matches -> event -> event.getEntity() instanceof Silverfish && event.getTo() == Material.AIR)
@@ -1787,29 +1799,11 @@ public class BukkitSkriptLoader extends SkriptLoader {
                 PsiElement<?> element = elements[0];
                 Object object = element.execute(null, null);
 
-                if (!(object instanceof EntityTypeRegistry.Entry)) {
+                if (!(object instanceof EntityTypeRegistry.Entry skriptEntityType)) {
                     continue;
                 }
 
-                String entityTypeKey = ((EntityTypeRegistry.Entry) object).getKey();
-
-                return event -> {
-                    EntityType type = event.getEntityType();
-                    boolean isUnknown = type == EntityType.UNKNOWN;
-
-                    //xor check: only return false if entity type is unknown and a key exists or entity type is not unknown, but a key doesn't exist
-                    if (isUnknown != (entityTypeKey == null)) {
-                        return false;
-                    }
-
-                    if (!isUnknown) {
-                        NamespacedKey key = type.getKey();
-
-                        return entityTypeKey.equals(key.getNamespace() + ':' + key.getKey());
-                    }
-
-                    return true;
-                };
+                return event -> equals(skriptEntityType, event.getEntityType());
             }
 
             return null;
@@ -1869,7 +1863,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
     @Nullable
     @Contract(pure = true)
     private static String getFileLineValue(@NotNull List<SkriptFileLine> lines, @NotNull String key,
-                                           @NotNull String multipleMatchWarning) {
+        @NotNull String multipleMatchWarning) {
         String value = null;
 
         for (SkriptFileLine line : lines) {
@@ -1906,5 +1900,34 @@ public class BukkitSkriptLoader extends SkriptLoader {
      */
     private void registerEvent(@NotNull EventProxyFactory eventProxyFactory) {
         events.add(eventProxyFactory);
+    }
+
+    /**
+     * Checks if the two entity types represent the same entity type.
+     *
+     * @param skriptEntityType a skript entity type
+     * @param bukkitEntityType a Bukkit entity type
+     * @return true if both arguments represent the same entity type, false otherwise
+     * @since 0.1.0
+     */
+    @Contract(pure = true)
+    private static boolean equals(@NotNull EntityTypeRegistry.Entry skriptEntityType,
+        @NotNull EntityType bukkitEntityType) {
+        boolean isUnknown = bukkitEntityType == EntityType.UNKNOWN;
+        String skriptEntityTypeKey = skriptEntityType.getKey();
+
+        /* xor check: only return false if entity type is unknown and a key exists or entity type is not unknown, but a
+           key doesn't exist */
+        if (isUnknown != (skriptEntityTypeKey == null)) {
+            return false;
+        }
+
+        if (!isUnknown) {
+            NamespacedKey key = bukkitEntityType.getKey();
+
+            return skriptEntityTypeKey.equals(key.getNamespace() + ':' + key.getKey());
+        }
+
+        return true;
     }
 }
