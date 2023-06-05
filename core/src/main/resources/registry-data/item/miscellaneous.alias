@@ -127,7 +127,7 @@ written book[s] : book with text, any book[s] -> minecraft:written_book
 pumpkin seed[s] : any seed[s] -> minecraft:pumpkin_seeds
 melon seed[s] : any seed[s] -> minecraft:melon_seeds
 [wheat] seed[s] : any seed[s] -> minecraft:wheat_seeds
-beetroot seed[s] -> minecraft:beetroot_seeds
+beetroot seed[s] : any seed[s] -> minecraft:beetroot_seeds
 
 wheat [item[s]] -> minecraft:wheat
 chorus fruit[s] -> minecraft:chorus_fruit
