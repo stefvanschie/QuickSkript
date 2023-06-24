@@ -116,7 +116,7 @@ birch sapling[s] : [any] sapling[s] -> minecraft:birch_sapling
 jungle sapling[s] : [any] sapling[s] -> minecraft:jungle_sapling
 acacia sapling[s] : [any] sapling[s] -> minecraft:acacia_sapling
 dark oak sapling[s] : [any] sapling[s] -> minecraft:dark_oak_sapling
-{waterloggable} mangrove (propagule|sapling)[s] -> minecraft:mangrove_propagule
+{waterloggable} mangrove (propagule|sapling)[s] : [any] sapling[s] -> minecraft:mangrove_propagule
 
 {decayable} oak lea(f|ves) : [any] lea(f|ves) -> minecraft:oak_leaves
 {decayable} spruce lea(f|ves) : [any] lea(f|ves) -> minecraft:spruce_leaves
@@ -248,28 +248,28 @@ black [stained] glass pane[s] : [any] stained glass pane[s] -> minecraft:black_s
 {directional} {bed occupied} black bed {bed part} : any bed -> minecraft:black_bed
 
 [empty] flower pot[s] -> minecraft:flower_pot
-(potted|flower pot with) (dandelion|yellow flower) : (any flower pot|[any] potted plant) -> minecraft:potted_dandelion
-(potted|flower pot with) (poppy|red flower) : (any flower pot|[any] potted plant) -> minecraft:potted_poppy
-(potted|flower pot with) [blue] orchid : (any flower pot|[any] potted plant) -> minecraft:potted_blue_orchid
-(potted|flower pot with) allium : (any flower pot|[any] potted plant) -> minecraft:potted_allium
-(potted|flower pot with) azure bluet : (any flower pot|[any] potted plant) -> minecraft:potted_azure_bluet
-(potted|flower pot with) red tulip : (any flower pot|[any] potted plant) -> minecraft:potted_red_tulip
-(potted|flower pot with) orange tulip : (any flower pot|[any] potted plant) -> minecraft:potted_orange_tulip
-(potted|flower pot with) white tulip : (any flower pot|[any] potted plant) -> minecraft:potted_white_tulip
-(potted|flower pot with) pink tulip : (any flower pot|[any] potted plant) -> minecraft:potted_pink_tulip
-(potted|flower pot with) oxeye daisy : (any flower pot|[any] potted plant) -> minecraft:potted_oxeye_daisy
-(potted|flower pot with) oak [wood[en]] sapling : (any flower pot|[any] potted plant) -> minecraft:potted_oak_sapling
-(potted|flower pot with) spruce [wood[en]] sapling : (any flower pot|[any] potted plant) -> minecraft:potted_spruce_sapling
-(potted|flower pot with) birch [wood[en]] sapling : (any flower pot|[any] potted plant) -> minecraft:potted_birch_sapling
-(potted|flower pot with) jungle [wood[en]] sapling : (any flower pot|[any] potted plant) -> minecraft:potted_jungle_sapling
-(potted|flower pot with) acacia [wood[en]] sapling : (any flower pot|[any] potted plant) -> minecraft:potted_acacia_sapling
-(potted|flower pot with) dark oak [wood[en]] sapling : (any flower pot|[any] potted plant) -> minecraft:potted_dark_oak_sapling
-(potted|flower pot with) red mushroom : (any flower pot|[any] potted plant) -> minecraft:potted_red_mushroom
-(potted|flower pot with) brown mushroom : (any flower pot|[any] potted plant) -> minecraft:potted_brown_mushroom
-(potted|flower pot with) cactus : (any flower pot|[any] potted plant) -> minecraft:potted_cactus
-(potted|flower pot with) dead bush : (any flower pot|[any] potted plant) -> minecraft:potted_dead_bush
-(potted|flower pot with) fern : (any flower pot|[any] potted plant) -> minecraft:potted_fern
-(potted|pot with) mangrove (propagule|sapling) : (any flower pot|[any] potted plant) -> minecraft:potted_mangrove_propagule
+(potted|flower pot with [a]) (dandelion|yellow flower) : (any flower pot|[any] potted plant) -> minecraft:potted_dandelion
+(potted|flower pot with [a]) (poppy|red flower) : (any flower pot|[any] potted plant) -> minecraft:potted_poppy
+(potted|flower pot with [a]) [blue] orchid : (any flower pot|[any] potted plant) -> minecraft:potted_blue_orchid
+(potted|flower pot with [a]) allium : (any flower pot|[any] potted plant) -> minecraft:potted_allium
+(potted|flower pot with [a]) azure bluet : (any flower pot|[any] potted plant) -> minecraft:potted_azure_bluet
+(potted|flower pot with [a]) red tulip : (any flower pot|[any] potted plant) -> minecraft:potted_red_tulip
+(potted|flower pot with [a]) orange tulip : (any flower pot|[any] potted plant) -> minecraft:potted_orange_tulip
+(potted|flower pot with [a]) white tulip : (any flower pot|[any] potted plant) -> minecraft:potted_white_tulip
+(potted|flower pot with [a]) pink tulip : (any flower pot|[any] potted plant) -> minecraft:potted_pink_tulip
+(potted|flower pot with [a]) oxeye daisy : (any flower pot|[any] potted plant) -> minecraft:potted_oxeye_daisy
+(potted|flower pot with [a]) oak [wood[en]] sapling : (any flower pot|[any] potted plant) -> minecraft:potted_oak_sapling
+(potted|flower pot with [a]) spruce [wood[en]] sapling : (any flower pot|[any] potted plant) -> minecraft:potted_spruce_sapling
+(potted|flower pot with [a]) birch [wood[en]] sapling : (any flower pot|[any] potted plant) -> minecraft:potted_birch_sapling
+(potted|flower pot with [a]) jungle [wood[en]] sapling : (any flower pot|[any] potted plant) -> minecraft:potted_jungle_sapling
+(potted|flower pot with [a]) acacia [wood[en]] sapling : (any flower pot|[any] potted plant) -> minecraft:potted_acacia_sapling
+(potted|flower pot with [a]) dark oak [wood[en]] sapling : (any flower pot|[any] potted plant) -> minecraft:potted_dark_oak_sapling
+(potted|flower pot with [a]) red mushroom : (any flower pot|[any] potted plant) -> minecraft:potted_red_mushroom
+(potted|flower pot with [a]) brown mushroom : (any flower pot|[any] potted plant) -> minecraft:potted_brown_mushroom
+(potted|flower pot with [a]) cactus : (any flower pot|[any] potted plant) -> minecraft:potted_cactus
+(potted|flower pot with [a]) dead bush : (any flower pot|[any] potted plant) -> minecraft:potted_dead_bush
+(potted|flower pot with [a]) fern : (any flower pot|[any] potted plant) -> minecraft:potted_fern
+(potted|flower pot with [a]) mangrove (propagule|sapling) : (any flower pot|[any] potted plant) -> minecraft:potted_mangrove_propagule
 
 [floor] torch[es] : any torch -> minecraft:torch
 {directional} wall torch[es] : any torch -> minecraft:wall_torch
@@ -300,29 +300,29 @@ dead chorus flower[s] -> minecraft:chorus_flower[age=5]
 {directional} chipped anvil[s] : any anvil[s] -> minecraft:chipped_anvil
 {directional} damaged anvil[s] : any anvil[s] -> minecraft:damaged_anvil
 
-(potted|flower pot with) bamboo : (any flower pot|[any] potted plant) -> minecraft:potted_bamboo
-(potted|flower pot with) cornflower : (any flower pot|[any] potted plant) -> minecraft:potted_cornflower
-(potted|flower pot with) lily of the valley : (any flower pot|[any] potted plant) -> minecraft:potted_lily_of_the_valley
-(potted|flower pot with) wither rose : (any flower pot|[any] potted plant) -> minecraft:potted_wither_rose
+(potted|flower pot with [a]) bamboo : (any flower pot|[any] potted plant) -> minecraft:potted_bamboo
+(potted|flower pot with [a]) cornflower : (any flower pot|[any] potted plant) -> minecraft:potted_cornflower
+(potted|flower pot with [a]) lily of the valley : (any flower pot|[any] potted plant) -> minecraft:potted_lily_of_the_valley
+(potted|flower pot with [a]) wither rose : (any flower pot|[any] potted plant) -> minecraft:potted_wither_rose
 bamboo sapling -> minecraft:bamboo_sapling
 
-{waterloggable} {directional} oak [wood] wall sign[s] : [any] wall sign[s], [any] sign[s] -> minecraft:oak_wall_sign
-{waterloggable} {directional} spruce [wood] wall sign[s] : [any] wall sign[s], [any] sign[s] -> minecraft:spruce_wall_sign
-{waterloggable} {directional} birch [wood] wall sign[s] : [any] wall sign[s], [any] sign[s] -> minecraft:birch_wall_sign
-{waterloggable} {directional} jungle [wood] wall sign[s] : [any] wall sign[s], [any] sign[s] -> minecraft:jungle_wall_sign
-{waterloggable} {directional} acacia [wood] wall sign[s] : [any] wall sign[s], [any] sign[s] -> minecraft:acacia_wall_sign
-{waterloggable} {directional} dark oak [wood] wall sign[s] : [any] wall sign[s], [any] sign[s] -> minecraft:dark_oak_wall_sign
-{waterloggable} {directional} crimson wall sign[s] : [any] wall sign[s], [any] sign[s] -> minecraft:crimson_wall_sign
-{waterloggable} {directional} warped wall sign[s] : [any] wall sign[s], [any] sign[s] -> minecraft:warped_wall_sign
+{waterloggable} {directional} oak [wood] wall sign[s] : [any] oak sign[s], [any] wall sign[s], [any] sign[s] -> minecraft:oak_wall_sign
+{waterloggable} {directional} spruce [wood] wall sign[s] : [any] spruce sign[s], [any] wall sign[s], [any] sign[s] -> minecraft:spruce_wall_sign
+{waterloggable} {directional} birch [wood] wall sign[s] : [any] birch sign[s], [any] wall sign[s], [any] sign[s] -> minecraft:birch_wall_sign
+{waterloggable} {directional} jungle [wood] wall sign[s] : [any] jungle sign[s], [any] wall sign[s], [any] sign[s] -> minecraft:jungle_wall_sign
+{waterloggable} {directional} acacia [wood] wall sign[s] : [any] acacia sign[s], [any] wall sign[s], [any] sign[s] -> minecraft:acacia_wall_sign
+{waterloggable} {directional} dark oak [wood] wall sign[s] : [any] dark oak sign[s], [any] wall sign[s], [any] sign[s] -> minecraft:dark_oak_wall_sign
+{waterloggable} {directional} crimson wall sign[s] : [any] crimson sign[s], [any] wall sign[s], [any] sign[s] -> minecraft:crimson_wall_sign
+{waterloggable} {directional} warped wall sign[s] : [any] warped sign[s], [any] wall sign[s], [any] sign[s] -> minecraft:warped_wall_sign
 
-{waterloggable} {rotatable} oak [wood] [floor] sign[s] : [any] floor sign[s], [any] sign[s] -> minecraft:oak_sign
-{waterloggable} {rotatable} spruce [wood] [floor] sign[s] : [any] floor sign[s], [any] sign[s] -> minecraft:spruce_sign
-{waterloggable} {rotatable} birch [wood] [floor] sign[s] : [any] floor sign[s], [any] sign[s] -> minecraft:birch_sign
-{waterloggable} {rotatable} jungle [wood] [floor] sign[s] : [any] floor sign[s], [any] sign[s] -> minecraft:jungle_sign
-{waterloggable} {rotatable} acacia [wood] [floor] sign[s] : [any] floor sign[s], [any] sign[s] -> minecraft:acacia_sign
-{waterloggable} {rotatable} dark oak [wood] [floor] sign[s] : [any] floor sign[s], [any] sign[s] -> minecraft:dark_oak_sign
-{waterloggable} {rotatable} crimson [floor] sign[s] : [any] floor sign[s], [any] sign[s] -> minecraft:crimson_sign
-{waterloggable} {rotatable} warped [floor] sign[s] : [any] floor sign[s], [any] sign[s] -> minecraft:warped_sign
+{waterloggable} {rotatable} oak [wood] [floor] sign[s] : [any] oak sign[s], [any] floor sign[s], [any] sign[s] -> minecraft:oak_sign
+{waterloggable} {rotatable} spruce [wood] [floor] sign[s] : [any] spruce sign[s], [any] floor sign[s], [any] sign[s] -> minecraft:spruce_sign
+{waterloggable} {rotatable} birch [wood] [floor] sign[s] : [any] birch sign[s], [any] floor sign[s], [any] sign[s] -> minecraft:birch_sign
+{waterloggable} {rotatable} jungle [wood] [floor] sign[s] : [any] jungle sign[s], [any] floor sign[s], [any] sign[s] -> minecraft:jungle_sign
+{waterloggable} {rotatable} acacia [wood] [floor] sign[s] : [any] acacia sign[s], [any] floor sign[s], [any] sign[s] -> minecraft:acacia_sign
+{waterloggable} {rotatable} dark oak [wood] [floor] sign[s] : [any] dark oak sign[s], [any] floor sign[s], [any] sign[s] -> minecraft:dark_oak_sign
+{waterloggable} {rotatable} crimson [floor] sign[s] : [any] crimson sign[s], [any] floor sign[s], [any] sign[s] -> minecraft:crimson_sign
+{waterloggable} {rotatable} warped [floor] sign[s] : [any] warped sign[s], [any] floor sign[s], [any] sign[s] -> minecraft:warped_sign
 
 cornflower[s] : [any] small flower, [any] flower[s] -> minecraft:cornflower
 lily of the valley : [any] small flower, [any] flower[s] -> minecraft:lily_of_the_valley
@@ -364,7 +364,7 @@ smithing table[s] -> minecraft:smithing_table
 
 chorus (plant|stem)[s] -> minecraft:chorus_plant
 chorus flower[s] -> minecraft:chorus_flower
-(grass|dirt) path [block[s]] -> minecraft:dirt_path
+(grass|dirt) path [block[s]] : any dirt -> minecraft:dirt_path
 end[er] crystal [item[s]] -> minecraft:end_crystal
 
 {orientable} normal shulker box[es] : [any] shulker box[es] -> minecraft:shulker_box
@@ -469,10 +469,10 @@ warped nether fung(us|i) : [any] fung(us|i) -> minecraft:warped_fungus
 crimson nether root[s] : [any] root[s] -> minecraft:crimson_roots
 warped nether root[s] : [any] root[s] -> minecraft:warped_roots
 
-(potted|flower pot with) crimson fungus : (any flower pot|[any] potted plant) -> minecraft:potted_crimson_fungus
-(potted|flower pot with) crimson roots : (any flower pot|[any] potted plant) -> minecraft:potted_crimson_roots
-(potted|flower pot with) warped fungus : (any flower pot|[any] potted plant) -> minecraft:potted_warped_fungus
-(potted|flower pot with) warped roots : (any flower pot|[any] potted plant) -> minecraft:potted_warped_roots
+(potted|flower pot with [a]) crimson fungus : (any flower pot|[any] potted plant) -> minecraft:potted_crimson_fungus
+(potted|flower pot with [a]) crimson roots : (any flower pot|[any] potted plant) -> minecraft:potted_crimson_roots
+(potted|flower pot with [a]) warped fungus : (any flower pot|[any] potted plant) -> minecraft:potted_warped_fungus
+(potted|flower pot with [a]) warped roots : (any flower pot|[any] potted plant) -> minecraft:potted_warped_roots
 
 {waterloggable} blackstone wall[s] : any wall[s] -> minecraft:blackstone_wall
 {waterloggable} polished blackstone wall[s] : any wall[s] -> minecraft:polished_blackstone_wall
@@ -521,7 +521,7 @@ spore blossom[s] -> minecraft:spore_blossom
 moss carpet[s] -> minecraft:moss_carpet
 moss block[s] -> minecraft:moss_block
 
-{waterloggable} hanging root[s] -> minecraft:hanging_roots
+{waterloggable} hanging root[s] : [any] root[s] -> minecraft:hanging_roots
 
 {waterloggable} {directional} {dripleaf tilt} big dripleaf -> minecraft:big_dripleaf
 {waterloggable} {directional} big dripleaf stem -> minecraft:big_dripleaf_stem
@@ -537,8 +537,8 @@ moss block[s] -> minecraft:moss_block
 {waterloggable} {orientable} glow lichen[s] -> minecraft:glow_lichen
 glow item frame [item][s] -> minecraft:glow_item_frame
 
-(potted|flower pot with) azalea [bush] : (any flower pot|[any] potted plant) -> minecraft:potted_azalea_bush
-(potted|flower pot with) flowering azalea [bush] : (any flower pot|[any] potted plant) -> minecraft:potted_flowering_azalea_bush
+(potted|flower pot with [a]) azalea [bush] : (any flower pot|[any] potted plant) -> minecraft:potted_azalea_bush
+(potted|flower pot with [a]) flowering azalea [bush] : (any flower pot|[any] potted plant) -> minecraft:potted_flowering_azalea_bush
 
 frogspawn[s] -> minecraft:frogspawn
 
