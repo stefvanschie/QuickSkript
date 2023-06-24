@@ -367,24 +367,24 @@ chorus flower[s] -> minecraft:chorus_flower
 (grass|dirt) path [block[s]] -> minecraft:dirt_path
 end[er] crystal [item[s]] -> minecraft:end_crystal
 
-{orientable} [normal] shulker box[es] : any shulker box[es] -> minecraft:shulker_box
+{orientable} normal shulker box[es] : [any] shulker box[es] -> minecraft:shulker_box
 
-{orientable} white shulker box[es] : any shulker box[es] -> minecraft:white_shulker_box
-{orientable} orange shulker box[es] : any shulker box[es] -> minecraft:orange_shulker_box
-{orientable} magenta shulker box[es] : any shulker box[es] -> minecraft:magenta_shulker_box
-{orientable} light blue shulker box[es] : any shulker box[es] -> minecraft:light_blue_shulker_box
-{orientable} yellow shulker box[es] : any shulker box[es] -> minecraft:yellow_shulker_box
-{orientable} (lime|light green) shulker box[es] : any shulker box[es] -> minecraft:lime_shulker_box
-{orientable} pink shulker box[es] : any shulker box[es] -> minecraft:pink_shulker_box
-{orientable} [dark] gr(a|e)y shulker box[es] : any shulker box[es] -> minecraft:gray_shulker_box
-{orientable} light gr(a|e)y shulker box[es] : any shulker box[es] -> minecraft:light_gray_shulker_box
-{orientable} cyan shulker box[es] : any shulker box[es] -> minecraft:cyan_shulker_box
-{orientable} purple shulker box[es] : any shulker box[es] -> minecraft:purple_shulker_box
-{orientable} blue shulker box[es] : any shulker box[es] -> minecraft:blue_shulker_box
-{orientable} brown shulker box[es] : any shulker box[es] -> minecraft:brown_shulker_box
-{orientable} [dark] green shulker box[es] : any shulker box[es] -> minecraft:green_shulker_box
-{orientable} red shulker box[es] : any shulker box[es] -> minecraft:red_shulker_box
-{orientable} black shulker box[es] : any shulker box[es] -> minecraft:black_shulker_box
+{orientable} white shulker box[es] : [any] shulker box[es] -> minecraft:white_shulker_box
+{orientable} orange shulker box[es] : [any] shulker box[es] -> minecraft:orange_shulker_box
+{orientable} magenta shulker box[es] : [any] shulker box[es] -> minecraft:magenta_shulker_box
+{orientable} light blue shulker box[es] : [any] shulker box[es] -> minecraft:light_blue_shulker_box
+{orientable} yellow shulker box[es] : [any] shulker box[es] -> minecraft:yellow_shulker_box
+{orientable} (lime|light green) shulker box[es] : [any] shulker box[es] -> minecraft:lime_shulker_box
+{orientable} pink shulker box[es] : [any] shulker box[es] -> minecraft:pink_shulker_box
+{orientable} [dark] gr(a|e)y shulker box[es] : [any] shulker box[es] -> minecraft:gray_shulker_box
+{orientable} light gr(a|e)y shulker box[es] : [any] shulker box[es] -> minecraft:light_gray_shulker_box
+{orientable} cyan shulker box[es] : [any] shulker box[es] -> minecraft:cyan_shulker_box
+{orientable} purple shulker box[es] : [any] shulker box[es] -> minecraft:purple_shulker_box
+{orientable} blue shulker box[es] : [any] shulker box[es] -> minecraft:blue_shulker_box
+{orientable} brown shulker box[es] : [any] shulker box[es] -> minecraft:brown_shulker_box
+{orientable} [dark] green shulker box[es] : [any] shulker box[es] -> minecraft:green_shulker_box
+{orientable} red shulker box[es] : [any] shulker box[es] -> minecraft:red_shulker_box
+{orientable} black shulker box[es] : [any] shulker box[es] -> minecraft:black_shulker_box
 
 seagrass[es] -> minecraft:seagrass
 {half} tall seagrass[es] -> minecraft:tall_seagrass
