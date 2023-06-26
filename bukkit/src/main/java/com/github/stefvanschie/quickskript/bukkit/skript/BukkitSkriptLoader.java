@@ -1,5 +1,6 @@
 package com.github.stefvanschie.quickskript.bukkit.skript;
 
+import com.destroystokyo.paper.event.player.PlayerStartSpectatingEntityEvent;
 import com.destroystokyo.paper.event.player.PlayerStopSpectatingEntityEvent;
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
 import com.github.stefvanschie.quickskript.bukkit.integration.region.RegionIntegration;
@@ -1029,6 +1030,35 @@ public class BukkitSkriptLoader extends SkriptLoader {
 
                     return null;
                 })
+            .registerEvent("com.destroystokyo.paper.event.player.PlayerStartSpectatingEntityEvent", "[on] [player] (swap|switch) spectating [(of|from) %*entity types%]",
+                matches -> {
+                    for (SkriptMatchResult match : matches) {
+                        PsiElement<?>[] elements = tryParseAllTypes(match);
+
+                        if (elements.length == 0) {
+                            return event -> true;
+                        }
+
+                        PsiElement<?> element = elements[0];
+                        Object object = element.execute(null, null);
+
+                        if (!(object instanceof EntityTypeRegistry.Entry entityType)) {
+                            continue;
+                        }
+
+                        return event -> {
+                            PlayerStartSpectatingEntityEvent playerEvent = (PlayerStartSpectatingEntityEvent) event;
+
+                            if (playerEvent.getCurrentSpectatorTarget().equals(playerEvent.getPlayer())) {
+                                return false;
+                            }
+
+                            return equals(entityType, playerEvent.getNewSpectatorTarget().getType());
+                        };
+                    }
+
+                    return null;
+                }, Platform.PAPER)
             .registerEvent("com.destroystokyo.paper.event.player.PlayerStopSpectatingEntityEvent", "[on] [player] stop spectating [(of|from) %*entity types%]",
                 matches -> {
                     for (SkriptMatchResult match : matches) {
