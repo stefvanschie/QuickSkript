@@ -1059,6 +1059,39 @@ public class BukkitSkriptLoader extends SkriptLoader {
 
                     return null;
                 }, Platform.PAPER)
+            .registerEvent("com.destroystokyo.paper.event.player.PlayerStartSpectatingEntityEvent", "[on] [player] start spectating [of %*entity types%]",
+                matches -> {
+                    for (SkriptMatchResult match : matches) {
+                        PsiElement<?>[] elements = tryParseAllTypes(match);
+
+                        if (elements.length == 0) {
+                            return event -> {
+                                PlayerStartSpectatingEntityEvent playerEvent = (PlayerStartSpectatingEntityEvent) event;
+
+                                return playerEvent.getCurrentSpectatorTarget().equals(playerEvent.getPlayer());
+                            };
+                        }
+
+                        PsiElement<?> element = elements[0];
+                        Object object = element.execute(null, null);
+
+                        if (!(object instanceof EntityTypeRegistry.Entry entityType)) {
+                            continue;
+                        }
+
+                        return event -> {
+                            PlayerStartSpectatingEntityEvent playerEvent = (PlayerStartSpectatingEntityEvent) event;
+
+                            if (playerEvent.getCurrentSpectatorTarget().equals(playerEvent.getPlayer())) {
+                                return equals(entityType, playerEvent.getNewSpectatorTarget().getType());
+                            }
+
+                            return false;
+                        };
+                    }
+
+                    return null;
+                }, Platform.PAPER)
             .registerEvent("com.destroystokyo.paper.event.player.PlayerStopSpectatingEntityEvent", "[on] [player] stop spectating [(of|from) %*entity types%]",
                 matches -> {
                     for (SkriptMatchResult match : matches) {
