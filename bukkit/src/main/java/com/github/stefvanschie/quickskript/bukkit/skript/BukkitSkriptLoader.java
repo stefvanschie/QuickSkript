@@ -457,6 +457,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
             .registerEvent(SignChangeEvent.class, "[on] (sign (chang[e]|edit)[ing]|[player] (chang[e]|edit)[ing] [a] sign)")
             .registerEvent(SlimeSplitEvent.class, "[on] slime split[ting]")
             .registerEvent(SpawnChangeEvent.class, "[on] [world] spawn change")
+            .registerEvent(SpongeAbsorbEvent.class, "[on] sponge absorb")
             .registerEvent(VehicleCreateEvent.class, "[on] (vehicle create|creat(e|ing|ion of) [a] vehicle)")
             .registerEvent(VehicleDamageEvent.class, "[on] (vehicle damage|damag(e|ing) [a] vehicle)")
             .registerEvent(VehicleDestroyEvent.class, "[on] (vehicle destroy|destr(oy[ing]|uction of) [a] vehicle)")
