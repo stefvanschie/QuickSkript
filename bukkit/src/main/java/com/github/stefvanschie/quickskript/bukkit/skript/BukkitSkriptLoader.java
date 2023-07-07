@@ -53,6 +53,7 @@ import com.github.stefvanschie.quickskript.core.util.literal.*;
 import com.github.stefvanschie.quickskript.core.util.literal.Color;
 import com.github.stefvanschie.quickskript.core.util.literal.GameMode;
 import com.github.stefvanschie.quickskript.core.util.literal.TreeType;
+import com.github.stefvanschie.quickskript.core.util.literal.WeatherType;
 import com.github.stefvanschie.quickskript.core.util.literal.World;
 import com.github.stefvanschie.quickskript.core.util.registry.EntityTypeRegistry;
 import com.github.stefvanschie.quickskript.core.util.registry.ItemTypeRegistry;
@@ -75,6 +76,8 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.event.vehicle.*;
 import org.bukkit.event.weather.LightningStrikeEvent;
+import org.bukkit.event.weather.ThunderChangeEvent;
+import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.event.world.*;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -1682,6 +1685,73 @@ public class BukkitSkriptLoader extends SkriptLoader {
             })
             .registerEvent(PluginDisableEvent.class, "[on] (server|skript) (stop|unload|disable)", matches ->
                 event -> event.getPlugin().equals(QuickSkript.getInstance()))
+            .registerEvent(ThunderChangeEvent.class, WeatherChangeEvent.class, "[on] weather change [to %weather types%]",
+                matches -> {
+                    for (SkriptMatchResult match : matches) {
+                        PsiElement<?>[] elements = tryParseAllTypes(match);
+
+                        if (elements == null) {
+                            continue;
+                        }
+
+                        if (elements.length == 0) {
+                            return event -> true;
+                        }
+
+                        Object object = elements[0].execute(null, null);
+
+                        if (!(object instanceof WeatherType)) {
+                            continue;
+                        }
+
+                        return event -> {
+                            if (event.toThunderState()) {
+                                return object == WeatherType.THUNDERSTORM;
+                            }
+
+                            if (event.getWorld().hasStorm()) {
+                                return object == WeatherType.RAIN;
+                            }
+
+                            return object == WeatherType.CLEAR;
+                        };
+                    }
+
+                    return null;
+                }, matches -> {
+                    for (SkriptMatchResult match : matches) {
+                        PsiElement<?>[] elements = tryParseAllTypes(match);
+
+                        if (elements == null) {
+                            continue;
+                        }
+
+                        if (elements.length == 0) {
+                            return event -> true;
+                        }
+
+                        Object object = elements[0].execute(null, null);
+
+                        if (!(object instanceof WeatherType)) {
+                            continue;
+                        }
+
+                        return event -> {
+                            if (event.getWorld().isThundering()) {
+                                return object == WeatherType.THUNDERSTORM;
+                            }
+
+                            if (event.toWeatherState()) {
+                                return object == WeatherType.RAIN;
+                            }
+
+                            return object == WeatherType.CLEAR;
+                        };
+                    }
+
+                    return null;
+                }
+            )
         );
     }
 

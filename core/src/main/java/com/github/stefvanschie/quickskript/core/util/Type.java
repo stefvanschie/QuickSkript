@@ -544,6 +544,20 @@ public enum Type {
     VISUAL_EFFECT("visual effect"),
 
     /**
+     * A single weather type.
+     *
+     * @since 0.1.0
+     */
+    WEATHER_TYPE("weather([ ]type|[ condition])"),
+
+    /**
+     * Multiple weather types.
+     *
+     * @since 0.1.0
+     */
+    WEATHER_TYPES("weather([ ]types|[ conditions])", WEATHER_TYPE),
+
+    /**
      * A single world.
      *
      * @since 0.1.0
