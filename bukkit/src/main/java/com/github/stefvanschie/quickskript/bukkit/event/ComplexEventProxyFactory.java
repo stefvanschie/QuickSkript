@@ -178,7 +178,11 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
     @NotNull
     public <T extends Event> ComplexEventProxyFactory registerEvent(@NotNull Class<T> event, @NotNull String pattern,
             @NotNull Function<Iterable<SkriptMatchResult>, Predicate<T>> filterCreator) {
-        Function<Iterable<SkriptMatchResult>, BiPredicate<Skript, T>> filter = matches -> (script, e) -> filterCreator.apply(matches).test(e);
+        Function<Iterable<SkriptMatchResult>, BiPredicate<Skript, T>> filter = matches -> {
+            Predicate<T> predicate = filterCreator.apply(matches);
+
+            return (script, e) -> predicate.test(e);
+        };
 
         eventPatterns.add(new EventPattern(event, pattern, filter));
         return this;
@@ -214,8 +218,11 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
             return this;
         }
 
-        Function<Iterable<SkriptMatchResult>, BiPredicate<Skript, T>> transformed =
-            matches -> ((script, event) -> filterCreator.apply(matches).test(event));
+        Function<Iterable<SkriptMatchResult>, BiPredicate<Skript, T>> transformed = matches -> {
+            Predicate<T> predicate = filterCreator.apply(matches);
+
+            return (script, event) -> predicate.test(event);
+        };
 
         try {
             eventPatterns.add(new EventPattern((Class<T>) Class.forName(eventName).asSubclass(Event.class), pattern, transformed));

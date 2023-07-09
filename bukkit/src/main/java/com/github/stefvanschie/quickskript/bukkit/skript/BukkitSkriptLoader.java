@@ -20,6 +20,7 @@ import com.github.stefvanschie.quickskript.bukkit.skript.util.ExecutionTarget;
 import com.github.stefvanschie.quickskript.bukkit.util.*;
 import com.github.stefvanschie.quickskript.bukkit.util.event.ExperienceOrbSpawnEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.QuickSkriptPostEnableEvent;
+import com.github.stefvanschie.quickskript.bukkit.util.event.ServerTickEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.WorldTimeChangeEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.region.RegionEnterEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.region.RegionEvent;
@@ -1685,6 +1686,38 @@ public class BukkitSkriptLoader extends SkriptLoader {
             })
             .registerEvent(PluginDisableEvent.class, "[on] (server|skript) (stop|unload|disable)", matches ->
                 event -> event.getPlugin().equals(QuickSkript.getInstance()))
+            .registerEvent(ServerTickEvent.class, "[on] every %time span%", matches -> {
+                for (SkriptMatchResult match : matches) {
+                    PsiElement<?>[] elements = tryParseAllTypes(match);
+
+                    if (elements == null || elements.length == 0) {
+                        continue;
+                    }
+
+                    Object timeSpan = elements[0].execute(null, null);
+
+                    if (!(timeSpan instanceof TimeSpan)) {
+                        continue;
+                    }
+
+                    int ticks = ((TimeSpan) timeSpan).getTicks();
+                    int[] totalTicks = {0};
+
+                    return event -> {
+                        totalTicks[0]++;
+
+                        if (totalTicks[0] == ticks) {
+                            totalTicks[0] = 0;
+
+                            return true;
+                        }
+
+                        return false;
+                    };
+                }
+
+                return null;
+            })
             .registerEvent(ThunderChangeEvent.class, WeatherChangeEvent.class, "[on] weather change [to %weather types%]",
                 matches -> {
                     for (SkriptMatchResult match : matches) {

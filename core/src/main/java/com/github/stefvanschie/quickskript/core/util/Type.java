@@ -509,6 +509,20 @@ public enum Type {
     TIME_PERIODS("(time[ ]period|duration)s", TIME_PERIOD),
 
     /**
+     * A single time span.
+     *
+     * @since 0.1.0
+     */
+    TIME_SPAN("time[ ]span"),
+
+    /**
+     * Multiple time spans.
+     *
+     * @since 0.1.0
+     */
+    TIME_SPANS("time[ ]spans", TIME_SPAN),
+
+    /**
      * A single tree type.
      *
      * @since 0.1.0

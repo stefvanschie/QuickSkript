@@ -93,6 +93,14 @@ public class PsiTimeSpanLiteral extends PsiPrecomputedHolder<TimeSpan> {
                 }
             }
 
+            if (hours == -1) {
+                hours = 0;
+            }
+
+            if (millis == -1) {
+                millis = 0;
+            }
+
             return create(new TimeSpan(hours * 3600000 + minutes * 60000 + seconds * 1000 + millis), lineNumber);
         }
 

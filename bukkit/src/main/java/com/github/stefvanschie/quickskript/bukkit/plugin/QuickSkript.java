@@ -5,6 +5,7 @@ import com.github.stefvanschie.quickskript.bukkit.integration.region.RegionInteg
 import com.github.stefvanschie.quickskript.bukkit.skript.BukkitSkriptLoader;
 import com.github.stefvanschie.quickskript.bukkit.util.event.ExperienceOrbSpawnEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.QuickSkriptPostEnableEvent;
+import com.github.stefvanschie.quickskript.bukkit.util.event.ServerTickEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.WorldTimeChangeEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.region.RegionEnterEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.region.RegionLeaveEvent;
@@ -126,6 +127,9 @@ public class QuickSkript extends JavaPlugin implements Listener {
         if (getConfig().getBoolean("enable-execute-command")) {
             ExecuteCommand.register(skriptLoader, environment);
         }
+
+        ServerTickEvent serverTickEvent = new ServerTickEvent();
+        Bukkit.getScheduler().runTaskTimer(this, () -> pluginManager.callEvent(serverTickEvent), 0L, 1L);
 
         pluginManager.callEvent(new QuickSkriptPostEnableEvent());
     }
