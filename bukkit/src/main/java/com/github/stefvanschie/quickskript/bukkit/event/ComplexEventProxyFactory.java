@@ -181,6 +181,10 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
         Function<Iterable<SkriptMatchResult>, BiPredicate<Skript, T>> filter = matches -> {
             Predicate<T> predicate = filterCreator.apply(matches);
 
+            if (predicate == null) {
+                return null;
+            }
+
             return (script, e) -> predicate.test(e);
         };
 
@@ -220,6 +224,10 @@ public class ComplexEventProxyFactory extends EventProxyFactory {
 
         Function<Iterable<SkriptMatchResult>, BiPredicate<Skript, T>> transformed = matches -> {
             Predicate<T> predicate = filterCreator.apply(matches);
+
+            if (predicate == null) {
+                return null;
+            }
 
             return (script, event) -> predicate.test(event);
         };

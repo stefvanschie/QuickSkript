@@ -1718,6 +1718,39 @@ public class BukkitSkriptLoader extends SkriptLoader {
 
                 return null;
             })
+            .registerEvent(ServerTickEvent.class, "[on] every %time span% in [world[s]] %worlds%", matches -> {
+                for (SkriptMatchResult match : matches) {
+                    PsiElement<?>[] elements = tryParseAllTypes(match);
+
+                    if (elements == null || elements.length != 2) {
+                        continue;
+                    }
+
+                    Object timeSpan = elements[0].execute(null, null);
+
+                    if (!(timeSpan instanceof TimeSpan)) {
+                        continue;
+                    }
+
+                    int ticks = ((TimeSpan) timeSpan).getTicks();
+
+                    Object world = elements[1].execute(null, null);
+
+                    if (!(world instanceof World)) {
+                        continue;
+                    }
+
+                    String worldName = ((World) world).getName();
+
+                    return event -> {
+                        org.bukkit.World bukkitWorld = Bukkit.getWorld(worldName);
+
+                        return bukkitWorld != null && bukkitWorld.getFullTime() % ticks == 0;
+                    };
+                }
+
+                return null;
+            })
             .registerEvent(ThunderChangeEvent.class, WeatherChangeEvent.class, "[on] weather change [to %weather types%]",
                 matches -> {
                     for (SkriptMatchResult match : matches) {
