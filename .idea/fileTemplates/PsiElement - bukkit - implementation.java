@@ -26,7 +26,7 @@ public class ${NAME} extends ${BASE_NAME} {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected ${TYPE} executeImpl(@Nullable Context context) {
+    protected ${TYPE} executeImpl(@Nullable SkriptRunEnvironment environment, , @Nullable Context context) {
         //TODO implementation
     }
 

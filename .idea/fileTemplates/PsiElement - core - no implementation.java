@@ -67,5 +67,13 @@ public class ${NAME} extends PsiElement<${TYPE}> {
         public ${NAME} create(#if($PARAMETERS_DECLARATION != "") ${PARAMETERS_DECLARATION}, #end int lineNumber) {
             return new ${NAME}(#if($PARAMETERS_VARS != "") ${PARAMETERS_VARS}, #end lineNumber);
         }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            //TODO: type
+            return null;
+        }
     }
 }

@@ -30,7 +30,7 @@ public class ${NAME} extends PsiElement<${TYPE}> {
 
     @Nullable
     @Override
-    protected ${TYPE} executeImpl(@Nullable Context context) {
+    protected ${TYPE} executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         //TODO implementation
     }
 
@@ -73,6 +73,14 @@ public class ${NAME} extends PsiElement<${TYPE}> {
         @Contract(pure = true)
         public ${NAME} create(#if($PARAMETERS_DECLARATION != "") ${PARAMETERS_DECLARATION}, #end int lineNumber) {
             return new ${NAME}(#if($PARAMETERS_VARS != "") ${PARAMETERS_VARS}, #end lineNumber);
+        }
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public Type getType() {
+            //TODO: type
+            return null;
         }
     }
 }
