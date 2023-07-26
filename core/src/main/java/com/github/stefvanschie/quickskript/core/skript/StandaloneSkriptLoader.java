@@ -153,6 +153,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiDefaultMOTDExpression.Factory());
         registerElement(new PsiDefaultServerIconExpression.Factory());
         registerElement(new PsiDefaultValueExpression.Factory());
+        registerElement(new PsiDirectionExpression.Factory());
         registerElement(new PsiDisplayedMOTDExpression.Factory());
         registerElement(new PsiElementOfExpression.Factory());
         registerElement(new PsiExhaustionExpression.Factory());
