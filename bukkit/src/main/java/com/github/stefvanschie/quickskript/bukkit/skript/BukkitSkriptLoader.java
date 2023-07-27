@@ -288,6 +288,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiLevelExpressionImpl.Factory());
         registerElement(new PsiLevelProgressExpressionImpl.Factory());
         registerElement(new PsiLoadedServerIconExpressionImpl.Factory());
+        registerElement(new PsiLocationAtExpression.Factory());
         registerElement(new PsiMaxHealthExpressionImpl.Factory());
         registerElement(new PsiMeExpressionImpl.Factory());
         registerElement(new PsiMinecraftVersionExpressionImpl.Factory());
@@ -1658,8 +1659,8 @@ public class BukkitSkriptLoader extends SkriptLoader {
                     }
 
                     return event -> {
-                        Location to = event.getTo();
-                        Location from = event.getFrom();
+                        org.bukkit.Location to = event.getTo();
+                        org.bukkit.Location from = event.getFrom();
 
                         int toBlockX = to.getBlockX();
                         int fromBlockX = from.getBlockX();

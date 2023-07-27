@@ -188,6 +188,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiLevelExpression.Factory());
         registerElement(new PsiLevelProgressExpression.Factory());
         registerElement(new PsiLoadedServerIconExpression.Factory());
+        registerElement(new PsiLocationAtExpression.Factory());
         registerElement(new PsiMaxHealthExpression.Factory());
         registerElement(new PsiMeExpression.Factory());
         registerElement(new PsiMinecraftVersionExpression.Factory());
