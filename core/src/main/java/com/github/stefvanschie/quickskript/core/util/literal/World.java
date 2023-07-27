@@ -2,6 +2,7 @@ package com.github.stefvanschie.quickskript.core.util.literal;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Represents a world
@@ -37,5 +38,27 @@ public class World {
     @Contract(pure = true)
     public String getName() {
         return name;
+    }
+
+    @Override
+    @Contract(value = "null -> false", pure = true)
+    public boolean equals(@Nullable Object object) {
+        if (this == object) {
+            return true;
+        }
+
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+
+        World world = (World) object;
+
+        return this.name.equals(world.name);
+    }
+
+    @Override
+    @Contract(pure = true)
+    public int hashCode() {
+        return this.name.hashCode();
     }
 }
