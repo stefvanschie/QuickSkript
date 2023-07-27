@@ -268,7 +268,20 @@ public abstract class SkriptLoader {
 
                             for (int i = 0; i < elements.length && i < groups.size(); i++) {
                                 TypeGroup typeGroup = groups.get(i);
-                                int elementIndex = typeGroups.indexOf(typeGroup);
+                                int elementIndex = -1;
+
+                                //find the position of the matched group in the original pattern
+                                for (int index = 0; index < typeGroups.size(); index++) {
+                                    //reference comparison is intentional
+                                    if (typeGroups.get(index) == typeGroup) {
+                                        elementIndex = index;
+                                        break;
+                                    }
+                                }
+
+                                if (elementIndex == -1) {
+                                    throw new ParseException("Unable to find matched group in pattern", lineNumber);
+                                }
 
                                 if (patternTypeOrder != null && !Arrays.equals(patternTypeOrder.typeOrder(), new int[]{})) {
                                     elementIndex = patternTypeOrder.typeOrder()[i];
