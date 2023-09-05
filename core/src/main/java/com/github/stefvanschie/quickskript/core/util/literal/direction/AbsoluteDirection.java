@@ -5,7 +5,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * An absolute direction. An absolute direction signifies a movement over Minecraft's coordinate grid.
+ * An absolute direction. An absolute direction signifies a movement over Minecraft's coordinate grid. Instances of this
+ * class are immutable.
  *
  * @since 0.1.0
  */
