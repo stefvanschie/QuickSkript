@@ -38,6 +38,24 @@
     southeast(ward| rotated) :: [rotation=14],
     south-southeast(ward| rotated) :: [rotation=15]
 >
+[reversed rotatable] = <
+    north(ward| rotated) :: [rotation=0],
+    north-northeast(ward| rotated) :: [rotation=1],
+    northeast(ward| rotated) :: [rotation=2],
+    east-northeast(ward| rotated) :: [rotation=3],
+    east(ward| rotated) :: [rotation=4],
+    east-southeast(ward| rotated) :: [rotation=5],
+    southeast(ward| rotated) :: [rotation=6],
+    south-southeast(ward| rotated) :: [rotation=7],
+    south(ward| rotated) :: [rotation=8],
+    south-southwest(ward| rotated) :: [rotation=9],
+    southwest(ward| rotated) :: [rotation=10],
+    west-southwest(ward| rotated) :: [rotation=11],
+    west(ward| rotated) :: [rotation=12],
+    west-northwest(ward| rotated) :: [rotation=13],
+    northwest(ward| rotated) :: [rotation=14],
+    north-northwest(ward| rotated) :: [rotation=15]
+>
 [scaffold bottom] = <
     bottomless :: [bottom=false],
     bottom :: [bottom=true]
@@ -95,6 +113,16 @@
     partially tilted :: [tilt=partial],
     unstabl(e|y tilted) :: [tilt=unstable]
 >
+[flower amount] = <
+    with (one|1) flower :: [flower_amount=1],
+    with (two|2) flowers :: [flower_amount=2],
+    with (three|3) flowers :: [flower_amount=3],
+    with (four|all|4) flowers :: [flower_amount=4]
+>
+[hanging sign attachment] = <
+	(not attached|straight) :: [attached=false],
+	(dangling|attached|loose) :: [attached=true]
+>
 
 brown mushroom[s] : [any] [small] mushroom -> minecraft:brown_mushroom
 red mushroom[s] : [any] [small] mushroom -> minecraft:red_mushroom
@@ -146,6 +174,7 @@ orange tulip[s] : [any] tulip[s], [any] small flower, [any] flower[s] -> minecra
 white tulip[s] : [any] tulip[s], [any] small flower, [any] flower[s] -> minecraft:white_tulip
 pink tulip[s] : [any] tulip[s], [any] small flower, [any] flower[s] -> minecraft:pink_tulip
 oxeye dais(y|ies) : [any] small flower, [any] flower[s] -> minecraft:oxeye_daisy
+torch flower[s] -> minecraft:torchflower
 
 {half} sunflower[s] : [any] (large|tall|double height) flower, [any] flower[s] -> minecraft:sunflower
 {half} lilac[s] : [any] (large|tall|double height) flower, [any] flower[s] -> minecraft:lilac
@@ -153,6 +182,7 @@ oxeye dais(y|ies) : [any] small flower, [any] flower[s] -> minecraft:oxeye_daisy
 {half} (long|large) fern -> minecraft:large_fern
 {half} rose bush[es] : [any] (large|tall|double height) flower, [any] flower[s] -> minecraft:rose_bush
 {half} peon(y|ies) : [any] (large|tall|double height) flower, [any] flower[s] -> minecraft:peony
+{half} pitcher plant[s] -> minecraft:pitcher_plant
 
 {waterloggable} oak [wood] fence[s] : [any] fence[s], [any] fence part -> minecraft:oak_fence
 {waterloggable} spruce [wood] fence[s] : [any] fence[s], [any] fence part -> minecraft:spruce_fence
@@ -314,6 +344,9 @@ bamboo sapling -> minecraft:bamboo_sapling
 {waterloggable} {directional} dark oak [wood] wall sign[s] : [any] dark oak sign[s], [any] wall sign[s], [any] sign[s] -> minecraft:dark_oak_wall_sign
 {waterloggable} {directional} crimson wall sign[s] : [any] crimson sign[s], [any] wall sign[s], [any] sign[s] -> minecraft:crimson_wall_sign
 {waterloggable} {directional} warped wall sign[s] : [any] warped sign[s], [any] wall sign[s], [any] sign[s] -> minecraft:warped_wall_sign
+{waterloggable} {directional} mangrove [wood] wall sign[s] : [any] mangrove sign[s], [any] wall sign[s], [any] sign[s] -> minecraft:mangrove_wall_sign
+{waterloggable} {directional} cherry [wood] wall sign[s] : [any] cherry sign[s], [any] wall sign[s], [any] sign[s] -> minecraft:cherry_wall_sign
+{waterloggable} {directional} bamboo [wood] wall sign[s] : [any] bamboo sign[s], [any] wall sign[s], [any] sign[s] -> minecraft:bamboo_wall_sign
 
 {waterloggable} {rotatable} oak [wood] [floor] sign[s] : [any] oak sign[s], [any] floor sign[s], [any] sign[s] -> minecraft:oak_sign
 {waterloggable} {rotatable} spruce [wood] [floor] sign[s] : [any] spruce sign[s], [any] floor sign[s], [any] sign[s] -> minecraft:spruce_sign
@@ -323,10 +356,37 @@ bamboo sapling -> minecraft:bamboo_sapling
 {waterloggable} {rotatable} dark oak [wood] [floor] sign[s] : [any] dark oak sign[s], [any] floor sign[s], [any] sign[s] -> minecraft:dark_oak_sign
 {waterloggable} {rotatable} crimson [floor] sign[s] : [any] crimson sign[s], [any] floor sign[s], [any] sign[s] -> minecraft:crimson_sign
 {waterloggable} {rotatable} warped [floor] sign[s] : [any] warped sign[s], [any] floor sign[s], [any] sign[s] -> minecraft:warped_sign
+{waterloggable} {rotatable} mangrove [wood] [floor] sign[s] : [any] mangrove sign[s], [any] floor sign[s], [any] sign[s] -> minecraft:mangrove_sign
+{waterloggable} {rotatable} cherry [wood] [floor] sign[s] : [any] cherry sign[s], [any] floor sign[s], [any] sign[s] -> minecraft:cherry_sign
+{waterloggable} {rotatable} bamboo [wood] [floor] sign[s] : [any] bamboo sign[s], [any] floor sign[s], [any] sign[s] -> minecraft:bamboo_sign
+
+{waterloggable} {directional} oak [wood] wall hanging sign[s] : [any] wall hanging sign[s], [any] sign[s] -> minecraft:oak_wall_hanging_sign
+{waterloggable} {directional} spruce [wood] wall hanging sign[s] : [any] wall hanging sign[s], [any] sign[s] -> minecraft:spruce_wall_hanging_sign
+{waterloggable} {directional} birch [wood] wall hanging sign[s] : [any] wall hanging sign[s], [any] sign[s] -> minecraft:birch_wall_hanging_sign
+{waterloggable} {directional} jungle [wood] wall hanging sign[s] : [any] wall hanging sign[s], [any] sign[s] -> minecraft:jungle_wall_hanging_sign
+{waterloggable} {directional} acacia [wood] wall hanging sign[s] : [any] wall hanging sign[s], [any] sign[s] -> minecraft:acacia_wall_hanging_sign
+{waterloggable} {directional} dark oak [wood] wall hanging sign[s] : [any] wall hanging sign[s], [any] sign[s] -> minecraft:dark_oak_wall_hanging_sign
+{waterloggable} {directional} crimson wall hanging sign[s] : [any] wall hanging sign[s], [any] sign[s] -> minecraft:crimson_wall_hanging_sign
+{waterloggable} {directional} warped wall hanging sign[s] : [any] wall hanging sign[s], [any] sign[s] -> minecraft:warped_wall_hanging_sign
+{waterloggable} {directional} mangrove [wood] wall hanging sign[s] : [any] wall hanging sign[s], [any] sign[s] -> minecraft:mangrove_wall_hanging_sign
+{waterloggable} {directional} cherry [wood] wall hanging sign[s] : [any] cherry sign[s], [any] wall hanging sign[s], [any] sign[s] -> minecraft:cherry_wall_hanging_sign
+{waterloggable} {directional} bamboo [wood] wall hanging sign[s] : [any] bamboo sign[s], [any] wall hanging sign[s], [any] sign[s] -> minecraft:bamboo_wall_hanging_sign
+
+{waterloggable} {rotatable} {hanging sign attachment} oak [wood] hanging sign[s] : [any] hanging sign[s], [any] sign[s] -> minecraft:oak_hanging_sign
+{waterloggable} {rotatable} {hanging sign attachment} spruce [wood] hanging sign[s] : [any] hanging sign[s], [any] sign[s] -> minecraft:spruce_hanging_sign
+{waterloggable} {rotatable} {hanging sign attachment} birch [wood] hanging sign[s] : [any] hanging sign[s], [any] sign[s] -> minecraft:birch_hanging_sign
+{waterloggable} {rotatable} {hanging sign attachment} jungle [wood] hanging sign[s] : [any] hanging sign[s], [any] sign[s] -> minecraft:jungle_hanging_sign
+{waterloggable} {rotatable} {hanging sign attachment} acacia [wood] hanging sign[s] : [any] hanging sign[s], [any] sign[s] -> minecraft:acacia_hanging_sign
+{waterloggable} {rotatable} {hanging sign attachment} dark oak [wood] hanging sign[s] : [any] hanging sign[s], [any] sign[s] -> minecraft:dark_oak_hanging_sign
+{waterloggable} {rotatable} {hanging sign attachment} crimson hanging sign[s] : [any] hanging sign[s], [any] sign[s] -> minecraft:crimson_hanging_sign
+{waterloggable} {rotatable} {hanging sign attachment} warped hanging sign[s] : [any] hanging sign[s], [any] sign[s] -> minecraft:warped_oak_hanging_sign
+{waterloggable} {rotatable} {hanging sign attachment} mangrove [wood] hanging sign[s] : [any] hanging sign[s], [any] sign[s] -> minecraft:mangrove_hanging_sign
+{waterloggable} {rotatable} {hanging sign attachment} cherry [wood] hanging sign[s] : [any] cherry sign[s], [any] hanging sign[s], [any] sign[s] -> minecraft:cherry_hanging_sign
+{waterloggable} {rotatable} {hanging sign attachment} bamboo [wood] hanging sign[s] : [any] bamboo sign[s], [any] hanging sign[s], [any] sign[s] -> minecraft:bamboo_hanging_sign
 
 cornflower[s] : [any] small flower, [any] flower[s] -> minecraft:cornflower
 lily of the valley : [any] small flower, [any] flower[s] -> minecraft:lily_of_the_valley
-wither[ed] rose[s] : [any] small flower, [any] flower[s] -> minecrfat:wither_rose
+wither[ed] rose[s] : [any] small flower, [any] flower[s] -> minecraft:wither_rose
 
 {waterloggable} brick wall[s] : any wall[s] -> minecraft:brick_wall
 {waterloggable} prismarine wall[s] : any wall[s] -> minecraft:prismarine_wall
@@ -391,12 +451,13 @@ seagrass[es] -> minecraft:seagrass
 
 ({waterloggable} {pickle count}|{pickle count} {waterloggable}) [sea] pickle[s] -> minecraft:sea_pickle
 
-skeleton (skull|head) item[s] : [any] (head|skull) item[s] -> minecraft:skeleton_skull
-wither skeleton (skull|head) item[s] : [any] (head|skull) item[s] -> minecraft:wither_skeleton_skull
-zombie (head|skull) item[s] : [any] (head|skull) item[s] -> minecraft:zombie_head
-player (head|skull) item[s] : [any] (head|skull) item[s] -> minecraft:player_head
-creeper (head|skull) item[s] : [any] (head|skull) item[s] -> minecraft:creeper_head
-[ender[ ]]dragon (head|skull) item[s] : [any] (head|skull) item[s] -> minecraft:dragon_head
+skeleton (skull|head) item[s] : [any] (head|skull) item[s], [any] (head|skull)[s] -> minecraft:skeleton_skull
+wither skeleton (skull|head) item[s] : [any] (head|skull) item[s], [any] (head|skull)[s] -> minecraft:wither_skeleton_skull
+zombie (head|skull) item[s] : [any] (head|skull) item[s], [any] (head|skull)[s] -> minecraft:zombie_head
+player (head|skull) item[s] : [any] (head|skull) item[s], [any] (head|skull)[s] -> minecraft:player_head
+creeper (head|skull) item[s] : [any] (head|skull) item[s], [any] (head|skull)[s] -> minecraft:creeper_head
+[ender[ ]]dragon (head|skull) item[s] : [any] (head|skull) item[s], [any] (head|skull)[s] -> minecraft:dragon_head
+piglin (head|skull) item[s] : [any] (head|skull) item[s], [any] (head|skull)[s] -> minecraft:piglin_head
 
 {directional} skeleton wall[-mounted] (skull|head)[s] -> minecraft:skeleton_wall_skull
 {directional} wither skeleton wall[-mounted] (skull|head)[s] -> minecraft:wither_skeleton_wall_skull
@@ -404,6 +465,7 @@ creeper (head|skull) item[s] : [any] (head|skull) item[s] -> minecraft:creeper_h
 {directional} player wall[-mounted] (skull|head)[s] -> minecraft:player_wall_head
 {directional} creeper wall[-mounted] (skull|head)[s] -> minecraft:creeper_wall_head
 {directional} [ender[ ]]dragon wall[-mounted] (skull|head)[s] -> minecraft:dragon_wall_head
+{directional} piglin wall[-mounted] (skull|head)[s] -> minecraft:piglin_wall_head
 
 {rotatable} skeleton (skull|head)[s] -> minecraft:skeleton_skull
 {rotatable} wither skeleton (skull|head)[s] -> minecraft:wither_skeleton_skull
@@ -411,6 +473,7 @@ creeper (head|skull) item[s] : [any] (head|skull) item[s] -> minecraft:creeper_h
 {rotatable} player (skull|head)[s] -> minecraft:player_head
 {rotatable} creeper (skull|head)[s] -> minecraft:creeper_head
 {rotatable} [ender[ ]]dragon (skull|head)[s] -> minecraft:dragon_head
+{reversed rotatable} piglin (head|skull)[s] -> minecraft:piglin_head
 
 {directional} white wall banner[s] : [any] wall banner[s], [any] banner[s] -> minecraft:white_wall_banner
 {directional} orange wall banner[s] : [any] wall banner[s], [any] banner[s] -> minecraft:orange_wall_banner
@@ -543,3 +606,5 @@ glow item frame [item][s] -> minecraft:glow_item_frame
 frogspawn[s] -> minecraft:frogspawn
 
 {waterloggable} {orientable} sculk vein[s] -> minecraft:sculk_vein
+
+pink petal[s] {flower amount} -> minecraft:pink_petals

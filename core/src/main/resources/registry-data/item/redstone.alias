@@ -67,6 +67,9 @@ tnt [block[s]] -> minecraft:tnt
 {powerable} {directional} dark oak [wood] {attached} button[s] : [any] wood[en] button[s], [any] button[s] -> minecraft:dark_oak_button
 {powerable} {directional} crimson {attached} button[s] : [any] wood[en] button[s], [any] button[s] -> minecraft:crimson_button
 {powerable} {directional} warped {attached} button[s] : [any] wood[en] button[s], [any] button[s] -> minecraft:warped_button
+{powerable} {directional} mangrove [wood] {attached} button[s] : [any] wood[en] button[s], [any] button[s] -> minecraft:mangrove_button
+{powerable} {directional} cherry [wood] {attached} button[s] : [any] wood[en] button[s], [any] button[s] -> minecraft:cherry_button
+{powerable} {directional} bamboo [wood] {attached} button[s] : [any] wood[en] button[s], [any] button[s] -> minecraft:bamboo_button
 
 {powerable} {directional} {attached} stone button[s] : [any] button[s] -> minecraft:stone_button
 
@@ -78,6 +81,9 @@ tnt [block[s]] -> minecraft:tnt
 {powerable} dark oak [wood] pressure plate[s] : [any] wood[en] pressure plate[s], [any] pressure plate[s] -> minecraft:dark_oak_pressure_plate
 {powerable} crimson pressure plate[s] : [any] wood[en] pressure plate[s], [any] pressure plate[s] -> minecraft:crimson_pressure_plate
 {powerable} warped pressure plate[s] : [any] wood[en] pressure plate[s], [any] pressure plate[s] -> minecraft:warped_pressure_plate
+{powerable} mangrove [wood] pressure plate[s] : [any] wood[en] pressure plate[s], [any] pressure plate[s] -> minecraft:mangrove_pressure_plate
+{powerable} cherry [wood] pressure plate[s] : [any] wood[en] pressure plate[s], [any] pressure plate[s] -> minecraft:cherry_pressure_plate
+{powerable} bamboo [wood] pressure plate[s] : [any] wood[en] pressure plate[s], [any] pressure plate[s] -> minecraft:bamboo_pressure_plate
 
 {waterloggable} {openable} {trapdoor position} {directional} iron trapdoor[s] : [any] trapdoor[s] -> minecraft:iron_trapdoor
 
@@ -89,6 +95,9 @@ tnt [block[s]] -> minecraft:tnt
 {waterloggable} {openable} {trapdoor position} {directional} dark oak [wood] trapdoor[s] : [any] wood[en] trapdoor[s], [any] trapdoor[s] -> minecraft:dark_oak_trapdoor
 {waterloggable} {openable} {trapdoor position} {directional} crimson trapdoor[s] : [any] wood[en] trapdoor[s], [any] trapdoor[s] -> minecraft:crimson_trapdoor
 {waterloggable} {openable} {trapdoor position} {directional} warped trapdoor[s] : [any] wood[en] trapdoor[s], [any] trapdoor[s] -> minecraft:warped_trapdoor
+{waterloggable} {openable} {trapdoor position} {directional} mangrove [wood] trapdoor[s] : [any] wood[en] trapdoor[s], [any] trapdoor[s] -> minecraft:mangrove_trapdoor
+{waterloggable} {openable} {trapdoor position} {directional} cherry [wood] trapdoor[s] : [any] wood[en] trapdoor[s], [any] trapdoor[s] -> minecraft:cherry_trapdoor
+{waterloggable} {openable} {trapdoor position} {directional} bamboo [wood] trapdoor[s] : [any] wood[en] trapdoor[s], [any] trapdoor[s] -> minecraft:bamboo_trapdoor
 
 {powerable} {openable} {directional} oak [wood] [fence] gate[s] : [any] [fence] gate[s], [any] fence part -> minecraft:oak_fence_gate
 {powerable} {openable} {directional} spruce [wood] [fence] gate[s] : [any] [fence] gate[s], [any] fence part -> minecraft:spruce_fence_gate
@@ -98,6 +107,9 @@ tnt [block[s]] -> minecraft:tnt
 {powerable} {openable} {directional} dark oak [wood] [fence] gate[s] : [any] [fence] gate[s], [any] fence part -> minecraft:dark_oak_fence_gate
 {powerable} {openable} {directional} crimson [fence] gate[s] : [any] [fence] gate[s], [any] fence part -> minecraft:crimson_fence_gate
 {powerable} {openable} {directional} warped [fence] gate[s] : [any] [fence] gate[s], [any] fence part -> minecraft:warped_fence_gate
+{powerable} {openable} {directional} mangrove [wood] [fence] gate[s] : [any] [fence] gate[s], [any] fence part -> minecraft:mangrove_fence_gate
+{powerable} {openable} {directional} cherry [wood] [fence] gate[s] : [any] [fence] gate[s], [any] fence part -> minecraft:cherry_fence_gate
+{powerable} {openable} {directional} bamboo [wood] [fence] gate[s] : [any] [fence] gate[s], [any] fence part -> minecraft:bamboo_fence_gate
 
 {powerable} {openable} {half} {directional} oak [wood] door[s] : [any] wood[en] door[s], [any] door[s] -> minecraft:oak_door
 {powerable} {openable} {half} {directional} spruce [wood] door[s] : [any] wood[en] door[s], [any] door[s] -> minecraft:spruce_door
@@ -107,6 +119,9 @@ tnt [block[s]] -> minecraft:tnt
 {powerable} {openable} {half} {directional} dark oak [wood] door[s] : [any] wood[en] door[s], [any] door[s] -> minecraft:dark_oak_door
 {powerable} {openable} {half} {directional} crimson door[s] : [any] wood[en] door[s], [any] door[s] -> minecraft:crimson_door
 {powerable} {openable} {half} {directional} warped door[s] : [any] wood[en] door[s], [any] door[s] -> minecraft:warped_door
+{powerable} {openable} {half} {directional} mangrove [wood] door[s] : [any] wood[en] door[s], [any] door[s] -> minecraft:mangrove_door
+{powerable} {openable} {half} {directional} cherry [wood] door[s] : [any] wood[en] door[s], [any] door[s] -> minecraft:cherry_door
+{powerable} {openable} {half} {directional} bamboo [wood] door[s] : [any] wood[en] door[s], [any] door[s] -> minecraft:bamboo_door
 
 {powerable} {openable} {half} {directional} iron door[s] : [any] door[s] -> minecraft:iron_door
 

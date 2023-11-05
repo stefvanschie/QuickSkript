@@ -107,6 +107,7 @@ warped plank[s] : [any] plank[s] -> minecraft:warped_planks
 {axised} acacia [wood] log[s] : [any] log[s], [any] normal log, any acacia log -> minecraft:acacia_log
 {axised} dark oak [wood] log[s] : [any] log[s], [any] normal log, any dark oak log -> minecraft:dark_oak_log
 {axised} mangrove log[s] : [any] log[s] -> minecraft:mangrove_log
+{axised} cherry log[s] : [any] log[s] -> minecraft:cherry_log
 
 {axised} oak (wood|bark) [block[s]] : [any] log[s], [any] normal log, [any] (wood|bark) [block[s]], any oak log -> minecraft:oak_wood
 {axised} spruce (wood|bark) [block[s]] : [any] log[s], [any] normal log, [any] (wood|bark) [block[s]], any spruce log -> minecraft:spruce_wood
@@ -115,6 +116,7 @@ warped plank[s] : [any] plank[s] -> minecraft:warped_planks
 {axised} acacia (wood|bark) [block[s]] : [any] log[s], [any] normal log, [any] (wood|bark) [block[s]], any acacia log -> minecraft:acacia_wood
 {axised} dark oak (wood|bark) [block[s]] : [any] log[s], [any] normal log, [any] (wood|bark) [block[s]], any dark oak log -> minecraft:dark_oak_wood
 {axised} mangrove (wood|bark) [block[s]] : [any] wood[s] -> minecraft:mangrove_wood
+{axised} cherry (wood|bark) [block[s]] : [any] wood[s] -> minecraft:cherry_wood
 
 {axised} stripped oak log[s] : [any] log[s], [any] stripped log [block[s]] -> minecraft:stripped_oak_log
 {axised} stripped spruce log[s] : [any] log[s], [any] stripped log [block[s]] -> minecraft:stripped_spruce_log
@@ -123,6 +125,7 @@ warped plank[s] : [any] plank[s] -> minecraft:warped_planks
 {axised} stripped acacia log[s] : [any] log[s], [any] stripped log [block[s]] -> minecraft:stripped_acacia_log
 {axised} stripped dark oak log[s] : [any] log[s], [any] stripped log [block[s]] -> minecraft:stripped_dark_oak_log
 {axised} stripped mangrove log[s] : [any] stripped log [block[s]] -> minecraft:stripped_mangrove_log
+{axised} stripped cherry log[s] : [any] stripped log [block[s]] -> minecraft:stripped_cherry_log
 
 {axised} stripped oak (bark|wood) [block[s]] : [any] log[s], [any] stripped (bark|wood) [block[s]] -> minecraft:stripped_oak_wood
 {axised} stripped spruce (bark|wood) [block[s]] : [any] log[s], [any] stripped (bark|wood) [block[s]] -> minecraft:stripped_spruce_wood
@@ -131,6 +134,13 @@ warped plank[s] : [any] plank[s] -> minecraft:warped_planks
 {axised} stripped acacia (bark|wood) [block[s]] : [any] log[s], [any] stripped (bark|wood) [block[s]] -> minecraft:stripped_acacia_wood
 {axised} stripped dark oak (bark|wood) [block[s]] : [any] log[s], [any] stripped (bark|wood) [block[s]] -> minecraft:stripped_dark_oak_wood
 {axised} stripped mangrove (bark|wood) [block[s]] : [any] stripped (bark|wood) [block[s]] -> minecraft:stripped_mangrove_wood
+{axised} stripped cherry (bark|wood) [block[s]] : [any] stripped (bark|wood) [block[s]] -> minecraft:stripped_cherry_wood
+
+{axised} bamboo [wood] block[s] : [any] wood[s] -> minecraft:bamboo_block
+{axised} stripped bamboo [wood] block[s] : [any] wood[s], [any] stripped (bark|wood) [block[s]] -> minecraft:stripped_bamboo_block
+bamboo [wood[en]] mosaic[s] -> minecraft:bamboo_mosaic
+{waterloggable} {stairs} {stairs shape} {directional} bamboo [wood[en]] mosaic stairs[s] : [any] stair[s], [any] wood[en] stair[s] -> minecraft:bamboo_mosaic_stairs
+{waterloggable} {slab} bamboo mosaic slab[s] : [any] slab[s], [any] wood[en] slab[s] -> minecraft:bamboo_mosaic_slab
 
 red sand [block[s]] -> minecraft:red_sand
 [normal] sandstone [block[s]] : any sandstone [block[s]] -> minecraft:sandstone

@@ -62,6 +62,7 @@ public class BiomeRegistry {
         addEntry(new Entry("basalt deltas"));
         addEntry(new Entry("beach"));
         addEntry(new Entry("birch forest"));
+        addEntry(new Entry("cherry grove"));
         addEntry(new Entry("cold ocean"));
         addEntry(new Entry("crimson forest"));
         addEntry(new Entry("custom", "unknown"));

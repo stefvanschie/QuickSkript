@@ -34,7 +34,9 @@ public class InventoryTypeRegistry {
      * @since 0.1.0
      */
     public void addEntry(@NotNull Entry entry) {
-        entries.put(entry.getName(), entry);
+        for (String name : entry.getNames()) {
+            entries.put(name, entry);
+        }
     }
 
     /**
@@ -63,6 +65,7 @@ public class InventoryTypeRegistry {
         addEntry(new Entry("brewing stand inventory"));
         addEntry(new Entry("cartography table inventory"));
         addEntry(new Entry("chest inventory"));
+        addEntry(new Entry("chiseled bookshelf", "bookshelf"));
         addEntry(new Entry("crafting table inventory"));
         addEntry(new Entry("creative inventory"));
         addEntry(new Entry("dispenser inventory"));
@@ -74,7 +77,8 @@ public class InventoryTypeRegistry {
         addEntry(new Entry("hopper inventory"));
         addEntry(new Entry("lectern inventory"));
         addEntry(new Entry("loom inventory"));
-        addEntry(new Entry("merchant inventory"));
+        addEntry(new Entry("merchant inventory", "villager inventory"));
+        addEntry(new Entry("new smithing table", "upgrade gear", "upgrade gear table"));
         addEntry(new Entry("player inventory"));
         addEntry(new Entry("shulker box inventory"));
         addEntry(new Entry("smoker inventory"));
@@ -93,28 +97,28 @@ public class InventoryTypeRegistry {
          * The name of the entry
          */
         @NotNull
-        private final String name;
+        private final String[] names;
 
         /**
          * Creates a new entry with the specified name
          *
-         * @param name the name of the entry
+         * @param names the name of the entry
          * @since 0.1.0
          */
-        public Entry(@NotNull String name) {
-            this.name = name;
+        public Entry(@NotNull String... names) {
+            this.names = names;
         }
 
         /**
-         * Gets the name of this entry
+         * Gets the names of this entry
          *
-         * @return the name
+         * @return the names
          * @since 0.1.0
          */
         @NotNull
         @Contract(pure = true)
-        public String getName() {
-            return name;
+        public String[] getNames() {
+            return this.names;
         }
     }
 }

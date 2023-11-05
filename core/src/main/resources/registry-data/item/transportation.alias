@@ -32,6 +32,8 @@ jungle boat[s] : [any] jungle boat[s], [any] boat[s] -> minecraft:jungle_boat
 acacia boat[s] : [any] acacia boat[s], [any] boat[s] -> minecraft:acacia_boat
 dark oak boat[s] : [any] dark oak boat[s], [any] boat[s] -> minecraft:dark_oak_boat
 mangrove boat[s] : [any] mangrove boat[s], [any] boat[s] -> minecraft:mangrove_boat
+cherry boat[s] : any cherry boat[s], [any] boat -> minecraft:cherry_boat
+bamboo (boat|raft)[s] : any bamboo (boat|raft)[s], [any] boat -> minecraft:bamboo_raft
 
 oak (chest boat[s]|boat[s] with chest) : [any] oak boat[s], [any] (chest[ed] boat[s]|boat[s] with [a] chest) -> minecraft:oak_chest_boat
 spruce (chest boat[s]|boat[s] with chest) : [any] spruce boat[s], [any] (chest[ed] boat[s]|boat[s] with [a] chest) -> minecraft:spruce_chest_boat
@@ -40,6 +42,8 @@ jungle (chest boat[s]|boat[s] with chest) : [any] jungle boat[s], [any] (chest[e
 acacia (chest boat[s]|boat[s] with chest) : [any] acacia boat[s], [any] (chest[ed] boat[s]|boat[s] with [a] chest) -> minecraft:acacia_chest_boat
 dark oak (chest boat[s]|boat[s] with chest) : [any] dark oak boat[s], [any] (chest[ed] boat[s]|boat[s] with [a] chest) -> minecraft:dark_oak_chest_boat
 mangrove (chest boat[s]|boat[s] with chest) : [any] mangrove boat[s], [any] (chest[ed] boat[s]|boat[s] with [a] chest) -> minecraft:mangrove_chest_boat
+cherry (chest boat[s]|boat[s] with chest) : any cherry boat[s], [any] (chest[ed] boat[s]|boat[s] with [a] chest) -> minecraft:cherry_chest_boat
+bamboo (chest (boat|raft)[s]|(boat|raft)[s] with chest) : any bamboo (boat|raft)[s], [any] (chest[ed] boat[s]|boat[s] with [a] chest) -> minecraft:bamboo_chest_raft
 
 [normal] minecart[s] : any minecart[s] -> minecraft:minecart
 minecart[s] with chest[s] : storage minecart[s], any minecart[s] -> minecraft:chest_minecart

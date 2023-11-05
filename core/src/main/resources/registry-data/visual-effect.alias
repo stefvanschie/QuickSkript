@@ -47,7 +47,7 @@ firework['s] spark
 instant (spell|thrown potion)
 
 (witch (magic|spell)|purple spark)
-note
+note [(of|with) [colo[u]r] %number%]
 [nether] portal
 (flying (glyph|letter)|enchantment table)
 (flame|fire)
@@ -63,7 +63,7 @@ explosion
 void fog
 (small smoke|town aura)
 cloud
-(%-color%|colo[u]red) dust
+[%-color%] [colo[u]red] dust
 snowball break
 
 water drip
@@ -99,7 +99,7 @@ sneeze
 campfire co(s|z)y smoke
 campfire signal smoke
 
-composter
+composter particle
 flash
 
 falling lava
@@ -134,3 +134,38 @@ landing obsidian tear
 soul
 reverse portal
 white ash
+
+light
+
+falling spore blossom
+spore blossom air
+
+small flame
+snowflake
+
+dripping dripstone lava
+falling dripstone lava
+
+dripping dripstone water
+falling dripstone water
+
+glow squid ink
+glow
+
+wax on
+wax off
+
+electric spark
+scrape
+
+sonic boom
+
+sculk soul
+sculk charge
+sculk charge pop
+
+shriek
+
+dripping cherry leaves
+falling cherry leaves
+landing cherry leaves
