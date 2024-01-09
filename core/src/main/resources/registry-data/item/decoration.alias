@@ -174,7 +174,7 @@ orange tulip[s] : [any] tulip[s], [any] small flower, [any] flower[s] -> minecra
 white tulip[s] : [any] tulip[s], [any] small flower, [any] flower[s] -> minecraft:white_tulip
 pink tulip[s] : [any] tulip[s], [any] small flower, [any] flower[s] -> minecraft:pink_tulip
 oxeye dais(y|ies) : [any] small flower, [any] flower[s] -> minecraft:oxeye_daisy
-torch flower[s] -> minecraft:torchflower
+torch flower[s] : [any] small flower, [any] flower[s] -> minecraft:torchflower
 
 {half} sunflower[s] : [any] (large|tall|double height) flower, [any] flower[s] -> minecraft:sunflower
 {half} lilac[s] : [any] (large|tall|double height) flower, [any] flower[s] -> minecraft:lilac
@@ -182,7 +182,7 @@ torch flower[s] -> minecraft:torchflower
 {half} (long|large) fern -> minecraft:large_fern
 {half} rose bush[es] : [any] (large|tall|double height) flower, [any] flower[s] -> minecraft:rose_bush
 {half} peon(y|ies) : [any] (large|tall|double height) flower, [any] flower[s] -> minecraft:peony
-{half} pitcher plant[s] -> minecraft:pitcher_plant
+{half} pitcher plant[s] : [any] (large|tall|double height) flower, [any] flower[s] -> minecraft:pitcher_plant
 
 {waterloggable} oak [wood] fence[s] : [any] fence[s], [any] fence part -> minecraft:oak_fence
 {waterloggable} spruce [wood] fence[s] : [any] fence[s], [any] fence part -> minecraft:spruce_fence
@@ -607,4 +607,4 @@ frogspawn[s] -> minecraft:frogspawn
 
 {waterloggable} {orientable} sculk vein[s] -> minecraft:sculk_vein
 
-pink petal[s] {flower amount} -> minecraft:pink_petals
+pink petal[s] {flower amount} : [any] small flower, [any] flower[s] -> minecraft:pink_petals
