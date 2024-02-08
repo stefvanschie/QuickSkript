@@ -158,7 +158,7 @@ dark oak sapling[s] : [any] sapling[s] -> minecraft:dark_oak_sapling
 jukebox[es] {jukebox state} -> minecraft:jukebox
 
 dead (grass|bush)c[es] -> minecraft:dead_bush
-short grass[es] -> minecraft:grass
+short grass[es] -> minecraft:short_grass
 fern[s] -> minecraft:fern
 
 kelp plant[s] -> minecraft:kelp_plant
