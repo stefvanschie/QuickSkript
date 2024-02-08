@@ -559,23 +559,23 @@ flowering azalea[s] -> minecraft:flowering_azalea
 {decayable} azalea lea(f|ves) : [any] lea(f|ves) -> minecraft:azalea_leaves
 {decayable} flowering azalea lea(f|ves) : [any] lea(f|ves) -> minecraft:flowering_azalea_leaves
 
-candle[s] -> minecraft:candle
-white candle[s] -> minecraft:white_candle
-orange candle[s] -> minecraft:orange_candle
-magenta candle[s] -> minecraft:magenta_candle
-light blue candle[s] -> minecraft:light_blue_candle
-yellow candle[s] -> minecraft:yellow_candle
-(lime|light green) candle[s] -> minecraft:lime_candle
-pink candle[s] -> minecraft:pink_candle
-[dark] gr(a|e)y candle[s] -> minecraft:gray_candle
-light gr(a|e)y candle[s] -> minecraft:light_gray_candle
-cyan candle[s] -> minecraft:cyan_candle
-purple candle[s] -> minecraft:purple_candle
-blue candle[s] -> minecraft:blue_candle
-brown candle[s] -> minecraft:brown_candle
-[dark] green candle[s] -> minecraft:green_candle
-red candle[s] -> minecraft:red_candle
-black candle[s] -> minecraft:black_candle
+candle[s] : any candle[s] -> minecraft:candle
+white candle[s] : any candle[s] -> minecraft:white_candle
+orange candle[s] : any candle[s] -> minecraft:orange_candle
+magenta candle[s] : any candle[s] -> minecraft:magenta_candle
+light blue candle[s] : any candle[s] -> minecraft:light_blue_candle
+yellow candle[s] : any candle[s] -> minecraft:yellow_candle
+(lime|light green) candle[s] : any candle[s] -> minecraft:lime_candle
+pink candle[s] : any candle[s] -> minecraft:pink_candle
+[dark] gr(a|e)y candle[s] : any candle[s] -> minecraft:gray_candle
+light gr(a|e)y candle[s] : any candle[s] -> minecraft:light_gray_candle
+cyan candle[s] : any candle[s] -> minecraft:cyan_candle
+purple candle[s] : any candle[s] -> minecraft:purple_candle
+blue candle[s] : any candle[s] -> minecraft:blue_candle
+brown candle[s] : any candle[s] -> minecraft:brown_candle
+[dark] green candle[s] : any candle[s] -> minecraft:green_candle
+red candle[s] : any candle[s] -> minecraft:red_candle
+black candle[s] : any candle[s] -> minecraft:black_candle
 
 {waterloggable} {pointed dripstone direction} pointed dripstone {pointed dripstone thickness} -> minecraft:pointed_dripstone
 
