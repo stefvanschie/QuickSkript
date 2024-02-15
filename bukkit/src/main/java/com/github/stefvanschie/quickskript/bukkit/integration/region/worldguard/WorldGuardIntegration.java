@@ -1,9 +1,7 @@
-package com.github.stefvanschie.quickskript.bukkit.integration.region;
+package com.github.stefvanschie.quickskript.bukkit.integration.region.worldguard;
 
-import com.github.stefvanschie.quickskript.core.util.BlockPosition;
 import com.github.stefvanschie.quickskript.core.util.literal.Region;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
@@ -43,23 +41,7 @@ public class WorldGuardIntegration {
             }
 
             for (Map.Entry<String, ProtectedRegion> entry : regionManager.getRegions().entrySet()) {
-                ProtectedRegion region = entry.getValue();
-
-                BlockVector3 maximumPoint = region.getMaximumPoint();
-                BlockVector3 minimumPoint = region.getMinimumPoint();
-
-                int maxX = maximumPoint.getBlockX();
-                int maxY = maximumPoint.getBlockY();
-                int maxZ = maximumPoint.getBlockZ();
-
-                int minX = minimumPoint.getBlockX();
-                int minY = minimumPoint.getBlockY();
-                int minZ = minimumPoint.getBlockZ();
-
-                var greaterPosition = new BlockPosition(maxX, maxY, maxZ);
-                var lowerPosition = new BlockPosition(minX, minY, minZ);
-
-                regions.add(new Region(entry.getKey(), world.getName(), greaterPosition, lowerPosition));
+                regions.add(new WorldGuardRegion(entry.getKey(), entry.getValue()));
             }
         }
 

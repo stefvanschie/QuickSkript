@@ -1,5 +1,7 @@
 package com.github.stefvanschie.quickskript.bukkit.integration.region;
 
+import com.github.stefvanschie.quickskript.bukkit.integration.region.griefprevention.GriefPreventionIntegration;
+import com.github.stefvanschie.quickskript.bukkit.integration.region.worldguard.WorldGuardIntegration;
 import com.github.stefvanschie.quickskript.core.util.literal.Region;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.Contract;
