@@ -78,7 +78,7 @@ public class PsiLocationAtExpression extends PsiElement<Location> {
         double z = this.z.execute(environment, context, Double.class);
         World world = this.world.execute(environment, context, World.class);
 
-        return new Location(x, y, z, world);
+        return new Location(world, x, y, z);
     }
 
     /**

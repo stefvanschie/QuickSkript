@@ -2,8 +2,10 @@ package com.github.stefvanschie.quickskript.bukkit.integration.region;
 
 import com.github.stefvanschie.quickskript.bukkit.integration.region.griefprevention.GriefPreventionIntegration;
 import com.github.stefvanschie.quickskript.bukkit.integration.region.worldguard.WorldGuardIntegration;
+import com.github.stefvanschie.quickskript.core.util.literal.Location;
 import com.github.stefvanschie.quickskript.core.util.literal.Region;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -19,6 +21,16 @@ import java.util.HashSet;
 public class RegionIntegration {
 
     /**
+     * The name of the GriefPrevention plugin.
+     */
+    public static final String GRIEF_PREVENTION_NAME = "GriefPrevention";
+
+    /**
+     * The name of the WorldGuard plugin.
+     */
+    public static final String WORLD_GUARD_NAME = "WorldGuard";
+
+    /**
      * Integration with world guard
      */
     @Nullable
@@ -31,18 +43,27 @@ public class RegionIntegration {
     private GriefPreventionIntegration griefPrevention;
 
     /**
-     * Creates a new region integration. This loads several underlying integrations if possible.
+     * Gets whether the provided player can build in the provided location, under the restrictions of the enabled region
+     * plugins.
      *
+     * @param player the player to check
+     * @param location the location to check
+     * @return true if the provided player can build in the provided location, false otherwise
      * @since 0.1.0
      */
-    public RegionIntegration() {
-        if (Bukkit.getPluginManager().isPluginEnabled("WorldGuard")) {
-            worldGuard = new WorldGuardIntegration();
+    @Contract(pure = true)
+    public boolean canBuild(@NotNull Player player, @NotNull Location location) {
+        boolean canBuild = true;
+
+        if (this.worldGuard != null) {
+            canBuild &= this.worldGuard.canBuild(player, location);
         }
 
-        if (Bukkit.getPluginManager().isPluginEnabled("GriefPrevention")) {
-            griefPrevention = new GriefPreventionIntegration();
+        if (this.griefPrevention != null) {
+            canBuild &= this.griefPrevention.canBuild(player, location);
         }
+
+        return canBuild;
     }
 
     /**
@@ -66,6 +87,21 @@ public class RegionIntegration {
         }
 
         return regions;
+    }
+
+    /**
+     * Loads the underlying integrations. This can also be used to reload the underlying integrations.
+     *
+     * @since 0.1.0
+     */
+    public void loadIntegrations() {
+        if (Bukkit.getPluginManager().isPluginEnabled(WORLD_GUARD_NAME)) {
+            worldGuard = new WorldGuardIntegration();
+        }
+
+        if (Bukkit.getPluginManager().isPluginEnabled(GRIEF_PREVENTION_NAME)) {
+            griefPrevention = new GriefPreventionIntegration();
+        }
     }
 
     /**

@@ -58,9 +58,10 @@ public class QuickSkript extends JavaPlugin implements Listener {
     private VaultIntegration vault;
 
     /**
-     * Integration with world guard
+     * Integration with WorldGuard and GriefPrevention
      */
-    private RegionIntegration regions;
+    @NotNull
+    private final RegionIntegration regions = new RegionIntegration();
 
     public static void main(String[] args) {
         new QuickSkript().onEnable(); //fake entry point for code analyzers
@@ -102,11 +103,7 @@ public class QuickSkript extends JavaPlugin implements Listener {
             }
         }
 
-        regions = new RegionIntegration();
-
-        if (!regions.hasRegionIntegration()) {
-            regions = null;
-        }
+        this.regions.loadIntegrations();
 
         printIntegrations();
 
@@ -115,10 +112,8 @@ public class QuickSkript extends JavaPlugin implements Listener {
 
         var skriptLoader = new BukkitSkriptLoader(environment);
 
-        if (regions != null) {
-            pluginManager.registerEvents(new RegionEnterEvent.Listener(skriptLoader), this);
-            pluginManager.registerEvents(new RegionLeaveEvent.Listener(skriptLoader), this);
-        }
+        pluginManager.registerEvents(new RegionEnterEvent.Listener(skriptLoader), this);
+        pluginManager.registerEvents(new RegionLeaveEvent.Listener(skriptLoader), this);
 
         this.manager = new ScriptManager(skriptLoader);
 
@@ -228,7 +223,7 @@ public class QuickSkript extends JavaPlugin implements Listener {
             getLogger().warning("Vault has not been detected, certain functionality may be unavailable");
         }
 
-        if (regions == null) {
+        if (!this.regions.hasRegionIntegration()) {
             getLogger().warning("No region plugin has been detected, certain functionality may be unavailable");
         }
     }
@@ -246,12 +241,12 @@ public class QuickSkript extends JavaPlugin implements Listener {
     }
 
     /**
-     * Gets the integration with region plugins. This is null if no region plugin is available.
+     * Gets the integration with region plugins.
      *
-     * @return region integration or null if no region plugin exists
+     * @return region integration
      * @since 0.1.0
      */
-    @Nullable
+    @NotNull
     @Contract(pure = true)
     public RegionIntegration getRegionIntegration() {
         return regions;

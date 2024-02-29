@@ -137,9 +137,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
 
         RegionIntegration regionIntegration = QuickSkript.getInstance().getRegionIntegration();
 
-        if (regionIntegration != null) {
-            getRegionRegistry().addRegions(regionIntegration.getRegions());
-        }
+        getRegionRegistry().addRegions(regionIntegration.getRegions());
     }
 
     @Override
@@ -176,6 +174,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiParseExpression.Factory());
 
         //conditions
+        registerElement(new PsiCanBuildConditionImpl.Factory());
         registerElement(new PsiCanFlyConditionImpl.Factory());
         registerElement(new PsiCanSeeConditionImpl.Factory());
         registerElement(new PsiChanceCondition.Factory());

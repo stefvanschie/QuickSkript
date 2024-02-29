@@ -1,6 +1,8 @@
 package com.github.stefvanschie.quickskript.core.util.literal.direction;
 
+import com.github.stefvanschie.quickskript.core.util.literal.Location;
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -33,6 +35,18 @@ public class HorizontalRelativeDirection implements Direction {
     public HorizontalRelativeDirection(double yaw, double length) {
         this.yaw = yaw;
         this.length = length;
+    }
+
+    @NotNull
+    @Contract(pure = true)
+    @Override
+    public Location getRelative(@NotNull Location location) {
+        double radianYaw = Math.toRadians(location.getYaw()) + Math.PI / 2;
+
+        double newX = Math.cos(radianYaw + this.yaw) * this.length + location.getX();
+        double newZ = Math.sin(radianYaw + this.yaw) * this.length + location.getZ();
+
+        return new Location(location.getWorld(), newX, location.getY(), newZ, location.getYaw(), location.getPitch());
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.github.stefvanschie.quickskript.core.util.literal.direction;
 
+import com.github.stefvanschie.quickskript.core.util.literal.Location;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -29,6 +30,17 @@ public class AbsoluteDirection implements Direction {
         this.x = x;
         this.y = y;
         this.z = z;
+    }
+
+    @NotNull
+    @Contract(pure = true)
+    @Override
+    public Location getRelative(@NotNull Location location) {
+        double newX = location.getX() + this.x;
+        double newY = location.getY() + this.y;
+        double newZ = location.getZ() + this.z;
+
+        return new Location(location.getWorld(), newX, newY, newZ, location.getYaw(), location.getPitch());
     }
 
     /**

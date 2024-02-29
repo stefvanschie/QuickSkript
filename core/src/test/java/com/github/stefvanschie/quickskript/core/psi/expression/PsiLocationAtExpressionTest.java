@@ -19,7 +19,7 @@ class PsiLocationAtExpressionTest {
 
         PsiElement<?> psiElement = skriptLoader.tryParseElement(input, -1);
 
-        Location expected = new Location(2, 5, 4, new World("world"));
+        Location expected = new Location(new World("world"), 2, 5, 4);
 
         assertTrue(psiElement instanceof PsiLocationAtExpression);
         assertEquals(expected, psiElement.execute(null, null));
