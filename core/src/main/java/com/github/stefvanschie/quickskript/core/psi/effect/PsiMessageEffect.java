@@ -55,7 +55,7 @@ public class PsiMessageEffect extends PsiElement<Void> {
          */
         @NotNull
         private final SkriptPattern pattern =
-            SkriptPattern.parse("(message|send [message[s]]) %texts% [to %commandsenders%]");
+            SkriptPattern.parse("(message|send [message[s]]) %objects% [to %commandsenders%]");
 
         /**
          * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
