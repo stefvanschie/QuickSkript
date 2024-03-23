@@ -1,13 +1,13 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.psi.util.MultiResult;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.pattern.group.RegexGroup;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.psi.util.PsiCollection;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.util.Pair;
@@ -62,15 +62,15 @@ public class PsiFilterExpression extends PsiElement<Object> {
     @Contract(pure = true)
     @Override
     protected Object executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
-        Object object = collection.execute(environment, context);
+        MultiResult<?> objects = collection.executeMulti(environment, context);
 
         List<Object> list = new ArrayList<>();
-        PsiCollection.forEach(object, e -> {
+        objects.forEach(e -> {
             currentLoopingElement = e;
             if (predicate.execute(environment, context, Boolean.class)) {
                 list.add(e);
             }
-        }, null);
+        });
 
         currentLoopingElement = null;
         return list;

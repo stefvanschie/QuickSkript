@@ -5,8 +5,6 @@ import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
-import com.github.stefvanschie.quickskript.core.psi.util.PsiCollection;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
@@ -48,18 +46,7 @@ public class PsiAmountExpression extends PsiElement<Number> {
     @Contract(pure = true)
     @Override
     protected Number executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
-        Object object = collection.execute(environment, context);
-
-        if (object == null) {
-            throw new ExecutionException("Object is null", lineNumber);
-        }
-
-        int amount = PsiCollection.getSize(object, -1);
-        if (amount == -1) {
-            throw new ExecutionException("Element was not a collection or array", lineNumber);
-        }
-
-        return amount;
+        return collection.executeMulti(environment, context).getSize();
     }
 
     /**

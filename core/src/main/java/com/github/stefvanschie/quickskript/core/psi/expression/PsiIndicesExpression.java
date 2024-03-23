@@ -5,8 +5,6 @@ import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
-import com.github.stefvanschie.quickskript.core.psi.util.PsiCollection;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
@@ -46,18 +44,10 @@ public class PsiIndicesExpression extends PsiElement<int[]> {
         }
     }
 
-    @NotNull
     @Contract(pure = true)
     @Override
-    protected int[] executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
-        Object object = collection.execute(environment, context);
-        int size = PsiCollection.getSize(object, -1);
-
-        if (size == -1) {
-            throw new ExecutionException("Can only get the indices from a collection", lineNumber);
-        }
-
-        return IntStream.rangeClosed(1, size).toArray();
+    protected int @NotNull [] executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return IntStream.rangeClosed(1, this.collection.executeMulti(environment, context).getSize()).toArray();
     }
 
     /**

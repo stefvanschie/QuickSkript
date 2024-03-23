@@ -6,9 +6,7 @@ import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
-import com.github.stefvanschie.quickskript.core.psi.util.PsiCollection;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
@@ -64,16 +62,8 @@ public class PsiElementOfExpression extends PsiElement<Object> {
     @Contract(pure = true)
     @Override
     protected Object executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
-        Object object = this.elements.execute(environment, context);
-
-        if (object == null) {
-            throw new ExecutionException("Can't get element from nothing", lineNumber);
-        }
-
         List<Object> elements = new ArrayList<>();
-        PsiCollection.forEach(object, elements::add, e -> {
-            throw new ExecutionException("Can't get element from non-collection", lineNumber);
-        });
+        this.elements.executeMulti(environment, context).forEach(elements::add);
 
         int index = indexFunction.apply(environment, context, elements.size());
 

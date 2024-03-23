@@ -6,7 +6,6 @@ import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
-import com.github.stefvanschie.quickskript.core.psi.util.PsiCollection;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
@@ -61,15 +60,14 @@ public class PsiJoinExpression extends PsiElement<Text> {
     @Contract(pure = true)
     @Override
     protected Text executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
-        Object object = texts.execute(environment, context);
-
         List<Text> texts = new ArrayList<>();
-        PsiCollection.forEach(object, e -> {
+
+        this.texts.executeMulti(environment, context).forEach(e -> {
             if (!(e instanceof Text)) {
                 throw new ExecutionException("Can only join text(s)", lineNumber);
             }
             texts.add((Text) e);
-        }, null);
+        });
 
         if (texts.isEmpty()) {
             return Text.empty();

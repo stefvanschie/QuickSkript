@@ -5,7 +5,6 @@ import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.psi.util.PsiCollection;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
@@ -13,7 +12,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Sorts a collection using a default comparator.
@@ -50,7 +48,7 @@ public class PsiSortExpression extends PsiElement<List<?>> {
     @Contract(pure = true)
     @Override
     protected List<?> executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
-        return PsiCollection.toStreamForgiving(collection.execute(environment, context)).sorted().collect(Collectors.toList());
+        return collection.executeMulti(environment, context).stream().sorted().toList();
     }
 
     /**
@@ -64,7 +62,7 @@ public class PsiSortExpression extends PsiElement<List<?>> {
          * The pattern for matching {@link PsiSortExpression}s
          */
         @NotNull
-        private SkriptPattern pattern = SkriptPattern.parse("sorted %objects%");
+        private final SkriptPattern pattern = SkriptPattern.parse("sorted %objects%");
 
         /**
          * Parses the {@link #pattern} and invokes this method with its types if the match succeeds

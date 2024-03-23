@@ -257,6 +257,20 @@ public enum Type {
     GENES("[panda] genes", GENE),
 
     /**
+     * A single inventory.
+     *
+     * @since 0.1.0
+     */
+    INVENTORY("inventory"),
+
+    /**
+     * Multiple inventories.
+     *
+     * @since 0.1.0
+     */
+    INVENTORIES("inventories", INVENTORY),
+
+    /**
      * A single inventory action.
      *
      * @since 0.1.0

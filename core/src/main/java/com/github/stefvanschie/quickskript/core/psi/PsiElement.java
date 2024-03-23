@@ -2,6 +2,7 @@ package com.github.stefvanschie.quickskript.core.psi;
 
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.psi.util.MultiResult;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -53,6 +54,27 @@ public abstract class PsiElement<T> {
     @Nullable
     public final T execute(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         return isPreComputed() ? preComputed : executeImpl(environment, context);
+    }
+
+    /**
+     * Returns a collection of elements. The elements are the result of executing this element. If the element already
+     * returned a {@link MultiResult}, this is returned verbatim. Otherwise, the result is wrapped in such a
+     * collection and then returned.
+     *
+     * @param environment the environment this code is being executed in, may be null
+     * @param context the context this code is being executed in, may be null
+     * @return a collection of elements
+     * @since 0.1.0
+     */
+    @NotNull
+    public final MultiResult<T> executeMulti(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        T element = execute(environment, context);
+
+        if (element instanceof MultiResult<?>) {
+            return (MultiResult<T>) element;
+        }
+
+        return new MultiResult<>(element);
     }
 
     /**

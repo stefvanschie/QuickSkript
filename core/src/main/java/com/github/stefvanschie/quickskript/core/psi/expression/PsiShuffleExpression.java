@@ -5,7 +5,6 @@ import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.psi.util.PsiCollection;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
@@ -14,7 +13,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Shuffles a collection. This cannot be pre-computed, since the list should be shuffled differently every time.
@@ -45,7 +43,7 @@ public class PsiShuffleExpression extends PsiElement<List<?>> {
     @Nullable
     @Override
     protected List<?> executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
-        List<?> list = PsiCollection.toStreamForgiving(collection.execute(environment, context)).collect(Collectors.toList());
+        List<?> list = collection.executeMulti(environment, context).toList();
 
         Collections.shuffle(list);
 

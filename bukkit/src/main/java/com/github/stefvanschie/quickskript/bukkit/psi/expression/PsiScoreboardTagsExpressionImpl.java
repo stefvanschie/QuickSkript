@@ -4,7 +4,6 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiScoreboardTagsExpression;
-import com.github.stefvanschie.quickskript.core.psi.util.PsiCollection;
 import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.Contract;
@@ -45,9 +44,7 @@ public class PsiScoreboardTagsExpressionImpl extends PsiScoreboardTagsExpression
     public void add(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
         Entity entity = this.entity.execute(environment, context, Entity.class);
 
-        PsiCollection.toStreamForgiving(object.execute(environment, context))
-            .map(Object::toString)
-            .forEach(entity::addScoreboardTag);
+        object.executeMulti(environment, context).forEach(obj -> entity.addScoreboardTag(obj.toString()));
     }
 
     @Override
@@ -59,9 +56,7 @@ public class PsiScoreboardTagsExpressionImpl extends PsiScoreboardTagsExpression
     public void remove(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
         Entity entity = this.entity.execute(environment, context, Entity.class);
 
-        PsiCollection.toStreamForgiving(object.execute(environment, context))
-            .map(Object::toString)
-            .forEach(entity::removeScoreboardTag);
+        object.executeMulti(environment, context).forEach(obj -> entity.removeScoreboardTag(obj.toString()));
     }
 
     @Override
@@ -75,9 +70,7 @@ public class PsiScoreboardTagsExpressionImpl extends PsiScoreboardTagsExpression
 
         entity.getScoreboardTags().clear();
 
-        PsiCollection.toStreamForgiving(object.execute(environment, context))
-            .map(Object::toString)
-            .forEach(entity::addScoreboardTag);
+        object.executeMulti(environment, context).forEach(obj -> entity.addScoreboardTag(obj.toString()));
     }
 
     /**

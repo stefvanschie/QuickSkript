@@ -1,17 +1,21 @@
 package com.github.stefvanschie.quickskript.core.psi.execution;
 
 import com.github.stefvanschie.quickskript.core.TestClassBase;
+import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiRandomNumberExpression;
 import com.github.stefvanschie.quickskript.core.psi.function.*;
 import com.github.stefvanschie.quickskript.core.psi.literal.PsiNumberLiteral;
-import com.github.stefvanschie.quickskript.core.psi.util.PsiCollection;
+import com.github.stefvanschie.quickskript.core.psi.util.MultiResult;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Constructor;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.BiFunction;
@@ -165,7 +169,25 @@ class PsiNumberExecutabilityTest extends TestClassBase {
 
         clazz -= biFunctions.size();
         return (PsiElement<Number>) collectionFunctions.get(clazz)
-            .newInstance(new PsiCollection<>(parameters, -1), -1);
+            .newInstance(new PsiElement<>(-1) {
+                {
+                    if (Arrays.stream(parameters).allMatch(PsiElement::isPreComputed)) {
+                        this.preComputed = executeImpl(null, null);
+                    }
+                }
+
+                @NotNull
+                @Contract(pure = true)
+                @Override
+                protected MultiResult<Number> executeImpl(
+                    @Nullable SkriptRunEnvironment environment,
+                    @Nullable Context context
+                ) {
+                    return new MultiResult<>(Arrays.stream(parameters)
+                        .map(element -> element.execute(null, null))
+                        .toArray(Number[]::new));
+                }
+            }, -1);
     }
 
 

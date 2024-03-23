@@ -5,13 +5,10 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiMessageEffect;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
-import com.github.stefvanschie.quickskript.core.psi.util.PsiCollection;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Objects;
 
 /**
  * Sends a message to a command sender or player. This effect will never be pre computed.
@@ -47,9 +44,9 @@ public class PsiMessageEffectImpl extends PsiMessageEffect {
             );
         }
 
-        Object object = Objects.requireNonNull(message.execute(environment, context));
         CommandSender finalReceiver = receiver;
-        PsiCollection.forEach(object, e -> finalReceiver.sendMessage(String.valueOf(e)), null);
+        message.executeMulti(environment, context).forEach(msg -> finalReceiver.sendMessage(msg.toString()));
+
         return null;
     }
 
