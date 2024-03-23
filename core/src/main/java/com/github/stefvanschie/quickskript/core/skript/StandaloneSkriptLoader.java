@@ -180,6 +180,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiIndexOfExpression.Factory());
         registerElement(new PsiIndicesExpression.Factory());
         registerElement(new PsiInfinityExpression.Factory());
+        registerElement(new PsiInitiatorInventoryExpression.Factory());
         registerElement(new PsiIPExpression.Factory());
         registerElement(new PsiJoinExpression.Factory());
         registerElement(new PsiJoinMessageExpression.Factory());
