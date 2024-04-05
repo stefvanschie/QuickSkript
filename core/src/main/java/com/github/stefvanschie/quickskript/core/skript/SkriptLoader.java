@@ -453,7 +453,8 @@ public abstract class SkriptLoader {
     @NotNull
     @Contract(pure = true)
     private Collection<? extends PsiElementFactory> getFactories(@NotNull Type[] types) {
-        Collection<PsiElementFactory> factories = new HashSet<>();
+        //use a list to respect the order in which the elements are registered
+        Collection<PsiElementFactory> factories = new ArrayList<>();
 
         for (Type type : types) {
             if (type == Type.OBJECT || type == Type.OBJECTS) {
@@ -556,7 +557,7 @@ public abstract class SkriptLoader {
         }
 
         if (!elements.containsKey(type)) {
-            elements.put(type, new HashSet<>());
+            elements.put(type, new ArrayList<>());
         }
 
         elements.get(type).add(factory);

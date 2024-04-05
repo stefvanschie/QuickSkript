@@ -288,6 +288,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiLengthExpression.Factory());
         registerElement(new PsiLevelExpressionImpl.Factory());
         registerElement(new PsiLevelProgressExpressionImpl.Factory());
+        registerElement(new PsiListExpression.Factory());
         registerElement(new PsiLoadedServerIconExpressionImpl.Factory());
         registerElement(new PsiLocationAtExpression.Factory());
         registerElement(new PsiMaxHealthExpressionImpl.Factory());
