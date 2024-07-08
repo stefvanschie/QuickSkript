@@ -148,6 +148,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiBukkitVersionExpression.Factory());
         registerElement(new PsiCapitalizationTextExpression.Factory());
         registerElement(new PsiChatMessageExpression.Factory());
+        registerElement(new PsiClickedInventoryExpression.Factory());
         registerElement(new PsiCommandExpression.Factory());
         registerElement(new PsiCommandSenderExpression.Factory());
         registerElement(new PsiConsoleSenderExpression.Factory());
