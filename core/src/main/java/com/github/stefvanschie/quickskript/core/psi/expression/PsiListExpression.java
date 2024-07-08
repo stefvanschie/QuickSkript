@@ -3,7 +3,10 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.psi.util.MultiResult;
+import com.github.stefvanschie.quickskript.core.psi.util.multiresult.MultiResult;
+import com.github.stefvanschie.quickskript.core.psi.util.multiresult.connective.Conjunction;
+import com.github.stefvanschie.quickskript.core.psi.util.multiresult.connective.Connective;
+import com.github.stefvanschie.quickskript.core.psi.util.multiresult.connective.Disjunction;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
@@ -32,7 +35,7 @@ public class PsiListExpression extends PsiElement<MultiResult<Object>> {
      * The connective between the elements of this list.
      */
     @NotNull
-    private final Connective connective; //TODO: use this
+    private final Connective connective;
 
     /**
      * Creates a new expression for a list of objects.
@@ -71,7 +74,7 @@ public class PsiListExpression extends PsiElement<MultiResult<Object>> {
             objects[index] = this.elements.get(index).execute(environment, context);
         }
 
-        return new MultiResult<>(objects);
+        return new MultiResult<>(objects, this.connective);
     }
 
     /**
@@ -96,7 +99,7 @@ public class PsiListExpression extends PsiElement<MultiResult<Object>> {
 
         outer:
             for (List<String> partition : partitions) {
-                Connective connective = Connective.CONJUNCTION;
+                Connective connective = Conjunction.INSTANCE;
                 List<PsiElement<?>> elements = new ArrayList<>();
 
                 for (String segment : partition) {
@@ -119,7 +122,7 @@ public class PsiListExpression extends PsiElement<MultiResult<Object>> {
                         }
 
                         if (element != null) {
-                            connective = Connective.CONJUNCTION;
+                            connective = Conjunction.INSTANCE;
                         }
                     } else if (segment.startsWith("or")) {
                         String noDelimiter = segment.substring("or".length()).trim();
@@ -134,7 +137,7 @@ public class PsiListExpression extends PsiElement<MultiResult<Object>> {
                         }
 
                         if (element != null) {
-                            connective = Connective.DISJUNCTION;
+                            connective = Disjunction.INSTANCE;
                         }
                     }
 
@@ -235,27 +238,5 @@ public class PsiListExpression extends PsiElement<MultiResult<Object>> {
         public Type getType() {
             return Type.OBJECTS;
         }
-    }
-
-    /**
-     * Indicates how the elements of the list interact.
-     *
-     * @since 0.1.0
-     */
-    private enum Connective {
-
-        /**
-         * The elements in the list form a conjunction.
-         *
-         * @since 0.1.0
-         */
-        CONJUNCTION,
-
-        /**
-         * The elements in the list form a disjunction.
-         *
-         * @since 0.1.0
-         */
-        DISJUNCTION
     }
 }

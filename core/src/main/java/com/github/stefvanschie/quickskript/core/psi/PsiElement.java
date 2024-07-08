@@ -2,7 +2,7 @@ package com.github.stefvanschie.quickskript.core.psi;
 
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.context.Context;
-import com.github.stefvanschie.quickskript.core.psi.util.MultiResult;
+import com.github.stefvanschie.quickskript.core.psi.util.multiresult.MultiResult;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -99,6 +99,37 @@ public abstract class PsiElement<T> {
         throw new ExecutionException("Result of " + getClass().getSimpleName() +
             " should be " + forcedResult.getSimpleName() + ", but it was " +
             (result == null ? "null" : result.getClass().getSimpleName()), lineNumber);
+    }
+
+    /**
+     * Returns a collection of elements. The elements are the result of executing this element. If the element already
+     * returned a {@link MultiResult}, this is returned verbatim. Otherwise, the result is wrapped in such a
+     * collection and then returned.
+     *
+     * @param environment the environment this code is being executed in, may be null
+     * @param context the context this code is being executed in, may be null
+     * @return a collection of elements
+     * @since 0.1.0
+     */
+    @NotNull
+    public final <R> MultiResult<R> executeMulti(
+        @Nullable SkriptRunEnvironment environment,
+        @Nullable Context context,
+        @NotNull Class<R> forcedResult
+    ) {
+        T element = execute(environment, context);
+
+        if (element instanceof MultiResult<?>) {
+            return (MultiResult<R>) element;
+        }
+
+        if (forcedResult.isInstance(element)) {
+            return new MultiResult<>(forcedResult.cast(element));
+        }
+
+        throw new ExecutionException("Result of " + getClass().getSimpleName() +
+            " should be " + forcedResult.getSimpleName() + ", but it was " +
+            (element == null ? "null" : element.getClass().getSimpleName()), lineNumber);
     }
 
     /**

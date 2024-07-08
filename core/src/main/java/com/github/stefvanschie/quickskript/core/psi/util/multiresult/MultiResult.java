@@ -1,10 +1,13 @@
-package com.github.stefvanschie.quickskript.core.psi.util;
+package com.github.stefvanschie.quickskript.core.psi.util.multiresult;
 
+import com.github.stefvanschie.quickskript.core.psi.util.multiresult.connective.Conjunction;
+import com.github.stefvanschie.quickskript.core.psi.util.multiresult.connective.Connective;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
@@ -22,6 +25,12 @@ public class MultiResult<T> implements Iterable<T> {
     private final Collection<T> elements;
 
     /**
+     * The connective between the elements of this list.
+     */
+    @NotNull
+    private final Connective connective;
+
+    /**
      * Creates a new multi result from a single element.
      *
      * @param element the element
@@ -29,16 +38,35 @@ public class MultiResult<T> implements Iterable<T> {
      */
     public MultiResult(@Nullable T element) {
         this.elements = Collections.singleton(element);
+        this.connective = Conjunction.INSTANCE;
     }
 
     /**
      * Creates a new multi result from an array of elements.
      *
      * @param elements the elements
+     * @param connective the connective between the elements
      * @since 0.1.0
      */
-    public MultiResult(@Nullable T[] elements) {
+    public MultiResult(@Nullable T[] elements, @NotNull Connective connective) {
         this.elements = Arrays.asList(elements);
+        this.connective = connective;
+    }
+
+    /**
+     * Tests whether the elements in this result pass the predicate according to the connective attached to this result.
+     * This method short-circuits.
+     *
+     * @param predicate the predicate the elements need to pass
+     * @return true if all elements pass the predicate
+     * @since 0.1.0
+     */
+    public boolean test(@NotNull Predicate<T> predicate) {
+        if (this.elements == null) {
+            throw new IllegalStateException("this.elements is null");
+        }
+
+        return this.connective.test(this.elements, predicate);
     }
 
     /**

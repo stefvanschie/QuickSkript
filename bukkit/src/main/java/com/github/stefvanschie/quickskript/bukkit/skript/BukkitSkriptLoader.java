@@ -176,6 +176,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         //conditions
         registerElement(new PsiCanBuildConditionImpl.Factory());
         registerElement(new PsiCanFlyConditionImpl.Factory());
+        registerElement(new PsiCanHoldConditionImpl.Factory());
         registerElement(new PsiCanSeeConditionImpl.Factory());
         registerElement(new PsiChanceCondition.Factory());
         registerElement(new PsiEndsWithCondition.Factory());

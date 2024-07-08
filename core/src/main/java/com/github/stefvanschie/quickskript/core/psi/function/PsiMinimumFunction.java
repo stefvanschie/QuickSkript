@@ -2,7 +2,7 @@ package com.github.stefvanschie.quickskript.core.psi.function;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
-import com.github.stefvanschie.quickskript.core.psi.util.MultiResult;
+import com.github.stefvanschie.quickskript.core.psi.util.multiresult.MultiResult;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;

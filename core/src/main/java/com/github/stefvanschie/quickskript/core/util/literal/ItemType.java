@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -103,5 +104,39 @@ public class ItemType {
     @Contract(pure = true)
     public Iterable<? extends ItemTypeRegistry.Entry> getItemTypeEntries() {
         return itemTypes;
+    }
+
+    /**
+     * Gets the enchantments applied to this item type. The returned collection is unmodifiable.
+     *
+     * @return the enchantments
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public Collection<? extends Enchantment> getEnchantments() {
+        return Collections.unmodifiableCollection(this.enchantments);
+    }
+
+    /**
+     * Gets the amount of this item
+     *
+     * @return the amount
+     * @since 0.1.0
+     */
+    @Contract(pure = true)
+    public int getAmount() {
+        return this.amount;
+    }
+
+    /**
+     * Gets whether this item type represents all items or just one.
+     *
+     * @return true if this represents all items, false if not.
+     * @since 0.1.0
+     */
+    @Contract(pure = true)
+    public boolean isAll() {
+        return this.all;
     }
 }

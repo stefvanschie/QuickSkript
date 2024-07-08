@@ -39,6 +39,29 @@ public class Enchantment {
     }
 
     /**
+     * Gets the type of this enchantment.
+     *
+     * @return the enchantment type
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public Type getType() {
+        return this.type;
+    }
+
+    /**
+     * Gets the level of this enchantment. If the level was not set, this returns 1.
+     *
+     * @return the level
+     * @since 0.1.0
+     */
+    @Contract(pure = true)
+    public int getLevel() {
+        return this.level == null ? 1 : this.level;
+    }
+
+    /**
      * Possible types of enchantments
      *
      * @since 0.1.0

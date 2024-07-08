@@ -7,7 +7,8 @@ import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiRandomNumberExpression;
 import com.github.stefvanschie.quickskript.core.psi.function.*;
 import com.github.stefvanschie.quickskript.core.psi.literal.PsiNumberLiteral;
-import com.github.stefvanschie.quickskript.core.psi.util.MultiResult;
+import com.github.stefvanschie.quickskript.core.psi.util.multiresult.MultiResult;
+import com.github.stefvanschie.quickskript.core.psi.util.multiresult.connective.Conjunction;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -185,7 +186,7 @@ class PsiNumberExecutabilityTest extends TestClassBase {
                 ) {
                     return new MultiResult<>(Arrays.stream(parameters)
                         .map(element -> element.execute(null, null))
-                        .toArray(Number[]::new));
+                        .toArray(Number[]::new), Conjunction.INSTANCE);
                 }
             }, -1);
     }
