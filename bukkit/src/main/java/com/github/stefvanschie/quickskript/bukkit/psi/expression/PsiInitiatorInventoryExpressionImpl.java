@@ -6,7 +6,7 @@ import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiInitiatorInventoryExpression;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import org.bukkit.event.Event;
-import org.bukkit.event.inventory.InventoryEvent;
+import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -39,14 +39,14 @@ public class PsiInitiatorInventoryExpressionImpl extends PsiInitiatorInventoryEx
 
         Event event = ((EventContextImpl) context).getEvent();
 
-        if (!(event instanceof InventoryEvent)) {
+        if (!(event instanceof InventoryMoveItemEvent)) {
             throw new ExecutionException(
                 "Unable to get initiatory inventory outside inventory events",
                 super.lineNumber
             );
         }
 
-        return ((InventoryEvent) event).getInventory();
+        return ((InventoryMoveItemEvent) event).getInitiator();
     }
 
     /**
