@@ -1,3 +1,5 @@
+:use util/global.alias
+
 [armor trim] = <
     (emerald|green) sentry :: {"minecraft:trim": {material: "minecraft:emerald", pattern: "minecraft:sentry"}},
     red[stone] sentry :: {"minecraft:trim": {material: "minecraft:redstone", pattern: "minecraft:sentry"}},

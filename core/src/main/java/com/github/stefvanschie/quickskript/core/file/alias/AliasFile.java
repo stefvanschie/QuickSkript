@@ -264,15 +264,40 @@ public class AliasFile {
 
                 Map<String, String> entries = new HashMap<>();
 
-                for (String entry : variation.toString().split(",")) {
-                    String[] parts = entry.split("::");
+                StringBuilder name = new StringBuilder();
+                StringBuilder data = new StringBuilder();
+                boolean first = true;
+                int inside = 0;
 
-                    if (parts.length != 2) {
-                        throw new AliasFileFormatException("Variation entry has no or more than one key separator");
+                int[] array = variation.codePoints().toArray();
+
+                for (int index = 0; index < array.length; index++) {
+                    int codePoint = array[index];
+
+                    if (codePoint == '(' || codePoint == '[' || codePoint == '{') {
+                        inside++;
+                    } else if (codePoint == ')' || codePoint == ']' || codePoint == '}') {
+                        inside--;
+                    } else if (codePoint == ',' && !first && inside == 0) {
+                        entries.put(name.toString().trim(), data.toString().trim());
+                        name = new StringBuilder();
+                        data = new StringBuilder();
+                        first = true;
+                        continue;
+                    } else if (codePoint == ':' && array[index + 1] == ':' && first && inside == 0) {
+                        first = false;
+                        index++;
+                        continue;
                     }
 
-                    entries.put(parts[0].trim(), parts[1].trim());
+                    if (first) {
+                        name.appendCodePoint(codePoint);
+                    } else {
+                        data.appendCodePoint(codePoint);
+                    }
                 }
+
+                entries.put(name.toString().trim(), data.toString().trim());
 
                 file.variations.put(variationName, new AliasFileVariation(entries, variationName, optional));
             }
