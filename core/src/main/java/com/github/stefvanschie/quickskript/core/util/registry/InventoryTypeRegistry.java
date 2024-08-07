@@ -66,6 +66,8 @@ public class InventoryTypeRegistry {
         addEntry(new Entry("cartography table inventory"));
         addEntry(new Entry("chest inventory"));
         addEntry(new Entry("chiseled bookshelf", "bookshelf"));
+        addEntry(new Entry("composter inventory"));
+        addEntry(new Entry("crafter inventory"));
         addEntry(new Entry("crafting table inventory"));
         addEntry(new Entry("creative inventory"));
         addEntry(new Entry("dispenser inventory"));
@@ -75,12 +77,13 @@ public class InventoryTypeRegistry {
         addEntry(new Entry("furnace inventory"));
         addEntry(new Entry("grindstone inventory"));
         addEntry(new Entry("hopper inventory"));
+        addEntry(new Entry("jukebox"));
         addEntry(new Entry("lectern inventory"));
         addEntry(new Entry("loom inventory"));
         addEntry(new Entry("merchant inventory", "villager inventory"));
-        addEntry(new Entry("new smithing table", "upgrade gear", "upgrade gear table"));
         addEntry(new Entry("player inventory"));
         addEntry(new Entry("shulker box inventory"));
+        addEntry(new Entry("new smithing table", "upgrade gear", "upgrade gear table"));
         addEntry(new Entry("smoker inventory"));
         addEntry(new Entry("stonecutter inventory"));
         addEntry(new Entry("workbench inventory"));

@@ -48,7 +48,9 @@ instant (spell|thrown potion)
 
 (witch (magic|spell)|purple spark)
 note [(of|with) [colo[u]r] %number%]
+ominous spawning
 [nether] portal
+raid omen
 (flying (glyph|letter)|enchantment table)
 (flame|fire)
 lava pop
@@ -64,6 +66,8 @@ void fog
 (small smoke|town aura)
 cloud
 [%-color%] [colo[u]red] dust
+%blockdata/itemtype% dust pillar
+dust plume
 snowball break
 
 water drip
@@ -72,6 +76,7 @@ lava drip
 (snow shovel|snow(man| golem) spawn)
 slime
 heart
+infested
 
 (angry villager|[villager] thundercloud)
 (happy villager|green spark)
@@ -79,6 +84,7 @@ heart
 large smoke
 
 %itemtype% item (break|crack)[ing]
+cobweb [item|particle]
 %itemtype% break[ing]
 
 [sprinting] dust of [%itemtype%]
@@ -111,7 +117,11 @@ damage indicator
 dragon[s] breath
 (mob appearance|guardian ghost)
 (suspended|underwater)
+vault connection
 sweep attack
+trial omen
+trial spawner detection
+ominous trial spawner detection
 
 water bubble
 water wake
@@ -123,6 +133,9 @@ landing honey
 
 falling nectar
 ash
+(%-blockdata/itemtype% break[ing]|[sprinting] dust of %-blockdata/itemtype%)
+%blockdata/itemtype% break[ing]
+[sprinting] dust of %blockdata/itemtype%
 crimson spore
 soul fire flame
 warped spore
@@ -133,7 +146,9 @@ landing obsidian tear
 
 soul
 reverse portal
+
 white ash
+white smoke
 
 light
 
@@ -141,6 +156,8 @@ falling spore blossom
 spore blossom air
 
 small flame
+small gust
+
 snowflake
 
 dripping dripstone lava
@@ -150,6 +167,11 @@ dripping dripstone water
 falling dripstone water
 
 glow squid ink
+
+gust
+large gust emitter
+small gust emitter
+
 glow
 
 wax on

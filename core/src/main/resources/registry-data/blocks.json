@@ -670,6 +670,7 @@
         "slot_4_occupied": ["false", "true"],
         "slot_5_occupied": ["false", "true"]
     },
+    "chiseled_copper": {},
     "chiseled_deepslate": {},
     "chiseled_nether_bricks": {},
     "chiseled_polished_blackstone": {},
@@ -677,6 +678,7 @@
     "chiseled_red_sandstone": {},
     "chiseled_sandstone": {},
     "chiseled_stone_bricks": {},
+    "chiseled_tuff": {},
     "chorus_flower": {
         "age": ["0", "1", "2", "3", "4", "5"]
     },
@@ -751,13 +753,37 @@
         "waterlogged": ["false", "true"]
     },
     "copper_block": {},
+    "copper_bulb": {
+        "lit": ["false", "true"],
+        "powered": ["false", "true"]
+    },
+    "copper_door": {
+        "facing": ["east", "north", "south", "west"],
+        "half": ["lower", "upper"],
+        "hinge": ["left", "right"],
+        "open": ["false", "true"],
+        "powered": ["false", "true"]
+    },
+    "copper_grate": {},
     "copper_ore": {},
+    "copper_trapdoor": {
+        "facing": ["east", "north", "south", "west"],
+        "half": ["bottom", "top"],
+        "open": ["false", "true"],
+        "powered": ["false", "true"],
+        "waterlogged": ["false", "true"]
+    },
     "cornflower": {},
     "cracked_deepslate_bricks": {},
     "cracked_deepslate_tiles": {},
     "cracked_nether_bricks": {},
     "cracked_polished_blackstone_bricks": {},
     "cracked_stone_bricks": {},
+    "crafter": {
+        "crafting": ["false", "true"],
+        "orientation": ["down_east", "down_north", "down_south", "down_west", "east_up", "north_up", "south_up", "up_east", "up_north", "up_south", "up_west", "west_up"],
+        "triggered": ["false", "true"]
+    },
     "crafting_table": {},
     "creeper_head": {
         "rotation": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"]
@@ -1190,7 +1216,27 @@
         "waterlogged": ["false", "true"],
         "west": ["low", "none", "tall"]
     },
+    "exposed_chiseled_copper": {},
     "exposed_copper": {},
+    "exposed_copper_bulb": {
+        "lit": ["false", "true"],
+        "powered": ["false", "true"]
+    },
+    "exposed_copper_door": {
+        "facing": ["east", "north", "south", "west"],
+        "half": ["lower", "upper"],
+        "hinge": ["left", "right"],
+        "open": ["false", "true"],
+        "powered": ["false", "true"]
+    },
+    "exposed_copper_grate": {},
+    "exposed_copper_trapdoor": {
+        "facing": ["east", "north", "south", "west"],
+        "half": ["bottom", "top"],
+        "open": ["false", "true"],
+        "powered": ["false", "true"],
+        "waterlogged": ["false", "true"]
+    },
     "exposed_cut_copper": {},
     "exposed_cut_copper_slab": {
         "type": ["bottom", "top", "double"],
@@ -1369,6 +1415,9 @@
     "hanging_roots": {},
     "hay_block": {
         "axis": ["x", "y", "z"]
+    },
+    "heavy_core": {
+        "waterlogged": ["false", "true"]
     },
     "heavy_weighted_pressure_plate": {
         "powered": ["false", "true"]
@@ -2057,7 +2106,27 @@
     },
     "orange_wool": {},
     "oxeye_daisy": {},
+    "oxidized_chiseled_copper": {},
     "oxidized_copper": {},
+    "oxidized_copper_bulb": {
+        "lit": ["false", "true"],
+        "powered": ["false", "true"]
+    },
+    "oxidized_copper_door": {
+        "facing": ["east", "north", "south", "west"],
+        "half": ["lower", "upper"],
+        "hinge": ["left", "right"],
+        "open": ["false", "true"],
+        "powered": ["false", "true"]
+    },
+    "oxidized_copper_grate": {},
+    "oxidized_copper_trapdoor": {
+        "facing": ["east", "north", "south", "west"],
+        "half": ["bottom", "top"],
+        "open": ["false", "true"],
+        "powered": ["false", "true"],
+        "waterlogged": ["false", "true"]
+    },
     "oxidized_cut_copper": {},
     "oxidized_cut_copper_slab": {
         "type": ["bottom", "top", "double"],
@@ -2258,6 +2327,7 @@
         "shape": ["inner_left", "inner_right", "outer_left", "outer_right", "straight"],
         "waterlogged": ["false", "true"]
     },
+    "polished_tuff": {},
     "poppy": {},
     "potatoes": {
         "age": ["0", "1", "2", "3", "4", "5", "6", "7"]
@@ -2911,6 +2981,10 @@
         "type": ["left", "right", "single"],
         "waterlogged": ["false", "true"]
     },
+    "trial_spawner": {
+        "ominous": ["false", "true"],
+        "trial_spawner_state": ["active", "cooldown", "ejecting_reward", "inactive", "waiting_for_players", "waiting_for_reward_ejection"]
+    },
     "tripwire": {
         "attached": ["false", "true"],
         "disarmed": ["false", "true"],
@@ -2937,6 +3011,25 @@
         "waterlogged": ["false", "true"]
     },
     "tuff": {},
+    "tuff_bricks": {},
+    "tuff_slab": {
+        "type": ["bottom", "top", "double"],
+        "waterlogged": ["false", "true"]
+    },
+    "tuff_stairs": {
+        "facing": ["east", "north", "south", "west"],
+        "half": ["bottom", "top"],
+        "shape": ["inner_left", "inner_right", "outer_left", "outer_right", "straight"],
+        "waterlogged": ["false", "true"]
+    },
+    "tuff_wall": {
+        "east": ["low", "none", "tall"],
+        "north": ["low", "none", "tall"],
+        "south": ["low", "none", "tall"],
+        "up": ["false", "true"],
+        "waterlogged": ["false", "true"],
+        "west": ["low", "none", "tall"]
+    },
     "turtle_egg": {
         "eggs": ["1", "2", "3", "4"],
         "hatch": ["0", "1", "2"]
@@ -2945,6 +3038,11 @@
         "age": ["0", "1", "2", "3", "4", "5", "6", "7", "8","9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25"]
     },
     "twisting_vines_plant": {},
+    "vault": {
+        "facing": ["east", "north", "south", "west"],
+        "ominous": ["false", "true"],
+        "vault_state": ["active", "ejecting", "inactive", "unlocking"]
+    },
     "verdant_froglight": {
         "axis": ["x", "y", "z"]
     },
@@ -3040,7 +3138,27 @@
     "water_cauldron": {
         "level": ["0", "1", "2", "3"]
     },
+    "waxed_chiseled_copper": {},
     "waxed_copper_block": {},
+    "waxed_copper_bulb": {
+        "lit": ["false", "true"],
+        "powered": ["false", "true"]
+    },
+    "waxed_copper_door": {
+        "facing": ["east", "north", "south", "west"],
+        "half": ["lower", "upper"],
+        "hinge": ["left", "right"],
+        "open": ["false", "true"],
+        "powered": ["false", "true"]
+    },
+    "waxed_copper_grate": {},
+    "waxed_copper_trapdoor": {
+        "facing": ["east", "north", "south", "west"],
+        "half": ["bottom", "top"],
+        "open": ["false", "true"],
+        "powered": ["false", "true"],
+        "waterlogged": ["false", "true"]
+    },
     "waxed_cut_copper": {},
     "waxed_cut_copper_slab": {
         "type": ["bottom", "top", "double"],
@@ -3052,7 +3170,27 @@
         "shape": ["inner_left", "inner_right", "outer_left", "outer_right", "straight"],
         "waterlogged": ["false", "true"]
     },
+    "waxed_exposed_chiseled_copper": {},
     "waxed_exposed_copper": {},
+    "waxed_exposed_copper_bulb": {
+        "lit": ["false", "true"],
+        "powered": ["false", "true"]
+    },
+    "waxed_exposed_copper_door": {
+        "facing": ["east", "north", "south", "west"],
+        "half": ["lower", "upper"],
+        "hinge": ["left", "right"],
+        "open": ["false", "true"],
+        "powered": ["false", "true"]
+    },
+    "waxed_exposed_copper_grate": {},
+    "waxed_exposed_copper_trapdoor": {
+        "facing": ["east", "north", "south", "west"],
+        "half": ["bottom", "top"],
+        "open": ["false", "true"],
+        "powered": ["false", "true"],
+        "waterlogged": ["false", "true"]
+    },
     "waxed_exposed_cut_copper": {},
     "waxed_exposed_cut_copper_slab": {
         "type": ["bottom", "top", "double"],
@@ -3064,7 +3202,27 @@
         "shape": ["inner_left", "inner_right", "outer_left", "outer_right", "straight"],
         "waterlogged": ["false", "true"]
     },
+    "waxed_oxidized_chiseled_copper": {},
     "waxed_oxidized_copper": {},
+    "waxed_oxidized_copper_bulb": {
+        "lit": ["false", "true"],
+        "powered": ["false", "true"]
+    },
+    "waxed_oxidized_copper_door": {
+        "facing": ["east", "north", "south", "west"],
+        "half": ["lower", "upper"],
+        "hinge": ["left", "right"],
+        "open": ["false", "true"],
+        "powered": ["false", "true"]
+    },
+    "waxed_oxidized_copper_grate": {},
+    "waxed_oxidized_copper_trapdoor": {
+        "facing": ["east", "north", "south", "west"],
+        "half": ["bottom", "top"],
+        "open": ["false", "true"],
+        "powered": ["false", "true"],
+        "waterlogged": ["false", "true"]
+    },
     "waxed_oxidized_cut_copper": {},
     "waxed_oxidized_cut_copper_slab": {
         "type": ["bottom", "top", "double"],
@@ -3076,7 +3234,27 @@
         "shape": ["inner_left", "inner_right", "outer_left", "outer_right", "straight"],
         "waterlogged": ["false", "true"]
     },
+    "waxed_weathered_chiseled_copper": {},
     "waxed_weathered_copper": {},
+    "waxed_weathered_copper_bulb": {
+        "lit": ["false", "true"],
+        "powered": ["false", "true"]
+    },
+    "waxed_weathered_copper_door": {
+        "facing": ["east", "north", "south", "west"],
+        "half": ["lower", "upper"],
+        "hinge": ["left", "right"],
+        "open": ["false", "true"],
+        "powered": ["false", "true"]
+    },
+    "waxed_weathered_copper_grate": {},
+    "waxed_weathered_copper_trapdoor": {
+        "facing": ["east", "north", "south", "west"],
+        "half": ["bottom", "top"],
+        "open": ["false", "true"],
+        "powered": ["false", "true"],
+        "waterlogged": ["false", "true"]
+    },
     "waxed_weathered_cut_copper": {},
     "waxed_weathered_cut_copper_slab": {
         "type": ["bottom", "top", "ceiling"],
@@ -3088,7 +3266,27 @@
         "shape": ["inner_left", "inner_right", "outer_left", "outer_right", "straight"],
         "waterlogged": ["false", "true"]
     },
+    "weathered_chiseled_copper": {},
     "weathered_copper": {},
+    "weathered_copper_bulb": {
+        "lit": ["false", "true"],
+        "powered": ["false", "true"]
+    },
+    "weathered_copper_door": {
+        "facing": ["east", "north", "south", "west"],
+        "half": ["lower", "upper"],
+        "hinge": ["left", "right"],
+        "open": ["false", "true"],
+        "powered": ["false", "true"]
+    },
+    "weathered_copper_grate": {},
+    "weathered_copper_trapdoor": {
+        "facing": ["east", "north", "south", "west"],
+        "half": ["bottom", "top"],
+        "open": ["false", "true"],
+        "powered": ["false", "true"],
+        "waterlogged": ["false", "true"]
+    },
     "weathered_cut_copper": {},
     "weathered_cut_copper_slab": {
         "type": ["bottom", "top", "ceiling"],

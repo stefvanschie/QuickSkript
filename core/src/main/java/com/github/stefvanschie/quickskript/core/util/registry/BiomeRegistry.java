@@ -111,7 +111,7 @@ public class BiomeRegistry {
         addEntry(new Entry("stony peaks"));
         addEntry(new Entry("stony shore", "stone shore"));
         addEntry(new Entry("sunflower plains"));
-        addEntry(new Entry("swampland, swamp, marsh"));
+        addEntry(new Entry("swampland", "swamp", "marsh"));
         addEntry(new Entry("taiga"));
         addEntry(new Entry("sky", "the end"));
         addEntry(new Entry("void", "the void"));

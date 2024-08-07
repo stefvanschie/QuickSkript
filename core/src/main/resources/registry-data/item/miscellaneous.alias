@@ -10,17 +10,17 @@
     [pile of] four :: [eggs=4]
 >
 [beacon level] = <
-    (level (0|zero)|unleveled) :: {Levels:0},
-    level (1|one) :: {Levels:1},
-    level (2|two) :: {Levels:2},
-    level (3|three) :: {Levels:3},
-    (level (4|four)|complete[d]) :: {Levels:4}
+    (level (0|zero)|unleveled) :: {"minecraft:block_entity_data": {Levels: 0, id: "minecraft:beacon"}},
+    level (1|one) :: {"minecraft:block_entity_data": {Levels: 1, id: "minecraft:beacon"}},
+    level (2|two) :: {"minecraft:block_entity_data": {Levels: 2, id: "minecraft:beacon"}},
+    level (3|three) :: {"minecraft:block_entity_data": {Levels: 3, id: "minecraft:beacon"}},
+    (level (4|four)|complete[d]) :: {"minecraft:block_entity_data": {Levels: 4, id: "minecraft:beacon"}}
 >
 [firework duration] = <
-    (0|zero|immediate) :: {Fireworks:{Flight:0}},
-    (1|one|short) :: {Fireworks:{Flight:1}},
-    (2|two|medium) :: {Fireworks:{Flight:2}},
-    (3|three|long) :: {Fireworks:{Flight:3}}
+    (0|zero|immediate) :: {"minecraft:fireworks": {flight_duration: 0}},
+    (1|one|short) :: {"minecraft:fireworks": {flight_duration: 1}},
+    (2|two|medium) :: {"minecraft:fireworks": {flight_duration: 2}},
+    (3|three|long) :: {"minecraft:fireworks": {flight_duration: 3}}
 >
 [composter stage] = <
     (empty|unfilled|level 0) :: [level=0],
@@ -53,14 +53,14 @@
     (many berries|very berried) :: [age=3]
 >
 [horn variation] = <
-    ponder :: [instrument=minecraft:ponder_goat_horn],
-    sing :: [instrument=minecraft:sing_goat_horn],
-    seek :: [instrument=minecraft:seek_goat_horn],
-    feel :: [instrument=minecraft:feel_goat_horn],
-    admire :: [instrument=minecraft:admire_goat_horn],
-    call :: [instrument=minecraft:call_goat_horn],
-    yearn :: [instrument=minecraft:yearn_goat_horn],
-    dream :: [instrument=minecraft:dream_goat_horn]
+    ponder :: {"minecraft:instrument": "minecraft:ponder_goat_horn"},
+    sing :: {"minecraft:instrument": "minecraft:sing_goat_horn"},
+    seek :: {"minecraft:instrument": "minecraft:seek_goat_horn"},
+    feel :: {"minecraft:instrument": "minecraft:feel_goat_horn"},
+    admire :: {"minecraft:instrument": "minecraft:admire_goat_horn"},
+    call :: {"minecraft:instrument": "minecraft:call_goat_horn"},
+    yearn :: {"minecraft:instrument": "minecraft:yearn_goat_horn"},
+    dream :: {"minecraft:instrument": "minecraft:dream_goat_horn"}
 >
 [sniffer egg hatches] = <
     (stage 1|hatch 0) :: [hatch=0],
@@ -88,7 +88,7 @@ iron nugget[s] : any nugget[s] -> minecraft:iron_nugget
 charcoal -> minecraft:charcoal
 sugar cane[s] -> minecraft:sugar_cane
 conduit[s] -> minecraft:conduit
-[turtle [shell]] scute[s] -> minecraft:scute
+[turtle [shell]] scute[s] -> minecraft:turtle_scute
 kelp -> minecraft:kelp
 nautilus shell[s] -> minecraft:nautilus_shell
 heart[s] of the sea -> minecraft:heart_of_the_sea
@@ -213,6 +213,7 @@ cocoa bean[s] -> minecraft:cocoa_beans
 (guardian [spawn] egg|spawn guardian)[s] : [any] spawn egg[s] -> minecraft:guardian_spawn_egg
 (horse [spawn] egg|spawn horse)[s] : [any] spawn egg[s] -> minecraft:horse_spawn_egg
 (husk [spawn] egg|spawn husk)[s] : [any] spawn egg[s] -> minecraft:husk_spawn_egg
+(iron golem [spawn] egg|spawn iron golem)[s] : [any] spawn egg[s] -> minecraft:iron_golem_spawn_egg
 (llama [spawn] egg|spawn llama)[s] : [any] spawn egg[s] -> minecraft:llama_spawn_egg
 (magma cube [spawn] egg|spawn magma cube)[s] : [any] spawn egg[s] -> minecraft:magma_cube_spawn_egg
 ((mooshroom|mushroom cow) [spawn] egg|spawn (mooshroom|mushroom cow))[s] : [any] spawn egg[s] -> minecraft:mooshroom_spawn_egg
@@ -231,6 +232,7 @@ cocoa bean[s] -> minecraft:cocoa_beans
 (skeleton [spawn] egg|spawn skeleton)[s] : [any] spawn egg[s] -> mincraft:skeleton_spawn_egg
 (skelet(on|al) horse [spawn] egg|spawn skelet(on|al) horse)[s] : [any] spawn egg[s] -> minecraft:skeleton_horse_spawn_egg
 (slime [spawn] egg|spawn slime)[s] : [any] spawn egg[s] -> minecraft:slime_spawn_egg
+(snow golem [spawn] egg|spawn snow golem)[s] : [any] spawn egg[s] -> minecraft:snow_golem_spawn_egg
 (spider [spawn] egg|spawn spider)[s] : [any] spawn egg[s] -> minecraft:spider_spawn_egg
 (squid [spawn] egg|spawn squid)[s] : [any] spawn egg[s] -> minecraft:squid_spawn_egg
 (stray [spawn] egg|spawn stray)[s] : [any] spawn egg[s] -> minecraft:stray_spawn_egg
