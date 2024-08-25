@@ -70,7 +70,7 @@ public class PsiConsoleSenderExpression extends PsiElement<Object> {
         @Contract(pure = true)
         @Override
         public Type getType() {
-            return Type.OBJECT;
+            return Type.COMMAND_SENDER;
         }
     }
 }

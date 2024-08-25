@@ -75,7 +75,7 @@ public class PsiPlayerLiteral extends PsiElement<Object> {
         @Contract(pure = true)
         @Override
         public Type getType() {
-            return Type.OBJECT;
+            return Type.PLAYER;
         }
     }
 }

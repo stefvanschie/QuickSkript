@@ -6,8 +6,6 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.parallel.Execution;
-import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import java.io.File;
 import java.net.URL;
@@ -16,7 +14,6 @@ import java.net.URL;
  * A base class for each test in this project.
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Execution(ExecutionMode.CONCURRENT)
 public abstract class TestClassBase {
 
     private StandaloneSkriptLoader skriptLoader;

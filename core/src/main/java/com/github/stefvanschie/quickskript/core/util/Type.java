@@ -317,14 +317,26 @@ public enum Type {
      *
      * @since 0.1.0
      */
-    LIVING_ENTITY("living[ ]entity"),
+    LIVING_ENTITY("living[ ]entity") {
+        @Override
+        @Contract(pure = true)
+        public @NotNull Type @NotNull [] getSubtypes() {
+            return new Type[] {Type.PLAYER};
+        }
+    },
 
     /**
      * Multiple living entites.
      *
      * @since 0.1.0
      */
-    LIVING_ENTITIES("living[ ]entities", LIVING_ENTITY),
+    LIVING_ENTITIES("living[ ]entities", LIVING_ENTITY) {
+        @Override
+        @Contract(pure = true)
+        public @NotNull Type @NotNull [] getSubtypes() {
+            return new Type[] {Type.PLAYERS};
+        }
+    },
 
     /**
      * A single location.
@@ -359,14 +371,59 @@ public enum Type {
      *
      * @since 0.1.0
      */
-    OBJECT("object"),
+    OBJECT("object") {
+        @Override
+        @Contract(pure = true)
+        public @NotNull Type @NotNull [] getSubtypes() {
+            return new Type[] {
+                BIOME, BLOCK_DATA, BOOLEAN,
+                CAT_TYPE, CLICK_TYPE, COLOR, COMMAND_SENDER,
+                DAMAGE_CAUSE, DATE, DIRECTION,
+                ENCHANTMENT, ENTITY, ENTITY_TYPE, EXPERIENCE_POINT,
+                FIREWORK_TYPE,
+                GAME_MODE, GENE,
+                INVENTORY, INVENTORY_ACTION, INVENTORY_TYPE, ITEM,
+                LIVING_ENTITY, LOCATION,
+                NUMBER,
+                OFFLINE_PLAYER,
+                PLAYER,
+                REGION, RESOURCE_PACK_STATUS,
+                SOUND_CATEGORY, SPAWN_REASON, STATUS_EFFECT_TYPE,
+                TEXT, TELEPORT_CAUSE, TIME, TIME_PERIOD, TIME_SPAN, TREE_TYPE, TYPE,
+                VISUAL_EFFECT,
+                WEATHER_TYPE, WORLD
+            };
+        }
+    },
 
     /**
      * Multiple objects.
      *
      * @since 0.1.0
      */
-    OBJECTS("objects", OBJECT),
+    OBJECTS("objects", OBJECT) {
+        @Override
+        @Contract(pure = true)
+        public @NotNull Type @NotNull [] getSubtypes() {
+            return new Type[] {
+                BIOMES, BLOCK_DATAS, BOOLEANS,
+                CAT_TYPES, CLICK_TYPES, COLORS, COMMAND_SENDERS,
+                DAMAGE_CAUSES, DATES, DIRECTIONS,
+                ENCHANTMENTS, ENTITIES, ENTITY_TYPES, EXPERIENCE_POINTS,
+                FIREWORK_TYPES,
+                GAME_MODES, GENES,
+                INVENTORIES, INVENTORY_ACTIONS, INVENTORY_TYPES, ITEM_TYPES,
+                LIVING_ENTITIES, LOCATIONS,
+                NUMBERS,
+                OFFLINE_PLAYERS,
+                PLAYERS,
+                REGIONS, RESOURCE_PACK_STATUSES,
+                SOUND_CATEGORIES, SPAWN_REASONS, STATUS_EFFECT_TYPES,
+                TEXTS, TELEPORT_CAUSES, TIMES, TIME_PERIODS, TIME_SPANS, TREE_TYPES, TYPES,
+                WEATHER_TYPES, WORLDS
+            };
+        }
+    },
 
     /**
      * A single offline player.
@@ -663,6 +720,21 @@ public enum Type {
     @Contract(pure = true)
     public Type getSingular() {
         return singular;
+    }
+
+    /**
+     * Gets an array of all the strict subtypes this type includes. This array should contain all nested subtypes as
+     * well. For example, if type A has type B as a subtype and type B has type C as a subtype, this method should
+     * return an array containing types B and C for type A. The plurality of the types should match. For example, for a
+     * plural type A, with subtype B, the method should return the plural type B. It should not return the singular type
+     * B.
+     *
+     * @return an array of subtypes
+     * @since 0.1.0
+     */
+    @Contract(pure = true)
+    public @NotNull Type @NotNull [] getSubtypes() {
+        return new Type[0];
     }
 
     /**

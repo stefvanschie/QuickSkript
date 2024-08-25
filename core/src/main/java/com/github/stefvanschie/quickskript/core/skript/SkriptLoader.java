@@ -135,14 +135,14 @@ public abstract class SkriptLoader {
      * Returns null if no element was found.
      *
      * @param input the text to be parsed
-     * @param inputTypes the input types to parse for
+     * @param inputTypes the input types to parse for or null if all types are allowed
      * @param lineNumber the line number of the element which will potentially be parsed
      * @return the parsed psi element, or null if none were found
      * @since 0.1.0
      */
     @Nullable
     @Contract(pure = true)
-    public PsiElement<?> tryParseElement(@NotNull String input, @NotNull Type[] inputTypes, int lineNumber) {
+    public PsiElement<?> tryParseElement(@NotNull String input, @NotNull Type @Nullable [] inputTypes, int lineNumber) {
         input = input.trim();
 
         for (PsiElementFactory factory : getFactories(inputTypes)) {
@@ -402,7 +402,7 @@ public abstract class SkriptLoader {
      */
     @Nullable
     @Contract(pure = true)
-    public PsiElement<?> tryParseElement(@NotNull String input, Type type, int lineNumber) {
+    public PsiElement<?> tryParseElement(@NotNull String input, @NotNull Type type, int lineNumber) {
         return tryParseElement(input, new Type[] {type}, lineNumber);
     }
 
@@ -418,7 +418,7 @@ public abstract class SkriptLoader {
     @Nullable
     @Contract(pure = true)
     public PsiElement<?> tryParseElement(@NotNull String input, int lineNumber) {
-        return tryParseElement(input, Type.OBJECT, lineNumber);
+        return tryParseElement(input, (Type[]) null, lineNumber);
     }
 
     /**
@@ -452,29 +452,32 @@ public abstract class SkriptLoader {
      */
     @NotNull
     @Contract(pure = true)
-    private Collection<? extends PsiElementFactory> getFactories(@NotNull Type[] types) {
+    private Collection<? extends PsiElementFactory> getFactories(@NotNull Type @Nullable [] types) {
         //use a list to respect the order in which the elements are registered
         Collection<PsiElementFactory> factories = new ArrayList<>();
 
-        for (Type type : types) {
-            if (type == Type.OBJECT || type == Type.OBJECTS) {
-                for (Map.Entry<Type, Collection<PsiElementFactory>> entry : elements.entrySet()) {
-                    factories.addAll(entry.getValue());
-                }
-
-                //everything is in the collection, everything else we would add would already be in there
-                return factories;
+        if (types == null) {
+            for (Collection<PsiElementFactory> factoryCollection : this.elements.values()) {
+                factories.addAll(factoryCollection);
             }
 
+            return factories;
+        }
+
+        Collection<Type> allTypes = new HashSet<>();
+
+        for (Type type : types) {
+            allTypes.add(type);
+            allTypes.addAll(Set.of(type.getSubtypes()));
+        }
+
+        for (Type type : allTypes) {
             factories.addAll(elements.getOrDefault(type, Collections.emptySet()));
 
             if (type.getSingular() != null) {
                 factories.addAll(elements.getOrDefault(type.getSingular(), Collections.emptySet()));
             }
         }
-
-        factories.addAll(elements.getOrDefault(Type.OBJECT, Collections.emptySet()));
-        factories.addAll(elements.getOrDefault(Type.OBJECTS, Collections.emptySet()));
 
         return factories;
     }
