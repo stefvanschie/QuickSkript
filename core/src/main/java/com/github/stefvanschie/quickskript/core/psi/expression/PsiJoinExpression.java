@@ -5,11 +5,8 @@ import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.util.Type;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
-import com.github.stefvanschie.quickskript.core.util.text.TextPart;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -22,7 +19,7 @@ import java.util.List;
  *
  * @since 0.1.0
  */
-public class PsiJoinExpression extends PsiElement<Text> {
+public class PsiJoinExpression extends PsiElement<String> {
 
     /**
      * The texts to join together
@@ -59,29 +56,24 @@ public class PsiJoinExpression extends PsiElement<Text> {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Text executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
-        List<Text> texts = new ArrayList<>();
+    protected String executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        List<String> texts = new ArrayList<>();
 
-        this.texts.executeMulti(environment, context).forEach(e -> {
-            if (!(e instanceof Text)) {
-                throw new ExecutionException("Can only join text(s)", lineNumber);
-            }
-            texts.add((Text) e);
-        });
+        this.texts.executeMulti(environment, context).forEach(e -> texts.add(e.toString()));
 
         if (texts.isEmpty()) {
-            return Text.empty();
+            return "";
         }
 
-        Text delimiter = this.delimiter == null ? Text.parseLiteral(", ") : this.delimiter.execute(environment, context, Text.class);
-        List<TextPart> parts = new ArrayList<>(texts.get(0).getParts());
+        String delimiter = this.delimiter == null ? ", " : this.delimiter.execute(environment, context, String.class);
+        StringBuilder parts = new StringBuilder(texts.get(0));
 
         for (int index = 1; index < texts.size(); index++) {
-            parts.addAll(delimiter.getParts());
-            parts.addAll(texts.get(index).getParts());
+            parts.append(delimiter);
+            parts.append(texts.get(index));
         }
 
-        return new Text(parts);
+        return parts.toString();
     }
 
     /**

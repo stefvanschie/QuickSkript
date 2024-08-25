@@ -5,7 +5,6 @@ import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.function.PsiWorldFunction;
 import com.github.stefvanschie.quickskript.core.util.literal.World;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,7 +29,7 @@ public class PsiWorldFunctionImpl extends PsiWorldFunction {
     @Nullable
     @Override
     public World executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
-        return new World(parameter.execute(environment, context, Text.class).toString());
+        return new World(parameter.execute(environment, context, String.class));
     }
 
     /**

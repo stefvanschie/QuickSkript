@@ -8,7 +8,6 @@ import com.github.stefvanschie.quickskript.core.context.EventContext;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiVersionStringExpression;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -34,7 +33,7 @@ public class PsiVersionStringExpressionImpl extends PsiVersionStringExpression {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Text executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+    protected String executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         if (!(context instanceof EventContext)) {
             throw new ExecutionException("Version string expression can only be executed inside an event", lineNumber);
         }
@@ -46,7 +45,7 @@ public class PsiVersionStringExpressionImpl extends PsiVersionStringExpression {
                 lineNumber);
         }
 
-        return Text.parseLiteral(((PaperServerListPingEvent) event).getVersion());
+        return ((PaperServerListPingEvent) event).getVersion();
     }
 
     @Override
@@ -62,7 +61,7 @@ public class PsiVersionStringExpressionImpl extends PsiVersionStringExpression {
                 lineNumber);
         }
 
-        ((PaperServerListPingEvent) event).setVersion(object.execute(environment, context, Text.class).toString());
+        ((PaperServerListPingEvent) event).setVersion(object.execute(environment, context, String.class));
     }
 
     /**

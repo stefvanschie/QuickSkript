@@ -7,7 +7,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.util.Type;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -17,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
  *
  * @since 0.1.0
  */
-public class PsiSplitExpression extends PsiElement<Text[]> {
+public class PsiSplitExpression extends PsiElement<String[]> {
 
     /**
      * The text to split
@@ -54,16 +53,10 @@ public class PsiSplitExpression extends PsiElement<Text[]> {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Text[] executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
-        String splitPattern = java.util.regex.Pattern.quote(delimiter.execute(environment, context, Text.class).toString());
-        String[] splits = text.execute(environment, context, Text.class).toString().split(splitPattern);
-        Text[] texts = new Text[splits.length];
+    protected String[] executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        String splitPattern = java.util.regex.Pattern.quote(delimiter.execute(environment, context, String.class));
 
-        for (int i = 0; i < splits.length; i++) {
-            texts[i] = Text.parse(splits[i]);
-        }
-
-        return texts;
+        return text.execute(environment, context, String.class).split(splitPattern);
     }
 
     /**

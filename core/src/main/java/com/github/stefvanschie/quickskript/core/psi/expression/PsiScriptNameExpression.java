@@ -8,7 +8,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.util.Type;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -18,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
  *
  * @since 0.1.0
  */
-public class PsiScriptNameExpression extends PsiElement<Text> {
+public class PsiScriptNameExpression extends PsiElement<String> {
 
     /**
      * Creates a new element with the given line number
@@ -32,12 +31,12 @@ public class PsiScriptNameExpression extends PsiElement<Text> {
 
     @Nullable
     @Override
-    protected Text executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+    protected String executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         if (context == null) {
             throw new ExecutionException("Cannot get script name without context", lineNumber);
         }
 
-        return Text.parseLiteral(context.getSkript().getName());
+        return context.getSkript().getName();
     }
 
     /**

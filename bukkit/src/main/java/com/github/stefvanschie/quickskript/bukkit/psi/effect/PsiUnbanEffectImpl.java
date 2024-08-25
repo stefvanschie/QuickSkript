@@ -5,7 +5,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiUnbanEffect;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -39,7 +38,7 @@ public class PsiUnbanEffectImpl extends PsiUnbanEffect {
         Object object = this.object.execute(environment, context);
         BanList banList = Bukkit.getBanList(ipBan ? BanList.Type.IP : BanList.Type.NAME);
 
-        if (object instanceof Text) {
+        if (object instanceof String) {
             banList.pardon(object.toString());
         } else if (object instanceof OfflinePlayer) {
             String name = ((OfflinePlayer) object).getName();

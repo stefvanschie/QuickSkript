@@ -6,7 +6,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.*;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.util.Type;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,7 +16,7 @@ import java.util.Collection;
  *
  * @since 0.1.0
  */
-public class PsiHoverListExpression extends PsiElement<Collection<Text>> implements Addable, Deletable, Removable,
+public class PsiHoverListExpression extends PsiElement<Collection<String>> implements Addable, Deletable, Removable,
     Resettable, Settable {
 
     /**

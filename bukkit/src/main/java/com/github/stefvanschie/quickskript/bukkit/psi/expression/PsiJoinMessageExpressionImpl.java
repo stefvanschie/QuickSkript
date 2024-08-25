@@ -7,7 +7,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiJoinMessageExpression;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.jetbrains.annotations.Contract;
@@ -31,10 +30,10 @@ public class PsiJoinMessageExpressionImpl extends PsiJoinMessageExpression {
         super(lineNumber);
     }
 
-    @NotNull
+    @Nullable
     @Contract(pure = true)
     @Override
-    protected Text executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+    protected String executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         if (!(context instanceof EventContext)) {
             throw new ExecutionException("Join message can only be retrieved from an event", lineNumber);
         }
@@ -45,7 +44,7 @@ public class PsiJoinMessageExpressionImpl extends PsiJoinMessageExpression {
             throw new ExecutionException("Join message can only be retrieved from a join event", lineNumber);
         }
 
-        return Text.parseNullable(((PlayerJoinEvent) event).getJoinMessage());
+        return ((PlayerJoinEvent) event).getJoinMessage();
     }
 
     @Override
@@ -60,7 +59,7 @@ public class PsiJoinMessageExpressionImpl extends PsiJoinMessageExpression {
             throw new ExecutionException("Join message can only be retrieved from a join event", lineNumber);
         }
 
-        ((PlayerJoinEvent) event).setJoinMessage(object.execute(environment, context, Text.class).toString());
+        ((PlayerJoinEvent) event).setJoinMessage(object.execute(environment, context, String.class));
     }
 
     /**

@@ -7,7 +7,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiDisplayedMOTDExpression;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.server.ServerListPingEvent;
@@ -35,7 +34,7 @@ public class PsiDisplayedMOTDExpressionImpl extends PsiDisplayedMOTDExpression {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Text executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+    protected String executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         if (!(context instanceof EventContext)) {
             throw new ExecutionException("Expression can only be executed from an event", lineNumber);
         }
@@ -46,7 +45,7 @@ public class PsiDisplayedMOTDExpressionImpl extends PsiDisplayedMOTDExpression {
             throw new ExecutionException("Expression can only be executed from a ping event", lineNumber);
         }
 
-        return Text.parse(((ServerListPingEvent) event).getMotd());
+        return ((ServerListPingEvent) event).getMotd();
     }
 
     @Override
@@ -91,7 +90,7 @@ public class PsiDisplayedMOTDExpressionImpl extends PsiDisplayedMOTDExpression {
             throw new ExecutionException("Expression can only be executed from a ping event", lineNumber);
         }
 
-        ((ServerListPingEvent) event).setMotd(object.execute(environment, context, Text.class).toString());
+        ((ServerListPingEvent) event).setMotd(object.execute(environment, context, String.class));
     }
 
     /**

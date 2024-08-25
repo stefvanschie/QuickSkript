@@ -7,7 +7,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.util.Type;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -52,7 +51,7 @@ public class PsiIsAlphanumericCondition extends PsiElement<Boolean> {
     @NotNull
     @Override
     protected Boolean executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
-        String text = this.text.execute(environment, context, Text.class).toString();
+        String text = this.text.execute(environment, context, String.class);
 
         if (text.isEmpty()) {
             return !this.positive;

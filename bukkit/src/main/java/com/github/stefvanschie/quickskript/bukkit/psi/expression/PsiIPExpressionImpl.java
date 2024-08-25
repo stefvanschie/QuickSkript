@@ -7,7 +7,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiIPExpression;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -40,7 +39,7 @@ public class PsiIPExpressionImpl extends PsiIPExpression {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Text executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+    protected String executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         InetAddress inetAddress;
 
         if (player == null) {
@@ -67,7 +66,7 @@ public class PsiIPExpressionImpl extends PsiIPExpression {
             inetAddress = address.getAddress();
         }
 
-        return Text.parseLiteral(inetAddress.getHostAddress());
+        return inetAddress.getHostAddress();
     }
 
     /**

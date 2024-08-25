@@ -7,7 +7,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.util.Type;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -19,7 +18,7 @@ import java.util.Locale;
  *
  * @since 0.1.0
  */
-public class PsiCapitalizationTextExpression extends PsiElement<Text> {
+public class PsiCapitalizationTextExpression extends PsiElement<String> {
 
     /**
      * The capitalization to change the text to
@@ -56,8 +55,8 @@ public class PsiCapitalizationTextExpression extends PsiElement<Text> {
 
     @Nullable
     @Override
-    protected Text executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
-        String text = this.text.execute(environment, context, Text.class).toString();
+    protected String executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        String text = this.text.execute(environment, context, String.class);
         Locale locale = Locale.getDefault();
         StringBuilder newText = new StringBuilder(text.length());
 
@@ -78,7 +77,7 @@ public class PsiCapitalizationTextExpression extends PsiElement<Text> {
             newText.setLength(newText.length() - 1);
         }
 
-        return Text.parse(newText.toString());
+        return newText.toString();
     }
 
     /**

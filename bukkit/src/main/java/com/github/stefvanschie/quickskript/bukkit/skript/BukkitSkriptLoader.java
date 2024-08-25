@@ -58,7 +58,6 @@ import com.github.stefvanschie.quickskript.core.util.literal.WeatherType;
 import com.github.stefvanschie.quickskript.core.util.literal.World;
 import com.github.stefvanschie.quickskript.core.util.registry.EntityTypeRegistry;
 import com.github.stefvanschie.quickskript.core.util.registry.ItemTypeRegistry;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import io.papermc.paper.event.entity.EntityMoveEvent;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.*;
@@ -919,7 +918,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                     if (elements.length > 0) {
                         Object object = elements[0].execute(null, null);
 
-                        if (!(object instanceof Text)) {
+                        if (!(object instanceof String)) {
                             continue;
                         }
 
@@ -1357,7 +1356,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
 
                     Object object = elements[0].execute(null, null);
 
-                    if (!(object instanceof Text)) {
+                    if (!(object instanceof String)) {
                         continue;
                     }
 
@@ -1846,7 +1845,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         String description = getFileLineValue(lines, "description:",
             "Command " + commandName + " has multiple valid descriptions");
         if (description != null) {
-            command.setDescription(Text.parse(description).toString());
+            command.setDescription(description);
         }
 
         String aliases = getFileLineValue(lines, "aliases:",
@@ -1858,19 +1857,19 @@ public class BukkitSkriptLoader extends SkriptLoader {
         String permission = getFileLineValue(lines, "permission:",
             "Command " + commandName + " has multiple valid permissions");
         if (permission != null) {
-            command.setPermission(Text.parse(permission).toString());
+            command.setPermission(permission);
         }
 
         String permissionMessage = getFileLineValue(lines, "permission message:",
             "Command " + commandName + " has multiple valid permission messages");
         if (permissionMessage != null) {
-            command.setPermissionMessage(Text.parse(permissionMessage).toString());
+            command.setPermissionMessage(permissionMessage);
         }
 
         String usage = getFileLineValue(lines, "usage:",
             "Command " + commandName + " has multiple valid usages");
         if (usage != null) {
-            command.setUsage(Text.parse(usage).toString());
+            command.setUsage(usage);
         }
 
         String rawTarget = getFileLineValue(lines, "usage:",

@@ -4,7 +4,6 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiPlayerListHeaderExpression;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -28,11 +27,11 @@ public class PsiPlayerListHeaderExpressionImpl extends PsiPlayerListHeaderExpres
         super(player, lineNumber);
     }
 
-    @NotNull
+    @Nullable
     @Contract(pure = true)
     @Override
-    protected Text executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
-        return Text.parseNullable(player.execute(environment, context, Player.class).getPlayerListHeader());
+    protected String executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return player.execute(environment, context, Player.class).getPlayerListHeader();
     }
 
     @Override
@@ -47,7 +46,7 @@ public class PsiPlayerListHeaderExpressionImpl extends PsiPlayerListHeaderExpres
 
     @Override
     public void set(@Nullable SkriptRunEnvironment environment, @Nullable Context context, @NotNull PsiElement<?> object) {
-        player.execute(environment, context, Player.class).setPlayerListHeader(object.execute(environment, context, Text.class).toString());
+        player.execute(environment, context, Player.class).setPlayerListHeader(object.execute(environment, context, String.class));
     }
 
     /**

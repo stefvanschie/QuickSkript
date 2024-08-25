@@ -7,7 +7,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiDeathMessageExpression;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.jetbrains.annotations.Contract;
@@ -31,10 +30,10 @@ public class PsiDeathMessageExpressionImpl extends PsiDeathMessageExpression {
         super(lineNumber);
     }
 
-    @NotNull
+    @Nullable
     @Contract(pure = true)
     @Override
-    protected Text executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+    protected String executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         if (!(context instanceof EventContext)) {
             throw new ExecutionException("Death message expression can only be executed from an event", lineNumber);
         }
@@ -46,7 +45,7 @@ public class PsiDeathMessageExpressionImpl extends PsiDeathMessageExpression {
                 lineNumber);
         }
 
-        return Text.parseNullable(((PlayerDeathEvent) event).getDeathMessage());
+        return ((PlayerDeathEvent) event).getDeathMessage();
     }
 
     @Override
@@ -62,7 +61,7 @@ public class PsiDeathMessageExpressionImpl extends PsiDeathMessageExpression {
                 lineNumber);
         }
 
-        ((PlayerDeathEvent) event).setDeathMessage(object.execute(environment, context, Text.class).toString());
+        ((PlayerDeathEvent) event).setDeathMessage(object.execute(environment, context, String.class));
     }
 
     /**

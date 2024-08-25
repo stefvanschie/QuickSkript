@@ -7,7 +7,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiLeaveMessageExpression;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.Contract;
@@ -31,10 +30,10 @@ public class PsiLeaveMessageExpressionImpl extends PsiLeaveMessageExpression {
         super(lineNumber);
     }
 
-    @NotNull
+    @Nullable
     @Contract(pure = true)
     @Override
-    protected Text executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+    protected String executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         if (!(context instanceof EventContext)) {
             throw new ExecutionException("Leave message expression can only be executed from an event", lineNumber);
         }
@@ -46,7 +45,7 @@ public class PsiLeaveMessageExpressionImpl extends PsiLeaveMessageExpression {
                 lineNumber);
         }
 
-        return Text.parseNullable(((PlayerQuitEvent) event).getQuitMessage());
+        return ((PlayerQuitEvent) event).getQuitMessage();
     }
 
     @Override
@@ -62,7 +61,7 @@ public class PsiLeaveMessageExpressionImpl extends PsiLeaveMessageExpression {
                 lineNumber);
         }
 
-        ((PlayerQuitEvent) event).setQuitMessage(object.execute(environment, context, Text.class).toString());
+        ((PlayerQuitEvent) event).setQuitMessage(object.execute(environment, context, String.class));
     }
 
     /**

@@ -4,7 +4,6 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiKickEffect;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -31,7 +30,7 @@ public class PsiKickEffectImpl extends PsiKickEffect {
     @Nullable
     @Override
     protected Void executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
-        String reason = this.reason == null ? null : this.reason.execute(environment, context, Text.class).toString();
+        String reason = this.reason == null ? null : this.reason.execute(environment, context, String.class);
 
         player.execute(environment, context, Player.class).kickPlayer(reason);
 

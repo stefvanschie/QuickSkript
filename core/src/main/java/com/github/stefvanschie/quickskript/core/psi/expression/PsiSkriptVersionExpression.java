@@ -6,7 +6,6 @@ import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.util.ApplicationInfo;
 import com.github.stefvanschie.quickskript.core.util.Type;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @since 0.1.0
  */
-public class PsiSkriptVersionExpression extends PsiPrecomputedHolder<Text> {
+public class PsiSkriptVersionExpression extends PsiPrecomputedHolder<String> {
 
     /**
      * Creates a new element with the given line number
@@ -24,7 +23,7 @@ public class PsiSkriptVersionExpression extends PsiPrecomputedHolder<Text> {
      * @since 0.1.0
      */
     private PsiSkriptVersionExpression(int lineNumber) {
-        super(Text.parseLiteral(ApplicationInfo.getVersion()), lineNumber);
+        super(ApplicationInfo.getVersion(), lineNumber);
     }
 
     /**

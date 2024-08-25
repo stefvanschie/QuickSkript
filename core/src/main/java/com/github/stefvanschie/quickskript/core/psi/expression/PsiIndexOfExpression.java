@@ -8,7 +8,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.util.Type;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -59,8 +58,8 @@ public class PsiIndexOfExpression extends PsiElement<Integer> {
     @Contract(pure = true)
     @Override
     protected Integer executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
-        String needle = this.needle.execute(environment, context, Text.class).toString();
-        String haystack = this.haystack.execute(environment, context, Text.class).toString();
+        String needle = this.needle.execute(environment, context, String.class);
+        String haystack = this.haystack.execute(environment, context, String.class);
         int index;
 
         if (searchPosition == SearchPosition.FIRST) {

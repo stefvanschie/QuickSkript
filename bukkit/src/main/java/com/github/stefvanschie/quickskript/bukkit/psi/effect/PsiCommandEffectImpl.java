@@ -5,7 +5,6 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.effect.PsiCommandEffect;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.Contract;
@@ -50,7 +49,7 @@ public class PsiCommandEffectImpl extends PsiCommandEffect {
             sender = Bukkit.getConsoleSender();
         }
 
-        Bukkit.dispatchCommand(sender, commandName.execute(environment, context, Text.class).toString());
+        Bukkit.dispatchCommand(sender, commandName.execute(environment, context, String.class));
 
         return null;
     }

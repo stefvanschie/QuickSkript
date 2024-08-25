@@ -4,7 +4,6 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiDefaultMOTDExpression;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -26,7 +25,7 @@ public class PsiDefaultMOTDExpressionImpl extends PsiDefaultMOTDExpression {
     private PsiDefaultMOTDExpressionImpl(int lineNumber) {
         super(lineNumber);
 
-        preComputed = Text.parse(Bukkit.getMotd());
+        preComputed = Bukkit.getMotd();
     }
 
     /**
@@ -34,7 +33,7 @@ public class PsiDefaultMOTDExpressionImpl extends PsiDefaultMOTDExpression {
      */
     @NotNull
     @Override
-    protected Text executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+    protected String executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         throw new ExecutionException(new IllegalStateException("Default MOTD is always pre-computed"), lineNumber);
     }
 

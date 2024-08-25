@@ -7,7 +7,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.util.Type;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -64,9 +63,9 @@ public class PsiEndsWithCondition extends PsiElement<Boolean> {
     @Contract(pure = true)
     @Override
     protected Boolean executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
-        Text text = this.text.execute(environment, context, Text.class);
+        String text = this.text.execute(environment, context, String.class);
 
-        return positive == text.toString().endsWith(suffix.execute(environment, context, Text.class).toString());
+        return positive == text.endsWith(suffix.execute(environment, context, String.class));
     }
 
     /**

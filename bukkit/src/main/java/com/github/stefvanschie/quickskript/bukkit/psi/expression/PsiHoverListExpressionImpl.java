@@ -9,7 +9,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiHoverListExpression;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -42,7 +41,7 @@ public class PsiHoverListExpressionImpl extends PsiHoverListExpression {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Collection<Text> executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+    protected Collection<String> executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         if (!(context instanceof EventContext)) {
             throw new ExecutionException("This expression can only be used inside events", lineNumber);
         }
@@ -57,7 +56,7 @@ public class PsiHoverListExpressionImpl extends PsiHoverListExpression {
             .map(playerProfile -> {
                 String name = playerProfile.getName();
 
-                return Text.parseLiteral(name == null ? "null" : name);
+                return name == null ? "null" : name;
             }).collect(Collectors.toList());
     }
 

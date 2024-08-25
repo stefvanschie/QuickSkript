@@ -5,7 +5,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.util.Type;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @since 0.1.0
  */
-public class PsiBukkitVersionExpression extends PsiElement<Text> {
+public class PsiBukkitVersionExpression extends PsiElement<String> {
 
     /**
      * Creates a new element with the given line number

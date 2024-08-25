@@ -8,7 +8,6 @@ import com.github.stefvanschie.quickskript.core.psi.expression.util.Resettable;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.Settable;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.util.Type;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @since 0.1.0
  */
-public class PsiDisplayedMOTDExpression extends PsiElement<Text> implements Deletable, Resettable, Settable {
+public class PsiDisplayedMOTDExpression extends PsiElement<String> implements Deletable, Resettable, Settable {
 
     /**
      * Creates a new element with the given line number

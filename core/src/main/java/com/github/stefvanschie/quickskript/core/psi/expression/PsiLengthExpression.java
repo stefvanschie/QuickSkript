@@ -7,7 +7,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.util.Type;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -47,7 +46,7 @@ public class PsiLengthExpression extends PsiElement<Integer> {
     @Contract(pure = true)
     @Override
     protected Integer executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
-        return text.execute(environment, context, Text.class).toString().length();
+        return text.execute(environment, context, String.class).length();
     }
 
     /**

@@ -7,7 +7,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.util.Type;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -17,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
  *
  * @since 0.1.0
  */
-public class PsiAlphabeticalSortExpression extends PsiElement<Text[]> {
+public class PsiAlphabeticalSortExpression extends PsiElement<String[]> {
 
     /**
      * A single text element or a collection of text elements
@@ -46,11 +45,11 @@ public class PsiAlphabeticalSortExpression extends PsiElement<Text[]> {
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Text[] executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+    protected String[] executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         return this.texts.executeMulti(environment, context).stream()
-                .map(e -> (Text) e)
+                .map(Object::toString)
                 .sorted()
-                .toArray(Text[]::new);
+                .toArray(String[]::new);
     }
 
     /**

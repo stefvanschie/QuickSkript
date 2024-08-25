@@ -7,7 +7,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiChatMessageExpression;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerChatEvent;
@@ -39,7 +38,7 @@ public class PsiChatMessageExpressionImpl extends PsiChatMessageExpression {
     @Contract(pure = true)
     @Override
     @SuppressWarnings("deprecation")
-    protected Text executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+    protected String executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         if (!(context instanceof EventContext)) {
             throw new ExecutionException("Chat message can only be retrieved from events", lineNumber);
         }
@@ -47,11 +46,11 @@ public class PsiChatMessageExpressionImpl extends PsiChatMessageExpression {
         Event event = ((EventContextImpl) context).getEvent();
 
         if (event instanceof AsyncPlayerChatEvent) {
-            return Text.parseLiteral(((AsyncPlayerChatEvent) event).getMessage());
+            return ((AsyncPlayerChatEvent) event).getMessage();
         }
 
         if (event instanceof PlayerChatEvent) {
-            return Text.parseLiteral(((PlayerChatEvent) event).getMessage());
+            return ((PlayerChatEvent) event).getMessage();
         }
 
         throw new ExecutionException("Chat message can only be retrieved from chat events", lineNumber);
@@ -68,7 +67,7 @@ public class PsiChatMessageExpressionImpl extends PsiChatMessageExpression {
         }
 
         Event event = ((EventContextImpl) context).getEvent();
-        String message = object.execute(environment, context, Text.class).toString();
+        String message = object.execute(environment, context, String.class);
 
         if (event instanceof AsyncPlayerChatEvent) {
             ((AsyncPlayerChatEvent) event).setMessage(message);

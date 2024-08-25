@@ -4,14 +4,12 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiScoreboardTagsExpression;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Gets a set of scoreboard tags from an entity. This cannot be pre-computed, since this may change during gameplay.
@@ -34,10 +32,8 @@ public class PsiScoreboardTagsExpressionImpl extends PsiScoreboardTagsExpression
     @NotNull
     @Contract(pure = true)
     @Override
-    protected Set<Text> executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
-        return entity.execute(environment, context, Entity.class).getScoreboardTags().stream()
-            .map(Text::parseLiteral)
-            .collect(Collectors.toSet());
+    protected Set<String> executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        return entity.execute(environment, context, Entity.class).getScoreboardTags();
     }
 
     @Override

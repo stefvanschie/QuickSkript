@@ -6,7 +6,6 @@ import com.github.stefvanschie.quickskript.core.psi.effect.PsiLoadServerIconEffe
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.util.TemporaryCache;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -34,7 +33,7 @@ public class PsiLoadServerIconEffectImpl extends PsiLoadServerIconEffect {
     @Nullable
     @Override
     protected Void executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
-        String path = this.path.execute(environment, context, Text.class).toString();
+        String path = this.path.execute(environment, context, String.class);
 
         try {
             TemporaryCache.set("last-server-icon", Bukkit.loadServerIcon(new File(path)));

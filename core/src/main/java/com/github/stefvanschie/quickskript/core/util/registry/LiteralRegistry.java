@@ -2,7 +2,6 @@ package com.github.stefvanschie.quickskript.core.util.registry;
 
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.util.literal.*;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -48,7 +47,7 @@ public class LiteralRegistry {
         addEntry(new Entry(SkriptPattern.parse("sound[ ]categor(y|ies)"), SoundCategory.class));
         addEntry(new Entry(SkriptPattern.parse("spawn[ing][ ]reason[s]"), SpawnReason.class));
         addEntry(new Entry(SkriptPattern.parse("potion[[ ]effect][ ]type[s]"), StatusEffectType.class));
-        addEntry(new Entry(SkriptPattern.parse("(text|string)[s]"), Text.class));
+        addEntry(new Entry(SkriptPattern.parse("(text|string)[s]"), String.class));
         addEntry(new Entry(SkriptPattern.parse("teleport[ ](cause|reason|type)[s]"), TeleportCause.class));
         addEntry(new Entry(SkriptPattern.parse("time[s]"), Time.class));
         addEntry(new Entry(SkriptPattern.parse("(time[ ]period|duration)[s]"), TimePeriod.class));

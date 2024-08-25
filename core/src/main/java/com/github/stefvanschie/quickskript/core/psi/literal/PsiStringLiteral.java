@@ -4,7 +4,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiConverter;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
 import com.github.stefvanschie.quickskript.core.util.Type;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -18,7 +17,7 @@ import java.util.regex.Pattern;
  *
  * @since 0.1.0
  */
-public class PsiStringLiteral extends PsiPrecomputedHolder<Text> {
+public class PsiStringLiteral extends PsiPrecomputedHolder<String> {
 
     /**
      * Creates a new string literal from the given message
@@ -27,7 +26,7 @@ public class PsiStringLiteral extends PsiPrecomputedHolder<Text> {
      * @param lineNumber the line number
      * @since 0.1.0
      */
-    private PsiStringLiteral(@NotNull Text message, int lineNumber) {
+    private PsiStringLiteral(@NotNull String message, int lineNumber) {
         super(message, lineNumber);
     }
 
@@ -63,7 +62,7 @@ public class PsiStringLiteral extends PsiPrecomputedHolder<Text> {
                 return null;
             }
 
-            return create(Text.parse(matcher.group("text")), lineNumber);
+            return create(matcher.group("text"), lineNumber);
         }
 
         /**
@@ -78,7 +77,7 @@ public class PsiStringLiteral extends PsiPrecomputedHolder<Text> {
          */
         @NotNull
         @Contract(pure = true)
-        protected PsiStringLiteral create(@NotNull Text text, int lineNumber) {
+        protected PsiStringLiteral create(@NotNull String text, int lineNumber) {
             return new PsiStringLiteral(text, lineNumber);
         }
 
@@ -101,7 +100,7 @@ public class PsiStringLiteral extends PsiPrecomputedHolder<Text> {
         @Contract(pure = true)
         @Override
         public PsiStringLiteral convert(@NotNull Object object, int lineNumber) {
-            return new PsiStringLiteral(Text.parse(object.toString()), lineNumber);
+            return new PsiStringLiteral(object.toString(), lineNumber);
         }
     }
 }

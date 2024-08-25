@@ -5,7 +5,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.condition.PsiIsBannedCondition;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.util.text.Text;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -51,8 +50,8 @@ public class PsiIsBannedConditionImpl extends PsiIsBannedCondition {
             return positive == banList.isBanned(name);
         }
 
-        if (object instanceof Text) {
-            return positive == banList.isBanned(((Text) object).toString());
+        if (object instanceof String) {
+            return positive == banList.isBanned(object.toString());
         }
 
         return null;
