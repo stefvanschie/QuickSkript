@@ -21,7 +21,7 @@ public class MultiResult<T> implements Iterable<T> {
     /**
      * The elements in this result.
      */
-    @Nullable
+    @NotNull
     private final Collection<T> elements;
 
     /**
@@ -62,11 +62,19 @@ public class MultiResult<T> implements Iterable<T> {
      * @since 0.1.0
      */
     public boolean test(@NotNull Predicate<T> predicate) {
-        if (this.elements == null) {
-            throw new IllegalStateException("this.elements is null");
-        }
-
         return this.connective.test(this.elements, predicate);
+    }
+
+    /**
+     * Checks whether this result returned an element that equals the provided element.
+     *
+     * @param element the element to find
+     * @return true if the element is contained in this result, false otherwise
+     * @since 0.1.0
+     */
+    @Contract(pure = true)
+    public boolean contains(@NotNull T element) {
+        return this.elements.contains(element);
     }
 
     /**
@@ -77,10 +85,6 @@ public class MultiResult<T> implements Iterable<T> {
      */
     @Contract(pure = true)
     public int getSize() {
-        if (this.elements == null) {
-            throw new IllegalStateException("this.elements is null");
-        }
-
         return this.elements.size();
     }
 
@@ -88,10 +92,6 @@ public class MultiResult<T> implements Iterable<T> {
     @Contract(pure = true)
     @Override
     public Iterator<T> iterator() {
-        if (this.elements == null) {
-            throw new IllegalStateException("this.elements is null");
-        }
-
         return this.elements.iterator();
     }
 
@@ -104,10 +104,6 @@ public class MultiResult<T> implements Iterable<T> {
     @NotNull
     @Contract(pure = true)
     public Stream<T> stream() {
-        if (this.elements == null) {
-            throw new IllegalStateException("this.elements is null");
-        }
-
         return this.elements.stream();
     }
 
