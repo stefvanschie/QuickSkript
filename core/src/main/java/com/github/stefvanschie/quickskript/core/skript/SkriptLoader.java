@@ -47,11 +47,17 @@ public abstract class SkriptLoader {
     private final Map<Type, Collection<PsiElementFactory>> elements = new HashMap<>();
 
     /**
+     * A collection of generic factories.
+     */
+    @NotNull
+    private final Collection<PsiGenericElementFactory> genericFactories = new HashSet<>();
+
+    /**
      * A cache for a factory and a set of cached methods. This is gradually built up for element factories that are
      * being tested and can be used in the future to avoid having to do lookups.
      */
     @NotNull
-    private final Map<PsiElementFactory, Set<CachedReflectionMethod>> elementsCached = new HashMap<>();
+    private final Map<PsiGenericElementFactory, Set<CachedReflectionMethod>> elementsCached = new HashMap<>();
 
     /**
      * A list of all psi section factories.
@@ -145,7 +151,7 @@ public abstract class SkriptLoader {
     public PsiElement<?> tryParseElement(@NotNull String input, @NotNull Type @Nullable [] inputTypes, int lineNumber) {
         input = input.trim();
 
-        for (PsiElementFactory factory : getFactories(inputTypes)) {
+        for (PsiGenericElementFactory factory : getFactories(inputTypes)) {
             Set<CachedReflectionMethod> methods = elementsCached.get(factory);
 
             if (methods == null) {
@@ -323,6 +329,10 @@ public abstract class SkriptLoader {
                                 parameters.add(parameters.size() - elements.length, result);
                             }
 
+                            if (!(factory instanceof PsiElementFactory)) {
+                                parameters.add(parameters.size() - elements.length, inputTypes);
+                            }
+
                             parameters.add(lineNumber);
 
                             Object[] parameterArray = parameters.toArray(Object[]::new);
@@ -370,6 +380,10 @@ public abstract class SkriptLoader {
 
                         if (method.getParameterTypes()[0] == SkriptLoader.class) {
                             parameters.add(this);
+                        }
+
+                        if (!(factory instanceof PsiElementFactory)) {
+                            parameters.add(inputTypes);
                         }
 
                         parameters.add(input);
@@ -452,36 +466,35 @@ public abstract class SkriptLoader {
      */
     @NotNull
     @Contract(pure = true)
-    private Collection<? extends PsiElementFactory> getFactories(@NotNull Type @Nullable [] types) {
+    private Collection<? extends PsiGenericElementFactory> getFactories(@NotNull Type @Nullable [] types) {
         //use a list to respect the order in which the elements are registered
-        Collection<PsiElementFactory> factories = new ArrayList<>();
+        Collection<PsiGenericElementFactory> factories = new ArrayList<>();
 
         if (types == null) {
             for (Collection<PsiElementFactory> factoryCollection : this.elements.values()) {
                 factories.addAll(factoryCollection);
             }
+        } else {
+            Collection<Type> allTypes = new HashSet<>();
 
-            return factories;
-        }
+            for (Type type : types) {
+                allTypes.add(type);
+                allTypes.addAll(Set.of(type.getSubtypes()));
+            }
 
-        Collection<Type> allTypes = new HashSet<>();
+            for (Type type : allTypes) {
+                factories.addAll(elements.getOrDefault(type, Collections.emptySet()));
 
-        for (Type type : types) {
-            allTypes.add(type);
-            allTypes.addAll(Set.of(type.getSubtypes()));
-        }
-
-        for (Type type : allTypes) {
-            factories.addAll(elements.getOrDefault(type, Collections.emptySet()));
-
-            if (type.getSingular() != null) {
-                factories.addAll(elements.getOrDefault(type.getSingular(), Collections.emptySet()));
+                if (type.getSingular() != null) {
+                    factories.addAll(elements.getOrDefault(type.getSingular(), Collections.emptySet()));
+                }
             }
         }
 
+        factories.addAll(this.genericFactories);
+
         return factories;
     }
-
 
     /**
      * Parses a file section into a psi section.
@@ -564,6 +577,16 @@ public abstract class SkriptLoader {
         }
 
         elements.get(type).add(factory);
+    }
+
+    /**
+     * Registers the specified factory.
+     *
+     * @param factory the element factory to register
+     * @since 0.1.0
+     */
+    protected void registerElement(@NotNull PsiGenericElementFactory factory) {
+        this.genericFactories.add(factory);
     }
 
     /**

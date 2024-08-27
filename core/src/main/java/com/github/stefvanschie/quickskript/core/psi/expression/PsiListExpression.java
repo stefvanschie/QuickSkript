@@ -2,7 +2,7 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
-import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
+import com.github.stefvanschie.quickskript.core.psi.PsiGenericElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.multiresult.MultiResult;
 import com.github.stefvanschie.quickskript.core.psi.util.multiresult.connective.Conjunction;
 import com.github.stefvanschie.quickskript.core.psi.util.multiresult.connective.Connective;
@@ -82,12 +82,21 @@ public class PsiListExpression extends PsiElement<MultiResult<Object>> {
      *
      * @since 0.1.0
      */
-    public static class Factory implements PsiElementFactory {
+    public static class Factory implements PsiGenericElementFactory {
 
         @Nullable
         @Contract(pure = true)
         @Fallback
-        public PsiElement<?> parse(@NotNull SkriptLoader loader, @NotNull String text, int lineNumber) {
+        public PsiElement<?> parse(
+            @NotNull SkriptLoader loader,
+            @NotNull Type @Nullable [] types,
+            @NotNull String text,
+            int lineNumber
+        ) {
+            if (types == null) {
+                types = new Type[] {Type.OBJECTS};
+            }
+
             List<String> segments = Arrays.asList(text.split(","));
 
             //don't make singleton lists
@@ -97,67 +106,75 @@ public class PsiListExpression extends PsiElement<MultiResult<Object>> {
 
             List<List<String>> partitions = partitions(segments);
 
-        outer:
-            for (List<String> partition : partitions) {
-                Connective connective = Conjunction.INSTANCE;
-                List<PsiElement<?>> elements = new ArrayList<>();
+            for (Type type : types) {
+                Type singularType = type.getSingular();
 
-                for (String segment : partition) {
-                    segment = segment.trim();
-
-                    PsiElement<?> element = null;
-
-                    if (segment.startsWith("and") || segment.startsWith("nor")) {
-                        int prefixLength = 3; //length of "and" / "nor"
-
-                        String noDelimiter = segment.substring(prefixLength).trim();
-
-                        if (noDelimiter.length() > 0 && noDelimiter.charAt(0) == '(' && noDelimiter.endsWith(")")) {
-                            String noParenthesis = noDelimiter.substring(1, noDelimiter.length() - 1).trim();
-                            element = loader.tryParseElement(noParenthesis, lineNumber);
-                        }
-
-                        if (element == null) {
-                            element = loader.tryParseElement(segment.substring(prefixLength).trim(), lineNumber);
-                        }
-
-                        if (element != null) {
-                            connective = Conjunction.INSTANCE;
-                        }
-                    } else if (segment.startsWith("or")) {
-                        String noDelimiter = segment.substring("or".length()).trim();
-
-                        if (noDelimiter.length() > 0 && noDelimiter.charAt(0) == '(' && noDelimiter.endsWith(")")) {
-                            String noParenthesis = noDelimiter.substring(1, noDelimiter.length() - 1).trim();
-                            element = loader.tryParseElement(noParenthesis, lineNumber);
-                        }
-
-                        if (element == null) {
-                            element = loader.tryParseElement(noDelimiter, lineNumber);
-                        }
-
-                        if (element != null) {
-                            connective = Disjunction.INSTANCE;
-                        }
-                    }
-
-                    if (element == null && segment.length() > 0 && segment.charAt(0) == '(' && segment.endsWith(")")) {
-                        String noParenthesis = segment.substring(1, segment.length() - 1).trim();
-                        element = loader.tryParseElement(noParenthesis, lineNumber);
-                    }
-
-                    if (element == null) {
-                        element = loader.tryParseElement(segment, lineNumber);
-                    }
-
-                    if (element == null) {
-                        continue outer;
-                    }
-
-                    elements.add(element);
+                if (singularType == null) {
+                    continue; //type is singular
                 }
 
-                return create(elements, connective, lineNumber);
+                outer:
+                for (List<String> partition : partitions) {
+                    Connective connective = Conjunction.INSTANCE;
+                    List<PsiElement<?>> elements = new ArrayList<>();
+
+                    for (String segment : partition) {
+                        segment = segment.trim();
+
+                        PsiElement<?> element = null;
+
+                        if (segment.startsWith("and") || segment.startsWith("nor")) {
+                            int prefixLength = 3; //length of "and" / "nor"
+
+                            String noDelimiter = segment.substring(prefixLength).trim();
+
+                            if (noDelimiter.length() > 0 && noDelimiter.charAt(0) == '(' && noDelimiter.endsWith(")")) {
+                                String noParenthesis = noDelimiter.substring(1, noDelimiter.length() - 1).trim();
+                                element = loader.tryParseElement(noParenthesis, singularType, lineNumber);
+                            }
+
+                            if (element == null) {
+                                element = loader.tryParseElement(noDelimiter, singularType, lineNumber);
+                            }
+
+                            if (element != null) {
+                                connective = Conjunction.INSTANCE;
+                            }
+                        } else if (segment.startsWith("or")) {
+                            String noDelimiter = segment.substring("or".length()).trim();
+
+                            if (noDelimiter.length() > 0 && noDelimiter.charAt(0) == '(' && noDelimiter.endsWith(")")) {
+                                String noParenthesis = noDelimiter.substring(1, noDelimiter.length() - 1).trim();
+                                element = loader.tryParseElement(noParenthesis, singularType, lineNumber);
+                            }
+
+                            if (element == null) {
+                                element = loader.tryParseElement(noDelimiter, singularType, lineNumber);
+                            }
+
+                            if (element != null) {
+                                connective = Disjunction.INSTANCE;
+                            }
+                        }
+
+                        if (element == null && segment.length() > 0 && segment.charAt(0) == '(' && segment.endsWith(")")) {
+                            String noParenthesis = segment.substring(1, segment.length() - 1).trim();
+                            element = loader.tryParseElement(noParenthesis, singularType, lineNumber);
+                        }
+
+                        if (element == null) {
+                            element = loader.tryParseElement(segment, singularType, lineNumber);
+                        }
+
+                        if (element == null) {
+                            continue outer;
+                        }
+
+                        elements.add(element);
+                    }
+
+                    return create(elements, connective, lineNumber);
+                }
             }
 
             return null;
@@ -230,13 +247,6 @@ public class PsiListExpression extends PsiElement<MultiResult<Object>> {
             int lineNumber
         ) {
             return new PsiListExpression(elements, connective, lineNumber);
-        }
-
-        @NotNull
-        @Contract(pure = true)
-        @Override
-        public Type getType() {
-            return Type.OBJECTS;
         }
     }
 }

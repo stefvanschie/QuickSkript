@@ -179,6 +179,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiCanPickUpItemsConditionImpl.Factory());
         registerElement(new PsiCanSeeConditionImpl.Factory());
         registerElement(new PsiChanceCondition.Factory());
+        registerElement(new PsiContainsTextCondition.Factory());
         registerElement(new PsiEndsWithCondition.Factory());
         registerElement(new PsiEventCancelledConditionImpl.Factory());
         registerElement(new PsiExistsCondition.Factory());

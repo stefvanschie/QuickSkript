@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
  *
  * @since 0.1.0
  */
-public interface PsiElementFactory {
+public interface PsiElementFactory extends PsiGenericElementFactory {
 
     /**
      * Gets the type of object this psi element's execution will provide. If the given element doesn't yield any objects
