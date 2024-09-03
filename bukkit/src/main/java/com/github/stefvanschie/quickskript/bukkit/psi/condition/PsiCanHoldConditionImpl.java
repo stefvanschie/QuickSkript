@@ -1,16 +1,12 @@
 package com.github.stefvanschie.quickskript.bukkit.psi.condition;
 
-import com.github.stefvanschie.quickskript.bukkit.util.EnchantmentTypeUtil;
+import com.github.stefvanschie.quickskript.bukkit.util.ItemTypeUtil;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.condition.PsiCanHoldCondition;
 import com.github.stefvanschie.quickskript.core.psi.util.multiresult.MultiResult;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.util.literal.Enchantment;
 import com.github.stefvanschie.quickskript.core.util.literal.ItemType;
-import com.github.stefvanschie.quickskript.core.util.registry.ItemTypeRegistry;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Contract;
@@ -65,48 +61,22 @@ public class PsiCanHoldConditionImpl extends PsiCanHoldCondition {
      */
     @Contract(pure = true)
     private boolean hasSpace(@NotNull Inventory inventory, @NotNull ItemType itemType) {
-        Map<org.bukkit.enchantments.Enchantment, Integer> enchantments = new HashMap<>();
+        Collection<? extends ItemStack> itemStacks = ItemTypeUtil.convert(itemType);
 
-        for (Enchantment enchantment : itemType.getEnchantments()) {
-            org.bukkit.enchantments.Enchantment bukkitEnchantment = EnchantmentTypeUtil.convert(enchantment.getType());
-
-            enchantments.put(bukkitEnchantment, enchantment.getLevel());
-        }
-
-        List<ItemStack> itemStacks = new ArrayList<>();
-
-        if (itemType.isAll()) {
-            for (ItemTypeRegistry.Entry itemTypeEntry : itemType.getItemTypeEntries()) {
-                Material material = Bukkit.createBlockData(itemTypeEntry.getFullNamespacedKey()).getMaterial();
-
-                ItemStack itemStack = new ItemStack(material, itemType.getAmount());
-
-                enchantments.forEach(itemStack::addEnchantment);
-
-                itemStacks.add(itemStack);
-            }
-        } else {
-            Iterator<? extends ItemTypeRegistry.Entry> iterator = itemType.getItemTypeEntries().iterator();
+        if (!itemType.isAll()) {
+            Iterator<? extends ItemStack> iterator = itemStacks.iterator();
 
             if (!iterator.hasNext()) {
                 return true;
             }
 
-            ItemTypeRegistry.Entry itemTypeEntry = iterator.next();
-
-            Material material = Bukkit.createBlockData(itemTypeEntry.getFullNamespacedKey()).getMaterial();
-
-            ItemStack itemStack = new ItemStack(material, itemType.getAmount());
-
-            enchantments.forEach(itemStack::addEnchantment);
-
-            itemStacks.add(itemStack);
+            itemStacks = Collections.singleton(iterator.next());
         }
 
         ItemStack[] items = inventory.getStorageContents();
 
         for (ItemStack inventoryItem : items) {
-            for (Iterator<ItemStack> iterator = itemStacks.iterator(); iterator.hasNext();) {
+            for (Iterator<? extends ItemStack> iterator = itemStacks.iterator(); iterator.hasNext();) {
                 ItemStack item = iterator.next();
 
                 if (inventoryItem == null) {

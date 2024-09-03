@@ -82,6 +82,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiCanPickUpItemsCondition.Factory());
         registerElement(new PsiCanSeeCondition.Factory());
         registerElement(new PsiChanceCondition.Factory());
+        registerElement(new PsiContainsItemTypeCondition.Factory());
         registerElement(new PsiContainsTextCondition.Factory());
         registerElement(new PsiContainsObjectCondition.Factory()); //explicitly after contains texts, otherwise this would match texts as well
         registerElement(new PsiEndsWithCondition.Factory());
