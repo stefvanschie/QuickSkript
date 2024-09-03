@@ -86,55 +86,48 @@ public class SpaceGroup implements SkriptPatternGroup {
     @NotNull
     @Contract(pure = true)
     @Override
-    public Collection<String> unrollFully(@NotNull List<SkriptPatternGroup> groups) {
-        int index = SkriptPatternGroup.indexOfSame(groups, this);
-
-        if (index - 1 >= 0) {
-            SkriptPatternGroup group = groups.get(index - 1);
-
-            if (group instanceof OptionalGroup || group instanceof SpaceGroup) {
-                //before this is an optional or space group
-                return Collections.emptySet();
-            }
-        }
-
-        if (index == groups.size() - 1) {
+    public Collection<String> unrollFully(@NotNull SkriptPatternGroup @NotNull [] groups) {
+        if (groups.length == 0) {
             return Collections.singleton(" ");
         }
 
-        SkriptPatternGroup nextGroup = groups.get(index + 1);
+        int index = 0;
 
-        if (!(nextGroup instanceof SpaceGroup) && !(nextGroup instanceof OptionalGroup)) {
-            return Collections.singleton(" ");
+        Collection<String> matches = new HashSet<>();
+
+        matches.add(" ");
+
+        Collection<String> newMatches = new HashSet<>();
+        Collection<String> strings;
+
+        if (groups[0] instanceof OptionalGroup) {
+            strings = groups[0].unrollFully(new SkriptPatternGroup[0]);
+
+            for (String string : strings) {
+                if (string.isEmpty()) {
+                    newMatches.add("");
+                } else {
+                    newMatches.add(" " + string);
+                }
+            }
+
+            if (groups.length == 1) {
+                return newMatches;
+            }
+
+            matches = new HashSet<>(newMatches);
+            index++;
         }
 
-        Collection<String> unrolled = new HashSet<>();
+        strings = groups[index].unrollFully(Arrays.copyOfRange(groups, index + 1, groups.length));
 
-        boolean isLastSequence = true;
-        int currentIndex = groups.size();
-
-        do {
-            currentIndex--;
-
-            SkriptPatternGroup group = groups.get(currentIndex);
-
-            if (!(group instanceof SpaceGroup) && !(group instanceof OptionalGroup)) {
-                isLastSequence = false;
-                break;
-            }
-        } while (currentIndex > index);
-
-        //only pass some groups, optional group doesn't need all of them
-        for (String element : groups.get(index + 1).unrollFully(groups.subList(index + 1, groups.size()))) {
-            //but not for the empty element if the sequence is the last in the list of groups
-            if (!element.isEmpty() || !isLastSequence) {
-                unrolled.add(" " + element);
-            } else {
-                unrolled.add("");
+        for (String match : matches) {
+            for (String string : strings) {
+                newMatches.add(match + string);
             }
         }
 
-        return unrolled;
+        return newMatches;
     }
 
     /**

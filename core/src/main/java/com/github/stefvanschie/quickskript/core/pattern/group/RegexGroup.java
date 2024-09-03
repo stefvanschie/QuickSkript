@@ -138,7 +138,7 @@ public class RegexGroup implements SkriptPatternGroup {
     @NotNull
     @Contract(pure = true)
     @Override
-    public Collection<String> unrollFully(@NotNull List<SkriptPatternGroup> groups) {
+    public Collection<String> unrollFully(@NotNull SkriptPatternGroup @NotNull [] groups) {
         throw new SkriptPatternInvalidGroupException("Regex group cannot be unrolled");
     }
 

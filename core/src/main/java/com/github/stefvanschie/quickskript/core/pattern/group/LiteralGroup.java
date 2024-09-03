@@ -148,8 +148,46 @@ public class LiteralGroup implements SkriptPatternGroup {
     @NotNull
     @Contract(pure = true)
     @Override
-    public Collection<String> unrollFully(@NotNull List<SkriptPatternGroup> groups) {
-        return Collections.singleton(getText());
+    public Collection<String> unrollFully(@NotNull SkriptPatternGroup @NotNull [] groups) {
+        if (groups.length == 0) {
+            return Collections.singleton(getText());
+        }
+
+        int index = 0;
+
+        Collection<String> matches = new HashSet<>();
+
+        matches.add(getText());
+
+        Collection<String> newMatches = new HashSet<>();
+        Collection<String> strings;
+
+        if (groups[0] instanceof OptionalGroup) {
+            strings = groups[0].unrollFully(new SkriptPatternGroup[0]);
+
+            for (String match : matches) {
+                for (String string : strings) {
+                    newMatches.add(match + string);
+                }
+            }
+
+            if (groups.length == 1) {
+                return newMatches;
+            }
+
+            matches = new HashSet<>(newMatches);
+            index++;
+        }
+
+        strings = groups[index].unrollFully(Arrays.copyOfRange(groups, index + 1, groups.length));
+
+        for (String match : matches) {
+            for (String string : strings) {
+                newMatches.add(match + string);
+            }
+        }
+
+        return newMatches;
     }
 
     @Override

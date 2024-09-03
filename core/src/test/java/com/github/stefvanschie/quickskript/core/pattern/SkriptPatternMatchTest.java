@@ -140,6 +140,9 @@ class SkriptPatternMatchTest {
         CORRECT_PATTERNS.put(SkriptPattern.parse("[%*object%] input"), new String[] {
             "input"
         });
+        CORRECT_PATTERNS.put(SkriptPattern.parse("([a]|[b]) c"), new String[] {
+            "a c", "b c", "c"
+        });
 
         //incorrect
         INCORRECT_PATTERNS.put(SkriptPattern.parse("x"), new String[] {

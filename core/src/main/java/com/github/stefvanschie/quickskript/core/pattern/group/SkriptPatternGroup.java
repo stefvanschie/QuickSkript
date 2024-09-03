@@ -62,8 +62,7 @@ public interface SkriptPatternGroup {
     List<SkriptMatchResult> match(@NotNull SkriptPatternGroup[] followingGroups, @NotNull String input);
 
     /**
-     * Fully unrolls this group returning all possible strings that would match this group. The returned collection is
-     * unmodifiable.
+     * Fully unrolls this group and all future groups, returning all possible strings that would match this group.
      *
      * @param groups all groups in the skript pattern that is being unrolled
      * @return all possible matches for this group
@@ -71,7 +70,7 @@ public interface SkriptPatternGroup {
      */
     @NotNull
     @Contract(pure = true)
-    Collection<String> unrollFully(@NotNull List<SkriptPatternGroup> groups);
+    Collection<String> unrollFully(@NotNull SkriptPatternGroup @NotNull [] groups);
 
     /**
      * Gets the index of the specified object in the specified list. The objects are compared using object identity

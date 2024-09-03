@@ -68,6 +68,13 @@ public class ChoiceGroup implements SkriptPatternGroup {
             patternResults.forEach(result -> {
                 List<SkriptMatchResult> calleeResults = followingGroups[0].match(newArray, result.getRestingString());
 
+                //we didn't match anything in the choice group, so any space after is optional
+                if (result.getMatchedString().isEmpty() && followingGroups[0] instanceof SpaceGroup) {
+                    SkriptPatternGroup[] groups = Arrays.copyOfRange(followingGroups, 2, followingGroups.length);
+
+                    calleeResults.addAll(followingGroups[1].match(groups, result.getRestingString()));
+                }
+
                 List<Pair<SkriptPatternGroup, String>> matchedGroups = new ArrayList<>(result.getMatchedGroups());
 
                 Collections.reverse(matchedGroups);
@@ -240,14 +247,52 @@ public class ChoiceGroup implements SkriptPatternGroup {
     @NotNull
     @Contract(pure = true)
     @Override
-    public Collection<String> unrollFully(@NotNull List<SkriptPatternGroup> groups) {
+    public Collection<String> unrollFully(@NotNull SkriptPatternGroup @NotNull [] groups) {
         Collection<String> matches = new HashSet<>();
 
         for (SkriptPattern pattern : patterns) {
             matches.addAll(pattern.unrollFully());
         }
 
-        return matches;
+        if (groups.length == 0) {
+            return matches;
+        }
+
+        int index = 0;
+
+        Collection<String> newMatches = new HashSet<>();
+        Collection<String> strings;
+
+        if (groups[0] instanceof OptionalGroup) {
+            strings = groups[0].unrollFully(new SkriptPatternGroup[0]);
+
+            for (String match : matches) {
+                for (String string : strings) {
+                    newMatches.add(match + string);
+                }
+            }
+
+            if (groups.length == 1) {
+                return newMatches;
+            }
+
+            matches = new HashSet<>(newMatches);
+            index++;
+        }
+
+        strings = groups[index].unrollFully(Arrays.copyOfRange(groups, index + 1, groups.length));
+
+        for (String match : matches) {
+            for (String string : strings) {
+                if (match.isEmpty() && string.startsWith(" ")) {
+                    newMatches.add(match + string.substring(1));
+                } else {
+                    newMatches.add(match + string);
+                }
+            }
+        }
+
+        return newMatches;
     }
 
     @Override

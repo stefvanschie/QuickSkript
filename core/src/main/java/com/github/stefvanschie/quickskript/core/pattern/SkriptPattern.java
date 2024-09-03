@@ -129,30 +129,17 @@ public class SkriptPattern {
             return cachedFullUnroll;
         }
 
-        Collection<String> matches = new HashSet<>();
+        Collection<String> unrolled = new HashSet<>();
 
-        matches.add("");
+        if (this.groups.size() == 0) {
+            unrolled.add("");
+        } else {
+            SkriptPatternGroup[] subArray = this.groups.subList(1, this.groups.size()).toArray(SkriptPatternGroup[]::new);
 
-        for (SkriptPatternGroup group : groups) {
-            Collection<String> newMatches = new HashSet<>();
-            Collection<String> strings = group.unrollFully(Collections.unmodifiableList(groups));
-
-            if (strings.isEmpty()) {
-                continue;
-            }
-
-            for (String match : matches) {
-                for (String string : strings) {
-                    newMatches.add(match + string);
-                }
-            }
-
-            matches = newMatches;
+            unrolled = this.groups.get(0).unrollFully(subArray);
         }
 
-        cachedFullUnroll = Collections.unmodifiableCollection(matches);
-
-        return cachedFullUnroll;
+        return this.cachedFullUnroll = Collections.unmodifiableCollection(unrolled);
     }
 
     /**

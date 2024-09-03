@@ -187,7 +187,7 @@ public class TypeGroup implements SkriptPatternGroup {
     @NotNull
     @Contract(pure = true)
     @Override
-    public Collection<String> unrollFully(@NotNull List<SkriptPatternGroup> groups) {
+    public Collection<String> unrollFully(@NotNull SkriptPatternGroup @NotNull [] groups) {
         throw new SkriptPatternInvalidGroupException("Type group cannot be unrolled");
     }
 
