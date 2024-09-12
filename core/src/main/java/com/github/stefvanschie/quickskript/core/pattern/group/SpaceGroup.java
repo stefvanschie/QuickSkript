@@ -116,6 +116,7 @@ public class SpaceGroup implements SkriptPatternGroup {
             }
 
             matches = new HashSet<>(newMatches);
+            newMatches.clear();
             index++;
         }
 

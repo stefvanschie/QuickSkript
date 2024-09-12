@@ -176,6 +176,7 @@ public class LiteralGroup implements SkriptPatternGroup {
             }
 
             matches = new HashSet<>(newMatches);
+            newMatches.clear();
             index++;
         }
 

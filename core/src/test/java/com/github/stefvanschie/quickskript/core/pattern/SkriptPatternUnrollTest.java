@@ -52,11 +52,22 @@ class SkriptPatternUnrollTest {
         assertTrue(collectionsEqual(Set.of(
             "a c", "b c", "c"
         ), SkriptPattern.parse("([a]|[b]) c").unrollFully()));
+
+        assertTrue(collectionsEqual(Set.of(
+            "a b c",
+            "a c"
+        ), SkriptPattern.parse("a [b] c").unrollFully()));
     }
 
     boolean collectionsEqual(Collection<?> setA, Collection<?> setB) {
         for (Object object : setA) {
             if (!setB.contains(object)) {
+                return false;
+            }
+        }
+
+        for (Object object : setB) {
+            if (!setA.contains(object)) {
                 return false;
             }
         }
