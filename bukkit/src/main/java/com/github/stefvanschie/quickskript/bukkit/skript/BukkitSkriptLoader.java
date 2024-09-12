@@ -182,6 +182,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiContainsItemTypeConditionImpl.Factory());
         registerElement(new PsiContainsTextCondition.Factory());
         registerElement(new PsiContainsObjectCondition.Factory()); //explicitly after contains texts, otherwise this would match texts as well
+        registerElement(new PsiDamageCauseConditionImpl.Factory());
         registerElement(new PsiEndsWithCondition.Factory());
         registerElement(new PsiEventCancelledConditionImpl.Factory());
         registerElement(new PsiExistsCondition.Factory());
