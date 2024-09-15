@@ -87,6 +87,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiContainsObjectCondition.Factory()); //explicitly after contains texts, otherwise this would match texts as well
         registerElement(new PsiDamageCauseCondition.Factory());
         registerElement(new PsiDoRespawnAnchorsWorkCondition.Factory());
+        registerElement(new PsiEggWillHatchCondition.Factory());
         registerElement(new PsiEndsWithCondition.Factory());
         registerElement(new PsiEventCancelledCondition.Factory());
         registerElement(new PsiExistsCondition.Factory());
