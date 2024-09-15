@@ -15,25 +15,18 @@ import java.util.stream.Stream;
 public enum Platform {
 
     /**
-     * The Bukkit platform
-     *
-     * @since 0.1.0
-     */
-    BUKKIT("Bukkit"),
-
-    /**
      * The Spigot platform
      *
      * @since 0.1.0
      */
-    SPIGOT("Spigot", BUKKIT),
+    SPIGOT("Spigot"),
 
     /**
      * The Paper platform
      *
      * @since 0.1.0
      */
-    PAPER("Paper", SPIGOT, BUKKIT);
+    PAPER("Paper", SPIGOT);
 
     /**
      * The name of the platform
@@ -112,14 +105,14 @@ public enum Platform {
 
     /**
      * Gets the lowest platform currently available to be used as a default for places in which we have
-     * platform-independent code. This currently is the Bukkit platform.
+     * platform-independent code. This currently is the Spigot platform.
      *
-     * @return {@link #BUKKIT}
+     * @return {@link #SPIGOT}
      * @since 0.1.0
      */
     @NotNull
     @Contract(pure = true)
     private static Platform getLowestPlatform() {
-        return BUKKIT;
+        return SPIGOT;
     }
 }

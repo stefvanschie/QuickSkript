@@ -86,6 +86,8 @@ import org.bukkit.inventory.Recipe;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.spigotmc.event.entity.EntityDismountEvent;
+import org.spigotmc.event.entity.EntityMountEvent;
 
 import java.util.*;
 import java.util.function.Function;
@@ -143,7 +145,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
     public void registerDefaultElements() {
         //effects
         //these are at the top, cause they are always the outermost element
-        registerElement(new PsiActionBarEffectImpl.Factory(), Platform.SPIGOT);
+        registerElement(new PsiActionBarEffectImpl.Factory());
         registerElement(new PsiBanEffectImpl.Factory());
         registerElement(new PsiCancelEventEffectImpl.Factory());
         registerElement(new PsiChangeEffect.Factory());
@@ -403,9 +405,9 @@ public class BukkitSkriptLoader extends SkriptLoader {
             .registerEvent(EnchantItemEvent.class, "[on] [item] enchant")
             .registerEvent(EntityBreakDoorEvent.class, "[on] zombie break[ing] [a] [wood[en]] door")
             .registerEvent(EntityCombustEvent.class, "[on] combust[ing]")
-            .registerEvent("org.spigotmc.event.entity.EntityDismountEvent", "[on] dismount[ing]", Platform.SPIGOT)
+            .registerEvent(EntityDismountEvent.class, "[on] dismount[ing]")
             .registerEvent(EntityExplodeEvent.class, "[on] explo(d(e|ing)|sion)")
-            .registerEvent("org.spigotmc.event.entity.EntityMountEvent", "[on] mount[ing]", Platform.SPIGOT)
+            .registerEvent(EntityMountEvent.class, "[on] mount[ing]")
             .registerEvent(EntityPortalEnterEvent.class, "[on] (portal enter[ing]|entering [a] portal)")
             .registerEvent(EntityPortalEvent.class, "[on] entity portal")
             .registerEvent(EntityRegainHealthEvent.class, "[on] heal[ing]")

@@ -42,7 +42,7 @@ public class PsiActionBarEffectImpl extends PsiActionBarEffect {
 
         if (platform.isAvailable(Platform.PAPER)) {
             player.sendActionBar(text);
-        } else if (platform.isAvailable(Platform.SPIGOT)) {
+        } else {
             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(text));
         }
 
