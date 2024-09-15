@@ -39,7 +39,7 @@ public class PsiEggWillHatchConditionImpl extends PsiEggWillHatchCondition {
             );
         }
 
-        return event.isHatching();
+        return super.positive == event.isHatching();
     }
 
     /**
