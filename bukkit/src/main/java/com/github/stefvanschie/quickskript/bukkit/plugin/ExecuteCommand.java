@@ -8,7 +8,6 @@ import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -62,7 +61,7 @@ public class ExecuteCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
             @NotNull String label, @NotNull String[] args) {
-        String input = StringUtils.join(args, ' ');
+        String input = String.join(" ", args);
 
         long startTime = System.nanoTime();
         var skript = new SingleLineSkript(skriptLoader, input);

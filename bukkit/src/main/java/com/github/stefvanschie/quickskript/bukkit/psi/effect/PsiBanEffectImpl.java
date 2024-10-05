@@ -12,6 +12,8 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.time.Instant;
+
 /**
  * An effect for issuing (IP) bans.
  *
@@ -38,11 +40,12 @@ public class PsiBanEffectImpl extends PsiBanEffect {
     @Override
     protected Void executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         Object object = this.object.execute(environment, context);
+
         BanList banList = Bukkit.getBanList(ipBan ? BanList.Type.IP : BanList.Type.NAME);
         String reason = this.reason == null ? null : this.reason.execute(environment, context, String.class);
 
         if (object instanceof String) {
-            banList.addBan(object.toString(), reason, null, null);
+            banList.addBan(object.toString(), reason, (Instant) null, null);
         } else if (object instanceof OfflinePlayer) {
             String name = ((OfflinePlayer) object).getName();
 
@@ -50,7 +53,7 @@ public class PsiBanEffectImpl extends PsiBanEffect {
                 throw new ExecutionException("Unable to find name of specified player", lineNumber);
             }
 
-            banList.addBan(name, reason, null, null);
+            banList.addBan(name, reason, (Instant) null, null);
         }
 
         return null;

@@ -6,7 +6,6 @@ import com.github.stefvanschie.quickskript.core.context.EventContext;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.PsiAttackerExpression;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -43,7 +42,9 @@ public class PsiAttackerExpressionImpl extends PsiAttackerExpression {
      */
     private static <T extends Event> void registerExtractor(@NotNull Class<T> clazz,
             @NotNull Function<T, Entity> extractor) {
-        Validate.isTrue(ATTACKER_EXTRACTORS.put(clazz, extractor) == null, "An event can only be registered once");
+        if (ATTACKER_EXTRACTORS.put(clazz, extractor) != null) {
+            throw new IllegalStateException("An event can only be registered once");
+        }
     }
 
     static {

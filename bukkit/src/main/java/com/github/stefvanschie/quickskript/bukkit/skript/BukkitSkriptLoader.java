@@ -59,7 +59,6 @@ import com.github.stefvanschie.quickskript.core.util.literal.World;
 import com.github.stefvanschie.quickskript.core.util.registry.EntityTypeRegistry;
 import com.github.stefvanschie.quickskript.core.util.registry.ItemTypeRegistry;
 import io.papermc.paper.event.entity.EntityMoveEvent;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -86,8 +85,6 @@ import org.bukkit.inventory.Recipe;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.spigotmc.event.entity.EntityDismountEvent;
-import org.spigotmc.event.entity.EntityMountEvent;
 
 import java.util.*;
 import java.util.function.Function;
@@ -1859,7 +1856,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         String aliases = getFileLineValue(lines, "aliases:",
             "Command " + commandName + " has multiple valid aliases");
         if (aliases != null) {
-            command.setAliases(Arrays.asList(StringUtils.replace(aliases, " ", "").split(",")));
+            command.setAliases(Arrays.asList(aliases.replace(" ", "").split(",")));
         }
 
         String permission = getFileLineValue(lines, "permission:",
