@@ -19,7 +19,7 @@ public enum Platform {
      *
      * @since 0.1.0
      */
-    SPIGOT("Spigot"),
+    SPIGOT("CraftBukkit"),
 
     /**
      * The Paper platform
@@ -72,7 +72,7 @@ public enum Platform {
     @NotNull
     @Contract(pure = true)
     public static Platform getPlatform() {
-        String version = Bukkit.getVersion();
+        String version = Bukkit.getName();
 
         //the version may not be available in testing environments
         //noinspection ConstantConditions
@@ -80,7 +80,7 @@ public enum Platform {
             return getLowestPlatform();
         }
 
-        Platform platform = fromName(version.substring(4).split("-")[0]);
+        Platform platform = fromName(version);
 
         if (platform == null) {
             return getLowestPlatform();
