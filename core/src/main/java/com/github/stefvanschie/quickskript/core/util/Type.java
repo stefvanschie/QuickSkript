@@ -177,7 +177,13 @@ public enum Type {
      *
      * @since 0.1.0
      */
-    ENTITY("entity"),
+    ENTITY("entity") {
+        @Contract(pure = true)
+        @Override
+        public @NotNull Type @NotNull [] getSubtypes() {
+            return new Type[] {Type.PLAYER};
+        }
+    },
 
     /**
      * A single type of entity.
@@ -198,7 +204,13 @@ public enum Type {
      *
      * @since 0.1.0
      */
-    ENTITIES("entities", ENTITY),
+    ENTITIES("entities", ENTITY) {
+        @Contract(pure = true)
+        @Override
+        public @NotNull Type @NotNull [] getSubtypes() {
+            return new Type[] {Type.PLAYERS};
+        }
+    },
 
     /**
      * A single experience point.
