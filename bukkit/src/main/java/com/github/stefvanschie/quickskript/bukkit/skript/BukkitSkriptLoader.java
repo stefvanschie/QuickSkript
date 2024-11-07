@@ -185,6 +185,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiDoRespawnAnchorsWorkConditionImpl.Factory());
         registerElement(new PsiEggWillHatchConditionImpl.Factory());
         registerElement(new PsiEndsWithCondition.Factory());
+        registerElement(new PsiEntityIsInLavaConditionImpl.Factory(), Platform.PAPER);
         registerElement(new PsiEntityIsInWaterConditionImpl.Factory());
         registerElement(new PsiEntityIsShearedConditionImpl.Factory());
         registerElement(new PsiEntityIsWetConditionImpl.Factory(), Platform.PAPER);
