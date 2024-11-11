@@ -253,6 +253,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
 
         //expressions
         registerElement(new PsiAbsoluteDirectionExpression.Factory());
+        registerElement(new PsiAffectedEntitiesExpressionImpl.Factory());
         registerElement(new PsiAlphabeticalSortExpression.Factory());
         registerElement(new PsiAmountExpression.Factory());
         registerElement(new PsiArithmeticExpression.Factory());
