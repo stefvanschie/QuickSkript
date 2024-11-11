@@ -170,7 +170,7 @@ public class PsiDateFunction extends PsiElement<LocalDateTime> {
         @Contract(pure = true)
         @Override
         public Type getType() {
-            return Type.OBJECT;
+            return Type.DATE;
         }
     }
 }
