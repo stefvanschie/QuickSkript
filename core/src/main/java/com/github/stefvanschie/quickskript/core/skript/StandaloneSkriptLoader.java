@@ -104,6 +104,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiHasPermissionCondition.Factory());
         registerElement(new PsiHasPlayedBeforeCondition.Factory());
         registerElement(new PsiHasScoreboardTagCondition.Factory());
+        registerElement(new PsiIsAdultCondition.Factory());
         registerElement(new PsiIsAliveCondition.Factory());
         registerElement(new PsiIsAlphanumericCondition.Factory());
         registerElement(new PsiIsBannedCondition.Factory());
