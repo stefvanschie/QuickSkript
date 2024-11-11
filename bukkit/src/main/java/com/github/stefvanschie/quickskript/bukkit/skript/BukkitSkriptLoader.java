@@ -196,6 +196,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiHasAIConditionImpl.Factory());
         registerElement(new PsiHasChatFilteringConditionImpl.Factory(), Platform.PAPER);
         registerElement(new PsiHasClientWeatherConditionImpl.Factory());
+        registerElement(new PsiHasPassed.Factory());
         registerElement(new PsiHasPermissionConditionImpl.Factory());
         registerElement(new PsiHasPlayedBeforeConditionImpl.Factory());
         registerElement(new PsiHasScoreboardTagConditionImpl.Factory());
