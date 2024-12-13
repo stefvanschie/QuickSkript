@@ -61,7 +61,7 @@ public class PsiCanHoldConditionImpl extends PsiCanHoldCondition {
      */
     @Contract(pure = true)
     private boolean hasSpace(@NotNull Inventory inventory, @NotNull ItemType itemType) {
-        Collection<? extends ItemStack> itemStacks = ItemTypeUtil.convert(itemType);
+        Collection<? extends ItemStack> itemStacks = ItemTypeUtil.convertToItemStacks(itemType);
 
         if (!itemType.isAll()) {
             Iterator<? extends ItemStack> iterator = itemStacks.iterator();

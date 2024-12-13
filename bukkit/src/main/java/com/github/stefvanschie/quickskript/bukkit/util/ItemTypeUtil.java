@@ -34,7 +34,7 @@ public class ItemTypeUtil {
      */
     @NotNull
     @Contract(pure = true)
-    public static Collection<? extends ItemStack> convert(@NotNull ItemType itemType) {
+    public static Collection<? extends ItemStack> convertToItemStacks(@NotNull ItemType itemType) {
         Map<Enchantment, Integer> enchantments = new HashMap<>();
 
         for (com.github.stefvanschie.quickskript.core.util.literal.Enchantment enchantment : itemType.getEnchantments()) {
@@ -45,9 +45,7 @@ public class ItemTypeUtil {
 
         Collection<ItemStack> itemStacks = new HashSet<>();
 
-        for (ItemTypeRegistry.Entry itemTypeEntry : itemType.getItemTypeEntries()) {
-            Material material = Bukkit.createBlockData(itemTypeEntry.getFullNamespacedKey()).getMaterial();
-
+        for (Material material : convertToMaterials(itemType)) {
             ItemStack itemStack = new ItemStack(material, itemType.getAmount());
 
             enchantments.forEach(itemStack::addEnchantment);
@@ -56,5 +54,31 @@ public class ItemTypeUtil {
         }
 
         return itemStacks;
+    }
+
+    /**
+     * Converts an {@link ItemType} in a list of materials that correspond to the entries of the item type. If the item
+     * type does not have any entries, this will return an empty list.
+     *
+     * @param itemType the item type to convert
+     * @return a list of materials
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public static List<? extends Material> convertToMaterials(@NotNull ItemType itemType) {
+        List<Material> materials = new ArrayList<>();
+
+        for (ItemTypeRegistry.Entry itemTypeEntry : itemType.getItemTypeEntries()) {
+            String fullNamespacedKey = itemTypeEntry.getFullNamespacedKey();
+
+            try {
+                materials.add(Bukkit.createBlockData(fullNamespacedKey).getMaterial());
+            } catch (IllegalArgumentException ignored) {
+                materials.add(Material.matchMaterial(fullNamespacedKey));
+            }
+        }
+
+        return materials;
     }
 }

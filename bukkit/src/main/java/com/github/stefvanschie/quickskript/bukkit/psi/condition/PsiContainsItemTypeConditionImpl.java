@@ -49,7 +49,7 @@ public class PsiContainsItemTypeConditionImpl extends PsiContainsItemTypeConditi
         MultiResult<ItemType> itemTypes = super.itemType.executeMulti(environment, context, ItemType.class);
 
         return inventories.test(inventory -> itemTypes.test(itemType -> {
-            Collection<? extends ItemStack> itemStacks = ItemTypeUtil.convert(itemType);
+            Collection<? extends ItemStack> itemStacks = ItemTypeUtil.convertToItemStacks(itemType);
 
             for (ItemStack inventoryItem : inventory.getStorageContents()) {
                 if (inventoryItem == null) {
