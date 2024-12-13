@@ -33,6 +33,13 @@ public enum Type {
     BIOMES("biomes", BIOME),
 
     /**
+     * A single block.
+     *
+     * @since 0.1.0
+     */
+    BLOCK("block"),
+
+    /**
      * A single block data.
      *
      * @since 0.1.0
@@ -45,6 +52,13 @@ public enum Type {
      * @since 0.1.0
      */
     BLOCK_DATAS("block[ ]datas", BLOCK_DATA),
+
+    /**
+     * Multiple blocks.
+     *
+     * @since 0.1.0
+     */
+    BLOCKS("blocks", BLOCK),
 
     /**
      * A single boolean.
@@ -388,7 +402,7 @@ public enum Type {
         @Contract(pure = true)
         public @NotNull Type @NotNull [] getSubtypes() {
             return new Type[] {
-                BIOME, BLOCK_DATA, BOOLEAN,
+                BIOME, BLOCK, BLOCK_DATA, BOOLEAN,
                 CAT_TYPE, CLICK_TYPE, COLOR, COMMAND_SENDER,
                 DAMAGE_CAUSE, DATE, DIRECTION,
                 ENCHANTMENT, ENTITY, ENTITY_TYPE, EXPERIENCE_POINT,
@@ -418,7 +432,7 @@ public enum Type {
         @Contract(pure = true)
         public @NotNull Type @NotNull [] getSubtypes() {
             return new Type[] {
-                BIOMES, BLOCK_DATAS, BOOLEANS,
+                BIOMES, BLOCK_DATAS, BLOCKS, BOOLEANS,
                 CAT_TYPES, CLICK_TYPES, COLORS, COMMAND_SENDERS,
                 DAMAGE_CAUSES, DATES, DIRECTIONS,
                 ENCHANTMENTS, ENTITIES, ENTITY_TYPES, EXPERIENCE_POINTS,
