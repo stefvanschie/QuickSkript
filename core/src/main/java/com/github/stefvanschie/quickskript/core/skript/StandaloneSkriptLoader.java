@@ -113,6 +113,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiIsBedSpawnCondition.Factory());
         registerElement(new PsiIsBlockCondition.Factory());
         registerElement(new PsiIsBlockDirectlyRedstonePoweredCondition.Factory());
+        registerElement(new PsiIsBlockIndirectlyRedstonePoweredCondition.Factory());
         registerElement(new PsiIsBlockingCondition.Factory());
         registerElement(new PsiIsBurningCondition.Factory());
         registerElement(new PsiIsFlyingCondition.Factory());
