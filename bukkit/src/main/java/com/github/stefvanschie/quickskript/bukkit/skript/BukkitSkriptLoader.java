@@ -212,6 +212,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiIsBlockIndirectlyRedstonePoweredConditionImpl.Factory());
         registerElement(new PsiIsBlockingConditionImpl.Factory());
         registerElement(new PsiIsBurningConditionImpl.Factory());
+        registerElement(new PsiIsChargedConditionImpl.Factory());
         registerElement(new PsiIsFlyingConditionImpl.Factory());
         registerElement(new PsiIsOnGroundConditionImpl.Factory());
         registerElement(new PsiIsOnlineConditionImpl.Factory());
