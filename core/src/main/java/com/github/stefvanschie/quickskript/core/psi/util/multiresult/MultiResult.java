@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -31,6 +32,16 @@ public class MultiResult<T> implements Iterable<T> {
     private final Connective connective;
 
     /**
+     * Creates a new, empty multi result.
+     *
+     * @since 0.1.0
+     */
+    public MultiResult() {
+        this.elements = Collections.emptySet();
+        this.connective = Conjunction.INSTANCE;
+    }
+
+    /**
      * Creates a new multi result from a single element.
      *
      * @param element the element
@@ -51,6 +62,38 @@ public class MultiResult<T> implements Iterable<T> {
     public MultiResult(@Nullable T[] elements, @NotNull Connective connective) {
         this.elements = Arrays.asList(elements);
         this.connective = connective;
+    }
+
+    /**
+     * Creates a new multi result from the given collection.
+     *
+     * @param elements the elements
+     * @param connective the connective
+     * @since 0.1.0
+     */
+    private MultiResult(@NotNull Collection<T> elements, @NotNull Connective connective) {
+        this.elements = elements;
+        this.connective = connective;
+    }
+
+    /**
+     * Maps the elements from this multi result to a new multi result. The connective type in the new multi result is
+     * identical to this type.
+     *
+     * @param mapping the mapping to apply to all elements
+     * @param <U> the type of the result
+     * @return a new multi result with the mapped elements
+     * @since 0.1.0
+     */
+    @NotNull
+    public <U> MultiResult<U> map(@NotNull Function<T, U> mapping) {
+        Collection<U> elements = new ArrayList<>(this.elements.size());
+
+        for (T element : this.elements) {
+            elements.add(mapping.apply(element));
+        }
+
+        return new MultiResult<>(elements, this.connective);
     }
 
     /**

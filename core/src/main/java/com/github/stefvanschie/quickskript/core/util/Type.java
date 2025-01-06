@@ -414,7 +414,7 @@ public enum Type {
                 OFFLINE_PLAYER,
                 PLAYER,
                 REGION, RESOURCE_PACK_STATUS,
-                SOUND_CATEGORY, SPAWN_REASON, STATUS_EFFECT_TYPE,
+                SLOT, SOUND_CATEGORY, SPAWN_REASON, STATUS_EFFECT_TYPE,
                 TEXT, TELEPORT_CAUSE, TIME, TIME_PERIOD, TIME_SPAN, TREE_TYPE, TYPE,
                 VISUAL_EFFECT,
                 WEATHER_TYPE, WORLD
@@ -444,7 +444,7 @@ public enum Type {
                 OFFLINE_PLAYERS,
                 PLAYERS,
                 REGIONS, RESOURCE_PACK_STATUSES,
-                SOUND_CATEGORIES, SPAWN_REASONS, STATUS_EFFECT_TYPES,
+                SLOTS, SOUND_CATEGORIES, SPAWN_REASONS, STATUS_EFFECT_TYPES,
                 TEXTS, TELEPORT_CAUSES, TIMES, TIME_PERIODS, TIME_SPANS, TREE_TYPES, TYPES,
                 WEATHER_TYPES, WORLDS
             };
@@ -506,6 +506,20 @@ public enum Type {
      * @since 0.1.0
      */
     RESOURCE_PACK_STATUSES("resource[ ]pack[ ]states", RESOURCE_PACK_STATUS),
+
+    /**
+     * A single slot.
+     *
+     * @since 0.1.0
+     */
+    SLOT("slot"),
+
+    /**
+     * Multiple slots.
+     *
+     * @since 0.1.0
+     */
+    SLOTS("slots", SLOT),
 
     /**
      * A single sound category.
