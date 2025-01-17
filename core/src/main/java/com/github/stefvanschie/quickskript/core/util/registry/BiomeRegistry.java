@@ -97,6 +97,7 @@ public class BiomeRegistry {
         addEntry(new Entry("old growth birch forest", "tall birch forest"));
         addEntry(new Entry("old growth pine taiga", "giant tree taiga"));
         addEntry(new Entry("old growth spruce taiga", "giant spruce taiga"));
+        addEntry(new Entry("pale garden"));
         addEntry(new Entry("plains"));
         addEntry(new Entry("river"));
         addEntry(new Entry("savanna"));
