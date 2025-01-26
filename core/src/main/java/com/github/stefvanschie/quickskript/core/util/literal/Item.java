@@ -1,11 +1,7 @@
 package com.github.stefvanschie.quickskript.core.util.literal;
 
-import com.github.stefvanschie.quickskript.core.util.registry.ItemTypeRegistry;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Collections;
 
 /**
  * An item with an amount and optionally an enchantment
@@ -18,7 +14,7 @@ public class Item {
      * The item type
      */
     @NotNull
-    private ItemTypeRegistry.Entry itemType;
+    private final String itemType;
 
     /**
      * The amount this item type has
@@ -38,7 +34,7 @@ public class Item {
      * @param amount the amount of items
      * @since 0.1.0
      */
-    public Item(@NotNull ItemTypeRegistry.Entry itemType, int amount) {
+    public Item(@NotNull String itemType, int amount) {
         this.itemType = itemType;
         this.amount = amount;
     }
@@ -49,7 +45,7 @@ public class Item {
      * @param itemType the item type of this item
      * @since 0.1.0
      */
-    public Item(@NotNull ItemTypeRegistry.Entry itemType) {
+    public Item(@NotNull String itemType) {
         this(itemType, 1);
     }
 

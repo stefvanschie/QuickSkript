@@ -111,6 +111,19 @@ public class BlockDataRegistry {
     }
 
     /**
+     * Gets the names of all the blocks in this registry. This includes the namespace. If this registry has no blocks,
+     * then the return iterable will have no elements.
+     *
+     * @return an iterable of the names of all blocks
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public Iterable<? extends String> getNames() {
+        return this.entries.keySet();
+    }
+
+    /**
      * An entry for the block data registry.
      *
      * @since 0.1.0

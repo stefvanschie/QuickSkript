@@ -15,7 +15,6 @@ import com.github.stefvanschie.quickskript.core.util.Pair;
 import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.Enchantment;
 import com.github.stefvanschie.quickskript.core.util.literal.Item;
-import com.github.stefvanschie.quickskript.core.util.registry.ItemTypeRegistry;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -30,7 +29,7 @@ public class PsiItemLiteral extends PsiElement<Item> {
     /**
      * The item
      */
-    private ItemTypeRegistry.Entry item;
+    private String item;
 
     /**
      * The amount of items, or 1 if null
@@ -53,7 +52,7 @@ public class PsiItemLiteral extends PsiElement<Item> {
      * @param lineNumber the line number this element is associated with
      * @since 0.1.0
      */
-    private PsiItemLiteral(@NotNull ItemTypeRegistry.Entry item, @Nullable PsiElement<?> amount,
+    private PsiItemLiteral(@NotNull String item, @Nullable PsiElement<?> amount,
         @Nullable PsiElement<?> enchantment, int lineNumber) {
         super(lineNumber);
 
@@ -116,7 +115,7 @@ public class PsiItemLiteral extends PsiElement<Item> {
                     continue;
                 }
 
-                ItemTypeRegistry.Entry entry = skriptLoader.getItemTypeRegistry().getEntryByName(pair.getY());
+                String entry = skriptLoader.getItemTypeRegistry().getEntryByName(pair.getY());
 
                 if (entry != null) {
                     return create(entry, amount, enchantment, lineNumber);
@@ -141,7 +140,7 @@ public class PsiItemLiteral extends PsiElement<Item> {
          */
         @NotNull
         @Contract(pure = true)
-        public PsiItemLiteral create(@NotNull ItemTypeRegistry.Entry item, PsiElement<?> amount,
+        public PsiItemLiteral create(@NotNull String item, PsiElement<?> amount,
             PsiElement<?> enchantment, int lineNumber) {
             return new PsiItemLiteral(item, amount, enchantment, lineNumber);
         }

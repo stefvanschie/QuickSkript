@@ -57,7 +57,6 @@ import com.github.stefvanschie.quickskript.core.util.literal.TreeType;
 import com.github.stefvanschie.quickskript.core.util.literal.WeatherType;
 import com.github.stefvanschie.quickskript.core.util.literal.World;
 import com.github.stefvanschie.quickskript.core.util.registry.EntityTypeRegistry;
-import com.github.stefvanschie.quickskript.core.util.registry.ItemTypeRegistry;
 import io.papermc.paper.event.entity.EntityMoveEvent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -552,7 +551,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                         continue;
                     }
 
-                    Iterable<String> entries = ((ItemType) object).getAllKeys();
+                    Iterable<? extends String> entries = ((ItemType) object).getItemTypeEntries();
 
                     return event -> {
                         ItemStack item = event.getItem();
@@ -612,8 +611,8 @@ public class BukkitSkriptLoader extends SkriptLoader {
 
                     Collection<BlockData> blockData = new HashSet<>();
 
-                    for (ItemTypeRegistry.Entry entry : ((ItemType) object).getItemTypeEntries()) {
-                        blockData.add(Bukkit.createBlockData(entry.getFullNamespacedKey()));
+                    for (String entry : ((ItemType) object).getItemTypeEntries()) {
+                        blockData.add(Bukkit.createBlockData(entry));
                     }
 
                     return event -> {
@@ -703,7 +702,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                         continue;
                     }
 
-                    Iterable<String> entries = ((ItemType) object).getAllKeys();
+                    Iterable<? extends String> entries = ((ItemType) object).getItemTypeEntries();
 
                     return event -> {
                         ItemStack item = event.getRecipe().getResult();
@@ -807,7 +806,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                             continue;
                         }
 
-                        Iterable<String> entries = ((ItemType) object).getAllKeys();
+                        Iterable<? extends String> entries = ((ItemType) object).getItemTypeEntries();
 
                         return event -> {
                             ItemStack item = event.getCurrentItem();
@@ -847,7 +846,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                             continue;
                         }
 
-                        Iterable<String> entries = ((ItemType) object).getAllKeys();
+                        Iterable<? extends String> entries = ((ItemType) object).getItemTypeEntries();
 
                         return event -> {
                             ItemStack item = event.getEntity().getItemStack();
@@ -883,7 +882,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                             continue;
                         }
 
-                        Iterable<String> entries = ((ItemType) object).getAllKeys();
+                        Iterable<? extends String> entries = ((ItemType) object).getItemTypeEntries();
 
                         return event -> {
                             ItemStack item = event.getEntity().getItemStack();
@@ -918,7 +917,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                         continue;
                     }
 
-                    Iterable<String> entries = ((ItemType) object).getAllKeys();
+                    Iterable<? extends String> entries = ((ItemType) object).getItemTypeEntries();
 
                     return event -> {
                         ItemStack item = event.getEntity().getItemStack();
@@ -993,7 +992,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                             continue;
                         }
 
-                        Iterable<String> entries = ((ItemType) object).getAllKeys();
+                        Iterable<? extends String> entries = ((ItemType) object).getItemTypeEntries();
 
                         return event -> {
                             ItemStack item = event.getItemDrop().getItemStack();
@@ -1052,7 +1051,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                                 continue;
                             }
 
-                            Iterable<String> entries = ((ItemType) object).getAllKeys();
+                            Iterable<? extends String> entries = ((ItemType) object).getItemTypeEntries();
 
                             return event -> {
                                 ItemStack item = event.getItem();
@@ -1178,7 +1177,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                             continue;
                         }
 
-                        Iterable<String> entries = ((ItemType) object).getAllKeys();
+                        Iterable<? extends String> entries = ((ItemType) object).getItemTypeEntries();
 
                         return event -> {
                             Recipe recipe = event.getRecipe();
@@ -1350,7 +1349,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                             continue;
                         }
 
-                        Collection<String> keys = ((ItemType) itemType).getAllKeys();
+                        Iterable<? extends String> keys = ((ItemType) itemType).getItemTypeEntries();
 
                         return event -> {
                             if (match.getParseMark() == 1 && !(event.getEntity() instanceof Player)) {
@@ -1444,13 +1443,11 @@ public class BukkitSkriptLoader extends SkriptLoader {
                                 continue;
                             }
 
-                            for (ItemTypeRegistry.Entry entry : ((ItemType) object).getItemTypeEntries()) {
-                                String namespacedKey = entry.getFullNamespacedKey();
-
+                            for (String entry : ((ItemType) object).getItemTypeEntries()) {
                                 if ((parseMark & 16) > 0) {
-                                    holding.add(namespacedKey);
+                                    holding.add(entry);
                                 } else {
-                                    targets.add(Bukkit.createBlockData(namespacedKey));
+                                    targets.add(Bukkit.createBlockData(entry));
                                 }
                             }
 
@@ -1464,13 +1461,11 @@ public class BukkitSkriptLoader extends SkriptLoader {
                                 continue;
                             }
 
-                            for (ItemTypeRegistry.Entry entry : ((ItemType) object).getItemTypeEntries()) {
-                                String namespacedKey = entry.getFullNamespacedKey();
-
+                            for (String entry : ((ItemType) object).getItemTypeEntries()) {
                                 if ((parseMark & 16) > 0) {
-                                    targets.add(Bukkit.createBlockData(namespacedKey));
+                                    targets.add(Bukkit.createBlockData(entry));
                                 } else {
-                                    holding.add(namespacedKey);
+                                    holding.add(entry);
                                 }
                             }
                         }
@@ -1551,7 +1546,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                                     continue;
                                 }
 
-                                holding.addAll(((ItemType) itemType).getAllKeys());
+                                holding.addAll(((ItemType) itemType).getItemTypeEntries());
 
                                 elementIndex++;
                             }
@@ -1588,7 +1583,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                                     continue;
                                 }
 
-                                holding.addAll(((ItemType) itemType).getAllKeys());
+                                holding.addAll(((ItemType) itemType).getItemTypeEntries());
                             }
                         }
 
@@ -1686,8 +1681,8 @@ public class BukkitSkriptLoader extends SkriptLoader {
 
                     Collection<BlockData> blockData = new HashSet<>();
 
-                    for (ItemTypeRegistry.Entry entry : ((ItemType) itemType).getItemTypeEntries()) {
-                        blockData.add(Bukkit.createBlockData(entry.getFullNamespacedKey()));
+                    for (String entry : ((ItemType) itemType).getItemTypeEntries()) {
+                        blockData.add(Bukkit.createBlockData(entry));
                     }
 
                     return event -> {
@@ -1994,8 +1989,8 @@ public class BukkitSkriptLoader extends SkriptLoader {
     private <T extends BlockEvent> Predicate<T> defaultItemTypeComparison(@NotNull ItemType itemType) {
         Collection<BlockData> blockData = new HashSet<>();
 
-        for (ItemTypeRegistry.Entry entry : itemType.getItemTypeEntries()) {
-            blockData.add(Bukkit.createBlockData(entry.getFullNamespacedKey()));
+        for (String entry : itemType.getItemTypeEntries()) {
+            blockData.add(Bukkit.createBlockData(entry));
         }
 
         return event -> {

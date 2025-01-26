@@ -14,7 +14,6 @@ import com.github.stefvanschie.quickskript.core.util.Pair;
 import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.Enchantment;
 import com.github.stefvanschie.quickskript.core.util.literal.ItemType;
-import com.github.stefvanschie.quickskript.core.util.registry.ItemTypeRegistry;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -125,19 +124,13 @@ public class PsiItemCategoryLiteral extends PsiElement<ItemType> {
                 throw new IllegalStateException("No regex found, did the skript pattern change?");
             }
 
-            Set<ItemTypeRegistry.Entry> itemTypes = skriptLoader.getItemTypeRegistry().getEntriesByCategory(pattern);
+            String entry = skriptLoader.getItemTypeRegistry().getEntryByName(pattern);
 
-            if (itemTypes == null || itemTypes.isEmpty()) {
-                ItemTypeRegistry.Entry entry = skriptLoader.getItemTypeRegistry().getEntryByName(pattern);
-
-                if (entry == null) {
-                    return null;
-                }
-
-                itemTypes = Collections.singleton(entry);
+            if (entry == null) {
+                return null;
             }
 
-            var itemCategory = new ItemType(itemTypes);
+            var itemCategory = new ItemType(Collections.singleton(entry));
 
             if (result.getParseMark() == 1) {
                 itemCategory.all();

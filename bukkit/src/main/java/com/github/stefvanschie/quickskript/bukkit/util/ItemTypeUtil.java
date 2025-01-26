@@ -1,7 +1,6 @@
 package com.github.stefvanschie.quickskript.bukkit.util;
 
 import com.github.stefvanschie.quickskript.core.util.literal.ItemType;
-import com.github.stefvanschie.quickskript.core.util.registry.ItemTypeRegistry;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -69,13 +68,11 @@ public class ItemTypeUtil {
     public static List<? extends Material> convertToMaterials(@NotNull ItemType itemType) {
         List<Material> materials = new ArrayList<>();
 
-        for (ItemTypeRegistry.Entry itemTypeEntry : itemType.getItemTypeEntries()) {
-            String fullNamespacedKey = itemTypeEntry.getFullNamespacedKey();
-
+        for (String itemTypeEntry : itemType.getItemTypeEntries()) {
             try {
-                materials.add(Bukkit.createBlockData(fullNamespacedKey).getMaterial());
+                materials.add(Bukkit.createBlockData(itemTypeEntry).getMaterial());
             } catch (IllegalArgumentException ignored) {
-                materials.add(Material.matchMaterial(fullNamespacedKey));
+                materials.add(Material.matchMaterial(itemTypeEntry));
             }
         }
 

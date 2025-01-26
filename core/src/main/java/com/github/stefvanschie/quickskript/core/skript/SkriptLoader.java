@@ -125,7 +125,7 @@ public abstract class SkriptLoader {
             literalRegistry = new LiteralRegistry();
         }), CompletableFuture.runAsync(() -> {
             blockDataRegistry = new BlockDataRegistry();
-            itemTypeRegistry = new ItemTypeRegistry();
+            itemTypeRegistry = new ItemTypeRegistry(blockDataRegistry);
             visualEffectRegistry = new VisualEffectRegistry();
         })).join();
 

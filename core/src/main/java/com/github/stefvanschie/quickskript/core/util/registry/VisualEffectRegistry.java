@@ -1,12 +1,12 @@
 package com.github.stefvanschie.quickskript.core.util.registry;
 
-import com.github.stefvanschie.quickskript.core.file.alias.ResolvedAliasEntry;
-import com.github.stefvanschie.quickskript.core.file.alias.manager.AliasFileManager;
+import com.github.stefvanschie.quickskript.core.file.alias.AliasFile;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.*;
 
 /**
@@ -47,16 +47,23 @@ public class VisualEffectRegistry {
      * @since 0.1.0
      */
     private void addDefaultVisualEffects() {
-        var manager = new AliasFileManager();
+        URL url = getClass().getResource("/registry-data/visual-effect.alias");
 
-        try {
-            manager.read(getClass().getResource("/registry-data/visual-effect.alias"), "visual-effect.alias");
-        } catch (IOException exception) {
-            exception.printStackTrace();
+        if (url == null) {
+            throw new IllegalStateException("Visual effects file missing");
         }
 
-        for (ResolvedAliasEntry entry : manager.resolveAll()) {
-            addEntry(new VisualEffectRegistry.Entry(entry.getPattern()));
+        AliasFile file;
+
+        try {
+            file = AliasFile.parse(url);
+        } catch (IOException exception) {
+            exception.printStackTrace();
+            return;
+        }
+
+        for (SkriptPattern entry : file.getEntries()) {
+            addEntry(new VisualEffectRegistry.Entry(entry));
         }
     }
 

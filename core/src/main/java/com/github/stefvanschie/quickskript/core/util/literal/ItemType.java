@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.util.literal;
 
-import com.github.stefvanschie.quickskript.core.util.registry.ItemTypeRegistry;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,7 +18,7 @@ public class ItemType {
     /**
      * All item types that belong to this category
      */
-    private Collection<ItemTypeRegistry.Entry> itemTypes;
+    private final Collection<? extends String> itemTypes;
 
     /**
      * The amount of item for this category
@@ -43,26 +42,8 @@ public class ItemType {
      * @param itemTypes the item types this category has
      * @since 0.1.0
      */
-    public ItemType(@NotNull Collection<ItemTypeRegistry.Entry> itemTypes) {
+    public ItemType(@NotNull Collection<? extends String> itemTypes) {
         this.itemTypes = itemTypes;
-    }
-
-    /**
-     * Gets all full namespaced keys of this item type.
-     *
-     * @return all keys
-     * @since 0.1.0
-     */
-    @NotNull
-    @Contract(pure = true)
-    public Collection<String> getAllKeys() {
-        var entries = new HashSet<String>();
-
-        for (ItemTypeRegistry.Entry entry : getItemTypeEntries()) {
-            entries.add(entry.getFullNamespacedKey());
-        }
-
-        return entries;
     }
 
     /**
@@ -102,7 +83,7 @@ public class ItemType {
      */
     @NotNull
     @Contract(pure = true)
-    public Iterable<? extends ItemTypeRegistry.Entry> getItemTypeEntries() {
+    public Collection<? extends String> getItemTypeEntries() {
         return itemTypes;
     }
 
