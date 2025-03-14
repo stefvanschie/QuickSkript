@@ -9,6 +9,7 @@ import com.github.stefvanschie.quickskript.core.psi.util.multiresult.MultiResult
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.util.literal.Slot;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.PlayerInventory;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -44,7 +45,11 @@ public class PsiHotbarSlotExpressionImpl extends PsiHotbarSlotExpression impleme
             players = super.players.executeMulti(environment, context, Player.class);
         }
 
-        return players.map(player -> new HotbarSlot(player, player.getInventory().getHeldItemSlot()));
+        return players.map(player -> {
+            PlayerInventory inventory = player.getInventory();
+
+            return new HotbarSlot(inventory, inventory.getHeldItemSlot());
+        });
     }
 
     @Override

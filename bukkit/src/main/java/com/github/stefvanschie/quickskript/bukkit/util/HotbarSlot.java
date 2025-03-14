@@ -1,7 +1,9 @@
 package com.github.stefvanschie.quickskript.bukkit.util;
 
 import com.github.stefvanschie.quickskript.core.util.literal.Slot;
-import org.bukkit.entity.Player;
+import org.bukkit.Material;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,23 +15,38 @@ import org.jetbrains.annotations.NotNull;
 public class HotbarSlot implements Slot {
 
     /**
+     * The inventory to which this slot belongs to.
+     */
+    @NotNull
+    private final Inventory inventory;
+
+    /**
      * The index of the slot
      */
     private final int index;
 
     /**
-     * Creates a new hotbar slot for a given player. The slot index is between 0-8, from left to right.
+     * Creates a new hotbar slot for a given inventory. The slot index is between 0-8, from left to right.
      *
-     * @param player the player whose slot this is
+     * @param inventory the inventory in which the slot resides
      * @param index the index of the slot on the hotbar
      * @throws IllegalArgumentException when the slot is outside the range of the hotbar
      */
-    public HotbarSlot(@NotNull Player player, int index) {
+    public HotbarSlot(@NotNull Inventory inventory, int index) {
         if (index < 0 || index > 9) {
             throw new IllegalArgumentException("Index must be between 0-8, but is '" + index + "'");
         }
 
+        this.inventory = inventory;
         this.index = index;
+    }
+
+    @Contract(pure = true)
+    @Override
+    public boolean isEmpty() {
+        ItemStack item = this.inventory.getItem(getIndex());
+
+        return item == null || item.getType() == Material.AIR;
     }
 
     /**

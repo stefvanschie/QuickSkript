@@ -220,6 +220,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
         registerElement(new PsiIsOnlineConditionImpl.Factory());
         registerElement(new PsiIsPoisonedConditionImpl.Factory());
         registerElement(new PsiIsSleepingConditionImpl.Factory());
+        registerElement(new PsiIsSlotEmptyCondition.Factory());
         registerElement(new PsiIsSneakingConditionImpl.Factory());
         registerElement(new PsiIsSprintingConditionImpl.Factory());
         registerElement(new PsiIsSwimmingConditionImpl.Factory());
