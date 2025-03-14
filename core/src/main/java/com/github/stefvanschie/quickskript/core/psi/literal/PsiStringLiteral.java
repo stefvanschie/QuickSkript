@@ -38,11 +38,10 @@ public class PsiStringLiteral extends PsiPrecomputedHolder<String> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * A pattern for matching strings. Making the plus lazy is crucial to ensure this doesn't accidentally match
-         * multiple strings as one.
+         * A pattern for matching strings.
          */
         @NotNull
-        private final Pattern pattern = Pattern.compile("\"(?<text>[^\"]+)\"");
+        private final Pattern pattern = Pattern.compile("\"(?<text>[^\"]*)\"");
 
         /**
          * This gets called upon parsing

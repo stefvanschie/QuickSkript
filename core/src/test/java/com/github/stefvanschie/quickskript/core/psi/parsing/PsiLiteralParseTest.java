@@ -1,9 +1,6 @@
 package com.github.stefvanschie.quickskript.core.psi.parsing;
 
 import com.github.stefvanschie.quickskript.core.TestClassBase;
-import com.github.stefvanschie.quickskript.core.psi.literal.PsiNumberLiteral;
-import com.github.stefvanschie.quickskript.core.psi.literal.PsiStringLiteral;
-import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -38,7 +35,6 @@ class PsiLiteralParseTest extends TestClassBase {
             "\" \""
         ).setFailure(
             "&cTest§f",
-            "\"\"",
             "\""
         ));
     }
