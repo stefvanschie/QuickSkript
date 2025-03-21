@@ -1,5 +1,6 @@
 package com.github.stefvanschie.quickskript.core.util.literal;
 
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -57,5 +58,16 @@ public class Item {
      */
     public void setEnchantment(@NotNull Enchantment enchantment) {
         this.enchantment = enchantment;
+    }
+
+    /**
+     * Gets whether this item is empty.
+     *
+     * @return true if this item is empty, false otherwise
+     * @since 0.1.0
+     */
+    @Contract(pure = true)
+    public boolean isEmpty() {
+        return this.amount == 0;
     }
 }
