@@ -30,6 +30,7 @@ blaze_rod
 blaze_spawn_egg
 blue_bundle
 blue_dye
+blue_egg
 bogged_spawn_egg
 bolt_armor_trim_smithing_template
 bone
@@ -45,6 +46,7 @@ brewer_pottery_sherd
 brick
 brown_bundle
 brown_dye
+brown_egg
 brush
 bucket
 bundle

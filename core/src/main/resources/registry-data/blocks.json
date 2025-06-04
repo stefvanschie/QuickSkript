@@ -525,9 +525,11 @@
         "waterlogged": ["false", "true"]
     },
     "budding_amethyst": {},
+    "bush": {},
     "cactus": {
         "age": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"]
     },
+    "cactus_flower": {},
     "cake": {
         "bites": ["0", "1", "2", "3", "4", "5", "6"]
     },
@@ -1279,6 +1281,7 @@
         "facing": ["east", "north", "south", "west"],
         "waterlogged": ["false", "true"]
     },
+    "firefly_bush": {},
     "fletching_table": {},
     "flowering_azalea": {},
     "flowering_azalea_leaves": {
@@ -1590,6 +1593,10 @@
         "level": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"]
     },
     "lava_cauldron": {},
+    "leaf_litter": {
+        "facing": ["east", "north", "south", "west"],
+        "segment_amount": ["1", "2", "3", "4"]
+    },
     "lectern": {
         "facing": ["east", "north", "south", "west"],
         "has_book": ["false", "true"],
@@ -2778,6 +2785,7 @@
         "pickles": ["1", "2", "3", "4"],
         "waterlogged": ["false", "true"]
     },
+    "short_dry_grass": {},
     "short_grass": {},
     "shroomlight": {},
     "shulker_box": {
@@ -3081,6 +3089,7 @@
     "sweet_berry_bush": {
         "age": ["0", "1", "2", "3"]
     },
+    "tall_dry_grass": {},
     "tall_grass": {
         "half": ["lower", "upper"]
     },
@@ -3091,6 +3100,10 @@
         "power": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"]
     },
     "terracotta": {},
+    "test_block": {
+        "mode": ["start", "log", "fail", "accept"]
+    },
+    "test_instance_block": {},
     "tinted_glass": {},
     "tnt": {
         "unstable": ["false", "true"]
@@ -3483,6 +3496,10 @@
         "facing": ["east", "north", "south", "west"]
     },
     "white_wool": {},
+    "wildflowers": {
+        "facing": ["east", "north", "south", "west"],
+        "flower_amount": ["1", "2", "3", "4"]
+    },
     "wither_rose": {},
     "wither_skeleton_skull": {
         "rotation": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"]
