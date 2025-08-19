@@ -13,7 +13,7 @@ import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.util.Pair;
 import com.github.stefvanschie.quickskript.core.util.Type;
-import com.github.stefvanschie.quickskript.core.util.literal.Enchantment;
+import com.github.stefvanschie.quickskript.core.util.literal.EnchantmentType;
 import com.github.stefvanschie.quickskript.core.util.literal.Item;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -75,7 +75,7 @@ public class PsiItemLiteral extends PsiElement<Item> {
         var item = new Item(this.item, amount == null ? 1 : amount.execute(environment, context, Number.class).intValue());
 
         if (enchantment != null) {
-            item.setEnchantment(enchantment.execute(environment, context, Enchantment.class));
+            item.setEnchantment(enchantment.execute(environment, context, EnchantmentType.class));
         }
 
         return item;

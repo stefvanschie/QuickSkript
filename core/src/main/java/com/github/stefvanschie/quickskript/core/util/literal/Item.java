@@ -26,7 +26,7 @@ public class Item {
      * The enchantment or null if this item doesn't have an enchantment
      */
     @Nullable
-    private Enchantment enchantment;
+    private EnchantmentType enchantmentType;
 
     /**
      * Creates a new item with the given item type. The amount will be set the 1.
@@ -53,11 +53,11 @@ public class Item {
     /**
      * Sets the enchantment for this item
      *
-     * @param enchantment the enchantment
+     * @param enchantmentType the enchantment
      * @since 0.1.0
      */
-    public void setEnchantment(@NotNull Enchantment enchantment) {
-        this.enchantment = enchantment;
+    public void setEnchantment(@NotNull EnchantmentType enchantmentType) {
+        this.enchantmentType = enchantmentType;
     }
 
     /**

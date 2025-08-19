@@ -33,7 +33,7 @@ public class LiteralRegistry {
         addEntry(new Entry(SkriptPattern.parse("click[ ]type[s]"), ClickType.class));
         addEntry(new Entry(SkriptPattern.parse("colo[u]r[s]"), Color.class));
         addEntry(new Entry(SkriptPattern.parse("damage[ ]cause[s]"), DamageCause.class));
-        addEntry(new Entry(SkriptPattern.parse("enchantment[s]"), Enchantment.class));
+        addEntry(new Entry(SkriptPattern.parse("enchantment[s]"), EnchantmentType.class));
         addEntry(new Entry(SkriptPattern.parse("experience[ ][point[s]]"), Experience.class));
         addEntry(new Entry(SkriptPattern.parse("firework[ ]type[s]"), FireworkType.class));
         addEntry(new Entry(SkriptPattern.parse("game[ ]mode[s]"), GameMode.class));

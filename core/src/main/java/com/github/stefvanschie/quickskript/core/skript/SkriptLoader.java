@@ -16,6 +16,7 @@ import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.PatternTypeOrderHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.exception.ParsingAnnotationInvalidValueException;
 import com.github.stefvanschie.quickskript.core.util.Type;
+import com.github.stefvanschie.quickskript.core.util.literal.Enchantment;
 import com.github.stefvanschie.quickskript.core.util.registry.*;
 import com.github.stefvanschie.quickskript.core.util.Pair;
 import org.jetbrains.annotations.Contract;
@@ -82,6 +83,11 @@ public abstract class SkriptLoader {
     private BlockDataRegistry blockDataRegistry;
 
     /**
+     * An enchantment registry for working with enchantments.
+     */
+    protected Registry<Enchantment> enchantmentRegistry;
+
+    /**
      * An entity type registry for working with entity types
      */
     private EntityTypeRegistry entityTypeRegistry;
@@ -119,6 +125,7 @@ public abstract class SkriptLoader {
     protected SkriptLoader() {
         CompletableFuture.allOf(CompletableFuture.runAsync(() -> {
             biomeRegistry = new BiomeRegistry();
+            this.enchantmentRegistry = new EnchantmentRegistry();
             entityTypeRegistry = new EntityTypeRegistry();
             inventoryTypeRegistry = new InventoryTypeRegistry();
             regionRegistry = new RegionRegistry();
@@ -134,7 +141,6 @@ public abstract class SkriptLoader {
         registerDefaultConverters();
         registerDefaultEvents();
     }
-
 
     /**
      * Parses text into psi elements.
@@ -634,6 +640,18 @@ public abstract class SkriptLoader {
     @Contract(pure = true)
     public BlockDataRegistry getBlockDataRegistry() {
         return blockDataRegistry;
+    }
+
+    /**
+     * Gets the enchantment registry attached to this skript loader.
+     *
+     * @return the enchantment registry
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public Registry<Enchantment> getEnchantmentRegistry() {
+        return this.enchantmentRegistry;
     }
 
     /**

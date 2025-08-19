@@ -7,9 +7,11 @@ import com.github.stefvanschie.quickskript.core.pattern.group.SkriptPatternGroup
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.util.Pair;
 import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.Enchantment;
+import com.github.stefvanschie.quickskript.core.util.literal.EnchantmentType;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -19,17 +21,17 @@ import org.jetbrains.annotations.Nullable;
  *
  * @since 0.1.0
  */
-public class PsiEnchantmentLiteral extends PsiPrecomputedHolder<Enchantment> {
+public class PsiEnchantmentLiteral extends PsiPrecomputedHolder<EnchantmentType> {
 
     /**
      * Creates a new element with the given line number
      *
-     * @param enchantment the enchantment
+     * @param enchantmentType the enchantment
      * @param lineNumber the line number this element is associated with
      * @since 0.1.0
      */
-    private PsiEnchantmentLiteral(@NotNull Enchantment enchantment, int lineNumber) {
-        super(enchantment, lineNumber);
+    private PsiEnchantmentLiteral(@NotNull EnchantmentType enchantmentType, int lineNumber) {
+        super(enchantmentType, lineNumber);
     }
 
     /**
@@ -48,6 +50,7 @@ public class PsiEnchantmentLiteral extends PsiPrecomputedHolder<Enchantment> {
         /**
          * Called whenever a potential match is found for an enchantment literal
          *
+         * @param loader the skript loader
          * @param result the match result
          * @param lineNumber the line number
          * @return the literal, or null to indicate failure
@@ -56,7 +59,11 @@ public class PsiEnchantmentLiteral extends PsiPrecomputedHolder<Enchantment> {
         @Nullable
         @Contract(pure = true)
         @Pattern("pattern")
-        public PsiEnchantmentLiteral parse(@NotNull SkriptMatchResult result, int lineNumber) {
+        public PsiEnchantmentLiteral parse(
+            @NotNull SkriptLoader loader,
+            @NotNull SkriptMatchResult result,
+            int lineNumber
+        ) {
             String[] regexStrings = new String[2];
 
             for (Pair<SkriptPatternGroup, String> group : result.getMatchedGroups()) {
@@ -73,7 +80,7 @@ public class PsiEnchantmentLiteral extends PsiPrecomputedHolder<Enchantment> {
                 }
             }
 
-            Enchantment.Type enchantment = Enchantment.Type.byName(regexStrings[0].toLowerCase());
+            Enchantment enchantment = loader.getEnchantmentRegistry().byName(regexStrings[0].toLowerCase());
 
             if (enchantment == null) {
                 return null;
@@ -94,7 +101,7 @@ public class PsiEnchantmentLiteral extends PsiPrecomputedHolder<Enchantment> {
          * Provides a default way for creating the specified object for this factory with the given parameters as
          * constructor parameters.
          *
-         * @param type the enchantment type
+         * @param enchantment the enchantment
          * @param level the level or null if there's no level
          * @param lineNumber the line number
          * @return the expression
@@ -102,8 +109,8 @@ public class PsiEnchantmentLiteral extends PsiPrecomputedHolder<Enchantment> {
          */
         @NotNull
         @Contract(pure = true)
-        public PsiEnchantmentLiteral create(@NotNull Enchantment.Type type, @Nullable Integer level, int lineNumber) {
-            return new PsiEnchantmentLiteral(new Enchantment(type, level), lineNumber);
+        public PsiEnchantmentLiteral create(@NotNull Enchantment enchantment, @Nullable Integer level, int lineNumber) {
+            return new PsiEnchantmentLiteral(new EnchantmentType(enchantment, level), lineNumber);
         }
 
         @NotNull

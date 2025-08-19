@@ -34,7 +34,7 @@ public class ItemType {
      * All enchantments that these item types have. If {@link #all} is true then this set is for all item types,
      * otherwise it's for just one item types. If there are no item types, then this applies to none of them.
      */
-    private final Set<Enchantment> enchantments = new HashSet<>();
+    private final Set<EnchantmentType> enchantmentTypes = new HashSet<>();
 
     /**
      * Creates a new item category with the given item types.
@@ -68,11 +68,11 @@ public class ItemType {
     /**
      * Adds the provided enchantments to the enchantments in this item category.
      *
-     * @param enchantment the enchantment to add
+     * @param enchantmentType the enchantment to add
      * @since 0.1.0
      */
-    public void addEnchantment(@NotNull Enchantment enchantment) {
-        this.enchantments.add(enchantment);
+    public void addEnchantment(@NotNull EnchantmentType enchantmentType) {
+        this.enchantmentTypes.add(enchantmentType);
     }
 
     /**
@@ -95,8 +95,8 @@ public class ItemType {
      */
     @NotNull
     @Contract(pure = true)
-    public Collection<? extends Enchantment> getEnchantments() {
-        return Collections.unmodifiableCollection(this.enchantments);
+    public Collection<? extends EnchantmentType> getEnchantments() {
+        return Collections.unmodifiableCollection(this.enchantmentTypes);
     }
 
     /**

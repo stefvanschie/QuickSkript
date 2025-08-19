@@ -27,6 +27,7 @@ import com.github.stefvanschie.quickskript.bukkit.util.event.region.RegionEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.region.RegionLeaveEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.script.ScriptLoadEvent;
 import com.github.stefvanschie.quickskript.bukkit.util.event.script.ScriptUnloadEvent;
+import com.github.stefvanschie.quickskript.bukkit.util.registry.BukkitEnchantmentRegistry;
 import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileLine;
 import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileNode;
 import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileSection;
@@ -135,6 +136,8 @@ public class BukkitSkriptLoader extends SkriptLoader {
         RegionIntegration regionIntegration = QuickSkript.getInstance().getRegionIntegration();
 
         getRegionRegistry().addRegions(regionIntegration.getRegions());
+
+        super.enchantmentRegistry = new BukkitEnchantmentRegistry(super.enchantmentRegistry);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.github.stefvanschie.quickskript.bukkit.util;
 
+import com.github.stefvanschie.quickskript.core.util.literal.EnchantmentType;
 import com.github.stefvanschie.quickskript.core.util.literal.ItemType;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -36,10 +37,10 @@ public class ItemTypeUtil {
     public static Collection<? extends ItemStack> convertToItemStacks(@NotNull ItemType itemType) {
         Map<Enchantment, Integer> enchantments = new HashMap<>();
 
-        for (com.github.stefvanschie.quickskript.core.util.literal.Enchantment enchantment : itemType.getEnchantments()) {
-            org.bukkit.enchantments.Enchantment bukkitEnchantment = EnchantmentTypeUtil.convert(enchantment.getType());
+        for (EnchantmentType enchantmentType : itemType.getEnchantments()) {
+            org.bukkit.enchantments.Enchantment bukkitEnchantment = EnchantmentUtil.convert(enchantmentType.getEnchantment());
 
-            enchantments.put(bukkitEnchantment, enchantment.getLevel());
+            enchantments.put(bukkitEnchantment, enchantmentType.getLevel());
         }
 
         Collection<ItemStack> itemStacks = new HashSet<>();

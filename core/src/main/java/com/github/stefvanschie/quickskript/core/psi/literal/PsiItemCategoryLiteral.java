@@ -12,7 +12,7 @@ import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.util.Pair;
 import com.github.stefvanschie.quickskript.core.util.Type;
-import com.github.stefvanschie.quickskript.core.util.literal.Enchantment;
+import com.github.stefvanschie.quickskript.core.util.literal.EnchantmentType;
 import com.github.stefvanschie.quickskript.core.util.literal.ItemType;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -74,7 +74,7 @@ public class PsiItemCategoryLiteral extends PsiElement<ItemType> {
         }
 
         if (enchantment != null) {
-            itemType.addEnchantment(enchantment.execute(environment, context, Enchantment.class));
+            itemType.addEnchantment(enchantment.execute(environment, context, EnchantmentType.class));
         }
 
         return itemType;
