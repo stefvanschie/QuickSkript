@@ -19,7 +19,7 @@ import java.util.*;
  *
  * @since 0.1.0
  */
-public class EntityTypeRegistry {
+public class EntityTypeRegistry implements Registry<EntityTypeRegistry.Entry> {
 
     /**
      * The entries of this registry
@@ -46,15 +46,9 @@ public class EntityTypeRegistry {
         entries.put(entry.getName(), entry);
     }
 
-    /**
-     * Gets the entity type by name or null if no such entity type exists.
-     *
-     * @param name the name of the entity type
-     * @return the entity type or null
-     * @since 0.1.0
-     */
     @Nullable
     @Contract(pure = true)
+    @Override
     public Entry byName(@NotNull String name) {
         return entries.get(name);
     }

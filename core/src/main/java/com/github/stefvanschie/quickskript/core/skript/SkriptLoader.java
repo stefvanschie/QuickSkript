@@ -90,7 +90,7 @@ public abstract class SkriptLoader {
     /**
      * An entity type registry for working with entity types
      */
-    private EntityTypeRegistry entityTypeRegistry;
+    private Registry<EntityTypeRegistry.Entry> entityTypeRegistry;
 
     /**
      * An inventory type registry for working with inventory types
@@ -665,7 +665,7 @@ public abstract class SkriptLoader {
      */
     @NotNull
     @Contract(pure = true)
-    public EntityTypeRegistry getEntityTypeRegistry() {
+    public Registry<EntityTypeRegistry.Entry> getEntityTypeRegistry() {
         return entityTypeRegistry;
     }
 
