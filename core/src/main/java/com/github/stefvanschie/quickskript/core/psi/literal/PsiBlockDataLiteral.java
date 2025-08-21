@@ -63,7 +63,7 @@ public class PsiBlockDataLiteral extends PsiPrecomputedHolder<BlockData> {
                 block = "minecraft:" + block;
             }
 
-            BlockDataRegistry.Entry entry = skriptLoader.getBlockDataRegistry().getEntry(block);
+            BlockDataRegistry.Entry entry = skriptLoader.getBlockDataRegistry().byName(block);
             BlockData blockData = new BlockData(block);
 
             if (entry == null) {

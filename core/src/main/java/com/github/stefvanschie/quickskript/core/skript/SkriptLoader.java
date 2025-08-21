@@ -80,7 +80,7 @@ public abstract class SkriptLoader {
     /**
      * A block data registry for working with block data
      */
-    private BlockDataRegistry blockDataRegistry;
+    private Registry<BlockDataRegistry.Entry> blockDataRegistry;
 
     /**
      * An enchantment registry for working with enchantments.
@@ -131,8 +131,11 @@ public abstract class SkriptLoader {
             regionRegistry = new RegionRegistry();
             literalRegistry = new LiteralRegistry();
         }), CompletableFuture.runAsync(() -> {
-            blockDataRegistry = new BlockDataRegistry();
-            itemTypeRegistry = new ItemTypeRegistry(blockDataRegistry);
+            var registry = new BlockDataRegistry();
+
+            this.blockDataRegistry = registry;
+            this.itemTypeRegistry = new ItemTypeRegistry(registry);
+
             visualEffectRegistry = new VisualEffectRegistry();
         })).join();
 
@@ -638,7 +641,7 @@ public abstract class SkriptLoader {
      */
     @NotNull
     @Contract(pure = true)
-    public BlockDataRegistry getBlockDataRegistry() {
+    public Registry<BlockDataRegistry.Entry> getBlockDataRegistry() {
         return blockDataRegistry;
     }
 

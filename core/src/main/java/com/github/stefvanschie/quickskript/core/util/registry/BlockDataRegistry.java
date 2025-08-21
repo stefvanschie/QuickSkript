@@ -21,7 +21,7 @@ import java.util.Map;
  *
  * @since 0.1.0
  */
-public class BlockDataRegistry {
+public class BlockDataRegistry implements Registry<BlockDataRegistry.Entry> {
 
     /**
      * All possible block data entries
@@ -96,17 +96,10 @@ public class BlockDataRegistry {
         }
     }
 
-    /**
-     * Gets the block data entry by the given name, or null if no entry with the given name exists. This should be the
-     * text representation of the full namespaced key of the block, without any extra block data.
-     *
-     * @param name the name of the block
-     * @return the block data entry, or null if no entry with such name exists
-     * @since 0.1.0
-     */
     @Nullable
     @Contract(pure = true)
-    public Entry getEntry(@NotNull String name) {
+    @Override
+    public Entry byName(@NotNull String name) {
         return this.entries.get(name);
     }
 
