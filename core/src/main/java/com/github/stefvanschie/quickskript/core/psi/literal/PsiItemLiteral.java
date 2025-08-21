@@ -115,7 +115,7 @@ public class PsiItemLiteral extends PsiElement<Item> {
                     continue;
                 }
 
-                String entry = skriptLoader.getItemTypeRegistry().getEntryByName(pair.getY());
+                String entry = skriptLoader.getItemTypeRegistry().byName(pair.getY());
 
                 if (entry != null) {
                     return create(entry, amount, enchantment, lineNumber);

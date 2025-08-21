@@ -124,7 +124,7 @@ public class PsiItemCategoryLiteral extends PsiElement<ItemType> {
                 throw new IllegalStateException("No regex found, did the skript pattern change?");
             }
 
-            String entry = skriptLoader.getItemTypeRegistry().getEntryByName(pattern);
+            String entry = skriptLoader.getItemTypeRegistry().byName(pattern);
 
             if (entry == null) {
                 return null;

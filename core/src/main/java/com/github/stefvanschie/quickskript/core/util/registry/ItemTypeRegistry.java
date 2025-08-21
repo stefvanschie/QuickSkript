@@ -13,7 +13,7 @@ import java.util.*;
  *
  * @since 0.1.0
  */
-public class ItemTypeRegistry {
+public class ItemTypeRegistry implements Registry<String> {
 
     /**
      * The entries of this registry
@@ -42,16 +42,10 @@ public class ItemTypeRegistry {
         addDefaultItemTypes(registry);
     }
 
-    /**
-     * Gets an entry by a name. If no entry exists by the given name, this returns null.
-     *
-     * @param name the name
-     * @return the entry or null
-     * @since 0.1.0
-     */
     @Nullable
     @Contract(pure = true)
-    public String getEntryByName(@NotNull String name) {
+    @Override
+    public String byName(@NotNull String name) {
         return entries.get(name);
     }
 

@@ -100,7 +100,7 @@ public abstract class SkriptLoader {
     /**
      * An item type registry for working with item types
      */
-    private ItemTypeRegistry itemTypeRegistry;
+    private Registry<String> itemTypeRegistry;
 
     /**
      * A region registry for working with regions
@@ -689,7 +689,7 @@ public abstract class SkriptLoader {
      */
     @NotNull
     @Contract(pure = true)
-    public ItemTypeRegistry getItemTypeRegistry() {
+    public Registry<String> getItemTypeRegistry() {
         return itemTypeRegistry;
     }
 
