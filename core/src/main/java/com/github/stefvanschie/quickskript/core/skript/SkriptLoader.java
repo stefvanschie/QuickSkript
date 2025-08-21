@@ -75,7 +75,7 @@ public abstract class SkriptLoader {
     /**
      * A biome registry for working with biomes
      */
-    private BiomeRegistry biomeRegistry;
+    private Registry<BiomeRegistry.Entry> biomeRegistry;
 
     /**
      * A block data registry for working with block data
@@ -626,7 +626,7 @@ public abstract class SkriptLoader {
      */
     @NotNull
     @Contract(pure = true)
-    public BiomeRegistry getBiomeRegistry() {
+    public Registry<BiomeRegistry.Entry> getBiomeRegistry() {
         return biomeRegistry;
     }
 

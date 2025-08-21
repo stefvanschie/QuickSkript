@@ -11,7 +11,7 @@ import java.util.*;
  *
  * @since 0.1.0
  */
-public class BiomeRegistry {
+public class BiomeRegistry implements Registry<BiomeRegistry.Entry> {
 
     /**
      * The entries in this biome registry
@@ -39,14 +39,9 @@ public class BiomeRegistry {
         }
     }
 
-    /**
-     * Gets the biome entry by the given name.
-     *
-     * @return the biome or null if no biome by the provided name exists
-     * @since 0.1.0
-     */
     @Nullable
     @Contract(pure = true)
+    @Override
     public Entry byName(@NotNull String name) {
         return entries.get(name);
     }
