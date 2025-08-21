@@ -110,7 +110,7 @@ public abstract class SkriptLoader {
     /**
      * A literal registry fro working with literals
      */
-    private LiteralRegistry literalRegistry;
+    private Registry<LiteralRegistry.Entry> literalRegistry;
 
     /**
      * A visual effect registry fro working with visual effect
@@ -713,7 +713,7 @@ public abstract class SkriptLoader {
      */
     @NotNull
     @Contract(pure = true)
-    public LiteralRegistry getLiteralRegistry() {
+    public Registry<LiteralRegistry.Entry> getLiteralRegistry() {
         return literalRegistry;
     }
 

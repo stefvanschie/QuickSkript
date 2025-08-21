@@ -13,7 +13,7 @@ import java.util.*;
  *
  * @since 0.1.0
  */
-public class LiteralRegistry {
+public class LiteralRegistry implements Registry<LiteralRegistry.Entry> {
 
     /**
      * A mapping between the name of an entry and the entry
@@ -68,16 +68,9 @@ public class LiteralRegistry {
         }
     }
 
-    /**
-     * Gets an entry in this registry by the given name. If the provided name doesn't have an entry in this registry,
-     * null will be returned.
-     *
-     * @param name the name of the entry
-     * @return the entry
-     * @since 0.1.0
-     */
     @Nullable
     @Contract(pure = true)
+    @Override
     public Entry byName(@NotNull String name) {
         return mappingByName.get(name);
     }
