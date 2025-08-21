@@ -11,7 +11,7 @@ import java.util.*;
  *
  * @since 0.1.0
  */
-public class InventoryTypeRegistry {
+public class InventoryTypeRegistry implements Registry<InventoryTypeRegistry.Entry> {
 
     /**
      * The entries of this registry
@@ -39,15 +39,9 @@ public class InventoryTypeRegistry {
         }
     }
 
-    /**
-     * Gets the inventory type by the given name or null if no such inventory type exists.
-     *
-     * @param name the name of the inventory type
-     * @return the inventory type
-     * @since 0.1.0
-     */
     @Nullable
     @Contract(pure = true)
+    @Override
     public Entry byName(@NotNull String name) {
         return entries.get(name);
     }

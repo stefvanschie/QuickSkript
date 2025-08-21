@@ -6,11 +6,10 @@ import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.registry.InventoryTypeRegistry;
+import com.github.stefvanschie.quickskript.core.util.registry.Registry;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Optional;
 
 /**
  * Gets an inventory type
@@ -50,7 +49,7 @@ public class PsiInventoryTypeLiteral extends PsiPrecomputedHolder<InventoryTypeR
         @Contract(pure = true)
         @Fallback
         public PsiInventoryTypeLiteral parse(@NotNull SkriptLoader skriptLoader, @NotNull String text, int lineNumber) {
-            InventoryTypeRegistry inventoryTypeRegistry = skriptLoader.getInventoryTypeRegistry();
+            Registry<InventoryTypeRegistry.Entry> inventoryTypeRegistry = skriptLoader.getInventoryTypeRegistry();
             InventoryTypeRegistry.Entry inventoryType = inventoryTypeRegistry.byName(text.toLowerCase());
 
             if (inventoryType == null) {
