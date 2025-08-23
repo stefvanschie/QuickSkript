@@ -92,7 +92,9 @@ public class PsiItemLiteral extends PsiElement<Item> {
          * The pattern for matching item literals
          */
         @NotNull
-        private final SkriptPattern pattern = SkriptPattern.parse("[%number% [of]] <.+> [of %enchantment%]");
+        private final SkriptPattern pattern = SkriptPattern.parse(
+            "[%number% [of]] <.+> [of %enchantment types%]"
+        );
 
         /**
          * Parses the {@link #pattern} and invokes this method with its types if the match succeeds

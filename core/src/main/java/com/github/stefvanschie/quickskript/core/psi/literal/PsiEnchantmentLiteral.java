@@ -117,7 +117,7 @@ public class PsiEnchantmentLiteral extends PsiPrecomputedHolder<EnchantmentType>
         @Contract(pure = true)
         @Override
         public Type getType() {
-            return Type.ENCHANTMENT;
+            return Type.ENCHANTMENT_TYPE;
         }
     }
 }

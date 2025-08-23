@@ -4,6 +4,8 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
+
 /**
  * Represents an enchantment either with or without a level
  *
@@ -56,5 +58,27 @@ public class EnchantmentType {
     @Contract(pure = true)
     public int getLevel() {
         return this.level == null ? 1 : this.level;
+    }
+
+    @Contract(value = "null -> false", pure = true)
+    @Override
+    public boolean equals(@Nullable Object object) {
+        if (this == object) {
+            return true;
+        }
+
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+
+        EnchantmentType that = (EnchantmentType) object;
+
+        return Objects.equals(getEnchantment(), that.getEnchantment()) && Objects.equals(getLevel(), that.getLevel());
+    }
+
+    @Contract(pure = true)
+    @Override
+    public int hashCode() {
+        return Objects.hash(getEnchantment(), getLevel());
     }
 }

@@ -173,18 +173,18 @@ public enum Type {
     DIRECTIONS("directions", DIRECTION),
 
     /**
-     * A single enchantment.
+     * A single enchantment type.
      *
      * @since 0.1.0
      */
-    ENCHANTMENT("enchantment"),
+    ENCHANTMENT_TYPE("enchantment type"),
 
     /**
-     * Multiple enchantments.
+     * Multiple enchantment types.
      *
      * @since 0.1.0
      */
-    ENCHANTMENTS("enchantments", ENCHANTMENT),
+    ENCHANTMENT_TYPES("enchantment types", ENCHANTMENT_TYPE),
 
     /**
      * A single entity.
@@ -405,7 +405,7 @@ public enum Type {
                 BIOME, BLOCK, BLOCK_DATA, BOOLEAN,
                 CAT_TYPE, CLICK_TYPE, COLOR, COMMAND_SENDER,
                 DAMAGE_CAUSE, DATE, DIRECTION,
-                ENCHANTMENT, ENTITY, ENTITY_TYPE, EXPERIENCE_POINT,
+                ENCHANTMENT_TYPE, ENTITY, ENTITY_TYPE, EXPERIENCE_POINT,
                 FIREWORK_TYPE,
                 GAME_MODE, GENE,
                 INVENTORY, INVENTORY_ACTION, INVENTORY_TYPE, ITEM,
@@ -435,7 +435,7 @@ public enum Type {
                 BIOMES, BLOCK_DATAS, BLOCKS, BOOLEANS,
                 CAT_TYPES, CLICK_TYPES, COLORS, COMMAND_SENDERS,
                 DAMAGE_CAUSES, DATES, DIRECTIONS,
-                ENCHANTMENTS, ENTITIES, ENTITY_TYPES, EXPERIENCE_POINTS,
+                ENCHANTMENT_TYPES, ENTITIES, ENTITY_TYPES, EXPERIENCE_POINTS,
                 FIREWORK_TYPES,
                 GAME_MODES, GENES,
                 INVENTORIES, INVENTORY_ACTIONS, INVENTORY_TYPES, ITEM_TYPES,
