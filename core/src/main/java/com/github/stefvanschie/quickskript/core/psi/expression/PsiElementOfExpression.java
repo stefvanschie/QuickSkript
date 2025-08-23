@@ -86,7 +86,7 @@ public class PsiElementOfExpression extends PsiElement<Object> {
          */
         @NotNull
         private final SkriptPattern pattern = SkriptPattern.parse(
-                "(0\u00A6[the] first|1\u00A6[the] last|2\u00A6[a] random|3\u00A6%number%(st|nd|rd|th)) element [out] of %objects%"
+                "(0¦[the] first|1¦[the] last|2¦[a] random|3¦%number%(st|nd|rd|th)) element [out] of %objects%"
         );
 
         /**

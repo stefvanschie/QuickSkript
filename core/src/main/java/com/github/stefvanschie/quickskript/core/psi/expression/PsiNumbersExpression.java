@@ -101,7 +101,7 @@ public class PsiNumbersExpression extends PsiElement<List<Number>> {
          */
         @NotNull
         private SkriptPattern pattern = SkriptPattern.parse(
-            "[(all [[of] the]|the)] (numbers|1\u00A6integers) (between|from) %number% (and|to) %number%"
+            "[(all [[of] the]|the)] (numbers|1¦integers) (between|from) %number% (and|to) %number%"
         );
 
         /**

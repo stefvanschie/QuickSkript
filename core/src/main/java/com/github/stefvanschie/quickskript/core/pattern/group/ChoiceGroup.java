@@ -212,7 +212,7 @@ public class ChoiceGroup implements SkriptPatternGroup {
 
                     currentParseMark = 0;
                     groupStartIndex = index + 1;
-                } else if (character == '\u00A6') { //broken bar character
+                } else if (character == '¦') { //broken bar character
                     String parseMarkString = input.substring(groupStartIndex, index);
 
                     for (int i = 0; i < parseMarkString.length(); i++) {

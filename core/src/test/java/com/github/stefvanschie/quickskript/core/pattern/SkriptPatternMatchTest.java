@@ -237,19 +237,19 @@ class SkriptPatternMatchTest {
         });
 
         //parse marks
-        PARSE_MARKS_PATTERNS.put(SkriptPattern.parse("[1\u00A6x|2\u00A6y]"), new Pair<>("", 0));
-        PARSE_MARKS_PATTERNS.put(SkriptPattern.parse("[1\u00A6x|2\u00A6y]"), new Pair<>("x", 1));
-        PARSE_MARKS_PATTERNS.put(SkriptPattern.parse("[1\u00A6x|2\u00A6y]"), new Pair<>("y", 2));
-        PARSE_MARKS_PATTERNS.put(SkriptPattern.parse("[1\u00A6w|2\u00A6x][3\u00A6y|4\u00A6z]"), new Pair<>("wy", 1 ^ 3));
-        PARSE_MARKS_PATTERNS.put(SkriptPattern.parse("[1\u00A6w|2\u00A6x][3\u00A6y|4\u00A6z]"), new Pair<>("wz", 1 ^ 4));
-        PARSE_MARKS_PATTERNS.put(SkriptPattern.parse("[1\u00A6w|2\u00A6x][3\u00A6y|4\u00A6z]"), new Pair<>("xy", 2 ^ 3));
-        PARSE_MARKS_PATTERNS.put(SkriptPattern.parse("[1\u00A6w|2\u00A6x][3\u00A6y|4\u00A6z]"), new Pair<>("xz", 2 ^ 4));
-        PARSE_MARKS_PATTERNS.put(SkriptPattern.parse("(1\u00A6x|2\u00A6y)"), new Pair<>("x", 1));
-        PARSE_MARKS_PATTERNS.put(SkriptPattern.parse("(1\u00A6x|2\u00A6y)"), new Pair<>("y", 2));
-        PARSE_MARKS_PATTERNS.put(SkriptPattern.parse("(1\u00A6w|2\u00A6x)(3\u00A6y|4\u00A6z)"), new Pair<>("wy", 1 ^ 3));
-        PARSE_MARKS_PATTERNS.put(SkriptPattern.parse("(1\u00A6w|2\u00A6x)(3\u00A6y|4\u00A6z)"), new Pair<>("wz", 1 ^ 4));
-        PARSE_MARKS_PATTERNS.put(SkriptPattern.parse("(1\u00A6w|2\u00A6x)(3\u00A6y|4\u00A6z)"), new Pair<>("xy", 2 ^ 3));
-        PARSE_MARKS_PATTERNS.put(SkriptPattern.parse("(1\u00A6w|2\u00A6x)(3\u00A6y|4\u00A6z)"), new Pair<>("xz", 2 ^ 4));
+        PARSE_MARKS_PATTERNS.put(SkriptPattern.parse("[1¦x|2¦y]"), new Pair<>("", 0));
+        PARSE_MARKS_PATTERNS.put(SkriptPattern.parse("[1¦x|2¦y]"), new Pair<>("x", 1));
+        PARSE_MARKS_PATTERNS.put(SkriptPattern.parse("[1¦x|2¦y]"), new Pair<>("y", 2));
+        PARSE_MARKS_PATTERNS.put(SkriptPattern.parse("[1¦w|2¦x][3¦y|4¦z]"), new Pair<>("wy", 1 ^ 3));
+        PARSE_MARKS_PATTERNS.put(SkriptPattern.parse("[1¦w|2¦x][3¦y|4¦z]"), new Pair<>("wz", 1 ^ 4));
+        PARSE_MARKS_PATTERNS.put(SkriptPattern.parse("[1¦w|2¦x][3¦y|4¦z]"), new Pair<>("xy", 2 ^ 3));
+        PARSE_MARKS_PATTERNS.put(SkriptPattern.parse("[1¦w|2¦x][3¦y|4¦z]"), new Pair<>("xz", 2 ^ 4));
+        PARSE_MARKS_PATTERNS.put(SkriptPattern.parse("(1¦x|2¦y)"), new Pair<>("x", 1));
+        PARSE_MARKS_PATTERNS.put(SkriptPattern.parse("(1¦x|2¦y)"), new Pair<>("y", 2));
+        PARSE_MARKS_PATTERNS.put(SkriptPattern.parse("(1¦w|2¦x)(3¦y|4¦z)"), new Pair<>("wy", 1 ^ 3));
+        PARSE_MARKS_PATTERNS.put(SkriptPattern.parse("(1¦w|2¦x)(3¦y|4¦z)"), new Pair<>("wz", 1 ^ 4));
+        PARSE_MARKS_PATTERNS.put(SkriptPattern.parse("(1¦w|2¦x)(3¦y|4¦z)"), new Pair<>("xy", 2 ^ 3));
+        PARSE_MARKS_PATTERNS.put(SkriptPattern.parse("(1¦w|2¦x)(3¦y|4¦z)"), new Pair<>("xz", 2 ^ 4));
     }
 
     @Test

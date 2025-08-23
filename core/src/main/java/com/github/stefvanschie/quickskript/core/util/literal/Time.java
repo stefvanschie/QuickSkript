@@ -27,7 +27,7 @@ public class Time {
 
     private static final SkriptPattern PATTERN_24_HOUR = SkriptPattern.parse("<\\d{1,2}>:<\\d{1,2}>");
 
-    private static final SkriptPattern PATTERN_12_HOUR = SkriptPattern.parse("<\\d{1,2}>[:<\\d{1,2}>][ ](0\u00A6am|1\u00A6pm)");
+    private static final SkriptPattern PATTERN_12_HOUR = SkriptPattern.parse("<\\d{1,2}>[:<\\d{1,2}>][ ](0¦am|1¦pm)");
 
     /**
      * Creates a new time with the given amount of ticks. If this is greater or equal to 24000, this will be changed to

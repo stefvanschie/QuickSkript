@@ -1341,7 +1341,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                 matches -> event -> event.getEntity() instanceof Silverfish && event.getTo() == Material.AIR)
             .registerEvent(EntityChangeBlockEvent.class, "[on] falling block land[ing]", matches -> event ->
                 event.getEntity() instanceof FallingBlock)
-            .registerEvent(EntityPickupItemEvent.class, "[on] [1\u00A6player|entity] (pick[ ]up|picking up) [[of] %item types%]", matches -> {
+            .registerEvent(EntityPickupItemEvent.class, "[on] [1¦player|entity] (pick[ ]up|picking up) [[of] %item types%]", matches -> {
                 for (SkriptMatchResult match : matches) {
                     PsiElement<?>[] elements = tryParseAllTypes(match);
 
@@ -1405,7 +1405,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
 
                 return null;
             })
-            .registerEvent(PlayerEditBookEvent.class, "[on] book (edit|change|write|1\u00A6sign|1\u00A6signing)",
+            .registerEvent(PlayerEditBookEvent.class, "[on] book (edit|change|write|1¦sign|1¦signing)",
                 matches -> {
                     //iterates once
                     for (SkriptMatchResult match : matches) {
@@ -1416,7 +1416,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                     return null;
                 })
             .registerEvent(PlayerInteractEvent.class,
-                "[on] [(1\u00A6right|2\u00A6left)[( |-)]][mouse[( |-)]]click[ing] ([4\u00A6on %item type%] [8\u00A6(with|using|holding) %item type%]|28\u00A6(with|using|holding) %item type% on %item type%)",
+                "[on] [(1¦right|2¦left)[( |-)]][mouse[( |-)]]click[ing] ([4¦on %item type%] [8¦(with|using|holding) %item type%]|28¦(with|using|holding) %item type% on %item type%)",
                 matches -> {
                     for (SkriptMatchResult match : matches) {
                         int parseMark = match.getParseMark();
@@ -1518,7 +1518,7 @@ public class BukkitSkriptLoader extends SkriptLoader {
                 }
             )
             .registerEvent(PlayerInteractAtEntityEvent.class,
-                "[on] [(1\u00A6right|2\u00A6left)[( |-)]][mouse[( |-)]]click[ing] ([4\u00A6on %entity type%] [8\u00A6(with|using|holding) %item type%]|28\u00A6(with|using|holding) %item type% on %entity type%)",
+                "[on] [(1¦right|2¦left)[( |-)]][mouse[( |-)]]click[ing] ([4¦on %entity type%] [8¦(with|using|holding) %item type%]|28¦(with|using|holding) %item type% on %entity type%)",
                 matches -> {
                     for (SkriptMatchResult match : matches) {
                         int parseMark = match.getParseMark();

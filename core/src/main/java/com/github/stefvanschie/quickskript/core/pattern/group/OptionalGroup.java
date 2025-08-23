@@ -223,7 +223,7 @@ public class OptionalGroup implements SkriptPatternGroup {
 
                     currentParseMark = 0;
                     groupStartIndex = index + 1;
-                } else if (character == '\u00A6') { //broken bar character
+                } else if (character == '¦') { //broken bar character
                     String parseMarkString = input.substring(groupStartIndex, index);
 
                     if (!parseMarkString.matches("-?\\d+")) { //TODO pre-compile pattern

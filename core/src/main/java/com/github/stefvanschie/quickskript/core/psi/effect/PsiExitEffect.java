@@ -57,7 +57,7 @@ public class PsiExitEffect extends PsiPrecomputedHolder<ExitSectionsPointerMovem
         @NotNull
         private final SkriptPattern[] patternsInfinite = SkriptPattern.parse(
             "(exit|stop) [trigger]",
-            "(exit|stop) all (0\u00A6section|1\u00A6loop|2\u00A6conditional)s"
+            "(exit|stop) all (0¦section|1¦loop|2¦conditional)s"
         );
 
         /**
@@ -66,8 +66,8 @@ public class PsiExitEffect extends PsiPrecomputedHolder<ExitSectionsPointerMovem
         @NotNull
         @SuppressWarnings("HardcodedFileSeparator")
         private final SkriptPattern[] patternsFinite = SkriptPattern.parse(
-            "(exit|stop) [(1|a|the|this)] (0\u00A6section|1\u00A6loop|2\u00A6conditional)",
-            "(exit|stop) <\\d+> (0\u00A6section|1\u00A6loop|2\u00A6conditional)s"
+            "(exit|stop) [(1|a|the|this)] (0¦section|1¦loop|2¦conditional)",
+            "(exit|stop) <\\d+> (0¦section|1¦loop|2¦conditional)s"
         );
 
         /**

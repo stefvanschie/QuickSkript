@@ -92,7 +92,7 @@ public class PsiItemCategoryLiteral extends PsiElement<ItemType> {
          */
         @NotNull
         private final SkriptPattern pattern =
-            SkriptPattern.parse("[%number% [of]] [1\u00A6(all|every)] <.+> [of %enchantment types%]");
+            SkriptPattern.parse("[%number% [of]] [1¦(all|every)] <.+> [of %enchantment types%]");
 
         /**
          * Parses the {@link #pattern} and invokes this method with its types if the match succeeds

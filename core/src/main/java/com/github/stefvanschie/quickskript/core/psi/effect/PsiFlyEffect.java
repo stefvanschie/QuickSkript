@@ -55,8 +55,8 @@ public class PsiFlyEffect extends PsiElement<Void> {
          */
         @NotNull
         private final SkriptPattern[] patterns = SkriptPattern.parse(
-            "force %players% to [(0\u00A6start|1\u00A6stop)] fly[ing]",
-            "make %players% (0\u00A6start|1\u00A6stop) flying",
+            "force %players% to [(0¦start|1¦stop)] fly[ing]",
+            "make %players% (0¦start|1¦stop) flying",
             "make %players% fly"
         );
 

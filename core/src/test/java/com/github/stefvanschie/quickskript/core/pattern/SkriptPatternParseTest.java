@@ -30,15 +30,15 @@ class SkriptPatternParseTest {
         "[x|y]",
         "x [y|z]",
         "[x|y] z",
-        "(1\u00A6x|2\u00A6y)", //broken bar characters
-        "x (1\u00A6y|2\u00A6z)",
-        "(1\u00A6x|2\u00A6y) z",
-        "[1\u00A6x|2\u00A6y]",
-        "x [1\u00A6y|2\u00A6z]",
-        "[1\u00A6x|2\u00A6y] z",
+        "(1¦x|2¦y)", //broken bar characters
+        "x (1¦y|2¦z)",
+        "(1¦x|2¦y) z",
+        "[1¦x|2¦y]",
+        "x [1¦y|2¦z]",
+        "[1¦x|2¦y] z",
         "[x [y] z]",
-        "(x|1\u00A6y)",
-        "[w (x|1\u00A6y) z]",
+        "(x|1¦y)",
+        "[w (x|1¦y) z]",
         "w [x [y] z]",
         "w (x|y|z)"
     );

@@ -44,7 +44,7 @@ public class PsiTimeSpanLiteral extends PsiPrecomputedHolder<TimeSpan> {
          * The pattern for matching {@link PsiTimeSpanLiteral}s
          */
         @NotNull
-        private SkriptPattern pattern = SkriptPattern.parse("[1\u00A6<\\d{1,3}>:]<\\d{1,2}>:<\\d{1,2}>[2\u00A6<\\.\\d{1,3}>]");
+        private SkriptPattern pattern = SkriptPattern.parse("[1¦<\\d{1,3}>:]<\\d{1,2}>:<\\d{1,2}>[2¦<\\.\\d{1,3}>]");
 
         /**
          * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
