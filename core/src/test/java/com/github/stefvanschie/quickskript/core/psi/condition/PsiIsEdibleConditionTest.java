@@ -1,30 +1,32 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.skript.StandaloneSkriptLoader;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 class PsiIsEdibleConditionTest {
 
-    @Test
-    void test() {
-        var skriptLoader = new StandaloneSkriptLoader();
+    private static SkriptLoader loader;
 
-        test(skriptLoader, "flint is edible");
-        test(skriptLoader, "iron pickaxe are edible");
-
-        test(skriptLoader, "potions isn't edible");
-        test(skriptLoader, "potted jungle sapling is not edible");
-        test(skriptLoader, "birch planks aren't edible");
-        test(skriptLoader, "leather horse armor are not edible");
+    @BeforeAll
+    static void init() {
+        loader = new StandaloneSkriptLoader();
     }
 
-    private void test(SkriptLoader loader, String input) {
-        PsiElement<?> psiElement = loader.tryParseElement(input, -1);
-
-        assertTrue(psiElement instanceof PsiIsEdibleCondition);
+    @ParameterizedTest
+    @ValueSource(strings = {
+        "flint is edible",
+        "iron pickaxe are edible",
+        "potions isn't edible",
+        "potted jungle sapling is not edible",
+        "birch planks aren't edible",
+        "leather horse armor are not edible"
+    })
+    void test(String input) {
+        assertInstanceOf(PsiIsEdibleCondition.class, loader.tryParseElement(input, -1));
     }
 }

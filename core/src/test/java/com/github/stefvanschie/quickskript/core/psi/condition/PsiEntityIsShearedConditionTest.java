@@ -1,36 +1,38 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.skript.StandaloneSkriptLoader;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 class PsiEntityIsShearedConditionTest {
 
-    @Test
-    void test() {
-        var skriptLoader = new StandaloneSkriptLoader();
+    private static SkriptLoader loader;
 
-        test(skriptLoader, "the player is sheared");
-        test(skriptLoader, "the player is shorn");
-        test(skriptLoader, "the player are sheared");
-        test(skriptLoader, "the player are shorn");
-
-        test(skriptLoader, "the player isn't sheared");
-        test(skriptLoader, "the player isn't shorn");
-        test(skriptLoader, "the player is not sheared");
-        test(skriptLoader, "the player is not shorn");
-        test(skriptLoader, "the player aren't sheared");
-        test(skriptLoader, "the player aren't shorn");
-        test(skriptLoader, "the player are not sheared");
-        test(skriptLoader, "the player are not shorn");
+    @BeforeAll
+    static void init() {
+        loader = new StandaloneSkriptLoader();
     }
 
-    private void test(SkriptLoader loader, String input) {
-        PsiElement<?> psiElement = loader.tryParseElement(input, -1);
-
-        assertTrue(psiElement instanceof PsiEntityIsShearedCondition);
+    @ParameterizedTest
+    @ValueSource(strings = {
+        "the player is sheared",
+        "the player is shorn",
+        "the player are sheared",
+        "the player are shorn",
+        "the player isn't sheared",
+        "the player isn't shorn",
+        "the player is not sheared",
+        "the player is not shorn",
+        "the player aren't sheared",
+        "the player aren't shorn",
+        "the player are not sheared",
+        "the player are not shorn"
+    })
+    void test(String input) {
+        assertInstanceOf(PsiEntityIsShearedCondition.class, loader.tryParseElement(input, -1));
     }
 }

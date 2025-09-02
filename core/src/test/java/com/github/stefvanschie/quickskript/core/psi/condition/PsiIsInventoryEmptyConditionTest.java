@@ -1,30 +1,32 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.skript.StandaloneSkriptLoader;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 class PsiIsInventoryEmptyConditionTest {
 
-    @Test
-    void test() {
-        var skriptLoader = new StandaloneSkriptLoader();
+    private static SkriptLoader loader;
 
-        test(skriptLoader, "clicked inventory is empty");
-        test(skriptLoader, "clicked inventory are empty");
-
-        test(skriptLoader, "clicked inventory isn't empty");
-        test(skriptLoader, "clicked inventory is not empty");
-        test(skriptLoader, "clicked inventory aren't empty");
-        test(skriptLoader, "clicked inventory are not empty");
+    @BeforeAll
+    static void init() {
+        loader = new StandaloneSkriptLoader();
     }
 
-    private void test(SkriptLoader loader, String input) {
-        PsiElement<?> psiElement = loader.tryParseElement(input, -1);
-
-        assertTrue(psiElement instanceof PsiIsInventoryEmptyCondition);
+    @ParameterizedTest
+    @ValueSource(strings = {
+        "clicked inventory is empty",
+        "clicked inventory are empty",
+        "clicked inventory isn't empty",
+        "clicked inventory is not empty",
+        "clicked inventory aren't empty",
+        "clicked inventory are not empty"
+    })
+    void test(String input) {
+        assertInstanceOf(PsiIsInventoryEmptyCondition.class, loader.tryParseElement(input, -1));
     }
 }

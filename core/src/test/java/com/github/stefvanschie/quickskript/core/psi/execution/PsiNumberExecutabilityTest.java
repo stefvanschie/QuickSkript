@@ -120,7 +120,6 @@ class PsiNumberExecutabilityTest extends TestClassBase {
         };
     }
 
-
     @Test
     void test() throws ReflectiveOperationException {
         int runCount = 100;
@@ -143,7 +142,6 @@ class PsiNumberExecutabilityTest extends TestClassBase {
             System.out.println("Acceptable exception was thrown");
         }
     }
-
 
     @NotNull
     private PsiElement<Number> next(@NotNull RunContext context) throws ReflectiveOperationException {
@@ -191,7 +189,6 @@ class PsiNumberExecutabilityTest extends TestClassBase {
             }, -1);
     }
 
-
     private static Constructor<?> getConstructor(@NotNull Class<?> clazz, @NotNull Class<?>... parameters) {
         try {
             Constructor<?> constructor = clazz.getDeclaredConstructor(parameters);
@@ -201,7 +198,6 @@ class PsiNumberExecutabilityTest extends TestClassBase {
             throw new RuntimeException(e);
         }
     }
-
 
     private class RunContext {
         private final Supplier<PsiElement<Number>> directSupplier;

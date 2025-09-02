@@ -1,17 +1,19 @@
 package com.github.stefvanschie.quickskript.core.pattern;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.Set;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.CONCURRENT)
 class SkriptPatternParseTest {
 
-    private final Set<String> patterns = Set.of(
+    @ParameterizedTest
+    @ValueSource(strings = {
         "x",
         "x y",
         "x [y]",
@@ -30,7 +32,7 @@ class SkriptPatternParseTest {
         "[x|y]",
         "x [y|z]",
         "[x|y] z",
-        "(1¦x|2¦y)", //broken bar characters
+        "(1¦x|2¦y)",
         "x (1¦y|2¦z)",
         "(1¦x|2¦y) z",
         "[1¦x|2¦y]",
@@ -41,16 +43,8 @@ class SkriptPatternParseTest {
         "[w (x|1¦y) z]",
         "w [x [y] z]",
         "w (x|y|z)"
-    );
-
-    @Test
-    void testPatternParsing() {
-        long start = System.nanoTime();
-
-        patterns.forEach(SkriptPattern::parse);
-
-        long end = System.nanoTime();
-
-        System.out.println(patterns.size() + " patterns parsed successfully in " + (end - start) / 1000000 + "ms - Avg: " + (end - start) / 1000000 / patterns.size() + "ms");
+    })
+    void testPatternParsing(String pattern) {
+        assertDoesNotThrow(() -> SkriptPattern.parse(pattern));
     }
 }

@@ -1,36 +1,38 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.skript.StandaloneSkriptLoader;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 class PsiIsChargedConditionTest {
 
-    @Test
-    void test() {
-        var skriptLoader = new StandaloneSkriptLoader();
+    private static SkriptLoader loader;
 
-        test(skriptLoader, "affected entities is charged");
-        test(skriptLoader, "affected entities is powered");
-        test(skriptLoader, "affected entities are powered");
-        test(skriptLoader, "affected entities are charged");
-
-        test(skriptLoader, "affected entities isn't charged");
-        test(skriptLoader, "affected entities isn't powered");
-        test(skriptLoader, "affected entities is not charged");
-        test(skriptLoader, "affected entities is not powered");
-        test(skriptLoader, "affected entities aren't charged");
-        test(skriptLoader, "affected entities aren't powered");
-        test(skriptLoader, "affected entities are not charged");
-        test(skriptLoader, "affected entities are not powered");
+    @BeforeAll
+    static void init() {
+        loader = new StandaloneSkriptLoader();
     }
 
-    private void test(SkriptLoader loader, String input) {
-        PsiElement<?> psiElement = loader.tryParseElement(input, -1);
-
-        assertTrue(psiElement instanceof PsiIsChargedCondition);
+    @ParameterizedTest
+    @ValueSource(strings = {
+        "affected entities is charged",
+        "affected entities is powered",
+        "affected entities are powered",
+        "affected entities are charged",
+        "affected entities isn't charged",
+        "affected entities isn't powered",
+        "affected entities is not charged",
+        "affected entities is not powered",
+        "affected entities aren't charged",
+        "affected entities aren't powered",
+        "affected entities are not charged",
+        "affected entities are not powered"
+    })
+    void test(String input) {
+        assertInstanceOf(PsiIsChargedCondition.class, loader.tryParseElement(input, -1));
     }
 }

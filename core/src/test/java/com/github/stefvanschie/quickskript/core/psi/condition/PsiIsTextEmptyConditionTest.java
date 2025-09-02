@@ -3,30 +3,36 @@ package com.github.stefvanschie.quickskript.core.psi.condition;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.skript.StandaloneSkriptLoader;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class PsiIsTextEmptyConditionTest {
 
-    @Test
-    void test() {
-        var skriptLoader = new StandaloneSkriptLoader();
+    private static SkriptLoader loader;
 
-        test(skriptLoader, "\"\" is empty");
-        test(skriptLoader, "\"\" are empty");
-
-        test(skriptLoader, "\"a\" isn't empty");
-        test(skriptLoader, "\"b\" is not empty");
-        test(skriptLoader, "\"c\" aren't empty");
-        test(skriptLoader, "\"d\" are not empty");
+    @BeforeAll
+    static void init() {
+        loader = new StandaloneSkriptLoader();
     }
 
-    private void test(SkriptLoader loader, String input) {
-        PsiElement<?> psiElement = loader.tryParseElement(input, -1);
+    @ParameterizedTest
+    @ValueSource(strings = {
+        "\"\" is empty",
+        "\"\" are empty",
+        "\"a\" isn't empty",
+        "\"b\" is not empty",
+        "\"c\" aren't empty",
+        "\"d\" are not empty"
+    })
+    void test(String input) {
+        PsiElement<?> element = loader.tryParseElement(input, -1);
 
-        assertTrue(psiElement instanceof PsiIsTextEmptyCondition);
-        assertTrue(psiElement.isPreComputed());
-        assertTrue(psiElement.execute(null, null, Boolean.class));
+        assertNotNull(element);
+        assertInstanceOf(PsiIsTextEmptyCondition.class, element);
+        assertTrue(element.isPreComputed());
+        assertTrue(element.execute(null, null, Boolean.class));
     }
 }

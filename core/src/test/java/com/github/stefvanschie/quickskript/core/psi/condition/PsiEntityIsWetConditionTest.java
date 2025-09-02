@@ -1,30 +1,32 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.skript.StandaloneSkriptLoader;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 class PsiEntityIsWetConditionTest {
 
-    @Test
-    void test() {
-        var skriptLoader = new StandaloneSkriptLoader();
+    private static SkriptLoader loader;
 
-        test(skriptLoader, "the player is wet");
-        test(skriptLoader, "the player are wet");
-
-        test(skriptLoader, "the player isn't wet");
-        test(skriptLoader, "the player is not wet");
-        test(skriptLoader, "the player aren't wet");
-        test(skriptLoader, "the player are not wet");
+    @BeforeAll
+    static void init() {
+        loader = new StandaloneSkriptLoader();
     }
 
-    private void test(SkriptLoader loader, String input) {
-        PsiElement<?> psiElement = loader.tryParseElement(input, -1);
-
-        assertTrue(psiElement instanceof PsiEntityIsWetCondition);
+    @ParameterizedTest
+    @ValueSource(strings = {
+        "the player is wet",
+        "the player are wet",
+        "the player isn't wet",
+        "the player is not wet",
+        "the player aren't wet",
+        "the player are not wet"
+    })
+    void test(String input) {
+        assertInstanceOf(PsiEntityIsWetCondition.class, loader.tryParseElement(input, -1));
     }
 }

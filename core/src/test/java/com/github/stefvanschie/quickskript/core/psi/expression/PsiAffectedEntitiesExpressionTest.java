@@ -1,25 +1,28 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.skript.StandaloneSkriptLoader;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 class PsiAffectedEntitiesExpressionTest {
 
-    @Test
-    void test() {
-        var skriptLoader = new StandaloneSkriptLoader();
+    private static SkriptLoader loader;
 
-        test(skriptLoader, "the affected entities");
-        test(skriptLoader, "affected entities");
+    @BeforeAll
+    static void init() {
+        loader = new StandaloneSkriptLoader();
     }
 
-    private void test(SkriptLoader loader, String input) {
-        PsiElement<?> psiElement = loader.tryParseElement(input, -1);
-
-        assertTrue(psiElement instanceof PsiAffectedEntitiesExpression);
+    @ParameterizedTest
+    @ValueSource(strings = {
+        "the affected entities",
+        "affected entities"
+    })
+    void test(String input) {
+        assertInstanceOf(PsiAffectedEntitiesExpression.class, loader.tryParseElement(input, -1));
     }
 }

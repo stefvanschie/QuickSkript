@@ -1,30 +1,32 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.skript.StandaloneSkriptLoader;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 class PsiIsClimbingConditionTest {
 
-    @Test
-    void test() {
-        var skriptLoader = new StandaloneSkriptLoader();
+    private static SkriptLoader loader;
 
-        test(skriptLoader, "the player is climbing");
-        test(skriptLoader, "the player are climbing");
-
-        test(skriptLoader, "the player isn't climbing");
-        test(skriptLoader, "the player is not climbing");
-        test(skriptLoader, "the player aren't climbing");
-        test(skriptLoader, "the player are not climbing");
+    @BeforeAll
+    static void init() {
+        loader = new StandaloneSkriptLoader();
     }
 
-    private void test(SkriptLoader loader, String input) {
-        PsiElement<?> psiElement = loader.tryParseElement(input, -1);
-
-        assertTrue(psiElement instanceof PsiIsClimbingCondition);
+    @ParameterizedTest
+    @ValueSource(strings = {
+        "the player is climbing",
+        "the player are climbing",
+        "the player isn't climbing",
+        "the player is not climbing",
+        "the player aren't climbing",
+        "the player are not climbing"
+    })
+    void test(String input) {
+        assertInstanceOf(PsiIsClimbingCondition.class, loader.tryParseElement(input, -1));
     }
 }

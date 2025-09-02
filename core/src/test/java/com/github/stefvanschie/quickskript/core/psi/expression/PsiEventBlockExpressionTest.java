@@ -1,29 +1,32 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.skript.StandaloneSkriptLoader;
 import com.github.stefvanschie.quickskript.core.util.Type;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 class PsiEventBlockExpressionTest {
 
-    @Test
-    void test() {
-        var skriptLoader = new StandaloneSkriptLoader();
+    private static SkriptLoader loader;
 
-        test(skriptLoader, "the event-block");
-        test(skriptLoader, "the block");
-        test(skriptLoader, "event-block");
-        test(skriptLoader, "block");
+    @BeforeAll
+    static void init() {
+        loader = new StandaloneSkriptLoader();
     }
 
-    private void test(SkriptLoader loader, String input) {
+    @ParameterizedTest
+    @ValueSource(strings = {
+        "the event-block",
+        "the block",
+        "event-block",
+        "block"
+    })
+    void test(String input) {
         //specifically set Type.BLOCK, because "block" also matches a visual effect
-        PsiElement<?> psiElement = loader.tryParseElement(input, Type.BLOCK, -1);
-
-        assertTrue(psiElement instanceof PsiEventBlockExpression);
+        assertInstanceOf(PsiEventBlockExpression.class, loader.tryParseElement(input, Type.BLOCK, -1));
     }
 }

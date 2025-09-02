@@ -1,42 +1,44 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.skript.StandaloneSkriptLoader;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 class PsiIsBlockConditionTest {
 
-    @Test
-    void test() {
-        var skriptLoader = new StandaloneSkriptLoader();
+    private static SkriptLoader loader;
 
-        test(skriptLoader, "light gray concrete is a block");
-        test(skriptLoader, "purple candle cake is block");
-        test(skriptLoader, "stone shovels is blocks");
-        test(skriptLoader, "ravager spawn egg are a block");
-        test(skriptLoader, "pumpkin seeds are block");
-        test(skriptLoader, "carrot are blocks");
-
-        test(skriptLoader, "dead bubble coral wall fan isn't a block");
-        test(skriptLoader, "horse spawn egg isn't block");
-        test(skriptLoader, "golden carrot isn't blocks");
-        test(skriptLoader, "bamboo fence gates is not a block");
-        test(skriptLoader, "splash potion is not block");
-        test(skriptLoader, "netherite leggings is not blocks");
-        test(skriptLoader, "nether brick wall aren't a block");
-        test(skriptLoader, "spyglasss aren't block");
-        test(skriptLoader, "arrow aren't blocks");
-        test(skriptLoader, "rotten flesh are not a block");
-        test(skriptLoader, "pufferfish are not block");
-        test(skriptLoader, "magenta wool are not blocks");
+    @BeforeAll
+    static void init() {
+        loader = new StandaloneSkriptLoader();
     }
 
-    private void test(SkriptLoader loader, String input) {
-        PsiElement<?> psiElement = loader.tryParseElement(input, -1);
-
-        assertTrue(psiElement instanceof PsiIsBlockCondition);
+    @ParameterizedTest
+    @ValueSource(strings = {
+        "light gray concrete is a block",
+        "purple candle cake is block",
+        "stone shovels is blocks",
+        "ravager spawn egg are a block",
+        "pumpkin seeds are block",
+        "carrot are blocks",
+        "dead bubble coral wall fan isn't a block",
+        "horse spawn egg isn't block",
+        "golden carrot isn't blocks",
+        "bamboo fence gates is not a block",
+        "splash potion is not block",
+        "netherite leggings is not blocks",
+        "nether brick wall aren't a block",
+        "spyglasss aren't block",
+        "arrow aren't blocks",
+        "rotten flesh are not a block",
+        "pufferfish are not block",
+        "magenta wool are not blocks"
+    })
+    void test(String input) {
+        assertInstanceOf(PsiIsBlockCondition.class, loader.tryParseElement(input, -1));
     }
 }

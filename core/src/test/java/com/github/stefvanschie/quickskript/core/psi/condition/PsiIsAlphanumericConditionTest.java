@@ -3,26 +3,33 @@ package com.github.stefvanschie.quickskript.core.psi.condition;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.skript.StandaloneSkriptLoader;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PsiIsAlphanumericConditionTest {
 
-    @Test
-    void test() {
-        var skriptLoader = new StandaloneSkriptLoader();
+    private static SkriptLoader loader;
 
-        test(skriptLoader, "\"abc123\" is alphanumeric", true);
-        test(skriptLoader, "\"!@#\" is alphanumeric", false);
-        test(skriptLoader, "\"abc123\" isn't alphanumeric", false);
-        test(skriptLoader, "\"!@#\" isn't alphanumeric", true);
+    @BeforeAll
+    static void init() {
+        loader = new StandaloneSkriptLoader();
     }
 
-    private void test(SkriptLoader loader, String input, boolean result) {
+    @ParameterizedTest
+    @CsvSource(textBlock = """
+        "abc123" is alphanumeric   ; true
+        "!@#" is alphanumeric      ; false
+        "abc123" isn't alphanumeric; false
+        "!@#" isn't alphanumeric   ; true
+        """, delimiter = ';')
+    void test(String input, boolean result) {
         PsiElement<?> psiElement = loader.tryParseElement(input, -1);
 
-        assertTrue(psiElement instanceof PsiIsAlphanumericCondition);
+        assertNotNull(psiElement);
+        assertInstanceOf(PsiIsAlphanumericCondition.class, psiElement);
         assertEquals(result, psiElement.execute(null, null));
     }
 }

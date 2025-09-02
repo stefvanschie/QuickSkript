@@ -1,59 +1,61 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.skript.StandaloneSkriptLoader;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 class PsiCanHoldConditionTest {
 
-    @Test
-    void test() {
-        var skriptLoader = new StandaloneSkriptLoader();
+    private static SkriptLoader loader;
 
-        test(skriptLoader, "initiator can hold wooden axe");
-        test(skriptLoader, "initiator has space for poisonous potato");
-        test(skriptLoader, "initiator has space to hold mangrove wood");
-        test(skriptLoader, "initiator has enough space for jungle chest boats");
-        test(skriptLoader, "initiator has enough space to hold diamond ores");
-        test(skriptLoader, "initiator have space for chicken");
-        test(skriptLoader, "initiator have space to hold magenta candle cake");
-        test(skriptLoader, "initiator have enough space for porkchop");
-        test(skriptLoader, "initiator have enough space to hold acacia stairs");
-
-        test(skriptLoader, "initiator cannot hold lever");
-        test(skriptLoader, "initiator can't hold magenta candle");
-        test(skriptLoader, "initiator has not space for map");
-        test(skriptLoader, "initiator has not space to hold andesite wall");
-        test(skriptLoader, "initiator has not enough space for seagrasss");
-        test(skriptLoader, "initiator has not enough space to hold dragon breath");
-        test(skriptLoader, "initiator have not space for cauldrons");
-        test(skriptLoader, "initiator have not space to hold end stone bricks");
-        test(skriptLoader, "initiator have not enough space for golden carrot");
-        test(skriptLoader, "initiator have not enough space to hold furnace minecarts");
-        test(skriptLoader, "initiator hasn't space for exposed cut copper stairs");
-        test(skriptLoader, "initiator hasn't space to hold phantom membrane");
-        test(skriptLoader, "initiator hasn't enough space for warped doors");
-        test(skriptLoader, "initiator hasn't enough space to hold acacia buttons");
-        test(skriptLoader, "initiator haven't space for deepslate lapis ores");
-        test(skriptLoader, "initiator haven't space to hold ghast tear");
-        test(skriptLoader, "initiator haven't enough space for spruce boat");
-        test(skriptLoader, "initiator haven't enough space to hold pitcher pods");
-        test(skriptLoader, "initiator don't have space for light gray candle cake");
-        test(skriptLoader, "initiator don't have space to hold raw gold block");
-        test(skriptLoader, "initiator don't have enough space for light blue candle cakes");
-        test(skriptLoader, "initiator don't have enough space to hold apple");
-        test(skriptLoader, "initiator doesn't have space for bamboo fence gates");
-        test(skriptLoader, "initiator doesn't have space to hold light blue concrete powder");
-        test(skriptLoader, "initiator doesn't have enough space for fermented spider eyes");
-        test(skriptLoader, "initiator doesn't have enough space to hold player heads");
+    @BeforeAll
+    static void init() {
+        loader = new StandaloneSkriptLoader();
     }
 
-    private void test(SkriptLoader loader, String input) {
-        PsiElement<?> psiElement = loader.tryParseElement(input, -1);
-
-        assertTrue(psiElement instanceof PsiCanHoldCondition);
+    @ParameterizedTest
+    @ValueSource(strings = {
+        "initiator can hold wooden axe",
+        "initiator has space for poisonous potato",
+        "initiator has space to hold mangrove wood",
+        "initiator has enough space for jungle chest boats",
+        "initiator has enough space to hold diamond ores",
+        "initiator have space for chicken",
+        "initiator have space to hold magenta candle cake",
+        "initiator have enough space for porkchop",
+        "initiator have enough space to hold acacia stairs",
+        "initiator cannot hold lever",
+        "initiator can't hold magenta candle",
+        "initiator has not space for map",
+        "initiator has not space to hold andesite wall",
+        "initiator has not enough space for seagrasss",
+        "initiator has not enough space to hold dragon breath",
+        "initiator have not space for cauldrons",
+        "initiator have not space to hold end stone bricks",
+        "initiator have not enough space for golden carrot",
+        "initiator have not enough space to hold furnace minecarts",
+        "initiator hasn't space for exposed cut copper stairs",
+        "initiator hasn't space to hold phantom membrane",
+        "initiator hasn't enough space for warped doors",
+        "initiator hasn't enough space to hold acacia buttons",
+        "initiator haven't space for deepslate lapis ores",
+        "initiator haven't space to hold ghast tear",
+        "initiator haven't enough space for spruce boat",
+        "initiator haven't enough space to hold pitcher pods",
+        "initiator don't have space for light gray candle cake",
+        "initiator don't have space to hold raw gold block",
+        "initiator don't have enough space for light blue candle cakes",
+        "initiator don't have enough space to hold apple",
+        "initiator doesn't have space for bamboo fence gates",
+        "initiator doesn't have space to hold light blue concrete powder",
+        "initiator doesn't have enough space for fermented spider eyes",
+        "initiator doesn't have enough space to hold player heads"
+    })
+    void test(String input) {
+        assertInstanceOf(PsiCanHoldCondition.class, loader.tryParseElement(input, -1));
     }
 }

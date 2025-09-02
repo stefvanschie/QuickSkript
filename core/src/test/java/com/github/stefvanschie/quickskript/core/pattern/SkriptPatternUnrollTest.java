@@ -1,11 +1,17 @@
 package com.github.stefvanschie.quickskript.core.pattern;
 
-import org.junit.jupiter.api.Test;
+import com.github.stefvanschie.quickskript.core.SkriptPatternConverter;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.converter.ConvertWith;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.FieldSource;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,64 +20,30 @@ import static org.junit.jupiter.api.Assertions.*;
 @Execution(ExecutionMode.CONCURRENT)
 class SkriptPatternUnrollTest {
 
-    @Test
-    void test() {
-        assertTrue(collectionsEqual(Set.of("x"), SkriptPattern.parse("x").unrollFully()));
-        assertTrue(collectionsEqual(Set.of("x", "y"), SkriptPattern.parse("(x|y)").unrollFully()));
-        assertTrue(collectionsEqual(Set.of("x", ""), SkriptPattern.parse("[x]").unrollFully()));
-        assertTrue(collectionsEqual(Set.of(" "), SkriptPattern.parse(" ").unrollFully()));
+    private static final Collection<Arguments> PATTERNS = new HashSet<>();
 
-        assertTrue(collectionsEqual(Set.of("x y", "x"), SkriptPattern.parse("x [y]").unrollFully()));
-        assertTrue(collectionsEqual(Set.of("x y", "y"), SkriptPattern.parse("[x] y").unrollFully()));
-
-        assertTrue(collectionsEqual(Set.of("ab", "a b"), SkriptPattern.parse("a[ ]b").unrollFully()));
-
-        assertTrue(collectionsEqual(Set.of("x", "xy", "xy z", "x z"), SkriptPattern.parse("x[y] [z]").unrollFully()));
-
-        assertTrue(collectionsEqual(Set.of(
-            "w z",
-            "wx z",
-            "w y z",
-            "wx y z"
-        ), SkriptPattern.parse("w[x] [y] z").unrollFully()));
-
-        assertTrue(collectionsEqual(Set.of(
-            "a b c d e",
-            "a b c e",
-            "b c d e",
-            "b c e"
-        ), SkriptPattern.parse("[a] b c [d] e").unrollFully()));
-
-        assertTrue(collectionsEqual(Set.of(
-            "a b c",
-            "a c",
-            "b c",
-            "c"
-        ), SkriptPattern.parse("[a] [b] c").unrollFully()));
-
-        assertTrue(collectionsEqual(Set.of(
-            "a c", "b c", "c"
-        ), SkriptPattern.parse("([a]|[b]) c").unrollFully()));
-
-        assertTrue(collectionsEqual(Set.of(
-            "a b c",
-            "a c"
-        ), SkriptPattern.parse("a [b] c").unrollFully()));
+    @BeforeAll
+    static void init() {
+        PATTERNS.add(Arguments.of("x", Set.of("x")));
+        PATTERNS.add(Arguments.of("(x|y)", Set.of("x", "y")));
+        PATTERNS.add(Arguments.of("[x]", Set.of("x", "")));
+        PATTERNS.add(Arguments.of(" ", Set.of(" ")));
+        PATTERNS.add(Arguments.of("x [y]", Set.of("x y", "x")));
+        PATTERNS.add(Arguments.of("[x] y", Set.of("x y", "y")));
+        PATTERNS.add(Arguments.of("a[ ]b", Set.of("ab", "a b")));
+        PATTERNS.add(Arguments.of("x[y] [z]", Set.of("x", "xy", "xy z", "x z")));
+        PATTERNS.add(Arguments.of("w[x] [y] z", Set.of("w z", "wx z", "w y z", "wx y z")));
+        PATTERNS.add(Arguments.of("[a] b c [d] e", Set.of("a b c d e", "a b c e", "b c d e", "b c e")));
+        PATTERNS.add(Arguments.of("[a] [b] c", Set.of("a b c", "a c", "b c", "c")));
+        PATTERNS.add(Arguments.of("([a]|[b]) c", Set.of("a c", "b c", "c")));
+        PATTERNS.add(Arguments.of("a [b] c", Set.of("a b c", "a c")));
     }
 
-    boolean collectionsEqual(Collection<?> setA, Collection<?> setB) {
-        for (Object object : setA) {
-            if (!setB.contains(object)) {
-                return false;
-            }
-        }
+    @ParameterizedTest
+    @FieldSource("PATTERNS")
+    void test(@ConvertWith(SkriptPatternConverter.class) SkriptPattern pattern, Set<?> correct) {
+        Collection<?> actual = pattern.unrollFully();
 
-        for (Object object : setB) {
-            if (!setA.contains(object)) {
-                return false;
-            }
-        }
-
-        return true;
+        assertTrue(actual.containsAll(correct) && correct.containsAll(actual));
     }
 }

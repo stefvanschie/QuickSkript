@@ -3,30 +3,36 @@ package com.github.stefvanschie.quickskript.core.psi.condition;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.skript.StandaloneSkriptLoader;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PsiIsItemEmptyConditionTest {
 
-    @Test
-    void test() {
-        var skriptLoader = new StandaloneSkriptLoader();
+    private static SkriptLoader loader;
 
-        test(skriptLoader, "0 of enchanted book is empty");
-        test(skriptLoader, "0 of painting are empty");
-
-        test(skriptLoader, "4 of redstone lamp isn't empty");
-        test(skriptLoader, "1 of tadpole bucket is not empty");
-        test(skriptLoader, "1 of diamond boots aren't empty");
-        test(skriptLoader, "5 of tropical fish spawn egg are not empty");
+    @BeforeAll
+    static void init() {
+        loader = new StandaloneSkriptLoader();
     }
 
-    private void test(SkriptLoader loader, String input) {
-        PsiElement<?> psiElement = loader.tryParseElement(input, -1);
+    @ParameterizedTest
+    @ValueSource(strings = {
+        "0 of enchanted book is empty",
+        "0 of painting are empty",
+        "4 of redstone lamp isn't empty",
+        "1 of tadpole bucket is not empty",
+        "1 of diamond boots aren't empty",
+        "5 of tropical fish spawn egg are not empty"
+    })
+    void test(String input) {
+        PsiElement<?> element = loader.tryParseElement(input, -1);
 
-        assertTrue(psiElement instanceof PsiIsItemEmptyCondition);
-        assertTrue(psiElement.isPreComputed());
-        assertEquals(true, ((PsiIsItemEmptyCondition) psiElement).execute(null, null));
+        assertNotNull(element);
+        assertInstanceOf(PsiIsItemEmptyCondition.class, element);
+        assertTrue(element.isPreComputed());
+        assertEquals(true, element.execute(null, null));
     }
 }

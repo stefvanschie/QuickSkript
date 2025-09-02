@@ -1,30 +1,32 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.skript.StandaloneSkriptLoader;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 class PsiEggWillHatchConditionTest {
 
-    @Test
-    void test() {
-        var skriptLoader = new StandaloneSkriptLoader();
+    private static SkriptLoader loader;
 
-        test(skriptLoader, "the egg will hatch");
-        test(skriptLoader, "egg will hatch");
-
-        test(skriptLoader, "the egg will not hatch");
-        test(skriptLoader, "the egg won't hatch");
-        test(skriptLoader, "egg will not hatch");
-        test(skriptLoader, "egg won't hatch");
+    @BeforeAll
+    static void test() {
+        loader = new StandaloneSkriptLoader();
     }
 
-    private void test(SkriptLoader loader, String input) {
-        PsiElement<?> psiElement = loader.tryParseElement(input, -1);
-
-        assertTrue(psiElement instanceof PsiEggWillHatchCondition);
+    @ParameterizedTest
+    @ValueSource(strings = {
+        "the egg will hatch",
+        "egg will hatch",
+        "the egg will not hatch",
+        "the egg won't hatch",
+        "egg will not hatch",
+        "egg won't hatch"
+    })
+    void test(String input) {
+        assertInstanceOf(PsiEggWillHatchCondition.class, loader.tryParseElement(input, -1));
     }
 }

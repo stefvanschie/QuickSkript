@@ -1,36 +1,38 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.skript.StandaloneSkriptLoader;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 class PsiIsAdultConditionTest {
 
-    @Test
-    void test() {
-        var skriptLoader = new StandaloneSkriptLoader();
+    private static SkriptLoader loader;
 
-        test(skriptLoader, "the player is an adult");
-        test(skriptLoader, "the player is adult");
-        test(skriptLoader, "the player are an adult");
-        test(skriptLoader, "the player are adult");
-
-        test(skriptLoader, "the player isn't an adult");
-        test(skriptLoader, "the player isn't adult");
-        test(skriptLoader, "the player is not an adult");
-        test(skriptLoader, "the player is not adult");
-        test(skriptLoader, "the player aren't an adult");
-        test(skriptLoader, "the player aren't adult");
-        test(skriptLoader, "the player are not an adult");
-        test(skriptLoader, "the player are not adult");
+    @BeforeAll
+    static void test() {
+        loader = new StandaloneSkriptLoader();
     }
 
-    private void test(SkriptLoader loader, String input) {
-        PsiElement<?> psiElement = loader.tryParseElement(input, -1);
-
-        assertTrue(psiElement instanceof PsiIsAdultCondition);
+    @ParameterizedTest
+    @ValueSource(strings = {
+        "the player is an adult",
+        "the player is adult",
+        "the player are an adult",
+        "the player are adult",
+        "the player isn't an adult",
+        "the player isn't adult",
+        "the player is not an adult",
+        "the player is not adult",
+        "the player aren't an adult",
+        "the player aren't adult",
+        "the player are not an adult",
+        "the player are not adult"
+    })
+    void test(String input) {
+        assertInstanceOf(PsiIsAdultCondition.class, loader.tryParseElement(input, -1));
     }
 }

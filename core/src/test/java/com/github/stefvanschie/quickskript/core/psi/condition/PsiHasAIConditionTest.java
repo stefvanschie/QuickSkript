@@ -1,36 +1,38 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.skript.StandaloneSkriptLoader;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 class PsiHasAIConditionTest {
 
-    @Test
-    void test() {
-        var skriptLoader = new StandaloneSkriptLoader();
+    private static SkriptLoader loader;
 
-        test(skriptLoader, "the player has ai");
-        test(skriptLoader, "the player has artificial intelligence");
-        test(skriptLoader, "the player have ai");
-        test(skriptLoader, "the player have artificial intelligence");
-
-        test(skriptLoader, "the player doesn't have ai");
-        test(skriptLoader, "the player doesn't have artificial intelligence");
-        test(skriptLoader, "the player does not have ai");
-        test(skriptLoader, "the player does not have artificial intelligence");
-        test(skriptLoader, "the player do not have ai");
-        test(skriptLoader, "the player do not have artificial intelligence");
-        test(skriptLoader, "the player don't have ai");
-        test(skriptLoader, "the player don't have artificial intelligence");
+    @BeforeAll
+    static void init() {
+        loader = new StandaloneSkriptLoader();
     }
 
-    private void test(SkriptLoader loader, String input) {
-        PsiElement<?> psiElement = loader.tryParseElement(input, -1);
-
-        assertTrue(psiElement instanceof PsiHasAICondition);
+    @ParameterizedTest
+    @ValueSource(strings = {
+        "the player has ai",
+        "the player has artificial intelligence",
+        "the player have ai",
+        "the player have artificial intelligence",
+        "the player doesn't have ai",
+        "the player doesn't have artificial intelligence",
+        "the player does not have ai",
+        "the player does not have artificial intelligence",
+        "the player do not have ai",
+        "the player do not have artificial intelligence",
+        "the player don't have ai",
+        "the player don't have artificial intelligence"
+    })
+    void test(String input) {
+        assertInstanceOf(PsiHasAICondition.class, loader.tryParseElement(input, -1));
     }
 }

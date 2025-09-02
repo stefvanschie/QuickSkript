@@ -1,30 +1,34 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.skript.StandaloneSkriptLoader;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 class PsiIsBlockIndirectlyRedstonePoweredConditionTest {
 
-    @Test
-    void test() {
-        var skriptLoader = new StandaloneSkriptLoader();
+    private static SkriptLoader loader;
 
-        test(skriptLoader, "block is indirectly redstone powered");
-        test(skriptLoader, "block are indirectly redstone powered");
-
-        test(skriptLoader, "block isn't indirectly redstone powered");
-        test(skriptLoader, "block is not indirectly redstone powered");
-        test(skriptLoader, "block aren't indirectly redstone powered");
-        test(skriptLoader, "block are not indirectly redstone powered");
+    @BeforeAll
+    static void init() {
+        loader = new StandaloneSkriptLoader();
     }
 
-    private void test(SkriptLoader loader, String input) {
-        PsiElement<?> psiElement = loader.tryParseElement(input, -1);
+    @ParameterizedTest
+    @ValueSource(strings = {
+        "block is indirectly redstone powered",
+        "block are indirectly redstone powered",
+        "block isn't indirectly redstone powered",
+        "block is not indirectly redstone powered",
+        "block aren't indirectly redstone powered",
+        "block are not indirectly redstone powered"
+    })
+    void test(String input) {
+        Object element = loader.tryParseElement(input, -1);
 
-        assertTrue(psiElement instanceof PsiIsBlockIndirectlyRedstonePoweredCondition);
+        assertInstanceOf(PsiIsBlockIndirectlyRedstonePoweredCondition.class, element);
     }
 }
