@@ -2,7 +2,6 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -67,16 +66,7 @@ public class PsiSplitExpression extends PsiElement<String[]> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The patterns for matching {@link PsiSplitExpression}s
-         */
-        @NotNull
-        private final SkriptPattern[] patterns = SkriptPattern.parse(
-            "split %text% (at|using|by) [[the] delimiter] %text%",
-            "%text% split (at|using|by) [[the] delimiter] %text%"
-        );
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param text the text to split
          * @param delimiter the delimiter
@@ -86,7 +76,8 @@ public class PsiSplitExpression extends PsiElement<String[]> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
+        @Pattern("split %text% (at|using|by) [[the] delimiter] %text%")
+        @Pattern("%text% split (at|using|by) [[the] delimiter] %text%")
         public PsiSplitExpression parse(@NotNull PsiElement<?> text, @NotNull PsiElement<?> delimiter, int lineNumber) {
             return create(text, delimiter, lineNumber);
         }

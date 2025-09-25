@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.Settable;
@@ -34,13 +33,7 @@ public class PsiLeaveMessageExpression extends PsiElement<String> implements Set
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiLeaveMessageExpression}s
-         */
-        @NotNull
-        private final SkriptPattern pattern = SkriptPattern.parse("[the] (quit|leave|log[ ]out|kick)( |-)message");
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param lineNumber the line number
          * @return the expression
@@ -48,7 +41,7 @@ public class PsiLeaveMessageExpression extends PsiElement<String> implements Set
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("[the] (quit|leave|log[ ]out|kick)( |-)message")
         public PsiLeaveMessageExpression parse(int lineNumber) {
             return create(lineNumber);
         }

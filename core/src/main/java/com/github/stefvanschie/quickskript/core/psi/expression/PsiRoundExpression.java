@@ -2,7 +2,6 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
@@ -77,25 +76,7 @@ public class PsiRoundExpression extends PsiElement<Integer> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching down {@link PsiRoundExpression}s
-         */
-        @NotNull
-        private SkriptPattern downPattern = SkriptPattern.parse("[a|the] round[ed] down %number%");
-
-        /**
-         * The pattern for matching nearest {@link PsiRoundExpression}s
-         */
-        @NotNull
-        private SkriptPattern nearestPattern = SkriptPattern.parse("[a|the] round[ed] %number%");
-
-        /**
-         * The pattern for matching up {@link PsiRoundExpression}s
-         */
-        @NotNull
-        private SkriptPattern upPattern = SkriptPattern.parse("[a|the] round[ed] up %number%");
-
-        /**
-         * Parses the {@link #downPattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param number the number to round
          * @param lineNumber the line number
@@ -104,13 +85,13 @@ public class PsiRoundExpression extends PsiElement<Integer> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("downPattern")
+        @Pattern("[a|the] round[ed] down %number%")
         public PsiRoundExpression parseDown(@NotNull PsiElement<?> number, int lineNumber) {
             return create(number, RoundMode.DOWN, lineNumber);
         }
 
         /**
-         * Parses the {@link #nearestPattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param number the number to round
          * @param lineNumber the line number
@@ -119,13 +100,13 @@ public class PsiRoundExpression extends PsiElement<Integer> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("nearestPattern")
+        @Pattern("[a|the] round[ed] %number%")
         public PsiRoundExpression parseNearest(@NotNull PsiElement<?> number, int lineNumber) {
             return create(number, RoundMode.NEAREST, lineNumber);
         }
 
         /**
-         * Parses the {@link #upPattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param number the number to round
          * @param lineNumber the line number
@@ -134,7 +115,7 @@ public class PsiRoundExpression extends PsiElement<Integer> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("upPattern")
+        @Pattern("[a|the] round[ed] up %number%")
         public PsiRoundExpression parseUp(@NotNull PsiElement<?> number, int lineNumber) {
             return create(number, RoundMode.UP, lineNumber);
         }

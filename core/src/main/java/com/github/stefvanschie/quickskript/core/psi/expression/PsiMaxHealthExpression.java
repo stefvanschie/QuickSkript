@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.Addable;
@@ -47,16 +46,7 @@ public class PsiMaxHealthExpression extends PsiElement<Double> implements Addabl
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The patterns used for matching {@link PsiMaxHealthExpression}s
-         */
-        @NotNull
-        private final SkriptPattern[] patterns = SkriptPattern.parse(
-            "[the] max[imum] health of %living entities%",
-            "%living entities%'[s] max[imum] health"
-        );
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param livingEntity the entity to get the maximum health of
          * @param lineNumber the line number
@@ -65,7 +55,8 @@ public class PsiMaxHealthExpression extends PsiElement<Double> implements Addabl
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
+        @Pattern("[the] max[imum] health of %living entities%")
+        @Pattern("%living entities%'[s] max[imum] health")
         public PsiMaxHealthExpression parse(@NotNull PsiElement<?> livingEntity, int lineNumber) {
             return create(livingEntity, lineNumber);
         }

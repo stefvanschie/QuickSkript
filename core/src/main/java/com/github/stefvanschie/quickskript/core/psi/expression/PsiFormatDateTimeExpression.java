@@ -2,7 +2,6 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -71,14 +70,7 @@ public class PsiFormatDateTimeExpression extends PsiElement<String> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiFormatDateTimeExpression}s
-         */
-        @NotNull
-        private final SkriptPattern pattern =
-            SkriptPattern.parse("%dates% formatted [human-readable] [(with|as) %text%]");
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param dateTime the date time to format
          * @param format the format to format with
@@ -88,7 +80,7 @@ public class PsiFormatDateTimeExpression extends PsiElement<String> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("%dates% formatted [human-readable] [(with|as) %text%]")
         public PsiFormatDateTimeExpression parse(@NotNull PsiElement<?> dateTime, @Nullable PsiElement<?> format,
             int lineNumber) {
             return create(dateTime, format, lineNumber);

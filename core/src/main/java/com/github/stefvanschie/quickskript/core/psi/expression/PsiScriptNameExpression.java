@@ -2,7 +2,6 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
@@ -47,16 +46,7 @@ public class PsiScriptNameExpression extends PsiElement<String> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiScriptNameExpression}s
-         */
-        @NotNull
-        private SkriptPattern[] patterns = SkriptPattern.parse(
-            "[the] script[['s] name]",
-            "name of [the] script"
-        );
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param lineNumber the line number
          * @return the expression
@@ -64,7 +54,8 @@ public class PsiScriptNameExpression extends PsiElement<String> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
+        @Pattern("[the] script[['s] name]")
+        @Pattern("name of [the] script")
         public PsiScriptNameExpression parse(int lineNumber) {
             return create(lineNumber);
         }

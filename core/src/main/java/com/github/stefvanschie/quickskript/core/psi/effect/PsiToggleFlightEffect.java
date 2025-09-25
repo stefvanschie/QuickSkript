@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -50,21 +49,7 @@ public class PsiToggleFlightEffect extends PsiElement<Void> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching enable elements
-         */
-        @NotNull
-        private final SkriptPattern enablePattern =
-            SkriptPattern.parse("(allow|enable) (fly|flight) (for|to) %players%");
-
-        /**
-         * The pattern for matching disable elements
-         */
-        @NotNull
-        private final SkriptPattern disablePattern =
-            SkriptPattern.parse("(disallow|disable) (fly|flight) (for|to) %players%");
-
-        /**
-         * Parses the {@link #enablePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param player the player to allow flight for
          * @param lineNumber the line number
@@ -73,13 +58,13 @@ public class PsiToggleFlightEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("enablePattern")
+        @Pattern("(allow|enable) (fly|flight) (for|to) %players%")
         public PsiToggleFlightEffect parseEnable(@NotNull PsiElement<?> player, int lineNumber) {
             return create(player, true, lineNumber);
         }
 
         /**
-         * Parses the {@link #disablePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param player the player to disable flight for
          * @param lineNumber the line number
@@ -88,7 +73,7 @@ public class PsiToggleFlightEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("disablePattern")
+        @Pattern("(disallow|disable) (fly|flight) (for|to) %players%")
         public PsiToggleFlightEffect parseDisable(@NotNull PsiElement<?> player, int lineNumber) {
             return create(player, false, lineNumber);
         }

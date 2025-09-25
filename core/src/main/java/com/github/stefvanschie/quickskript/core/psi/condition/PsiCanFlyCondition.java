@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -50,19 +49,7 @@ public class PsiCanFlyCondition extends PsiElement<Boolean> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching positive can fly conditions
-         */
-        @NotNull
-        private final SkriptPattern positivePattern = SkriptPattern.parse("%players% can fly");
-
-        /**
-         * The pattern for matching negative can fly conditions
-         */
-        @NotNull
-        private final SkriptPattern negativePattern = SkriptPattern.parse("%players% (can't|cannot|can not) fly");
-
-        /**
-         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param player the player to test flight for
          * @param lineNumber the line number
@@ -71,13 +58,13 @@ public class PsiCanFlyCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("positivePattern")
+        @Pattern("%players% can fly")
         private PsiCanFlyCondition parsePositive(@NotNull PsiElement<?> player, int lineNumber) {
             return create(player, true, lineNumber);
         }
 
         /**
-         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param player the player to test flight for
          * @param lineNumber the line number
@@ -86,7 +73,7 @@ public class PsiCanFlyCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("negativePattern")
+        @Pattern("%players% (can't|cannot|can not) fly")
         private PsiCanFlyCondition parseNegative(@NotNull PsiElement<?> player, int lineNumber) {
             return create(player, false, lineNumber);
         }

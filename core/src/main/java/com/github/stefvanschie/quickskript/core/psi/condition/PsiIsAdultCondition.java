@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -49,23 +48,7 @@ public class PsiIsAdultCondition extends PsiElement<Boolean> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching positive {@link PsiIsAdultCondition}s
-         */
-        @NotNull
-        private final SkriptPattern positivePattern = SkriptPattern.parse(
-            "%living entities% (is|are) [an] adult"
-        );
-
-        /**
-         * The pattern for matching negative {@link PsiIsAdultCondition}s
-         */
-        @NotNull
-        private final SkriptPattern negativePattern = SkriptPattern.parse(
-            "%living entities% (isn't|is not|aren't|are not) [an] adult"
-        );
-
-        /**
-         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param livingEntities the living entities to check if they are adults
          * @param lineNumber the line number
@@ -74,13 +57,13 @@ public class PsiIsAdultCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("positivePattern")
+        @Pattern("%living entities% (is|are) [an] adult")
         public PsiIsAdultCondition parsePositive(@NotNull PsiElement<?> livingEntities, int lineNumber) {
             return create(livingEntities, true, lineNumber);
         }
 
         /**
-         * Parses the {@link #negativePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param livingEntities the living entities to check if they aren't adults
          * @param lineNumber the line number
@@ -89,7 +72,7 @@ public class PsiIsAdultCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("negativePattern")
+        @Pattern("%living entities% (isn't|is not|aren't|are not) [an] adult")
         public PsiIsAdultCondition parseNegative(@NotNull PsiElement<?> livingEntities, int lineNumber) {
             return create(livingEntities, false, lineNumber);
         }

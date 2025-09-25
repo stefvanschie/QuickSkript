@@ -1,7 +1,6 @@
 package com.github.stefvanschie.quickskript.core.psi.literal;
 
 import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.pattern.group.RegexGroup;
 import com.github.stefvanschie.quickskript.core.pattern.group.SkriptPatternGroup;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
@@ -41,13 +40,7 @@ public class PsiTimeSpanLiteral extends PsiPrecomputedHolder<TimeSpan> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiTimeSpanLiteral}s
-         */
-        @NotNull
-        private SkriptPattern pattern = SkriptPattern.parse("[1¦<\\d{1,3}>:]<\\d{1,2}>:<\\d{1,2}>[2¦<\\.\\d{1,3}>]");
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param result the match result
          * @param lineNumber the line number
@@ -56,7 +49,7 @@ public class PsiTimeSpanLiteral extends PsiPrecomputedHolder<TimeSpan> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("[1¦<\\d{1,3}>:]<\\d{1,2}>:<\\d{1,2}>[2¦<\\.\\d{1,3}>]")
         public PsiTimeSpanLiteral parse(@NotNull SkriptMatchResult result, int lineNumber) {
             long hours = -1;
             long minutes = -1;

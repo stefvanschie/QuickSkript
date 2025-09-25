@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -45,16 +44,7 @@ public class PsiHiddenPlayersExpression extends PsiElement<Collection<?>> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The patterns for parsing {@link PsiHiddenPlayersExpression}s
-         */
-        @NotNull
-        private final SkriptPattern[] patterns = SkriptPattern.parse(
-            "[(all [[of] the]|the)] hidden players (of|for) %players%",
-            "[(all [[of] the]|the)] players hidden (from|for|by) %players%"
-        );
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param player the player to get their hidden players from
          * @param lineNumber the line number
@@ -63,7 +53,8 @@ public class PsiHiddenPlayersExpression extends PsiElement<Collection<?>> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
+        @Pattern("[(all [[of] the]|the)] hidden players (of|for) %players%")
+        @Pattern("[(all [[of] the]|the)] players hidden (from|for|by) %players%")
         public PsiHiddenPlayersExpression parse(@NotNull PsiElement<?> player, int lineNumber) {
             return create(player, lineNumber);
         }

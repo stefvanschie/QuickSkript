@@ -2,7 +2,6 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -58,16 +57,7 @@ public class PsiIndicesExpression extends PsiElement<int[]> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The patterns for matching {@link PsiIndicesExpression}s
-         */
-        @NotNull
-        private final SkriptPattern[] patterns = SkriptPattern.parse(
-            "[the] (indexes|indices) of %objects%",
-            "(all of the|all the|all) (indices|indexes) of %objects%"
-        );
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param collection the collection to get the indices from
          * @param lineNumber the line number
@@ -76,7 +66,8 @@ public class PsiIndicesExpression extends PsiElement<int[]> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
+        @Pattern("[the] (indexes|indices) of %objects%")
+        @Pattern("(all of the|all the|all) (indices|indexes) of %objects%")
         public PsiIndicesExpression parse(@NotNull PsiElement<?> collection, int lineNumber) {
             return create(collection, lineNumber);
         }

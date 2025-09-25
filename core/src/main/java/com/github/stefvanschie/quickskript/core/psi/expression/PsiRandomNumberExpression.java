@@ -2,7 +2,6 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -78,21 +77,7 @@ public class PsiRandomNumberExpression extends PsiElement<Number> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching random number expressions with integer values
-         */
-        @NotNull
-        private final SkriptPattern integerPattern =
-            SkriptPattern.parse("[a] random integer (from|between) %number% (to|and) %number%");
-
-        /**
-         * The pattern for matching random number expressions with floating point values
-         */
-        @NotNull
-        private final SkriptPattern numberPattern =
-            SkriptPattern.parse("[a] random number (from|between) %number% (to|and) %number%");
-
-        /**
-         * Parses the {@link #integerPattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param min the minimum value of the random number
          * @param max the maximum value of the random number
@@ -102,14 +87,14 @@ public class PsiRandomNumberExpression extends PsiElement<Number> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("integerPattern")
+        @Pattern("[a] random integer (from|between) %number% (to|and) %number%")
         public PsiRandomNumberExpression parseInteger(@NotNull PsiElement<?> min, @NotNull PsiElement<?> max,
                                                       int lineNumber) {
             return create(true, min, max, lineNumber);
         }
 
         /**
-         * Parses the {@link #numberPattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param min the minimum value of the random number
          * @param max the maximum value of the random number
@@ -119,7 +104,7 @@ public class PsiRandomNumberExpression extends PsiElement<Number> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("numberPattern")
+        @Pattern("[a] random number (from|between) %number% (to|and) %number%")
         public PsiRandomNumberExpression parseNumber(@NotNull PsiElement<?> min, @NotNull PsiElement<?> max,
                                                       int lineNumber) {
             return create(false, min, max, lineNumber);

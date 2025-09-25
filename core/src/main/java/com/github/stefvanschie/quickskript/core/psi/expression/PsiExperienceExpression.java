@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.Addable;
@@ -37,13 +36,7 @@ public class PsiExperienceExpression extends PsiElement<Integer> implements Adda
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiExperienceExpression}s
-         */
-        @NotNull
-        private final SkriptPattern pattern = SkriptPattern.parse("[the] [(spawned|dropped)] [e]xp[erience] [orb[s]]");
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param lineNumber the line number
          * @return the expression
@@ -51,7 +44,7 @@ public class PsiExperienceExpression extends PsiElement<Integer> implements Adda
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("[the] [(spawned|dropped)] [e]xp[erience] [orb[s]]")
         public PsiExperienceExpression parse(int lineNumber) {
             return create(lineNumber);
         }

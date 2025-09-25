@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -47,23 +46,7 @@ public class PsiCanPickUpItemsCondition extends PsiElement<Boolean> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching positive {@link PsiCanPickUpItemsCondition}s
-         */
-        @NotNull
-        private final SkriptPattern positivePattern = SkriptPattern.parse(
-            "%living entities% can pick([ ]up items| items up)"
-        );
-
-        /**
-         * The pattern for matching negative {@link PsiCanPickUpItemsCondition}s
-         */
-        @NotNull
-        private final SkriptPattern negativePattern = SkriptPattern.parse(
-            "%living entities% (can't|cannot|can not) pick([ ]up items| items up)"
-        );
-
-        /**
-         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param livingEntities the living entities to check
          * @param lineNumber the line number
@@ -72,13 +55,13 @@ public class PsiCanPickUpItemsCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("positivePattern")
+        @Pattern("%living entities% can pick([ ]up items| items up)")
         public PsiCanPickUpItemsCondition parsePositive(@NotNull PsiElement<?> livingEntities, int lineNumber) {
             return create(livingEntities, true, lineNumber);
         }
 
         /**
-         * Parses the {@link #negativePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param livingEntities the living entities to check
          * @param lineNumber the line number
@@ -87,7 +70,7 @@ public class PsiCanPickUpItemsCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("negativePattern")
+        @Pattern("%living entities% (can't|cannot|can not) pick([ ]up items| items up)")
         public PsiCanPickUpItemsCondition parseNegative(@NotNull PsiElement<?> livingEntities, int lineNumber) {
             return create(livingEntities, false, lineNumber);
         }

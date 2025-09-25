@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -49,21 +48,7 @@ public class PsiEntityIsWetCondition extends PsiElement<Boolean> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching positive {@link PsiEntityIsWetCondition}s
-         */
-        @NotNull
-        private final SkriptPattern positivePattern = SkriptPattern.parse("%entities% (is|are) wet");
-
-        /**
-         * The pattern for matching negative {@link PsiEntityIsWetCondition}s
-         */
-        @NotNull
-        private final SkriptPattern negativePattern = SkriptPattern.parse(
-            "%entities% (isn't|is not|aren't|are not) wet"
-        );
-
-        /**
-         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param entities the entities to check if they are wet
          * @param lineNumber the line number
@@ -72,13 +57,13 @@ public class PsiEntityIsWetCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("positivePattern")
+        @Pattern("%entities% (is|are) wet")
         public PsiEntityIsWetCondition parsePositive(@NotNull PsiElement<?> entities, int lineNumber) {
             return create(entities, true, lineNumber);
         }
 
         /**
-         * Parses the {@link #negativePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param entities the entities to check if they aren't wet
          * @param lineNumber the line number
@@ -87,7 +72,7 @@ public class PsiEntityIsWetCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("negativePattern")
+        @Pattern("%entities% (isn't|is not|aren't|are not) wet")
         public PsiEntityIsWetCondition parseNegative(@NotNull PsiElement<?> entities, int lineNumber) {
             return create(entities, false, lineNumber);
         }

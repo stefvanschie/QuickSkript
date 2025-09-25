@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -43,16 +42,7 @@ public class PsiLeashHolderExpression extends PsiElement<Object> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The patterns for matching {@link PsiLeashHolderExpression}s
-         */
-        @NotNull
-        private final SkriptPattern[] patterns = SkriptPattern.parse(
-            "[the] leash holder[s] of %living entities%",
-            "%living entities%'[s] leash holder[s]"
-        );
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param entity the leashed entity to get the holder from
          * @param lineNumber the line number
@@ -61,7 +51,8 @@ public class PsiLeashHolderExpression extends PsiElement<Object> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
+        @Pattern("[the] leash holder[s] of %living entities%")
+        @Pattern("%living entities%'[s] leash holder[s]")
         public PsiLeashHolderExpression parse(@NotNull PsiElement<?> entity, int lineNumber) {
             return create(entity, lineNumber);
         }

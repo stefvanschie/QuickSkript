@@ -2,7 +2,6 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -84,14 +83,7 @@ public class PsiJoinExpression extends PsiElement<String> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiJoinExpression}s
-         */
-        @NotNull
-        private final SkriptPattern pattern =
-            SkriptPattern.parse("(concat[enate]|join) %texts% [(with|using|by) [[the] delimiter] %text%]");
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param texts the texts to join together
          * @param delimiter the delimiter
@@ -101,7 +93,7 @@ public class PsiJoinExpression extends PsiElement<String> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("(concat[enate]|join) %texts% [(with|using|by) [[the] delimiter] %text%]")
         public PsiJoinExpression parse(@NotNull PsiElement<?> texts, @Nullable PsiElement<?> delimiter,
             int lineNumber) {
             return create(texts, delimiter, lineNumber);

@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.Resettable;
@@ -45,16 +44,7 @@ public class PsiGlowingExpression extends PsiElement<Boolean> implements Resetta
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The patterns for creating {@link PsiGlowingExpression}s
-         */
-        @NotNull
-        private final SkriptPattern[] patterns = SkriptPattern.parse(
-            "[the] glowing of %entities%",
-            "%entities%'[s] glowing"
-        );
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param entity the entity to get the glowing state of
          * @param lineNumber the line number
@@ -63,7 +53,8 @@ public class PsiGlowingExpression extends PsiElement<Boolean> implements Resetta
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
+        @Pattern("[the] glowing of %entities%")
+        @Pattern("%entities%'[s] glowing")
         public PsiGlowingExpression parse(@NotNull PsiElement<?> entity, int lineNumber) {
             return create(entity, lineNumber);
         }

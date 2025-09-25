@@ -2,13 +2,11 @@ package com.github.stefvanschie.quickskript.core.psi.effect;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.*;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
-import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.PatternTypeOrder;
 import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -87,49 +85,7 @@ public class PsiChangeEffect extends PsiElement<Void> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * Patterns for adding something
-         */
-        @NotNull
-        private final SkriptPattern[] addPatterns = SkriptPattern.parse(
-            "(add|give) %objects% to %~objects%",
-            "increase %~objects% by %objects%",
-            "give %~objects% %objects%");
-
-        /**
-         * The pattern for setting something
-         */
-        @NotNull
-        private final SkriptPattern setPattern = SkriptPattern.parse("set %~objects% to %objects%");
-
-        /**
-         * The pattern for removing everything of an expression
-         */
-        @NotNull
-        private final SkriptPattern removeAllPattern =
-            SkriptPattern.parse("remove (all|every) %objects% from %~objects%");
-
-        /**
-         * Patterns for removing something of an expression
-         */
-        @NotNull
-        private final SkriptPattern[] removePatterns = SkriptPattern.parse(
-            "(remove|subtract) %objects% from %~objects%",
-            "reduce %~objects% by %objects%");
-
-        /**
-         * The pattern for deleting an expression
-         */
-        @NotNull
-        private final SkriptPattern deletePattern = SkriptPattern.parse("(delete|clear) %~objects%");
-
-        /**
-         * the pattern for resetting an expression
-         */
-        @NotNull
-        private final SkriptPattern resetPattern = SkriptPattern.parse("reset %~objects%");
-
-        /**
-         * Parses the {@link #addPatterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param objects the objects to add
          * @param changee the expression to change
@@ -139,15 +95,16 @@ public class PsiChangeEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("addPatterns")
-        @PatternTypeOrder(patterns = {1, 2}, typeOrder = {1, 0})
+        @Pattern("(add|give) %objects% to %~objects%")
+        @Pattern("increase %~objects% by %objects%")
+        @Pattern("give %~objects% %objects%")
         public PsiChangeEffect parseAdd(@NotNull PsiElement<?> objects, @NotNull PsiElement<?> changee,
             int lineNumber) {
             return new PsiChangeEffect(objects, changee, ChangeMode.ADD, lineNumber);
         }
 
         /**
-         * Parses the {@link #setPattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param objects the objects to set
          * @param changee the expression to change
@@ -157,15 +114,14 @@ public class PsiChangeEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("setPattern")
-        @PatternTypeOrder(patterns = 0, typeOrder = {1, 0})
+        @Pattern("set %~objects% to %objects%")
         public PsiChangeEffect parseSet(@NotNull PsiElement<?> objects, @NotNull PsiElement<?> changee,
             int lineNumber) {
             return new PsiChangeEffect(objects, changee, ChangeMode.SET, lineNumber);
         }
 
         /**
-         * Parses the {@link #removeAllPattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param objects the objects to remove
          * @param changee the expression to change
@@ -175,14 +131,14 @@ public class PsiChangeEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("removeAllPattern")
+        @Pattern("remove (all|every) %objects% from %~objects%")
         public PsiChangeEffect parseRemoveAll(@NotNull PsiElement<?> objects, @NotNull PsiElement<?> changee,
             int lineNumber) {
             return new PsiChangeEffect(objects, changee, ChangeMode.REMOVE_ALL, lineNumber);
         }
 
         /**
-         * Parses the {@link #removePatterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param objects the objects to remove
          * @param changee the expression to change
@@ -192,15 +148,15 @@ public class PsiChangeEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("removePatterns")
-        @PatternTypeOrder(patterns = 1, typeOrder = {1, 0})
+        @Pattern("(remove|subtract) %objects% from %~objects%")
+        @Pattern("reduce %~objects% by %objects%")
         public PsiChangeEffect parseRemove(@NotNull PsiElement<?> objects, @NotNull PsiElement<?> changee,
             int lineNumber) {
             return new PsiChangeEffect(objects, changee, ChangeMode.REMOVE, lineNumber);
         }
 
         /**
-         * Parses the {@link #deletePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param changee the expression to change
          * @param lineNumber the line number
@@ -209,13 +165,13 @@ public class PsiChangeEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("deletePattern")
+        @Pattern("(delete|clear) %~objects%")
         public PsiChangeEffect parseDelete(@NotNull PsiElement<?> changee, int lineNumber) {
             return new PsiChangeEffect(null, changee, ChangeMode.DELETE, lineNumber);
         }
 
         /**
-         * Parses the {@link #resetPattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param changee the expression to change
          * @param lineNumber the line number
@@ -224,7 +180,7 @@ public class PsiChangeEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("resetPattern")
+        @Pattern("reset %~objects%")
         public PsiChangeEffect parseReset(@NotNull PsiElement<?> changee, int lineNumber) {
             return new PsiChangeEffect(null, changee, ChangeMode.RESET, lineNumber);
         }

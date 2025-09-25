@@ -1,10 +1,8 @@
 package com.github.stefvanschie.quickskript.core.psi.util;
 
 import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
-import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.PatternTypeOrderHolder;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Method;
 
@@ -25,7 +23,7 @@ public class CachedReflectionMethod {
      * The patterns belonging to this method
      */
     @NotNull
-    private final SkriptPattern[] patterns;
+    private final Pattern[] patterns;
 
     /**
      * The parameter types of this method
@@ -34,23 +32,30 @@ public class CachedReflectionMethod {
     private final Class<?>[] parameterTypes;
 
     /**
-     * The pattern type order holder of this method
-     */
-    @Nullable
-    private final PatternTypeOrderHolder holder;
-
-    /**
      * Creates a new cached reflection method by the provided method and patterns
      *
      * @param method the method to cache
      * @param patterns the patterns belonging to the method to cache
      * @since 0.1.0
      */
-    public CachedReflectionMethod(@NotNull Method method, @NotNull SkriptPattern[] patterns) {
+    public CachedReflectionMethod(
+        @NotNull Method method,
+        @NotNull com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern @NotNull [] patterns
+    ) {
+        if (patterns.length == 0) {
+            throw new IllegalArgumentException("Method is not annotated with a Pattern annotation");
+        }
+
         this.method = method;
-        this.patterns = patterns;
+        this.patterns = new Pattern[patterns.length];
+
+        for (int index = 0; index < patterns.length; index++) {
+            com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern pattern = patterns[index];
+
+            this.patterns[index] = new Pattern(SkriptPattern.parse(pattern.value()), pattern.typeOrder());
+        }
+
         this.parameterTypes = method.getParameterTypes();
-        this.holder = method.getAnnotation(PatternTypeOrderHolder.class);
     }
 
     /**
@@ -73,8 +78,8 @@ public class CachedReflectionMethod {
      */
     @NotNull
     @Contract(pure = true)
-    public SkriptPattern[] getPatterns() {
-        return patterns;
+    public Pattern[] getPatterns() {
+        return this.patterns;
     }
 
     /**
@@ -90,14 +95,57 @@ public class CachedReflectionMethod {
     }
 
     /**
-     * Gets the pattern type order holder that were cached or null if no type order was specified
+     * A pattern specified on this method.
      *
-     * @return the pattern type order holder
      * @since 0.1.0
      */
-    @Nullable
-    @Contract(pure = true)
-    public PatternTypeOrderHolder getPatternTypeOrderHolder() {
-        return holder;
+    public static class Pattern {
+
+        /**
+         * The pattern tha was specified.
+         */
+        @NotNull
+        private final SkriptPattern pattern;
+
+        /**
+         * The ordering that was specified. See
+         * {@link com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern#typeOrder()}.
+         */
+        private final int @NotNull [] order;
+
+        /**
+         * Creates a new pattern with the given {@link SkriptPattern} and the argument ordering.
+         *
+         * @param pattern the pattern
+         * @param order the order
+         * @since 0.1.0
+         */
+        public Pattern(@NotNull SkriptPattern pattern, int @NotNull [] order) {
+            this.pattern = pattern;
+            this.order = order;
+        }
+
+        /**
+         * Gets the skript pattern.
+         *
+         * @return the skript pattern
+         * @since 0.1.0
+         */
+        @NotNull
+        @Contract(pure = true)
+        public SkriptPattern getSkriptPattern() {
+            return pattern;
+        }
+
+        /**
+         * Gets the order.
+         *
+         * @return the order
+         * @since 0.1.0
+         */
+        @Contract(pure = true)
+        public int @NotNull [] getOrder() {
+            return order;
+        }
     }
 }

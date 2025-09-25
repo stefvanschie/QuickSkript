@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.*;
@@ -44,16 +43,7 @@ public class PsiHealthExpression extends PsiElement<Double> implements Addable, 
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The patterns for matching {@link PsiHealthExpression}s
-         */
-        @NotNull
-        private final SkriptPattern[] patterns = SkriptPattern.parse(
-            "[the] health of %living entities%",
-            "%living entities%'[s] health"
-        );
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param damageable the damageable to get the health from
          * @param lineNumber the line number
@@ -62,7 +52,8 @@ public class PsiHealthExpression extends PsiElement<Double> implements Addable, 
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
+        @Pattern("[the] health of %living entities%")
+        @Pattern("%living entities%'[s] health")
         public PsiHealthExpression parse(@NotNull PsiElement<?> damageable, int lineNumber) {
             return create(damageable, lineNumber);
         }

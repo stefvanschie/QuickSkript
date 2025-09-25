@@ -1,7 +1,6 @@
 package com.github.stefvanschie.quickskript.core.psi.function;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.util.multiresult.MultiResult;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
@@ -71,12 +70,6 @@ public class PsiSumFunction extends PsiElement<Double> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching sum functions
-         */
-        @NotNull
-        private final SkriptPattern pattern = SkriptPattern.parse("sum\\(%numbers%\\)");
-
-        /**
          * This gets called upon parsing
          *
          * @param numbers the numbers to sum
@@ -86,7 +79,7 @@ public class PsiSumFunction extends PsiElement<Double> {
          */
         @Nullable
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("sum\\(%numbers%\\)")
         public PsiSumFunction tryParse(@NotNull PsiElement<?> numbers, int lineNumber) {
             return create(numbers, lineNumber);
         }

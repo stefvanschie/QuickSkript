@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -47,23 +46,7 @@ public class PsiIsBlockCondition extends PsiElement<Boolean> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching positive {@link PsiIsBlockCondition}s
-         */
-        @NotNull
-        private final SkriptPattern positivePattern = SkriptPattern.parse(
-            "%item types% (is|are) ([a] block|blocks)"
-        );
-
-        /**
-         * The pattern for matching negative {@link PsiIsBlockCondition}s
-         */
-        @NotNull
-        private final SkriptPattern negativePattern = SkriptPattern.parse(
-            "%item types% (isn't|is not|aren't|are not) ([a] block|blocks)"
-        );
-
-        /**
-         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param itemTypes the item types to check if they are blocks
          * @param lineNumber the line number
@@ -72,13 +55,13 @@ public class PsiIsBlockCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("positivePattern")
+        @Pattern("%item types% (is|are) ([a] block|blocks)")
         public PsiIsBlockCondition parsePositive(@NotNull PsiElement<?> itemTypes, int lineNumber) {
             return create(itemTypes, true, lineNumber);
         }
 
         /**
-         * Parses the {@link #negativePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param itemTypes the item types to check if they aren't blocks
          * @param lineNumber the line number
@@ -87,7 +70,7 @@ public class PsiIsBlockCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("negativePattern")
+        @Pattern("%item types% (isn't|is not|aren't|are not) ([a] block|blocks)")
         public PsiIsBlockCondition parseNegative(@NotNull PsiElement<?> itemTypes, int lineNumber) {
             return create(itemTypes, false, lineNumber);
         }

@@ -8,19 +8,19 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * A basic holder class to group multiple {@link PatternTypeOrder} if specified.
+ * A basic holder class to group multiple {@link Pattern}s if specified.
  *
  * @since 0.1.0
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface PatternTypeOrderHolder {
+public @interface PatternHolder {
 
     /**
-     * Contains all metadata specified by {@link PatternTypeOrder}, grouped together into an array.
+     * Contains all metadata specified by {@link Pattern}, grouped together into an array.
      *
      * @return the specified metadata
      */
     @NotNull
-    PatternTypeOrder[] value();
+    Pattern[] value();
 }

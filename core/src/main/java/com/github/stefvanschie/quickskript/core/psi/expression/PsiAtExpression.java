@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -40,13 +39,7 @@ public class PsiAtExpression extends PsiPrecomputedHolder<@NotNull AbsoluteDirec
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiAtExpression}s
-         */
-        @NotNull
-        private static final SkriptPattern PATTERN = SkriptPattern.parse("at");
-
-        /**
-         * Parses the {@link #PATTERN} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param lineNumber the line number
          * @return the expression
@@ -54,7 +47,7 @@ public class PsiAtExpression extends PsiPrecomputedHolder<@NotNull AbsoluteDirec
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("PATTERN")
+        @Pattern("at")
         public PsiAtExpression parse(int lineNumber) {
             return create(lineNumber);
         }

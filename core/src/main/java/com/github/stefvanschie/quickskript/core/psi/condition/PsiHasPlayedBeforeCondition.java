@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -51,22 +50,7 @@ public class PsiHasPlayedBeforeCondition extends PsiElement<Boolean> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern to match positive has played before conditions
-         */
-        @NotNull
-        private final SkriptPattern positivePattern = SkriptPattern
-            .parse("%offline player% [(has|did)] [already] play[ed] [on (this|the) server] (before|already)");
-
-        /**
-         * The pattern to match negative has played before conditions
-         */
-        @NotNull
-        private final SkriptPattern negativePattern = SkriptPattern.parse(
-            "%offline player% (has not|hasn't|did not|didn't) [(already|yet)] play[ed] [on (this|the) server] (before|already|yet)"
-        );
-
-        /**
-         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param offlinePlayer the player to check
          * @param lineNumber the line number
@@ -75,13 +59,13 @@ public class PsiHasPlayedBeforeCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("positivePattern")
+        @Pattern("%offline player% [(has|did)] [already] play[ed] [on (this|the) server] (before|already)")
         public PsiHasPlayedBeforeCondition parsePositive(@NotNull PsiElement<?> offlinePlayer, int lineNumber) {
             return create(offlinePlayer, true, lineNumber);
         }
 
         /**
-         * Parses the {@link #negativePattern} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param offlinePlayer the player to check
          * @param lineNumber the line number
@@ -90,7 +74,10 @@ public class PsiHasPlayedBeforeCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("negativePattern")
+        @Pattern("%offline player% has not [already|yet] play[ed] [on (this|the) server] (before|already|yet)")
+        @Pattern("%offline player% hasn't [already|yet] play[ed] [on (this|the) server] (before|already|yet)")
+        @Pattern("%offline player% did not [already|yet] play[ed] [on (this|the) server] (before|already|yet)")
+        @Pattern("%offline player% didn't [already|yet] play[ed] [on (this|the) server] (before|already|yet)")
         public PsiHasPlayedBeforeCondition parseNegative(@NotNull PsiElement<?> offlinePlayer, int lineNumber) {
             return create(offlinePlayer, false, lineNumber);
         }

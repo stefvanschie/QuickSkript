@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -59,24 +58,7 @@ public class PsiBanEffect extends PsiElement<Void> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for non-IP-ban {@link PsiBanEffect}s
-         */
-        @SuppressWarnings("HardcodedFileSeparator")
-        @NotNull
-        private final SkriptPattern nonIPBanPattern = SkriptPattern
-            .parse("ban %texts/offline players% [(by reason of|because [of]|on account of|due to) %text%]");
-
-        /**
-         * The pattern for IP-ban {@link PsiBanEffect}s
-         */
-        @NotNull
-        private final SkriptPattern[] ipBanPatterns = SkriptPattern.parse(
-            "ban %players% by IP [(by reason of|because [of]|on account of|due to) %text%]",
-            "IP(-| )ban %players% [(by reason of|because [of]|on account of|due to) %text%]"
-        );
-
-        /**
-         * Parses the {@link #nonIPBanPattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param object the object to be banned
          * @param reason the reason for the bane
@@ -86,14 +68,14 @@ public class PsiBanEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("nonIPBanPattern")
+        @Pattern("ban %texts/offline players% [(by reason of|because [of]|on account of|due to) %text%]")
         public PsiBanEffect parseNonIPBan(@NotNull PsiElement<?> object, @Nullable PsiElement<?> reason,
                                           int lineNumber) {
             return create(object, reason, false, lineNumber);
         }
 
         /**
-         * Parses the {@link #ipBanPatterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param object the object to be banned
          * @param reason the reason for the bane
@@ -103,7 +85,8 @@ public class PsiBanEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("ipBanPatterns")
+        @Pattern("ban %players% by IP [(by reason of|because [of]|on account of|due to) %text%]")
+        @Pattern("IP(-| )ban %players% [(by reason of|because [of]|on account of|due to) %text%]")
         public PsiBanEffect parseIPBan(@NotNull PsiElement<?> object, @Nullable PsiElement<?> reason,
                                           int lineNumber) {
             return create(object, reason, true, lineNumber);

@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -50,19 +49,7 @@ public class PsiOpEffect extends PsiElement<Void> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for opping the offline player
-         */
-        @NotNull
-        private final SkriptPattern opPattern = SkriptPattern.parse("op %offline players%");
-
-        /**
-         * The pattern for de-opping the offline player
-         */
-        @NotNull
-        private final SkriptPattern deOpPattern = SkriptPattern.parse("de[-]op %offline players%");
-
-        /**
-         * Parses the {@link #opPattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param offlinePlayer the offline player to op
          * @param lineNumber the line number
@@ -71,13 +58,13 @@ public class PsiOpEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("opPattern")
+        @Pattern("op %offline players%")
         public PsiOpEffect parseOp(@NotNull PsiElement<?> offlinePlayer, int lineNumber) {
             return create(offlinePlayer, true, lineNumber);
         }
 
         /**
-         * Parses the {@link #deOpPattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param offlinePlayer the offline player to de-op
          * @param lineNumber the line number
@@ -86,7 +73,7 @@ public class PsiOpEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("deOpPattern")
+        @Pattern("de[-]op %offline players%")
         public PsiOpEffect parseDeOp(@NotNull PsiElement<?> offlinePlayer, int lineNumber) {
             return create(offlinePlayer, false, lineNumber);
         }

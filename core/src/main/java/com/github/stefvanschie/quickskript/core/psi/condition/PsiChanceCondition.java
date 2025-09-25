@@ -3,7 +3,6 @@ package com.github.stefvanschie.quickskript.core.psi.condition;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.pattern.group.OptionalGroup;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
@@ -65,14 +64,7 @@ public class PsiChanceCondition extends PsiElement<Boolean> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiChanceCondition}s
-         */
-        @SuppressWarnings("HardcodedFileSeparator")
-        @NotNull
-        private final SkriptPattern pattern = SkriptPattern.parse("chance of %number%[\\%]");
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param result the match state
          * @param chance the chance
@@ -82,7 +74,7 @@ public class PsiChanceCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("chance of %number%[\\%]")
         private PsiChanceCondition parse(@NotNull SkriptMatchResult result, @NotNull PsiElement<?> chance,
                                            int lineNumber) {
             boolean asPercentage = result.getMatchedGroups().stream()

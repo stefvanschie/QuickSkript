@@ -2,7 +2,6 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -73,15 +72,7 @@ public class PsiDirectionExpression extends PsiElement<RelativeDirection> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiDirectionExpression}s
-         */
-        @NotNull
-        private final SkriptPattern pattern = SkriptPattern.parse(
-            "[%number% [(block|met(er|re))[s]]] (0¦in[ ]front [of]|0¦forward[s]|180¦behind|180¦backwards|[to the] (90¦right|-90¦left) [of])"
-        );
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param lineNumber the line number
          * @return the expression
@@ -89,7 +80,7 @@ public class PsiDirectionExpression extends PsiElement<RelativeDirection> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("[%number% [(block|met(er|re))[s]]] (0¦in[ ]front [of]|0¦forward[s]|180¦behind|180¦backwards|[to the] (90¦right|-90¦left) [of])")
         public PsiDirectionExpression parse(
             @NotNull SkriptMatchResult match,
             @Nullable PsiElement<?> amount,

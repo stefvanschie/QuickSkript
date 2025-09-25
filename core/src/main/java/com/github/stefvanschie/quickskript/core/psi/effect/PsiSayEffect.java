@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -51,16 +50,7 @@ public class PsiSayEffect extends PsiElement<Void> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The patterns to match against
-         */
-        @NotNull
-        private final SkriptPattern[] patterns = SkriptPattern.parse(
-            "make %players% (say|send [the] message[s]) %texts%",
-            "force %players% to (say|send [the] message[s]) %texts%"
-        );
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param player the player to send the message for
          * @param text the text to send
@@ -70,7 +60,8 @@ public class PsiSayEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
+        @Pattern("make %players% (say|send [the] message[s]) %texts%")
+        @Pattern("force %players% to (say|send [the] message[s]) %texts%")
         public PsiSayEffect parse(@NotNull PsiElement<?> player, @NotNull PsiElement<?> text, int lineNumber) {
             return create(player, text, lineNumber);
         }

@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -50,23 +49,7 @@ public class PsiUnbanEffect extends PsiElement<Void> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for non-IP-ban {@link PsiUnbanEffect}s
-         */
-        @SuppressWarnings("HardcodedFileSeparator")
-        @NotNull
-        private final SkriptPattern nonIPBanPattern = SkriptPattern.parse("unban %texts/offline players%");
-
-        /**
-         * The pattern for IP-ban {@link PsiUnbanEffect}s
-         */
-        @NotNull
-        private final SkriptPattern[] ipBanPatterns = SkriptPattern.parse(
-            "unban %players% by IP",
-            "(IP(-| )unban|un[-]IP[-]ban) %players%"
-        );
-
-        /**
-         * Parses the {@link #nonIPBanPattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param object the object to unban
          * @param lineNumber the line number
@@ -75,13 +58,13 @@ public class PsiUnbanEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("nonIPBanPattern")
+        @Pattern("unban %texts/offline players%")
         public PsiUnbanEffect parseNonIPBan(@NotNull PsiElement<?> object, int lineNumber) {
             return create(object, false, lineNumber);
         }
 
         /**
-         * Parses the {@link #ipBanPatterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param object the object to unban
          * @param lineNumber the line number
@@ -90,7 +73,8 @@ public class PsiUnbanEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("ipBanPatterns")
+        @Pattern("unban %players% by IP")
+        @Pattern("(IP(-| )unban|un[-]IP[-]ban) %players%")
         public PsiUnbanEffect parseIPBan(@NotNull PsiElement<?> object, int lineNumber) {
             return create(object, true, lineNumber);
         }

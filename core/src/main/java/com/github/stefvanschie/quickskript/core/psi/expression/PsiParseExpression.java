@@ -3,7 +3,6 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.pattern.group.RegexGroup;
 import com.github.stefvanschie.quickskript.core.psi.PsiConverter;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
@@ -83,13 +82,7 @@ public class PsiParseExpression extends PsiElement<Object> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern to match parse expressions with
-         */
-        @NotNull
-        private final SkriptPattern pattern = SkriptPattern.parse("%text% parsed as <.+>");
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param skriptLoader the skript loader
          * @param result the match result
@@ -100,7 +93,7 @@ public class PsiParseExpression extends PsiElement<Object> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("%text% parsed as <.+>")
         public PsiParseExpression parse(@NotNull SkriptLoader skriptLoader, @NotNull SkriptMatchResult result,
             @NotNull PsiElement<?> value, int lineNumber) {
             String converterText = result.getMatchedGroups().stream()

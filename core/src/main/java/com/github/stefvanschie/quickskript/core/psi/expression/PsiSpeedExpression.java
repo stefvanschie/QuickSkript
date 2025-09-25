@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.Addable;
@@ -54,25 +53,7 @@ public class PsiSpeedExpression extends PsiElement<Float> implements Addable, Re
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The patterns for matching walking {@link PsiSpeedExpression}s
-         */
-        @NotNull
-        private SkriptPattern[] walkingPatterns = SkriptPattern.parse(
-            "[the] (walk[ing])[ |-]speed of %players%",
-            "%players%'[s] (walk[ing])[ |-]speed"
-        );
-
-        /**
-         * The patterns for matching flying {@link PsiSpeedExpression}s
-         */
-        @NotNull
-        private SkriptPattern[] flyingPatterns = SkriptPattern.parse(
-            "[the] (fl(y[ing]|ight))[ |-]speed of %players%",
-            "%players%'[s] (fl(y[ing]|ight))[ |-]speed"
-        );
-
-        /**
-         * Parses the {@link #walkingPatterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param player the player to get the speed from
          * @param lineNumber the line number
@@ -81,13 +62,14 @@ public class PsiSpeedExpression extends PsiElement<Float> implements Addable, Re
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("walkingPatterns")
+        @Pattern("[the] (walk[ing])[ |-]speed of %players%")
+        @Pattern("%players%'[s] (walk[ing])[ |-]speed")
         public PsiSpeedExpression parseWalking(@NotNull PsiElement<?> player, int lineNumber) {
             return create(MovementType.WALKING, player, lineNumber);
         }
 
         /**
-         * Parses the {@link #flyingPatterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param player the player to get the speed from
          * @param lineNumber the line number
@@ -96,7 +78,8 @@ public class PsiSpeedExpression extends PsiElement<Float> implements Addable, Re
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("flyingPatterns")
+        @Pattern("[the] (fl(y[ing]|ight))[ |-]speed of %players%")
+        @Pattern("%players%'[s] (fl(y[ing]|ight))[ |-]speed")
         public PsiSpeedExpression parseFlying(@NotNull PsiElement<?> player, int lineNumber) {
             return create(MovementType.FLYING, player, lineNumber);
         }

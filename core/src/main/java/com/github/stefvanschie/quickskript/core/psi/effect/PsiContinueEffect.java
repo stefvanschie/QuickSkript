@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -35,13 +34,7 @@ public class PsiContinueEffect extends PsiPrecomputedHolder<SimpleInstructionPoi
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiContinueEffect}s
-         */
-        @NotNull
-        private final SkriptPattern pattern = SkriptPattern.parse("continue [loop]");
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param lineNumber the line number
          * @return the effect
@@ -49,7 +42,7 @@ public class PsiContinueEffect extends PsiPrecomputedHolder<SimpleInstructionPoi
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("continue [loop]")
         public PsiContinueEffect parse(int lineNumber) {
             return new PsiContinueEffect(lineNumber);
         }

@@ -4,7 +4,6 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.util.multiresult.MultiResult;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.pattern.group.RegexGroup;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
@@ -99,14 +98,7 @@ public class PsiFilterExpression extends PsiElement<Object> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiFilterExpression}s
-         */
-        @SuppressWarnings("HardcodedFileSeparator")
-        @NotNull
-        private final SkriptPattern pattern = SkriptPattern.parse("%objects% (where|that match) \\[<.+>\\]");
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param skriptLoader the skript loader to parse with
          * @param result the pattern match result
@@ -117,7 +109,7 @@ public class PsiFilterExpression extends PsiElement<Object> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("%objects% (where|that match) \\[<.+>\\]")
         public PsiFilterExpression parse(@NotNull SkriptLoader skriptLoader, @NotNull SkriptMatchResult result,
             @NotNull PsiElement<?> objects, int lineNumber) {
             PsiElement<?> predicate = skriptLoader.forceParseElement(result.getMatchedGroups().stream()

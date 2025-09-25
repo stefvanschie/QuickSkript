@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -50,20 +49,7 @@ public class PsiIsAliveCondition extends PsiElement<Boolean> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching positive is alive conditions
-         */
-        @NotNull
-        private final SkriptPattern positivePattern = SkriptPattern.parse("%entities% (is|are) (alive|dead)");
-
-        /**
-         * The pattern for matching negative is alive conditions
-         */
-        @NotNull
-        private final SkriptPattern negativePattern =
-            SkriptPattern.parse("%entities% (isn't|is not|aren't|are not) (alive|dead)");
-
-        /**
-         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param livingEntity the entity to check the alive state for
          * @param lineNumber the line number
@@ -72,13 +58,13 @@ public class PsiIsAliveCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("positivePattern")
+        @Pattern("%entities% (is|are) (alive|dead)")
         public PsiIsAliveCondition parsePositive(@NotNull PsiElement<?> livingEntity, int lineNumber) {
             return create(livingEntity, true, lineNumber);
         }
 
         /**
-         * Parses the {@link #negativePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param livingEntity the entity to check the alive state for
          * @param lineNumber the line number
@@ -87,7 +73,7 @@ public class PsiIsAliveCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("negativePattern")
+        @Pattern("%entities% (isn't|is not|aren't|are not) (alive|dead)")
         public PsiIsAliveCondition parseNegative(@NotNull PsiElement<?> livingEntity, int lineNumber) {
             return create(livingEntity, false, lineNumber);
         }

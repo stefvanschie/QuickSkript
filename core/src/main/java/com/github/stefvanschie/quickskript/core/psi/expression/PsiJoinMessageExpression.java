@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.Settable;
@@ -34,13 +33,7 @@ public class PsiJoinMessageExpression extends PsiElement<String> implements Sett
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiJoinMessageExpression}s
-         */
-        @NotNull
-        private final SkriptPattern pattern = SkriptPattern.parse("[the] (join|log[ ]in)( |-)message");
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param lineNumber the line number
          * @return the expression
@@ -48,7 +41,7 @@ public class PsiJoinMessageExpression extends PsiElement<String> implements Sett
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("[the] (join|log[ ]in)( |-)message")
         public PsiJoinMessageExpression parse(int lineNumber) {
             return create(lineNumber);
         }

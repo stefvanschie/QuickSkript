@@ -2,7 +2,6 @@ package com.github.stefvanschie.quickskript.core.psi.function;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -55,12 +54,6 @@ public class PsiAbsoluteValueFunction extends PsiElement<Double> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching absolute value functions
-         */
-        @NotNull
-        private final SkriptPattern pattern = SkriptPattern.parse("abs\\(%number%\\)");
-
-        /**
          * This gets called upon parsing
          *
          * @param number the number
@@ -70,7 +63,7 @@ public class PsiAbsoluteValueFunction extends PsiElement<Double> {
          */
         @Nullable
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("abs\\(%number%\\)")
         public PsiAbsoluteValueFunction tryParse(@NotNull PsiElement<?> number, int lineNumber) {
             return create(number, lineNumber);
         }

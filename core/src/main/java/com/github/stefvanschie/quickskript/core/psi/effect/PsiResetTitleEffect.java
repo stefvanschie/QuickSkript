@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -43,16 +42,7 @@ public class PsiResetTitleEffect extends PsiElement<Void> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The patterns to match this element with
-         */
-        @NotNull
-        private final SkriptPattern[] patterns = SkriptPattern.parse(
-            "reset [the] title[s] [of %players%]",
-            "reset [the] %players%'[s] title[s]"
-        );
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param player the player to reset the title for
          * @param lineNumber the line number
@@ -61,7 +51,8 @@ public class PsiResetTitleEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
+        @Pattern("reset [the] title[s] [of %players%]")
+        @Pattern("reset [the] %players%'[s] title[s]")
         public PsiResetTitleEffect parse(@NotNull PsiElement<?> player, int lineNumber) {
             return create(player, lineNumber);
         }

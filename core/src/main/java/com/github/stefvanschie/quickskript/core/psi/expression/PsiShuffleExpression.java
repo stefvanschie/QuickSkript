@@ -2,7 +2,6 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -58,13 +57,7 @@ public class PsiShuffleExpression extends PsiElement<List<?>> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiShuffleExpression}s
-         */
-        @NotNull
-        private SkriptPattern pattern = SkriptPattern.parse("shuffled %objects%");
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param collection the collection to shuffle
          * @param lineNumber the line number
@@ -73,7 +66,7 @@ public class PsiShuffleExpression extends PsiElement<List<?>> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("shuffled %objects%")
         public PsiShuffleExpression parse(@NotNull PsiElement<?> collection, int lineNumber) {
             return create(collection, lineNumber);
         }

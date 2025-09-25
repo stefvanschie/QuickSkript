@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -50,19 +49,7 @@ public class PsiShearEffect extends PsiElement<Void> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching this element
-         */
-        @NotNull
-        private final SkriptPattern shearPattern = SkriptPattern.parse("shear %living entities%");
-
-        /**
-         * The pattern for matching this element
-         */
-        @NotNull
-        private final SkriptPattern unshearPattern = SkriptPattern.parse("un[-]shear %living entities%");
-
-        /**
-         * Parses the {@link #shearPattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param sheep the sheep to shear
          * @param lineNumber the line number
@@ -71,13 +58,13 @@ public class PsiShearEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("shearPattern")
+        @Pattern("shear %living entities%")
         public PsiShearEffect parseShear(@NotNull PsiElement<?> sheep, int lineNumber) {
             return create(sheep, true, lineNumber);
         }
 
         /**
-         * Parses the {@link #unshearPattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param sheep the sheep to unshear
          * @param lineNumber the line number
@@ -86,7 +73,7 @@ public class PsiShearEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("unshearPattern")
+        @Pattern("un[-]shear %living entities%")
         public PsiShearEffect parseUnshear(@NotNull PsiElement<?> sheep, int lineNumber) {
             return create(sheep, false, lineNumber);
         }

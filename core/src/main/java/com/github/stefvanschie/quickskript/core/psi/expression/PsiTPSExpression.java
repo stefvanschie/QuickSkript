@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -43,31 +42,7 @@ public class PsiTPSExpression extends PsiElement<double[]> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiTPSExpression}s without timespans
-         */
-        @NotNull
-        private SkriptPattern pattern = SkriptPattern.parse("[the] tps");
-
-        /**
-         * The pattern for matching {@link PsiTPSExpression}s with a one minute timespan
-         */
-        @NotNull
-        private SkriptPattern oneMinutePattern = SkriptPattern.parse("tps from [the] last ([1] minute|1[ ]m[inute])");
-
-        /**
-         * The pattern for matching {@link PsiTPSExpression}s with a five minute timespan
-         */
-        @NotNull
-        private SkriptPattern fiveMinutePattern = SkriptPattern.parse("tps from [the] last 5[ ]m[inutes]");
-
-        /**
-         * The pattern for matching {@link PsiTPSExpression}s with a fifteen minute timespan
-         */
-        @NotNull
-        private SkriptPattern fifteenMinutePattern = SkriptPattern.parse("tps from [the] last 15[ ]m[inutes]");
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param lineNumber the line number
          * @return the expression
@@ -75,13 +50,13 @@ public class PsiTPSExpression extends PsiElement<double[]> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("[the] tps")
         public PsiTPSExpression parse(int lineNumber) {
             return create(null, lineNumber);
         }
 
         /**
-         * Parses the {@link #oneMinutePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param lineNumber the line number
          * @return the expression
@@ -89,13 +64,13 @@ public class PsiTPSExpression extends PsiElement<double[]> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("oneMinutePattern")
+        @Pattern("tps from [the] last ([1] minute|1[ ]m[inute])")
         public PsiTPSExpression parseOneMinute(int lineNumber) {
             return create(Timespan.ONE_MINUTE, lineNumber);
         }
 
         /**
-         * Parses the {@link #fiveMinutePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param lineNumber the line number
          * @return the expression
@@ -103,13 +78,13 @@ public class PsiTPSExpression extends PsiElement<double[]> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("fiveMinutePattern")
+        @Pattern("tps from [the] last 5[ ]m[inutes]")
         public PsiTPSExpression parseFiveMinute(int lineNumber) {
             return create(Timespan.FIVE_MINUTES, lineNumber);
         }
 
         /**
-         * Parses the {@link #fifteenMinutePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param lineNumber the line number
          * @return the expression
@@ -117,7 +92,7 @@ public class PsiTPSExpression extends PsiElement<double[]> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("fifteenMinutePattern")
+        @Pattern("tps from [the] last 15[ ]m[inutes]")
         public PsiTPSExpression parseFifteenMinute(int lineNumber) {
             return create(Timespan.FIFTEEN_MINUTES, lineNumber);
         }

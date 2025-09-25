@@ -1,7 +1,6 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
 import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.pattern.group.RegexGroup;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
@@ -41,8 +40,7 @@ public class PsiExitEffect extends PsiPrecomputedHolder<ExitSectionsPointerMovem
     public static class Factory implements PsiElementFactory {
 
         /**
-         * A map mapping the parse marks as used in {@link #patternsInfinite} and {@link #patternsFinite} to the correct
-         * {@link ExitSectionsPointerMovement.Type}
+         * A map mapping parse marks to the correct {@link ExitSectionsPointerMovement.Type}
          */
         @NotNull
         private final Map<Integer, ExitSectionsPointerMovement.Type> exitTypesByParseMark = Map.of(
@@ -52,26 +50,7 @@ public class PsiExitEffect extends PsiPrecomputedHolder<ExitSectionsPointerMovem
         );
 
         /**
-         * A set of patterns where the amount of sections is infinite
-         */
-        @NotNull
-        private final SkriptPattern[] patternsInfinite = SkriptPattern.parse(
-            "(exit|stop) [trigger]",
-            "(exit|stop) all (0¦section|1¦loop|2¦conditional)s"
-        );
-
-        /**
-         * A set of patterns where the amount of sections is finite
-         */
-        @NotNull
-        @SuppressWarnings("HardcodedFileSeparator")
-        private final SkriptPattern[] patternsFinite = SkriptPattern.parse(
-            "(exit|stop) [(1|a|the|this)] (0¦section|1¦loop|2¦conditional)",
-            "(exit|stop) <\\d+> (0¦section|1¦loop|2¦conditional)s"
-        );
-
-        /**
-         * Parses the {@link #patternsInfinite} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param result the match result
          * @param lineNumber the line number
@@ -80,7 +59,8 @@ public class PsiExitEffect extends PsiPrecomputedHolder<ExitSectionsPointerMovem
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patternsInfinite")
+        @Pattern("(exit|stop) [trigger]")
+        @Pattern("(exit|stop) all (0¦section|1¦loop|2¦conditional)s")
         public PsiExitEffect parseInfinite(@NotNull SkriptMatchResult result, int lineNumber) {
             ExitSectionsPointerMovement.Type type = exitTypesByParseMark.get(result.getParseMark());
 
@@ -88,7 +68,7 @@ public class PsiExitEffect extends PsiPrecomputedHolder<ExitSectionsPointerMovem
         }
 
         /**
-         * Parses the {@link #patternsFinite} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param result the match result
          * @param lineNumber the line number
@@ -97,7 +77,8 @@ public class PsiExitEffect extends PsiPrecomputedHolder<ExitSectionsPointerMovem
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patternsFinite")
+        @Pattern("(exit|stop) [(1|a|the|this)] (0¦section|1¦loop|2¦conditional)")
+        @Pattern("(exit|stop) <\\d+> (0¦section|1¦loop|2¦conditional)s")
         public PsiExitEffect parseFinite(@NotNull SkriptMatchResult result, int lineNumber) {
             String regexMatch = result.getMatchedGroups().stream()
                 .filter(entry -> entry.getX() instanceof RegexGroup)

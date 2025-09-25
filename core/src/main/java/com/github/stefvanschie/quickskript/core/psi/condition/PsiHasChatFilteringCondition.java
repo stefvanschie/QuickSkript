@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -49,23 +48,7 @@ public class PsiHasChatFilteringCondition extends PsiElement<Boolean> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching positive {@link PsiHasChatFilteringCondition}s
-         */
-        @NotNull
-        private final SkriptPattern positivePattern = SkriptPattern.parse(
-            "%players% (has|have) (chat|text) filtering (on|enabled)"
-        );
-
-        /**
-         * The pattern for matching negative {@link PsiHasChatFilteringCondition}s
-         */
-        @NotNull
-        private final SkriptPattern negativePattern = SkriptPattern.parse(
-            "%players% (doesn't|does not|do not|don't) have (chat|text) filtering (on|enabled)"
-        );
-
-        /**
-         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param players the players to check if they have chat filtering enabled
          * @param lineNumber the line number
@@ -74,13 +57,13 @@ public class PsiHasChatFilteringCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("positivePattern")
+        @Pattern("%players% (has|have) (chat|text) filtering (on|enabled)")
         public PsiHasChatFilteringCondition parsePositive(@NotNull PsiElement<?> players, int lineNumber) {
             return create(players, true, lineNumber);
         }
 
         /**
-         * Parses the {@link #negativePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param players the players to check if they don't have chat filtering enabled
          * @param lineNumber the line number
@@ -89,7 +72,7 @@ public class PsiHasChatFilteringCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("negativePattern")
+        @Pattern("%players% (doesn't|does not|do not|don't) have (chat|text) filtering (on|enabled)")
         public PsiHasChatFilteringCondition parseNegative(@NotNull PsiElement<?> players, int lineNumber) {
             return create(players, false, lineNumber);
         }

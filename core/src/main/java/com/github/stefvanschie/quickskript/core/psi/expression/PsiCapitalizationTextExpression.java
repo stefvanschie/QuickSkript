@@ -2,7 +2,6 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -88,25 +87,7 @@ public class PsiCapitalizationTextExpression extends PsiElement<String> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching lowercase {@link PsiCapitalizationTextExpression}s
-         */
-        @NotNull
-        private SkriptPattern lowerPattern = SkriptPattern.parse("%text% in lower case");
-
-        /**
-         * The pattern for matching uppercase {@link PsiCapitalizationTextExpression}s
-         */
-        @NotNull
-        private SkriptPattern upperPattern = SkriptPattern.parse("%text% in upper case");
-
-        /**
-         * The pattern for matching titlecase {@link PsiCapitalizationTextExpression}s
-         */
-        @NotNull
-        private SkriptPattern titlePattern = SkriptPattern.parse("capitalized %text%");
-
-        /**
-         * Parses the {@link #lowerPattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param text the text to change the capitalization of
          * @param lineNumber the line number
@@ -115,13 +96,13 @@ public class PsiCapitalizationTextExpression extends PsiElement<String> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("lowerPattern")
+        @Pattern("%text% in lower case")
         public PsiCapitalizationTextExpression parseLower(@NotNull PsiElement<?> text, int lineNumber) {
             return create(Capitalization.LOWER, text, lineNumber);
         }
 
         /**
-         * Parses the {@link #upperPattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param text the text to change the capitalization of
          * @param lineNumber the line number
@@ -130,13 +111,13 @@ public class PsiCapitalizationTextExpression extends PsiElement<String> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("upperPattern")
+        @Pattern("%text% in upper case")
         public PsiCapitalizationTextExpression parseUpper(@NotNull PsiElement<?> text, int lineNumber) {
             return create(Capitalization.UPPER, text, lineNumber);
         }
 
         /**
-         * Parses the {@link #titlePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param text the text to change the capitalization of
          * @param lineNumber the line number
@@ -145,7 +126,7 @@ public class PsiCapitalizationTextExpression extends PsiElement<String> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("titlePattern")
+        @Pattern("capitalized %text%")
         public PsiCapitalizationTextExpression parseTitle(@NotNull PsiElement<?> text, int lineNumber) {
             return create(Capitalization.TITLE, text, lineNumber);
         }

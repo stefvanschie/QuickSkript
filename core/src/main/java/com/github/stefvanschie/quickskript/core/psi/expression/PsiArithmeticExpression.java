@@ -2,7 +2,6 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
@@ -84,37 +83,6 @@ public class PsiArithmeticExpression extends PsiElement<Number> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern to match addition {@link PsiArithmeticExpression}s
-         */
-        @NotNull
-        private final SkriptPattern additionPattern = SkriptPattern.parse("%number%[ ]+[ ]%number%");
-
-        /**
-         * The pattern to match subtraction {@link PsiArithmeticExpression}s
-         */
-        @NotNull
-        private final SkriptPattern subtractionPattern = SkriptPattern.parse("%number%[ ]-[ ]%number%");
-
-        /**
-         * The pattern to match multiplication {@link PsiArithmeticExpression}s
-         */
-        @NotNull
-        private final SkriptPattern multiplicationPattern = SkriptPattern.parse("%number%[ ]*[ ]%number%");
-
-        /**
-         * The pattern to match division {@link PsiArithmeticExpression}s
-         */
-        @SuppressWarnings("HardcodedFileSeparator")
-        @NotNull
-        private final SkriptPattern divisionPattern = SkriptPattern.parse("%number%[ ]/[ ]%number%");
-
-        /**
-         * The pattern to match exponentiation {@link PsiArithmeticExpression}s
-         */
-        @NotNull
-        private final SkriptPattern exponentiationPattern = SkriptPattern.parse("%number%[ ]^[ ]%number%");
-
-        /**
          * This gets called upon parsing addition expressions
          *
          * @param left the left hand side number, see {@link #left}
@@ -125,7 +93,7 @@ public class PsiArithmeticExpression extends PsiElement<Number> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("additionPattern")
+        @Pattern("%number%[ ]+[ ]%number%")
         public PsiArithmeticExpression parseAddition(@NotNull PsiElement<?> left, @NotNull PsiElement<?> right,
             int lineNumber) {
             return new PsiArithmeticExpression(left, right, Operation.ADDITION, lineNumber);
@@ -142,7 +110,7 @@ public class PsiArithmeticExpression extends PsiElement<Number> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("subtractionPattern")
+        @Pattern("%number%[ ]-[ ]%number%")
         public PsiArithmeticExpression parseSubtraction(@NotNull PsiElement<?> left, @NotNull PsiElement<?> right,
             int lineNumber) {
             return new PsiArithmeticExpression(left, right, Operation.SUBTRACTION, lineNumber);
@@ -159,7 +127,7 @@ public class PsiArithmeticExpression extends PsiElement<Number> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("multiplicationPattern")
+        @Pattern("%number%[ ]*[ ]%number%")
         public PsiArithmeticExpression parseMultiplication(@NotNull PsiElement<?> left, @NotNull PsiElement<?> right,
             int lineNumber) {
             return new PsiArithmeticExpression(left, right, Operation.MULTIPLICATION, lineNumber);
@@ -176,7 +144,7 @@ public class PsiArithmeticExpression extends PsiElement<Number> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("divisionPattern")
+        @Pattern("%number%[ ]/[ ]%number%")
         public PsiArithmeticExpression parseDivision(@NotNull PsiElement<?> left, @NotNull PsiElement<?> right,
             int lineNumber) {
             return new PsiArithmeticExpression(left, right, Operation.DIVISION, lineNumber);
@@ -193,7 +161,7 @@ public class PsiArithmeticExpression extends PsiElement<Number> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("exponentiationPattern")
+        @Pattern("%number%[ ]^[ ]%number%")
         public PsiArithmeticExpression parseExponentiation(@NotNull PsiElement<?> left, @NotNull PsiElement<?> right,
             int lineNumber) {
             return new PsiArithmeticExpression(left, right, Operation.EXPONENTIATION, lineNumber);

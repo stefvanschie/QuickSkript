@@ -2,14 +2,12 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.direction.AbsoluteDirection;
-import com.github.stefvanschie.quickskript.core.util.literal.direction.RelativeDirection;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -102,39 +100,7 @@ public class PsiAbsoluteDirectionExpression extends PsiElement<AbsoluteDirection
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The north pattern for matching {@link PsiAbsoluteDirectionExpression}s
-         */
-        @NotNull
-        private final SkriptPattern patternNorth = SkriptPattern.parse(
-            "[%number% [(block|met(er|re))[s]] [to the]] north[[-| ](1¦east|-1¦west)][(ward[s|ly]|er[n|ly])] [of] [%direction%]"
-        );
-
-        /**
-         * The south pattern for matching {@link PsiAbsoluteDirectionExpression}s
-         */
-        @NotNull
-        private final SkriptPattern patternSouth = SkriptPattern.parse(
-            "[%number% [(block|met(er|re))[s]] [to the]] south[[-| ](1¦east|-1¦west)][(ward[s|ly]|er[n|ly])] [of] [%direction%]"
-        );
-
-        /**
-         * The east/west pattern for matching {@link PsiAbsoluteDirectionExpression}s
-         */
-        @NotNull
-        private final SkriptPattern patternEastWest = SkriptPattern.parse(
-            "[%number% [(block|met(er|re))[s]] [to the]] (1¦east|-1¦west)[(ward[s|ly]|er[n|ly])] [of] [%direction%]"
-        );
-
-        /**
-         * The up/down pattern for matching {@link PsiAbsoluteDirectionExpression}s
-         */
-        @NotNull
-        private final SkriptPattern patternUpDown = SkriptPattern.parse(
-            "[%number% [(block|met(er|re))[s]] [to the]] (1¦above|1¦over|(1¦up|-1¦down)[ward[s|ly]]|-1¦below|-1¦under[neath]|-1¦beneath) [%direction%]"
-        );
-
-        /**
-         * Parses the {@link #patternNorth} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param match the pattern match
          * @param amount the amount
@@ -145,7 +111,7 @@ public class PsiAbsoluteDirectionExpression extends PsiElement<AbsoluteDirection
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patternNorth")
+        @Pattern("[%number% [(block|met(er|re))[s]] [to the]] north[[-| ](1¦east|-1¦west)][ward[s|ly]|er[n|ly]] [of] [%direction%]")
         public PsiAbsoluteDirectionExpression parseNorth(
             @NotNull SkriptMatchResult match,
             @Nullable PsiElement<?> amount,
@@ -156,7 +122,7 @@ public class PsiAbsoluteDirectionExpression extends PsiElement<AbsoluteDirection
         }
 
         /**
-         * Parses the {@link #patternSouth} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param match the pattern match
          * @param amount the amount
@@ -167,7 +133,7 @@ public class PsiAbsoluteDirectionExpression extends PsiElement<AbsoluteDirection
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patternSouth")
+        @Pattern("[%number% [(block|met(er|re))[s]] [to the]] south[[-| ](1¦east|-1¦west)][ward[s|ly]|er[n|ly]] [of] [%direction%]")
         public PsiAbsoluteDirectionExpression parseSouth(
             @NotNull SkriptMatchResult match,
             @Nullable PsiElement<?> amount,
@@ -178,7 +144,7 @@ public class PsiAbsoluteDirectionExpression extends PsiElement<AbsoluteDirection
         }
 
         /**
-         * Parses the {@link #patternEastWest} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param match the pattern match
          * @param amount the amount
@@ -189,7 +155,7 @@ public class PsiAbsoluteDirectionExpression extends PsiElement<AbsoluteDirection
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patternEastWest")
+        @Pattern("[%number% [(block|met(er|re))[s]] [to the]] (1¦east|-1¦west)[ward[s|ly]|er[n|ly]] [of] [%direction%]")
         public PsiAbsoluteDirectionExpression parseEastWest(
             @NotNull SkriptMatchResult match,
             @Nullable PsiElement<?> amount,
@@ -200,7 +166,7 @@ public class PsiAbsoluteDirectionExpression extends PsiElement<AbsoluteDirection
         }
 
         /**
-         * Parses the {@link #patternUpDown} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param match the pattern match
          * @param amount the amount
@@ -211,7 +177,7 @@ public class PsiAbsoluteDirectionExpression extends PsiElement<AbsoluteDirection
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patternUpDown")
+        @Pattern("[%number% [(block|met(er|re))[s]] [to the]] (1¦above|1¦over|(1¦up|-1¦down)[ward[s|ly]]|-1¦below|-1¦under[neath]|-1¦beneath) [%direction%]")
         public PsiAbsoluteDirectionExpression parseUpDown(
             @NotNull SkriptMatchResult match,
             @Nullable PsiElement<?> amount,

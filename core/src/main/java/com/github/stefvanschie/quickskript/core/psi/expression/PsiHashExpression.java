@@ -2,7 +2,6 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
@@ -82,19 +81,7 @@ public class PsiHashExpression extends PsiElement<String> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern to match MD5 {@link PsiHashExpression}s
-         */
-        @NotNull
-        private final SkriptPattern md5Pattern = SkriptPattern.parse("%texts% hash[ed] with MD5");
-
-        /**
-         * The pattern to match SHA-256 {@link PsiHashExpression}s
-         */
-        @NotNull
-        private final SkriptPattern sha256Pattern = SkriptPattern.parse("%texts% hash[ed] with SHA-256");
-
-        /**
-         * Parses the {@link #md5Pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param text the text to hash using MD5
          * @param lineNumber the line number
@@ -103,7 +90,7 @@ public class PsiHashExpression extends PsiElement<String> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("md5Pattern")
+        @Pattern("%texts% hash[ed] with MD5")
         public PsiHashExpression parseMD5(@NotNull PsiElement<?> text, int lineNumber) {
             try {
                 return create(text, MessageDigest.getInstance("MD5"), lineNumber);
@@ -113,7 +100,7 @@ public class PsiHashExpression extends PsiElement<String> {
         }
 
         /**
-         * Parses the {@link #sha256Pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param text the text to hash using SHA-256
          * @param lineNumber the line number
@@ -122,7 +109,7 @@ public class PsiHashExpression extends PsiElement<String> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("sha256Pattern")
+        @Pattern("%texts% hash[ed] with SHA-256")
         public PsiHashExpression parseSHA256(@NotNull PsiElement<?> text, int lineNumber) {
             try {
                 return create(text, MessageDigest.getInstance("SHA-256"), lineNumber);

@@ -2,7 +2,6 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -57,12 +56,6 @@ public class PsiAmountExpression extends PsiElement<Number> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiAmountExpression}s
-         */
-        @NotNull
-        private final SkriptPattern pattern = SkriptPattern.parse("(amount|number|size) of %objects%");
-
-        /**
          * This gets called upon parsing
          *
          * @param collection the collection to get the amount from
@@ -72,7 +65,7 @@ public class PsiAmountExpression extends PsiElement<Number> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("(amount|number|size) of %objects%")
         public PsiAmountExpression parse(@NotNull PsiElement<?> collection, int lineNumber) {
             return new PsiAmountExpression(collection, lineNumber);
         }

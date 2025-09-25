@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -33,13 +32,7 @@ public class PsiFinalDamageExpression extends PsiElement<Double> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiFinalDamageExpression}s
-         */
-        @NotNull
-        private final SkriptPattern pattern = SkriptPattern.parse("[the] final damage");
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param lineNumber the line number
          * @return the expression
@@ -47,7 +40,7 @@ public class PsiFinalDamageExpression extends PsiElement<Double> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("[the] final damage")
         public PsiFinalDamageExpression parse(int lineNumber) {
             return create(lineNumber);
         }

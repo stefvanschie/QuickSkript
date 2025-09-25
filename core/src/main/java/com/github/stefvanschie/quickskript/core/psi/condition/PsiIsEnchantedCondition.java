@@ -1,7 +1,6 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.multiresult.MultiResult;
@@ -97,23 +96,7 @@ public class PsiIsEnchantedCondition extends PsiElement<Boolean> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching positive {@link PsiIsEnchantedCondition}s.
-         */
-        @NotNull
-        private final SkriptPattern positivePattern = SkriptPattern.parse(
-            "%item types% (is|are) enchanted [with %enchantment type%]"
-        );
-
-        /**
-         * The pattern for matching negative {@link PsiIsEnchantedCondition}s.
-         */
-        @NotNull
-        private final SkriptPattern negativePattern = SkriptPattern.parse(
-            "%item types% (isn't|is not|aren't|are not) enchanted [with %enchantment type%]"
-        );
-
-        /**
-         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param itemTypes the item types to check if they are enchanted
          * @param enchantmentTypes the enchantment types to check if they appear on the item types
@@ -123,7 +106,7 @@ public class PsiIsEnchantedCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("positivePattern")
+        @Pattern("%item types% (is|are) enchanted [with %enchantment type%]")
         public PsiIsEnchantedCondition parsePositive(
             @NotNull PsiElement<?> itemTypes,
             @Nullable PsiElement<?> enchantmentTypes,
@@ -133,7 +116,7 @@ public class PsiIsEnchantedCondition extends PsiElement<Boolean> {
         }
 
         /**
-         * Parses the {@link #negativePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param itemTypes the item types to check if they are enchanted
          * @param enchantmentTypes the enchantment types to check if they appear on the item types
@@ -143,7 +126,7 @@ public class PsiIsEnchantedCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("negativePattern")
+        @Pattern("%item types% (isn't|is not|aren't|are not) enchanted [with %enchantment type%]")
         public PsiIsEnchantedCondition parseNegative(
             @NotNull PsiElement<?> itemTypes,
             @Nullable PsiElement<?> enchantmentTypes,

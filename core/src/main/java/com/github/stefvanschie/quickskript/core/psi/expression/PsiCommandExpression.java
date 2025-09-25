@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -42,25 +41,7 @@ public class PsiCommandExpression extends PsiElement<String> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching full {@link PsiCommandExpression}s
-         */
-        @NotNull
-        private final SkriptPattern fullPattern = SkriptPattern.parse("[the] (full|complete|whole) command");
-
-        /**
-         * The pattern for matching label {@link PsiCommandExpression}s
-         */
-        @NotNull
-        private final SkriptPattern labelPattern = SkriptPattern.parse("[the] command [label]");
-
-        /**
-         * The pattern for matching arguments {@link PsiCommandExpression}s
-         */
-        @NotNull
-        private final SkriptPattern argumentsPattern = SkriptPattern.parse("[the] arguments");
-
-        /**
-         * Parses the {@link #fullPattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param lineNumber the line number
          * @return the expression
@@ -68,13 +49,13 @@ public class PsiCommandExpression extends PsiElement<String> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("fullPattern")
+        @Pattern("[the] (full|complete|whole) command")
         public PsiCommandExpression parseFull(int lineNumber) {
             return create(Part.FULL, lineNumber);
         }
 
         /**
-         * Parses the {@link #labelPattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param lineNumber the line number
          * @return the expression
@@ -82,13 +63,13 @@ public class PsiCommandExpression extends PsiElement<String> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("labelPattern")
+        @Pattern("[the] command [label]")
         public PsiCommandExpression parseLabel(int lineNumber) {
             return create(Part.LABEL, lineNumber);
         }
 
         /**
-         * Parses the {@link #argumentsPattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param lineNumber the line number
          * @return the expression
@@ -96,7 +77,7 @@ public class PsiCommandExpression extends PsiElement<String> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("argumentsPattern")
+        @Pattern("[the] arguments")
         public PsiCommandExpression parseArguments(int lineNumber) {
             return create(Part.ARGUMENTS, lineNumber);
         }

@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.Resettable;
@@ -35,13 +34,7 @@ public class PsiShownServerIconExpression extends PsiElement<Object> implements 
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiShownServerIconExpression}s
-         */
-        @NotNull
-        private SkriptPattern pattern = SkriptPattern.parse("[the] (shown|sent) [server] icon");
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param lineNumber the line number
          * @return the expression
@@ -49,7 +42,7 @@ public class PsiShownServerIconExpression extends PsiElement<Object> implements 
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("[the] (shown|sent) [server] icon")
         public PsiShownServerIconExpression parse(int lineNumber) {
             return create(lineNumber);
         }

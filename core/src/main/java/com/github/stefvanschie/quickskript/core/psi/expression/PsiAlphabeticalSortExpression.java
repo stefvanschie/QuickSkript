@@ -2,7 +2,6 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -60,12 +59,6 @@ public class PsiAlphabeticalSortExpression extends PsiElement<String[]> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiAlphabeticalSortExpression}s
-         */
-        @NotNull
-        private final SkriptPattern pattern = SkriptPattern.parse("alphabetically sorted %texts%");
-
-        /**
          * This gets called upon parsing
          *
          * @param texts the texts to sort
@@ -75,7 +68,7 @@ public class PsiAlphabeticalSortExpression extends PsiElement<String[]> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("alphabetically sorted %texts%")
         public PsiAlphabeticalSortExpression parse(@NotNull PsiElement<?> texts, int lineNumber) {
             return new PsiAlphabeticalSortExpression(texts, lineNumber);
         }

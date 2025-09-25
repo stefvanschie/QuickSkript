@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -33,16 +32,7 @@ public class PsiRealOnlinePlayerCountExpression extends PsiElement<Integer> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiRealOnlinePlayerCountExpression}s
-         */
-        @NotNull
-        private SkriptPattern[] patterns = SkriptPattern.parse(
-            "[the] [real|default] [online] player (count|amount|number)",
-            "[the] [real|default] (count|amount|number|size) of online players"
-        );
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param lineNumber the line number
          * @return the expression
@@ -50,7 +40,8 @@ public class PsiRealOnlinePlayerCountExpression extends PsiElement<Integer> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
+        @Pattern("[the] [real|default] [online] player (count|amount|number)")
+        @Pattern("[the] [real|default] (count|amount|number|size) of online players")
         public PsiRealOnlinePlayerCountExpression parse(int lineNumber) {
             return create(lineNumber);
         }

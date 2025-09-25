@@ -1,7 +1,6 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -76,19 +75,7 @@ public class PsiIsAlphanumericCondition extends PsiElement<Boolean> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching positive is alphanumeric conditions
-         */
-        @NotNull
-        private final SkriptPattern positivePattern = SkriptPattern.parse("%texts% (is|are) alphanumeric");
-
-        /**
-         * The pattern for matching negative is alphanumeric conditions
-         */
-        @NotNull
-        private final SkriptPattern negativePattern = SkriptPattern.parse("%texts% (isn't|is not|aren't|are not) alphanumeric");
-
-        /**
-         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param text the txt to see if it's alphanumeric
          * @param lineNumber the line number
@@ -97,13 +84,13 @@ public class PsiIsAlphanumericCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("positivePattern")
+        @Pattern("%texts% (is|are) alphanumeric")
         public PsiIsAlphanumericCondition parsePositive(@NotNull PsiElement<?> text, int lineNumber) {
             return create(text, true, lineNumber);
         }
 
         /**
-         * Parses the {@link #negativePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param text the text to see if it's alphanumeric
          * @param lineNumber the line number
@@ -112,7 +99,7 @@ public class PsiIsAlphanumericCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("negativePattern")
+        @Pattern("%texts% (isn't|is not|aren't|are not) alphanumeric")
         public PsiIsAlphanumericCondition parseNegative(@NotNull PsiElement<?> text, int lineNumber) {
             return create(text, false, lineNumber);
         }

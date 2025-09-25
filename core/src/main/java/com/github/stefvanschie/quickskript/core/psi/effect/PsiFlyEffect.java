@@ -1,7 +1,6 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
 import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -51,17 +50,7 @@ public class PsiFlyEffect extends PsiElement<Void> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The patterns to match against
-         */
-        @NotNull
-        private final SkriptPattern[] patterns = SkriptPattern.parse(
-            "force %players% to [(0¦start|1¦stop)] fly[ing]",
-            "make %players% (0¦start|1¦stop) flying",
-            "make %players% fly"
-        );
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param result the match result
          * @param player the player to start/stop flight for
@@ -71,7 +60,9 @@ public class PsiFlyEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
+        @Pattern("force %players% to [(0¦start|1¦stop)] fly[ing]")
+        @Pattern("make %players% (0¦start|1¦stop) flying")
+        @Pattern("make %players% fly")
         public PsiFlyEffect parse(@NotNull SkriptMatchResult result, @NotNull PsiElement<?> player, int lineNumber) {
             return create(player, result.getParseMark() == 0, lineNumber);
         }

@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -42,21 +41,7 @@ public class PsiPlayerInfoEffect extends PsiElement<Void> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching effects that should show the information
-         */
-        @NotNull
-        private final SkriptPattern showPattern = SkriptPattern
-            .parse("(show|reveal) [all] player [related] info[rmation] [(in|to|on|from) [the] server list]");
-
-        /**
-         * The pattern for matching effects that should hide the information
-         */
-        @NotNull
-        private final SkriptPattern hidePattern =
-            SkriptPattern.parse("hide [all] player [related] info[rmation] [(in|on|from) [the] server list]");
-
-        /**
-         * Parses the {@link #showPattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param lineNumber the line number
          * @return the effect
@@ -64,13 +49,13 @@ public class PsiPlayerInfoEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("showPattern")
+        @Pattern("(show|reveal) [all] player [related] info[rmation] [(in|to|on|from) [the] server list]")
         public PsiPlayerInfoEffect parseShow(int lineNumber) {
             return create(true, lineNumber);
         }
 
         /**
-         * Parses the {@link #hidePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param lineNumber the line number
          * @return the effect
@@ -78,7 +63,7 @@ public class PsiPlayerInfoEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("hidePattern")
+        @Pattern("hide [all] player [related] info[rmation] [(in|on|from) [the] server list]")
         public PsiPlayerInfoEffect parseHide(int lineNumber) {
             return create(false, lineNumber);
         }

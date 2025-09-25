@@ -1,7 +1,6 @@
 package com.github.stefvanschie.quickskript.core.psi.literal;
 
 import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.pattern.group.RegexGroup;
 import com.github.stefvanschie.quickskript.core.pattern.group.SkriptPatternGroup;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
@@ -42,12 +41,6 @@ public class PsiEnchantmentLiteral extends PsiPrecomputedHolder<EnchantmentType>
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for parsing enchantments
-         */
-        @NotNull
-        private final SkriptPattern pattern = SkriptPattern.parse("<.+> [<\\d+>]");
-
-        /**
          * Called whenever a potential match is found for an enchantment literal
          *
          * @param loader the skript loader
@@ -58,7 +51,7 @@ public class PsiEnchantmentLiteral extends PsiPrecomputedHolder<EnchantmentType>
          */
         @Nullable
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("<.+> [<\\d+>]")
         public PsiEnchantmentLiteral parse(
             @NotNull SkriptLoader loader,
             @NotNull SkriptMatchResult result,

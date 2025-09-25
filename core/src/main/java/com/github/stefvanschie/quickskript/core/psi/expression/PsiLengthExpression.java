@@ -2,7 +2,6 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -57,16 +56,7 @@ public class PsiLengthExpression extends PsiElement<Integer> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The patterns for matching {@link PsiLengthExpression}s
-         */
-        @NotNull
-        private final SkriptPattern[] patterns = SkriptPattern.parse(
-            "[the] length of %texts%",
-            "%texts%'[s] length"
-        );
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param text the text to get the length of
          * @param lineNumber the line number
@@ -75,7 +65,8 @@ public class PsiLengthExpression extends PsiElement<Integer> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
+        @Pattern("[the] length of %texts%")
+        @Pattern("%texts%'[s] length")
         public PsiLengthExpression parse(@NotNull PsiElement<?> text, int lineNumber) {
             return create(text, lineNumber);
         }

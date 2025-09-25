@@ -2,7 +2,6 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -61,13 +60,7 @@ public class PsiRandomExpression extends PsiElement<Object> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiRandomExpression}s
-         */
-        @NotNull
-        private SkriptPattern pattern = SkriptPattern.parse("[a] random %*type% [out] of %objects%");
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param lineNumber the line number
          * @return the expression
@@ -75,7 +68,7 @@ public class PsiRandomExpression extends PsiElement<Object> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("[a] random %*type% [out] of %objects%")
         public PsiRandomExpression parse(@NotNull String type, @NotNull PsiElement<?> collection, int lineNumber) {
             return create(collection, lineNumber);
         }

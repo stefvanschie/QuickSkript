@@ -2,7 +2,6 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -70,13 +69,7 @@ public class PsiDefaultValueExpression extends PsiElement<Object> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for creating {@link PsiDefaultValueExpression}s
-         */
-        @NotNull
-        private final SkriptPattern pattern = SkriptPattern.parse("%objects% (otherwise|?) %objects%");
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param value the value to return if this exists
          * @param defaultValue the value to return if the given value doesn't exist
@@ -86,7 +79,7 @@ public class PsiDefaultValueExpression extends PsiElement<Object> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("%objects% (otherwise|?) %objects%")
         public PsiDefaultValueExpression parse(@NotNull PsiElement<?> value, @NotNull PsiElement<?> defaultValue,
             int lineNumber) {
             return create(value, defaultValue, lineNumber);

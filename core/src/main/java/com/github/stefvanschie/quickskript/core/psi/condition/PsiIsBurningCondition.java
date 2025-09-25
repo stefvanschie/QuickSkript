@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -50,21 +49,7 @@ public class PsiIsBurningCondition extends PsiElement<Boolean> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching positive is burning conditions
-         */
-        @NotNull
-        private final SkriptPattern positivePattern =
-            SkriptPattern.parse("%entities% (is|are) (burning|ignited|on fire)");
-
-        /**
-         * The pattern for matching negative is burning conditions
-         */
-        @NotNull
-        private final SkriptPattern negativePattern =
-            SkriptPattern.parse("%entities% (isn't|is not|aren't|are not) (burning|ignited|on fire)");
-
-        /**
-         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param entity the entity to check whether they are burning
          * @param lineNumber the line number
@@ -73,13 +58,13 @@ public class PsiIsBurningCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("positivePattern")
+        @Pattern("%entities% (is|are) (burning|ignited|on fire)")
         public PsiIsBurningCondition parsePositive(@NotNull PsiElement<?> entity, int lineNumber) {
             return create(entity, true, lineNumber);
         }
 
         /**
-         * Parses the {@link #negativePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param entity the entity to check whether they are burning
          * @param lineNumber the line number
@@ -88,7 +73,7 @@ public class PsiIsBurningCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("negativePattern")
+        @Pattern("%entities% (isn't|is not|aren't|are not) (burning|ignited|on fire)")
         public PsiIsBurningCondition parseNegative(@NotNull PsiElement<?> entity, int lineNumber) {
             return create(entity, false, lineNumber);
         }

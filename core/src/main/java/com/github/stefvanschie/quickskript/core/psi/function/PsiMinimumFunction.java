@@ -1,7 +1,6 @@
 package com.github.stefvanschie.quickskript.core.psi.function;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.util.multiresult.MultiResult;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
@@ -61,12 +60,6 @@ public class PsiMinimumFunction extends PsiElement<Double> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching minimum expressions
-         */
-        @NotNull
-        private final SkriptPattern pattern = SkriptPattern.parse("min\\(%numbers%\\)");
-
-        /**
          * This gets called upon parsing
          *
          * @param numbers the numbers
@@ -76,7 +69,7 @@ public class PsiMinimumFunction extends PsiElement<Double> {
          */
         @Nullable
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("min\\(%numbers%\\)")
         public PsiMinimumFunction tryParse(@NotNull PsiElement<?> numbers, int lineNumber) {
             return create(numbers, lineNumber);
         }

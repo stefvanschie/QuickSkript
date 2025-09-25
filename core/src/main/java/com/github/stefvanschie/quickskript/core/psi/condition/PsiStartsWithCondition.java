@@ -2,7 +2,6 @@ package com.github.stefvanschie.quickskript.core.psi.condition;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -76,20 +75,7 @@ public class PsiStartsWithCondition extends PsiElement<Boolean> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * A pattern for matching positive {@link PsiStartsWithCondition}s
-         */
-        @NotNull
-        private final SkriptPattern positivePattern = SkriptPattern.parse("%texts% start[s] with %text%");
-
-        /**
-         * A pattern for matching negative {@link PsiStartsWithCondition}s
-         */
-        @NotNull
-        private final SkriptPattern negativePattern =
-            SkriptPattern.parse("%texts% (doesn't|does not|do not|don't) start with %text%");
-
-        /**
-         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param text the text to check
          * @param prefix the prefix to find in the text
@@ -99,14 +85,14 @@ public class PsiStartsWithCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("positivePattern")
+        @Pattern("%texts% start[s] with %text%")
         public PsiStartsWithCondition parsePositive(@NotNull PsiElement<?> text, @NotNull PsiElement<?> prefix,
                                                     int lineNumber) {
             return create(text, prefix, true, lineNumber);
         }
 
         /**
-         * Parses the {@link #negativePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param text the text to check
          * @param prefix the prefix to find in the text
@@ -116,7 +102,7 @@ public class PsiStartsWithCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("negativePattern")
+        @Pattern("%texts% (doesn't|does not|do not|don't) start with %text%")
         public PsiStartsWithCondition parseNegative(@NotNull PsiElement<?> text, @NotNull PsiElement<?> prefix,
                                                     int lineNumber) {
             return create(text, prefix, false, lineNumber);

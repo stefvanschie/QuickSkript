@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -47,21 +46,7 @@ public class PsiIsClimbingCondition extends PsiElement<Boolean> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching positive {@link PsiIsClimbingCondition}s
-         */
-        @NotNull
-        private final SkriptPattern positivePattern = SkriptPattern.parse("%living entities% (is|are) climbing");
-
-        /**
-         * The pattern for matching negative {@link PsiIsClimbingCondition}s
-         */
-        @NotNull
-        private final SkriptPattern negativePattern = SkriptPattern.parse(
-            "%living entities% (isn't|is not|aren't|are not) climbing"
-        );
-
-        /**
-         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param livingEntities the living entities to check if they are climbing
          * @param lineNumber the line number
@@ -70,13 +55,13 @@ public class PsiIsClimbingCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("positivePattern")
+        @Pattern("%living entities% (is|are) climbing")
         public PsiIsClimbingCondition parsePositive(@NotNull PsiElement<?> livingEntities, int lineNumber) {
             return create(livingEntities, true, lineNumber);
         }
 
         /**
-         * Parses the {@link #negativePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param livingEntities the living entities to check if they aren't climbing
          * @param lineNumber the line number
@@ -85,7 +70,7 @@ public class PsiIsClimbingCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("negativePattern")
+        @Pattern("%living entities% (isn't|is not|aren't|are not) climbing")
         public PsiIsClimbingCondition parseNegative(@NotNull PsiElement<?> livingEntities, int lineNumber) {
             return create(livingEntities, false, lineNumber);
         }

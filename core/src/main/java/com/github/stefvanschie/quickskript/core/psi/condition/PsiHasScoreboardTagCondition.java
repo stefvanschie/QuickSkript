@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -59,21 +58,7 @@ public class PsiHasScoreboardTagCondition extends PsiElement<Boolean> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching positive psi has scoreboard tags
-         */
-        @NotNull
-        private final SkriptPattern positivePattern =
-            SkriptPattern.parse("%entities% (has|have) [the] score[ ]board tag[s] %texts%");
-
-        /**
-         * The pattern for matching negative psi has scoreboard tags
-         */
-        @NotNull
-        private final SkriptPattern negativePattern =
-            SkriptPattern.parse("%entities% (doesn't|does not|do not|don't) have [the] score[ ]board tag[s] %texts%");
-
-        /**
-         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param entity the entity to check
          * @param tag the tag that needs to be found
@@ -83,14 +68,14 @@ public class PsiHasScoreboardTagCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("positivePattern")
+        @Pattern("%entities% (has|have) [the] score[ ]board tag[s] %texts%")
         public PsiHasScoreboardTagCondition parsePositive(@NotNull PsiElement<?> entity, @NotNull PsiElement<?> tag,
                                                           int lineNumber) {
             return create(entity, tag, true, lineNumber);
         }
 
         /**
-         * Parses the {@link #negativePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param entity the entity to check
          * @param tag the tag that needs to be found
@@ -100,7 +85,7 @@ public class PsiHasScoreboardTagCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("negativePattern")
+        @Pattern("%entities% (doesn't|does not|do not|don't) have [the] score[ ]board tag[s] %texts%")
         public PsiHasScoreboardTagCondition parseNegative(@NotNull PsiElement<?> entity, @NotNull PsiElement<?> tag,
                                                           int lineNumber) {
             return create(entity, tag, false, lineNumber);

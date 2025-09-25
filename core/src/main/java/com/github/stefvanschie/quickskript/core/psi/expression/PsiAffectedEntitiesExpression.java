@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.multiresult.MultiResult;
@@ -34,13 +33,7 @@ public class PsiAffectedEntitiesExpression extends PsiElement<MultiResult<?>> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiAffectedEntitiesExpression}s
-         */
-        @NotNull
-        private final SkriptPattern pattern = SkriptPattern.parse("[the] affected entities");
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param lineNumber the line number
          * @return the expression
@@ -48,7 +41,7 @@ public class PsiAffectedEntitiesExpression extends PsiElement<MultiResult<?>> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("[the] affected entities")
         public PsiAffectedEntitiesExpression parse(int lineNumber) {
             return create(lineNumber);
         }

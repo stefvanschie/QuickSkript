@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -43,16 +42,7 @@ public class PsiCloseInventoryEffect extends PsiElement<Void> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The patterns to match against
-         */
-        @NotNull
-        private final SkriptPattern[] patterns = SkriptPattern.parse(
-            "close [the] inventory [view] (to|of|for) %players%",
-            "close %players%'[s] inventory [view]"
-        );
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param player the player to close the inventory for
          * @param lineNumber the line number
@@ -61,7 +51,8 @@ public class PsiCloseInventoryEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
+        @Pattern("close [the] inventory [view] (to|of|for) %players%")
+        @Pattern("close %players%'[s] inventory [view]")
         public PsiCloseInventoryEffect parse(@NotNull PsiElement<?> player, int lineNumber) {
             return create(player, lineNumber);
         }

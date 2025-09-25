@@ -12,8 +12,6 @@ import com.github.stefvanschie.quickskript.core.psi.util.CachedReflectionMethod;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.exception.IllegalFallbackAnnotationAmountException;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
-import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.PatternTypeOrder;
-import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.PatternTypeOrderHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.exception.ParsingAnnotationInvalidValueException;
 import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.Enchantment;
@@ -23,7 +21,6 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -164,166 +161,92 @@ public abstract class SkriptLoader {
             Set<CachedReflectionMethod> methods = elementsCached.get(factory);
 
             if (methods == null) {
-                methods = new HashSet<>();
-                List<Method> newMethods = new ArrayList<>(Arrays.asList(factory.getClass().getMethods()));
-
-                for (Method method : newMethods) {
-                    Pattern pattern = method.getAnnotation(Pattern.class);
-
-                    if (pattern == null) {
-                        continue;
-                    }
-
-                    Class<?> searching = factory.getClass();
-                    Field field = null;
-
-                    do {
-                        try {
-                            field = searching.getDeclaredField(pattern.value());
-                        } catch (NoSuchFieldException ignore) {}
-
-                        searching = searching.getSuperclass();
-                    } while (searching != null);
-
-                    if (field == null) {
-                        throw new IllegalStateException("Unable to find field '" + pattern.value() + "' associated with Pattern annotation");
-                    }
-
-                    field.setAccessible(true);
-
-                    Class<?> type = field.getType();
-
-                    SkriptPattern[] skriptPatterns;
-
-                    try {
-                        if (type == SkriptPattern.class) {
-                            skriptPatterns = new SkriptPattern[]{
-                                (SkriptPattern) field.get(factory)
-                            };
-                        } else if (type == SkriptPattern[].class) {
-                            skriptPatterns = (SkriptPattern[]) field.get(factory);
-                        } else {
-                            continue;
-                        }
-                    } catch (IllegalAccessException exception) {
-                        exception.printStackTrace();
-                        continue;
-                    }
-
-                    methods.add(new CachedReflectionMethod(method, skriptPatterns));
-                }
-
-                elementsCached.put(factory, methods);
+                throw new ParseException("Factory doesn't have any elements, this is most likely a mistake", lineNumber);
             }
 
             for (CachedReflectionMethod cachedReflectionMethod : methods) {
                 Method method = cachedReflectionMethod.getMethod();
-                SkriptPattern[] skriptPatterns = cachedReflectionMethod.getPatterns();
+                CachedReflectionMethod.Pattern[] patterns = cachedReflectionMethod.getPatterns();
 
-                try {
-                    for (int skriptPatternIndex = 0; skriptPatternIndex < skriptPatterns.length; skriptPatternIndex++) {
-                        PatternTypeOrderHolder holder = cachedReflectionMethod.getPatternTypeOrderHolder();
-                        PatternTypeOrder patternTypeOrder = null;
+                for (CachedReflectionMethod.Pattern pattern : patterns) {
+                    SkriptPattern skriptPattern = pattern.getSkriptPattern();
+                    int[] order = pattern.getOrder();
 
-                        if (holder != null) {
-                            int amount = 0;
-                            PatternTypeOrder order = null;
+                    List<TypeGroup> typeGroups = skriptPattern.getGroups(TypeGroup.class);
+                    int typeGroupAmount = typeGroups.size();
 
-                            for (PatternTypeOrder typeOrder : holder.value()) {
-                                for (int patternIndex : typeOrder.patterns()) {
-                                    if (patternIndex != skriptPatternIndex) {
-                                        continue;
-                                    }
+                    if (method.getParameterCount() < typeGroupAmount + 1) {
+                        throw new IllegalStateException("Method '" + method.getName() + "' has "
+                            + method.getParameterCount() + " parameters, but we expected at least " +
+                            (typeGroupAmount + 1) + " parameters");
+                    }
 
-                                    amount++;
-                                    order = typeOrder;
-                                }
-                            }
-
-                            if (amount > 1) {
-                                throw new ParsingAnnotationInvalidValueException(
-                                    "Multiple PatternMetadata on the same method specify the same pattern"
-                                );
-                            }
-
-                            patternTypeOrder = order;
+                    results:
+                    for (SkriptMatchResult result : skriptPattern.match(input)) {
+                        if (result.hasUnmatchedParts()) {
+                            continue;
                         }
 
-                        SkriptPattern skriptPattern = skriptPatterns[skriptPatternIndex];
-                        List<TypeGroup> typeGroups = skriptPattern.getGroups(TypeGroup.class);
-                        int typeGroupAmount = typeGroups.size();
+                        Collection<Pair<SkriptPatternGroup, String>> matchedGroups = result.getMatchedGroups();
 
-                        if (method.getParameterCount() < typeGroupAmount + 1) {
-                            throw new IllegalStateException("Method '" + method.getName() + "' has "
-                                + method.getParameterCount() + " parameters, but we expected at least " +
-                                (typeGroupAmount + 1) + " parameters");
+                        List<TypeGroup> groups = new ArrayList<>();
+                        List<String> matchedTypeTexts = new ArrayList<>();
+
+                        for (Pair<SkriptPatternGroup, String> matchedGroup : matchedGroups) {
+                            SkriptPatternGroup group = matchedGroup.getX();
+
+                            if (group instanceof TypeGroup) {
+                                groups.add((TypeGroup) group);
+                                matchedTypeTexts.add(matchedGroup.getY());
+                            }
                         }
 
-                        results:
-                        for (SkriptMatchResult result : skriptPattern.match(input)) {
-                            if (result.hasUnmatchedParts()) {
-                                continue;
-                            }
+                        Object[] elements = new Object[typeGroupAmount];
 
-                            Collection<Pair<SkriptPatternGroup, String>> matchedGroups = result.getMatchedGroups();
+                        for (int i = 0; i < elements.length && i < groups.size(); i++) {
+                            TypeGroup typeGroup = groups.get(i);
+                            int elementIndex = -1;
 
-                            List<TypeGroup> groups = new ArrayList<>();
-                            List<String> matchedTypeTexts = new ArrayList<>();
-
-                            for (Pair<SkriptPatternGroup, String> matchedGroup : matchedGroups) {
-                                SkriptPatternGroup group = matchedGroup.getX();
-
-                                if (group instanceof TypeGroup) {
-                                    groups.add((TypeGroup) group);
-                                    matchedTypeTexts.add(matchedGroup.getY());
+                            //find the position of the matched group in the original pattern
+                            for (int index = 0; index < typeGroups.size(); index++) {
+                                //reference comparison is intentional
+                                if (typeGroups.get(index) == typeGroup) {
+                                    elementIndex = index;
+                                    break;
                                 }
                             }
 
-                            Object[] elements = new Object[typeGroupAmount];
+                            if (elementIndex == -1) {
+                                throw new ParseException("Unable to find matched group in pattern", lineNumber);
+                            }
 
-                            for (int i = 0; i < elements.length && i < groups.size(); i++) {
-                                TypeGroup typeGroup = groups.get(i);
-                                int elementIndex = -1;
+                            if (order.length > 0) {
+                                elementIndex = order[i];
 
-                                //find the position of the matched group in the original pattern
-                                for (int index = 0; index < typeGroups.size(); index++) {
-                                    //reference comparison is intentional
-                                    if (typeGroups.get(index) == typeGroup) {
-                                        elementIndex = index;
-                                        break;
-                                    }
-                                }
-
-                                if (elementIndex == -1) {
-                                    throw new ParseException("Unable to find matched group in pattern", lineNumber);
-                                }
-
-                                if (patternTypeOrder != null && !Arrays.equals(patternTypeOrder.typeOrder(), new int[]{})) {
-                                    elementIndex = patternTypeOrder.typeOrder()[i];
-
-                                    if (elements[elementIndex] != null) {
-                                        throw new ParsingAnnotationInvalidValueException(
-                                            "Type order of PatternMetadata contains duplicate number '" + elementIndex + "'"
-                                        );
-                                    }
-                                }
-
-                                String matchedTypeText = matchedTypeTexts.get(i);
-
-                                if (typeGroup.getConstraint() == TypeGroup.Constraint.LITERAL) {
-                                    elements[elementIndex] = matchedTypeText;
-                                } else {
-                                    Type[] types = typeGroup.getTypes();
-
-                                    elements[elementIndex] = tryParseElement(matchedTypeText, types, lineNumber);
-                                }
-
-                                //recursive retry
-                                if (elements[elementIndex] == null) {
-                                    continue results;
+                                if (elements[elementIndex] != null) {
+                                    throw new ParsingAnnotationInvalidValueException(
+                                        "Type order of PatternMetadata contains duplicate number '" + elementIndex + "'"
+                                    );
                                 }
                             }
 
+                            String matchedTypeText = matchedTypeTexts.get(i);
+
+                            if (typeGroup.getConstraint() == TypeGroup.Constraint.LITERAL) {
+                                elements[elementIndex] = matchedTypeText;
+                            } else {
+                                Type[] types = typeGroup.getTypes();
+
+                                elements[elementIndex] = tryParseElement(matchedTypeText, types, lineNumber);
+                            }
+
+                            //recursive retry
+                            if (elements[elementIndex] == null) {
+                                continue results;
+                            }
+                        }
+
+                        try {
                             method.setAccessible(true);
 
                             Class<?>[] parameterTypes = cachedReflectionMethod.getParameterTypes();
@@ -358,10 +281,10 @@ public abstract class SkriptLoader {
                             }
 
                             return element;
+                        } catch (IllegalAccessException | InvocationTargetException exception) {
+                            exception.printStackTrace();
                         }
                     }
-                } catch (IllegalAccessException | InvocationTargetException exception) {
-                    exception.printStackTrace();
                 }
             }
 
@@ -586,6 +509,20 @@ public abstract class SkriptLoader {
         }
 
         elements.get(type).add(factory);
+
+        Set<CachedReflectionMethod> methods = new HashSet<>();
+
+        for (Method method : factory.getClass().getMethods()) {
+            Pattern[] patterns = method.getAnnotationsByType(Pattern.class);
+
+            if (patterns.length == 0) {
+                continue;
+            }
+
+            methods.add(new CachedReflectionMethod(method, patterns));
+        }
+
+        this.elementsCached.put(factory, methods);
     }
 
     /**
@@ -596,6 +533,20 @@ public abstract class SkriptLoader {
      */
     protected void registerElement(@NotNull PsiGenericElementFactory factory) {
         this.genericFactories.add(factory);
+
+        Set<CachedReflectionMethod> methods = new HashSet<>();
+
+        for (Method method : factory.getClass().getMethods()) {
+            Pattern[] patterns = method.getAnnotationsByType(Pattern.class);
+
+            if (patterns.length == 0) {
+                continue;
+            }
+
+            methods.add(new CachedReflectionMethod(method, patterns));
+        }
+
+        this.elementsCached.put(factory, methods);
     }
 
     /**

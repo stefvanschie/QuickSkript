@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -43,16 +42,7 @@ public class PsiHidePlayerFromServerListEffect extends PsiElement<Void> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiHidePlayerFromServerListEffect}s with
-         */
-        @NotNull
-        private final SkriptPattern[] patterns = SkriptPattern.parse(
-            "hide %players% (in|on|from) [the] server list",
-            "hide %players%'[s] info[rmation] (in|on|from) [the] server list"
-        );
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param player the player to hide
          * @param lineNumber the line number
@@ -61,7 +51,8 @@ public class PsiHidePlayerFromServerListEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
+        @Pattern("hide %players% (in|on|from) [the] server list")
+        @Pattern("hide %players%'[s] info[rmation] (in|on|from) [the] server list")
         public PsiHidePlayerFromServerListEffect parse(@NotNull PsiElement<?> player, int lineNumber) {
             return create(player, lineNumber);
         }

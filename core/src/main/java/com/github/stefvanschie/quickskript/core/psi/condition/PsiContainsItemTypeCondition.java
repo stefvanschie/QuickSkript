@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -62,27 +61,7 @@ public class PsiContainsItemTypeCondition extends PsiElement<Boolean> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching positive {@link PsiContainsItemTypeCondition}s
-         */
-        @NotNull
-        private final SkriptPattern[] positivePattern = new SkriptPattern[] {
-            SkriptPattern.parse("%inventories% (has|have) %item types% [in [the[ir]|his|her|its] inventory]"),
-            SkriptPattern.parse("%inventories% contain[s] %item types%")
-        };
-
-        /**
-         * The pattern for matching negative {@link PsiContainsItemTypeCondition}s
-         */
-        @NotNull
-        private final SkriptPattern[] negativePattern = new SkriptPattern[] {
-            SkriptPattern.parse(
-                "%inventories% (doesn't|does not|do not|don't) have %item types% [in [the[ir]|his|her|its] inventory]"
-            ),
-            SkriptPattern.parse("%inventories% (doesn't|does not|do not|don't) contain %item types%")
-        };
-
-        /**
-         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param inventory the inventory to check
          * @param itemType the item type to check if it is contained in the inventory
@@ -92,7 +71,8 @@ public class PsiContainsItemTypeCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("positivePattern")
+        @Pattern("%inventories% (has|have) %item types% [in [the[ir]|his|her|its] inventory]")
+        @Pattern("%inventories% contain[s] %item types%")
         public PsiContainsItemTypeCondition parsePositive(
             @NotNull PsiElement<?> inventory,
             @NotNull PsiElement<?> itemType,
@@ -102,7 +82,7 @@ public class PsiContainsItemTypeCondition extends PsiElement<Boolean> {
         }
 
         /**
-         * Parses the {@link #negativePattern} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param inventory the inventory to check
          * @param itemType the item type to check if it is contained in the inventory
@@ -112,7 +92,8 @@ public class PsiContainsItemTypeCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("negativePattern")
+        @Pattern("%inventories% (doesn't|does not|do not|don't) have %item types% [in [the[ir]|his|her|its] inventory]")
+        @Pattern("%inventories% (doesn't|does not|do not|don't) contain %item types%")
         public PsiContainsItemTypeCondition parseNegative(
             @NotNull PsiElement<?> inventory,
             @NotNull PsiElement<?> itemType,

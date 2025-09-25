@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -42,15 +41,7 @@ public class PsiPermissionsExpression extends PsiElement<String[]> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern fro matching {@link PsiPermissionsExpression}s
-         */
-        @NotNull
-        private final SkriptPattern[] patterns = SkriptPattern.parse(
-            "[(all [[of] the]|the)] permissions (from|of) %players%",
-            "[(all [[of] the]|the)] %players%'[s] permissions");
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param player the player to get the permissions from
          * @param lineNumber the line number
@@ -59,7 +50,8 @@ public class PsiPermissionsExpression extends PsiElement<String[]> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
+        @Pattern("[(all [[of] the]|the)] permissions (from|of) %players%")
+        @Pattern("[(all [[of] the]|the)] %players%'[s] permissions")
         public PsiPermissionsExpression parse(@NotNull PsiElement<?> player, int lineNumber) {
             return create(player, lineNumber);
         }

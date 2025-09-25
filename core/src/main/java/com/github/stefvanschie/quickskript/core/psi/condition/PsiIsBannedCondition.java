@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -57,39 +56,7 @@ public class PsiIsBannedCondition extends PsiElement<Boolean> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching positive non-ip ban is banned conditions
-         */
-        @SuppressWarnings("HardcodedFileSeparator")
-        @NotNull
-        private final SkriptPattern positiveNonIPBanPattern =
-            SkriptPattern.parse("%offline players/texts% (is|are) banned");
-
-        /**
-         * The pattern for matching positive ip ban is banned conditions
-         */
-        @SuppressWarnings("HardcodedFileSeparator")
-        @NotNull
-        private final SkriptPattern positiveIPBanPattern =
-            SkriptPattern.parse("%players/texts% [(is|are) IP(-| )]banned");
-
-        /**
-         * The pattern for matching positive non-ip ban is banned conditions
-         */
-        @SuppressWarnings("HardcodedFileSeparator")
-        @NotNull
-        private final SkriptPattern negativeNonIPBanPattern =
-            SkriptPattern.parse("%offline players/texts% (isn't|is not|aren't|are not) banned");
-
-        /**
-         * The pattern for matching positive ip ban is banned conditions
-         */
-        @SuppressWarnings("HardcodedFileSeparator")
-        @NotNull
-        private final SkriptPattern negativeIPBanPattern =
-            SkriptPattern.parse("%players/texts% [(isn't|is not|aren't|are not) IP(-| )]banned");
-
-        /**
-         * Parses the {@link #positiveNonIPBanPattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param object the object to check the ban for
          * @param lineNumber the line number
@@ -98,13 +65,13 @@ public class PsiIsBannedCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("positiveNonIPBanPattern")
+        @Pattern("%offline players/texts% (is|are) banned")
         public PsiIsBannedCondition parsePositiveNonIPBan(@NotNull PsiElement<?> object, int lineNumber) {
             return create(object, true, false, lineNumber);
         }
 
         /**
-         * Parses the {@link #positiveIPBanPattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param object the object to check the ban for
          * @param lineNumber the line number
@@ -113,13 +80,13 @@ public class PsiIsBannedCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("positiveIPBanPattern")
+        @Pattern("%players/texts% [(is|are) IP(-| )]banned")
         public PsiIsBannedCondition parsePositiveIPBan(@NotNull PsiElement<?> object, int lineNumber) {
             return create(object, true, true, lineNumber);
         }
 
         /**
-         * Parses the {@link #negativeNonIPBanPattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param object the object to check the ban for
          * @param lineNumber the line number
@@ -128,13 +95,13 @@ public class PsiIsBannedCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("negativeNonIPBanPattern")
+        @Pattern("%offline players/texts% (isn't|is not|aren't|are not) banned")
         public PsiIsBannedCondition parseNegativeNonIPBan(@NotNull PsiElement<?> object, int lineNumber) {
             return create(object, false, false, lineNumber);
         }
 
         /**
-         * Parses the {@link #negativeIPBanPattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param object the object to check the ban for
          * @param lineNumber the line number
@@ -143,7 +110,7 @@ public class PsiIsBannedCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("negativeIPBanPattern")
+        @Pattern("%players/texts% [(isn't|is not|aren't|are not) IP(-| )]banned")
         public PsiIsBannedCondition parseNegativeIPBan(@NotNull PsiElement<?> object, int lineNumber) {
             return create(object, false, true, lineNumber);
         }

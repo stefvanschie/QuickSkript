@@ -3,7 +3,6 @@ package com.github.stefvanschie.quickskript.core.psi.literal;
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.pattern.group.RegexGroup;
 import com.github.stefvanschie.quickskript.core.pattern.group.SkriptPatternGroup;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
@@ -89,15 +88,7 @@ public class PsiItemLiteral extends PsiElement<Item> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching item literals
-         */
-        @NotNull
-        private final SkriptPattern pattern = SkriptPattern.parse(
-            "[%number% [of]] <.+> [of %enchantment types%]"
-        );
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param skriptLoader the skript loader
          * @param result the result of the pattern match
@@ -109,7 +100,7 @@ public class PsiItemLiteral extends PsiElement<Item> {
          */
         @Nullable
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("[%number% [of]] <.+> [of %enchantment types%]")
         public PsiItemLiteral parse(@NotNull SkriptLoader skriptLoader, @NotNull SkriptMatchResult result,
             @Nullable PsiElement<?> amount, @Nullable PsiElement<?> enchantment, int lineNumber) {
             for (Pair<SkriptPatternGroup, String> pair : result.getMatchedGroups()) {

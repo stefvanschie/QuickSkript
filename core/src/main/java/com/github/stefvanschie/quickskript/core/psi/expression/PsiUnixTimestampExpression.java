@@ -2,7 +2,6 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -61,16 +60,7 @@ public class PsiUnixTimestampExpression extends PsiElement<Long> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiUnixTimestampExpression}s
-         */
-        @NotNull
-        private SkriptPattern[] patterns = SkriptPattern.parse(
-            "[the] unix timestamp of %dates%",
-            "%dates%'[s] unix timestamp"
-        );
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param dateTime the date to get the timestamp of
          * @param lineNumber the line number
@@ -79,7 +69,8 @@ public class PsiUnixTimestampExpression extends PsiElement<Long> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
+        @Pattern("[the] unix timestamp of %dates%")
+        @Pattern("%dates%'[s] unix timestamp")
         public PsiUnixTimestampExpression parse(@NotNull PsiElement<?> dateTime, int lineNumber) {
             return create(dateTime, lineNumber);
         }

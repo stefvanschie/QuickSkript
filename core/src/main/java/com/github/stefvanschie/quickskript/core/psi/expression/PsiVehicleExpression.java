@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -42,16 +41,7 @@ public class PsiVehicleExpression extends PsiElement<Object> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiVehicleExpression}s
-         */
-        @NotNull
-        private SkriptPattern[] patterns = SkriptPattern.parse(
-            "[the] vehicle[s] of %entities%",
-            "%entities%'[s] vehicle[s]"
-        );
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param entity the entity to get the vehicle from
          * @param lineNumber the line number
@@ -60,7 +50,8 @@ public class PsiVehicleExpression extends PsiElement<Object> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
+        @Pattern("[the] vehicle[s] of %entities%")
+        @Pattern("%entities%'[s] vehicle[s]")
         public PsiVehicleExpression parse(@NotNull PsiElement<?> entity, int lineNumber) {
             return create(entity, lineNumber);
         }

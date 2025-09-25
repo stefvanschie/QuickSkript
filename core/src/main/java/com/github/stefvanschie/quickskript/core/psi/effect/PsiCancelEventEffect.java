@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -28,13 +27,7 @@ public class PsiCancelEventEffect extends PsiElement<Void> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * A pattern for matching psi cancel event effects
-         */
-        @NotNull
-        private final SkriptPattern pattern = SkriptPattern.parse("cancel [the] event");
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param lineNumber the line number
          * @return the effect
@@ -42,7 +35,7 @@ public class PsiCancelEventEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("cancel [the] event")
         public PsiCancelEventEffect parse(int lineNumber) {
             return create(lineNumber);
         }

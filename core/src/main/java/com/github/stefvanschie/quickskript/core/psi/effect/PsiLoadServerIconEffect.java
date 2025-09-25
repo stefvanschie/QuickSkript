@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -43,14 +42,7 @@ public class PsiLoadServerIconEffect extends PsiElement<Void> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiLoadServerIconEffect}s
-         */
-        @NotNull
-        private final SkriptPattern pattern =
-            SkriptPattern.parse("load [the] server icon (from|of) [the] [image] [file] %text%");
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param path the path to the image in the server's file system
          * @param lineNumber the line number
@@ -59,7 +51,7 @@ public class PsiLoadServerIconEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("load [the] server icon (from|of) [the] [image] [file] %text%")
         public PsiLoadServerIconEffect parse(@NotNull PsiElement<?> path, int lineNumber) {
             return create(path, lineNumber);
         }

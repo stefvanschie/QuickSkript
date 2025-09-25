@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -34,13 +33,7 @@ public class PsiSkriptVersionExpression extends PsiPrecomputedHolder<String> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiSkriptVersionExpression}s
-         */
-        @NotNull
-        private SkriptPattern pattern = SkriptPattern.parse("skript( |-)version");
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param lineNumber the line number
          * @return the expression
@@ -48,7 +41,7 @@ public class PsiSkriptVersionExpression extends PsiPrecomputedHolder<String> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("skript( |-)version")
         public PsiSkriptVersionExpression parse(int lineNumber) {
             return create(lineNumber);
         }

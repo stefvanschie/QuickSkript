@@ -1,7 +1,6 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.multiresult.MultiResult;
@@ -80,21 +79,7 @@ public class PsiContainsTextCondition extends PsiElement<Boolean> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching positive {@link PsiContainsTextCondition}s
-         */
-        @NotNull
-        private final SkriptPattern positivePattern = SkriptPattern.parse("%texts% contain[s] %texts%");
-
-        /**
-         * The pattern for matching negative {@link PsiContainsTextCondition}s
-         */
-        @NotNull
-        private final SkriptPattern negativePattern = SkriptPattern.parse(
-            "%texts% (doesn't|does not|do not|don't) contain %texts%"
-        );
-
-        /**
-         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param text the text to check
          * @param part the part to check if contained by text
@@ -104,7 +89,7 @@ public class PsiContainsTextCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("positivePattern")
+        @Pattern("%texts% contain[s] %texts%")
         public PsiContainsTextCondition parsePositive(
             @NotNull PsiElement<?> text,
             @NotNull PsiElement<?> part,
@@ -114,7 +99,7 @@ public class PsiContainsTextCondition extends PsiElement<Boolean> {
         }
 
         /**
-         * Parses the {@link #negativePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param text the text to check
          * @param part the part to check if contained by text
@@ -124,7 +109,7 @@ public class PsiContainsTextCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("negativePattern")
+        @Pattern("%texts% (doesn't|does not|do not|don't) contain %texts%")
         public PsiContainsTextCondition parseNegative(
             @NotNull PsiElement<?> text,
             @NotNull PsiElement<?> part,

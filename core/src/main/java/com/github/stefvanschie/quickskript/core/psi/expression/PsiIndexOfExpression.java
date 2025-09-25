@@ -2,7 +2,6 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
@@ -93,19 +92,7 @@ public class PsiIndexOfExpression extends PsiElement<Integer> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for parsing first {@link PsiIndexOfExpression}s
-         */
-        @NotNull
-        private final SkriptPattern firstPattern = SkriptPattern.parse("[the] [first] index of %text% in %text%");
-
-        /**
-         * The pattern for parsing last {@link PsiIndexOfExpression}s
-         */
-        @NotNull
-        private final SkriptPattern lastPattern = SkriptPattern.parse("[the] last index of %text% in %text%");
-
-        /**
-         * Parses the {@link #firstPattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param needle the text to search for
          * @param haystack the text to search in
@@ -115,14 +102,14 @@ public class PsiIndexOfExpression extends PsiElement<Integer> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("firstPattern")
+        @Pattern("[the] [first] index of %text% in %text%")
         public PsiIndexOfExpression parseFirst(@NotNull PsiElement<?> needle, @NotNull PsiElement<?> haystack,
             int lineNumber) {
             return create(needle, haystack, SearchPosition.FIRST, lineNumber);
         }
 
         /**
-         * Parses the {@link #lastPattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param needle the text to search for
          * @param haystack the text to search in
@@ -132,7 +119,7 @@ public class PsiIndexOfExpression extends PsiElement<Integer> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("lastPattern")
+        @Pattern("[the] last index of %text% in %text%")
         public PsiIndexOfExpression parseLast(@NotNull PsiElement<?> needle, @NotNull PsiElement<?> haystack,
             int lineNumber) {
             return create(needle, haystack, SearchPosition.LAST, lineNumber);

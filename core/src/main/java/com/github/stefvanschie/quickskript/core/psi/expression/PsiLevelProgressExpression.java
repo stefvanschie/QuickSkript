@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.*;
@@ -45,16 +44,7 @@ public class PsiLevelProgressExpression extends PsiElement<Float> implements Add
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The patterns for matching {@link PsiLevelProgressExpression}s
-         */
-        @NotNull
-        private final SkriptPattern[] patterns = SkriptPattern.parse(
-            "[the] level progress of %players%",
-            "%players%'[s] level progress"
-        );
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param player the player to get the level progress of
          * @param lineNumber the line number
@@ -63,7 +53,8 @@ public class PsiLevelProgressExpression extends PsiElement<Float> implements Add
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
+        @Pattern("[the] level progress of %players%")
+        @Pattern("%players%'[s] level progress")
         public PsiLevelProgressExpression parse(@NotNull PsiElement<?> player, int lineNumber) {
             return create(player, lineNumber);
         }

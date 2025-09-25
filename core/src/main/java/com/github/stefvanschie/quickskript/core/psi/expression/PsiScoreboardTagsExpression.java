@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.*;
@@ -46,16 +45,7 @@ public class PsiScoreboardTagsExpression extends PsiElement<Set<String>> impleme
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiScoreboardTagsExpression}s
-         */
-        @NotNull
-        private SkriptPattern[] patterns = SkriptPattern.parse(
-            "[all [[of] the]|the] scoreboard tags of %entities%",
-            "%entities%'[s] scoreboard tags"
-        );
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param entity the entity to get the scoreboard tags from
          * @param lineNumber the line number
@@ -64,7 +54,8 @@ public class PsiScoreboardTagsExpression extends PsiElement<Set<String>> impleme
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
+        @Pattern("[all [[of] the]|the] scoreboard tags of %entities%")
+        @Pattern("%entities%'[s] scoreboard tags")
         public PsiScoreboardTagsExpression parse(@NotNull PsiElement<?> entity, int lineNumber) {
             return create(entity, lineNumber);
         }

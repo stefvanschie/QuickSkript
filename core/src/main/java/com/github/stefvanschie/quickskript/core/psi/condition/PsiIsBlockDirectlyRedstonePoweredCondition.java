@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -53,21 +52,7 @@ public class PsiIsBlockDirectlyRedstonePoweredCondition extends PsiElement<Boole
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching positive {@link PsiIsBlockDirectlyRedstonePoweredCondition}s
-         */
-        @NotNull
-        private final SkriptPattern positivePattern = SkriptPattern.parse("%blocks% (is|are) redstone powered");
-
-        /**
-         * The pattern for matching negative {@link PsiIsBlockDirectlyRedstonePoweredCondition}s
-         */
-        @NotNull
-        private final SkriptPattern negativePattern = SkriptPattern.parse(
-            "%blocks% (is|are)(n't| not) redstone powered"
-        );
-
-        /**
-         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param blocks the blocks to check if they are directly powered by redstone
          * @param lineNumber the line number
@@ -76,13 +61,13 @@ public class PsiIsBlockDirectlyRedstonePoweredCondition extends PsiElement<Boole
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("positivePattern")
+        @Pattern("%blocks% (is|are) redstone powered")
         public PsiIsBlockDirectlyRedstonePoweredCondition parsePositive(@NotNull PsiElement<?> blocks, int lineNumber) {
             return create(blocks, true, lineNumber);
         }
 
         /**
-         * Parses the {@link #negativePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param blocks the blocks to check if they aren't directly powered by redstone
          * @param lineNumber the line number
@@ -91,7 +76,7 @@ public class PsiIsBlockDirectlyRedstonePoweredCondition extends PsiElement<Boole
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("negativePattern")
+        @Pattern("%blocks% (is|are)(n't| not) redstone powered")
         public PsiIsBlockDirectlyRedstonePoweredCondition parseNegative(@NotNull PsiElement<?> blocks, int lineNumber) {
             return create(blocks, false, lineNumber);
         }

@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -71,23 +70,7 @@ public class PsiCanBuildCondition extends PsiElement<Boolean> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching positive can build conditions.
-         */
-        @NotNull
-        private final SkriptPattern positivePattern = SkriptPattern.parse(
-            "%players% (can|(is|are) allowed to) build %directions% %locations%"
-        );
-
-        /**
-         * The pattern for matching negative can build conditions.
-         */
-        @NotNull
-        private final SkriptPattern negativePattern = SkriptPattern.parse(
-            "%players% (can('t|not)|(is|are)(n't| not) allowed to) build %directions% %locations%"
-        );
-
-        /**
-         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param player the player to check if they can build
          * @param direction the direction relative to the location
@@ -98,7 +81,7 @@ public class PsiCanBuildCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("positivePattern")
+        @Pattern("%players% (can|(is|are) allowed to) build %directions% %locations%")
         public PsiCanBuildCondition parsePositive(
             @NotNull PsiElement<?> player,
             @NotNull PsiElement<?> direction,
@@ -109,7 +92,7 @@ public class PsiCanBuildCondition extends PsiElement<Boolean> {
         }
 
         /**
-         * Parses the {@link #negativePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param player the player to check if they can build
          * @param direction the direction relative to the location
@@ -120,7 +103,7 @@ public class PsiCanBuildCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("negativePattern")
+        @Pattern("%players% (can('t|not)|(is|are)(n't| not) allowed to) build %directions% %locations%")
         public PsiCanBuildCondition parseNegative(
             @NotNull PsiElement<?> player,
             @NotNull PsiElement<?> direction,

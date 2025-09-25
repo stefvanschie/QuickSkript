@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.*;
@@ -45,16 +44,7 @@ public class PsiSaturationExpression extends PsiElement<Float> implements Addabl
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiSaturationExpression}s
-         */
-        @NotNull
-        private SkriptPattern[] patterns = SkriptPattern.parse(
-            "[the] saturation [of %players%]",
-            "%players%'[s] saturation"
-        );
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param player the player to get the saturation from
          * @param lineNumber the line number
@@ -63,7 +53,8 @@ public class PsiSaturationExpression extends PsiElement<Float> implements Addabl
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
+        @Pattern("[the] saturation [of %players%]")
+        @Pattern("%players%'[s] saturation")
         public PsiSaturationExpression parse(@Nullable PsiElement<?> player, int lineNumber) {
             return create(player, lineNumber);
         }

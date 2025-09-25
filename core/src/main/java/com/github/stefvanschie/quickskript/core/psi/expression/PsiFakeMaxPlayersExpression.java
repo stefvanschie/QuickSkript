@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.*;
@@ -36,16 +35,7 @@ public class PsiFakeMaxPlayersExpression extends PsiElement<Integer> implements 
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The patterns for matching {@link PsiFakeMaxPlayersExpression}s
-         */
-        @NotNull
-        private final SkriptPattern[] patterns = SkriptPattern.parse(
-            "[the] (fake|shown|displayed) max[imum] player[s] [count|amount|number|size]",
-            "[the] [fake|shown|displayed] max[imum] (count|amount|number|size) of players"
-        );
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param lineNumber the line number
          * @return the expression
@@ -53,7 +43,8 @@ public class PsiFakeMaxPlayersExpression extends PsiElement<Integer> implements 
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
+        @Pattern("[the] (fake|shown|displayed) max[imum] player[s] [count|amount|number|size]")
+        @Pattern("[the] [fake|shown|displayed] max[imum] (count|amount|number|size) of players")
         public PsiFakeMaxPlayersExpression parse(int lineNumber) {
             return create(lineNumber);
         }

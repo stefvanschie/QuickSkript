@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -51,13 +50,7 @@ public class PsiFeedEffect extends PsiElement<Void> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern to match {@link PsiFeedEffect}s
-         */
-        @NotNull
-        private final SkriptPattern pattern = SkriptPattern.parse("feed [the] %players% [by %number% [beef[s]]]");
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param player the player to feed
          * @param amount the amount of hunger bars to add to the player's hunger meter, or null
@@ -67,7 +60,7 @@ public class PsiFeedEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("feed [the] %players% [by %number% [beef[s]]]")
         public PsiFeedEffect parse(@NotNull PsiElement<?> player, @Nullable PsiElement<?> amount, int lineNumber) {
             return create(player, amount, lineNumber);
         }

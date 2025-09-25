@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -59,19 +58,7 @@ public class PsiPlayerVisibilityEffect extends PsiElement<Void> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern to match a showing element
-         */
-        @NotNull
-        private final SkriptPattern showPattern = SkriptPattern.parse("reveal %players% [(to|for|from) %players%]");
-
-        /**
-         * The pattern to match a hiding element
-         */
-        @NotNull
-        private final SkriptPattern hidePattern = SkriptPattern.parse("hide %players% [(from|for) %players%]");
-
-        /**
-         * Parses the {@link #showPattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param player the player to show
          * @param target the player to show {@link #player} for
@@ -81,14 +68,14 @@ public class PsiPlayerVisibilityEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("showPattern")
+        @Pattern("reveal %players% [(to|for|from) %players%]")
         public PsiPlayerVisibilityEffect parseShow(@NotNull PsiElement<?> player, @Nullable PsiElement<?> target,
                                                    int lineNumber) {
             return create(player, target, true, lineNumber);
         }
 
         /**
-         * Parses the {@link #hidePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param player the player to hide
          * @param target the player to hide {@link #player} for
@@ -98,7 +85,7 @@ public class PsiPlayerVisibilityEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("hidePattern")
+        @Pattern("hide %players% [(from|for) %players%]")
         public PsiPlayerVisibilityEffect parseHide(@NotNull PsiElement<?> player, @Nullable PsiElement<?> target,
                                                    int lineNumber) {
             return create(player, target, false, lineNumber);

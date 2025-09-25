@@ -1,10 +1,8 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
-import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.PatternTypeOrder;
 import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -53,17 +51,7 @@ public class PsiCommandEffect extends PsiElement<Void> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * Patterns to match a {@link PsiCommandEffect}
-         */
-        @NotNull
-        private final SkriptPattern[] patterns = SkriptPattern.parse(
-            "[execute] [the] command %texts% [by %commandsenders%]",
-            "[execute] [the] %commandsenders% command %texts%",
-            "(let|make) %commandsenders% execute [[the] command] %texts%"
-        );
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param commandSender the executor of the command
          * @param commandName the name of the command to execute
@@ -73,8 +61,9 @@ public class PsiCommandEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
-        @PatternTypeOrder(patterns = 0, typeOrder = {1, 0})
+        @Pattern("[execute] [the] command %texts% [by %commandsenders%]")
+        @Pattern("[execute] [the] %commandsenders% command %texts%")
+        @Pattern("(let|make) %commandsenders% execute [[the] command] %texts%")
         public PsiCommandEffect parse(@Nullable PsiElement<?> commandSender, @NotNull PsiElement<?> commandName,
                                          int lineNumber) {
             return create(commandSender, commandName, lineNumber);

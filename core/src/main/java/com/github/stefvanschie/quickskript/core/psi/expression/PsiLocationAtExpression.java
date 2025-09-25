@@ -1,7 +1,6 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -89,16 +88,7 @@ public class PsiLocationAtExpression extends PsiElement<Location> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiLocationAtExpression}s
-         */
-        @SuppressWarnings("HardcodedFileSeparator")
-        @NotNull
-        private final SkriptPattern pattern = SkriptPattern.parse(
-            "[the] (location|position) [at] [\\(][x[ ][=[ ]]]%number%, [y[ ][=[ ]]]%number%, [and] [z[ ][=[ ]]]%number%[\\)] [[(in|of) [[the] world]] %world%]"
-        );
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param x the x component
          * @param y the y component
@@ -110,7 +100,7 @@ public class PsiLocationAtExpression extends PsiElement<Location> {
          */
         @Nullable
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("[the] (location|position) [at] [\\(][x[ ][=[ ]]]%number%, [y[ ][=[ ]]]%number%, [and] [z[ ][=[ ]]]%number%[\\)] [[(in|of) [[the] world]] %world%]")
         public PsiLocationAtExpression parse(
             @NotNull PsiElement<?> x,
             @NotNull PsiElement<?> y,

@@ -1,7 +1,6 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.multiresult.MultiResult;
@@ -74,27 +73,7 @@ public class PsiHasPassed extends PsiElement<Boolean> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching positive {@link PsiHasPassed}s
-         */
-        @NotNull
-        private final SkriptPattern[] positivePatterns = SkriptPattern.parse(
-            "%dates% (is|are) in the past",
-            "%dates% (is|are)(n't| not) in the future",
-            "%dates% ha(s|ve) passed"
-        );
-
-        /**
-         * The pattern for matching negative {@link PsiHasPassed}s
-         */
-        @NotNull
-        private final SkriptPattern[] negativePatterns = SkriptPattern.parse(
-            "%dates% (is|are) in the future",
-            "%dates% (is|are)(n't| not) in the past",
-            "%dates% ha(s|ve)(n't| not) passed"
-        );
-
-        /**
-         * Parses the {@link #positivePatterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param dates the dates to check if they have passed
          * @param lineNumber the line number
@@ -103,13 +82,15 @@ public class PsiHasPassed extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("positivePatterns")
+        @Pattern("%dates% (is|are) in the past")
+        @Pattern("%dates% (is|are)(n't| not) in the future")
+        @Pattern("%dates% ha(s|ve) passed")
         public PsiHasPassed parsePositive(@NotNull PsiElement<? extends LocalDateTime> dates, int lineNumber) {
             return create(dates, true, lineNumber);
         }
 
         /**
-         * Parses the {@link #negativePatterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param dates the dates to check if they have not passed
          * @param lineNumber the line number
@@ -118,7 +99,9 @@ public class PsiHasPassed extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("negativePatterns")
+        @Pattern("%dates% (is|are) in the future")
+        @Pattern("%dates% (is|are)(n't| not) in the past")
+        @Pattern("%dates% ha(s|ve)(n't| not) passed")
         public PsiHasPassed parseNegative(@NotNull PsiElement<? extends LocalDateTime> dates, int lineNumber) {
             return create(dates, false, lineNumber);
         }

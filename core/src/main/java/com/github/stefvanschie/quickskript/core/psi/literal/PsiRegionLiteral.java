@@ -1,7 +1,6 @@
 package com.github.stefvanschie.quickskript.core.psi.literal;
 
 import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.pattern.group.RegexGroup;
 import com.github.stefvanschie.quickskript.core.pattern.group.SkriptPatternGroup;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
@@ -44,13 +43,7 @@ public class PsiRegionLiteral extends PsiPrecomputedHolder<Region> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiRegionLiteral}s
-         */
-        @NotNull
-        private SkriptPattern pattern = SkriptPattern.parse("\"<.+>\"");
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param skriptLoader the skript loader to parse with
          * @param result the pattern match result
@@ -60,7 +53,7 @@ public class PsiRegionLiteral extends PsiPrecomputedHolder<Region> {
          */
         @Nullable
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("\"<.+>\"")
         public PsiRegionLiteral parse(@NotNull SkriptLoader skriptLoader, @NotNull SkriptMatchResult result,
             int lineNumber) {
             for (Pair<SkriptPatternGroup, String> matchedGroup : result.getMatchedGroups()) {

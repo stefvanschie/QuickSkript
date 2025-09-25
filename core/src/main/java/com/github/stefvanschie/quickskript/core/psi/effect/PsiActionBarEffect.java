@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -51,14 +50,7 @@ public class PsiActionBarEffect extends PsiElement<Void> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * A pattern to match {@link PsiActionBarEffect}s
-         */
-        @NotNull
-        private final SkriptPattern pattern =
-            SkriptPattern.parse("send [the] action bar [with text] %text% to %players%");
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param text the text for the action bar
          * @param player the player to send the action bar to
@@ -68,7 +60,7 @@ public class PsiActionBarEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("send [the] action bar [with text] %text% to %players%")
         public PsiActionBarEffect parse(@NotNull PsiElement<?> text, @NotNull PsiElement<?> player, int lineNumber) {
             return create(player, text, lineNumber);
         }

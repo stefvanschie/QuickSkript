@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -54,21 +53,7 @@ public class PsiDoRespawnAnchorsWorkCondition extends PsiElement<Boolean> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching positive {@link PsiDoRespawnAnchorsWorkCondition}s
-         */
-        @NotNull
-        private final SkriptPattern positivePattern = SkriptPattern.parse("respawn anchors [do] work in %worlds%");
-
-        /**
-         * The pattern for matching negative {@link PsiDoRespawnAnchorsWorkCondition}s
-         */
-        @NotNull
-        private final SkriptPattern negativePattern = SkriptPattern.parse(
-            "respawn anchors do(n't| not) work in %worlds%"
-        );
-
-        /**
-         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param worlds the worlds to check for
          * @param lineNumber the line number
@@ -77,7 +62,7 @@ public class PsiDoRespawnAnchorsWorkCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("positivePattern")
+        @Pattern("respawn anchors [do] work in %worlds%")
         public PsiDoRespawnAnchorsWorkCondition parsePositive(
             @NotNull PsiElement<? extends World> worlds,
             int lineNumber
@@ -86,7 +71,7 @@ public class PsiDoRespawnAnchorsWorkCondition extends PsiElement<Boolean> {
         }
 
         /**
-         * Parses the {@link #negativePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param worlds the worlds to check for
          * @param lineNumber the line number
@@ -95,7 +80,7 @@ public class PsiDoRespawnAnchorsWorkCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("negativePattern")
+        @Pattern("respawn anchors do(n't| not) work in %worlds%")
         public PsiDoRespawnAnchorsWorkCondition parseNegative(
             @NotNull PsiElement<? extends World> worlds,
             int lineNumber

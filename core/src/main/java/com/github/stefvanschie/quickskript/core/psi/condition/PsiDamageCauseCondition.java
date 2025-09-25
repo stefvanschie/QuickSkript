@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -49,23 +48,7 @@ public class PsiDamageCauseCondition extends PsiElement<Boolean> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching positive {@link PsiDamageCauseCondition}s
-         */
-        @NotNull
-        private final SkriptPattern positivePattern = SkriptPattern.parse(
-            "[the] damage (was|is|has) [been] (caused|done|made) by %damage cause%"
-        );
-
-        /**
-         * The pattern for matching negative {@link PsiDamageCauseCondition}s
-         */
-        @NotNull
-        private final SkriptPattern negativePattern = SkriptPattern.parse(
-            "[the] damage (was|is|has)n('|o)t [been] (caused|done|made) by %damage cause%"
-        );
-
-        /**
-         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param damageCause the damage cause to check against
          * @param lineNumber the line number
@@ -74,13 +57,13 @@ public class PsiDamageCauseCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("positivePattern")
+        @Pattern("[the] damage (was|is|has) [been] (caused|done|made) by %damage cause%")
         public PsiDamageCauseCondition parsePositive(@NotNull PsiElement<?> damageCause, int lineNumber) {
             return create(damageCause, true, lineNumber);
         }
 
         /**
-         * Parses the {@link #negativePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param damageCause the damage cause to check against
          * @param lineNumber the line number
@@ -89,7 +72,7 @@ public class PsiDamageCauseCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("negativePattern")
+        @Pattern("[the] damage (was|is|has)n('|o)t [been] (caused|done|made) by %damage cause%")
         public PsiDamageCauseCondition parseNegative(@NotNull PsiElement<?> damageCause, int lineNumber) {
             return create(damageCause, false, lineNumber);
         }

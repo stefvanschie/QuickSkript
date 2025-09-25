@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -42,16 +41,7 @@ public class PsiPingExpression extends PsiElement<Integer> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiPingExpression}s
-         */
-        @NotNull
-        private SkriptPattern[] patterns = SkriptPattern.parse(
-            "[the] ping of %players%",
-            "%players%'[s] ping"
-        );
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param player the player to get the ping from
          * @param lineNumber the line number
@@ -60,7 +50,8 @@ public class PsiPingExpression extends PsiElement<Integer> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
+        @Pattern("[the] ping of %players%")
+        @Pattern("%players%'[s] ping")
         public PsiPingExpression parse(@NotNull PsiElement<?> player, int lineNumber) {
             return create(player, lineNumber);
         }

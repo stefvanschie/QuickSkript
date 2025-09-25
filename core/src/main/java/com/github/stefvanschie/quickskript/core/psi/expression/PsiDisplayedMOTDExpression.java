@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.Deletable;
@@ -36,14 +35,7 @@ public class PsiDisplayedMOTDExpression extends PsiElement<String> implements De
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern used for matching {@link PsiDisplayedMOTDExpression}s
-         */
-        @NotNull
-        private final SkriptPattern pattern =
-            SkriptPattern.parse("[the] (shown|displayed) (MOTD|message of [the] day)");
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param lineNumber the line number
          * @return the expression
@@ -51,7 +43,7 @@ public class PsiDisplayedMOTDExpression extends PsiElement<String> implements De
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("[the] (shown|displayed) (MOTD|message of [the] day)")
         public PsiDisplayedMOTDExpression parse(int lineNumber) {
             return create(lineNumber);
         }

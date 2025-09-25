@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -52,25 +51,7 @@ public class PsiCanSeeCondition extends PsiElement<Boolean> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * A pattern for matching positive can see conditions
-         */
-        @NotNull
-        private final SkriptPattern[] positivePatterns = SkriptPattern.parse(
-                "%players% (is|are) visible for %players%",
-                "%players% (is|are)(n't| not) invisible for %players%",
-                "%players% can see %players%");
-
-        /**
-         * A pattern for matching negative can see conditions
-         */
-        @NotNull
-        private final SkriptPattern[] negativePatterns = SkriptPattern.parse(
-                "%players% (is|are) invisible for %players%",
-                "%players% (is|are)(n't| not) visible for %players%",
-                "%players% can('t| not) see %players%");
-
-        /**
-         * Parses the {@link #positivePatterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param player the player
          * @param target the player to test against
@@ -80,14 +61,16 @@ public class PsiCanSeeCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("positivePatterns")
+        @Pattern("%players% (is|are) visible for %players%")
+        @Pattern("%players% (is|are)(n't| not) invisible for %players%")
+        @Pattern("%players% can see %players%")
         private PsiCanSeeCondition parsePositive(@NotNull PsiElement<?> player, @NotNull PsiElement<?> target,
                                                 int lineNumber) {
             return create(player, target, true, lineNumber);
         }
 
         /**
-         * Parses the {@link #negativePatterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param player the player
          * @param target the player to test against
@@ -97,7 +80,9 @@ public class PsiCanSeeCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("negativePatterns")
+        @Pattern("%players% (is|are) invisible for %players%")
+        @Pattern("%players% (is|are)(n't| not) visible for %players%")
+        @Pattern("%players% can('t| not) see %players%")
         private PsiCanSeeCondition parseNegative(@NotNull PsiElement<?> player, @NotNull PsiElement<?> target,
                                                 int lineNumber) {
             return create(player, target, false, lineNumber);

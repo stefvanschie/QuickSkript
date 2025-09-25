@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.*;
@@ -37,16 +36,7 @@ public class PsiHoverListExpression extends PsiElement<Collection<String>> imple
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The patterns for matching {@link PsiHoverListExpression}s
-         */
-        @NotNull
-        private final SkriptPattern[] patterns = SkriptPattern.parse(
-            "[the] [custom] [(player|server)] (hover|sample) ([message] list|message)",
-            "[the] [custom] player [(hover|sample)] list"
-        );
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param lineNumber the line number
          * @return the expression
@@ -54,7 +44,8 @@ public class PsiHoverListExpression extends PsiElement<Collection<String>> imple
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
+        @Pattern("[the] [custom] [(player|server)] (hover|sample) ([message] list|message)")
+        @Pattern("[the] [custom] player [(hover|sample)] list")
         public PsiHoverListExpression parse(int lineNumber) {
             return create(lineNumber);
         }

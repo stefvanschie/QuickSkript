@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.Resettable;
@@ -45,16 +44,7 @@ public class PsiGravityExpression extends PsiElement<Boolean> implements Resetta
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The patterns for matching {@link PsiGravityExpression}s
-         */
-        @NotNull
-        private final SkriptPattern[] patterns = SkriptPattern.parse(
-            "[the] gravity of %entities%",
-            "%entities%'[s] gravity"
-        );
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param entity the entity to get the gravity for
          * @param lineNumber the line number
@@ -63,7 +53,8 @@ public class PsiGravityExpression extends PsiElement<Boolean> implements Resetta
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
+        @Pattern("[the] gravity of %entities%")
+        @Pattern("%entities%'[s] gravity")
         public PsiGravityExpression parse(@NotNull PsiElement<?> entity, int lineNumber) {
             return create(entity, lineNumber);
         }

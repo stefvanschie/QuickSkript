@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -49,21 +48,7 @@ public class PsiIsOnlineCondition extends PsiElement<Boolean> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching positive {@link PsiIsOnlineCondition}s
-         */
-        @NotNull
-        private final SkriptPattern positivePattern =
-            SkriptPattern.parse("%offline players% (is|are) (online|offline)");
-
-        /**
-         * The pattern for matching negative {@link PsiIsOnlineCondition}s
-         */
-        @NotNull
-        private final SkriptPattern negativePattern =
-            SkriptPattern.parse("%offline players% (isn't|is not|aren't|are not) (online|offline)");
-
-        /**
-         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param offlinePlayer the offline player to check for
          * @param lineNumber the line number
@@ -72,13 +57,13 @@ public class PsiIsOnlineCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("positivePattern")
+        @Pattern("%offline players% (is|are) (online|offline)")
         public PsiIsOnlineCondition parsePositive(@NotNull PsiElement<?> offlinePlayer, int lineNumber) {
             return create(offlinePlayer, true, lineNumber);
         }
 
         /**
-         * Parses the {@link #negativePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param offlinePlayer the offline player to check for
          * @param lineNumber the line number
@@ -87,7 +72,7 @@ public class PsiIsOnlineCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("negativePattern")
+        @Pattern("%offline players% (isn't|is not|aren't|are not) (online|offline)")
         public PsiIsOnlineCondition parseNegative(@NotNull PsiElement<?> offlinePlayer, int lineNumber) {
             return create(offlinePlayer, false, lineNumber);
         }

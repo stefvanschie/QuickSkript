@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.*;
@@ -46,16 +45,7 @@ public class PsiPassengersExpression extends PsiElement<List<?>> implements Adda
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiPassengersExpression}s
-         */
-        @NotNull
-        private SkriptPattern[] patterns = SkriptPattern.parse(
-            "[the] passenger[s] of %entities%",
-            "%entities%'[s] passenger[s]"
-        );
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param entity the entity to get the passengers of
          * @param lineNumber the line number
@@ -64,7 +54,8 @@ public class PsiPassengersExpression extends PsiElement<List<?>> implements Adda
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
+        @Pattern("[the] passenger[s] of %entities%")
+        @Pattern("%entities%'[s] passenger[s]")
         public PsiPassengersExpression parse(@NotNull PsiElement<?> entity, int lineNumber) {
             return create(entity, lineNumber);
         }

@@ -1,7 +1,6 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.multiresult.MultiResult;
@@ -79,21 +78,7 @@ public class PsiContainsObjectCondition extends PsiElement<Boolean> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching positive {@link PsiContainsObjectCondition}s
-         */
-        @NotNull
-        private final SkriptPattern positivePattern = SkriptPattern.parse("%objects% contain[s] %objects%");
-
-        /**
-         * The pattern for matching negative {@link PsiContainsObjectCondition}s
-         */
-        @NotNull
-        private final SkriptPattern negativePattern = SkriptPattern.parse(
-            "%objects% (doesn't|does not|do not|don't) contain %objects%"
-        );
-
-        /**
-         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param list the list to check
          * @param elements the elements to check if they're in the list
@@ -103,7 +88,7 @@ public class PsiContainsObjectCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("positivePattern")
+        @Pattern("%objects% contain[s] %objects%")
         public PsiContainsObjectCondition parsePositive(
             @NotNull PsiElement<?> list,
             @NotNull PsiElement<?> elements,
@@ -113,7 +98,7 @@ public class PsiContainsObjectCondition extends PsiElement<Boolean> {
         }
 
         /**
-         * Parses the {@link #negativePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param list the list to check
          * @param elements the elements to check if they're in the list
@@ -123,7 +108,7 @@ public class PsiContainsObjectCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("negativePattern")
+        @Pattern("%objects% (doesn't|does not|do not|don't) contain %objects%")
         public PsiContainsObjectCondition parseNegative(
             @NotNull PsiElement<?> list,
             @NotNull PsiElement<?> elements,

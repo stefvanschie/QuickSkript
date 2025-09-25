@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -43,16 +42,7 @@ public class PsiLanguageExpression extends PsiElement<String> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The patterns for matching {@link PsiLanguageExpression}s
-         */
-        @NotNull
-        private final SkriptPattern[] patterns = SkriptPattern.parse(
-            "[the] [([currently] selected|current)] [game] (language|locale) [setting] of %players%",
-            "%players%'[s] [([currently] selected|current)] [game] (language|locale) [setting]"
-        );
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param player the player to get the language from
          * @param lineNumber the line number
@@ -61,7 +51,8 @@ public class PsiLanguageExpression extends PsiElement<String> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
+        @Pattern("[the] [([currently] selected|current)] [game] (language|locale) [setting] of %players%")
+        @Pattern("%players%'[s] [([currently] selected|current)] [game] (language|locale) [setting]")
         public PsiLanguageExpression parse(@NotNull PsiElement<?> player, int lineNumber) {
             return create(player, lineNumber);
         }

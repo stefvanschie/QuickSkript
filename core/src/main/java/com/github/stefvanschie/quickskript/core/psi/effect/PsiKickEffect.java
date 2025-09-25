@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -51,14 +50,7 @@ public class PsiKickEffect extends PsiElement<Void> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiKickEffect}s
-         */
-        @NotNull
-        private final SkriptPattern pattern =
-            SkriptPattern.parse("kick %players% [(by reason of|because [of]|on account of|due to) %text%]");
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param player the player to kick
          * @param reason the reason for kicking this player, might be null
@@ -68,7 +60,7 @@ public class PsiKickEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("kick %players% [(by reason of|because [of]|on account of|due to) %text%]")
         public PsiKickEffect parse(@NotNull PsiElement<?> player, @NotNull PsiElement<?> reason, int lineNumber) {
             return create(player, reason, lineNumber);
         }

@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -33,16 +32,7 @@ public class PsiNaNExpression extends PsiPrecomputedHolder<Double> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiNaNExpression}s
-         */
-        @NotNull
-        private SkriptPattern[] patterns = SkriptPattern.parse(
-            "NaN value",
-            "value of NaN"
-        );
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param lineNumber the line number
          * @return the expression
@@ -50,7 +40,8 @@ public class PsiNaNExpression extends PsiPrecomputedHolder<Double> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
+        @Pattern("NaN value")
+        @Pattern("value of NaN")
         public PsiNaNExpression parse(int lineNumber) {
             return create(lineNumber);
         }

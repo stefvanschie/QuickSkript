@@ -2,7 +2,6 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -85,33 +84,7 @@ public class PsiSubstringExpression extends PsiElement<String> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiSubstringExpression}s
-         */
-        @NotNull
-        private SkriptPattern pattern = SkriptPattern.parse(
-            "[the] (part|sub[ ](text|string)) of %texts% (between|from) (ind(ex|ices)|character[s]) %number% [(and|to) (index|character)] %number%"
-        );
-
-        /**
-         * The patterns for matching the first characters for {@link PsiSubstringExpression}
-         */
-        @NotNull
-        private SkriptPattern[] patternsFirst = SkriptPattern.parse(
-            "[the] first [%number%] character[s] of %texts%",
-            "[the] %number% first characters of %texts%"
-        );
-
-        /**
-         * The patterns for matching the last characters for {@link PsiSubstringExpression}
-         */
-        @NotNull
-        private SkriptPattern[] patternsLast = SkriptPattern.parse(
-            "[the] last [%number%] character[s] of %texts%",
-            "[the] %number% last characters of %texts%"
-        );
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param text the text to substring
          * @param startIndex the starting index of the substring
@@ -122,14 +95,23 @@ public class PsiSubstringExpression extends PsiElement<String> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("[the] part of %texts% (between|from) ind(ex|ices) %number% [(and|to) (index|character)] %number%")
+        @Pattern("[the] part of %texts% (between|from) character[s] %number% [(and|to) (index|character)] %number%")
+        @Pattern("[the] sub[ ]text of %texts% between ind(ex|ices) %number% [(and|to) (index|character)] %number%")
+        @Pattern("[the] sub[ ]text of %texts% between character[s] %number% [(and|to) (index|character)] %number%")
+        @Pattern("[the] sub[ ]text of %texts% from ind(ex|ices) %number% [(and|to) (index|character)] %number%")
+        @Pattern("[the] sub[ ]text of %texts% from character[s] %number% [(and|to) (index|character)] %number%")
+        @Pattern("[the] sub[ ]string of %texts% between ind(ex|ices) %number% [(and|to) (index|character)] %number%")
+        @Pattern("[the] sub[ ]string of %texts% between character[s] %number% [(and|to) (index|character)] %number%")
+        @Pattern("[the] sub[ ]string of %texts% from ind(ex|ices) %number% [(and|to) (index|character)] %number%")
+        @Pattern("[the] sub[ ]string of %texts% from character[s] %number% [(and|to) (index|character)] %number%")
         public PsiSubstringExpression parse(@NotNull PsiElement<?> text, @Nullable PsiElement<?> startIndex,
             @Nullable PsiElement<?> endIndex, int lineNumber) {
             return create(PositionRelation.STATIC, text, startIndex, endIndex, lineNumber);
         }
 
         /**
-         * Parses the {@link #patternsFirst} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param endIndex the end index of the substring
          * @param text the text to substring
@@ -139,13 +121,14 @@ public class PsiSubstringExpression extends PsiElement<String> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patternsFirst")
+        @Pattern("[the] first [%number%] character[s] of %texts%")
+        @Pattern("[the] %number% first characters of %texts%")
         public PsiSubstringExpression parseFirst(@Nullable PsiElement<?> endIndex, @NotNull PsiElement<?> text,
             int lineNumber) {
             return create(PositionRelation.STATIC, text, null, endIndex, lineNumber);
         }
         /**
-         * Parses the {@link #patternsLast} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param startIndex the start index of the substring
          * @param text the text to substring
@@ -155,7 +138,8 @@ public class PsiSubstringExpression extends PsiElement<String> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patternsLast")
+        @Pattern("[the] last [%number%] character[s] of %texts%")
+        @Pattern("[the] %number% last characters of %texts%")
         public PsiSubstringExpression parseLast(@Nullable PsiElement<?> startIndex, @NotNull PsiElement<?> text,
             int lineNumber) {
             return create(PositionRelation.RELATIVE, text, startIndex, null, lineNumber);

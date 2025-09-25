@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.Deletable;
@@ -45,16 +44,7 @@ public class PsiPlayerListFooterExpression extends PsiElement<String> implements
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiPlayerListFooterExpression}s
-         */
-        @NotNull
-        private SkriptPattern[] patterns = SkriptPattern.parse(
-            "[the] (player|tab)[ ]list footer [text|message] of %players%",
-            "%players%'[s] (player|tab)[ ]list footer [text|message]"
-        );
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param player the player to get the footer from
          * @param lineNumber the line number
@@ -63,7 +53,8 @@ public class PsiPlayerListFooterExpression extends PsiElement<String> implements
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
+        @Pattern("[the] (player|tab)[ ]list footer [text|message] of %players%")
+        @Pattern("%players%'[s] (player|tab)[ ]list footer [text|message]")
         public PsiPlayerListFooterExpression parse(@NotNull PsiElement<?> player, int lineNumber) {
             return create(player, lineNumber);
         }

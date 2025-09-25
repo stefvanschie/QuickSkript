@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -43,13 +42,7 @@ public class PsiKillEffect extends PsiElement<Void> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiKillEffect}s
-         */
-        @NotNull
-        private final SkriptPattern pattern = SkriptPattern.parse("kill %entities%");
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param entity the entity to kill
          * @param lineNumber the line number
@@ -58,7 +51,7 @@ public class PsiKillEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("kill %entities%")
         public PsiKillEffect tryParse(@NotNull PsiElement<?> entity, int lineNumber) {
             return create(entity, lineNumber);
         }

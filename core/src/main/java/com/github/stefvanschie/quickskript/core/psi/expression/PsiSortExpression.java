@@ -2,7 +2,6 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -59,13 +58,7 @@ public class PsiSortExpression extends PsiElement<List<?>> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiSortExpression}s
-         */
-        @NotNull
-        private final SkriptPattern pattern = SkriptPattern.parse("sorted %objects%");
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param collection the collection to be sorted
          * @param lineNumber the line number
@@ -74,7 +67,7 @@ public class PsiSortExpression extends PsiElement<List<?>> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("sorted %objects%")
         public PsiSortExpression parse(@NotNull PsiElement<?> collection, int lineNumber) {
             return create(collection, lineNumber);
         }

@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.multiresult.MultiResult;
@@ -45,16 +44,7 @@ public class PsiHotbarSlotExpression extends PsiElement<MultiResult<? extends Sl
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link PsiHotbarSlotExpression}s
-         */
-        @NotNull
-        private final SkriptPattern @NotNull [] patterns = new SkriptPattern[]{
-            SkriptPattern.parse("[the] [[currently] selected|current] hotbar slot[s] [of %players%]"),
-            SkriptPattern.parse("%players%'[s] [[currently] selected|current] hotbar slot[s]")
-        };
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param players the players to get the selected hotbar of
          * @param lineNumber the line number
@@ -63,7 +53,8 @@ public class PsiHotbarSlotExpression extends PsiElement<MultiResult<? extends Sl
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
+        @Pattern("[the] [[currently] selected|current] hotbar slot[s] [of %players%]")
+        @Pattern("%players%'[s] [[currently] selected|current] hotbar slot[s]")
         public PsiHotbarSlotExpression parse(@Nullable PsiElement<?> players, int lineNumber) {
             return create(players, lineNumber);
         }

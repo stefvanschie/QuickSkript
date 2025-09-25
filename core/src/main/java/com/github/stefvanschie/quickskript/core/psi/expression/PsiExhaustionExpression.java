@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.*;
@@ -44,16 +43,7 @@ public class PsiExhaustionExpression extends PsiElement<Float> implements Addabl
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The patterns for matching {@link PsiExhaustionExpression}s
-         */
-        @NotNull
-        private final SkriptPattern[] patterns = SkriptPattern.parse(
-            "[the] exhaustion of %players%",
-            "%players%'[s] exhaustion"
-        );
-
-        /**
-         * Parses the {@link #patterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param player the player to get the exhaustion from
          * @param lineNumber the line number
@@ -62,7 +52,8 @@ public class PsiExhaustionExpression extends PsiElement<Float> implements Addabl
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("patterns")
+        @Pattern("[the] exhaustion of %players%")
+        @Pattern("%players%'[s] exhaustion")
         public PsiExhaustionExpression parse(@NotNull PsiElement<?> player, int lineNumber) {
             return create(player, lineNumber);
         }

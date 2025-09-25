@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.effect;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -51,23 +50,7 @@ public class PsiExplosionEffect extends PsiElement<Void> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching unsafe psi explosion effects
-         */
-        @NotNull
-        private final SkriptPattern unsafePattern = SkriptPattern.parse(
-            "[(create|make)] [an] explosion (of|with) (force|strength|power) %number% [%directions% %locations%]"
-        );
-
-        /**
-         * The pattern for matching safe psi explosion effects
-         */
-        @NotNull
-        private final SkriptPattern safePattern = SkriptPattern.parse(
-            "[(create|make)] [a] safe explosion (of|with) (force|strength|power) %number% [%directions% %locations%]"
-        );
-
-        /**
-         * Parses the {@link #unsafePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param force the amount of force behind this explosion
          * @param directions currently unused
@@ -78,14 +61,14 @@ public class PsiExplosionEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("unsafePattern")
+        @Pattern("[(create|make)] [an] explosion (of|with) (force|strength|power) %number% [%directions% %locations%]")
         public PsiExplosionEffect parseUnsafe(@NotNull PsiElement<?> force, @NotNull PsiElement<?> directions,
                                         @NotNull PsiElement<?> locations, int lineNumber) {
             return create(force, false, lineNumber);
         }
 
         /**
-         * Parses the {@link #safePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param force the amount of force behind this explosion
          * @param directions currently unused
@@ -96,7 +79,8 @@ public class PsiExplosionEffect extends PsiElement<Void> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("safePattern")
+        @Pattern("[create|make] [a] safe explosion of (force|strength|power) %number% [%directions% %locations%]")
+        @Pattern("[create|make] [a] safe explosion with (force|strength|power) %number% [%directions% %locations%]")
         public PsiExplosionEffect parseSafe(@NotNull PsiElement<?> force, @NotNull PsiElement<?> directions,
                                         @NotNull PsiElement<?> locations, int lineNumber) {
             return create(force, true, lineNumber);

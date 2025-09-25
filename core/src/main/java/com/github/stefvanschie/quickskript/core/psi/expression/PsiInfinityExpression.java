@@ -2,7 +2,6 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
@@ -63,25 +62,7 @@ public class PsiInfinityExpression extends PsiElement<Double> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching positive {@link PsiInfinityExpression}s
-         */
-        @NotNull
-        private SkriptPattern[] positivePatterns = SkriptPattern.parse(
-            "(infinity|\u221E) value", //\u221E is the character for infinity
-            "value of (infinity|\u221E)"
-        );
-
-        /**
-         * The pattern for matching negative {@link PsiInfinityExpression}s
-         */
-        @NotNull
-        private SkriptPattern[] negativePatterns = SkriptPattern.parse(
-            "(-|minus)(infinity|\u221E) value", //\u221E is the character for infinity
-            "value of (-|minus)(infinity|\u221E)"
-        );
-
-        /**
-         * Parses the {@link #positivePatterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param lineNumber the line number
          * @return the expression
@@ -89,13 +70,14 @@ public class PsiInfinityExpression extends PsiElement<Double> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("positivePatterns")
+        @Pattern("(infinity|∞) value")
+        @Pattern("value of (infinity|∞)")
         public PsiInfinityExpression parsePositive(int lineNumber) {
             return create(Sign.POSITIVE, lineNumber);
         }
 
         /**
-         * Parses the {@link #negativePatterns} and invokes this method with its types if the match succeeds
+         * Parses the patterns and invokes this method with its types if the match succeeds
          *
          * @param lineNumber the line number
          * @return the expression
@@ -103,7 +85,8 @@ public class PsiInfinityExpression extends PsiElement<Double> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("negativePatterns")
+        @Pattern("(-|minus)(infinity|∞) value")
+        @Pattern("value of (-|minus)(infinity|∞)")
         public PsiInfinityExpression parseNegative(int lineNumber) {
             return create(Sign.NEGATIVE, lineNumber);
         }

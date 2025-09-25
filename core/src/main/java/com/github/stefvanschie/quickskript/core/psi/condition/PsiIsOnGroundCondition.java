@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi.condition;
 
-import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
@@ -50,20 +49,7 @@ public class PsiIsOnGroundCondition extends PsiElement<Boolean> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * A pattern for matching positive {@link PsiIsOnGroundCondition}s
-         */
-        @NotNull
-        private final SkriptPattern positivePattern = SkriptPattern.parse("%entities% (is|are) on [the] ground");
-
-        /**
-         * A pattern for matching negative {@link PsiIsOnGroundCondition}s
-         */
-        @NotNull
-        private final SkriptPattern negativePattern =
-            SkriptPattern.parse("%entities% (isn't|is not|aren't|are not) on [the] ground");
-
-        /**
-         * Parses the {@link #positivePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param entity the entity to check whether they are on the ground
          * @param lineNumber the line number
@@ -72,13 +58,13 @@ public class PsiIsOnGroundCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("positivePattern")
+        @Pattern("%entities% (is|are) on [the] ground")
         public PsiIsOnGroundCondition parsePositive(@NotNull PsiElement<?> entity, int lineNumber) {
             return create(entity, true, lineNumber);
         }
 
         /**
-         * Parses the {@link #negativePattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param entity the entity to check whether they are on the ground
          * @param lineNumber the line number
@@ -87,7 +73,7 @@ public class PsiIsOnGroundCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("negativePattern")
+        @Pattern("%entities% (isn't|is not|aren't|are not) on [the] ground")
         public PsiIsOnGroundCondition parseNegative(@NotNull PsiElement<?> entity, int lineNumber) {
             return create(entity, false, lineNumber);
         }
