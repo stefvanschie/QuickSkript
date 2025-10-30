@@ -15,8 +15,7 @@ import java.util.Collection;
  *
  * @since 0.1.0
  */
-public class PsiHoverListExpression extends PsiElement<Collection<String>> implements Addable, Deletable, Removable,
-    Resettable, Settable {
+public class PsiHoverListExpression extends PsiElement<Collection<String>> implements Deletable, Removable, Resettable {
 
     /**
      * Creates a new element with the given line number

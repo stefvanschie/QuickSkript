@@ -1,0 +1,8 @@
+main: ${project.groupId}.${project.artifactId}.plugin.QuickSkript
+name: QuickSkript
+version: ${project.version}
+
+website: ${project.url}
+api-version: 1.13
+
+softdepend: [Vault, WorldGuard, GriefPrevention]

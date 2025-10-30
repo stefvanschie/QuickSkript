@@ -18,8 +18,9 @@
     </properties>
 
     <modules>
-        <module>bukkit</module>
         <module>core</module>
+        <module>paper</module>
+        <module>spigot</module>
     </modules>
 
     <dependencies>

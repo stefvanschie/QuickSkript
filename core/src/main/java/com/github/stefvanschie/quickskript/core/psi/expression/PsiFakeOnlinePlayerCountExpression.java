@@ -2,7 +2,6 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.psi.expression.util.*;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
@@ -13,8 +12,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @since 0.1.0
  */
-public class PsiFakeOnlinePlayerCountExpression extends PsiElement<Integer> implements Addable, Deletable, Removable,
-    Resettable, Settable {
+public class PsiFakeOnlinePlayerCountExpression extends PsiElement<Integer> {
 
     /**
      * Creates a new element with the given line number

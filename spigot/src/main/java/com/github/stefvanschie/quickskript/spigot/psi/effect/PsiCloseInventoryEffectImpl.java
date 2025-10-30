@@ -1,0 +1,52 @@
+package com.github.stefvanschie.quickskript.spigot.psi.effect;
+
+import com.github.stefvanschie.quickskript.core.context.Context;
+import com.github.stefvanschie.quickskript.core.psi.PsiElement;
+import com.github.stefvanschie.quickskript.core.psi.effect.PsiCloseInventoryEffect;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
+import org.bukkit.entity.HumanEntity;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+/**
+ * Closes the currently opened inventory for the human entity
+ *
+ * @since 0.1.0
+ */
+public class PsiCloseInventoryEffectImpl extends PsiCloseInventoryEffect {
+
+    /**
+     * Creates a new element with the given line number
+     *
+     * @param humanEntity the human entity to close the inventory for, see {@link #humanEntity}
+     * @param lineNumber  the line number this element is associated with
+     * @since 0.1.0
+     */
+    private PsiCloseInventoryEffectImpl(@NotNull PsiElement<?> humanEntity, int lineNumber) {
+        super(humanEntity, lineNumber);
+    }
+
+    @Nullable
+    @Override
+    protected Void executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        this.humanEntity.execute(environment, context, HumanEntity.class).closeInventory();
+
+        return null;
+    }
+
+    /**
+     * A factory for creating {@link PsiCloseInventoryEffectImpl}s
+     *
+     * @since 0.1.0
+     */
+    public static class Factory extends PsiCloseInventoryEffect.Factory {
+
+        @NotNull
+        @Contract(pure = true)
+        @Override
+        public PsiCloseInventoryEffect create(@NotNull PsiElement<?> player, int lineNumber) {
+            return new PsiCloseInventoryEffectImpl(player, lineNumber);
+        }
+    }
+}
