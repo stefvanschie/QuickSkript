@@ -295,6 +295,7 @@ public class SpigotSkriptLoader extends SkriptLoader {
         registerElement(new PsiFilterExpression.Factory());
         registerElement(new PsiFilterInputExpression.Factory());
         registerElement(new PsiFinalDamageExpressionImpl.Factory());
+        registerElement(new PsiFishingHookExpressionImpl.Factory());
         registerElement(new PsiFlyModeExpressionImpl.Factory());
         registerElement(new PsiFoodLevelExpressionImpl.Factory());
         registerElement(new PsiFormatDateTimeExpression.Factory());
