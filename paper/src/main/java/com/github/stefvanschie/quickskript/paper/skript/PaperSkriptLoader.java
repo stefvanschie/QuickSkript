@@ -221,6 +221,7 @@ public class PaperSkriptLoader extends SkriptLoader {
         registerElement(new PsiIsEnchantedCondition.Factory());
         registerElement(new PsiIsEvenlyDivisibleByCondition.Factory());
         registerElement(new PsiIsFireResistantConditionImpl.Factory());
+        registerElement(new PsiIsFishhookInOpenWaterConditionImpl.Factory());
         registerElement(new PsiIsFlyingConditionImpl.Factory());
         registerElement(new PsiIsInventoryEmptyConditionImpl.Factory());
         registerElement(new PsiIsItemEmptyCondition.Factory());
