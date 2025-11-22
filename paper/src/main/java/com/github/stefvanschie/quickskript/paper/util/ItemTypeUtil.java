@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * A utility class for operations related to item types.
@@ -104,6 +105,27 @@ public class ItemTypeUtil {
     }
 
     /**
+     * Converts an {@link ItemType} to a material that correspond to a random entry of the item type. If the item
+     * type does not have any entries, this will return null.
+     *
+     * @param itemType the item type to convert
+     * @return a material or null
+     * @since 0.1.0
+     */
+    @Nullable
+    @Contract(pure = true)
+    public static Material convertToMaterial(@NotNull ItemType itemType) {
+        List<? extends Material> materials = convertToMaterials(itemType);
+        int size = materials.size();
+
+        if (size == 0) {
+            return null;
+        }
+
+        return materials.get(ThreadLocalRandom.current().nextInt(size));
+    }
+
+    /**
      * Converts an {@link ItemType} in a list of materials that correspond to the entries of the item type. If the item
      * type does not have any entries, this will return an empty list.
      *
@@ -113,7 +135,7 @@ public class ItemTypeUtil {
      */
     @NotNull
     @Contract(pure = true)
-    public static List<? extends Material> convertToMaterials(@NotNull ItemType itemType) {
+    private static List<? extends Material> convertToMaterials(@NotNull ItemType itemType) {
         List<Material> materials = new ArrayList<>();
 
         for (String itemTypeEntry : itemType.getItemTypeEntries()) {

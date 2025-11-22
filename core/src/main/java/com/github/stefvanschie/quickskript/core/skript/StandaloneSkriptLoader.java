@@ -123,6 +123,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiIsEvenlyDivisibleByCondition.Factory());
         registerElement(new PsiIsFireResistantCondition.Factory());
         registerElement(new PsiIsFishhookInOpenWaterCondition.Factory());
+        registerElement(new PsiIsFlammableCondition.Factory());
         registerElement(new PsiIsFlyingCondition.Factory());
         registerElement(new PsiIsInventoryEmptyCondition.Factory());
         registerElement(new PsiIsItemEmptyCondition.Factory());

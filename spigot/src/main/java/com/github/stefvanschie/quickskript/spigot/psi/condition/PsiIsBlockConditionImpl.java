@@ -6,13 +6,9 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.condition.PsiIsBlockCondition;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.util.literal.ItemType;
-import org.bukkit.Material;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Checks if the item types are blocks.
@@ -37,11 +33,15 @@ public class PsiIsBlockConditionImpl extends PsiIsBlockCondition {
     @Contract(pure = true)
     @Override
     protected Boolean executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
-        return super.positive == this.itemTypes.executeMulti(environment, context, ItemType.class).test(itemType -> {
-            List<? extends Material> materials = ItemTypeUtil.convertToMaterials(itemType);
+        return super.positive == this.itemTypes.executeMulti(environment, context, ItemType.class)
+            .map(ItemTypeUtil::convertToMaterial)
+            .test(material -> {
+                if (material == null) {
+                    return false;
+                }
 
-            return materials.get(ThreadLocalRandom.current().nextInt(materials.size())).isBlock();
-        });
+                return material.isBlock();
+            });
     }
 
     /**
