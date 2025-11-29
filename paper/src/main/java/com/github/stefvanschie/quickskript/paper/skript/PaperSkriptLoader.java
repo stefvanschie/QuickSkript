@@ -224,6 +224,7 @@ public class PaperSkriptLoader extends SkriptLoader {
         registerElement(new PsiIsFishhookInOpenWaterConditionImpl.Factory());
         registerElement(new PsiIsFlammableConditionImpl.Factory());
         registerElement(new PsiIsFlyingConditionImpl.Factory());
+        registerElement(new PsiIsFromMobSpawnerConditionImpl.Factory());
         registerElement(new PsiIsInventoryEmptyConditionImpl.Factory());
         registerElement(new PsiIsItemEmptyCondition.Factory());
         registerElement(new PsiIsOnGroundConditionImpl.Factory());
