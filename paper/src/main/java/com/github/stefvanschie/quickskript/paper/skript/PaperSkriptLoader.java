@@ -225,6 +225,7 @@ public class PaperSkriptLoader extends SkriptLoader {
         registerElement(new PsiIsFlammableConditionImpl.Factory());
         registerElement(new PsiIsFlyingConditionImpl.Factory());
         registerElement(new PsiIsFromMobSpawnerConditionImpl.Factory());
+        registerElement(new PsiIsFrozenConditionImpl.Factory());
         registerElement(new PsiIsInventoryEmptyConditionImpl.Factory());
         registerElement(new PsiIsItemEmptyCondition.Factory());
         registerElement(new PsiIsOnGroundConditionImpl.Factory());
