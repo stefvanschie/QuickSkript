@@ -11,6 +11,7 @@
   "minecraft:bogged": "bogged",
   "minecraft:breeze": "breeze",
   "minecraft:camel": "camel",
+  "minecraft:camel_husk": "camel husk",
   "minecraft:cat": "cat",
   "minecraft:cave_spider": "cave spider",
   "minecraft:chest_boat": "chest boat",
@@ -65,9 +66,11 @@
   "minecraft:minecart": "minecart",
   "minecraft:mooshroom": "mushroom cow",
   "minecraft:mule": "mule",
+  "minecraft:nautilus": "nautilus",
   "minecraft:ocelot": "ocelot",
   "minecraft:painting": "painting",
   "minecraft:panda": "panda",
+  "minecraft:parched": "parched",
   "minecraft:parrot": "parrot",
   "minecraft:phantom": "phantom",
   "minecraft:pig": "pig",
@@ -115,6 +118,7 @@
   "minecraft:wolf": "wolf",
   "minecraft:zombie": "zombie",
   "minecraft:zombie_horse": "zombie horse",
+  "minecraft:zombie_nautilus": "zombie nautilus",
   "minecraft:zombie_villager": "zombie villager",
   "minecraft:zombified_piglin": "pig zombie"
 }
