@@ -80,6 +80,68 @@ public class ItemTypeUtil {
     }
 
     /**
+     * Checks if the provided {@link ItemType} matches the provided {@link ItemStack}.
+     *
+     * @param itemType the item type to compare
+     * @param itemStack the item stack to compare
+     * @return true if both represent the same item, false otherwise
+     * @since 0.1.0
+     */
+    public static boolean equals(@NotNull ItemType itemType, @NotNull ItemStack itemStack) {
+        if (itemType.isAll()) {
+            return false;
+        }
+
+        return itemStack.equals(convertToItemStack(itemType));
+    }
+
+    /**
+     * Converts an {@link ItemType} to an item stack. If the item type can be represented by multiple item stacks, an
+     * arbitrary item stack is returned. If the item type doesn't represent any item, this returns null.
+     *
+     * @param itemType the item type to convert
+     * @return a collection of item stacks
+     * @since 0.1.0
+     */
+    @Nullable
+    @Contract(pure = true)
+    private static ItemStack convertToItemStack(@NotNull ItemType itemType) {
+        Map<Enchantment, Integer> enchantments = new HashMap<>();
+
+        for (EnchantmentType enchantmentType : itemType.getEnchantments()) {
+            org.bukkit.enchantments.Enchantment bukkitEnchantment = EnchantmentUtil.convert(enchantmentType.getEnchantment());
+
+            enchantments.put(bukkitEnchantment, enchantmentType.getLevel());
+        }
+
+        Optional<? extends String> optionalItemTypeEntry = itemType.getItemTypeEntries().stream().findAny();
+
+        if (optionalItemTypeEntry.isEmpty()) {
+            return null;
+        }
+
+        String itemTypeEntry = optionalItemTypeEntry.get();
+
+        Material material;
+
+        try {
+            material = Bukkit.createBlockData(itemTypeEntry).getMaterial();
+        } catch (IllegalArgumentException ignored) {
+            material = Material.matchMaterial(itemTypeEntry);
+        }
+
+        if (material == null) {
+            return null;
+        }
+
+        ItemStack itemStack = new ItemStack(material, itemType.getAmount());
+
+        enchantments.forEach(itemStack::addEnchantment);
+
+        return itemStack;
+    }
+
+    /**
      * Converts an {@link ItemType} in a list of materials that correspond to the entries of the item type. If the item
      * type does not have any entries, this will return an empty list.
      *

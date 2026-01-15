@@ -126,6 +126,22 @@ public class ItemTypeUtil {
     }
 
     /**
+     * Checks if the provided {@link ItemType} matches the provided {@link ItemStack}.
+     *
+     * @param itemType the item type to compare
+     * @param itemStack the item stack to compare
+     * @return true if both represent the same item, false otherwise
+     * @since 0.1.0
+     */
+    public static boolean equals(@NotNull ItemType itemType, @NotNull ItemStack itemStack) {
+        if (itemType.isAll()) {
+            return false;
+        }
+
+        return itemStack.equals(convertToItemStack(itemType));
+    }
+
+    /**
      * Converts an {@link ItemType} in a list of materials that correspond to the entries of the item type. If the item
      * type does not have any entries, this will return an empty list.
      *

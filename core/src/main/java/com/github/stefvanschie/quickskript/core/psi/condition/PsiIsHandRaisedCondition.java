@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.util.Type;
+import com.github.stefvanschie.quickskript.core.util.literal.Hand;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -152,27 +153,5 @@ public class PsiIsHandRaisedCondition extends PsiElement<Boolean> {
         public Type getType() {
             return Type.BOOLEAN;
         }
-    }
-
-    /**
-     * The different types of hands.
-     *
-     * @since 0.1.0
-     */
-    protected enum Hand {
-
-        /**
-         * The main hand.
-         *
-         * @since 0.1.0
-         */
-        MAIN_HAND,
-
-        /**
-         * The offhand.
-         *
-         * @since 0.1.0
-         */
-        OFFHAND
     }
 }

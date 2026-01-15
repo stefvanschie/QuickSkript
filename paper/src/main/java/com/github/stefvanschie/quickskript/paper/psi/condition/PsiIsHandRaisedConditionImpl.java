@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.context.Context;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.condition.PsiIsHandRaisedCondition;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
+import com.github.stefvanschie.quickskript.core.util.literal.Hand;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EquipmentSlot;
 import org.jetbrains.annotations.Contract;
