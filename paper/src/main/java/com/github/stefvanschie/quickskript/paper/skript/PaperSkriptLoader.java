@@ -230,6 +230,7 @@ public class PaperSkriptLoader extends SkriptLoader {
         registerElement(new PsiIsGlidingConditionImpl.Factory());
         registerElement(new PsiIsHandRaisedConditionImpl.Factory());
         registerElement(new PsiIsHoldingConditionImpl.Factory());
+        registerElement(new PsiIsInLoveConditionImpl.Factory());
         registerElement(new PsiIsInventoryEmptyConditionImpl.Factory());
         registerElement(new PsiIsItemEmptyCondition.Factory());
         registerElement(new PsiIsOnGroundConditionImpl.Factory());
