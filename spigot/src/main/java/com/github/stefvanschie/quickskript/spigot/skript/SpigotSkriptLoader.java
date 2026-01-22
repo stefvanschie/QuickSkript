@@ -183,6 +183,7 @@ public class SpigotSkriptLoader extends SkriptLoader {
         registerElement(new PsiEggWillHatchConditionImpl.Factory());
         registerElement(new PsiEndsWithCondition.Factory());
         registerElement(new PsiEntityIsInBubbleColumnConditionImpl.Factory());
+        registerElement(new PsiEntityIsIncendiaryConditionImpl.Factory());
         registerElement(new PsiEntityIsInLavaCondition.Factory());
         registerElement(new PsiEntityIsInWaterConditionImpl.Factory());
         registerElement(new PsiEntityIsShearedConditionImpl.Factory());

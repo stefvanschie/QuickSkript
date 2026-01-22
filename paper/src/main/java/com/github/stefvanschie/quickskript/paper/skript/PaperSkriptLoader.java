@@ -189,6 +189,7 @@ public class PaperSkriptLoader extends SkriptLoader {
         registerElement(new PsiEggWillHatchConditionImpl.Factory());
         registerElement(new PsiEndsWithCondition.Factory());
         registerElement(new PsiEntityIsInBubbleColumnConditionImpl.Factory());
+        registerElement(new PsiEntityIsIncendiaryConditionImpl.Factory());
         registerElement(new PsiEntityIsInLavaConditionImpl.Factory());
         registerElement(new PsiEntityIsInRainConditionImpl.Factory());
         registerElement(new PsiEntityIsInWaterConditionImpl.Factory());
