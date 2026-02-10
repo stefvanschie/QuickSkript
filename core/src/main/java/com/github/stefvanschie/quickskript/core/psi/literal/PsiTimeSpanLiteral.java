@@ -199,7 +199,7 @@ public class PsiTimeSpanLiteral extends PsiPrecomputedHolder<TimeSpan> {
         @Contract(pure = true)
         @Override
         public Type getType() {
-            return Type.OBJECT;
+            return Type.TIME_SPAN;
         }
 
         /**
