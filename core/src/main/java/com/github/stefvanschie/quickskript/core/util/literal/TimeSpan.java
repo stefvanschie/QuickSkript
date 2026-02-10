@@ -42,4 +42,16 @@ public class TimeSpan {
 
         return (int) ticks;
     }
+
+    /**
+     * Checks whether this time span represents an infinite duration. An infinite duration occurs when the amount of
+     * milliseconds this time span represents equals {@link Long#MAX_VALUE}.
+     *
+     * @return true if this time span is infinitely long, false otherwise
+     * @since 0.1.0
+     */
+    @Contract(pure = true)
+    public boolean isInfinite() {
+        return this.millis == Long.MAX_VALUE;
+    }
 }
