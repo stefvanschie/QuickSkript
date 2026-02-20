@@ -192,6 +192,7 @@ public class SpigotSkriptLoader extends SkriptLoader {
         registerElement(new PsiEventCancelledConditionImpl.Factory());
         registerElement(new PsiExistsCondition.Factory());
         registerElement(new PsiExplosionIsIncendiaryConditionImpl.Factory());
+        registerElement(new PsiGameModeIsInvulnerableCondition.Factory());
         registerElement(new PsiHasAIConditionImpl.Factory());
         registerElement(new PsiHasChatFilteringCondition.Factory());
         registerElement(new PsiHasClientWeatherConditionImpl.Factory());

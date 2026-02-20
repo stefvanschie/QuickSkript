@@ -19,34 +19,60 @@ public enum GameMode {
      *
      * @since 0.1.0
      */
-    ADVENTURE,
+    ADVENTURE(true),
 
     /**
      * Represents the creative game mode
      *
      * @since 0.1.0
      */
-    CREATIVE,
+    CREATIVE(false),
 
     /**
      * Represents the spectator game mode
      *
      * @since 0.1.0
      */
-    SPECTATOR,
+    SPECTATOR(false),
 
     /**
      * Represents the survival game mode
      *
      * @since 0.1.0
      */
-    SURVIVAL;
+    SURVIVAL(true);
+
+    /**
+     * Whether players in this game mode are vulnerable.
+     */
+    private final boolean vulnerable;
 
     /**
      * The game modes by their name
      */
     @NotNull
     private static final Map<String, GameMode> ENTRIES = new HashMap<>();
+
+    /**
+     * Creates a new game mode
+     *
+     * @param vulnerable whether players in this game mode are vulnerable
+     * @since 0.1.0
+     */
+    GameMode(boolean vulnerable) {
+        this.vulnerable = vulnerable;
+    }
+
+    /**
+     * Gets whether players in this game mode are vulnerable.
+     *
+     * @return whether players in this game mode are vulnerable
+     * @since 0.1.0
+     */
+    @Contract(pure = true)
+    public boolean isVulnerable() {
+        return this.vulnerable;
+    }
 
     /**
      * Gets the game mode by its name or null if no such game mode exists.
