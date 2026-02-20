@@ -192,6 +192,7 @@ public class PaperSkriptLoader extends SkriptLoader {
         registerElement(new PsiEntityIsIncendiaryConditionImpl.Factory());
         registerElement(new PsiEntityIsInLavaConditionImpl.Factory());
         registerElement(new PsiEntityIsInRainConditionImpl.Factory());
+        registerElement(new PsiEntityIsInvulnerableConditionImpl.Factory());
         registerElement(new PsiEntityIsInWaterConditionImpl.Factory());
         registerElement(new PsiEntityIsShearedConditionImpl.Factory());
         registerElement(new PsiEntityIsWetConditionImpl.Factory());

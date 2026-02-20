@@ -93,6 +93,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiEntityIsIncendiaryCondition.Factory());
         registerElement(new PsiEntityIsInLavaCondition.Factory());
         registerElement(new PsiEntityIsInRainCondition.Factory());
+        registerElement(new PsiEntityIsInvulnerableCondition.Factory());
         registerElement(new PsiEntityIsInWaterCondition.Factory());
         registerElement(new PsiEntityIsShearedCondition.Factory());
         registerElement(new PsiEntityIsWetCondition.Factory());
