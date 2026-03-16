@@ -175,6 +175,7 @@ public class SpigotSkriptLoader extends SkriptLoader {
         registerElement(new PsiCanPickUpItemsConditionImpl.Factory());
         registerElement(new PsiCanSeeConditionImpl.Factory());
         registerElement(new PsiChanceCondition.Factory());
+        registerElement(new PsiChunkCoordinateIsLoadedConditionImpl.Factory());
         registerElement(new PsiChunkLocationIsLoadedConditionImpl.Factory());
         registerElement(new PsiContainsItemTypeConditionImpl.Factory());
         registerElement(new PsiContainsTextCondition.Factory());

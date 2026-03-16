@@ -82,6 +82,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiCanPickUpItemsCondition.Factory());
         registerElement(new PsiCanSeeCondition.Factory());
         registerElement(new PsiChanceCondition.Factory());
+        registerElement(new PsiChunkCoordinateIsLoadedCondition.Factory());
         registerElement(new PsiChunkLocationIsLoadedCondition.Factory());
         registerElement(new PsiContainsItemTypeCondition.Factory());
         registerElement(new PsiContainsTextCondition.Factory());
