@@ -255,6 +255,7 @@ public class PaperSkriptLoader extends SkriptLoader {
         registerElement(new PsiIsTextEmptyCondition.Factory());
         registerElement(new PsiScriptIsLoadedConditionImpl.Factory());
         registerElement(new PsiStartsWithCondition.Factory());
+        registerElement(new PsiWorldIsLoadedConditionImpl.Factory());
 
         registerElement(new PsiIsCondition.Factory());
 
