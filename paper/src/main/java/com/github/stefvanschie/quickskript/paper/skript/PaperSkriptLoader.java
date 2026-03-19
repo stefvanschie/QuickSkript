@@ -306,6 +306,7 @@ public class PaperSkriptLoader extends SkriptLoader {
         registerElement(new PsiCommandExpressionImpl.Factory());
         registerElement(new PsiCommandSenderExpressionImpl.Factory());
         registerElement(new PsiConsoleSenderExpressionImpl.Factory());
+        registerElement(new PsiCurrentScriptExpression.Factory());
         registerElement(new PsiDamageExpressionImpl.Factory());
         registerElement(new PsiDeathMessageExpressionImpl.Factory());
         registerElement(new PsiDefaultMOTDExpressionImpl.Factory());
@@ -371,7 +372,6 @@ public class PaperSkriptLoader extends SkriptLoader {
         registerElement(new PsiRoundExpression.Factory());
         registerElement(new PsiSaturationExpressionImpl.Factory());
         registerElement(new PsiScoreboardTagsExpressionImpl.Factory());
-        registerElement(new PsiScriptNameExpression.Factory());
         registerElement(new PsiShownServerIconExpressionImpl.Factory());
         registerElement(new PsiShuffleExpression.Factory());
         registerElement(new PsiSkriptVersionExpression.Factory());

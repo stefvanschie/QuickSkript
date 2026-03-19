@@ -207,6 +207,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiCommandExpression.Factory());
         registerElement(new PsiCommandSenderExpression.Factory());
         registerElement(new PsiConsoleSenderExpression.Factory());
+        registerElement(new PsiCurrentScriptExpression.Factory());
         registerElement(new PsiDamageExpression.Factory());
         registerElement(new PsiDeathMessageExpression.Factory());
         registerElement(new PsiDefaultMOTDExpression.Factory());
@@ -272,7 +273,6 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiRoundExpression.Factory());
         registerElement(new PsiSaturationExpression.Factory());
         registerElement(new PsiScoreboardTagsExpression.Factory());
-        registerElement(new PsiScriptNameExpression.Factory());
         registerElement(new PsiShownServerIconExpression.Factory());
         registerElement(new PsiShuffleExpression.Factory());
         registerElement(new PsiSkriptVersionExpression.Factory());

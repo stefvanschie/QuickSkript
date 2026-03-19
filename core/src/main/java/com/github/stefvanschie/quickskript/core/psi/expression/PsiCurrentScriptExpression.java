@@ -1,22 +1,23 @@
 package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.context.Context;
-import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
+import com.github.stefvanschie.quickskript.core.skript.Skript;
+import com.github.stefvanschie.quickskript.core.psi.PsiElement;
+import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Gets the name of the script. This cannot be pre-computed.
+ * Gets the current script.
  *
  * @since 0.1.0
  */
-public class PsiScriptNameExpression extends PsiElement<String> {
+public class PsiCurrentScriptExpression extends PsiElement<Skript> {
 
     /**
      * Creates a new element with the given line number
@@ -24,29 +25,29 @@ public class PsiScriptNameExpression extends PsiElement<String> {
      * @param lineNumber the line number this element is associated with
      * @since 0.1.0
      */
-    private PsiScriptNameExpression(int lineNumber) {
+    private PsiCurrentScriptExpression(int lineNumber) {
         super(lineNumber);
     }
 
-    @Nullable
+    @NotNull
     @Override
-    protected String executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+    protected Skript executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
         if (context == null) {
-            throw new ExecutionException("Cannot get script name without context", lineNumber);
+            throw new ExecutionException("Cannot get script without context", super.lineNumber);
         }
 
-        return context.getSkript().getName();
+        return context.getSkript();
     }
 
     /**
-     * A factory for creating {@link PsiScriptNameExpression}s
+     * A factory for creating instances of {@link PsiCurrentScriptExpression}.
      *
      * @since 0.1.0
      */
     public static class Factory implements PsiElementFactory {
 
         /**
-         * Parses the patterns and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param lineNumber the line number
          * @return the expression
@@ -54,9 +55,8 @@ public class PsiScriptNameExpression extends PsiElement<String> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("[the] script[['s] name]")
-        @Pattern("name of [the] script")
-        public PsiScriptNameExpression parse(int lineNumber) {
+        @Pattern("[the] [current] script")
+        public PsiCurrentScriptExpression parse(int lineNumber) {
             return create(lineNumber);
         }
 
@@ -69,16 +69,16 @@ public class PsiScriptNameExpression extends PsiElement<String> {
          * @since 0.1.0
          */
         @NotNull
-        @Contract(pure = true)
-        public PsiScriptNameExpression create(int lineNumber) {
-            return new PsiScriptNameExpression(lineNumber);
+        @Contract(value = "_ -> new", pure = true)
+        private PsiCurrentScriptExpression create(int lineNumber) {
+            return new PsiCurrentScriptExpression(lineNumber);
         }
 
         @NotNull
         @Contract(pure = true)
         @Override
         public Type getType() {
-            return Type.TEXT;
+            return Type.SCRIPT;
         }
     }
 }
