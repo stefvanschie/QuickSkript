@@ -251,4 +251,16 @@ public class QuickSkript extends JavaPlugin implements Listener {
     public RegionIntegration getRegionIntegration() {
         return regions;
     }
+
+    /**
+     * Gets the script manager.
+     *
+     * @return the script manager
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public ScriptManager getScriptManager() {
+        return this.manager;
+    }
 }

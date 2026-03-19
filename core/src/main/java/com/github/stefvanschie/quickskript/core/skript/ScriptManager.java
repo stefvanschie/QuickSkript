@@ -4,6 +4,7 @@ import com.github.stefvanschie.quickskript.core.file.skript.FileSkript;
 import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -79,5 +80,17 @@ public class ScriptManager {
     @Contract(pure = true)
     public Iterable<FileSkript> getLoadedScripts() {
         return Collections.unmodifiableCollection(this.loadedScripts);
+    }
+
+    /**
+     * Checks if the provided script is loaded. Returns true if it is loaded and false otherwise.
+     *
+     * @param script the script to check if it is loaded
+     * @return true if it is loaded, false otherwise
+     * @since 0.1.0
+     */
+    @Contract(value = "null -> false", pure = true)
+    public boolean isScriptLoaded(@Nullable Object script) {
+        return this.loadedScripts.contains(script);
     }
 }
