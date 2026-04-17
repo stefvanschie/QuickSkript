@@ -76,7 +76,6 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiParseExpression.Factory());
 
         //conditions
-        registerElement(new PsiCanBuildCondition.Factory());
         registerElement(new PsiCanFlyCondition.Factory());
         registerElement(new PsiCanHoldCondition.Factory());
         registerElement(new PsiCanPickUpItemsCondition.Factory());
@@ -177,7 +176,6 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiInventoryTypeLiteral.Factory());
         registerElement(new PsiNumberLiteral.Factory());
         registerElement(new PsiPlayerLiteral.Factory());
-        registerElement(new PsiRegionLiteral.Factory());
         registerElement(new PsiResourcePackStatus.Factory());
         registerElement(new PsiScriptIsLoadedCondition.Factory());
         registerElement(new PsiSoundCategoryLiteral.Factory());

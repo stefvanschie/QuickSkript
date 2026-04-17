@@ -1,4 +1,4 @@
-package com.github.stefvanschie.quickskript.spigot.integration.money;
+package com.github.stefvanschie.quickskript.paper.integration;
 
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;

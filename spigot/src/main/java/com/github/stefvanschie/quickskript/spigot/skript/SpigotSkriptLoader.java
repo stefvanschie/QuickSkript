@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.spigot.skript;
 
-import com.github.stefvanschie.quickskript.spigot.integration.region.RegionIntegration;
 import com.github.stefvanschie.quickskript.spigot.plugin.QuickSkript;
 import com.github.stefvanschie.quickskript.spigot.event.ComplexEventProxyFactory;
 import com.github.stefvanschie.quickskript.spigot.event.EventProxyFactory;
@@ -16,9 +15,6 @@ import com.github.stefvanschie.quickskript.spigot.util.event.ExperienceOrbSpawnE
 import com.github.stefvanschie.quickskript.spigot.util.event.QuickSkriptPostEnableEvent;
 import com.github.stefvanschie.quickskript.spigot.util.event.ServerTickEvent;
 import com.github.stefvanschie.quickskript.spigot.util.event.WorldTimeChangeEvent;
-import com.github.stefvanschie.quickskript.spigot.util.event.region.RegionEnterEvent;
-import com.github.stefvanschie.quickskript.spigot.util.event.region.RegionEvent;
-import com.github.stefvanschie.quickskript.spigot.util.event.region.RegionLeaveEvent;
 import com.github.stefvanschie.quickskript.spigot.util.event.script.ScriptLoadEvent;
 import com.github.stefvanschie.quickskript.spigot.util.event.script.ScriptUnloadEvent;
 import com.github.stefvanschie.quickskript.spigot.util.registry.BukkitEnchantmentRegistry;
@@ -128,10 +124,6 @@ public class SpigotSkriptLoader extends SkriptLoader {
     public SpigotSkriptLoader(@NotNull SkriptRunEnvironment environment) {
         this.environment = environment;
 
-        RegionIntegration regionIntegration = QuickSkript.getInstance().getRegionIntegration();
-
-        getRegionRegistry().addRegions(regionIntegration.getRegions());
-
         super.enchantmentRegistry = new BukkitEnchantmentRegistry(super.enchantmentRegistry);
     }
 
@@ -169,7 +161,6 @@ public class SpigotSkriptLoader extends SkriptLoader {
         registerElement(new PsiParseExpression.Factory());
 
         //conditions
-        registerElement(new PsiCanBuildConditionImpl.Factory());
         registerElement(new PsiCanFlyConditionImpl.Factory());
         registerElement(new PsiCanHoldConditionImpl.Factory());
         registerElement(new PsiCanPickUpItemsConditionImpl.Factory());
@@ -267,7 +258,6 @@ public class SpigotSkriptLoader extends SkriptLoader {
         registerElement(new PsiInventoryTypeLiteral.Factory());
         registerElement(new PsiNumberLiteral.Factory());
         registerElement(new PsiPlayerLiteralImpl.Factory());
-        registerElement(new PsiRegionLiteral.Factory());
         registerElement(new PsiResourcePackStatus.Factory());
         registerElement(new PsiSoundCategoryLiteral.Factory());
         registerElement(new PsiSpawnReasonLiteral.Factory());
@@ -508,8 +498,6 @@ public class SpigotSkriptLoader extends SkriptLoader {
             .registerEvent(ProjectileLaunchEvent.class, "[on] [projectile] shoot")
             .registerEvent(ServerListPingEvent.class, "[on] server [list] ping")
             .registerEvent(QuickSkriptPostEnableEvent.class, "[on] (server|skript) (start|load|enable)")
-            .registerEvent(RegionEnterEvent.class, "[on] (region enter[ing]|enter[ing] [of] [a] region)")
-            .registerEvent(RegionLeaveEvent.class, "[on] (region (leav(e|ing)|exit[ing])|(leav(e|ing)|exit[ing]) [of] [a] region)")
             .registerEvent(SheepRegrowWoolEvent.class, "[on] sheep [re]grow[ing] wool")
             .registerEvent(SignChangeEvent.class, "[on] (sign (chang[e]|edit)[ing]|[player] (chang[e]|edit)[ing] [a] sign)")
             .registerEvent(SlimeSplitEvent.class, "[on] slime split[ting]")
@@ -1123,10 +1111,6 @@ public class SpigotSkriptLoader extends SkriptLoader {
                     return null;
                 }
             )
-            .registerEvent(RegionEnterEvent.class, "[on] enter[ing] [of] [[the] region] %regions%",
-                defaultRegionComparison())
-            .registerEvent(RegionLeaveEvent.class, "[on] (leav(e|ing)|exit[ing]) [of] [[the] region] %regions%",
-                defaultRegionComparison())
             .registerEvent(ScriptLoadEvent.class, "[on] [async] [script] (load|init|enable)", //TODO: async loading
                 (script, event) -> event.getScript().equals(script))
             .registerEvent(ScriptUnloadEvent.class, "[on] [async] [script] (unload|stop|disable)", //TODO: async loading
@@ -1835,44 +1819,6 @@ public class SpigotSkriptLoader extends SkriptLoader {
                 return;
             }
         }
-    }
-
-    /**
-     * Gets a standard comparator for regions and a region event. This takes an iterator of skript match results, checks
-     * all matches for a valid match and returns a predicate that returns true if the region event has the same region
-     * as the one parsed from the skript match result. If no valid skript match result is found, this returns null.
-     *
-     * @return a region comparator
-     * @since 0.1.0
-     */
-    @NotNull
-    @Contract(pure = true)
-    private <T extends RegionEvent> Function<Iterable<SkriptMatchResult>, Predicate<T>> defaultRegionComparison() {
-        return matches -> {
-            for (SkriptMatchResult match : matches) {
-                PsiElement<?>[] elements = tryParseAllTypes(match);
-
-                if (elements == null) {
-                    continue;
-                }
-
-                if (elements.length != 1) {
-                    throw new IllegalStateException("Got zero elements, but expected one");
-                }
-
-                Object object = elements[0].execute(null, null);
-
-                if (!(object instanceof Region)) {
-                    continue;
-                }
-
-                Region region = (Region) object;
-
-                return event -> event.getRegion().equals(region);
-            }
-
-            return null;
-        };
     }
 
     /**

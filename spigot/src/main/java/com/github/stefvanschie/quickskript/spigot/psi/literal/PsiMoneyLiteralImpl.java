@@ -1,6 +1,6 @@
 package com.github.stefvanschie.quickskript.spigot.psi.literal;
 
-import com.github.stefvanschie.quickskript.spigot.integration.money.VaultIntegration;
+import com.github.stefvanschie.quickskript.spigot.integration.VaultIntegration;
 import com.github.stefvanschie.quickskript.spigot.plugin.QuickSkript;
 import com.github.stefvanschie.quickskript.core.psi.literal.PsiMoneyLiteral;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;

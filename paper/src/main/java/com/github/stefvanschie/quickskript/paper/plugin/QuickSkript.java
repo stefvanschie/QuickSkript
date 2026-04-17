@@ -1,14 +1,11 @@
 package com.github.stefvanschie.quickskript.paper.plugin;
 
-import com.github.stefvanschie.quickskript.paper.integration.money.VaultIntegration;
-import com.github.stefvanschie.quickskript.paper.integration.region.RegionIntegration;
+import com.github.stefvanschie.quickskript.paper.integration.VaultIntegration;
 import com.github.stefvanschie.quickskript.paper.skript.PaperSkriptLoader;
 import com.github.stefvanschie.quickskript.paper.util.event.ExperienceOrbSpawnEvent;
 import com.github.stefvanschie.quickskript.paper.util.event.QuickSkriptPostEnableEvent;
 import com.github.stefvanschie.quickskript.paper.util.event.ServerTickEvent;
 import com.github.stefvanschie.quickskript.paper.util.event.WorldTimeChangeEvent;
-import com.github.stefvanschie.quickskript.paper.util.event.region.RegionEnterEvent;
-import com.github.stefvanschie.quickskript.paper.util.event.region.RegionLeaveEvent;
 import com.github.stefvanschie.quickskript.paper.util.event.script.ScriptLoadEvent;
 import com.github.stefvanschie.quickskript.paper.util.event.script.ScriptUnloadEvent;
 import com.github.stefvanschie.quickskript.core.file.skript.FileSkript;
@@ -57,12 +54,6 @@ public class QuickSkript extends JavaPlugin implements Listener {
      */
     private VaultIntegration vault;
 
-    /**
-     * Integration with WorldGuard and GriefPrevention
-     */
-    @NotNull
-    private final RegionIntegration regions = new RegionIntegration();
-
     public static void main(String[] args) {
         new QuickSkript().onEnable(); //fake entry point for code analyzers
         throw new AssertionError("Plugins shouldn't be used as entry points!");
@@ -103,17 +94,12 @@ public class QuickSkript extends JavaPlugin implements Listener {
             }
         }
 
-        this.regions.loadIntegrations();
-
         printIntegrations();
 
         var environment = new SkriptRunEnvironment();
         updateProfilerImplementation(environment);
 
         var skriptLoader = new PaperSkriptLoader(environment);
-
-        pluginManager.registerEvents(new RegionEnterEvent.Listener(skriptLoader), this);
-        pluginManager.registerEvents(new RegionLeaveEvent.Listener(skriptLoader), this);
 
         this.manager = new ScriptManager(skriptLoader);
 
@@ -222,10 +208,6 @@ public class QuickSkript extends JavaPlugin implements Listener {
         if (vault == null) {
             getLogger().warning("Vault has not been detected, certain functionality may be unavailable");
         }
-
-        if (!this.regions.hasRegionIntegration()) {
-            getLogger().warning("No region plugin has been detected, certain functionality may be unavailable");
-        }
     }
 
     /**
@@ -238,18 +220,6 @@ public class QuickSkript extends JavaPlugin implements Listener {
     @Contract(pure = true)
     public VaultIntegration getVaultIntegration() {
         return vault;
-    }
-
-    /**
-     * Gets the integration with region plugins.
-     *
-     * @return region integration
-     * @since 0.1.0
-     */
-    @NotNull
-    @Contract(pure = true)
-    public RegionIntegration getRegionIntegration() {
-        return regions;
     }
 
     /**

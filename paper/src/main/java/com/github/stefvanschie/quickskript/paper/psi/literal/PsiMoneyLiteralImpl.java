@@ -1,6 +1,6 @@
 package com.github.stefvanschie.quickskript.paper.psi.literal;
 
-import com.github.stefvanschie.quickskript.paper.integration.money.VaultIntegration;
+import com.github.stefvanschie.quickskript.paper.integration.VaultIntegration;
 import com.github.stefvanschie.quickskript.paper.plugin.QuickSkript;
 import com.github.stefvanschie.quickskript.core.psi.literal.PsiMoneyLiteral;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;

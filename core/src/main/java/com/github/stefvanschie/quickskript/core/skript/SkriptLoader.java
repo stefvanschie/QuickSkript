@@ -100,11 +100,6 @@ public abstract class SkriptLoader {
     private Registry<String> itemTypeRegistry;
 
     /**
-     * A region registry for working with regions
-     */
-    private RegionRegistry regionRegistry;
-
-    /**
      * A literal registry fro working with literals
      */
     private Registry<LiteralRegistry.Entry> literalRegistry;
@@ -125,7 +120,6 @@ public abstract class SkriptLoader {
             this.enchantmentRegistry = new EnchantmentRegistry();
             entityTypeRegistry = new EntityTypeRegistry();
             inventoryTypeRegistry = new InventoryTypeRegistry();
-            regionRegistry = new RegionRegistry();
             literalRegistry = new LiteralRegistry();
         }), CompletableFuture.runAsync(() -> {
             var registry = new BlockDataRegistry();
@@ -642,18 +636,6 @@ public abstract class SkriptLoader {
     @Contract(pure = true)
     public Registry<String> getItemTypeRegistry() {
         return itemTypeRegistry;
-    }
-
-    /**
-     * Gets the region registry attached to this skript loader
-     *
-     * @return the region registry
-     * @since 0.1.0
-     */
-    @NotNull
-    @Contract(pure = true)
-    public RegionRegistry getRegionRegistry() {
-        return regionRegistry;
     }
 
     /**
