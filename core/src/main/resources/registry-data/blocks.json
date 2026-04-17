@@ -1415,6 +1415,7 @@
     },
     "gold_block": {},
     "gold_ore": {},
+    "golden_dandelion": {},
     "granite": {},
     "granite_slab": {
         "type": ["bottom", "top", "double"],
