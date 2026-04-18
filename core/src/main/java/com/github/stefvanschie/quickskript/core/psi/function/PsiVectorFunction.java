@@ -40,11 +40,6 @@ public class PsiVectorFunction extends PsiElement<Object> {
         this.x = x;
         this.y = y;
         this.z = z;
-
-        if (this.x.isPreComputed() && this.y.isPreComputed() && this.z.isPreComputed()) {
-            preComputed = executeImpl(null, null);
-            this.x = this.y = this.z = null;
-        }
     }
 
     /**
@@ -114,7 +109,7 @@ public class PsiVectorFunction extends PsiElement<Object> {
         @Contract(pure = true)
         @Override
         public Type getType() {
-            return Type.OBJECT;
+            return Type.VECTOR;
         }
     }
 }

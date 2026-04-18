@@ -25,6 +25,12 @@ public class PsiVectorFunctionImpl extends PsiVectorFunction {
     private PsiVectorFunctionImpl(@NotNull PsiElement<?> x, @NotNull PsiElement<?> y, @NotNull PsiElement<?> z,
                                   int lineNumber) {
         super(x, y, z, lineNumber);
+
+        if (x.isPreComputed() && y.isPreComputed() && z.isPreComputed()) {
+            preComputed = executeImpl(null, null);
+
+            this.x = this.y = this.z = null;
+        }
     }
 
     @NotNull

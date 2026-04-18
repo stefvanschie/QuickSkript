@@ -413,10 +413,10 @@ public enum Type {
                 NUMBER,
                 OFFLINE_PLAYER,
                 PLAYER,
-                REGION, RESOURCE_PACK_STATUS,
+                RESOURCE_PACK_STATUS,
                 SCRIPT, SLOT, SOUND_CATEGORY, SPAWN_REASON, STATUS_EFFECT_TYPE,
                 TEXT, TELEPORT_CAUSE, TIME, TIME_PERIOD, TIME_SPAN, TREE_TYPE, TYPE,
-                VISUAL_EFFECT,
+                VECTOR, VISUAL_EFFECT,
                 WEATHER_TYPE, WORLD
             };
         }
@@ -443,9 +443,10 @@ public enum Type {
                 NUMBERS,
                 OFFLINE_PLAYERS,
                 PLAYERS,
-                REGIONS, RESOURCE_PACK_STATUSES,
+                RESOURCE_PACK_STATUSES,
                 SCRIPTS, SLOTS, SOUND_CATEGORIES, SPAWN_REASONS, STATUS_EFFECT_TYPES,
                 TEXTS, TELEPORT_CAUSES, TIMES, TIME_PERIODS, TIME_SPANS, TREE_TYPES, TYPES,
+                VECTORS,
                 WEATHER_TYPES, WORLDS
             };
         }
@@ -478,20 +479,6 @@ public enum Type {
      * @since 0.1.0
      */
     PLAYERS("players", PLAYER),
-
-    /**
-     * A single region.
-     *
-     * @since 0.1.0
-     */
-    REGION("region"),
-
-    /**
-     * Multiple regions.
-     *
-     * @since 0.1.0
-     */
-    REGIONS("regions", REGION),
 
     /**
      * A single resource pack status.
@@ -674,6 +661,20 @@ public enum Type {
      * @since 0.1.0
      */
     TYPES("types", TYPE),
+
+    /**
+     * A single vector.
+     *
+     * @since 0.1.0
+     */
+    VECTOR("vector"),
+
+    /**
+     * Multiple vectors.
+     *
+     * @since 0.1.0
+     */
+    VECTORS("vectors", VECTOR),
 
     /**
      * A single visual effect.
