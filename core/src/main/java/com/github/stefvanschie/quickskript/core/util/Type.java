@@ -332,11 +332,18 @@ public enum Type {
     ITEM_TYPES("(item[ ]type[s]|items|materials)"),
 
     /**
-     * A single item.
+     * A single item stack.
      *
      * @since 0.1.0
      */
     ITEM_STACK("item stack"),
+
+    /**
+     * Multiple item stacks.
+     *
+     * @since 0.1.0
+     */
+    ITEM_STACKS("item stacks", ITEM_STACK),
 
     /**
      * A single living entity.
@@ -438,7 +445,7 @@ public enum Type {
                 ENCHANTMENT_TYPES, ENTITIES, ENTITY_TYPES, EXPERIENCE_POINTS,
                 FIREWORK_TYPES,
                 GAME_MODES, GENES,
-                INVENTORIES, INVENTORY_ACTIONS, INVENTORY_TYPES, ITEM_TYPES,
+                INVENTORIES, INVENTORY_ACTIONS, INVENTORY_TYPES, ITEM_STACKS, ITEM_TYPES,
                 LIVING_ENTITIES, LOCATIONS,
                 NUMBERS,
                 OFFLINE_PLAYERS,

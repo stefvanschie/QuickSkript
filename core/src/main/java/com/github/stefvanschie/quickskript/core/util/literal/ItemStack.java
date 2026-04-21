@@ -51,6 +51,18 @@ public class ItemStack {
     }
 
     /**
+     * Checks if this {@link ItemStack} is a subtype of the provided {@link ItemType}.
+     *
+     * @param itemType the item type to check if it is a super type
+     * @return true if this is a subtype of the provided item type, false otherwise
+     * @since 0.1.0
+     */
+    @Contract(pure = true)
+    public boolean isSubTypeOf(@NotNull ItemType itemType) {
+        return itemType.getItemTypeEntries().contains(this.itemType);
+    }
+
+    /**
      * Sets the enchantment for this item
      *
      * @param enchantmentType the enchantment
