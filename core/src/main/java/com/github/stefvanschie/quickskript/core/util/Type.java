@@ -336,7 +336,7 @@ public enum Type {
      *
      * @since 0.1.0
      */
-    ITEM("(item|material)"),
+    ITEM_STACK("item stack"),
 
     /**
      * A single living entity.
@@ -408,7 +408,7 @@ public enum Type {
                 ENCHANTMENT_TYPE, ENTITY, ENTITY_TYPE, EXPERIENCE_POINT,
                 FIREWORK_TYPE,
                 GAME_MODE, GENE,
-                INVENTORY, INVENTORY_ACTION, INVENTORY_TYPE, ITEM,
+                INVENTORY, INVENTORY_ACTION, INVENTORY_TYPE, ITEM_STACK,
                 LIVING_ENTITY, LOCATION,
                 NUMBER,
                 OFFLINE_PLAYER,

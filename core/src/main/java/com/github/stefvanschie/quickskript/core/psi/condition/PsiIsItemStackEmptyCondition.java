@@ -7,7 +7,7 @@ import com.github.stefvanschie.quickskript.core.psi.exception.ExecutionException
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.util.Type;
-import com.github.stefvanschie.quickskript.core.util.literal.Item;
+import com.github.stefvanschie.quickskript.core.util.literal.ItemStack;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -17,12 +17,12 @@ import org.jetbrains.annotations.Nullable;
  *
  * @since 0.1.0
  */
-public class PsiIsItemEmptyCondition extends PsiElement<Boolean> {
+public class PsiIsItemStackEmptyCondition extends PsiElement<Boolean> {
 
     /**
      * The item to check if it's empty.
      */
-    private PsiElement<? extends Item> item;
+    private PsiElement<? extends ItemStack> item;
 
     /**
      * If false, the result is negated.
@@ -37,7 +37,7 @@ public class PsiIsItemEmptyCondition extends PsiElement<Boolean> {
      * @param lineNumber the line number this element is associated with
      * @since 0.1.0
      */
-    private PsiIsItemEmptyCondition(@NotNull PsiElement<? extends Item> item, boolean positive, int lineNumber) {
+    private PsiIsItemStackEmptyCondition(@NotNull PsiElement<? extends ItemStack> item, boolean positive, int lineNumber) {
         super(lineNumber);
 
         this.item = item;
@@ -53,7 +53,7 @@ public class PsiIsItemEmptyCondition extends PsiElement<Boolean> {
     @Nullable
     @Override
     protected Boolean executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
-        Item item = this.item.execute(environment, context);
+        ItemStack item = this.item.execute(environment, context);
 
         if (item == null) {
             throw new ExecutionException(
@@ -66,7 +66,7 @@ public class PsiIsItemEmptyCondition extends PsiElement<Boolean> {
     }
 
     /**
-     * A factory for creating {@link PsiIsItemEmptyCondition}s
+     * A factory for creating {@link PsiIsItemStackEmptyCondition}s
      *
      * @since 0.1.0
      */
@@ -82,8 +82,8 @@ public class PsiIsItemEmptyCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("%item% (is|are) empty")
-        public PsiIsItemEmptyCondition parsePositive(@NotNull PsiElement<? extends Item> item, int lineNumber) {
+        @Pattern("%item stack% (is|are) empty")
+        public PsiIsItemStackEmptyCondition parsePositive(@NotNull PsiElement<? extends ItemStack> item, int lineNumber) {
             return create(item, true, lineNumber);
         }
 
@@ -97,8 +97,8 @@ public class PsiIsItemEmptyCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("%item% (isn't|is not|aren't|are not) empty")
-        public PsiIsItemEmptyCondition parseNegative(@NotNull PsiElement<? extends Item> item, int lineNumber) {
+        @Pattern("%item stack% (isn't|is not|aren't|are not) empty")
+        public PsiIsItemStackEmptyCondition parseNegative(@NotNull PsiElement<? extends ItemStack> item, int lineNumber) {
             return create(item, false, lineNumber);
         }
 
@@ -114,12 +114,12 @@ public class PsiIsItemEmptyCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        public PsiIsItemEmptyCondition create(
-            @NotNull PsiElement<? extends Item> item,
+        public PsiIsItemStackEmptyCondition create(
+            @NotNull PsiElement<? extends ItemStack> item,
             boolean positive,
             int lineNumber
         ) {
-            return new PsiIsItemEmptyCondition(item, positive, lineNumber);
+            return new PsiIsItemStackEmptyCondition(item, positive, lineNumber);
         }
 
         @NotNull

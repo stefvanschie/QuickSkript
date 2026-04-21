@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
  *
  * @since 0.1.0
  */
-public class Item {
+public class ItemStack {
 
     /**
      * The item type
@@ -35,7 +35,7 @@ public class Item {
      * @param amount the amount of items
      * @since 0.1.0
      */
-    public Item(@NotNull String itemType, int amount) {
+    public ItemStack(@NotNull String itemType, int amount) {
         this.itemType = itemType;
         this.amount = amount;
     }
@@ -46,7 +46,7 @@ public class Item {
      * @param itemType the item type of this item
      * @since 0.1.0
      */
-    public Item(@NotNull String itemType) {
+    public ItemStack(@NotNull String itemType) {
         this(itemType, 1);
     }
 

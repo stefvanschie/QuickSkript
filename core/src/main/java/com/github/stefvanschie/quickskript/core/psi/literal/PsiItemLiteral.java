@@ -13,7 +13,7 @@ import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.util.Pair;
 import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.EnchantmentType;
-import com.github.stefvanschie.quickskript.core.util.literal.Item;
+import com.github.stefvanschie.quickskript.core.util.literal.ItemStack;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -23,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
  *
  * @since 0.1.0
  */
-public class PsiItemLiteral extends PsiElement<Item> {
+public class PsiItemLiteral extends PsiElement<ItemStack> {
 
     /**
      * The item
@@ -70,8 +70,8 @@ public class PsiItemLiteral extends PsiElement<Item> {
 
     @Nullable
     @Override
-    protected Item executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
-        var item = new Item(this.item, amount == null ? 1 : amount.execute(environment, context, Number.class).intValue());
+    protected ItemStack executeImpl(@Nullable SkriptRunEnvironment environment, @Nullable Context context) {
+        var item = new ItemStack(this.item, amount == null ? 1 : amount.execute(environment, context, Number.class).intValue());
 
         if (enchantment != null) {
             item.setEnchantment(enchantment.execute(environment, context, EnchantmentType.class));
@@ -142,7 +142,7 @@ public class PsiItemLiteral extends PsiElement<Item> {
         @Contract(pure = true)
         @Override
         public Type getType() {
-            return Type.ITEM;
+            return Type.ITEM_STACK;
         }
     }
 }

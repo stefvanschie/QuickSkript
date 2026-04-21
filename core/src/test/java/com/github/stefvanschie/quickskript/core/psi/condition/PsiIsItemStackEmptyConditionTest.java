@@ -9,7 +9,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PsiIsItemEmptyConditionTest {
+class PsiIsItemStackEmptyConditionTest {
 
     private static SkriptLoader loader;
 
@@ -31,7 +31,7 @@ class PsiIsItemEmptyConditionTest {
         PsiElement<?> element = loader.tryParseElement(input, -1);
 
         assertNotNull(element);
-        assertInstanceOf(PsiIsItemEmptyCondition.class, element);
+        assertInstanceOf(PsiIsItemStackEmptyCondition.class, element);
         assertTrue(element.isPreComputed());
         assertEquals(true, element.execute(null, null));
     }
