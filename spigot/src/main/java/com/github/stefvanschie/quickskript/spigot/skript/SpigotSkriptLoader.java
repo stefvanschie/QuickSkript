@@ -180,6 +180,7 @@ public class SpigotSkriptLoader extends SkriptLoader {
         registerElement(new PsiEntityIsInLavaCondition.Factory());
         registerElement(new PsiEntityIsInvulnerableConditionImpl.Factory());
         registerElement(new PsiEntityIsInWaterConditionImpl.Factory());
+        registerElement(new PsiEntityIsOfTypeConditionImpl.Factory());
         registerElement(new PsiEntityIsShearedConditionImpl.Factory());
         registerElement(new PsiEntityIsWetCondition.Factory());
         registerElement(new PsiEventCancelledConditionImpl.Factory());
