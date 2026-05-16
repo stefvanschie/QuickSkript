@@ -7,17 +7,17 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Checks whether the offline players are operators.
+ * Checks if the blocks are passable.
  *
  * @since 0.1.0
  */
-public class PsiIsOperatorCondition extends PsiElement<Boolean> {
+public class PsiIsPassableCondition extends PsiElement<Boolean> {
 
     /**
-     * The offline players to check if they are operators.
+     * The blocks to check if they are passable.
      */
     @NotNull
-    protected final PsiElement<?> offlinePlayers;
+    protected final PsiElement<?> blocks;
 
     /**
      * If false, the result is negated.
@@ -27,20 +27,20 @@ public class PsiIsOperatorCondition extends PsiElement<Boolean> {
     /**
      * Creates a new element with the given line number
      *
-     * @param offlinePlayers the offline players to check if they are operators
+     * @param blocks the blocks to check if they are passable
      * @param positive if false, the result is negated
      * @param lineNumber the line number this element is associated with
      * @since 0.1.0
      */
-    protected PsiIsOperatorCondition(@NotNull PsiElement<?> offlinePlayers, boolean positive, int lineNumber) {
+    protected PsiIsPassableCondition(@NotNull PsiElement<?> blocks, boolean positive, int lineNumber) {
         super(lineNumber);
 
-        this.offlinePlayers = offlinePlayers;
+        this.blocks = blocks;
         this.positive = positive;
     }
 
     /**
-     * A factory for creating instances of {@link PsiIsOperatorCondition}.
+     * A factory to create instances of {@link PsiIsPassableCondition}.
      *
      * @since 0.1.0
      */
@@ -49,38 +49,38 @@ public class PsiIsOperatorCondition extends PsiElement<Boolean> {
         /**
          * Parses the pattern and invokes this method with its types if the match succeeds
          *
-         * @param offlinePlayers the offline players to check if they are operators
+         * @param blocks the blocks to check if they are passable
          * @param lineNumber the line number
          * @return the condition
          * @since 0.1.0
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("%offline players% (is|are) [[a] server|an] op[erator][s]")
-        public PsiIsOperatorCondition parsePositive(@NotNull PsiElement<?> offlinePlayers, int lineNumber) {
-            return create(offlinePlayers, true, lineNumber);
+        @Pattern("%blocks% (is|are) passable")
+        public PsiIsPassableCondition parsePositive(@NotNull PsiElement<?> blocks, int lineNumber) {
+            return create(blocks, true, lineNumber);
         }
 
         /**
          * Parses the pattern and invokes this method with its types if the match succeeds
          *
-         * @param offlinePlayers the offline players to check if they are operators
+         * @param blocks the blocks to check if they are passable
          * @param lineNumber the line number
          * @return the condition
          * @since 0.1.0
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("%offline players% (isn't|is not|aren't|are not) [[a] server|an] op[erator][s]")
-        public PsiIsOperatorCondition parseNegative(@NotNull PsiElement<?> offlinePlayers, int lineNumber) {
-            return create(offlinePlayers, false, lineNumber);
+        @Pattern("%blocks% (isn't|is not|aren't|are not) passable")
+        public PsiIsPassableCondition parseNegative(@NotNull PsiElement<?> blocks, int lineNumber) {
+            return create(blocks, false, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
          * constructor parameters.
          *
-         * @param offlinePlayers the offline players to check if they are operators
+         * @param blocks the blocks to check if they are passable
          * @param positive false if the result of the execution should be negated, true otherwise
          * @param lineNumber the line number
          * @return the condition
@@ -88,8 +88,8 @@ public class PsiIsOperatorCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(value = "_, _, _ -> new", pure = true)
-        public PsiIsOperatorCondition create(@NotNull PsiElement<?> offlinePlayers, boolean positive, int lineNumber) {
-            return new PsiIsOperatorCondition(offlinePlayers, positive, lineNumber);
+        public PsiIsPassableCondition create(@NotNull PsiElement<?> blocks, boolean positive, int lineNumber) {
+            return new PsiIsPassableCondition(blocks, positive, lineNumber);
         }
 
         @NotNull
