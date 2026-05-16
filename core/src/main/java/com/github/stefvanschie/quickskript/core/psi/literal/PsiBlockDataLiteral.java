@@ -4,7 +4,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.BlockData;
 import com.github.stefvanschie.quickskript.core.util.registry.BlockDataRegistry;
 import org.jetbrains.annotations.Contract;
@@ -119,8 +118,8 @@ public class PsiBlockDataLiteral extends PsiPrecomputedHolder<BlockData> {
         @NotNull
         @Contract(pure = true)
         @Override
-        public Type getType() {
-            return Type.BLOCK_DATA;
+        public String getType() {
+            return "block data";
         }
     }
 }

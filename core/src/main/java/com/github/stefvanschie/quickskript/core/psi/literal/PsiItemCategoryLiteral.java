@@ -10,7 +10,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.util.Pair;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.EnchantmentType;
 import com.github.stefvanschie.quickskript.core.util.literal.ItemType;
 import org.jetbrains.annotations.Contract;
@@ -152,8 +151,8 @@ public class PsiItemCategoryLiteral extends PsiElement<ItemType> {
         @NotNull
         @Contract(pure = true)
         @Override
-        public Type getType() {
-            return Type.ITEM_TYPES;
+        public String getType() {
+            return "item types";
         }
     }
 }

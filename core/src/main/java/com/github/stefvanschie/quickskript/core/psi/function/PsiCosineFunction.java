@@ -6,7 +6,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -107,8 +106,8 @@ public class PsiCosineFunction extends PsiElement<Double> {
         @NotNull
         @Contract(pure = true)
         @Override
-        public Type getType() {
-            return Type.NUMBER;
+        public String getType() {
+            return "number";
         }
     }
 }

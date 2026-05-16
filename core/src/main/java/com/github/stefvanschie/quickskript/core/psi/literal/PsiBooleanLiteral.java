@@ -3,7 +3,6 @@ package com.github.stefvanschie.quickskript.core.psi.literal;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -87,8 +86,8 @@ public class PsiBooleanLiteral extends PsiPrecomputedHolder<Boolean> {
         @NotNull
         @Contract(pure = true)
         @Override
-        public Type getType() {
-            return Type.BOOLEAN;
+        public String getType() {
+            return "boolean";
         }
     }
 }

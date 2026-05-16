@@ -2,11 +2,13 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.skript.StandaloneSkriptLoader;
+import com.github.stefvanschie.quickskript.core.util.registry.TypeRegistry;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class PsiCurrentScriptExpressionTest {
 
@@ -25,6 +27,9 @@ class PsiCurrentScriptExpressionTest {
         "script"
     })
     void test(String input) {
-        assertInstanceOf(PsiCurrentScriptExpression.class, loader.tryParseElement(input, -1));
+        TypeRegistry.Entry type = loader.getTypeRegistry().byName("script");
+
+        assertNotNull(type);
+        assertInstanceOf(PsiCurrentScriptExpression.class, loader.tryParseElement(input, type, -1));
     }
 }

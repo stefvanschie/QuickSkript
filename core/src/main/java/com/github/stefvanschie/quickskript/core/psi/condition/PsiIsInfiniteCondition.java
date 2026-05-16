@@ -5,7 +5,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.TimeSpan;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -112,8 +111,8 @@ public class PsiIsInfiniteCondition extends PsiElement<Boolean> {
         @NotNull
         @Contract(pure = true)
         @Override
-        public Type getType() {
-            return Type.BOOLEAN;
+        public String getType() {
+            return "boolean";
         }
     }
 }

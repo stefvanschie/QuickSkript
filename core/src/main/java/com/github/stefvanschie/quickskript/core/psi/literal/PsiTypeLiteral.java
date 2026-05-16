@@ -4,28 +4,27 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
-import com.github.stefvanschie.quickskript.core.util.Type;
-import com.github.stefvanschie.quickskript.core.util.registry.LiteralRegistry;
+import com.github.stefvanschie.quickskript.core.util.registry.TypeRegistry;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Represents a literal
+ * Represents a type.
  *
  * @since 0.1.0
  */
-public class PsiTypeLiteral extends PsiPrecomputedHolder<Class<?>> {
+public class PsiTypeLiteral extends PsiPrecomputedHolder<TypeRegistry.Entry> {
 
     /**
      * Creates a new element with the given line number
      *
-     * @param clazz the class of the literal
+     * @param type the type
      * @param lineNumber the line number this element is associated with
      * @since 0.1.0
      */
-    private PsiTypeLiteral(@NotNull Class<?> clazz, int lineNumber) {
-        super(clazz, lineNumber);
+    private PsiTypeLiteral(@NotNull TypeRegistry.Entry type, int lineNumber) {
+        super(type, lineNumber);
     }
 
     /**
@@ -36,7 +35,7 @@ public class PsiTypeLiteral extends PsiPrecomputedHolder<Class<?>> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * This gets called whenever an attempt at parsing a tree type is made
+         * This gets called whenever an attempt at parsing a type is made
          *
          * @param text the text to be parsed
          * @param lineNumber the line number
@@ -47,35 +46,35 @@ public class PsiTypeLiteral extends PsiPrecomputedHolder<Class<?>> {
         @Contract(pure = true)
         @Fallback
         public PsiTypeLiteral parse(@NotNull SkriptLoader skriptLoader, @NotNull String text, int lineNumber) {
-            LiteralRegistry.Entry entry = skriptLoader.getLiteralRegistry().byName(text.toLowerCase());
+            TypeRegistry.Entry entry = skriptLoader.getTypeRegistry().byName(text.toLowerCase());
 
             if (entry == null) {
                 return null;
             }
 
-            return create(entry.getType(), lineNumber);
+            return create(entry, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
          * constructor parameters.
          *
-         * @param clazz the class
+         * @param type the type
          * @param lineNumber the line number
          * @return the expression
          * @since 0.1.0
          */
         @NotNull
         @Contract(pure = true)
-        public PsiTypeLiteral create(@NotNull Class<?> clazz, int lineNumber) {
-            return new PsiTypeLiteral(clazz, lineNumber);
+        public PsiTypeLiteral create(@NotNull TypeRegistry.Entry type, int lineNumber) {
+            return new PsiTypeLiteral(type, lineNumber);
         }
 
         @NotNull
         @Contract(pure = true)
         @Override
-        public Type getType() {
-            return Type.OBJECT;
+        public String getType() {
+            return "object";
         }
     }
 }

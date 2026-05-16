@@ -1,6 +1,5 @@
 package com.github.stefvanschie.quickskript.core.psi;
 
-import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,5 +19,5 @@ public interface PsiElementFactory extends PsiGenericElementFactory {
      */
     @Nullable
     @Contract(pure = true)
-    Type getType();
+    String getType();
 }

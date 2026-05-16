@@ -3,7 +3,6 @@ package com.github.stefvanschie.quickskript.core.psi.literal;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.World;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -83,8 +82,8 @@ public class PsiWorldLiteral extends PsiPrecomputedHolder<World> {
         @NotNull
         @Contract(pure = true)
         @Override
-        public Type getType() {
-            return Type.WORLD;
+        public String getType() {
+            return "world";
         }
     }
 }

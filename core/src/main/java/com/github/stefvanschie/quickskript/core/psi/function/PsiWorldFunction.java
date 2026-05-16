@@ -3,7 +3,6 @@ package com.github.stefvanschie.quickskript.core.psi.function;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.World;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -75,8 +74,8 @@ public class PsiWorldFunction extends PsiElement<World> {
         @NotNull
         @Contract(pure = true)
         @Override
-        public Type getType() {
-            return Type.WORLD;
+        public String getType() {
+            return "world";
         }
     }
 }

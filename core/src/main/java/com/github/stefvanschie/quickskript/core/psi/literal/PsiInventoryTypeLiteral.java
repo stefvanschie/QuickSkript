@@ -4,7 +4,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.registry.InventoryTypeRegistry;
 import com.github.stefvanschie.quickskript.core.util.registry.Registry;
 import org.jetbrains.annotations.Contract;
@@ -77,8 +76,8 @@ public class PsiInventoryTypeLiteral extends PsiPrecomputedHolder<InventoryTypeR
         @NotNull
         @Contract(pure = true)
         @Override
-        public Type getType() {
-            return Type.INVENTORY_TYPE;
+        public String getType() {
+            return "inventory type";
         }
     }
 }

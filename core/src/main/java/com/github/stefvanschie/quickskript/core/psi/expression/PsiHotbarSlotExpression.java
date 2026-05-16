@@ -4,7 +4,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.multiresult.MultiResult;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.Slot;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -77,8 +76,8 @@ public class PsiHotbarSlotExpression extends PsiElement<MultiResult<? extends Sl
         @NotNull
         @Contract(pure = true)
         @Override
-        public Type getType() {
-            return Type.SLOTS;
+        public String getType() {
+            return "slots";
         }
     }
 }

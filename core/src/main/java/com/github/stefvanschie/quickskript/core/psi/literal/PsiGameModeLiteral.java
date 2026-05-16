@@ -3,7 +3,6 @@ package com.github.stefvanschie.quickskript.core.psi.literal;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.GameMode;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -73,8 +72,8 @@ public class PsiGameModeLiteral extends PsiPrecomputedHolder<GameMode> {
         @NotNull
         @Contract(pure = true)
         @Override
-        public Type getType() {
-            return Type.GAME_MODE;
+        public String getType() {
+            return "game mode";
         }
     }
 }

@@ -7,7 +7,6 @@ import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern
 import com.github.stefvanschie.quickskript.core.skript.Skript;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -77,8 +76,8 @@ public class PsiCurrentScriptExpression extends PsiElement<Skript> {
         @NotNull
         @Contract(pure = true)
         @Override
-        public Type getType() {
-            return Type.SCRIPT;
+        public String getType() {
+            return "script";
         }
     }
 }

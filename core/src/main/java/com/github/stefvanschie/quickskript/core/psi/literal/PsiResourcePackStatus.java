@@ -3,13 +3,10 @@ package com.github.stefvanschie.quickskript.core.psi.literal;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.ResourcePackStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Locale;
 
 /**
  * Represents a resource pack status
@@ -74,8 +71,8 @@ public class PsiResourcePackStatus extends PsiPrecomputedHolder<ResourcePackStat
         @NotNull
         @Contract(pure = true)
         @Override
-        public Type getType() {
-            return Type.RESOURCE_PACK_STATUS;
+        public String getType() {
+            return "resource pack status";
         }
     }
 }

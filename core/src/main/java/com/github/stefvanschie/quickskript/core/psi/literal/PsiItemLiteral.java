@@ -11,7 +11,6 @@ import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.util.Pair;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.EnchantmentType;
 import com.github.stefvanschie.quickskript.core.util.literal.ItemStack;
 import org.jetbrains.annotations.Contract;
@@ -141,8 +140,8 @@ public class PsiItemLiteral extends PsiElement<ItemStack> {
         @NotNull
         @Contract(pure = true)
         @Override
-        public Type getType() {
-            return Type.ITEM_STACK;
+        public String getType() {
+            return "item stack";
         }
     }
 }

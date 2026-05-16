@@ -1,5 +1,6 @@
 package com.github.stefvanschie.quickskript.spigot.skript;
 
+import com.github.stefvanschie.quickskript.core.util.registry.TypeRegistry;
 import com.github.stefvanschie.quickskript.spigot.plugin.QuickSkript;
 import com.github.stefvanschie.quickskript.spigot.event.ComplexEventProxyFactory;
 import com.github.stefvanschie.quickskript.spigot.event.EventProxyFactory;
@@ -36,7 +37,6 @@ import com.github.stefvanschie.quickskript.core.skript.Skript;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
 import com.github.stefvanschie.quickskript.core.util.Pair;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.*;
 import com.github.stefvanschie.quickskript.core.util.literal.Color;
 import com.github.stefvanschie.quickskript.core.util.literal.GameMode;
@@ -1912,10 +1912,16 @@ public class SpigotSkriptLoader extends SkriptLoader {
                 continue;
             }
 
-            Type[] types = ((TypeGroup) pair.getX()).getTypes();
+            String[] stringTypes = ((TypeGroup) pair.getX()).getTypes();
+            TypeRegistry.Entry[] types = new TypeRegistry.Entry[stringTypes.length];
+
+            for (int index = 0; index < stringTypes.length; index++) {
+                types[index] = getTypeRegistry().byName(stringTypes[index]);
+            }
+
             PsiElement<?> psiElement = null;
 
-            for (Type type : types) {
+            for (TypeRegistry.Entry type : types) {
                 psiElement = tryParseElement(pair.getY(), type, -1);
 
                 if (psiElement != null) {

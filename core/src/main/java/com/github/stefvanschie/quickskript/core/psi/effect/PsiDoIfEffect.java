@@ -10,7 +10,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.util.Pair;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -113,9 +112,9 @@ public class PsiDoIfEffect extends PsiElement<Void> {
         }
 
         @Nullable
-        @Contract(pure = true)
+        @Contract(value = "-> null", pure = true)
         @Override
-        public Type getType() {
+        public String getType() {
             return null;
         }
     }

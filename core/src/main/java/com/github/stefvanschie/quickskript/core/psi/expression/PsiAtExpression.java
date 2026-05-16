@@ -3,7 +3,6 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.direction.AbsoluteDirection;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -69,8 +68,8 @@ public class PsiAtExpression extends PsiPrecomputedHolder<@NotNull AbsoluteDirec
         @NotNull
         @Contract(pure = true)
         @Override
-        public Type getType() {
-            return Type.DIRECTION;
+        public String getType() {
+            return "direction";
         }
     }
 }

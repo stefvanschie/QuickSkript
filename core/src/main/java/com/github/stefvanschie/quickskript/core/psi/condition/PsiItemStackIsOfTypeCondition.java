@@ -6,7 +6,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.multiresult.MultiResult;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.ItemStack;
 import com.github.stefvanschie.quickskript.core.util.literal.ItemType;
 import org.jetbrains.annotations.Contract;
@@ -127,8 +126,8 @@ public class PsiItemStackIsOfTypeCondition extends PsiElement<Boolean> {
         @NotNull
         @Contract(pure = true)
         @Override
-        public Type getType() {
-            return Type.BOOLEAN;
+        public String getType() {
+            return "boolean";
         }
     }
 }

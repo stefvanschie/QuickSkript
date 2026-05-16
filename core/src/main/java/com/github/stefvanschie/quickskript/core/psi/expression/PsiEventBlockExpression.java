@@ -3,7 +3,6 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.Block;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -63,8 +62,8 @@ public class PsiEventBlockExpression extends PsiElement<Block> {
         @NotNull
         @Contract(pure = true)
         @Override
-        public Type getType() {
-            return Type.BLOCK;
+        public String getType() {
+            return "block";
         }
     }
 }

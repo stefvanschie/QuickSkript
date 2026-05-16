@@ -3,7 +3,6 @@ package com.github.stefvanschie.quickskript.core.psi.condition;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -104,8 +103,8 @@ public class PsiIsBlockDirectlyRedstonePoweredCondition extends PsiElement<Boole
         @NotNull
         @Contract(pure = true)
         @Override
-        public Type getType() {
-            return Type.BOOLEAN;
+        public String getType() {
+            return "boolean";
         }
     }
 }

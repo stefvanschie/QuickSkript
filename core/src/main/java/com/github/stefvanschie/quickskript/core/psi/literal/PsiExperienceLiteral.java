@@ -5,7 +5,6 @@ import com.github.stefvanschie.quickskript.core.pattern.SkriptPattern;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.Experience;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -92,8 +91,8 @@ public class PsiExperienceLiteral extends PsiPrecomputedHolder<Experience> {
         @NotNull
         @Contract(pure = true)
         @Override
-        public Type getType() {
-            return Type.EXPERIENCE_POINT;
+        public String getType() {
+            return "experience point";
         }
     }
 }

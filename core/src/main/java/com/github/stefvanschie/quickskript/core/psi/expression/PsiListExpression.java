@@ -10,7 +10,7 @@ import com.github.stefvanschie.quickskript.core.psi.util.multiresult.connective.
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.skript.SkriptRunEnvironment;
-import com.github.stefvanschie.quickskript.core.util.Type;
+import com.github.stefvanschie.quickskript.core.util.registry.TypeRegistry;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -89,12 +89,12 @@ public class PsiListExpression extends PsiElement<MultiResult<Object>> {
         @Fallback
         public PsiElement<?> parse(
             @NotNull SkriptLoader loader,
-            @NotNull Type @Nullable [] types,
+            @NotNull TypeRegistry.Entry @Nullable [] types,
             @NotNull String text,
             int lineNumber
         ) {
             if (types == null) {
-                types = new Type[] {Type.OBJECTS};
+                types = new TypeRegistry.Entry[] {loader.getTypeRegistry().byName("objects")};
             }
 
             List<String> segments = Arrays.asList(text.split(","));
@@ -106,13 +106,7 @@ public class PsiListExpression extends PsiElement<MultiResult<Object>> {
 
             List<List<String>> partitions = partitions(segments);
 
-            for (Type type : types) {
-                Type singularType = type.getSingular();
-
-                if (singularType == null) {
-                    continue; //type is singular
-                }
-
+            for (TypeRegistry.Entry type : types) {
                 outer:
                 for (List<String> partition : partitions) {
                     Connective connective = Conjunction.INSTANCE;
@@ -121,49 +115,44 @@ public class PsiListExpression extends PsiElement<MultiResult<Object>> {
                     for (String segment : partition) {
                         segment = segment.trim();
 
-                        PsiElement<?> element = null;
+                        int prefixLength = 0;
 
                         if (segment.startsWith("and") || segment.startsWith("nor")) {
-                            int prefixLength = 3; //length of "and" / "nor"
+                            prefixLength = 3;
+                        } else if (segment.startsWith("or")) {
+                            prefixLength = 2;
+                        }
 
+                        PsiElement<?> element = null;
+
+                        if (prefixLength != 0) {
                             String noDelimiter = segment.substring(prefixLength).trim();
 
-                            if (noDelimiter.length() > 0 && noDelimiter.charAt(0) == '(' && noDelimiter.endsWith(")")) {
+                            if (!noDelimiter.isEmpty() && noDelimiter.charAt(0) == '(' && noDelimiter.endsWith(")")) {
                                 String noParenthesis = noDelimiter.substring(1, noDelimiter.length() - 1).trim();
-                                element = loader.tryParseElement(noParenthesis, singularType, lineNumber);
+                                element = loader.tryParseElement(noParenthesis, type, lineNumber);
                             }
 
                             if (element == null) {
-                                element = loader.tryParseElement(noDelimiter, singularType, lineNumber);
+                                element = loader.tryParseElement(noDelimiter, type, lineNumber);
                             }
 
                             if (element != null) {
-                                connective = Conjunction.INSTANCE;
-                            }
-                        } else if (segment.startsWith("or")) {
-                            String noDelimiter = segment.substring("or".length()).trim();
-
-                            if (noDelimiter.length() > 0 && noDelimiter.charAt(0) == '(' && noDelimiter.endsWith(")")) {
-                                String noParenthesis = noDelimiter.substring(1, noDelimiter.length() - 1).trim();
-                                element = loader.tryParseElement(noParenthesis, singularType, lineNumber);
-                            }
-
-                            if (element == null) {
-                                element = loader.tryParseElement(noDelimiter, singularType, lineNumber);
-                            }
-
-                            if (element != null) {
-                                connective = Disjunction.INSTANCE;
+                                if (prefixLength == 3) {
+                                    connective = Conjunction.INSTANCE;
+                                } else {
+                                    connective = Disjunction.INSTANCE;
+                                }
                             }
                         }
 
-                        if (element == null && segment.length() > 0 && segment.charAt(0) == '(' && segment.endsWith(")")) {
+                        if (element == null && !segment.isEmpty() && segment.charAt(0) == '(' && segment.endsWith(")")) {
                             String noParenthesis = segment.substring(1, segment.length() - 1).trim();
-                            element = loader.tryParseElement(noParenthesis, singularType, lineNumber);
+                            element = loader.tryParseElement(noParenthesis, type, lineNumber);
                         }
 
                         if (element == null) {
-                            element = loader.tryParseElement(segment, singularType, lineNumber);
+                            element = loader.tryParseElement(segment, type, lineNumber);
                         }
 
                         if (element == null) {

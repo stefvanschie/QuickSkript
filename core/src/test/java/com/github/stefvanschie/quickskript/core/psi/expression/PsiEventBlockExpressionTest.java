@@ -2,12 +2,13 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.skript.StandaloneSkriptLoader;
-import com.github.stefvanschie.quickskript.core.util.Type;
+import com.github.stefvanschie.quickskript.core.util.registry.TypeRegistry;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class PsiEventBlockExpressionTest {
 
@@ -26,7 +27,11 @@ class PsiEventBlockExpressionTest {
         "block"
     })
     void test(String input) {
-        //specifically set Type.BLOCK, because "block" also matches a visual effect
-        assertInstanceOf(PsiEventBlockExpression.class, loader.tryParseElement(input, Type.BLOCK, -1));
+        TypeRegistry.Entry type = loader.getTypeRegistry().byName("block");
+
+        assertNotNull(type);
+
+        //specifically set type, because "block" also matches a visual effect
+        assertInstanceOf(PsiEventBlockExpression.class, loader.tryParseElement(input, type, -1));
     }
 }

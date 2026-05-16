@@ -3,7 +3,6 @@ package com.github.stefvanschie.quickskript.core.psi.literal;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.WeatherType;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -72,8 +71,8 @@ public class PsiWeatherTypeLiteral extends PsiPrecomputedHolder<WeatherType> {
         @NotNull
         @Contract(pure = true)
         @Override
-        public Type getType() {
-            return Type.OBJECT;
+        public String getType() {
+            return "object";
         }
     }
 }

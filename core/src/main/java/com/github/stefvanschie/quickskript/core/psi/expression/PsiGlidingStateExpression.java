@@ -5,7 +5,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.Resettable;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.Settable;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -76,8 +75,8 @@ public class PsiGlidingStateExpression extends PsiElement<Boolean> implements Re
         @NotNull
         @Contract(pure = true)
         @Override
-        public Type getType() {
-            return Type.BOOLEAN;
+        public String getType() {
+            return "boolean";
         }
     }
 }

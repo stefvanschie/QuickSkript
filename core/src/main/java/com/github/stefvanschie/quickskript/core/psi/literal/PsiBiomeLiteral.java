@@ -4,13 +4,10 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.registry.BiomeRegistry;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Locale;
 
 /**
  * Gets a biome by a specific name. This is always pre-computed.
@@ -83,8 +80,8 @@ public class PsiBiomeLiteral extends PsiPrecomputedHolder<BiomeRegistry.Entry> {
         @NotNull
         @Contract(pure = true)
         @Override
-        public Type getType() {
-            return Type.BIOME;
+        public String getType() {
+            return "biome";
         }
     }
 }

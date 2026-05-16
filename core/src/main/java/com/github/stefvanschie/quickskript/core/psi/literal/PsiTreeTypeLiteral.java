@@ -3,7 +3,6 @@ package com.github.stefvanschie.quickskript.core.psi.literal;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.TreeType;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -73,8 +72,8 @@ public class PsiTreeTypeLiteral extends PsiPrecomputedHolder<TreeType> {
         @NotNull
         @Contract(pure = true)
         @Override
-        public Type getType() {
-            return Type.TREE_TYPE;
+        public String getType() {
+            return "tree type";
         }
     }
 }

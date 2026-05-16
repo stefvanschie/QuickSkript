@@ -7,7 +7,6 @@ import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.psi.util.pointermovement.ExitSectionsPointerMovement;
 import com.github.stefvanschie.quickskript.core.util.Pair;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -93,9 +92,9 @@ public class PsiExitEffect extends PsiPrecomputedHolder<ExitSectionsPointerMovem
         }
 
         @Nullable
-        @Contract(pure = true)
+        @Contract(value = "-> null", pure = true)
         @Override
-        public Type getType() {
+        public String getType() {
             return null;
         }
     }

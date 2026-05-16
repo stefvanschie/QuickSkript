@@ -3,7 +3,6 @@ package com.github.stefvanschie.quickskript.core.psi.literal;
 import com.github.stefvanschie.quickskript.core.psi.PsiConverter;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -83,8 +82,8 @@ public class PsiStringLiteral extends PsiPrecomputedHolder<String> {
         @NotNull
         @Contract(pure = true)
         @Override
-        public Type getType() {
-            return Type.TEXT;
+        public String getType() {
+            return "text";
         }
     }
 

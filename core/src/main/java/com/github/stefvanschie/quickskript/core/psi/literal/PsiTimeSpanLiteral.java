@@ -8,7 +8,6 @@ import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.util.Pair;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.TimeSpan;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -198,8 +197,8 @@ public class PsiTimeSpanLiteral extends PsiPrecomputedHolder<TimeSpan> {
         @NotNull
         @Contract(pure = true)
         @Override
-        public Type getType() {
-            return Type.TIME_SPAN;
+        public String getType() {
+            return "time span";
         }
 
         /**

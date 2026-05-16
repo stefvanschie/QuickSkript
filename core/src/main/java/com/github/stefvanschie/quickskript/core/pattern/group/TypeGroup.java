@@ -4,7 +4,6 @@ import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
 import com.github.stefvanschie.quickskript.core.pattern.exception.SkriptPatternInvalidGroupException;
 import com.github.stefvanschie.quickskript.core.pattern.exception.SkriptPatternParseException;
 import com.github.stefvanschie.quickskript.core.util.Pair;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -31,7 +30,7 @@ public class TypeGroup implements SkriptPatternGroup {
      * The types this group should match
      */
     @NotNull
-    private final Type[] types;
+    private final String[] types;
 
     /**
      * Creates a new type group
@@ -40,7 +39,7 @@ public class TypeGroup implements SkriptPatternGroup {
      * @param constraint the type's constraint,s ee {@link #constraint}
      * @since 0.1.0
      */
-    private TypeGroup(@NotNull Type[] types, @NotNull Constraint constraint) {
+    private TypeGroup(@NotNull String[] types, @NotNull Constraint constraint) {
         this.types = types;
         this.constraint = constraint;
     }
@@ -100,7 +99,7 @@ public class TypeGroup implements SkriptPatternGroup {
      */
     @NotNull
     @Contract(pure = true)
-    public Type[] getTypes() {
+    public String[] getTypes() {
         return types;
     }
 
@@ -168,20 +167,8 @@ public class TypeGroup implements SkriptPatternGroup {
         }
 
         String[] textTypes = input.substring(0, endCharacter).split("/");
-        Type[] types = new Type[textTypes.length];
 
-        for (int index = 0; index < textTypes.length; index++) {
-            String textType = textTypes[index];
-            Type type = Type.byName(textType);
-
-            if (type == null) {
-                throw new SkriptPatternParseException("Type '" + textType + "' is not a valid type");
-            }
-
-            types[index] = type;
-        }
-
-        return new Pair<>(new TypeGroup(types, constraint), input.delete(0, endCharacter + 1));
+        return new Pair<>(new TypeGroup(textTypes, constraint), input.delete(0, endCharacter + 1));
     }
 
     @NotNull
@@ -208,7 +195,7 @@ public class TypeGroup implements SkriptPatternGroup {
 
     @Override
     public int hashCode() {
-        return Objects.hash(constraint, types);
+        return Objects.hash(constraint, Arrays.hashCode(types));
     }
 
     /**

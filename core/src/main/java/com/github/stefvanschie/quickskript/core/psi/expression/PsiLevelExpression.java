@@ -4,7 +4,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.expression.util.*;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -76,8 +75,8 @@ public class PsiLevelExpression extends PsiElement<Integer> implements Addable, 
         @NotNull
         @Contract(pure = true)
         @Override
-        public Type getType() {
-            return Type.NUMBER;
+        public String getType() {
+            return "number";
         }
     }
 }

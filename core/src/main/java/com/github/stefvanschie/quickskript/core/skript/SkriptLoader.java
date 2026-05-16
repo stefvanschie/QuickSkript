@@ -13,7 +13,6 @@ import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.exception.IllegalFallbackAnnotationAmountException;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.exception.ParsingAnnotationInvalidValueException;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.Enchantment;
 import com.github.stefvanschie.quickskript.core.util.registry.*;
 import com.github.stefvanschie.quickskript.core.util.Pair;
@@ -42,7 +41,7 @@ public abstract class SkriptLoader {
      * A list of all psi element factories.
      */
     @NotNull
-    private final Map<Type, Collection<PsiElementFactory>> elements = new HashMap<>();
+    private final Map<TypeRegistry.Entry, Collection<PsiElementFactory>> elements = new HashMap<>();
 
     /**
      * A collection of generic factories.
@@ -100,9 +99,9 @@ public abstract class SkriptLoader {
     private Registry<String> itemTypeRegistry;
 
     /**
-     * A literal registry fro working with literals
+     * A type registry for working with types.
      */
-    private Registry<LiteralRegistry.Entry> literalRegistry;
+    private TypeRegistry typeRegistry;
 
     /**
      * A visual effect registry fro working with visual effect
@@ -120,7 +119,7 @@ public abstract class SkriptLoader {
             this.enchantmentRegistry = new EnchantmentRegistry();
             entityTypeRegistry = new EntityTypeRegistry();
             inventoryTypeRegistry = new InventoryTypeRegistry();
-            literalRegistry = new LiteralRegistry();
+            typeRegistry = new TypeRegistry();
         }), CompletableFuture.runAsync(() -> {
             var registry = new BlockDataRegistry();
 
@@ -148,7 +147,7 @@ public abstract class SkriptLoader {
      */
     @Nullable
     @Contract(pure = true)
-    public PsiElement<?> tryParseElement(@NotNull String input, @NotNull Type @Nullable [] inputTypes, int lineNumber) {
+    public PsiElement<?> tryParseElement(@NotNull String input, @NotNull TypeRegistry.Entry @Nullable [] inputTypes, int lineNumber) {
         input = input.trim();
 
         for (PsiGenericElementFactory factory : getFactories(inputTypes)) {
@@ -229,9 +228,14 @@ public abstract class SkriptLoader {
                             if (typeGroup.getConstraint() == TypeGroup.Constraint.LITERAL) {
                                 elements[elementIndex] = matchedTypeText;
                             } else {
-                                Type[] types = typeGroup.getTypes();
+                                String[] types = typeGroup.getTypes();
+                                TypeRegistry.Entry[] typeEntries = new TypeRegistry.Entry[types.length];
 
-                                elements[elementIndex] = tryParseElement(matchedTypeText, types, lineNumber);
+                                for (int index = 0; index < types.length; index++) {
+                                    typeEntries[index] = this.typeRegistry.byName(types[index]);
+                                }
+
+                                elements[elementIndex] = tryParseElement(matchedTypeText, typeEntries, lineNumber);
                             }
 
                             //recursive retry
@@ -342,8 +346,8 @@ public abstract class SkriptLoader {
      */
     @Nullable
     @Contract(pure = true)
-    public PsiElement<?> tryParseElement(@NotNull String input, @NotNull Type type, int lineNumber) {
-        return tryParseElement(input, new Type[] {type}, lineNumber);
+    public PsiElement<?> tryParseElement(@NotNull String input, @NotNull TypeRegistry.Entry type, int lineNumber) {
+        return tryParseElement(input, new TypeRegistry.Entry[] {type}, lineNumber);
     }
 
     /**
@@ -358,7 +362,7 @@ public abstract class SkriptLoader {
     @Nullable
     @Contract(pure = true)
     public PsiElement<?> tryParseElement(@NotNull String input, int lineNumber) {
-        return tryParseElement(input, (Type[]) null, lineNumber);
+        return tryParseElement(input, (TypeRegistry.Entry[]) null, lineNumber);
     }
 
     /**
@@ -392,7 +396,7 @@ public abstract class SkriptLoader {
      */
     @NotNull
     @Contract(pure = true)
-    private Collection<? extends PsiGenericElementFactory> getFactories(@NotNull Type @Nullable [] types) {
+    private Collection<? extends PsiGenericElementFactory> getFactories(@NotNull TypeRegistry.Entry @Nullable [] types) {
         //use a list to respect the order in which the elements are registered
         Collection<PsiGenericElementFactory> factories = new ArrayList<>();
 
@@ -401,18 +405,9 @@ public abstract class SkriptLoader {
                 factories.addAll(factoryCollection);
             }
         } else {
-            Collection<Type> allTypes = new HashSet<>();
-
-            for (Type type : types) {
-                allTypes.add(type);
-                allTypes.addAll(Set.of(type.getSubtypes()));
-            }
-
-            for (Type type : allTypes) {
-                factories.addAll(elements.getOrDefault(type, Collections.emptySet()));
-
-                if (type.getSingular() != null) {
-                    factories.addAll(elements.getOrDefault(type.getSingular(), Collections.emptySet()));
+            for (TypeRegistry.Entry t : types) {
+                for (TypeRegistry.Entry type : getTypeRegistry().byEntry(t)) {
+                    factories.addAll(elements.getOrDefault(type, Collections.emptySet()));
                 }
             }
         }
@@ -492,17 +487,10 @@ public abstract class SkriptLoader {
      * @since 0.1.0
      */
     protected void registerElement(@NotNull PsiElementFactory factory) {
-        Type type = factory.getType();
+        String type = factory.getType();
+        TypeRegistry.Entry entry = getTypeRegistry().byName(Objects.requireNonNullElse(type, "object"));
 
-        if (type == null) {
-            type = Type.OBJECT;
-        }
-
-        if (!elements.containsKey(type)) {
-            elements.put(type, new ArrayList<>());
-        }
-
-        elements.get(type).add(factory);
+        this.elements.computeIfAbsent(entry, k -> new ArrayList<>()).add(factory);
 
         Set<CachedReflectionMethod> methods = new HashSet<>();
 
@@ -639,15 +627,15 @@ public abstract class SkriptLoader {
     }
 
     /**
-     * Gets the literal registry attached to this skript loader
+     * Gets the type registry attached to this skript loader
      *
-     * @return the literal registry
+     * @return the type registry
      * @since 0.1.0
      */
     @NotNull
     @Contract(pure = true)
-    public Registry<LiteralRegistry.Entry> getLiteralRegistry() {
-        return literalRegistry;
+    public TypeRegistry getTypeRegistry() {
+        return this.typeRegistry;
     }
 
     /**

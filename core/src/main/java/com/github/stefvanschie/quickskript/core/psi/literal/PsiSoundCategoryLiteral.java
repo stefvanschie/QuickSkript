@@ -3,7 +3,6 @@ package com.github.stefvanschie.quickskript.core.psi.literal;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.SoundCategory;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -78,8 +77,8 @@ public class PsiSoundCategoryLiteral extends PsiPrecomputedHolder<SoundCategory>
         @NotNull
         @Contract(pure = true)
         @Override
-        public Type getType() {
-            return Type.SOUND_CATEGORY;
+        public String getType() {
+            return "sound category";
         }
     }
 }

@@ -3,7 +3,6 @@ package com.github.stefvanschie.quickskript.core.psi.expression;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -76,8 +75,8 @@ public class PsiIPExpression extends PsiElement<String> {
         @NotNull
         @Contract(pure = true)
         @Override
-        public Type getType() {
-            return Type.TEXT;
+        public String getType() {
+            return "text";
         }
     }
 }

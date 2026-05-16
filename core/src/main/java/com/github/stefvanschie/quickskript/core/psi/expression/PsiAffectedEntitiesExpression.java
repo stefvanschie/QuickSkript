@@ -4,7 +4,6 @@ import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.multiresult.MultiResult;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -63,8 +62,8 @@ public class PsiAffectedEntitiesExpression extends PsiElement<MultiResult<?>> {
         @NotNull
         @Contract(pure = true)
         @Override
-        public Type getType() {
-            return Type.LIVING_ENTITIES;
+        public String getType() {
+            return "living entities";
         }
     }
 }

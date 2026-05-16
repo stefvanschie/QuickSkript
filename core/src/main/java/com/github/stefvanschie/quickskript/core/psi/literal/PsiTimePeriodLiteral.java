@@ -3,7 +3,6 @@ package com.github.stefvanschie.quickskript.core.psi.literal;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
 import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.Fallback;
-import com.github.stefvanschie.quickskript.core.util.Type;
 import com.github.stefvanschie.quickskript.core.util.literal.Time;
 import com.github.stefvanschie.quickskript.core.util.literal.TimePeriod;
 import org.jetbrains.annotations.Contract;
@@ -107,8 +106,8 @@ public class PsiTimePeriodLiteral extends PsiPrecomputedHolder<TimePeriod> {
         @NotNull
         @Contract(pure = true)
         @Override
-        public Type getType() {
-            return Type.TIME_PERIOD;
+        public String getType() {
+            return "time period";
         }
     }
 }
