@@ -161,6 +161,7 @@ public class SpigotSkriptLoader extends SkriptLoader {
         registerElement(new PsiParseExpression.Factory());
 
         //conditions
+        registerElement(new PsiBlockIsPersistentConditionImpl.Factory());
         registerElement(new PsiCanFlyConditionImpl.Factory());
         registerElement(new PsiCanHoldConditionImpl.Factory());
         registerElement(new PsiCanPickUpItemsConditionImpl.Factory());
