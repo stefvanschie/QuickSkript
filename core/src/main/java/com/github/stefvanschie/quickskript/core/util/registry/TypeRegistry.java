@@ -55,6 +55,7 @@ public class TypeRegistry implements Registry<TypeRegistry.Entry> {
         addEntry(new Entry(SkriptPattern.parse("firework[ ]type[s]"), objectEntry));
         addEntry(new Entry(SkriptPattern.parse("game[ ]mode[s]"), objectEntry));
         addEntry(new Entry(SkriptPattern.parse("[panda] gene[s]"), objectEntry));
+        addEntry(new Entry(SkriptPattern.parse("input key[s]"), objectEntry));
         addEntry(new Entry(SkriptPattern.parse("inventor(y|ies)"), objectEntry));
         addEntry(new Entry(SkriptPattern.parse("inventory[ ]action[s]"), objectEntry));
         addEntry(new Entry(SkriptPattern.parse("inventory[ ]type[s]"), objectEntry));
