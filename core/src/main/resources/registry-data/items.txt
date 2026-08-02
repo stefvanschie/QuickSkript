@@ -282,6 +282,7 @@ music_disc_11
 music_disc_13
 music_disc_5
 music_disc_blocks
+music_disc_bounce
 music_disc_cat
 music_disc_chirp
 music_disc_creator
@@ -430,6 +431,8 @@ stray_spawn_egg
 strider_spawn_egg
 string
 sugar
+sulfur_cube_bucket
+sulfur_cube_spawn_egg
 suspicious_stew
 sweet_berries
 tadpole_bucket

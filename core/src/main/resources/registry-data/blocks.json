@@ -692,6 +692,7 @@
         "slot_4_occupied": ["false", "true"],
         "slot_5_occupied": ["false", "true"]
     },
+    "chiseled_cinnabar": {},
     "chiseled_copper": {},
     "chiseled_deepslate": {},
     "chiseled_nether_bricks": {},
@@ -701,6 +702,7 @@
     "chiseled_resin_bricks": {},
     "chiseled_sandstone": {},
     "chiseled_stone_bricks": {},
+    "chiseled_sulfur": {},
     "chiseled_tuff": {},
     "chiseled_tuff_bricks": {},
     "chorus_flower": {
@@ -713,6 +715,44 @@
         "south": ["false", "true"],
         "up": ["false", "true"],
         "west": ["false", "true"]
+    },
+    "cinnabar": {},
+    "cinnabar_brick_slab": {
+        "type": ["bottom", "double", "top"],
+        "waterlogged": ["false", "true"]
+    },
+    "cinnabar_brick_stairs": {
+        "facing": ["east", "north", "south", "west"],
+        "half": ["bottom", "top"],
+        "shape": ["inner_left", "inner_right", "outer_left", "outer_right", "straight"],
+        "waterlogged": ["false", "true"]
+    },
+    "cinnabar_brick_wall": {
+        "east": ["low", "none", "tall"],
+        "north": ["low", "none", "tall"],
+        "south": ["low", "none", "tall"],
+        "up": ["false", "true"],
+        "waterlogged": ["false", "true"],
+        "west": ["low", "none", "tall"]
+    },
+    "cinnabar_bricks": {},
+    "cinnabar_slab": {
+        "type": ["bottom", "double", "top"],
+        "waterlogged": ["false", "true"]
+    },
+    "cinnabar_stairs": {
+        "facing": ["east", "north", "south", "west"],
+        "half": ["bottom", "top"],
+        "shape": ["inner_left", "inner_right", "outer_left", "outer_right", "straight"],
+        "waterlogged": ["false", "true"]
+    },
+    "cinnabar_wall": {
+        "east": ["low", "none", "tall"],
+        "north": ["low", "none", "tall"],
+        "south": ["low", "none", "tall"],
+        "up": ["false", "true"],
+        "waterlogged": ["false", "true"],
+        "west": ["low", "none", "tall"]
     },
     "clay": {},
     "closed_eyeblossom": {},
@@ -2537,6 +2577,25 @@
         "waterlogged": ["false", "true"],
         "west": ["low", "none", "tall"]
     },
+    "polished_cinnabar": {},
+    "polished_cinnabar_slab": {
+        "type": ["bottom", "double", "top"],
+        "waterlogged": ["false", "true"]
+    },
+    "polished_cinnabar_stairs": {
+        "facing": ["east", "north", "south", "west"],
+        "half": ["bottom", "top"],
+        "shape": ["inner_left", "inner_right", "outer_left", "outer_right", "straight"],
+        "waterlogged": ["false", "true"]
+    },
+    "polished_cinnabar_wall": {
+        "east": ["low", "none", "tall"],
+        "north": ["low", "none", "tall"],
+        "south": ["low", "none", "tall"],
+        "up": ["false", "true"],
+        "waterlogged": ["false", "true"],
+        "west": ["low", "none", "tall"]
+    },
     "polished_deepslate": {},
     "polished_deepslate_slab": {
         "type": ["bottom", "top", "double"],
@@ -2578,6 +2637,25 @@
         "shape": ["inner_left", "inner_right", "outer_left", "outer_right", "straight"],
         "waterlogged": ["false", "true"]
     },
+    "polished_sulfur": {},
+    "polished_sulfur_slab": {
+        "type": ["bottom", "top", "double"],
+        "waterlogged": ["false", "true"]
+    },
+    "polished_sulfur_stairs": {
+        "facing": ["east", "north", "south", "west"],
+        "half": ["bottom", "top"],
+        "shape": ["inner_left", "inner_right", "outer_left", "outer_right", "straight"],
+        "waterlogged": ["false", "true"]
+    },
+    "polished_sulfur_wall": {
+        "east": ["low", "none", "tall"],
+        "north": ["low", "none", "tall"],
+        "south": ["low", "none", "tall"],
+        "up": ["false", "true"],
+        "waterlogged": ["false", "true"],
+        "west": ["low", "none", "tall"]
+    },
     "polished_tuff": {},
     "polished_tuff_slab": {
         "type": ["bottom", "top", "double"],
@@ -2600,6 +2678,9 @@
     "poppy": {},
     "potatoes": {
         "age": ["0", "1", "2", "3", "4", "5", "6", "7"]
+    },
+    "potent_sulfur": {
+        "potent_sulfur_state": ["continuous", "dormant", "dry", "erupting", "wet"]
     },
     "potted_acacia_sapling": {},
     "potted_allium": {},
@@ -3238,6 +3319,49 @@
     "structure_void": {},
     "sugar_cane": {
         "age": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"]
+    },
+    "sulfur": {},
+    "sulfur_brick_slab": {
+        "type": ["bottom", "double", "top"],
+        "waterlogged": ["false", "true"]
+    },
+    "sulfur_brick_stairs": {
+        "facing": ["east", "north", "south", "west"],
+        "half": ["bottom", "top"],
+        "shape": ["inner_left", "inner_right", "outer_left", "outer_right", "straight"],
+        "waterlogged": ["false", "true"]
+    },
+    "sulfur_brick_wall": {
+        "east": ["low", "none", "tall"],
+        "north": ["low", "none", "tall"],
+        "south": ["low", "none", "tall"],
+        "up": ["false", "true"],
+        "waterlogged": ["false", "true"],
+        "west": ["low", "none", "tall"]
+    },
+    "sulfur_bricks": {},
+    "sulfur_slab": {
+        "type": ["bottom", "double", "top"],
+        "waterlogged": ["false", "true"]
+    },
+    "sulfur_spike": {
+        "thickness": ["base", "frustum", "middle", "tip", "tip_merge"],
+        "vertical_direction": ["down", "up"],
+        "waterlogged": ["false", "true"]
+    },
+    "sulfur_stairs": {
+        "facing": ["east", "north", "south", "west"],
+        "half": ["bottom", "top"],
+        "shape": ["inner_left", "inner_right", "outer_left", "outer_right", "straight"],
+        "waterlogged": ["false", "true"]
+    },
+    "sulfur_wall": {
+        "east": ["low", "none", "tall"],
+        "north": ["low", "none", "tall"],
+        "south": ["low", "none", "tall"],
+        "up": ["false", "true"],
+        "waterlogged": ["false", "true"],
+        "west": ["low", "none", "tall"]
     },
     "sunflower": {
         "half": ["lower", "upper"]

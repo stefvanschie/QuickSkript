@@ -107,6 +107,7 @@ public class BiomeRegistry implements Registry<BiomeRegistry.Entry> {
         addEntry(new Entry("stony peaks"));
         addEntry(new Entry("stony shore", "stone shore"));
         addEntry(new Entry("sunflower plains"));
+        addEntry(new Entry("sulfur caves"));
         addEntry(new Entry("swampland", "swamp", "marsh"));
         addEntry(new Entry("taiga"));
         addEntry(new Entry("sky", "the end"));
