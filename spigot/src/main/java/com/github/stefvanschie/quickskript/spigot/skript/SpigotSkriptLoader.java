@@ -1,5 +1,6 @@
 package com.github.stefvanschie.quickskript.spigot.skript;
 
+import com.github.stefvanschie.quickskript.core.psi.entitydata.PsiBeeEntityData;
 import com.github.stefvanschie.quickskript.core.util.registry.TypeRegistry;
 import com.github.stefvanschie.quickskript.spigot.plugin.QuickSkript;
 import com.github.stefvanschie.quickskript.spigot.event.ComplexEventProxyFactory;
@@ -409,6 +410,9 @@ public class SpigotSkriptLoader extends SkriptLoader {
         registerElement(new PsiTangentFunction.Factory());
         registerElement(new PsiVectorFunctionImpl.Factory());
         registerElement(new PsiWorldFunctionImpl.Factory());
+
+        //entity data
+        registerElement(new PsiBeeEntityData.Factory());
 
         //these are slow and match a lot, therefore at the bottom
         registerElement(new PsiItemCategoryLiteral.Factory());

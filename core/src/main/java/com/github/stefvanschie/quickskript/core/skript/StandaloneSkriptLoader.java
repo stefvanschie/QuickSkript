@@ -5,6 +5,7 @@ import com.github.stefvanschie.quickskript.core.context.EventContext;
 import com.github.stefvanschie.quickskript.core.file.skript.SkriptFileSection;
 import com.github.stefvanschie.quickskript.core.psi.condition.*;
 import com.github.stefvanschie.quickskript.core.psi.effect.*;
+import com.github.stefvanschie.quickskript.core.psi.entitydata.PsiBeeEntityData;
 import com.github.stefvanschie.quickskript.core.psi.exception.ParseException;
 import com.github.stefvanschie.quickskript.core.psi.expression.*;
 import com.github.stefvanschie.quickskript.core.psi.function.*;
@@ -329,6 +330,9 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiTangentFunction.Factory());
         registerElement(new PsiVectorFunction.Factory());
         registerElement(new PsiWorldFunction.Factory());
+
+        //entity data
+        registerElement(new PsiBeeEntityData.Factory());
 
         //these are slow and match a lot, therefore at the bottom
         registerElement(new PsiItemCategoryLiteral.Factory());

@@ -50,6 +50,7 @@ public class TypeRegistry implements Registry<TypeRegistry.Entry> {
         addEntry(new Entry(SkriptPattern.parse("direction[s]"), objectEntry));
         addEntry(new Entry(SkriptPattern.parse("enchantment type[s]"), objectEntry));
         addEntry(entityEntry);
+        addEntry(new Entry(SkriptPattern.parse("entity[ ]data[s]"), objectEntry));
         addEntry(new Entry(SkriptPattern.parse("entity[ ]type[s]"), objectEntry));
         addEntry(new Entry(SkriptPattern.parse("experience[ ][point[s]]"), objectEntry));
         addEntry(new Entry(SkriptPattern.parse("firework[ ]type[s]"), objectEntry));
