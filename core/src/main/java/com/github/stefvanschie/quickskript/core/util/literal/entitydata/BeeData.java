@@ -9,17 +9,17 @@ import java.util.Objects;
  *
  * @since 0.1.0
  */
-public class BeeData implements EntityData {
+public abstract class BeeData {
 
     /**
      * Whether the bee has nectar on it. If this is null, this is undefined.
      */
-    private final Boolean hasNectar;
+    protected final Boolean hasNectar;
 
     /**
      * Whether the bee is angry; if false, the bee is happy. If this is null, this is undefined.
      */
-    private final Boolean isAngry;
+    protected final Boolean isAngry;
 
     /**
      * Creates a new instance of this class with the provided data.

@@ -1,31 +1,53 @@
 package com.github.stefvanschie.quickskript.core.psi.entitydata;
 
 import com.github.stefvanschie.quickskript.core.pattern.SkriptMatchResult;
+import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.psi.PsiElementFactory;
-import com.github.stefvanschie.quickskript.core.psi.util.PsiPrecomputedHolder;
 import com.github.stefvanschie.quickskript.core.psi.util.parsing.pattern.Pattern;
 import com.github.stefvanschie.quickskript.core.util.literal.entitydata.BeeData;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Creates bee data.
  *
  * @since 0.1.0
  */
-public class PsiBeeEntityData extends PsiPrecomputedHolder<BeeData> {
+public class PsiBeeEntityData extends PsiElement<BeeData> {
+
+    /**
+     * Whether the bee data has nectar.
+     */
+    @Nullable
+    protected final Boolean hasNectar;
+
+    /**
+     * Whether the bee data is angry.
+     */
+    @Nullable
+    protected final Boolean isAngry;
 
     /**
      * Creates a new psi element which holds a precomputed beeData
      *
-     * @param beeData the beeData this psi is wrapping
+     * @param hasNectar whether the bee data has nectar
+     * @param isAngry whether the bee data is angry
      * @param lineNumber the line number of this element
      * @since 0.1.0
      */
-    private PsiBeeEntityData(@NotNull BeeData beeData, int lineNumber) {
-        super(beeData, lineNumber);
+    protected PsiBeeEntityData(@Nullable Boolean hasNectar, @Nullable Boolean isAngry, int lineNumber) {
+        super(lineNumber);
+
+        this.hasNectar = hasNectar;
+        this.isAngry = isAngry;
     }
 
+    /**
+     * A factory for creating instances of {@link PsiBeeEntityData}.
+     *
+     * @since 0.1.0
+     */
     public static class Factory implements PsiElementFactory {
 
         /**
@@ -56,22 +78,23 @@ public class PsiBeeEntityData extends PsiPrecomputedHolder<BeeData> {
                 hasNectar = true;
             }
 
-            return create(new BeeData(isAngry, hasNectar), lineNumber);
+            return create(hasNectar, isAngry, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
          * constructor parameters.
          *
-         * @param beeData the worlds to check if they are loaded
+         * @param hasNectar whether the bee data has nectar
+         * @param isAngry whether the bee data is angry
          * @param lineNumber the line number
          * @return the condition
          * @since 0.1.0
          */
         @NotNull
-        @Contract(value = "_, _ -> new", pure = true)
-        protected PsiBeeEntityData create(@NotNull BeeData beeData, int lineNumber) {
-            return new PsiBeeEntityData(beeData, lineNumber);
+        @Contract(value = "_, _, _ -> new", pure = true)
+        protected PsiBeeEntityData create(@Nullable Boolean hasNectar, @Nullable Boolean isAngry, int lineNumber) {
+            return new PsiBeeEntityData(hasNectar, isAngry, lineNumber);
         }
 
         @NotNull

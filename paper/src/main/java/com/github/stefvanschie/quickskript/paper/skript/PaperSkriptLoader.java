@@ -6,7 +6,6 @@ import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import com.destroystokyo.paper.event.player.PlayerStartSpectatingEntityEvent;
 import com.destroystokyo.paper.event.player.PlayerStopSpectatingEntityEvent;
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
-import com.github.stefvanschie.quickskript.core.psi.entitydata.PsiBeeEntityData;
 import com.github.stefvanschie.quickskript.core.util.registry.TypeRegistry;
 import com.github.stefvanschie.quickskript.paper.plugin.QuickSkript;
 import com.github.stefvanschie.quickskript.paper.event.ComplexEventProxyFactory;
@@ -14,6 +13,7 @@ import com.github.stefvanschie.quickskript.paper.event.EventProxyFactory;
 import com.github.stefvanschie.quickskript.paper.event.SimpleEventProxyFactory;
 import com.github.stefvanschie.quickskript.paper.psi.condition.*;
 import com.github.stefvanschie.quickskript.paper.psi.effect.*;
+import com.github.stefvanschie.quickskript.paper.psi.entitydata.PsiBeeEntityDataImpl;
 import com.github.stefvanschie.quickskript.paper.psi.expression.*;
 import com.github.stefvanschie.quickskript.paper.psi.function.PsiLocationFunctionImpl;
 import com.github.stefvanschie.quickskript.paper.psi.function.PsiVectorFunctionImpl;
@@ -423,7 +423,7 @@ public class PaperSkriptLoader extends SkriptLoader {
         registerElement(new PsiWorldFunctionImpl.Factory());
 
         //entity data
-        registerElement(new PsiBeeEntityData.Factory());
+        registerElement(new PsiBeeEntityDataImpl.Factory());
 
         //these are slow and match a lot, therefore at the bottom
         registerElement(new PsiItemCategoryLiteral.Factory());

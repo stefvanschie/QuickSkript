@@ -3,12 +3,12 @@ package com.github.stefvanschie.quickskript.core.psi.entitydata;
 import com.github.stefvanschie.quickskript.core.psi.PsiElement;
 import com.github.stefvanschie.quickskript.core.skript.SkriptLoader;
 import com.github.stefvanschie.quickskript.core.skript.StandaloneSkriptLoader;
+import com.github.stefvanschie.quickskript.core.util.registry.TypeRegistry;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class PsiBeeEntityDataTest {
 
@@ -32,9 +32,12 @@ class PsiBeeEntityDataTest {
         "bee"
     })
     void test(String input) {
-        PsiElement<?> psiElement = loader.tryParseElement(input, -1);
+        TypeRegistry.Entry entityData = loader.getTypeRegistry().byName("entity data");
+
+        assertNotNull(entityData);
+
+        PsiElement<?> psiElement = loader.tryParseElement(input, entityData, -1);
 
         assertInstanceOf(PsiBeeEntityData.class, psiElement);
-        assertTrue(psiElement.isPreComputed());
     }
 }

@@ -19,18 +19,18 @@ class PsiEntityIsOfTypeConditionTest {
 
     @ParameterizedTest
     @ValueSource(strings = {
-        "player is of types warden",
-        "player is of type squid",
-        "player are of types cod",
-        "player are of type donkey",
-        "player isn't of types skeleton horse",
-        "player isn't of type minecart",
-        "player is not of types firework",
-        "player is not of type spider",
-        "player aren't of types skeleton",
-        "player aren't of type mule",
-        "player are not of types tropical fish",
-        "player are not of type illusioner"
+        "player is of types bee",
+        "player is of type bee",
+        "player are of types bee",
+        "player are of type bee",
+        "player isn't of types bee",
+        "player isn't of type bee",
+        "player is not of types bee",
+        "player is not of type bee",
+        "player aren't of types bee",
+        "player aren't of type bee",
+        "player are not of types bee",
+        "player are not of type bee"
     })
     void test(String input) {
         assertInstanceOf(PsiEntityIsOfTypeCondition.class, loader.tryParseElement(input, -1));

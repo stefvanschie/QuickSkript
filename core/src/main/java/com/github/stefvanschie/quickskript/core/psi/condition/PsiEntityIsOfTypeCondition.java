@@ -14,16 +14,16 @@ import org.jetbrains.annotations.NotNull;
 public class PsiEntityIsOfTypeCondition extends PsiElement<Boolean> {
 
     /**
-     * The entities to check if they are of the provided entity types.
+     * The entities to check if they match the provided entity datas.
      */
     @NotNull
     protected final PsiElement<?> entities;
 
     /**
-     * The entity types to check if they are the type of the provided entities.
+     * The entity datas to check if they match the provided entities.
      */
     @NotNull
-    protected final PsiElement<?> entityTypes;
+    protected final PsiElement<?> entityDatas;
 
     /**
      * If false, the result is negated.
@@ -33,18 +33,18 @@ public class PsiEntityIsOfTypeCondition extends PsiElement<Boolean> {
     /**
      * Creates a new element with the given line number
      *
-     * @param entities the entities to check if they are of the provided entity types
-     * @param entityTypes the entity types to check if they are the type of the provided entities
+     * @param entities the entities to check if they match the provided entity datas
+     * @param entityDatas the entity datas to check if they match the provided entities
      * @param positive if false, the result is negated
      * @param lineNumber the line number this element is associated with
      * @since 0.1.0
      */
-    protected PsiEntityIsOfTypeCondition(@NotNull PsiElement<?> entities, @NotNull PsiElement<?> entityTypes,
-                                       boolean positive, int lineNumber) {
+    protected PsiEntityIsOfTypeCondition(@NotNull PsiElement<?> entities, @NotNull PsiElement<?> entityDatas,
+                                         boolean positive, int lineNumber) {
         super(lineNumber);
 
         this.entities = entities;
-        this.entityTypes = entityTypes;
+        this.entityDatas = entityDatas;
         this.positive = positive;
     }
 
@@ -58,43 +58,43 @@ public class PsiEntityIsOfTypeCondition extends PsiElement<Boolean> {
         /**
          * Parses the pattern and invokes this method with its types if the match succeeds
          *
-         * @param entities the entities to check if they are of the provided entity types
-         * @param entityTypes the entity types to check if they are the type of the provided entities
+         * @param entities the entities to check if they match the provided entity datas
+         * @param entityDatas the entity datas to check if they match the provided entities
          * @param lineNumber the line number
          * @return the expression
          * @since 0.1.0
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("%entities% (is|are) of type[s] %entity types%")
+        @Pattern("%entities% (is|are) of type[s] %entity datas%")
         public PsiEntityIsOfTypeCondition parsePositive(@NotNull PsiElement<?> entities,
-                                                        @NotNull PsiElement<?> entityTypes, int lineNumber) {
-            return create(entities, entityTypes, true, lineNumber);
+                                                        @NotNull PsiElement<?> entityDatas, int lineNumber) {
+            return create(entities, entityDatas, true, lineNumber);
         }
 
         /**
          * Parses the pattern and invokes this method with its types if the match succeeds
          *
-         * @param entities the entities to check if they are of the provided entity types
-         * @param entityTypes the entity types to check if they are the type of the provided entities
+         * @param entities the entities to check if they match the provided entity datas
+         * @param entityDatas the entity datas to check if they match the provided entities
          * @param lineNumber the line number
          * @return the expression
          * @since 0.1.0
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("%entities% (isn't|is not|aren't|are not) of type[s] %entity types%")
+        @Pattern("%entities% (isn't|is not|aren't|are not) of type[s] %entity datas%")
         public PsiEntityIsOfTypeCondition parseNegative(@NotNull PsiElement<?> entities,
-                                                        @NotNull PsiElement<?> entityTypes, int lineNumber) {
-            return create(entities, entityTypes, false, lineNumber);
+                                                        @NotNull PsiElement<?> entityDatas, int lineNumber) {
+            return create(entities, entityDatas, false, lineNumber);
         }
 
         /**
          * Provides a default way for creating the specified object for this factory with the given parameters as
          * constructor parameters.
          *
-         * @param entities the entities to check if they are of the provided entity types
-         * @param entityTypes the entity types to check if they are the type of the provided entities
+         * @param entities the entities to check if they match the provided entity datas
+         * @param entityDatas the entity types to check if they match the provided entities
          * @param positive if false, the result is negated
          * @param lineNumber the line number
          * @return the expression
@@ -102,9 +102,9 @@ public class PsiEntityIsOfTypeCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        public PsiEntityIsOfTypeCondition create(@NotNull PsiElement<?> entities, @NotNull PsiElement<?> entityTypes,
+        public PsiEntityIsOfTypeCondition create(@NotNull PsiElement<?> entities, @NotNull PsiElement<?> entityDatas,
                                                  boolean positive, int lineNumber) {
-            return new PsiEntityIsOfTypeCondition(entities, entityTypes, positive, lineNumber);
+            return new PsiEntityIsOfTypeCondition(entities, entityDatas, positive, lineNumber);
         }
 
         @NotNull
