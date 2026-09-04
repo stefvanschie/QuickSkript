@@ -40,7 +40,7 @@ public class PsiEntityIsOfTypeConditionImpl extends PsiEntityIsOfTypeCondition {
         MultiResult<? extends Entity> entities = super.entities.executeMulti(environment, context, Entity.class);
 
         return super.positive == entityDatas.test(entityData ->
-            entities.test(entityData::match));
+            entities.test(entityData::matches));
     }
 
     /**

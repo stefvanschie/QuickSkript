@@ -25,7 +25,7 @@ public class BeeDataImpl extends BeeData implements EntityDataImpl {
     }
 
     @Override
-    public boolean match(@NotNull Entity entity) {
+    public boolean matches(@NotNull Entity entity) {
         if (!(entity instanceof Bee bee)) {
             return false;
         }

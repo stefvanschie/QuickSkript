@@ -16,5 +16,5 @@ public interface EntityData<T> {
      * @return true if the data matches, false otherwise
      * @since 0.1.0
      */
-    boolean match(@NotNull T entity);
+    boolean matches(@NotNull T entity);
 }
