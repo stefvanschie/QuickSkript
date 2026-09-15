@@ -165,6 +165,7 @@ public class StandaloneSkriptLoader extends SkriptLoader {
         registerElement(new PsiIsPressingKeyCondition.Factory());
         registerElement(new PsiIsResponsiveCondition.Factory());
         registerElement(new PsiIsRidingCondition.Factory());
+        registerElement(new PsiIsRiptidingCondition.Factory());
         registerElement(new PsiIsSleepingCondition.Factory());
         registerElement(new PsiIsSlotEmptyCondition.Factory());
         registerElement(new PsiIsSneakingCondition.Factory());
