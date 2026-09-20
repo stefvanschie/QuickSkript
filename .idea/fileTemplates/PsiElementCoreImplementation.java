@@ -42,13 +42,7 @@ public class ${NAME} extends PsiElement<${TYPE}> {
     public static class Factory implements PsiElementFactory {
 
         /**
-         * The pattern for matching {@link ${NAME}}s
-         */
-        @NotNull
-        private SkriptPattern pattern = SkriptPattern.parse("${PATTERN}");
-
-        /**
-         * Parses the {@link #pattern} and invokes this method with its types if the match succeeds
+         * Parses the pattern and invokes this method with its types if the match succeeds
          *
          * @param lineNumber the line number
          * @return the expression
@@ -56,7 +50,7 @@ public class ${NAME} extends PsiElement<${TYPE}> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("pattern")
+        @Pattern("${PATTERN}")
         public ${NAME} parse(#if($PARAMETERS_DECLARATION != "") ${PARAMETERS_DECLARATION}, #end int lineNumber) {
             return create(#if($PARAMETERS_VARS != "") ${PARAMETERS_VARS}, #end lineNumber);
         }
@@ -78,7 +72,7 @@ public class ${NAME} extends PsiElement<${TYPE}> {
         @NotNull
         @Contract(pure = true)
         @Override
-        public Type getType() {
+        public String getType() {
             //TODO: type
             return null;
         }
