@@ -62,6 +62,7 @@ public class BiomeRegistry implements Registry<BiomeRegistry.Entry> {
         addEntry(new Entry("crimson forest"));
         addEntry(new Entry("custom", "unknown"));
         addEntry(new Entry("roofed forest", "black forest", "dark forest"));
+        addEntry(new Entry("dappled forest"));
         addEntry(new Entry("deep cold ocean"));
         addEntry(new Entry("deep dark"));
         addEntry(new Entry("deep frozen ocean"));
