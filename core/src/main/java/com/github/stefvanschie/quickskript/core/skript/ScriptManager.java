@@ -71,6 +71,24 @@ public class ScriptManager {
     }
 
     /**
+     * Checks if the provided script is loaded. Returns true if it is loaded and false otherwise.
+     *
+     * @param script the name of the script to check if it is loaded
+     * @return true if it is loaded, false otherwise
+     * @since 0.1.0
+     */
+    @Contract(pure = true)
+    public boolean isScriptLoaded(@NotNull String script) {
+        for (FileSkript loadedScript : this.loadedScripts) {
+            if (loadedScript.getName().equals(script)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * This returns all the scripts that were loaded by this manager. The returned iterable is unmodifiable.
      *
      * @return the loaded scripts

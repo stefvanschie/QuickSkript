@@ -23,8 +23,6 @@ class PsiScriptIsLoadedConditionTest {
         "scripts script are loaded",
         "script script is loaded",
         "script script are loaded",
-        "script is loaded",
-        "script are loaded",
         "scripts script isn't loaded",
         "scripts script is not loaded",
         "scripts script aren't loaded",
@@ -32,11 +30,7 @@ class PsiScriptIsLoadedConditionTest {
         "script script isn't loaded",
         "script script is not loaded",
         "script script aren't loaded",
-        "script script are not loaded",
-        "script isn't loaded",
-        "script is not loaded",
-        "script aren't loaded",
-        "script are not loaded"
+        "script script are not loaded"
     })
     void test(String input) {
         assertInstanceOf(PsiScriptIsLoadedCondition.class, loader.tryParseElement(input, -1));

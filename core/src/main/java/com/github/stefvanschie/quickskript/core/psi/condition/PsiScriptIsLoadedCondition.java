@@ -56,7 +56,7 @@ public class PsiScriptIsLoadedCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("[script[s]] %scripts% (is|are) loaded")
+        @Pattern("script[s] %scripts% (is|are) loaded")
         public PsiScriptIsLoadedCondition parsePositive(@NotNull PsiElement<?> scripts, int lineNumber) {
             return create(scripts, true, lineNumber);
         }
@@ -71,7 +71,7 @@ public class PsiScriptIsLoadedCondition extends PsiElement<Boolean> {
          */
         @NotNull
         @Contract(pure = true)
-        @Pattern("[script[s]] %scripts% (is|are)(n't| not) loaded")
+        @Pattern("script[s] %scripts% (is|are)(n't| not) loaded")
         public PsiScriptIsLoadedCondition parseNegative(@NotNull PsiElement<?> scripts, int lineNumber) {
             return create(scripts, false, lineNumber);
         }
