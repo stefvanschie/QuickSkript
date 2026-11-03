@@ -42,6 +42,7 @@ public class TypeRegistry implements Registry<TypeRegistry.Entry> {
         addEntry(new Entry(SkriptPattern.parse("block[ ]data[s]"), objectEntry));
         addEntry(new Entry(SkriptPattern.parse("boolean[s]"), objectEntry));
         addEntry(new Entry(SkriptPattern.parse("cat[ ](type|race)[s]"), objectEntry));
+        addEntry(new Entry(SkriptPattern.parse("chunk[s]"), objectEntry));
         addEntry(new Entry(SkriptPattern.parse("click[ ]type[s]"), objectEntry));
         addEntry(new Entry(SkriptPattern.parse("colo[u]r[s]"), objectEntry));
         addEntry(new Entry(SkriptPattern.parse("[command[s][ ]](sender|executor)[s]"), objectEntry));

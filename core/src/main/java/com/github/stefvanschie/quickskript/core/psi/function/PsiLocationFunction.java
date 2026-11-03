@@ -138,7 +138,7 @@ public class PsiLocationFunction extends PsiElement<Object> {
         @Contract(pure = true)
         @Override
         public String getType() {
-            return "object";
+            return "location";
         }
     }
 }

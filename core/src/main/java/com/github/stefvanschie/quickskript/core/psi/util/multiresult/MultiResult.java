@@ -142,6 +142,20 @@ public class MultiResult<T> implements Iterable<T> {
     }
 
     /**
+     * Returns a new multi result where each element is distinct. Two elements {@code a} and {@code b} are distinct if
+     * {@code a.equals(b)}. This operation guarantees that the ordering among elements remains stable. However, no
+     * guarantees are provided as to which element is retained in case of duplicates.
+     *
+     * @return a new distinct multi result
+     * @since 0.1.0
+     */
+    @NotNull
+    @Contract(pure = true)
+    public MultiResult<T> distinct() {
+        return new MultiResult<>(new LinkedHashSet<>(this.elements), this.connective);
+    }
+
+    /**
      * Tests whether the elements in this result pass the predicate according to the connective attached to this result.
      * This method short-circuits. The elements will be tested in the same order as this multi result was constructed,
      * if an ordering existed.
