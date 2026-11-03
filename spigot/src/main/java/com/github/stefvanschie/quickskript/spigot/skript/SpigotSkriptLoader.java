@@ -248,6 +248,7 @@ public class SpigotSkriptLoader extends SkriptLoader {
         registerElement(new PsiIsRiptidingConditionImpl.Factory());
         registerElement(new PsiIsSaddledConditionImpl.Factory());
         registerElement(new PsiIsScriptLoadedConditionImpl.Factory());
+        registerElement(new PsiIsSilentConditionImpl.Factory());
         registerElement(new PsiIsSleepingConditionImpl.Factory());
         registerElement(new PsiIsSlotEmptyCondition.Factory());
         registerElement(new PsiIsSneakingConditionImpl.Factory());
